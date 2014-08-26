@@ -4,37 +4,57 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="20dip">
-    
-    <ImageView
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:src="@drawable/icon"
-    	android:scaleType="fitCenter"/>
-    
-	<TextView  
-    	android:layout_width="fill_parent" 
-    	android:layout_height="wrap_content" 
-    	android:text="@string/app_info"
-    	android:layout_weight="1.0"
-    	android:textSize="20dip"/>
-    	
     <LinearLayout
-    	android:orientation="horizontal"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content">
-    	
-    	<Button
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:id="@+id/btnStart"
-    		android:text="@string/start_recording"
-    		android:layout_weight="1.0"/>
-    		
-		<Button
-    		android:layout_width="wrap_content"
-    		android:layout_height="wrap_content"
-    		android:id="@+id/btnStop"
-    		android:text="@string/stop_recording"
-    		android:layout_weight="1.0"/>
-    </LinearLayout>
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Your ID: "
+            android:id="@+id/txtYourId"
+            android:layout_gravity="center_horizontal" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnStart"
+                android:text="@string/start_recording"
+                android:layout_weight="1.0"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnStop"
+                android:text="@string/stop_recording"
+                android:layout_weight="1.0"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnUpload"
+                android:text="@string/upload_recording"
+                android:layout_weight="1.0"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/txtTime"
+            android:layout_gravity="center_horizontal" />
+
+        <view
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            class="com.varma.samples.audiorecorder.view.MySurfaceView"
+            android:id="@+id/view_surface_amp"/>
+
+     </LinearLayout>
+
 </LinearLayout>
