@@ -1,4 +1,4 @@
-package com.varma.samples.audiorecorder.http;
+package com.cmg.android.voicerecorder.http;
 
 /**
  * Created by cmg on 8/26/14.

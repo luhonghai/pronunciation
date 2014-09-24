@@ -1,4 +1,4 @@
-package com.varma.samples.audiorecorder.view;
+package com.cmg.android.voicerecorder.view;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,15 +16,12 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import com.varma.samples.audiorecorder.RecorderHelper;
+import com.cmg.android.voicerecorder.RecorderHelper;
 
-/**
- * TODO - Need to verify frequency calculation is accurate
+/*
  * 
  * List of musical notes and their frequencies - http://www.phy.mtu.edu/~suits/notefreqs.html
  * Tone generator - http://www.seventhstring.com/tuningfork/tuningfork.html
- *  
- * @author dwatling
  *
  */
 public class MySurfaceView extends View {
@@ -76,7 +73,7 @@ public class MySurfaceView extends View {
 			int step = mSampleSize / numPoints;
 			int halfHeight = canvas.getHeight() / 2;
 	
-			float[] points = new float[numPoints * 4];		// a line = 4 points: x0,y0,x1,y1
+			float[] points = new float[numPoints * 4];// a line = 4 points: x0,y0,x1,y1
 			float oldX = 0.0f;
 			float oldY = halfHeight;
 			int pointAboveZero = -1;
@@ -106,7 +103,8 @@ public class MySurfaceView extends View {
 						int wavelength = i - pointAboveZero;
 						if (wavelength > 3) {
 							// wavelengths less than 3 should be considered "too high" 
-							float freq = (1.0f / ((float)wavelength * 2.0f * this.mTimePerSlot));		// this is realy only half a wavelength, so just assume...
+							float freq = (1.0f / ((float)wavelength * 2.0f * this.mTimePerSlot));
+							// this is realy only half a wavelength, so just assume...
 							int amplitude = (mSampleData[(i + pointAboveZero) / 2]);
 							if (freq > 0.0f && freq < 5000.0f) {
 								addData(freq, amplitude);

@@ -1,4 +1,4 @@
-package com.varma.samples.audiorecorder;
+package com.cmg.android.voicerecorder;
 
 import android.util.Log;
 

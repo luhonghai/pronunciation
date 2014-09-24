@@ -52,7 +52,7 @@
         <view
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            class="com.varma.samples.audiorecorder.view.MySurfaceView"
+            class="com.cmg.android.voicerecorder.view.MySurfaceView"
             android:id="@+id/view_surface_amp"/>
 
      </LinearLayout>

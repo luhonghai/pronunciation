@@ -7,7 +7,7 @@
  * license agreement you entered into with CMG.
  */
 
-package com.varma.samples.audiorecorder.utils;
+package com.cmg.android.voicerecorder.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

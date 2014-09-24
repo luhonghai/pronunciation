@@ -6,7 +6,7 @@
  * Information and shall use it only in accordance with the terms of the
  * license agreement you entered into with CMG.
  */
-package com.varma.samples.audiorecorder.http.exception;
+package com.cmg.android.voicerecorder.http.exception;
 
 /**
  * DOCME

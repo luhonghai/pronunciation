@@ -1,14 +1,9 @@
-package com.varma.samples.audiorecorder;
+package com.cmg.android.voicerecorder;
 
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.widget.Button;
-
-import com.cmg.android.voicerecorder.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +21,6 @@ public class RecorderHelper {
     public interface OnUpdateListener {
         public void update(short[] bytes, int length, float sampleLength);
     }
-
 
     private static final int RECORDER_BPP = 16;
     private static final String AUDIO_RECORDER_FILE_EXT_WAV = ".wav";
@@ -119,31 +113,30 @@ public class RecorderHelper {
     }
 
     private void writeAudioDataToFile(){
-        byte data[] = new byte[bufferSize];
         String filename = getTempFilename();
         FileOutputStream os = null;
-
         try {
             os = new FileOutputStream(filename);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         int read = 0;
-
+        byte data[] = new byte[bufferSize];
         if(null != os){
             while(isRecording){
                 read = recorder.read(data, 0, bufferSize);
                 endTime = System.currentTimeMillis();
                 if(AudioRecord.ERROR_INVALID_OPERATION != read){
                     try {
+                        // Write raw data to file
                         os.write(data);
                         if (mListener != null) {
-
-                            float sampleLength = 1.0f / ((float) RECORDER_SAMPLERATE / (float) read / 2);
+                            // Convert byte array to short array
+                            float sampleLength = 1.0f / ((float) RECORDER_SAMPLERATE / ((float) read / 2));
                             short[] shorts = new short[data.length / 2];
                             ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN).asShortBuffer().get(shorts);
+                            // Force update UI
                             mListener.update(shorts, read / 2, sampleLength);
                         }
                     } catch (IOException e) {
@@ -151,7 +144,6 @@ public class RecorderHelper {
                     }
                 }
             }
-
             try {
                 os.close();
             } catch (IOException e) {
@@ -189,7 +181,6 @@ public class RecorderHelper {
         long byteRate = RECORDER_BPP * RECORDER_SAMPLERATE * channels/8;
 
         byte[] data = new byte[bufferSize];
-
         try {
             in = new FileInputStream(inFilename);
             out = new FileOutputStream(outFilename);

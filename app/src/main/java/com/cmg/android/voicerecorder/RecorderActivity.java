@@ -1,4 +1,4 @@
-package com.varma.samples.audiorecorder;
+package com.cmg.android.voicerecorder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,11 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.cmg.android.voicerecorder.R;
-import com.varma.samples.audiorecorder.http.FileCommon;
-import com.varma.samples.audiorecorder.http.UploaderAsync;
-import com.varma.samples.audiorecorder.utils.DeviceUuidFactory;
-import com.varma.samples.audiorecorder.view.MySurfaceView;
+import com.cmg.android.voicerecorder.http.FileCommon;
+import com.cmg.android.voicerecorder.http.UploaderAsync;
+import com.cmg.android.voicerecorder.utils.DeviceUuidFactory;
+import com.cmg.android.voicerecorder.view.MySurfaceView;
 
 public class RecorderActivity extends Activity implements RecorderHelper.OnUpdateListener {
     private RecorderHelper recorderHelper;
