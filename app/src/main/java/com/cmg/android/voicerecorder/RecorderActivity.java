@@ -112,7 +112,7 @@ public class RecorderActivity extends Activity implements RecorderHelper.OnUpdat
     public void update(final short[] bytes, final int length, final float sampleLength) {
         runOnUiThread(new Runnable() {
             public void run() {
-                surfaceView.setData(bytes, length, sampleLength);
+               // surfaceView.setData(bytes, length, sampleLength);
                 txtTime.setText(recorderHelper.getRecordTime());
             }
         });

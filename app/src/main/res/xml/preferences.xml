@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2013. CMG Ltd All rights reserved.
+  ~
+  ~ This software is the confidential and proprietary information of CMG
+  ~ ("Confidential Information"). You shall not disclose such Confidential
+  ~ Information and shall use it only in accordance with the terms of the
+  ~ license agreement you entered into with CMG.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:key="select_username"
+        android:title="Select profile"
+        android:persistent="false">
+        <ListPreference
+            android:dialogTitle="Select profile"
+            android:key="username_list"
+            android:title="Select profile" />
+        <EditTextPreference
+            android:dialogTitle="Add new profile"
+            android:key="add_username"
+            android:title="Add new profile" />
+        <com.cmg.android.voicerecorder.preferences.YesNoPreference
+            android:dialogMessage="Are you sure you want to delete current profile?"
+            android:key="delete_profile"
+            android:summary=""
+            android:title="Delete current profile"/>
+    </PreferenceScreen>
+    <ListPreference
+        android:defaultValue="5"
+        android:dialogTitle="English proficiency"
+        android:entries="@array/english_proficiency_levels"
+        android:entryValues="@array/english_proficiency_levels_value"
+        android:key="english_proficiency"
+        android:title="English proficiency (Self assessed)" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="native_english"
+        android:title="Native English speaker" />
+    <ListPreference
+        android:defaultValue="GB"
+        android:dialogTitle="Country of birth"
+        android:entries="@array/country_of_birth"
+        android:entryValues="@array/country_of_birth_value"
+        android:key="country_of_birth"
+        android:title="Country of birth" />
+    <com.cmg.android.voicerecorder.preferences.DatePreference
+        android:key="dob" android:title="Date of birth"
+        android:defaultValue="01/01/1900" />
+    <PreferenceCategory android:title="Gender">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="gender_male"
+            android:title="Male" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="gender_female"
+            android:title="Female" />
+    </PreferenceCategory>
+</PreferenceScreen>

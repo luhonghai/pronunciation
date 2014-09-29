@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="english_proficiency_levels">
+        <item>Level 1/10</item>
+        <item>Level 2/10</item>
+        <item>Level 3/10</item>
+        <item>Level 4/10</item>
+        <item>Level 5/10</item>
+        <item>Level 6/10</item>
+        <item>Level 7/10</item>
+        <item>Level 8/10</item>
+        <item>Level 9/10</item>
+        <item>Level 10/10</item>
+    </string-array>
+    <string-array name="english_proficiency_levels_value">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+</resources>
