@@ -5,7 +5,6 @@ package com.cmg.android.voicerecorder.data;
  */
 public class UserProfile {
 
-
     public static UserProfile getAnonymouse() {
         UserProfile anonymous = new UserProfile();
         anonymous.username = "anonymous";
@@ -13,22 +12,22 @@ public class UserProfile {
     }
 
     public static class UserLocation {
-        private long latitude;
-        private long longitude;
+        private double latitude;
+        private double longitude;
 
-        public long getLatitude() {
+        public double getLatitude() {
             return latitude;
         }
 
-        public void setLatitude(long latitude) {
+        public void setLatitude(double latitude) {
             this.latitude = latitude;
         }
 
-        public long getLongitude() {
+        public double getLongitude() {
             return longitude;
         }
 
-        public void setLongitude(long longitude) {
+        public void setLongitude(double longitude) {
             this.longitude = longitude;
         }
     }

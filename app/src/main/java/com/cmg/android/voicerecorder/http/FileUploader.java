@@ -10,6 +10,7 @@ package com.cmg.android.voicerecorder.http;
 
 
 
+import com.cmg.android.voicerecorder.AppLog;
 import com.cmg.android.voicerecorder.http.exception.UploaderException;
 
 import org.apache.http.HttpEntity;
@@ -115,6 +116,8 @@ public class FileUploader {
         if (!paras.containsKey(FileCommon.PARA_FILE_PATH)) {
             throw new UploaderException("Missing parameter PARA_FILE_PATH");
         }
-        return upload(new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH)), paras, uploadUrl);
+        String result = upload(new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH)), paras, uploadUrl);
+        AppLog.logString(result);
+        return result;
     }
 }
