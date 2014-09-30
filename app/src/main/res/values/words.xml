@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="words_list">
+        <item>sheep</item>
+        <item>ship</item>
+        <item>necessarily</item>
+        <item>kitchen</item>
+        <item>chicken</item>
+        <item>wash</item>
+        <item>watch</item>
+        <item>particularly</item>
+        <item>borrower</item>
+        <item>jewellery</item>
+        <item>gesture</item>
+        <item>sphere</item>
+        <item>muscular</item>
+        <item>seashell</item>
+        <item>xenophobic</item>
+        <item>variable</item>
+        <item>prioritizing</item>
+        <item>think</item>
+        <item>thing</item>
+        <item>barter</item>
+        <item>quarter</item>
+        <item>butter</item>
+        <item>awry</item>
+    </string-array>
+</resources>

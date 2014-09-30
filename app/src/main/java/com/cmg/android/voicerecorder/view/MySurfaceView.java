@@ -18,6 +18,7 @@ public class MySurfaceView extends View {
 
     // Update screen 24 time per second
     private static final long INVALIDATE_TIMEOUT = 1000 / 24;
+    private static final int TEXT_SIZE = 150;
     private static final String TAG = MySurfaceView.class.getSimpleName();
 
     protected float[] data;
@@ -26,6 +27,11 @@ public class MySurfaceView extends View {
     private Paint dPaint;
 
     private Bitmap bufferedImage;
+
+    private long startTime = -1;
+
+    private Paint txtPaint;
+
 
     public MySurfaceView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -43,6 +49,9 @@ public class MySurfaceView extends View {
     protected void init(Context ctx) {
         mPaint = new Paint();
         dPaint = new Paint();
+        txtPaint = new Paint();
+        txtPaint.setColor(Color.WHITE);
+        txtPaint.setTextSize(TEXT_SIZE);
     }
 
     private int mWidth;
@@ -56,7 +65,9 @@ public class MySurfaceView extends View {
             } catch (Exception ex) {
 
             }
+
         }
+        startTime = -1;
     }
 
     private long start;
@@ -65,6 +76,9 @@ public class MySurfaceView extends View {
         this.data = data;
         if (mWidth != getWidth()) {
             recycle();
+        }
+        if (startTime == -1) {
+            startTime = System.currentTimeMillis();
         }
         mWidth = getWidth();
         mHeight = getHeight();
@@ -100,11 +114,22 @@ public class MySurfaceView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        long now = System.currentTimeMillis();
+        long length = now - startTime;
+        if (length <= 2000) {
+                if (length <= 700) {
+                    canvas.drawText("1", 0, 1, getWidth() / 2 - TEXT_SIZE / 4, getHeight() / 2, txtPaint);
+                } else if (length <= 1300) {
+                    canvas.drawText("2", 0, 1, getWidth() / 2 - TEXT_SIZE / 4, getHeight() / 2, txtPaint);
+                } else {
+                    canvas.drawText("3", 0, 1, getWidth() / 2 - TEXT_SIZE / 4, getHeight() / 2, txtPaint);
+                }
+            return;
+        }
         if (bufferedImage != null) {
             canvas.drawBitmap(bufferedImage,0,0,dPaint);
         } else {
             canvas.drawColor(Color.BLACK);
         }
-
     }
 }

@@ -3,35 +3,43 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="20dip">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+    android:background="#000000">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Your ID: "
-            android:id="@+id/txtYourId"
+            android:text="Current profile: "
+            android:id="@+id/txtProfile"
             android:layout_gravity="center_horizontal" />
-        <LinearLayout
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select word: "/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_words"
+            android:entries="@array/words_list"/>
+    </LinearLayout>
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnStart"
                 android:text="@string/start_recording"
                 android:layout_weight="1.0"/>
-
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnStop"
-                android:text="@string/stop_recording"
+                android:id="@+id/btnPlay"
+                android:text="Play"
                 android:layout_weight="1.0"/>
             <Button
                 android:layout_width="wrap_content"
@@ -50,11 +58,14 @@
             android:layout_gravity="center_horizontal" />
 
         <view
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
             class="com.cmg.android.voicerecorder.view.MySurfaceView"
+            android:id="@+id/view_surface_wave"/>
+        <view
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            class="com.cmg.android.voicerecorder.view.SpectrogramView"
             android:id="@+id/view_surface_amp"/>
-
-     </LinearLayout>
 
 </LinearLayout>

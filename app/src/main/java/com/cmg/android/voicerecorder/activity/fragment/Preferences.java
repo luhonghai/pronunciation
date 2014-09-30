@@ -1,6 +1,7 @@
 package com.cmg.android.voicerecorder.activity.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -29,8 +30,9 @@ import java.util.Set;
 /**
  * Created by luhonghai on 9/29/14.
  */
-public class Preperences extends PreferenceFragment implements
+public class Preferences extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
+
     private static final String TAG = "PREFERENCES";
 
     public static final String KEY_COUNTRY_OF_BIRTH = "country_of_birth";
@@ -43,12 +45,19 @@ public class Preperences extends PreferenceFragment implements
     public static final String KEY_SCREEN_SELECT_USERNAME = "select_username";
     public static final String KEY_ADD_USERNAME = "add_username";
     public static final String KEY_DELETE_USERNAME = "delete_profile";
+    public static final String KEY_AUDIO_CHANEL = "audio_chanel";
+    public static final String KEY_AUDIO_SAMPLE_RATE = "audio_sample_rate";
+    public static final String KEY_AUDIO_AUTO_STOP_RECORDING = "auto_stop_recording";
 
     public static final String PREF_USERNAMES = "PREF_USERNAMES";
 
     private ListPreference listCob;
     private ListPreference listEp;
     private ListPreference listUsername;
+
+    private ListPreference listSampleRate;
+    private ListPreference listChanel;
+
     private CheckBoxPreference cbxMale;
     private CheckBoxPreference cbxFemale;
     private CheckBoxPreference cbxNativeEnglish;
@@ -67,7 +76,6 @@ public class Preperences extends PreferenceFragment implements
         addPreferencesFromResource(R.xml.preferences);
         initPreferences();
         initUsername();
-
     }
 
     private Set<String> getUserProfiles(final SharedPreferences pref) {
@@ -163,6 +171,12 @@ public class Preperences extends PreferenceFragment implements
             dateDob = (DatePreference) getPreferenceScreen().findPreference(KEY_USER_DOB);
         if (cbxNativeEnglish == null)
             cbxNativeEnglish = (CheckBoxPreference) getPreferenceScreen().findPreference(KEY_NATIVE_ENGLISH);
+        if (listSampleRate == null)
+            listSampleRate = (ListPreference) getPreferenceScreen().findPreference(KEY_AUDIO_SAMPLE_RATE);
+        listSampleRate.setSummary(listSampleRate.getEntry());
+        if (listChanel == null)
+            listChanel = (ListPreference) getPreferenceScreen().findPreference(KEY_AUDIO_CHANEL);
+        listChanel.setSummary(listChanel.getEntry());
     }
 
     @Override
@@ -193,6 +207,7 @@ public class Preperences extends PreferenceFragment implements
             listEp.setSummary(listEp.getEntry());
             listCob.setSummary(listCob.getEntry());
         }
+
         this.getActivity().onContentChanged();
     }
 
@@ -294,5 +309,43 @@ public class Preperences extends PreferenceFragment implements
         super.onPause();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    public static boolean getBoolean(String key, Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, false);
+
+    }
+
+    public static int getInt(String key, Context context) {
+        String value = PreferenceManager.getDefaultSharedPreferences(context).getString(key, "-1");
+        try {
+            return Integer.parseInt(value);
+        } catch (Exception ex) {
+            return 0;
+        }
+    }
+
+    public static String getString(String key, Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, "");
+    }
+
+    public static UserProfile getCurrentProfile(Context context) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        String username = pref.getString(KEY_USERNAME_LIST, "");
+        if (username.length() > 0) {
+            Set<String> data = pref.getStringSet(PREF_USERNAMES, null);
+            Gson gson = new Gson();
+            if (data != null && data.size() > 0) {
+                Iterator<String> iterator = data.iterator();
+                while (iterator.hasNext()) {
+                    String raw = iterator.next();
+                    UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+                    if (tmp.getUsername().equalsIgnoreCase(username)) {
+                        return tmp;
+                    }
+                }
+            }
+        }
+        return null;
     }
 }

@@ -53,6 +53,8 @@ public class SpectrogramView extends View {
     protected void onDraw(Canvas canvas) {
         if (bufferedImage != null) {
             canvas.drawBitmap(bufferedImage, 0, 0, dPaint);
+        } else {
+            canvas.drawColor(Color.BLACK);
         }
     }
 
@@ -87,7 +89,6 @@ public class SpectrogramView extends View {
         drawToMem();
         long now = System.currentTimeMillis();
         if ((now - start) > INVALIDATE_TIMEOUT) {
-
             start = now;
             invalidate();
         }
@@ -99,6 +100,9 @@ public class SpectrogramView extends View {
                 bufferedImage.recycle();
                 bufferedImage = null;
             }
+            amplitudes = null;
+            pitch = -1;
+            position = 0;
         } catch (Exception ex) {
             // ignore
         }
