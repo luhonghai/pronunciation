@@ -18,7 +18,7 @@ public class MySurfaceView extends View {
 
     // Update screen 24 time per second
     private static final long INVALIDATE_TIMEOUT = 1000 / 24;
-    private static final int TEXT_SIZE = 150;
+    private static final int TEXT_SIZE = 100;
     private static final String TAG = MySurfaceView.class.getSimpleName();
 
     protected float[] data;

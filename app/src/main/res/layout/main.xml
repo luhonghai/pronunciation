@@ -25,6 +25,29 @@
             android:id="@+id/spinner_words"
             android:entries="@array/words_list"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Last selected word: "
+        android:id="@+id/txtSelectedWord"
+        android:layout_gravity="left" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Phonemes: "
+        android:id="@+id/txtPhonemes"
+        android:layout_gravity="left" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Hypothesis: "
+        android:id="@+id/txtHypothesis"
+        android:layout_gravity="left" />
+
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

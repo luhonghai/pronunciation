@@ -62,9 +62,9 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
     @Override
     protected void onPostExecute(String v) {
         Intent intent = new Intent(UPLOAD_COMPLETE_INTENT);
-        intent.putExtra(UPLOAD_COMPLETE_INTENT, "true");
+        intent.putExtra(UPLOAD_COMPLETE_INTENT, v);
         context.sendBroadcast(intent);
-        Toast.makeText(context, "Uploading completed!", Toast.LENGTH_LONG).show();
+       // Toast.makeText(context, "Uploading completed!", Toast.LENGTH_LONG).show();
         super.onPostExecute(v);
     }
 

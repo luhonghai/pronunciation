@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.cmg.android.voicerecorder.activity.SettingsActivity;
 import com.cmg.android.voicerecorder.activity.fragment.Preferences;
 import com.cmg.android.voicerecorder.data.UserProfile;
+import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dsp.AndroidAudioInputStream;
 import com.cmg.android.voicerecorder.http.FileCommon;
 import com.cmg.android.voicerecorder.http.UploaderAsync;
@@ -72,6 +73,10 @@ public class RecorderActivity extends Activity {
     private SpectrogramView specView;
     private TextView txtProfile;
     private TextView txtTime;
+
+    private TextView txtPhonemes;
+    private TextView txtHypothesis;
+    private TextView txtSelectedWord;
 
     private AudioRecord audioInputStream;
     private int chanel;
@@ -113,6 +118,11 @@ public class RecorderActivity extends Activity {
         waveView = (MySurfaceView) findViewById(R.id.view_surface_wave);
         txtTime = (TextView) findViewById(R.id.txtTime);
         spnWords = (Spinner) findViewById(R.id.spinner_words);
+
+        txtPhonemes = (TextView) findViewById(R.id.txtPhonemes);
+        txtHypothesis = (TextView) findViewById(R.id.txtHypothesis);
+        txtSelectedWord = (TextView) findViewById(R.id.txtSelectedWord);
+
         setButtonHandlers();
         enableButtons(false);
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
@@ -354,12 +364,23 @@ public class RecorderActivity extends Activity {
     private final BroadcastReceiver mHandleMessageReader = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras().containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
+            Bundle bundle = intent.getExtras();
+            if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
                 Toast.makeText(RecorderActivity.this, "Completed uploading process", Toast.LENGTH_LONG).show();
                 enableButton(R.id.btnStart, true);
                 enableButton(R.id.btnPlay,true);
                 ((Button) findViewById(R.id.btnUpload)).setText("Upload");
                 enableButton(R.id.btnUpload,false);
+                String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
+                //Toast.makeText(RecorderActivity.this, data, Toast.LENGTH_LONG).show();
+                Gson gson = new Gson();
+                try {
+                    UserVoiceModel model = gson.fromJson(data, UserVoiceModel.class);
+                    txtPhonemes.setText( "Phonemes: " + model.getPhonemes());
+                    txtHypothesis.setText( "Hypothesis: " + model.getHypothesis());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     };
@@ -475,8 +496,9 @@ public class RecorderActivity extends Activity {
                         enableButton(R.id.btnPlay,true);
                         btnUpload.setText("Upload");
                         enableButton(R.id.btnUpload,true);
-
                     } else {
+                        txtPhonemes.setText( "Phonemes: ...");
+                        txtHypothesis.setText( "Hypothesis: ...");
                         isUploading = true;
                         AppLog.logString("Start Uploading");
                         Toast.makeText(RecorderActivity.this, "Please wait while data is uploading", Toast.LENGTH_LONG).show();
@@ -508,7 +530,9 @@ public class RecorderActivity extends Activity {
                                 params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                                 params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                                 params.put("profile", gson.toJson(profile));
-                                params.put("word", spnWords.getSelectedItem().toString());
+                                String word =spnWords.getSelectedItem().toString();
+                                txtSelectedWord.setText("Last selected word: " + word);
+                                params.put("word", word);
                                 uploadTask.execute(params);
                             } else {
                                 AppLog.logString("Could not get user profile");
