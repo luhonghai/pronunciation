@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.cmg</groupId>
+	<groupId>com.cmg.vrc</groupId>
 	<version>1.0</version>
-	<artifactId>Feedback</artifactId>
+	<artifactId>Server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>The server application of feedback project</description>
@@ -368,6 +368,16 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>edu.cmu.sphinx</groupId>
+            <artifactId>sphinx4-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.cmu.sphinx</groupId>
+            <artifactId>sphinx4-data</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<profiles>
@@ -391,6 +401,10 @@
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
 
                 <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+
+                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
+                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
+                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
 			</properties>
 		</profile>
 		<profile>
@@ -409,6 +423,9 @@
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
+                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
+                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
             </properties>
 		</profile>
 		<profile>
@@ -427,6 +444,10 @@
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+
+                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
+                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
+                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
 			</properties>
 		</profile>
 	</profiles>

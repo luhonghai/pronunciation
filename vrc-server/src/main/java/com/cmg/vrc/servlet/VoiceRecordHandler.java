@@ -1,6 +1,8 @@
 package com.cmg.vrc.servlet;
 
 import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.GainProcessor;
+import be.tarsos.dsp.filters.BandPass;
 import be.tarsos.dsp.filters.HighPass;
 import be.tarsos.dsp.filters.LowPassFS;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
@@ -9,6 +11,7 @@ import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.properties.Configuration;
+import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
@@ -80,8 +83,6 @@ public class VoiceRecordHandler extends HttpServlet {
             String word = storePara.get(PARA_WORD);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
-                out.println("Word: " + word);
-                out.println("Profile: " + profile);
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
 
                 File target = new File(targetDir, user.getUsername());
@@ -98,8 +99,9 @@ public class VoiceRecordHandler extends HttpServlet {
                 tmpFileIn.delete();
                 AudioFormat format = AudioSystem.getAudioFileFormat(targetRaw).getFormat();
                 AudioDispatcher dispatcher = AudioDispatcherFactory.fromFile(targetRaw, 1024, 0);
-                dispatcher.addAudioProcessor(new LowPassFS(90f, format.getSampleRate()));
-                dispatcher.addAudioProcessor(new HighPass(300f, format.getSampleRate()));
+                dispatcher.addAudioProcessor(new LowPassFS(400f, format.getSampleRate()));
+               // dispatcher.addAudioProcessor(new HighPass(50f, format.getSampleRate()));
+                dispatcher.addAudioProcessor(new GainProcessor(2));
                 dispatcher.addAudioProcessor(new WaveformWriter(format, targetClean.getAbsolutePath()));
                 dispatcher.run();
 
@@ -123,9 +125,18 @@ public class VoiceRecordHandler extends HttpServlet {
                     model.setLongitude(location.getLongitude());
                 }
 
+                PhonemesDetector detector = new PhonemesDetector(targetClean);
+                PhonemesDetector.Result result = detector.analyze();
+                if (result != null) {
+                    model.setPhonemes(result.getPhonemes());
+                    model.setHypothesis(result.getHypothesis());
+                }
+
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
                 dao.create(model);
-                FileUtils.writeStringToFile(new File(target, word + "_" + uuid + ".json"), gson.toJson(model));
+                String output = gson.toJson(model);
+                FileUtils.writeStringToFile(new File(target, word + "_" + uuid + ".json"), output);
+                out.print(output);
             } else {
                 out.print("No parameter found");
             }

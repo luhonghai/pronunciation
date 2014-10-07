@@ -44,6 +44,10 @@ public class UserVoiceModelJDO implements Mirrorable {
     private String recordFile;
     @Persistent
     private String cleanRecordFile;
+    @Persistent
+    private String phonemes;
+    @Persistent
+    private String hypothesis;
 
     public String getUsername() {
         return username;
@@ -173,5 +177,21 @@ public class UserVoiceModelJDO implements Mirrorable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPhonemes() {
+        return phonemes;
+    }
+
+    public void setPhonemes(String phonemes) {
+        this.phonemes = phonemes;
+    }
+
+    public String getHypothesis() {
+        return hypothesis;
+    }
+
+    public void setHypothesis(String hypothesis) {
+        this.hypothesis = hypothesis;
     }
 }

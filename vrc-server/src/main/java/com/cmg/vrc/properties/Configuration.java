@@ -24,6 +24,10 @@ public class Configuration {
     public static final String CONTACT_US_EMAIL_PASSWORD = "contact.us.email.password";
 
     public static final String VOICE_RECORD_DIR = "voice.record.dir";
+
+    public static final String ACOUSTIC_MODEL_PATH ="acousticModelPath";
+    public static final String DICTIONARY_PATH = "dictionaryPath";
+    public static final String LANGUAGE_MODEL_PATH = "languageModelPath";
 	
 	private static Properties prop;
 

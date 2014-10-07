@@ -23,6 +23,8 @@ public class UserVoiceModel implements Mirrorable {
     private String word;
     private String recordFile;
     private String cleanRecordFile;
+    private String phonemes;
+    private String hypothesis;
 
     public String getUsername() {
         return username;
@@ -152,5 +154,21 @@ public class UserVoiceModel implements Mirrorable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getPhonemes() {
+        return phonemes;
+    }
+
+    public void setPhonemes(String phonemes) {
+        this.phonemes = phonemes;
+    }
+
+    public String getHypothesis() {
+        return hypothesis;
+    }
+
+    public void setHypothesis(String hypothesis) {
+        this.hypothesis = hypothesis;
     }
 }
