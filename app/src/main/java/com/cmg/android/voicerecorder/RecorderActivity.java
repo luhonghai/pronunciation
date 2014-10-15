@@ -189,82 +189,86 @@ public class RecorderActivity extends Activity {
     }
 
     private void analyze() {
-       // stop();
-        if (waveView != null)
-            waveView.recycle();
-        if (specView != null)
-            specView.recycle();
-        audioInputStream = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                sampleRate, chanel,RECORDER_AUDIO_ENCODING, bufferSize);
+        try {
+            // stop();
+            if (waveView != null)
+                waveView.recycle();
+            if (specView != null)
+                specView.recycle();
+            audioInputStream = new AudioRecord(MediaRecorder.AudioSource.MIC,
+                    sampleRate, chanel, RECORDER_AUDIO_ENCODING, bufferSize);
 
-        if(audioInputStream.getState() == AudioRecord.STATE_UNINITIALIZED){
-            String configResume = "initRecorderParameters(sRates) has found recorder settings supported by the device:"
-                    + "\nSource   = MICROPHONE"
-                    + "\nsRate    = "+ sampleRate +"Hz"
-                    + "\nChannel  = " + ((chanel == AudioFormat.CHANNEL_IN_MONO) ? "MONO" : "STEREO")
-                    + "\nEncoding = 16BIT";
-            Log.i(TAG, configResume);
-            //+++Release temporary recorder resources and leave.
-            audioInputStream.release();
-            audioInputStream = null;
-            return;
-        }
-        //start recording ! Opens the stream
-        audioInputStream.startRecording();
+            if (audioInputStream.getState() == AudioRecord.STATE_UNINITIALIZED) {
+                String configResume = "initRecorderParameters(sRates) has found recorder settings supported by the device:"
+                        + "\nSource   = MICROPHONE"
+                        + "\nsRate    = " + sampleRate + "Hz"
+                        + "\nChannel  = " + ((chanel == AudioFormat.CHANNEL_IN_MONO) ? "MONO" : "STEREO")
+                        + "\nEncoding = 16BIT";
+                Log.i(TAG, configResume);
+                //+++Release temporary recorder resources and leave.
+                audioInputStream.release();
+                audioInputStream = null;
+                return;
+            }
+            //start recording ! Opens the stream
+            audioInputStream.startRecording();
 
 
-        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16 ,(chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+            TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
 
-        audioStream = new AndroidAudioInputStream(this.getApplicationContext(),audioInputStream, format, bufferSize);
-        dispatcher = new AudioDispatcher(audioStream,bufferSize / 2, 0);
+            audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+            dispatcher = new AudioDispatcher(audioStream, bufferSize / 2, 0);
 //        if (btnFilter.isChecked()) {
 //            dispatcher.addAudioProcessor(new LowPassFS(90f, RECORDER_SAMPLERATE));
 //            dispatcher.addAudioProcessor(new HighPass(300f, RECORDER_SAMPLERATE));
 //        }
-        dispatcher.addAudioProcessor(new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, sampleRate, bufferSize / 2, new PitchDetectionHandler() {
+            dispatcher.addAudioProcessor(new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, sampleRate, bufferSize / 2, new PitchDetectionHandler() {
 
-            @Override
-            public void handlePitch(PitchDetectionResult pitchDetectionResult,
-                                    AudioEvent audioEvent) {
-                pitch = pitchDetectionResult.getPitch();
-                if (pitch != -1) {
-                    AppLog.logString("Detect pitch " + pitch);
-                    lastDetecedPitchTime = System.currentTimeMillis();
+                @Override
+                public void handlePitch(PitchDetectionResult pitchDetectionResult,
+                                        AudioEvent audioEvent) {
+                    pitch = pitchDetectionResult.getPitch();
+                    if (pitch != -1) {
+                        AppLog.logString("Detect pitch " + pitch);
+                        lastDetecedPitchTime = System.currentTimeMillis();
+                    }
+                    if (((System.currentTimeMillis() - lastDetecedPitchTime) > PITCH_TIMEOUT)
+                            && isAutoStop
+                            && ((System.currentTimeMillis() - start) > (START_TIMEOUT + PITCH_TIMEOUT))) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                AppLog.logString("Force stop recording. No pitch found after " + PITCH_TIMEOUT + "ms");
+                                stopRecording();
+                            }
+                        });
+                    }
+
                 }
-                if (((System.currentTimeMillis() - lastDetecedPitchTime) > PITCH_TIMEOUT)
-                        && isAutoStop
-                        && ((System.currentTimeMillis() - start) > (START_TIMEOUT + PITCH_TIMEOUT))) {
+            }));
+            dispatcher.addAudioProcessor(fftProcessor);
+            dispatcher.addAudioProcessor(new Oscilloscope(new Oscilloscope.OscilloscopeEventHandler() {
+                @Override
+                public void handleEvent(final float[] floats, final AudioEvent audioEvent) {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AppLog.logString("Force stop recording. No pitch found after " + PITCH_TIMEOUT + "ms");
-                            stopRecording();
+                            updateTime();
+                            if (waveView != null)
+                                waveView.setData(floats, pitch);
                         }
                     });
+
                 }
-
-            }
-        }));
-        dispatcher.addAudioProcessor(fftProcessor);
-        dispatcher.addAudioProcessor(new Oscilloscope(new Oscilloscope.OscilloscopeEventHandler() {
-            @Override
-            public void handleEvent(final float[] floats, final AudioEvent audioEvent) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateTime();
-                        if (waveView != null)
-                            waveView.setData(floats, pitch);
-                    }
-                });
-
-            }
-        }));
-        //dispatcher.addAudioProcessor();
-        start = System.currentTimeMillis();
-        runner = new Thread(dispatcher,"Audio Dispatcher");
-        lastDetecedPitchTime = System.currentTimeMillis();
-        runner.start();
+            }));
+            //dispatcher.addAudioProcessor();
+            start = System.currentTimeMillis();
+            runner = new Thread(dispatcher, "Audio Dispatcher");
+            lastDetecedPitchTime = System.currentTimeMillis();
+            runner.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void updateTime() {

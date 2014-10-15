@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
@@ -65,7 +66,7 @@ public class Preferences extends PreferenceFragment implements
     private EditTextPreference txtUsername;
     private PreferenceScreen screenSelectUsername;
     private YesNoPreference confirmDelete;
-
+    private Preference prefVersion;
     private Gson gson = new Gson();
 
     private Set<String> data;
@@ -76,6 +77,9 @@ public class Preferences extends PreferenceFragment implements
         addPreferencesFromResource(R.xml.preferences);
         initPreferences();
         initUsername();
+        prefVersion = (Preference) getPreferenceScreen().findPreference("version");
+        prefVersion.setSummary(getResources().getString(R.string.version));
+
     }
 
     private Set<String> getUserProfiles(final SharedPreferences pref) {
