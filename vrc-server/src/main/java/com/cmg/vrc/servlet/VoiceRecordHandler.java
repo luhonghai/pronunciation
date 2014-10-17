@@ -10,6 +10,11 @@ import be.tarsos.dsp.io.jvm.WaveformWriter;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.dsp.WavCleaner;
+import com.cmg.vrc.http.FileCommon;
+import com.cmg.vrc.http.FileUploader;
+import com.cmg.vrc.http.exception.UploaderException;
+import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.util.FileHelper;
@@ -22,6 +27,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.quartz.SchedulerException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,12 +35,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -47,6 +51,17 @@ public class VoiceRecordHandler extends HttpServlet {
     private static String PARA_FILE_TYPE = "FILE_TYPE";
     private static String PARA_PROFILE = "profile";
     private static String PARA_WORD = "word";
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            SummaryReportJob.startJob();
+        } catch (SchedulerException e) {
+            logger.error("Could not start schedule", e);
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         try {
@@ -97,13 +112,9 @@ public class VoiceRecordHandler extends HttpServlet {
                 File targetClean = new File(target, fileClean);
                 FileUtils.moveFile(tmpFileIn, targetRaw);
                 tmpFileIn.delete();
-                AudioFormat format = AudioSystem.getAudioFileFormat(targetRaw).getFormat();
-                AudioDispatcher dispatcher = AudioDispatcherFactory.fromFile(targetRaw, 1024, 0);
-                dispatcher.addAudioProcessor(new LowPassFS(400f, format.getSampleRate()));
-               // dispatcher.addAudioProcessor(new HighPass(50f, format.getSampleRate()));
-                dispatcher.addAudioProcessor(new GainProcessor(2));
-                dispatcher.addAudioProcessor(new WaveformWriter(format, targetClean.getAbsolutePath()));
-                dispatcher.run();
+
+                WavCleaner cleaner = new WavCleaner(targetClean,targetRaw);
+                cleaner.clean();
 
                 UserVoiceModel model = new UserVoiceModel();
                 model.setCleanRecordFile(fileClean);
@@ -125,8 +136,23 @@ public class VoiceRecordHandler extends HttpServlet {
                     model.setLongitude(location.getLongitude());
                 }
 
-                PhonemesDetector detector = new PhonemesDetector(targetClean);
-                PhonemesDetector.Result result = detector.analyze();
+                //PhonemesDetector detector = new PhonemesDetector(targetClean);
+                Map<String, String> data = new HashMap<String,String>();
+                data.put(FileCommon.PARA_FILE_NAME, fileClean);
+                data.put(FileCommon.PARA_FILE_PATH, targetClean.getAbsolutePath());
+                data.put("key", Configuration.getValue(Configuration.API_KEY));
+                PhonemesDetector.Result result = null;
+                try {
+                    String resData = FileUploader.upload(data, Configuration.getValue(Configuration.VOICE_ANALYZE_SERVER));
+                    logger.info("Analyze result: " + resData);
+                    result = gson.fromJson(resData, PhonemesDetector.Result.class);
+                } catch (UploaderException e) {
+                    logger.error("Could not upload file to voice analyzing server",e);
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    logger.error("Could not upload file to voice analyzing server",e);
+                    e.printStackTrace();
+                }
                 if (result != null) {
                     model.setPhonemes(result.getPhonemes());
                     model.setHypothesis(result.getHypothesis());

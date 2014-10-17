@@ -1,6 +1,7 @@
 package com.cmg.vrc.sphinx;
 
 import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.CustomSpeechRecognizer;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.linguist.acoustic.Unit;
@@ -25,7 +26,9 @@ public class PhonemesDetector {
             "++LIP_SMACK++", "+SMACK+",
             "++PHONE_RING++", "+RING+",
             "++CLICK++", "+CLICK+",
-            "++NOISE++", "+NOISE+"
+            "++NOISE++", "+NOISE+",
+            "+COUGH+", "+SMACK+",
+            "+UH+", "+UM+"
     };
 
     public static class Result {
@@ -51,75 +54,92 @@ public class PhonemesDetector {
     }
 
     private static final Logger logger = Logger.getLogger(PhonemesDetector.class.getName());
+
     private final File target;
 
-    private StreamSpeechRecognizer recognizer;
-    private Configuration conf;
+    private static CustomSpeechRecognizer recognizer;
+    private static boolean isRecording = false;
+
+    public static void init() {
+        if (recognizer == null) {
+            Configuration conf = new Configuration();
+            conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
+            conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
+            conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
+            try {
+                recognizer =
+                        new CustomSpeechRecognizer(conf);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void close() {
+        if (recognizer == null) {
+            recognizer.stopRecognition();
+        }
+    }
 
     public PhonemesDetector(File target) {
         this.target = target;
     }
 
     public Result analyze() throws IOException {
-        conf = new Configuration();
-        conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
-        conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
-        conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
-        recognizer =
-                new StreamSpeechRecognizer(conf);
-
-        InputStream stream = null;
-
-        if (target.exists() && !target.isDirectory()) {
-            logger.info("Start analyze WAV record: " + target);
-            try {
-                stream = new FileInputStream(target);
-                recognizer.startRecognition(stream);
-                SpeechResult result;
-                String phonemes = "";
-                String hypothesis = "";
-                while ((result = recognizer.getResult()) != null) {
-                    hypothesis += result.getHypothesis().trim() + " ";
+        init();
+        synchronized (recognizer) {
+            InputStream stream = null;
+            if (target.exists() && !target.isDirectory()) {
+                logger.info("Start analyze WAV record: " + target);
+                try {
+                    stream = new FileInputStream(target);
+                    recognizer.startRecognition(stream);
+                    SpeechResult result;
+                    String phonemes = "";
+                    String hypothesis = "";
+                    while ((result = recognizer.getResult()) != null) {
+                        hypothesis += result.getHypothesis().trim() + " ";
 
 
-                    boolean flag = false;
-                    boolean s;
-                    for (WordResult r : result.getWords()) {
-                        // Only get phonemes of first word
-                        Pronunciation pron = r.getPronunciation();
-                        Unit[] units = pron.getUnits();
-                        for (Unit u : units) {
-                            final String p = u.getName();
-                            s = false;
-                            for (String noise : NOISE_LIST) {
-                                if (p.equalsIgnoreCase(noise)) {
-                                    s = true;
-                                    break;
+                        boolean flag = false;
+                        boolean s;
+                        for (WordResult r : result.getWords()) {
+                            // Only get phonemes of first word
+                            Pronunciation pron = r.getPronunciation();
+                            Unit[] units = pron.getUnits();
+                            for (Unit u : units) {
+                                final String p = u.getName();
+                                s = false;
+                                for (String noise : NOISE_LIST) {
+                                    if (p.equalsIgnoreCase(noise)) {
+                                        s = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (!s) {
-                                phonemes += (u.getName() + " ");
+                                if (!s) {
+                                    phonemes += (u.getName() + " ");
+                                }
                             }
                         }
                     }
-                }
-                phonemes = phonemes.trim();
-                hypothesis = hypothesis.trim();
-                logger.info("Hypothesis: " + hypothesis);
-                logger.info("Phonemes: " + phonemes);
-                recognizer.stopRecognition();
-                Result r = new Result();
-                r.setHypothesis(hypothesis);
-                r.setPhonemes(phonemes);
-                return r;
-            } finally {
-                try {
-                    stream.close();
-                } catch (IOException iox) {
-                    iox.printStackTrace();
+                    phonemes = phonemes.trim();
+                    hypothesis = hypothesis.trim();
+                    logger.info("Hypothesis: " + hypothesis);
+                    logger.info("Phonemes: " + phonemes);
+                    //recognizer.stopRecognition();
+                    Result r = new Result();
+                    r.setHypothesis(hypothesis);
+                    r.setPhonemes(phonemes);
+                    return r;
+                } finally {
+                    try {
+                        stream.close();
+                    } catch (IOException iox) {
+                        iox.printStackTrace();
+                    }
                 }
             }
+            return null;
         }
-        return null;
     }
 }

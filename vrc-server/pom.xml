@@ -6,7 +6,7 @@
 	<artifactId>Server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
-	<description>The server application of feedback project</description>
+	<description>VRC Server</description>
 	<repositories>
         <repository>
             <id>deployment</id>
@@ -279,12 +279,6 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
-	<!--
-	    <dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15</artifactId>
-		</dependency>
-		-->
         <dependency>
             <groupId>be.tarsos.dsp</groupId>
             <artifactId>jvm</artifactId>
@@ -378,42 +372,50 @@
             <artifactId>sphinx4-data</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+    </dependencies>
 
 	<profiles>
 		<profile>
-			<id>testing</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-			    <project.root.folder.dir>${project.basedir}/root</project.root.folder.dir>
-			    <project.temp.folder.dir>${project.basedir}/temp</project.temp.folder.dir>
-				<logging.file>${project.basedir}/target/logs/loging.log</logging.file>
-				<project.dir>/Volumes/BACKUP/Development/projects</project.dir>
-				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
-				
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
-				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
-				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
-                <contact.us.email>website@c-mg.com</contact.us.email>
-                <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
-                <contact.us.email.password>W3lcom3123</contact.us.email.password>
-
-                <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
-
-                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
-                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
-                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
-			</properties>
-		</profile>
-		<profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 			<id>env-dev</id>			
 			<properties>
-			     <project.root.folder.dir>H:/LISMobile/Server/root</project.root.folder.dir>
-			    <project.temp.folder.dir>H:/LISMobile/Server/feedback</project.temp.folder.dir>
-				<logging.file>C:\\loging1.log</logging.file>
-				<project.dir>H:/LISMobile/projects</project.dir>
+                <sysenv>dev</sysenv>
+			     <project.root.folder.dir>/Volumes/DATA/Development/test-zone/data/root</project.root.folder.dir>
+			    <project.temp.folder.dir>/Volumes/DATA/Development/test-zone/data/feedback</project.temp.folder.dir>
+				<logging.file>/Volumes/DATA/Development/test-zone/data/log/log.log</logging.file>
+				<project.dir>/Volumes/DATA/Development/test-zone/data/projects</project.dir>
 				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
@@ -422,18 +424,45 @@
                 <contact.us.email>website@c-mg.com</contact.us.email>
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
-                <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
-                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
-                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
-                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
+                <voice.record.dir>/Volumes/DATA/Development/test-zone/data/VoiceRecords</voice.record.dir>
+                <acousticModelPath>file:///Volumes/DATA/Development/Sphinx/wsj-en-us</acousticModelPath>
+                <dictionaryPath>file:///Volumes/DATA/Development/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
+                <languageModelPath>file:///Volumes/DATA/Development/Sphinx/en-70k.lm</languageModelPath>
+                <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
             </properties>
 		</profile>
+        <profile>
+            <id>env-cmg</id>
+            <properties>
+                <sysenv>cmg</sysenv>
+                <project.root.folder.dir>/cmg/data/root</project.root.folder.dir>
+                <project.temp.folder.dir>/cmg/data/feedback</project.temp.folder.dir>
+                <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
+                <project.dir>/cmg/data/mobile</project.dir>
+                <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+                <javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+                <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
+                <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
+
+                <contact.us.email>website@c-mg.com</contact.us.email>
+                <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
+                <contact.us.email.password>W3lcom3123</contact.us.email.password>
+                <voice.record.dir>/cmg/data/VoiceRecords</voice.record.dir>
+
+                <acousticModelPath>file:///cmg/Sphinx/wsj-en-us</acousticModelPath>
+                <dictionaryPath>file:///cmg/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
+                <languageModelPath>file:///cmg/Sphinx/en-70k.lm</languageModelPath>
+                <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+                <recipients>hai.lu@c-mg.com</recipients>
+            </properties>
+        </profile>
 		<profile>
 			<id>env-int</id>
 			<properties>
+                <sysenv>aws</sysenv>
 			    <project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 			    <project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
-				<logging.file>/var/www/webdav/hipspot/log/vrc-loging.log</logging.file>
+				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
 				<project.dir>/var/www/webdav/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://127.0.0.1:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
@@ -445,9 +474,11 @@
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
 
-                <acousticModelPath>resource:/edu/cmu/sphinx/models/acoustic/wsj</acousticModelPath>
-                <dictionaryPath>resource:/edu/cmu/sphinx/models/acoustic/wsj/dict/cmudict.0.6d</dictionaryPath>
-                <languageModelPath>resource:/edu/cmu/sphinx/models/language/en-us.lm.dmp</languageModelPath>
+                <acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
+                <dictionaryPath>file:///vol/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
+                <languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
+                <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+                <recipients>hai.lu@c-mg.com</recipients>
 			</properties>
 		</profile>
 	</profiles>

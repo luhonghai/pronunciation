@@ -374,7 +374,7 @@ public class RecorderActivity extends Activity {
                 enableButton(R.id.btnStart, true);
                 enableButton(R.id.btnPlay,true);
                 ((Button) findViewById(R.id.btnUpload)).setText("Upload");
-                enableButton(R.id.btnUpload,false);
+                enableButton(R.id.btnUpload,true);
                 String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
                 //Toast.makeText(RecorderActivity.this, data, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();

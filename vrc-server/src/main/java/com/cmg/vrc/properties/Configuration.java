@@ -28,13 +28,26 @@ public class Configuration {
     public static final String ACOUSTIC_MODEL_PATH ="acousticModelPath";
     public static final String DICTIONARY_PATH = "dictionaryPath";
     public static final String LANGUAGE_MODEL_PATH = "languageModelPath";
+
+    public static final String VOICE_ANALYZE_SERVER = "analyzeServer";
+
+    public static final String API_KEY = "api.key";
+
+    public static final String RECIPIENTS = "recipients";
+
+    public static final String SYSTEM_ENVIRONMENT = "sysenv";
 	
 	private static Properties prop;
 
 	public static String getValue(String key) {
 		if (prop == null)
 			getProperties(SYSTEM_PROPERTIES);
-		return prop != null ? prop.getProperty(key) : "";
+        try {
+            return prop != null ? prop.getProperty(key).trim() : "";
+        } catch (Exception ex) {
+            return "";
+        }
+
 	}
 
 	public static void getProperties(String propName) {

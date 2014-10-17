@@ -40,12 +40,32 @@
     </servlet-mapping>
 
     <servlet>
+        <display-name>VoiceRecordHandler</display-name>
         <servlet-name>VoiceRecordHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.VoiceRecordHandler</servlet-class>
+        <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>VoiceRecordHandler</servlet-name>
         <url-pattern>/VoiceRecordHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>VoiceAnalyzeHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.VoiceAnalyzeHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>VoiceAnalyzeHandler</servlet-name>
+        <url-pattern>/VoiceAnalyzeHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SummaryReport</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.SummaryReportHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SummaryReport</servlet-name>
+        <url-pattern>/SummaryReport</url-pattern>
     </servlet-mapping>
 
 </web-app>
