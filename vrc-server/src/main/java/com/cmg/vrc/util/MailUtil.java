@@ -1,7 +1,6 @@
 package com.cmg.vrc.util;
 
 import com.cmg.vrc.data.ContactModel;
-import com.cmg.vrc.data.jdo.FeedbackModel;
 import org.apache.log4j.Logger;
 
 /**

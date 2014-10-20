@@ -151,6 +151,8 @@ public class SummaryReport {
                 logger.info("read model");
                 String modelData = FileUtils.readFileToString(file);
                 UserVoiceModel model = gson.fromJson(modelData, UserVoiceModel.class);
+                if (model == null || model.getWord() == null || model.getWord().length() == 0)
+                    return;
                 File targetClean = new File(dir, cleanWav);
                 File targetRaw = new File(dir, rawWav);
                 WavCleaner cleaner = new WavCleaner(targetClean, targetRaw);
