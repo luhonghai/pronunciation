@@ -19,25 +19,6 @@
   xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   id="WebApp_ID" version="2.5">
-  
-
-    <servlet>
-        <servlet-name>RtmtHandler</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.RtmtHandler</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RtmtHandler</servlet-name>
-        <url-pattern>/RtmtHandler</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ContactHandler</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.ContactHandler</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ContactHandler</servlet-name>
-        <url-pattern>/ContactHandler</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <display-name>VoiceRecordHandler</display-name>

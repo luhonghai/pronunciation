@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Pronunciation solutions.iml" filepath="$PROJECT_DIR$/Pronunciation solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/server/server.iml" filepath="$PROJECT_DIR$/server/server.iml" />
       <module fileurl="file://$PROJECT_DIR$/voice-recorder.iml" filepath="$PROJECT_DIR$/voice-recorder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/voice-recorder-app/voice-recorder-app.iml" filepath="$PROJECT_DIR$/voice-recorder-app/voice-recorder-app.iml" />
     </modules>
   </component>
 </project>

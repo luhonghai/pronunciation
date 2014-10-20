@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="TarsosDSP-Android-2.0-bin">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/app/libs/TarsosDSP-Android-2.0-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/voice-recorder-app/libs/TarsosDSP-Android-2.0-bin.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
