@@ -37,7 +37,6 @@ import java.util.Map;
  */
 public class FileUploader {
 
-
     /**
      * @param entity
      * @param uploadUrl
@@ -122,7 +121,7 @@ public class FileUploader {
     public static void main(String[] args) {
         Map<String, String> data = new HashMap<String,String>();
         data.put(FileCommon.PARA_FILE_NAME, "jewellery_test.wav");
-        data.put(FileCommon.PARA_FILE_PATH, "/Volumes/DATA/Development/dict-generator/sample-data/variable__gb_1_8.wav");
+        data.put(FileCommon.PARA_FILE_PATH, "/Volumes/DATA/Development/voice-sample/xenophobic_silence.wav");
         data.put("key", "AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY");
         try {
             String result = FileUploader.upload(data, "http://192.168.1.123:8080/vrc/VoiceAnalyzeHandler");

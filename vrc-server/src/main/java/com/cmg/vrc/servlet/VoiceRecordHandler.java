@@ -1,20 +1,14 @@
 package com.cmg.vrc.servlet;
 
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.GainProcessor;
-import be.tarsos.dsp.filters.BandPass;
-import be.tarsos.dsp.filters.HighPass;
-import be.tarsos.dsp.filters.LowPassFS;
-import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
-import be.tarsos.dsp.io.jvm.WaveformWriter;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.dsp.WavCleaner;
+import com.cmg.vrc.processor.AudioCleaner;
 import com.cmg.vrc.http.FileCommon;
 import com.cmg.vrc.http.FileUploader;
 import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.job.SummaryReportJob;
+import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.util.FileHelper;
@@ -33,12 +27,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.logging.Level;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -113,7 +104,7 @@ public class VoiceRecordHandler extends HttpServlet {
                 FileUtils.moveFile(tmpFileIn, targetRaw);
                 tmpFileIn.delete();
 
-                WavCleaner cleaner = new WavCleaner(targetClean,targetRaw);
+                AudioCleaner cleaner = new SoXCleaner(targetClean,targetRaw);
                 cleaner.clean();
 
                 UserVoiceModel model = new UserVoiceModel();

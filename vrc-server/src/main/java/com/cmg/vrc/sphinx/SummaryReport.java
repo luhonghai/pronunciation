@@ -1,10 +1,11 @@
 package com.cmg.vrc.sphinx;
 
 import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.dsp.WavCleaner;
+import com.cmg.vrc.processor.AudioCleaner;
 import com.cmg.vrc.http.FileCommon;
 import com.cmg.vrc.http.FileUploader;
 import com.cmg.vrc.http.exception.UploaderException;
+import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -155,7 +156,7 @@ public class SummaryReport {
                     return;
                 File targetClean = new File(dir, cleanWav);
                 File targetRaw = new File(dir, rawWav);
-                WavCleaner cleaner = new WavCleaner(targetClean, targetRaw);
+                AudioCleaner cleaner = new SoXCleaner(targetClean, targetRaw);
                 logger.info("clean wav to " + targetClean);
                 cleaner.clean();
                 PhonemesDetector.Result cleanResult = analyzeVoice(targetClean,modelData);

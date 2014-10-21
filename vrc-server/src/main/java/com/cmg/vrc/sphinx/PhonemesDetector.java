@@ -9,6 +9,9 @@ import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
 import edu.cmu.sphinx.result.WordResult;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,6 +38,7 @@ public class PhonemesDetector {
 
         private String phonemes;
         private String hypothesis;
+        private List<String> NBests;
 
         public String getPhonemes() {
             return phonemes;
@@ -51,6 +55,14 @@ public class PhonemesDetector {
         public void setHypothesis(String hypothesis) {
             this.hypothesis = hypothesis;
         }
+
+        public List<String> getNBests() {
+            return NBests;
+        }
+
+        public void setNBests(List<String> nBests) {
+            this.NBests = nBests;
+        }
     }
 
     private static final Logger logger = Logger.getLogger(PhonemesDetector.class.getName());
@@ -58,7 +70,6 @@ public class PhonemesDetector {
     private final File target;
 
     private static CustomSpeechRecognizer recognizer;
-    private static boolean isRecording = false;
 
     public static void init() {
         if (recognizer == null) {
@@ -97,9 +108,9 @@ public class PhonemesDetector {
                     SpeechResult result;
                     String phonemes = "";
                     String hypothesis = "";
+                    List<String> NBests = new ArrayList<String>();
                     while ((result = recognizer.getResult()) != null) {
                         hypothesis += result.getHypothesis().trim() + " ";
-
 
                         boolean flag = false;
                         boolean s;
@@ -120,6 +131,10 @@ public class PhonemesDetector {
                                     phonemes += (u.getName() + " ");
                                 }
                             }
+                        }
+                        Collection<String> tmpNBest = result.getNbest(4);
+                        if (tmpNBest != null && tmpNBest.size() >0) {
+                            NBests.addAll(tmpNBest);
                         }
                     }
                     phonemes = phonemes.trim();
