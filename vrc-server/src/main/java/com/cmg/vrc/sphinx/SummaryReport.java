@@ -7,6 +7,7 @@ import com.cmg.vrc.http.FileUploader;
 import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
+import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -34,24 +35,38 @@ import java.util.logging.Logger;
  * Created by luhonghai on 10/17/14.
  */
 public class SummaryReport {
+
+    public static interface MessageListener {
+        public void onMessage(String message);
+
+        public void onError(String error);
+    }
+
     private static SummaryReport instance;
 
     public static boolean analyze() {
+        return analyze(null);
+    }
+
+    public static boolean analyze(final MessageListener listener) {
         if (instance == null) {
             String recordDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
             instance = new SummaryReport(new File(recordDir, "summary.xlsx"), new File(recordDir));
         }
         synchronized (instance) {
             try {
+                if (listener != null)
+                    instance.setMessageListener(listener);
                 instance.execute();
                 return true;
             } catch (Exception ex) {
-                logger.log(Level.SEVERE,"Could not execute summary report" ,ex);
+                if (listener != null)
+                    listener.onError("Could not execute summary report. Message: " + ex.getMessage());
+                logger.log(Level.SEVERE, "Could not execute summary report", ex);
             } finally {
             }
             return false;
         }
-
     }
 
 
@@ -67,23 +82,56 @@ public class SummaryReport {
     private XSSFSheet sheet;
     private SimpleDateFormat sdf;
 
+    private MessageListener messageListener;
+
     private SummaryReport(File reportFile, File targetDir) {
         this.reportFile = reportFile;
         this.targetDir = targetDir;
     }
 
+    private void log(String message) {
+        log(Level.INFO, message, null);
+    }
+
+    private void log(Level level, String message) {
+        log(level, message, null);
+    }
+
+    private void log(Level level, String message, Throwable ex) {
+        if (messageListener != null) {
+            if (ex != null || level != Level.INFO) {
+                if (ex != null) {
+                   // String error = org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(ex);
+                    String error = ex.getMessage();
+                    error = error.replace("\\n", "<br/>");
+                    messageListener.onError(message + ". Message: " + error);
+                } else {
+                    messageListener.onError(message );
+                }
+
+            } else {
+                messageListener.onMessage(message);
+            }
+        }
+        if (ex != null) {
+            logger.log(level, message, ex);
+        } else {
+            logger.log(level, message);
+        }
+    }
+
     private void execute() {
-        logger.info("Looking for target dir " + targetDir);
+        log("Looking for target dir " + targetDir);
         if (!targetDir.exists() || !targetDir.isDirectory()) {
-            logger.log(Level.SEVERE, "Could not found target dir " + targetDir);
+            log(Level.SEVERE, "Could not found target dir " + targetDir);
+            return;
         }
         gson = new Gson();
         sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         start = System.currentTimeMillis();
-        logger.info("Start analyzing voice data. Target dir " + targetDir);
+        log("Start analyzing voice data. Target dir " + targetDir);
         workbook = new XSSFWorkbook();
         sheet = workbook.createSheet("summary");
-
         final Row header = sheet.createRow(0);
         header.createCell(0).setCellValue("ID");
         header.createCell(1).setCellValue("Username");
@@ -108,17 +156,17 @@ public class SummaryReport {
         walk(targetDir);
         save();
         sendMail();
-        logger.info("complete");
+        log("complete");
     }
 
     private void save() {
         FileOutputStream fos = null;
         try {
-            logger.info("Save report to file " + reportFile);
+            log("Save report to file " + reportFile);
             fos = new FileOutputStream(reportFile);
             workbook.write(fos);
         } catch (IOException ex) {
-            logger.log(Level.SEVERE, "Could not save report file", ex);
+            log(Level.SEVERE, "Could not save report file", ex);
         } finally {
             try {
                 if (fos != null)
@@ -143,21 +191,22 @@ public class SummaryReport {
     private void analyze(File dir, File file) {
         String fileName = file.getName();
         if (fileName.toLowerCase().endsWith(".json")) {
-            logger.info("Detect json data " + file);
+            log("Detect json data " + file);
             String rawName = fileName.substring(0, fileName.toLowerCase().lastIndexOf(".json"));
             String cleanWav = rawName + "_clean.wav";
             String rawWav = rawName + "_raw.wav";
-            logger.info("Clean WAV file");
+            log("Clean WAV file");
             try {
-                logger.info("read model");
+
                 String modelData = FileUtils.readFileToString(file);
+                log("Read model " + modelData);
                 UserVoiceModel model = gson.fromJson(modelData, UserVoiceModel.class);
                 if (model == null || model.getWord() == null || model.getWord().length() == 0)
                     return;
                 File targetClean = new File(dir, cleanWav);
                 File targetRaw = new File(dir, rawWav);
                 AudioCleaner cleaner = new SoXCleaner(targetClean, targetRaw);
-                logger.info("clean wav to " + targetClean);
+                log("Clean wav to " + targetClean);
                 cleaner.clean();
                 PhonemesDetector.Result cleanResult = analyzeVoice(targetClean,modelData);
                 PhonemesDetector.Result rawResult = analyzeVoice(targetRaw, modelData);
@@ -188,7 +237,7 @@ public class SummaryReport {
                     row.createCell(18).setCellValue(cleanResult.getHypothesis());
                 }
             } catch (Exception ex) {
-                logger.log(Level.SEVERE, "Could not analyze file " + file, ex);
+                log(Level.SEVERE, "Could not analyze file " + file, ex);
             }
         }
     }
@@ -201,14 +250,14 @@ public class SummaryReport {
         data.put("model", modelData);
         try {
             String resData = FileUploader.upload(data, Configuration.getValue(Configuration.VOICE_ANALYZE_SERVER));
-            logger.info("Analyze " + file + " .Result: " + resData);
+            log("Analyze " + file + " .Result: " + resData);
             return gson.fromJson(resData, PhonemesDetector.Result.class);
         } catch (UploaderException e) {
-            logger.log(Level.SEVERE, "Could not upload file to voice analyzing server",e);
+            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
         } catch (FileNotFoundException e) {
-            logger.log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
+            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Could not parsing data");
+            log(Level.SEVERE, "Could not parsing data");
         }
         return null;
     }
@@ -220,7 +269,7 @@ public class SummaryReport {
                 || Configuration.getValue(Configuration.RECIPIENTS).length() == 0)
             return;
         recipients = Configuration.getValue(Configuration.RECIPIENTS).split(",");
-        logger.info("Send report via email");
+        log("Send report via email");
         // SMTP info
         String host = "smtp.gmail.com";
         String port = "465";
@@ -233,14 +282,14 @@ public class SummaryReport {
         message.append("<p>Please check the attachment for more detail.</p>\n");
         message.append("Thank you & Best regards,<br/>\n");
         message.append("CMG Automator");
-        logger.info("Message: " + message.toString());
+        log("Message: " + message.toString());
         // attachments
         try {
             sendEmailWithAttachments(host, port,
                     subject, message.toString(), reportFile.getAbsolutePath());
-            logger.info("Completed. Execution time: " + executionTime);
+            log("Completed. Execution time: " + executionTime);
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, "Could not send email.", ex);
+            log(Level.SEVERE, "Could not send email.", ex);
         }
     }
 
@@ -305,9 +354,7 @@ public class SummaryReport {
         Transport.send(msg, msg.getAllRecipients());
     }
 
-    public static void main(String[] args) {
-        String fileName = "awry_4bb999f5-5143-40c2-8469-60db659cae18.json";
-        String rawName = fileName.substring(0, fileName.toLowerCase().lastIndexOf(".json"));
-        System.out.println(rawName);
+    public void setMessageListener(MessageListener messageListener) {
+        this.messageListener = messageListener;
     }
 }

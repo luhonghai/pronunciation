@@ -3,6 +3,7 @@ package com.cmg.vrc.processor;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.util.logging.Level;
 
 /**
  * Created by luhonghai on 10/21/14.
@@ -15,8 +16,10 @@ public class SoXCleaner extends AudioCleaner {
 
     @Override
     public void clean() throws Exception {
-        if (targetRaw == null || !targetRaw.exists() || targetRaw.isDirectory())
+        if (targetRaw == null || !targetRaw.exists() || targetRaw.isDirectory()) {
+            logger.log(Level.SEVERE, "File not found " + targetRaw);
             return;
+        }
         FileUtils.copyFile(targetRaw,targetClean);
         if (targetClean.exists()) {
             SoXExecutor soXExecutor = new SoXExecutor(targetClean);
@@ -31,7 +34,10 @@ public class SoXCleaner extends AudioCleaner {
     }
 
     public static void main(String[] args) throws Exception {
-        AudioCleaner cleaner = new SoXCleaner(new File("/Volumes/DATA/Development/voice-sample/eleven_x.wav"), new File("/Volumes/DATA/OSX/luhonghai/Downloads/eleven_raw.wav"));
+        AudioCleaner cleaner =
+                new SoXCleaner(
+                        new File("/Volumes/DATA/Development/voice-sample/awry_x.wav"),
+                        new File("/Volumes/DATA/Development/voice-sample/awry_raw.wav"));
         cleaner.clean();
     }
 }
