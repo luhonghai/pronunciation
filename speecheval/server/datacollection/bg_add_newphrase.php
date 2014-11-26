@@ -30,9 +30,9 @@
 	
 	// error type 
 	$errtype = 'default';
-	
+    $config = include("config.php");
 	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
+	$link = mysql_connect($config['server'], $config['username'], $config['password']);
 	if(!$link) {
 		die('Failed to connect to server: ' . mysql_error());
 	} else {
@@ -40,7 +40,7 @@
 	}
 	
 	// select database
-	$db = mysql_select_db('gsoc');
+	$db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {
@@ -76,7 +76,7 @@
 	// check the word pronunciation first
 	for($wi=0;$wi<count($_SESSION['SESS_ADDPHRASE_WORDS']);$wi++){
 		// array of the user inputed phone list
-		$pro_user=str_word_count(trim(clean($_POST['prow'.$wi])), 1);
+		$pro_user=str_word_count(trim(clean(isset($_POST['prow'.$wi])?$_POST['prow'.$wi]:"")), 1);
 		
 		$qry = "select * from words where name='\"".clean($_SESSION['SESS_ADDPHRASE_WORDS'][$wi])."\"'";
 		$result = mysql_query($qry);
@@ -87,7 +87,7 @@
 		if ($result) {
 			if(mysql_num_rows($result)<=0){
 				// word not exist, insert with 0 pronunciation
-				$ins_qry="insert into words (name, numpro) values ('\"".clean($_SESSION['SESS_ADDPHRASE_WORDS'][$wi])."\"', 0)";
+                $pro_qry="insert into words (name, numpro) values ('\"".clean($_SESSION['SESS_ADDPHRASE_WORDS'][$wi])."\"', 0)";
 				$pro_res=mysql_query($pro_qry);
 				if($debug) print($pro_qry."<br/>");
 				if($pro_res){

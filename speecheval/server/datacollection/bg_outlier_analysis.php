@@ -1,7 +1,7 @@
 <?php
 
 	$debug = false;
-
+    $flvfile = null;
 	// start session
 	session_start();
 	
@@ -13,17 +13,18 @@
 	
 	// error type 
 	$errtype = 'default';
-	
-	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
-	} else {
-		if($debug) print('##connection setup!##');
-	}
-	
-	// select database
-	$db = mysql_select_db('gsoc');
+
+    $config = include("config.php");
+    // connect to mysql server
+    $link = mysql_connect($config['server'], $config['username'], $config['password']);
+    if(!$link) {
+        die('Failed to connect to server: ' . mysql_error());
+    } else {
+        if($debug) print('##connection setup!##');
+    }
+
+    // select database
+    $db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {

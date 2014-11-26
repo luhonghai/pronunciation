@@ -13,7 +13,6 @@
 
   <artifactId>sphinx4-core</artifactId>
   <packaging>jar</packaging>
-
   <name>Sphinx4 core</name>
 
   <dependencies>

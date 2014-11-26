@@ -461,8 +461,8 @@
                 <voice.record.dir>/cmg/data/VoiceRecords</voice.record.dir>
 
                 <acousticModelPath>file:///cmg/Sphinx/wsj-en-us</acousticModelPath>
-                <dictionaryPath>file:///cmg/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
-                <languageModelPath>file:///cmg/Sphinx/en-70k.lm</languageModelPath>
+                <dictionaryPath>file:///home/cmg/cmudict_words</dictionaryPath>
+                <languageModelPath>file:///home/cmg/all_words.lm</languageModelPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com</recipients>
             </properties>

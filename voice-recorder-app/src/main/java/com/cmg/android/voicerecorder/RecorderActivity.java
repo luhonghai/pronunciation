@@ -3,7 +3,10 @@ package com.cmg.android.voicerecorder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
@@ -25,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +47,8 @@ import com.cmg.android.voicerecorder.view.MySurfaceView;
 import com.cmg.android.voicerecorder.view.SpectrogramView;
 import com.google.gson.Gson;
 
+import org.apache.commons.io.FileUtils;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
 import be.tarsos.dsp.AudioProcessor;
@@ -52,6 +58,13 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import be.tarsos.dsp.util.fft.FFT;
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.SpeechResult;
+import edu.cmu.sphinx.api.StreamSpeechRecognizer;
+import edu.cmu.sphinx.linguist.acoustic.Unit;
+import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
+import edu.cmu.sphinx.result.Result;
+import edu.cmu.sphinx.result.WordResult;
 
 public class RecorderActivity extends Activity {
     private static final String TAG = "AudioRecorder";
@@ -74,9 +87,7 @@ public class RecorderActivity extends Activity {
     private TextView txtProfile;
     private TextView txtTime;
 
-    private TextView txtPhonemes;
-    private TextView txtHypothesis;
-    private TextView txtSelectedWord;
+    private WebView webView;
 
     private AudioRecord audioInputStream;
     private int chanel;
@@ -118,11 +129,7 @@ public class RecorderActivity extends Activity {
         waveView = (MySurfaceView) findViewById(R.id.view_surface_wave);
         txtTime = (TextView) findViewById(R.id.txtTime);
         spnWords = (Spinner) findViewById(R.id.spinner_words);
-
-        txtPhonemes = (TextView) findViewById(R.id.txtPhonemes);
-        txtHypothesis = (TextView) findViewById(R.id.txtHypothesis);
-        txtSelectedWord = (TextView) findViewById(R.id.txtSelectedWord);
-
+        webView =  (WebView) findViewById(R.id.webView);
         setButtonHandlers();
         enableButtons(false);
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
@@ -380,8 +387,7 @@ public class RecorderActivity extends Activity {
                 Gson gson = new Gson();
                 try {
                     UserVoiceModel model = gson.fromJson(data, UserVoiceModel.class);
-                    txtPhonemes.setText( "Phonemes: " + model.getPhonemes());
-                    txtHypothesis.setText( "Hypothesis: " + model.getHypothesis());
+                    showData(model);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -443,23 +449,102 @@ public class RecorderActivity extends Activity {
         }
     }
 
+
+    private void runTest() {
+        try {
+            showData("Starting ...");
+            final long start = System.currentTimeMillis();
+            Thread thread = new Thread()
+            {
+                @Override
+                public void run() {
+                    try {
+                        Configuration configuration = new Configuration();
+                        configuration.setUseGrammar(true);
+                        configuration.setGrammarName("necessarily");
+                        configuration.setGrammarPath("file:///storage/emulated/0/s4/grammar");
+                        configuration.setAcousticModelPath("file:///storage/emulated/0/s4/wsj-en-us");
+                        configuration.setDictionaryPath("file:///storage/emulated/0/s4/cmuphonedict.dict");
+                      //  configuration.setLanguageModelPath("file:///storage/emulated/0/s4/all_words.lm");
+
+                        StreamSpeechRecognizer recognizer =
+                                new StreamSpeechRecognizer(configuration);
+
+
+                        InputStream stream = new FileInputStream("/storage/emulated/0/s4/necessarily_raw.wav");
+
+                        // Simple recognition with generic model
+                        recognizer.startRecognition(stream);
+                        SpeechResult result;
+                        Result rs;
+                        while ((result = recognizer.getResult()) != null) {
+                            rs = result.getResult();
+                            AppLog.logString("Hypothesis: " + result.getHypothesis());
+
+                            //System.out.println("List of recognized words and their times:");
+
+                            for (WordResult r : result.getWords()) {
+                                //System.out.println(r);
+                                Pronunciation[] prons = r.getWord().getPronunciations();
+                                //System.out.println("=========");
+                                for (Pronunciation rp : prons) {
+                                    //  System.out.println("-----");
+                                    Unit[] units = rp.getUnits();
+                                    String pron = "";
+                                    if (units != null && units.length > 0) {
+                                        for (Unit u : units) {
+                                            pron += " " + u.getName();
+                                        }
+                                    }
+                                    // System.out.println(pron);
+                                }
+                            }
+
+                            AppLog.logString("Best 5 hypothesis:");
+                            for (String s : result.getNbest(5))
+                                AppLog.logString("- " + s);
+
+                            AppLog.logString("Lattice contains " + result.getLattice().getNodes().size() + " nodes");
+                            AppLog.logString("Best pronunciation: " + rs.getBestPronunciationResult());
+                            showData("Complete. Best pronunciation: " + rs.getBestPronunciationResult() + ".Execution time: " + (System.currentTimeMillis() - start) + "ms");
+                        }
+                        recognizer.stopRecognition();
+
+                    } catch (Exception ex) {
+                        showData("Error. Message: " + ex.getMessage() + ". Execution time: " + (System.currentTimeMillis() - start) + "ms");
+                    }
+
+                }
+            };
+
+            thread.start();
+
+
+
+        } catch (Exception ex) {
+            showData("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
     private View.OnClickListener btnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch(v.getId()){
                 case R.id.btnStart:{
-                    if (isRecording) {
-                        stopRecording();
-                    } else {
-                        AppLog.logString("Start Recording");
-                        btnRecord.setText("Stop");
-                        enableButton(R.id.btnStart, false);
-                        enableButton(R.id.btnPlay, false);
-                        enableButton(R.id.btnUpload, false);
-                        analyze();
-                        enableButton(R.id.btnStart, true);
-                        isRecording = true;
-                    }
+//                    if (isRecording) {
+//                        stopRecording();
+//                    } else {
+//                        AppLog.logString("Start Recording");
+//                        btnRecord.setText("Stop");
+//                        enableButton(R.id.btnStart, false);
+//                        enableButton(R.id.btnPlay, false);
+//                        enableButton(R.id.btnUpload, false);
+//                        analyze();
+//                        enableButton(R.id.btnStart, true);
+//                        isRecording = true;
+//                    }
+                    runTest();
                     break;
                 }
                 case R.id.btnPlay:{
@@ -501,8 +586,7 @@ public class RecorderActivity extends Activity {
                         btnUpload.setText("Upload");
                         enableButton(R.id.btnUpload,true);
                     } else {
-                        txtPhonemes.setText( "Phonemes: ...");
-                        txtHypothesis.setText( "Hypothesis: ...");
+
                         isUploading = true;
                         AppLog.logString("Start Uploading");
                         Toast.makeText(RecorderActivity.this, "Please wait while data is uploading", Toast.LENGTH_LONG).show();
@@ -535,7 +619,7 @@ public class RecorderActivity extends Activity {
                                 params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                                 params.put("profile", gson.toJson(profile));
                                 String word =spnWords.getSelectedItem().toString();
-                                txtSelectedWord.setText("Last selected word: " + word);
+                                showData("Please wait a moment!");
                                 params.put("word", word);
                                 uploadTask.execute(params);
                             } else {
@@ -548,6 +632,105 @@ public class RecorderActivity extends Activity {
             }
         }
     };
+
+    private void showData(UserVoiceModel model) {
+        StringBuffer sb = new StringBuffer();
+        String word = model.getWord();
+        String[] phonesWords = getResources().getStringArray(R.array.phones_words_list);
+        String selectedWord = "";
+        for (String pw : phonesWords) {
+            if (pw.toLowerCase().startsWith(word)) {
+                selectedWord = pw;
+                break;
+            }
+        }
+        if (selectedWord.length() == 0) {
+            AppLog.logString("Could not found " + word + " in phonemes list");
+            showData("Could not found " + word + " in phonemes list");
+            return;
+        }
+        AppLog.logString("Selected phones word: " + selectedWord);
+        String[] swRaws = selectedWord.split(" ");
+        selectedWord = "";
+        for (int i = 1; i < swRaws.length; i++) {
+            selectedWord = selectedWord + swRaws[i] + " ";
+        }
+        selectedWord = selectedWord.trim();
+
+        sb.append("<p>Selected word: " + word + "</p>");
+        sb.append("<p>Expected: "  + selectedWord + "</p>");
+
+        String hypothesis = model.getHypothesis();
+        sb.append("<p>Actual: ");
+        String phonemes = model.getPhonemes();
+        String color = "white";
+        if (phonemes.contains("[") && phonemes.contains("]")) {
+            phonemes = phonemes.substring(phonemes.indexOf("[") + 1, phonemes.lastIndexOf("]"));
+            String[] pRaws = phonemes.split(",");
+            Map<String, Boolean> spm = new HashMap<String, Boolean>();
+            if (pRaws.length == swRaws.length - 1) {
+
+            } else {
+                AppLog.logString("Phonemes length not match. Actual: " + pRaws.length + ". Expected: " + swRaws.length);
+            }
+            int score = 0;
+            for (int i = 0; i < pRaws.length; i++) {
+                boolean isMatched = false;
+                String cp = pRaws[i].trim();
+                if (i >= swRaws.length - 1) {
+
+                } else {
+                    String tp = swRaws[i+1].trim();
+                    if (cp.equalsIgnoreCase(tp)) {
+                        isMatched= true;
+                        score++;
+                    }
+                }
+                spm.put(cp, isMatched);
+            }
+            float calScrore = (float) score / (float)(swRaws.length - 1);
+
+            if (calScrore >= .9) {
+                color = "green";
+            } else if (calScrore >= -.5) {
+                color = "orange";
+            } else {
+                color = "red";
+            }
+            for (int i = 0; i < pRaws.length; i++) {
+                String p = pRaws[i].trim();
+                if (calScrore < .5) {
+                    sb.append("<font color='red'>");
+                } else {
+                    if (spm.get(p)) {
+                        sb.append("<font color='" + color + "'>");
+                    } else {
+                        sb.append("<font color='white'>");
+                    }
+                }
+                sb.append(p);
+                sb.append("</font>");
+                sb.append(" ");
+            }
+        } else {
+            AppLog.logString("Wrong phonemes issue " + phonemes);
+        }
+        sb.append("</p>");
+        sb.append("<p>Hypothesis: " + "<font color='" + color + "'>" + hypothesis+ "</font></p>");
+        AppLog.logString("Hypothesis: " + hypothesis);
+        showData(sb.toString());
+
+    }
+
+    private void showData(final String data) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadData("<style>body{margin:0;padding:0;background:black}</style><div style='background:black;color:white;margin:0;padding:0'>" + data + "</div>","text/html", "UTF-8");
+            }
+        });
+
+    }
 
 
     private static final int MENU_SETTINGS = 0;

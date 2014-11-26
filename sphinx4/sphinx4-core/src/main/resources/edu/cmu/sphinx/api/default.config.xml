@@ -45,12 +45,9 @@
     <property name="pruner" value="trivialPruner"/>
     <property name="scorer" value="threadedScorer"/>
     <property name="activeListManager" value="activeListManager"/>
-
     <property name="growSkipInterval" value="0"/>
-
     <property name="buildWordLattice" value="true"/>
     <property name="keepAllTokens" value="true"/>
-
     <property name="acousticLookaheadFrames" value="1.7"/>
     <property name="relativeBeamWidth" value="${relativeBeamWidth}"/>
   </component>
@@ -123,7 +120,7 @@
     <property name="languageModel" value="simpleNGramModel"/>
     <property name="dictionary" value="dictionary"/>
     <property name="addFillerWords" value="true"/>
-    <property name="generateUnitStates" value="false"/>
+    <property name="generateUnitStates" value="true"/>
     <property name="wantUnigramSmear" value="true"/>
     <property name="unigramSmearWeight" value="1"/>
     <property name="wordInsertionProbability" value="${wordInsertionProbability}"/>

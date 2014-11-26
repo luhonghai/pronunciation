@@ -192,12 +192,12 @@ public class PartitionActiveListFactory extends ActiveListFactory {
                 bestScore = bestToken.getScore();
             }
             // A sanity check
-            // for (Token t : this) {
-            //    if (t.getScore() > bestScore) {
-            //         System.out.println("GBS: found better score "
-            //             + t + " vs. " + bestScore);
-            //    }
-            // }
+            for (Token t : this) {
+                if (t.getScore() > bestScore) {
+                     System.out.println("GBS: found better score "
+                         + t + " vs. " + bestScore);
+                }
+            }
             return bestScore;
         }
 

@@ -21,8 +21,9 @@
 	
 	// error type
 	$errtype = 'default';
-	
-	$dataroot='/home/li-bo/web/data/';
+
+$config = include("config.php");
+	$dataroot=$config['data_root'].'/data/';
 	//$dataroot='/Applications/MAMP/htdocs/rtmplite/';
 	
 	$flvname=$dataroot . $_POST["flvname"] . '.flv';
@@ -30,17 +31,17 @@
 	if($debug) {
 		print($flvname."<br>");
 	}
-	
-	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
-	} else {
-		if($debug) print('##connection setup!##');
-	}
-	
-	// select database
-	$db = mysql_select_db('gsoc');
+
+// connect to mysql server
+$link = mysql_connect($config['server'], $config['username'], $config['password']);
+if(!$link) {
+    die('Failed to connect to server: ' . mysql_error());
+} else {
+    if($debug) print('##connection setup!##');
+}
+
+// select database
+$db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {

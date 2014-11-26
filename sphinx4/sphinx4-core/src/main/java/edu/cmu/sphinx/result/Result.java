@@ -167,6 +167,7 @@ public class Result {
     public Token getBestFinalToken() {
         Token bestToken = null;
         for (Token token : resultList) {
+            //
             if (bestToken == null || token.getScore() > bestToken.getScore()) {
                 bestToken = token;
             }
@@ -371,7 +372,7 @@ public class Result {
      * Returns the string of words (with timestamp) for this token.
      *
      * @param withFillers true if we want filler words included, false otherwise
-     * @param wordTokenFirst true if the word tokens come before other types of tokens
+     * // @param wordTokenFirst true if the word tokens come before other types of tokens
      * @return the string of words
      */
     public List<WordResult> getTimedBestResult(boolean withFillers) {

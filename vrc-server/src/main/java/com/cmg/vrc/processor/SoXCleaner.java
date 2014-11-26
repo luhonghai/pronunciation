@@ -25,7 +25,7 @@ public class SoXCleaner extends AudioCleaner {
             SoXExecutor soXExecutor = new SoXExecutor(targetClean);
             soXExecutor
                     .noisered()
-                    .silence()
+                    //.silence()
                     //.highpass(".3k")
                     //.lowpass("0.08k")
                     //.compand()
@@ -36,8 +36,8 @@ public class SoXCleaner extends AudioCleaner {
     public static void main(String[] args) throws Exception {
         AudioCleaner cleaner =
                 new SoXCleaner(
-                        new File("/Volumes/DATA/Development/voice-sample/awry_x.wav"),
-                        new File("/Volumes/DATA/Development/voice-sample/awry_raw.wav"));
+                        new File("/Volumes/DATA/Development/voice-sample/variable-anh-c-n.wav"),
+                        new File("/Volumes/DATA/Development/voice-sample/variable-anh.wav"));
         cleaner.clean();
     }
 }

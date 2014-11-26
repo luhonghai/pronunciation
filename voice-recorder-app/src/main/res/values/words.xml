@@ -11,8 +11,8 @@
         <item>kitchen</item>
         <item>muscular</item>
         <item>necessarily</item>
-        <item>particularly</item>
-        <item>prioritizing</item>
+        <!--<item>particularly</item>-->
+        <!--<item>prioritizing</item>-->
         <item>quarter</item>
         <item>seashell</item>
         <item>sheep</item>
@@ -24,5 +24,30 @@
         <item>wash</item>
         <item>watch</item>
         <item>xenophobic</item>
+    </string-array>
+    <string-array name="phones_words_list">
+        <item>AWRY ER AY</item>
+        <item>BARTER B AA R T ER</item>
+        <item>BORROWER B AA R OW ER</item>
+        <item>BUTTER B AH T ER</item>
+        <item>CHICKEN CH IH K AH N</item>
+        <item>GESTURE JH EH S CH ER</item>
+        <item>JEWELLERY JH UW AH L AH R IY</item>
+        <item>KITCHEN K IH CH AH N</item>
+        <item>MUSCULAR M AH S K Y AH L ER</item>
+        <item>NECESSARILY N EH S AH S EH R AH L IY</item>
+        <!--<item>PARTICULARLY P AA R T IH K Y AH L ER L IY</item>-->
+        <!--<item>PRIORITIZING P R AY AO R AH T AY Z IH NG</item>-->
+        <item>QUARTER K W AO R T ER</item>
+        <item>SEASHELL S IY SH EH L</item>
+        <item>SHEEP SH IY P</item>
+        <item>SHIP SH IH P</item>
+        <item>SPHERE S F IH R</item>
+        <item>THING TH IH NG</item>
+        <item>THINK TH IH NG K</item>
+        <item>VARIABLE V EH R IY AH B AH L</item>
+        <item>WASH W AA SH</item>
+        <item>WATCH W AA CH</item>
+        <item>XENOPHOBIC Z EH N AH F AA B IH K</item>
     </string-array>
 </resources>

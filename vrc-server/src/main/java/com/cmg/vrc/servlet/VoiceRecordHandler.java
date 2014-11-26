@@ -129,8 +129,8 @@ public class VoiceRecordHandler extends HttpServlet {
 
                 //PhonemesDetector detector = new PhonemesDetector(targetClean);
                 Map<String, String> data = new HashMap<String,String>();
-                data.put(FileCommon.PARA_FILE_NAME, fileClean);
-                data.put(FileCommon.PARA_FILE_PATH, targetClean.getAbsolutePath());
+                data.put(FileCommon.PARA_FILE_NAME, fileTempName);
+                data.put(FileCommon.PARA_FILE_PATH, targetRaw.getAbsolutePath());
                 data.put("key", Configuration.getValue(Configuration.API_KEY));
                 PhonemesDetector.Result result = null;
                 try {

@@ -140,12 +140,12 @@
 								<h1>Exemplars</h1>
 								<p id="exemplars_section">
 									<!--
-									<label for="audio1"> Sample 1: </label> 
+									<label for="audio1"> Sample 1: </label>
 									<audio id="audio1" controls="controls">
 										<source src="http://talknicer.net/~li-bo/data/audioRecorder/user3/phrase1.wav" type="audio/wav" />
 									</audio>
-									
-									<label for="audio2"> Sample 2: </label> 
+
+									<label for="audio2"> Sample 2: </label>
 									<audio id="audio2" controls="controls">
 										<source src="http://talknicer.net/~li-bo/data/audioRecorder/user3/phrase2.wav" type="audio/wav" />
 									</audio>
@@ -166,17 +166,18 @@
 										
 										// error type 
 										$errtype = 'default';
-										
-										// connect to mysql server
-										$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-										if(!$link) {
-											die('Failed to connect to server: ' . mysql_error());
-										} else {
-											if($debug) print('##connection setup!##');
-										}
-										
-										// select database
-										$db = mysql_select_db('gsoc');
+
+                                        $config = include("config.php");
+                                        // connect to mysql server
+                                        $link = mysql_connect($config['server'], $config['username'], $config['password']);
+                                        if(!$link) {
+                                            die('Failed to connect to server: ' . mysql_error());
+                                        } else {
+                                            if($debug) print('##connection setup!##');
+                                        }
+
+                                        // select database
+                                        $db = mysql_select_db($config['database']);
 										if(!$db) {
 											die("Unable to select database");
 										} else {
@@ -204,10 +205,10 @@
 														if(mysql_num_rows($result)>0){
 															$exemplars=mysql_fetch_all($exp_result);
 															echo "<p id=\"exemplars_phrase".$i."\" hidden>";
-															
+															$config=require("config.php");
 															for($k = 0; $k < 5 && $k < count($exemplars); $k ++) {
 																// change to corresponding path
-																$fname=str_replace("/home/li-bo/web/", "http://talknicer.net/~li-bo/", $exemplars[$k][audio]);
+																$fname=str_replace($config['data_root'], $config['base_url'], $exemplars[$k][audio]);
 																$wav=str_replace(".flv", ".wav", $fname);
 																if($debug) print $wav;
 																echo "<label> Sample ".$k.": </label>"; 

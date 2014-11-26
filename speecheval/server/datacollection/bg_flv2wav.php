@@ -23,8 +23,8 @@
 	$errtype = 'default';
 	
 	define('FFMPEG_LIBRARY', '/usr/bin/ffmpeg ');
-	
-	$dataroot='/home/li-bo/web/data/';
+    $config = include("config.php");
+	$dataroot= $config['data_root'].'/data/';
 	
 	$flvname=$dataroot . $_POST["flvname"] . '.flv';
 	$wavname=$dataroot . $_POST["flvname"] . '.wav';
@@ -38,18 +38,19 @@
 	print($exec_string.'\n'); 
 	exec($exec_string, $output, $ret_var); //where exec is the command used to execute shell command in php
 	print_r($output);
-	
-	
-	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
-	} else {
-		if($debug) print('##connection setup!##');
-	}
-	
-	// select database
-	$db = mysql_select_db('gsoc');
+
+
+
+    // connect to mysql server
+    $link = mysql_connect($config['server'], $config['username'], $config['password']);
+    if(!$link) {
+        die('Failed to connect to server: ' . mysql_error());
+    } else {
+        if($debug) print('##connection setup!##');
+    }
+
+    // select database
+    $db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {

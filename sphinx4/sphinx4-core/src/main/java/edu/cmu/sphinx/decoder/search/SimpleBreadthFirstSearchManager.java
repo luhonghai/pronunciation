@@ -106,7 +106,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
     // monitoring data
     // ------------------------------------
 
-    private Timer scoreTimer; // TODO move these timers out
+    private Timer scoreTimer;
     private Timer pruneTimer;
     protected Timer growTimer;
     private StatisticsVariable totalTokensScored;
@@ -228,7 +228,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
            		result =
                     new Result(fixedList, resultList, currentFrameNumber, done);
         }
-
+        showTokenCount = true;
         if (showTokenCount) {
             showTokenCount();
         }
@@ -270,7 +270,6 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
         scorer.stopRecognition();
         pruner.stopRecognition();
         linguist.stopRecognition();
-
         logger.finer("recognition stopped");
     }
 
@@ -333,12 +332,12 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
             collectSuccessorTokens(token);
         }
         growTimer.stop();
-        if (logger.isLoggable(Level.FINE)) {
-            int hmms = activeList.size();
-            totalHmms += hmms;
-            logger.fine("Frame: " + currentFrameNumber + " Hmms: "
-                    + hmms + "  total " + totalHmms);
-        }
+//        if (logger.isLoggable(Level.FINE)) {
+//            int hmms = activeList.size();
+//            totalHmms += hmms;
+//            logger.fine("Frame: " + currentFrameNumber + " Hmms: "
+//                    + hmms + "  total " + totalHmms);
+//        }
     }
 
 
@@ -363,6 +362,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
         
         if (bestToken != null) {
             hasMoreFrames = true;
+            System.out.println(bestToken);
             activeList.setBestToken(bestToken);
         }
 
@@ -371,11 +371,9 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
         totalTokensScored.value += activeList.size();
         tokensPerSecond.value = totalTokensScored.value / getTotalTime();
 
-//        if (logger.isLoggable(Level.FINE)) {
-//            logger.fine(currentFrameNumber + " " + activeList.size()
-//                    + " " + curTokensScored.value + " "
-//                    + (int) tokensPerSecond.value);
-//        }
+//        logger.info(currentFrameNumber + " " + activeList.size()
+//                + " " + curTokensScored.value + " "
+//                + (int) tokensPerSecond.value);
 
         return hasMoreFrames;
     }
@@ -407,6 +405,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
      * @param state the state of interest
      * @return the best token
      */
+
     protected Token getBestToken(SearchState state) {
         Token best = bestTokenMap.get(state);
         if (logger.isLoggable(Level.FINER) && best != null) {

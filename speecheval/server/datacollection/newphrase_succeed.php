@@ -30,7 +30,7 @@
 						</strong>
 					</span>
 					<a href="selection.php"  class="current-demo">Home</a>
-					<a href="changepasswd">Change Password</a>
+					<a href="changepasswd.php">Change Password</a>
 					<a href="bg_prepare_extrainfo.php">Update Info</a>
 					<a href="logout.php">Log Out</a>
 				</nav>

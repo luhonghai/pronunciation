@@ -114,7 +114,7 @@ function finishRecording()
 	//selectchange();
 	//getSWF("audioRecorder").setRecordingExistance(true);
 	var lst = document.getElementById("datalist");
-	window.location.href=('bg_student_scoring.php?phraseid='+lst.options[lst.selectedIndex].value);
+	//window.location.href=('bg_student_scoring.php?phraseid='+lst.options[lst.selectedIndex].value);
 }
 
 function startPlaying()

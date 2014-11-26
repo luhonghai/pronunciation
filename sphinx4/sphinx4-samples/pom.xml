@@ -17,7 +17,13 @@
   <name>Sphinx4 demo applications</name>
 
   <dependencies>
-    <dependency>
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+          <version>2.4</version>
+      </dependency>
+
+      <dependency>
       <groupId>edu.cmu.sphinx</groupId>
       <artifactId>sphinx4-core</artifactId>
       <version>1.0-SNAPSHOT</version>

@@ -6,6 +6,7 @@ import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.linguist.acoustic.Unit;
 import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
+import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.result.WordResult;
 
 import java.io.*;
@@ -108,8 +109,10 @@ public class PhonemesDetector {
                     SpeechResult result;
                     String phonemes = "";
                     String hypothesis = "";
+                    String bestPhonemes = "";
                     List<String> NBests = new ArrayList<String>();
                     while ((result = recognizer.getResult()) != null) {
+                        edu.cmu.sphinx.result.Result rs = result.getResult();
                         hypothesis += result.getHypothesis().trim() + " ";
 
                         boolean flag = false;
@@ -136,15 +139,16 @@ public class PhonemesDetector {
                         if (tmpNBest != null && tmpNBest.size() >0) {
                             NBests.addAll(tmpNBest);
                         }
+                        bestPhonemes= rs.getBestPronunciationResult();
                     }
                     phonemes = phonemes.trim();
                     hypothesis = hypothesis.trim();
                     logger.info("Hypothesis: " + hypothesis);
-                    logger.info("Phonemes: " + phonemes);
+                    logger.info("Phonemes: " + bestPhonemes);
                     //recognizer.stopRecognition();
                     Result r = new Result();
                     r.setHypothesis(hypothesis);
-                    r.setPhonemes(phonemes);
+                    r.setPhonemes(bestPhonemes);
                     return r;
                 } finally {
                     try {

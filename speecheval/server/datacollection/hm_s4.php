@@ -25,17 +25,17 @@
 	
 	$debug = false;
 	$errflag = false;
-	
-	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
-	} else {
-		if($debug) print('##connection setup!##');
-	}
-	
-	// select database
-	$db = mysql_select_db('gsoc');
+$config = include("config.php");
+// connect to mysql server
+$link = mysql_connect($config['server'], $config['username'], $config['password']);
+if(!$link) {
+    die('Failed to connect to server: ' . mysql_error());
+} else {
+    if($debug) print('##connection setup!##');
+}
+
+// select database
+$db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {
@@ -120,7 +120,7 @@
 						</strong>
 					</span>
 					<a href="selection.php"  class="current-demo">Home</a>
-					<a href="changepasswd">Change Password</a>
+					<a href="changepasswd.php">Change Password</a>
 					<a href="bg_prepare_extrainfo.php">Update Info</a>
 					<a href="logout.php">Log Out</a>
 				</nav>

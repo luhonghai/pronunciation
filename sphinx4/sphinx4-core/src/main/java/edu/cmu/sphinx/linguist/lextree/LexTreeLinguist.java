@@ -699,10 +699,10 @@ public class LexTreeLinguist implements Linguist {
         protected SearchStateArc[] getSuccessors(Node theNode) {
             Node[] nodes = theNode.getSuccessors();
             SearchStateArc[] arcs = new SearchStateArc[nodes.length];
-            // System.out.println("Arc: "+ this);
+            //System.out.println("Arc: "+ this);
             int i = 0;
             for (Node nextNode : nodes) {
-                //  System.out.println(" " + nextNode);
+                // System.out.println(" " + nextNode);
                 if (nextNode instanceof WordNode) {
                     arcs[i] = createWordStateArc((WordNode) nextNode,
                             (HMMNode) getNode(), this);
@@ -727,7 +727,7 @@ public class LexTreeLinguist implements Linguist {
          */
         protected SearchStateArc createWordStateArc(WordNode wordNode,
                                                     HMMNode lastUnit, LexTreeState previous) {
-            // System.out.println("CWSA " + wordNode + " fup " + fixupProb);
+           // System.out.println("CWSA " + wordNode );
             float languageProbability = logOne;
             Word nextWord = wordNode.getWord();
             float smearTerm = previous.getSmearTerm();
@@ -741,8 +741,7 @@ public class LexTreeLinguist implements Linguist {
             WordSequence nextWordSequence = wordSequence.addWord(nextWord, maxDepth);
             ProbDepth probDepth = languageModel.getProbDepth(nextWordSequence);
             smearTerm = getSmearTermFromLanguageModel(nextWordSequence);
-            // System.out.println("LP " + nextWordSequence + " " +
-            // logProbability);
+           //  System.out.println("LP " + nextWordSequence);
             float probability = probDepth.probability * languageWeight;
             // subtract off the previously applied smear probability
             languageProbability = probability - previous.getSmearProb();
@@ -1281,6 +1280,7 @@ public class LexTreeLinguist implements Linguist {
                 // new unit or to a word end.
 
                 if (hmmState.isExitState()) {
+                   // System.out.println("I'm here");
                     if (parentNode == null) {
                         nextStates = super.getSuccessors();
                     } else {

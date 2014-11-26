@@ -30,17 +30,18 @@
 	
 	// error type 
 	$errtype = 'default';
-	
-	// connect to mysql server
-	$link = mysql_connect('localhost', 'li-bo', '1cat2dogs');
-	if(!$link) {
-		die('Failed to connect to server: ' . mysql_error());
-	} else {
-		if($debug) print('##connection setup!##');
-	}
-	
-	// select database
-	$db = mysql_select_db('gsoc');
+
+    $config = include("config.php");
+    // connect to mysql server
+    $link = mysql_connect($config['server'], $config['username'], $config['password']);
+    if(!$link) {
+        die('Failed to connect to server: ' . mysql_error());
+    } else {
+        if($debug) print('##connection setup!##');
+    }
+
+    // select database
+    $db = mysql_select_db($config['database']);
 	if(!$db) {
 		die("Unable to select database");
 	} else {
@@ -65,6 +66,7 @@
 				$exp_result=mysql_query($exp_qry);
 				if ($debug) print($exp_qry);
 				if ($exp_result) {
+
 					if(mysql_num_rows($result)>0){
 						$exemplars=mysql_fetch_all($exp_result);
 						echo "<p id=\"exemplars_phrase".$i."\">";
@@ -72,7 +74,7 @@
 						for($k = 0; $k < 5 && $k < count($exemplars); $k ++) {
 							// change to corresponding path
 							//$fname=str_replace("/home/troy/Documents/GSoC/launchapd/", "http://localhost/", $exemplars[$k][audio]);
-							$fname=str_replace("/home/li-bo/web/", "http://talknicer.net/~li-bo/", $exemplars[$k][audio]);
+							$fname=str_replace($config['data_root'], $config['base_url'], $exemplars[$k][audio]);
 							$wav=str_replace(".flv", ".wav", $fname);
 							if($debug) print $wav;
 							echo "<source src=\"".$wav."\" type=\"audio/wav\" />";

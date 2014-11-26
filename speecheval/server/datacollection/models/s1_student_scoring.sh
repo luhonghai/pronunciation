@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ $# -ne 1 ]
 then
 	echo "Script invoking error!";
@@ -20,9 +21,9 @@ if [ ! -e ${nosuffix}.wav ]; then
 fi
 
 # mfc feature extraction
-scppath=/home/li-bo/web/datacollection/models
+scppath=/Volumes/DATA/CMG/git/pronunciation/speecheval/server/datacollection/models
 
-/home/li-bo/web/source/sphinxbase/bin/sphinx_fe -i ${nosuffix}.wav -o ${nosuffix}.mfc -argfile ${scppath}/feat.params -mswav yes
+sphinx_fe -i ${nosuffix}.wav -o ${nosuffix}.mfc -argfile ${scppath}/feat.params -mswav yes
 
 if [ $? -gt 0 ]; then
 	echo "MFCC feature extraction error!";
@@ -34,7 +35,7 @@ echo ${nosuffix} > ${nosuffix}.ctl
 
 mkdir -p ${nosuffix}{.phonelabdir,.phonesegdir,.statesegdir,.aligndir}
 
-/home/li-bo/web/source/sphinx3/bin/sphinx3_align -hmm ${scppath}/wsj_all_cd30.mllt_cd_cont_4000 -dict ${scppath}/cmu.dic -fdict ${scppath}/phone.filler -ctl ${nosuffix}.ctl -insent ${scppath}/sents/${filename}.insent -outsent ${nosuffix}.outsent -phlabdir ${nosuffix}.phonelabdir -phsegdir ${nosuffix}.phonesegdir -stsegdir ${nosuffix}.statesegdir -wdsegdir ${nosuffix}.aligndir
+sphinx3_align -hmm ${scppath}/wsj_all_cd30.mllt_cd_cont_4000 -dict ${scppath}/cmu.dic -fdict ${scppath}/phone.filler -ctl ${nosuffix}.ctl -insent ${scppath}/sents/${filename}.insent -outsent ${nosuffix}.outsent -phlabdir ${nosuffix}.phonelabdir -phsegdir ${nosuffix}.phonesegdir -stsegdir ${nosuffix}.statesegdir -wdsegdir ${nosuffix}.aligndir
 
 if [ $? -gt 0 ]; then
 	echo "Alignment error!";

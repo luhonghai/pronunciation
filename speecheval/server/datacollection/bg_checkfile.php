@@ -1,11 +1,10 @@
-<?
+<?php
 
    	$debug = false;	
-	
-	$dataroot='/home/li-bo/web/data/';
-	//$dataroot='/Applications/MAMP/htdocs/rtmplite/';
-	
-	$flvname=$dataroot . $_POST["flvname"] . '.flv';
+	$config = require("config.php");
+	$dataroot= $config['data_root'].'/data/';
+
+	$flvname= $dataroot . (isset($_POST["flvname"])? $_POST["flvname"] : "") . '.flv';
 	
 	if($debug) {
 		print($flvname."<br>");
@@ -16,6 +15,5 @@
 	}else {
 		print("no");
 	}
- 
-?>
+
 

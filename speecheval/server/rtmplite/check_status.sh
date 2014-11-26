@@ -5,11 +5,11 @@
 #
 
 # pidfile contains the rtmp process id in the first line
-pidfile=/home/li-bo/.rtmp_pid
+pidfile=/Volumes/DATA/OSX/luhonghai/.rtmp_pid
 # rtmp.py folder
-exefile=/home/li-bo/tools/rtmplite/rtmp.py
+exefile=/Volumes/DATA/CMG/git/pronunciation/speecheval/server/rtmplite/rtmp.py
 # recording data root
-dataroot=/home/li-bo/web/data/
+dataroot=/Volumes/DATA/Development/test-zone/PronData
 
 # Only if the $pidfile exists, will we check the status.
 # No $pidfile means we don't want to start the rtmp service yet.

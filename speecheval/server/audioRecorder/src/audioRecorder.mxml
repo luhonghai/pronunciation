@@ -51,8 +51,8 @@
 			
 			
 			// parameters could be set 
-			//private var urlstr:String="rtmp://localhost/audioRecorder";
-			private var urlstr:String="rtmp://talknicer.net/audioRecorder";
+			private var urlstr:String="rtmp://localhost/audioRecorder";
+			//private var urlstr:String="rtmp://talknicer.net/audioRecorder";
 			[Bindable] private var audiopath:String="";
 			[Bindable] private var hasRecording:Boolean=false; // indicating whether there is already a recording of the given file 
 			private var quality:int=8;

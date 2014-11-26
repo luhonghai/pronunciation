@@ -279,6 +279,7 @@ public class WordPruningBreadthFirstSearchManager extends TokenSearchManager {
         }
         
         if (!streamEnd) {
+            System.out.println("Result list length: " + resultList.size());
         	result = new Result(loserManager, activeList,
                                 resultList, currentFrameNumber, done, linguist.getSearchGraph().getWordTokenFirst());
         }
@@ -627,6 +628,11 @@ public class WordPruningBreadthFirstSearchManager extends TokenSearchManager {
         // (lextree linguist for example). For these cases, it is perfectly
         // fine to disable this check by setting keepAllTokens to false
 
+
+        // TEST:
+        // Force keep all tokens
+       // keepAllTokens = true;
+
         if (!token.isEmitting() && (keepAllTokens && isVisited(token))) {
             return;
         }
@@ -670,7 +676,7 @@ public class WordPruningBreadthFirstSearchManager extends TokenSearchManager {
                 if (firstToken) {
                     activeListAdd(newBestToken);
                 } else {
-//                    System.out.println("Replacing " + bestToken + " with " + newBestToken);
+                   // System.out.println("Replacing " + bestToken + " with " + newBestToken);
                     activeListReplace(bestToken, newBestToken);
                     if (buildWordLattice && newBestToken.isWord()) {
 
@@ -682,7 +688,9 @@ public class WordPruningBreadthFirstSearchManager extends TokenSearchManager {
                     }
                 }
             } else {
+
                 if (buildWordLattice && nextState instanceof WordSearchState) {
+
                     if (predecessor != null) {
                         loserManager.addAlternatePredecessor(bestToken,
                                 predecessor);
