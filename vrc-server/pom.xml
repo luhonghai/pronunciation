@@ -375,7 +375,7 @@
         <dependency>
             <groupId>edu.cmu.sphinx</groupId>
             <artifactId>sphinx4-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>edu.cmu.sphinx</groupId>
@@ -440,9 +440,11 @@
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/Volumes/DATA/Development/test-zone/data/VoiceRecords</voice.record.dir>
-                <acousticModelPath>file:///Volumes/DATA/Development/Sphinx/wsj-en-us</acousticModelPath>
-                <dictionaryPath>file:///Volumes/DATA/Development/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
+				<model.fst.ser>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/en_us_nostress/model.fst.ser</model.fst.ser>
+                <acousticModelPath>file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us</acousticModelPath>
+                <dictionaryPath>file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict</dictionaryPath>
                 <languageModelPath>file:///Volumes/DATA/Development/Sphinx/en-70k.lm</languageModelPath>
+				<grammarPath>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/grammar</grammarPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
             </properties>
 		</profile>
@@ -463,11 +465,12 @@
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/cmg/data/VoiceRecords</voice.record.dir>
-
+				<model.fst.ser>/cmg/en_us_nostress/model.fst.ser</model.fst.ser>
                 <acousticModelPath>file:///cmg/Sphinx/wsj-en-us</acousticModelPath>
                 <dictionaryPath>file:///home/cmg/cmudict_words</dictionaryPath>
                 <languageModelPath>file:///home/cmg/all_words.lm</languageModelPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+				<grammarPath>/cmg/grammar</grammarPath>
                 <recipients>hai.lu@c-mg.com</recipients>
             </properties>
         </profile>
@@ -488,10 +491,11 @@
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
                 <voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
-
+				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
                 <acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
-                <dictionaryPath>file:///vol/Sphinx/dict/cmudict.0.7a_SPHINX_40</dictionaryPath>
+                <dictionaryPath>file:///vol/Sphinx/dict/cmuphonemedict</dictionaryPath>
                 <languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
+				<grammarPath>/vol/Sphinx/grammar</grammarPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com</recipients>
 			</properties>

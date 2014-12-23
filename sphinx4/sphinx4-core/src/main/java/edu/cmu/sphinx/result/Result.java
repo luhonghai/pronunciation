@@ -49,6 +49,7 @@ public class Result {
     private String reference;
     private final LogMath logMath;
 
+    private List<Token> bestTokens;
 
     /**
      * Creates a result
@@ -83,6 +84,7 @@ public class Result {
         this.currentFrameNumber = frameNumber;
         this.isFinal = isFinal;
         logMath = LogMath.getLogMath();
+        setBestTokens(new ArrayList<Token>());
     }
 
 
@@ -530,5 +532,17 @@ public class Result {
      */
     public String getReferenceText() {
         return reference;
+    }
+
+    public List<Token> getBestTokens() {
+        return bestTokens;
+    }
+
+    public void addBestToken(Token bestToken) {
+        getBestTokens().add(bestToken);
+    }
+
+    public void setBestTokens(List<Token> bestTokens) {
+        this.bestTokens = bestTokens;
     }
 }

@@ -1,6 +1,8 @@
 package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
+import com.cmg.vrc.sphinx.PhonemesDetector;
+import com.cmg.vrc.sphinx.SphinxResult;
 
 /**
  * Created by luhonghai on 9/30/14.
@@ -17,6 +19,7 @@ public class UserVoiceModel implements Mirrorable {
     private long time;
     private long serverTime;
     private long duration;
+    private float score;
     private double latitude;
     private double longitude;
     private String uuid;
@@ -25,6 +28,8 @@ public class UserVoiceModel implements Mirrorable {
     private String cleanRecordFile;
     private String phonemes;
     private String hypothesis;
+
+    private SphinxResult result;
 
     public String getUsername() {
         return username;
@@ -170,5 +175,22 @@ public class UserVoiceModel implements Mirrorable {
 
     public void setHypothesis(String hypothesis) {
         this.hypothesis = hypothesis;
+    }
+
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public SphinxResult getResult() {
+        return result;
+    }
+
+    public void setResult(SphinxResult result) {
+        this.result = result;
     }
 }

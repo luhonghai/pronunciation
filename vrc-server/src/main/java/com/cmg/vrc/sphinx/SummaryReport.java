@@ -208,8 +208,8 @@ public class SummaryReport {
                 AudioCleaner cleaner = new SoXCleaner(targetClean, targetRaw);
                 log("Clean wav to " + targetClean);
                 cleaner.clean();
-                PhonemesDetector.Result cleanResult = analyzeVoice(targetClean,modelData);
-                PhonemesDetector.Result rawResult = analyzeVoice(targetRaw, modelData);
+//                PhonemesDetector.Result cleanResult = analyzeVoice(targetClean,modelData);
+//                PhonemesDetector.Result rawResult = analyzeVoice(targetRaw, modelData);
 
                 final Row row = sheet.createRow(++totalWord);
                 row.createCell(0).setCellValue(model.getId());
@@ -227,40 +227,39 @@ public class SummaryReport {
                 row.createCell(11).setCellValue(model.getUuid());
                 row.createCell(12).setCellValue(model.getWord());
                 row.createCell(13).setCellValue(rawWav);
-                if (rawResult != null) {
-                    row.createCell(14).setCellValue(rawResult.getPhonemes());
-                    row.createCell(15).setCellValue(rawResult.getHypothesis());
-                }
+                //if (rawResult != null) {
+                    //row.createCell(14).setCellValue(rawResult.getPhonemes());
+                //}
                 row.createCell(16).setCellValue("Clean WAV name");
-                if (cleanResult != null) {
-                    row.createCell(17).setCellValue(cleanResult.getPhonemes());
-                    row.createCell(18).setCellValue(cleanResult.getHypothesis());
-                }
+               // if (cleanResult != null) {
+                    //row.createCell(17).setCellValue(cleanResult.getPhonemes());
+                    //row.createCell(18).setCellValue(cleanResult.getHypothesis());
+               // }
             } catch (Exception ex) {
                 log(Level.SEVERE, "Could not analyze file " + file, ex);
             }
         }
     }
 
-    private PhonemesDetector.Result analyzeVoice(File file, String modelData) {
-        Map<String, String> data = new HashMap<String,String>();
-        data.put(FileCommon.PARA_FILE_NAME, file.getName());
-        data.put(FileCommon.PARA_FILE_PATH, file.getAbsolutePath());
-        data.put("key", Configuration.getValue(Configuration.API_KEY));
-        data.put("model", modelData);
-        try {
-            String resData = FileUploader.upload(data, Configuration.getValue(Configuration.VOICE_ANALYZE_SERVER));
-            log("Analyze " + file + " .Result: " + resData);
-            return gson.fromJson(resData, PhonemesDetector.Result.class);
-        } catch (UploaderException e) {
-            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
-        } catch (FileNotFoundException e) {
-            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
-        } catch (Exception ex) {
-            log(Level.SEVERE, "Could not parsing data");
-        }
-        return null;
-    }
+//    private PhonemesDetector.Result analyzeVoice(File file, String modelData) {
+//        Map<String, String> data = new HashMap<String,String>();
+//        data.put(FileCommon.PARA_FILE_NAME, file.getName());
+//        data.put(FileCommon.PARA_FILE_PATH, file.getAbsolutePath());
+//        data.put("key", Configuration.getValue(Configuration.API_KEY));
+//        data.put("model", modelData);
+//        try {
+//            String resData = FileUploader.upload(data, Configuration.getValue(Configuration.VOICE_ANALYZE_SERVER));
+//            log("Analyze " + file + " .Result: " + resData);
+//            return gson.fromJson(resData, PhonemesDetector.Result.class);
+//        } catch (UploaderException e) {
+//            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
+//        } catch (FileNotFoundException e) {
+//            log(Level.SEVERE, "Could not upload file to voice analyzing server", e);
+//        } catch (Exception ex) {
+//            log(Level.SEVERE, "Could not parsing data");
+//        }
+//        return null;
+//    }
 
 
     private void sendMail() {

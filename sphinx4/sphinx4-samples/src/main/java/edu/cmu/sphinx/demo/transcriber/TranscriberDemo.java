@@ -40,9 +40,9 @@ public class TranscriberDemo {
         Configuration configuration = new Configuration();
         configuration.setUseGrammar(true);
         configuration.setGrammarName("variable");
-        configuration.setGrammarPath("/Volumes/DATA/Development/Sphinx/grammar");
-        configuration.setAcousticModelPath("file:///Volumes/DATA/Development/Sphinx/wsj-en-us");
-        configuration.setDictionaryPath("file:///Volumes/DATA/Development/Sphinx/dict/cmuphonedict.dict");
+        configuration.setGrammarPath("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/grammar");
+        configuration.setAcousticModelPath("file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us");
+        configuration.setDictionaryPath("file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict");
 
         //configuration.setDictionaryPath("file:///Volumes/DATA/Development/Sphinx/dict/cmudict.0.7a_SPHINX_40");
         // configuration.setDictionaryPath("file:///Volumes/DATA/Development/Sphinx/dict/variable");
@@ -102,7 +102,7 @@ public class TranscriberDemo {
                    // System.out.println(pron);
                 }
             }
-
+            rs.getBestTokens();
             System.out.println("Best 5 hypothesis:");
             for (String s : result.getNbest(5))
                 System.out.println("- " + s);

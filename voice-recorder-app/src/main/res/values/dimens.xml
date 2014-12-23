@@ -2,4 +2,20 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="button_default_size">70dp</dimen>
+
+    <!-- Main screen - recording area -->
+    <dimen name="main_action_button_margin">20dp</dimen>
+    <dimen name="main_selected_word_margin">10dp</dimen>
+    <dimen name="main_record_view_padding_bottom">10dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="main_selected_word_size">22sp</dimen>
+    <dimen name="main_selected_phoneme_size">16sp</dimen>
+
+    <dimen name="main_selected_word_padding">8dp</dimen>
+
+    <!-- Detail view -->
+    <dimen name="detail_score_padding">15dp</dimen>
 </resources>

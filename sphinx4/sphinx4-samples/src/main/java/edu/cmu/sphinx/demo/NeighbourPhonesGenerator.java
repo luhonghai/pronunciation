@@ -1,6 +1,5 @@
 package edu.cmu.sphinx.demo;
 
-import com.sun.deploy.util.StringUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;

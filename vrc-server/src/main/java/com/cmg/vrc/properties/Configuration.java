@@ -28,6 +28,8 @@ public class Configuration {
     public static final String ACOUSTIC_MODEL_PATH ="acousticModelPath";
     public static final String DICTIONARY_PATH = "dictionaryPath";
     public static final String LANGUAGE_MODEL_PATH = "languageModelPath";
+	public static final String GRAMMAR_PATH = "grammarPath";
+	public static final String MODEL_FST_SER = "model.fst.ser";
 
     public static final String VOICE_ANALYZE_SERVER = "analyzeServer";
 

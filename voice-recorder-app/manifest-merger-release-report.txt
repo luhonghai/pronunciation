@@ -1,0 +1,127 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	package
+		ADDED from AndroidManifest.xml:3:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		ADDED from AndroidManifest.xml:5:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:5
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+application
+ADDED from AndroidManifest.xml:7:5
+MERGED from com.actionbarsherlock:actionbarsherlock:4.4.0:4:3
+MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.balysv.materialmenu:material-menu-abs:1.5.0:12:5
+MERGED from com.actionbarsherlock:actionbarsherlock:4.4.0:4:3
+MERGED from com.android.support:support-v4:21.0.3:16:5
+MERGED from com.balysv.materialmenu:material-menu:1.5.0:12:5
+	android:label
+		ADDED from AndroidManifest.xml:9:9
+	android:icon
+		ADDED from AndroidManifest.xml:8:9
+	android:theme
+		ADDED from AndroidManifest.xml:10:9
+activity#com.cmg.android.voicerecorder.MainActivity
+ADDED from AndroidManifest.xml:11:9
+	android:label
+		ADDED from AndroidManifest.xml:13:13
+	android:theme
+		ADDED from AndroidManifest.xml:14:13
+	android:name
+		ADDED from AndroidManifest.xml:12:13
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:15:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:16:17
+	android:name
+		ADDED from AndroidManifest.xml:16:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:18:17
+	android:name
+		ADDED from AndroidManifest.xml:18:27
+activity#com.cmg.android.voicerecorder.activity.DetailActivity
+ADDED from AndroidManifest.xml:22:9
+	android:label
+		ADDED from AndroidManifest.xml:24:13
+	android:theme
+		ADDED from AndroidManifest.xml:25:13
+	android:name
+		ADDED from AndroidManifest.xml:23:13
+activity#com.cmg.android.voicerecorder.activity.SettingsActivity
+ADDED from AndroidManifest.xml:33:9
+	android:label
+		ADDED from AndroidManifest.xml:35:13
+	android:theme
+		ADDED from AndroidManifest.xml:36:13
+	android:name
+		ADDED from AndroidManifest.xml:34:13
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from AndroidManifest.xml:45:5
+	android:name
+		ADDED from AndroidManifest.xml:45:22
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from AndroidManifest.xml:46:5
+	android:name
+		ADDED from AndroidManifest.xml:46:22
+uses-permission#android.permission.INTERNET
+ADDED from AndroidManifest.xml:47:5
+	android:name
+		ADDED from AndroidManifest.xml:47:22
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from AndroidManifest.xml:48:5
+	android:name
+		ADDED from AndroidManifest.xml:48:22
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from AndroidManifest.xml:49:5
+	android:name
+		ADDED from AndroidManifest.xml:49:22
+uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:50:5
+	android:name
+		ADDED from AndroidManifest.xml:50:22
+uses-permission#android.permission.USE_CREDENTIALS
+ADDED from AndroidManifest.xml:56:5
+	android:name
+		ADDED from AndroidManifest.xml:56:22
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from AndroidManifest.xml:59:5
+	android:name
+		ADDED from AndroidManifest.xml:59:22
+uses-permission#android.permission.READ_PROFILE
+ADDED from AndroidManifest.xml:62:5
+	android:name
+		ADDED from AndroidManifest.xml:62:22
+uses-permission#android.permission.READ_CONTACTS
+ADDED from AndroidManifest.xml:63:5
+	android:name
+		ADDED from AndroidManifest.xml:63:22
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from AndroidManifest.xml:65:5
+	android:name
+		ADDED from AndroidManifest.xml:65:22
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from AndroidManifest.xml:66:5
+	android:name
+		ADDED from AndroidManifest.xml:66:22
+uses-sdk
+INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
+MERGED from com.actionbarsherlock:actionbarsherlock:4.4.0:3:3
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.balysv.materialmenu:material-menu-abs:1.5.0:8:5
+MERGED from com.actionbarsherlock:actionbarsherlock:4.4.0:3:3
+MERGED from com.android.support:support-v4:21.0.3:15:5
+MERGED from com.balysv.materialmenu:material-menu:1.5.0:8:5
+	android:targetSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0

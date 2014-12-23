@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
+import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
@@ -29,8 +30,6 @@ import java.util.logging.Logger;
  * Created by luhonghai on 10/16/14.
  */
 public class VoiceAnalyzeHandler extends HttpServlet {
-
-
 
     private static final Logger logger = Logger.getLogger(VoiceAnalyzeHandler.class.getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,8 +66,8 @@ public class VoiceAnalyzeHandler extends HttpServlet {
             if (key != null && key.length() > 0 && key.equalsIgnoreCase(apiKey)) {
                 if (tempWav.exists()) {
                     Gson gson = new Gson();
-                    PhonemesDetector detector = new PhonemesDetector(tempWav);
-                    PhonemesDetector.Result result = detector.analyze();
+                    PhonemesDetector detector = new PhonemesDetector(tempWav, "");
+                    SphinxResult result = detector.analyze();
                     out.print(gson.toJson(result));
                 } else {
                     out.print("No file found");

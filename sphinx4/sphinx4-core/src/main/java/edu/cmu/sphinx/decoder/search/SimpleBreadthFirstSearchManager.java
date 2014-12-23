@@ -132,8 +132,10 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
     protected ActiveListFactory activeListFactory;
     protected boolean streamEnd;
 
+    private List<Token> bestTokens;
+
     public SimpleBreadthFirstSearchManager() {
-        
+        this.bestTokens = new ArrayList<Token>();
     }
 
     /**
@@ -163,6 +165,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
         this.wantEntryPruning = wantEntryPruning;
         this.logRelativeWordBeamWidth = logMath.linearToLog(relativeWordBeamWidth);
         this.keepAllTokens = true;
+        this.bestTokens = new ArrayList<Token>();
     }
 
     @Override
@@ -224,9 +227,12 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
             ActiveList fixedList = undoLastGrowStep();
             	
             // Now create the result using the fixed active-list.
-            if (!streamEnd)
-           		result =
-                    new Result(fixedList, resultList, currentFrameNumber, done);
+            if (!streamEnd) {
+                result =
+                        new Result(fixedList, resultList, currentFrameNumber, done);
+                result.setBestTokens(bestTokens);
+                bestTokens = new ArrayList<Token>();
+            }
         }
         showTokenCount = true;
         if (showTokenCount) {
@@ -362,7 +368,7 @@ public class SimpleBreadthFirstSearchManager extends TokenSearchManager {
         
         if (bestToken != null) {
             hasMoreFrames = true;
-            System.out.println(bestToken);
+            bestTokens.add(bestToken);
             activeList.setBestToken(bestToken);
         }
 

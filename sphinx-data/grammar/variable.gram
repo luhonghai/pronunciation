@@ -2,4 +2,4 @@
 
 grammar phonelist;
 
-public <phonelist> = ((V|F|DH) (EH|IH|ER|AE) (R|Y|L) (IY|IH) (AH|AE|ER|AA) (B|P|D) (AH|AE|ER|AA) (L|R|W));
+public <phonelist> = (SIL (F|DH|SIL|V) (IH|ER|AE|SIL|EH) (Y|L|SIL|R) (IH|SIL|IY) (AE|ER|AA|SIL|AH) (P|D|SIL|B) (AE|ER|AA|SIL|AH|SIL|AH) (R|W|SIL|L) SIL);

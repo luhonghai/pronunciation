@@ -62,7 +62,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="Recorder" android:summary="">
         <ListPreference
-            android:defaultValue="44100"
+            android:defaultValue="16000"
             android:dialogTitle="Sample rate"
             android:entries="@array/sample_rate_list"
             android:entryValues="@array/sample_rate_list_value"

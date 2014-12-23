@@ -1,4 +1,5 @@
 package com.cmg.android.voicerecorder.data;
+
 /**
  * Created by luhonghai on 9/30/14.
  */
@@ -14,6 +15,7 @@ public class UserVoiceModel {
     private long time;
     private long serverTime;
     private long duration;
+    private float score;
     private double latitude;
     private double longitude;
     private String uuid;
@@ -22,6 +24,10 @@ public class UserVoiceModel {
     private String cleanRecordFile;
     private String phonemes;
     private String hypothesis;
+
+    private String audioFile;
+
+    private SphinxResult result;
 
     public String getUsername() {
         return username;
@@ -165,5 +171,30 @@ public class UserVoiceModel {
 
     public void setHypothesis(String hypothesis) {
         this.hypothesis = hypothesis;
+    }
+
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public SphinxResult getResult() {
+        return result;
+    }
+
+    public void setResult(SphinxResult result) {
+        this.result = result;
+    }
+
+    public String getAudioFile() {
+        return audioFile;
+    }
+
+    public void setAudioFile(String audioFile) {
+        this.audioFile = audioFile;
     }
 }

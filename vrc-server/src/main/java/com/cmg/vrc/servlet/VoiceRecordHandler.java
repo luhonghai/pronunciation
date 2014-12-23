@@ -11,6 +11,7 @@ import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
+import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -126,27 +128,16 @@ public class VoiceRecordHandler extends HttpServlet {
                     model.setLatitude(location.getLatitude());
                     model.setLongitude(location.getLongitude());
                 }
-
-                //PhonemesDetector detector = new PhonemesDetector(targetClean);
-                Map<String, String> data = new HashMap<String,String>();
-                data.put(FileCommon.PARA_FILE_NAME, fileTempName);
-                data.put(FileCommon.PARA_FILE_PATH, targetRaw.getAbsolutePath());
-                data.put("key", Configuration.getValue(Configuration.API_KEY));
-                PhonemesDetector.Result result = null;
+                SphinxResult result = null;
+                PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
                 try {
-                    String resData = FileUploader.upload(data, Configuration.getValue(Configuration.VOICE_ANALYZE_SERVER));
-                    logger.info("Analyze result: " + resData);
-                    result = gson.fromJson(resData, PhonemesDetector.Result.class);
-                } catch (UploaderException e) {
-                    logger.error("Could not upload file to voice analyzing server",e);
-                    e.printStackTrace();
-                } catch (FileNotFoundException e) {
-                    logger.error("Could not upload file to voice analyzing server",e);
-                    e.printStackTrace();
+                    result = detector.analyze();
+                } catch (Exception ex) {
+                    logger.error("Could not analyze word", ex);
                 }
                 if (result != null) {
-                    model.setPhonemes(result.getPhonemes());
-                    model.setHypothesis(result.getHypothesis());
+                    model.setResult(result);
+                    model.setScore(result.getScore());
                 }
 
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
