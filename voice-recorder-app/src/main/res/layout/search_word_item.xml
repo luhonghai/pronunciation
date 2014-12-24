@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/main_selected_word_padding"
+        android:layout_marginLeft="@dimen/main_selected_word_margin"
+        android:layout_marginStart="@dimen/main_selected_word_margin"
+        android:layout_marginEnd="@dimen/main_selected_word_margin"
+        android:layout_marginRight="@dimen/main_selected_word_margin"
+        >
+        <TextView
+            android:id="@+id/txtWord"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:textSize="@dimen/main_selected_word_size"
+            android:textColor="#FFF2FF"
+            android:text="necessarily"
+            />
+        <TextView
+            android:id="@+id/txtPhoneme"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textSize="@dimen/main_selected_phoneme_size"
+            android:layout_weight="1"
+            android:text="nɛsəˈsɛrɪli"
+            android:textColor="@android:color/darker_gray"/>
+    </LinearLayout>
+</RelativeLayout>

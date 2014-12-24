@@ -52,19 +52,32 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             logger.log(Level.INFO, "Fetch word: " + word + ". URL: " + url);
             FileUtils.copyURLToFile(new URL(url), tmpSource);
             Document doc = Jsoup.parse(tmpSource, ENCODE);
-            Element title = doc.select("h2.pageTitle").first();
+            Element title = doc.select(".pageTitle").first();
             String mTitle = "";
             if (title.hasText() && (mTitle = title.text()).toLowerCase().contains(word.toLowerCase())) {
                 // Find pronunciation
-                String pron = doc.select("div.headpron").first().text();
+                String pron = doc.select(".headpron").first().text();
                 Matcher matcher = Pattern.compile("/(.+?)/").matcher(pron);
                 if (matcher.find()) {
-                    item.setPronunciation(matcher.group(1).trim());
+                    String tp = matcher.group(1).trim();
+                    tp.replace("\n"," ");
+                    while (tp.contains("  ")) {
+                        tp.replace("  ", " ");
+                    }
+                    tp = tp.trim();
+                    if (tp.startsWith("'")) {
+                        tp = tp.substring(1, tp.length());
+                    }
+                    if (tp.contains(","));
+                    tp = tp.split(",")[0].trim();
+
+                    item.setPronunciation(tp);
                 }
                 // Find line breaks
                 item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
                 // Find audio sound url. Type mp3
                 String audioUrl = doc.select("div.audio_play_button").first().attr("data-src-mp3");
+                audioUrl = "";
                 if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
                     item.setAudioUrl(audioUrl);
                     String audioFile = audioUrl.substring(audioUrl.lastIndexOf("/") + 1, audioUrl.length());
@@ -110,7 +123,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             }
         }
     }
-
+    @Deprecated
     private boolean convertMp3ToWav(String mp3, String wav) {
         File source = new File(getTargetDir(), mp3);
         if (source.exists()) {

@@ -1,5 +1,6 @@
 package com.cmg.android.voicerecorder.dictionary;
 
+import com.cmg.android.voicerecorder.AppLog;
 import com.cmg.android.voicerecorder.utils.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -67,35 +68,50 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             String mTitle = "";
             if (title != null && title.hasText() && (mTitle = title.text()).toLowerCase().contains(word.toLowerCase())) {
                 // Find pronunciation
-                String pron = doc.select(".headpron").first().text();
-                Matcher matcher = Pattern.compile("/(.+?)/").matcher(pron);
-                if (matcher.find()) {
-                    String tp = matcher.group(1).trim();
-                    if (tp.contains(","));
-                    tp = tp.split(",")[0].trim();
-                    item.setPronunciation(tp);
+                try {
+                    String pron = doc.select(".headpron").first().text();
+                    Matcher matcher = Pattern.compile("/(.+?)/").matcher(pron);
+                    if (matcher.find()) {
+                        String tp = matcher.group(1).trim();
+                        tp = tp.replace("\n"," ");
+                        tp = tp.replace("\t", " ");
+                        while (tp.contains("  ")) {
+                            tp.replace("  ", " ");
+                        }
+                        tp = tp.trim();
+                        if (tp.contains(","));
+                        tp = tp.split(",")[0].trim();
+                        item.setPronunciation(tp);
+                    }
+                } catch (Exception e) {
+
                 }
+
                 // Find line breaks
-                item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
+                //item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
                 // Find audio sound url. Type mp3
-                String audioUrl = doc.select("div.audio_play_button").first().attr("data-src-mp3");
-                if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
-                    item.setAudioUrl(audioUrl);
-                    if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
-                        getTargetDir().mkdirs();
+                try {
+                    String audioUrl = doc.select(".audio_play_button").first().attr("data-src-mp3");
+                    if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
+                        item.setAudioUrl(audioUrl);
+                        if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
+                            getTargetDir().mkdirs();
+                        }
+                        File saveFile = new File(getTargetDir(), word + ".mp3");
+
+                        if (saveFile.exists()) {
+
+                        } else {
+                            logger.info("Download URL " + item.getAudioUrl() + " to file: " + saveFile);
+                            FileUtils.copyURLToFile(new URL(item.getAudioUrl()), saveFile);
+
+                        }
+                        item.setAudioFile(saveFile.getAbsolutePath());
                     }
-                    File saveFile = new File(getTargetDir(), word + ".mp3");
-
-                    if (saveFile.exists()) {
-
-                    } else {
-                        logger.info("Download URL " + item.getAudioUrl() + " to file: " + saveFile);
-                        FileUtils.copyURLToFile(new URL(item.getAudioUrl()), saveFile);
-
-                    }
-                    item.setAudioFile(saveFile.getAbsolutePath());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-                logger.info("Found: " + gson.toJson(item));
+                AppLog.logString("Found: " + gson.toJson(item));
                 FileUtils.write(new File(getTargetDir(), word + ".json"), gson.toJson(item), "UTF-8");
                 onDetectWord(item);
             } else {
@@ -111,6 +127,8 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             onWordNotFound(item, fnex);
         } catch (IOException e) {
             onError(item, "Could not download URL: " + url, e);
+        } catch (Exception e) {
+            onError(item, "Could not fetch word: " + url, e);
         } finally {
             try {
                 if (tmpSource.exists())
@@ -121,24 +139,4 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         }
     }
 
-    public static void main(String[] args) {
-        DictionaryWalker walker = new OxfordDictionaryWalker(new File("/Volumes/DATA/Development/test-zone"));
-        walker.setListener(new DictionaryListener() {
-            @Override
-            public void onDetectWord(DictionaryItem item) {
-
-            }
-
-            @Override
-            public void onWordNotFound(DictionaryItem item, FileNotFoundException ex) {
-
-            }
-
-            @Override
-            public void onError(DictionaryItem item, Exception ex) {
-
-            }
-        });
-        walker.execute("necessarily");
-    }
 }

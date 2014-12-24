@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,10 +15,13 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -25,7 +29,6 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -39,6 +42,7 @@ import com.cmg.android.voicerecorder.activity.SettingsActivity;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
 import com.cmg.android.voicerecorder.activity.fragment.Preferences;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
+import com.cmg.android.voicerecorder.data.DBAdapter;
 import com.cmg.android.voicerecorder.data.UserProfile;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
@@ -55,6 +59,7 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +71,14 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 
-public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, View.OnClickListener, Animation.AnimationListener,LocationListener {
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
+                                                            View.OnClickListener,
+                                                            Animation.AnimationListener,
+                                                            LocationListener,
+                                                            SearchView.OnSuggestionListener,
+                                                            RecordingView.OnAnimationListener {
+
+
 
     /**
      * Define all button state
@@ -81,27 +93,36 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         DISABLED
     }
 
+    enum AnalyzingState {
+        DEFAULT,
+        RECORDING,
+        ANALYZING,
+        WAIT_FOR_ANIMATION_MIN,
+        WAIT_FOR_ANIMATION_MAX
+    }
+
     private DrawerLayout drawerLayout;
     private boolean isDrawerOpened;
     private MaterialMenuView materialMenu;
 
     private FragmentTabHost mTabHost;
 
-    private UserProfile currentProfile;
 
     /**
      * Recording
      */
     private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
-    private static final long PITCH_TIMEOUT = 2000;
-    private static final long START_TIMEOUT = 2000;
+    private static final long PITCH_TIMEOUT = 1000;
+    private static final long START_TIMEOUT = 1000;
 
-    private static final long RECORD_MAX_LENGTH = 10000;
+    private static final long RECORD_MAX_LENGTH = 6000;
 
     private ButtonState lastState;
 
     private RecordingView recordingView;
+
+    private AnalyzingState analyzingState = AnalyzingState.DEFAULT;
 
     private ImageButton btnAnalyzing;
     private ImageButton btnAudio;
@@ -151,6 +172,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private LocationManager locationManager;
     private String provider;
     private Location location;
+
+    /**
+     *  Search word
+     */
+    private DBAdapter dbAdapter;
+    private CursorAdapter adapter;
+    private SearchView searchView;
+
+    /**
+     *
+     * @param savedInstanceState
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +270,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         txtPhonemes.setOnClickListener(this);
         txtWord.setOnClickListener(this);
         recordingView.setOnClickListener(this);
+        recordingView.setAnimationListener(this);
     }
 
     private void initTabHost() {
@@ -297,12 +331,26 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public boolean onCreateOptionsMenu(Menu menu) {
         getSupportMenuInflater().inflate(R.menu.main_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
+            dbAdapter = new DBAdapter(this);
+            try {
+                dbAdapter.open();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             searchView.setQueryHint("Search word");
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            //searchView.setIconifiedByDefault(false);
+          //  searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
+            searchView.setOnSuggestionListener(this);
+            adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
+                    dbAdapter.getAll(),
+                    new String[] {DBAdapter.KEY_WORD, DBAdapter.KEY_PRONUNCIATION},
+                    new int[] {R.id.txtWord, R.id.txtPhoneme},
+                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            searchView.setSuggestionsAdapter(adapter);
+
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -330,61 +378,81 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void completeGetWord(DictionaryItem item, ButtonState state) {
         if (item != null) {
             dictionaryItem = item;
-            txtWord.setText(item.getWord());
-            txtPhonemes.setText(item.getPronunciation());
         } else {
             dictionaryItem = null;
-            txtWord.setText("Not found");
-            txtPhonemes.setText("Please try again!");
         }
-        switchButtonStage(state);
+        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+        lastState = state;
+        if (audioStream!=null)
+            audioStream.clearOldRecord();
     }
+
+    private class GetWordAsync extends AsyncTask {
+        private final String word;
+
+        private GetWordAsync(String word) {
+            this.word = word;
+        }
+        @Override
+        protected Object doInBackground(Object[] params) {
+            selectedWord = word;
+            DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainActivity.this.getApplicationContext()));
+            walker.setListener(new DictionaryListener() {
+                @Override
+                public void onDetectWord(final DictionaryItem dItem) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            completeGetWord(dItem, ButtonState.DEFAULT);
+                        }
+                    });
+                }
+
+                @Override
+                public void onWordNotFound(DictionaryItem dItem, final FileNotFoundException ex) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ex.printStackTrace();
+                            completeGetWord(null, ButtonState.DISABLED);
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(DictionaryItem dItem, final Exception ex) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ex.printStackTrace();
+                            completeGetWord(null, ButtonState.DISABLED);
+                        }
+                    });
+                }
+            });
+            walker.execute(word);
+            return null;
+        }
+    }
+
+    private GetWordAsync getWordAsync;
 
     private void getWord(final String word) {
         switchButtonStage(ButtonState.DISABLED);
+        recordingView.startPingAnimation(this);
         txtWord.setText("Searching");
         txtPhonemes.setText("Please wait ...");
         dictionaryItem = null;
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                selectedWord = word;
-                DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainActivity.this.getApplicationContext()));
-                walker.setListener(new DictionaryListener() {
-                    @Override
-                    public void onDetectWord(final DictionaryItem item) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                completeGetWord(item, ButtonState.DEFAULT);
-                            }
-                        });
-                    }
+        currentModel = null;
+        if (getWordAsync != null) {
+            try {
+                while (!getWordAsync.isCancelled() && getWordAsync.cancel(true));
+            } catch (Exception ex) {
 
-                    @Override
-                    public void onWordNotFound(DictionaryItem item, FileNotFoundException ex) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                completeGetWord(null, ButtonState.DISABLED);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(DictionaryItem item, Exception ex) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                completeGetWord(null, ButtonState.DISABLED);
-                            }
-                        });
-                    }
-                });
-                walker.execute(word);
             }
-        };
-        thread.start();
+        }
+        getWordAsync = new GetWordAsync(word);
+        getWordAsync.execute();
     }
 
     @Override
@@ -398,6 +466,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextChange(String s) {
+        if (s.length() > 0) {
+            Cursor c = dbAdapter.search(s);
+            if (c.getCount() > 0) {
+                searchView.getSuggestionsAdapter().changeCursor(c);
+                searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                return true;
+            }
+        }
         return false;
     }
 
@@ -435,7 +511,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
+    private boolean checkAudioExist() {
+        if (audioStream == null || audioStream.getFilename() == null) return false;
+        return new File(audioStream.getFilename()).exists();
+    }
+
     private void play() {
+        if (!checkAudioExist()) return;
         try {
             String fileName = audioStream.getFilename();
             File file = new File(fileName);
@@ -476,15 +558,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         stopRecording();
         if (uploadTask != null) {
             try {
-                while (!uploadTask.isCancelled() && uploadTask.cancel(true));
+                while(!uploadTask.isCancelled() && uploadTask.cancel(true));
                 uploadTask = null;
             } catch (Exception ex) {
 
             }
-        }
-        if (recordingView != null) {
-            recordingView.recycle();
-            recordingView.invalidate();
         }
     }
 
@@ -492,7 +570,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             // Clear old data
             currentModel = null;
-
+            analyzingState = AnalyzingState.RECORDING;
             switchButtonStage(ButtonState.RECORDING);
             isRecording = true;
             if (recordingView != null)
@@ -532,12 +610,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     if (length > RECORD_MAX_LENGTH || ((System.currentTimeMillis() - lastDetectedPitchTime) > PITCH_TIMEOUT)
                             && isAutoStop
                             && (length > (START_TIMEOUT + PITCH_TIMEOUT))) {
+                        stopRecording(false);
+                        uploadRecord();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                AppLog.logString("Force stop recording. No pitch found after " + PITCH_TIMEOUT + "ms");
-                                stopRecording();
-                                uploadRecord();
+                                recordingView.startPingAnimation(MainActivity.this);
                             }
                         });
                     }
@@ -567,8 +645,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void stopRecording() {
+        stopRecording(true);
+    }
+
+    private void stopRecording(boolean changeStatus) {
         if (isRecording) {
-            isRecording = false;
+            if (changeStatus) {
+                isRecording = false;
+            }
             AppLog.logString("Stop Recording");
             try {
                 if (audioInputStream != null) {
@@ -584,10 +668,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             } catch (Exception ex) {
                 // ex.printStackTrace();
             }
-            if (recordingView != null) {
-                recordingView.recycle();
-                recordingView.invalidate();
-            }
         }
     }
 
@@ -600,6 +680,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             e.printStackTrace();
         }
         stop();
+        try {
+            dbAdapter.close();
+        } catch (Exception e) {
+
+        }
+        try {
+            recordingView.recycle();
+        } catch (Exception ex) {
+
+        }
 
     }
 
@@ -607,6 +697,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     protected void onPause() {
         super.onPause();
         locationManager.removeUpdates(this);
+        if (currentModel != null) {
+            recordingView.stopPingAnimation();
+            recordingView.recycle();
+            recordingView.invalidate();
+            // Null response
+            analyzingState = AnalyzingState.DEFAULT;
+        }
     }
 
     @Override
@@ -615,6 +712,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         locationManager.requestLocationUpdates(provider, 400, 1, this);
         fetchSetting();
         isPrepared = false;
+        if (currentModel != null) {
+            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+            recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true);
+        }
     }
 
     @Override
@@ -623,7 +724,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             case R.id.btnAnalyzing:
                 if (isRecording) {
                     stop();
-                    switchButtonStage();
+                    switchButtonStage(ButtonState.DISABLED);
+                    if (currentModel != null) {
+                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                        recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true);
+                    } else {
+                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                        recordingView.startPingAnimation(this, 1000, 100.0f, false);
+                    }
                 } else {
                     analyze();
                 }
@@ -658,7 +766,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void switchButtonStage(ButtonState state) {
-
         switch (state) {
             case RECORDING:
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
@@ -667,7 +774,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_close_red);
                 btnAnalyzing.startAnimation(fadeIn);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
+
                 txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                txtPhonemes.setEnabled(false);
+                txtWord.setEnabled(false);
                 break;
             case PLAYING:
                 btnAudio.startAnimation(fadeOut);
@@ -677,6 +787,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
                 txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                txtPhonemes.setEnabled(false);
+                txtWord.setEnabled(false);
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
@@ -685,6 +797,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                txtPhonemes.setEnabled(true);
+                txtWord.setEnabled(true);
                 break;
             case ORANGE:
                 btnAudio.setEnabled(true);
@@ -693,6 +807,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_record_orange);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
                 txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
+                txtPhonemes.setEnabled(true);
+                txtWord.setEnabled(true);
                 break;
             case RED:
                 btnAudio.setEnabled(true);
@@ -701,6 +817,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_record_red);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
                 txtWord.setTextColor(ColorHelper.COLOR_RED);
+                txtPhonemes.setEnabled(true);
+                txtWord.setEnabled(true);
                 break;
             case DISABLED:
                 btnAudio.setEnabled(false);
@@ -709,6 +827,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
                 txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                txtPhonemes.setEnabled(false);
+                txtWord.setEnabled(false);
                 break;
             case DEFAULT:
             default:
@@ -718,7 +838,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
                 txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                txtPhonemes.setEnabled(true);
+                txtWord.setEnabled(true);
                 break;
+        }
+        if (!checkAudioExist()) {
+            btnAudio.setEnabled(false);
+            btnAudio.setImageResource(R.drawable.p_audio_gray);
         }
     }
 
@@ -762,40 +888,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
                 String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
-                //Toast.makeText(RecorderActivity.this, data, Toast.LENGTH_LONG).show();
                 Gson gson = new Gson();
                 try {
                     currentModel = gson.fromJson(data, UserVoiceModel.class);
-
-                    if (currentModel != null) {
-                        currentModel.setAudioFile(audioStream.getFilename());
-                        float score = currentModel.getScore();
-                        recordingView.setScore(score);
-                        if (score >= 80.0) {
-                            lastState = ButtonState.GREEN;
-                        } else if (score >= 45.0) {
-                            lastState = ButtonState.ORANGE;
-                        } else {
-                            lastState = ButtonState.RED;
-                        }
-                        switchButtonStage();
-                    } else {
-                        recordingView.setScore(0);
-                        switchButtonStage(ButtonState.RED);
-                    }
                 } catch (Exception ex) {
-                    recordingView.setScore(0);
-
-                    switchButtonStage(ButtonState.RED);
+                    //switchButtonStage(ButtonState.RED);
                 }
-                recordingView.showScore();
+                AppLog.logString("Start score animation");
+                // Waiting for animation complete
+                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
     };
 
     private void uploadRecord() {
         AppLog.logString("Start Uploading");
-        Toast.makeText(this, "Please wait while data is uploading", Toast.LENGTH_LONG).show();
+        analyzingState = AnalyzingState.ANALYZING;
         uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
         Map<String, String> params = new HashMap<String, String>();
         String fileName = audioStream.getFilename();
@@ -812,7 +920,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     AppLog.logString("Lat: " + lc.getLatitude() + ". Lon: " + lc.getLongitude());
                     profile.setLocation(lc);
                 }
-
                 profile.setTime(System.currentTimeMillis());
                 params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
                 params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
@@ -853,4 +960,75 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus()
                 .getWindowToken(), 0);
     }
+
+    @Override
+    public boolean onSuggestionSelect(int i) {
+        selectSuggestionWord(i);
+        return true;
+    }
+
+    private void selectSuggestionWord(int index) {
+        AppLog.logString("Select suggestion: " + index);
+        Cursor cursor = (Cursor) adapter.getItem(index);
+        String s = cursor.getString(cursor.getColumnIndex(DBAdapter.KEY_WORD));
+        searchView.setQuery(s, true);
+    }
+
+    @Override
+    public boolean onSuggestionClick(int i) {
+        selectSuggestionWord(i);
+        return true;
+    }
+
+    @Override
+    public void onAnimationMax() {
+        if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
+            AppLog.logString("On animation max");
+            recordingView.stopPingAnimation();
+            isRecording = false;
+            if (currentModel != null) {
+                currentModel.setAudioFile(audioStream.getFilename());
+                float score = currentModel.getScore();
+                if (score >= 80.0) {
+                    lastState = ButtonState.GREEN;
+                } else if (score >= 45.0) {
+                    lastState = ButtonState.ORANGE;
+                } else {
+                    lastState = ButtonState.RED;
+                }
+                switchButtonStage();
+            } else {
+                switchButtonStage(ButtonState.RED);
+            }
+            analyzingState = AnalyzingState.DEFAULT;
+        }
+    }
+
+    @Override
+    public void onAnimationMin() {
+        if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MIN) {
+            AppLog.logString("On animation min");
+            recordingView.setScore(0.0f);
+            recordingView.stopPingAnimation();
+            recordingView.recycle();
+            recordingView.invalidate();
+            if (currentModel != null) {
+                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                recordingView.startPingAnimation(this, 3000, currentModel.getScore(), true);
+            } else {
+                if (dictionaryItem != null) {
+                    txtWord.setText(dictionaryItem.getWord());
+                    txtPhonemes.setText(dictionaryItem.getPronunciation());
+                } else {
+                    txtWord.setText("Not found");
+                    txtPhonemes.setText("Please try again!");
+                }
+                recordingView.drawEmptyCycle();
+                // Null response
+                analyzingState = AnalyzingState.DEFAULT;
+                switchButtonStage();
+            }
+        }
+    }
+
 }

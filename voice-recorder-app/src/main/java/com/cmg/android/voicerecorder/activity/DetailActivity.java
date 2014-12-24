@@ -2,6 +2,7 @@ package com.cmg.android.voicerecorder.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.webkit.WebView;
@@ -28,7 +29,13 @@ import java.util.List;
 /**
  * Created by luhonghai on 12/22/14.
  */
-public class DetailActivity extends BaseActivity implements View.OnClickListener{
+public class DetailActivity extends BaseActivity implements View.OnClickListener, RecordingView.OnAnimationListener {
+
+    enum DisplayingState {
+        DEFAULT,
+        WAIT_FOR_ANIMATION_MAX
+    }
+
 
     enum ButtonState {
         RED,
@@ -40,6 +47,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public static final String DICTIONARY_ITEM = "DICTIONARY_ITEM";
 
     public static final String USER_VOICE_MODEL = "USER_VOICE_MODEL";
+
+    private DisplayingState displayingState;
 
     private MaterialMenuView materialMenu;
 
@@ -82,6 +91,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private void initDetailView() {
         webView = (WebView) findViewById(R.id.webview_score);
         recordingView = (RecordingView) findViewById(R.id.main_recording_view);
+        recordingView.setAnimationListener(this);
+        recordingView.setScore(model.getScore());
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnAudio.setOnClickListener(this);
         txtPhonemes = (TextView) findViewById(R.id.txtPhoneme);
@@ -90,8 +101,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         txtWord = (TextView) findViewById(R.id.txtWord);
         txtWord.setText(dictionaryItem.getWord());
         txtWord.setOnClickListener(this);
-
-        recordingView.setScore(model.getScore());
         if (model.getScore() >= 80.0) {
             lastState = ButtonState.GREEN;
         } else if (model.getScore() >= 45.0) {
@@ -105,7 +114,37 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onResume() {
         super.onResume();
+        if (model != null) {
+            displayingState = DisplayingState.WAIT_FOR_ANIMATION_MAX;
+            recordingView.setScore(0.0f);
+            recordingView.recycle();
+            recordingView.invalidate();
+            recordingView.startPingAnimation(DetailActivity.this, 2000, model.getScore(), true);
+        }
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (model != null) {
+            recordingView.stopPingAnimation();
+            displayingState = DisplayingState.DEFAULT;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            recordingView.stopPingAnimation();
+        } catch (Exception ex) {
+
+        }
+        try {
+            recordingView.recycle();
+        } catch (Exception ex) {
+
+        }
     }
 
     private void initTabHost() {
@@ -184,7 +223,14 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
-                    AppLog.logString("Stop playing");
+                    try {
+                        player.stop();
+
+                    } catch (Exception ex) {
+
+                    }
+                    isPlaying = false;
+                    switchButtonState();
                 }
 
             });
@@ -262,6 +308,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void showPhonemes() {
+        if (model == null || model.getResult() == null) return;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -294,5 +341,19 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 webView.loadData("<style>body{margin:0;padding:0;background:white}</style><div style='background:white;margin:0;padding:0'>" + sb1.toString() + sb2.toString() + "</div>","text/html", "UTF-8");
             }
         });
+    }
+
+    @Override
+    public void onAnimationMax() {
+        if (displayingState == DisplayingState.WAIT_FOR_ANIMATION_MAX) {
+            AppLog.logString("On animation max");
+            recordingView.stopPingAnimation();
+            displayingState = DisplayingState.DEFAULT;
+        }
+    }
+
+    @Override
+    public void onAnimationMin() {
+
     }
 }

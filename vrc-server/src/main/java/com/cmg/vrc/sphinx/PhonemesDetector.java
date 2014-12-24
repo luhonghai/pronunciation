@@ -73,7 +73,7 @@ public class PhonemesDetector {
         StringBuffer sb = new StringBuffer();
         sb.append("#JSGF V1.0;\n\n").append("grammar phonelist;\n\n").append("public <phonelist> = (SIL ");
         for (String phoneme : correctPhonemes) {
-            List<String> neighbours = neighbourPhones.get(phoneme);
+            List<String> neighbours = new ArrayList<String>(neighbourPhones.get(phoneme));
             sb.append("(");
             if (neighbours!=null && neighbours.size() > 0) {
                 neighbours.add("SIL");
@@ -358,35 +358,5 @@ public class PhonemesDetector {
         logger.info("Final score: " + finalScore);
         result.setScore(finalScore);
         result.setPhonemeScores(phonemeScores);
-    }
-
-    public static void main(String[] args) {
-        String fVariable = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/variable_0ec2d743-2d6b-4723-9762-fffb8f41df06_raw.wav";
-        String fSeashell = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/seashell_26207c0c-4810-4ce4-9feb-ffcc37ad92b7_raw.wav";
-        String fQuarter = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/quarter_a4b3dffa-6295-4614-bb19-cfd668cec6f5_raw.wav";
-        String fParticularly = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/particularly_40bbdad9-b5df-4fdc-aad2-c4a574b48288_raw.wav";
-        String fNecessarily = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/necessarily_a5774a26-122a-4d33-b7bf-4111416e59d6_raw.wav";
-        String fHaiNecessarily = "/Volumes/DATA/Development/voice-sample/necessarily-hai.wav";
-        String fHaiSeashell = "/Volumes/DATA/Development/voice-sample/seashell-hai.wav";
-        String fHaiVariable = "/Volumes/DATA/Development/voice-sample/variable-hai.wav";
-        String fLanNecessarily = "/Volumes/DATA/Development/voice-sample/necessarily-lan.wav";
-        String fLan2Necessarily = "/Volumes/DATA/Development/voice-sample/necessarily-lan-2.wav";
-        String fAnhNecessarily = "/Volumes/DATA/Development/voice-sample/necessarily-anh.wav";
-        String fAnhSeashell = "/Volumes/DATA/Development/voice-sample/seashell-anh.wav";
-        String fAnh2Seashell = "/Volumes/DATA/Development/voice-sample/seashell-anh-2.wav";
-        String fAnhVariable = "/Volumes/DATA/Development/voice-sample/variable-anh.wav";
-        String fAnhVariableCleanedNoised = "/Volumes/DATA/Development/voice-sample/variable-anh-c-n.wav";
-        String fAnh2Variable = "/Volumes/DATA/Development/voice-sample/variable-anh-2.wav";
-        String fBarter = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/barter_a1f7b6cd-4969-45df-bcd0-cea2d76d8542_raw.wav";
-        String fBorrower = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/borrower_8c830b69-4068-45b2-b549-fefed76a2726_raw.wav";
-
-        PhonemesDetector detector = new PhonemesDetector(new File(fAnhNecessarily), "necessarily".toLowerCase());
-        try {
-            SphinxResult rs = detector.analyze();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(gson.toJson(rs));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

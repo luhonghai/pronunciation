@@ -40,6 +40,7 @@ public class DictionaryItem {
     }
 
     public String getPronunciation() {
+        if (pronunciation == null) pronunciation = "";
         return pronunciation;
     }
 

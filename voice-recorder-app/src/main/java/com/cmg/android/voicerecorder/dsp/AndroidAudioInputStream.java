@@ -37,6 +37,8 @@ import android.os.Environment;
 
 import com.cmg.android.voicerecorder.AppLog;
 
+import org.apache.commons.io.FileUtils;
+
 import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 import be.tarsos.dsp.io.TarsosDSPAudioInputStream;
 
@@ -136,7 +138,9 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
 
         byte[] data = new byte[(bufferSize / 2) * format.getFrameSize()];
         try {
-            in = new FileInputStream(inFilename);
+            File inFile = new File(inFilename);
+            if (!inFile.exists()) return;
+            in = new FileInputStream(inFile);
             out = new FileOutputStream(outFilename);
             totalAudioLen = in.getChannel().size();
             totalDataLen = totalAudioLen + 36;
@@ -229,6 +233,17 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
             file.mkdirs();
         }
         return (file.getAbsolutePath() + "/" + AUDIO_RECORDER_OUTPUT_FILE);
+    }
+
+    public void clearOldRecord() {
+        File file = new File(getFilename());
+        if (file.exists()) {
+            try {
+                FileUtils.forceDelete(file);
+            } catch (Exception ex) {
+
+            }
+        }
     }
 
     private String getTempFilename(){

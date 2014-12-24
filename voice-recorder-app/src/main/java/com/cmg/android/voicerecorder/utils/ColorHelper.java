@@ -16,10 +16,10 @@ public class ColorHelper {
     public static String COLOR_DEFAULT_STRING = "#003da7";
 
 
-    public static int generateGradient(float radio, int form, int to) {
-        int red1 = form >> 16;
-        int green1 = (form >> 8) & 0xFF;
-        int blue1  = form & 0xFF;
+    public static int generateGradient(float radio, int to, int from) {
+        int red1 = from >> 16;
+        int green1 = (from >> 8) & 0xFF;
+        int blue1  = from & 0xFF;
 
         int red2 = to >> 16;
         int green2 = (to >> 8) & 0xFF;
