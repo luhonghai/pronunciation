@@ -1,13 +1,10 @@
 package com.cmg.vrc.dictionary;
 
-import com.cmg.vrc.dictionary.walker.DictionaryItem;
-import com.cmg.vrc.dictionary.walker.DictionaryListener;
 import com.cmg.vrc.dictionary.walker.DictionaryWalker;
 import com.cmg.vrc.dictionary.walker.OxfordDictionaryWalker;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
