@@ -1,0 +1,5 @@
+#JSGF V1.0;
+
+grammar phonelist;
+
+public <phonelist> = (SIL (S|SH|Z|TH|SIL) (IY|IH|SIL) (SH|S|ZH|CH|SIL) (EH|IH|ER|AE|SIL) (L|R|W|SIL) SIl);

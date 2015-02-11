@@ -36,4 +36,7 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.balysv.materialmenu:material-menu-abs:1.5.0'
     compile 'org.jsoup:jsoup:1.7.3'
+    compile ('com.jjoe64:graphview:4.0.0') {
+        exclude module: 'appcompat-v7'
+    }
 }

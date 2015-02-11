@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Point;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,6 +29,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -55,6 +57,8 @@ import com.cmg.android.voicerecorder.http.UploaderAsync;
 import com.cmg.android.voicerecorder.utils.ColorHelper;
 import com.cmg.android.voicerecorder.utils.DeviceUuidFactory;
 import com.cmg.android.voicerecorder.utils.FileHelper;
+import com.cmg.android.voicerecorder.view.BalloonHint;
+import com.cmg.android.voicerecorder.view.PopoverView;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -77,9 +81,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                                             LocationListener,
                                                             SearchView.OnSuggestionListener,
                                                             RecordingView.OnAnimationListener {
-
-
-
     /**
      * Define all button state
      */
@@ -156,6 +157,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private UserVoiceModel currentModel;
 
     private DictionaryItem dictionaryItem;
+
+    private BalloonHint balloonHint;
 
 
     /**
@@ -745,9 +748,36 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 break;
             case R.id.txtPhoneme:
             case R.id.txtWord:
-                if (dictionaryItem != null) {
-                    play(dictionaryItem.getAudioFile());
-                }
+//                if (dictionaryItem != null) {
+//                    play(dictionaryItem.getAudioFile());
+//                }
+//get root layout
+                RelativeLayout rootView = (RelativeLayout)findViewById(R.id.content);
+
+                PopoverView popoverView = new PopoverView(this, R.layout.popover_showed_view);
+                popoverView.setContentSizeForViewInPopover(new Point(320, 340));
+                popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
+                    @Override
+                    public void popoverViewWillShow(PopoverView view) {
+
+                    }
+
+                    @Override
+                    public void popoverViewDidShow(PopoverView view) {
+
+                    }
+
+                    @Override
+                    public void popoverViewWillDismiss(PopoverView view) {
+
+                    }
+
+                    @Override
+                    public void popoverViewDidDismiss(PopoverView view) {
+
+                    }
+                });
+                popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionAny, true);
                 break;
             case R.id.main_recording_view:
                 if (currentModel != null && dictionaryItem != null) {
