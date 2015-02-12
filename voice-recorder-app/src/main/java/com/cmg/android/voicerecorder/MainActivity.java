@@ -17,7 +17,6 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -29,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -42,7 +42,8 @@ import com.cmg.android.voicerecorder.activity.SettingsActivity;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
 import com.cmg.android.voicerecorder.activity.fragment.Preferences;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
-import com.cmg.android.voicerecorder.data.DBAdapter;
+import com.cmg.android.voicerecorder.data.ScoreDBAdapter;
+import com.cmg.android.voicerecorder.data.WordDBAdapter;
 import com.cmg.android.voicerecorder.data.UserProfile;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
@@ -57,9 +58,15 @@ import com.cmg.android.voicerecorder.utils.DeviceUuidFactory;
 import com.cmg.android.voicerecorder.utils.FileHelper;
 import com.google.gson.Gson;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -176,9 +183,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     /**
      *  Search word
      */
-    private DBAdapter dbAdapter;
+    private WordDBAdapter dbAdapter;
     private CursorAdapter adapter;
     private SearchView searchView;
+
+    /**
+     * Score
+     */
+    private ScoreDBAdapter scoreDBAdapter;
+
 
     /**
      *
@@ -188,6 +201,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.main);
         initCustomActionBar();
         initTabHost();
@@ -226,6 +240,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         getWord("necessarily");
+        scoreDBAdapter = new ScoreDBAdapter(this);
     }
 
     private void openSettings() {
@@ -333,7 +348,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
-            dbAdapter = new DBAdapter(this);
+            dbAdapter = new WordDBAdapter(this);
             try {
                 dbAdapter.open();
             } catch (SQLException e) {
@@ -346,7 +361,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.setOnSuggestionListener(this);
             adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
                     dbAdapter.getAll(),
-                    new String[] {DBAdapter.KEY_WORD, DBAdapter.KEY_PRONUNCIATION},
+                    new String[] {WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
                     new int[] {R.id.txtWord, R.id.txtPhoneme},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             searchView.setSuggestionsAdapter(adapter);
@@ -894,6 +909,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 } catch (Exception ex) {
                     //switchButtonStage(ButtonState.RED);
                 }
+                try {
+                    saveToDatabase();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    currentModel = null;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    currentModel = null;
+                }
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
@@ -970,7 +994,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void selectSuggestionWord(int index) {
         AppLog.logString("Select suggestion: " + index);
         Cursor cursor = (Cursor) adapter.getItem(index);
-        String s = cursor.getString(cursor.getColumnIndex(DBAdapter.KEY_WORD));
+        String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
         searchView.setQuery(s, true);
     }
 
@@ -997,6 +1021,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     lastState = ButtonState.RED;
                 }
                 switchButtonStage();
+
             } else {
                 switchButtonStage(ButtonState.RED);
             }
@@ -1028,6 +1053,33 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 analyzingState = AnalyzingState.DEFAULT;
                 switchButtonStage();
             }
+        }
+    }
+
+    private void saveToDatabase() throws IOException, SQLException {
+        String tmpFile = audioStream.getFilename();
+        File recordedFile = new File(tmpFile);
+        if (recordedFile.exists() && currentModel != null) {
+            File pronScoreDir = FileHelper.getPronunciationScoreDir(this.getApplicationContext());
+            ScoreDBAdapter.PronunciationScore score = new ScoreDBAdapter.PronunciationScore();
+            // Get ID from server
+            String dataId = currentModel.getId();
+            score.setDataId(dataId);
+            score.setScore(currentModel.getScore());
+            score.setWord(currentModel.getWord());
+
+            score.setTimestamp(new Date(System.currentTimeMillis()));
+
+            // Save recorded file
+            File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
+            FileUtils.copyFile(recordedFile,savedFile);
+            // Save json data
+            Gson gson = new Gson();
+            currentModel.setAudioFile(savedFile.getAbsolutePath());
+            FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(currentModel), "UTF-8");
+            scoreDBAdapter.open();
+            scoreDBAdapter.insert(score);
+            scoreDBAdapter.close();
         }
     }
 

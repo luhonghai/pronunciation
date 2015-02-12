@@ -1,6 +1,5 @@
 package com.cmg.android.voicerecorder.data;
 
-import android.app.SearchManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,11 +15,11 @@ import java.sql.SQLException;
 /**
  * Created by luhonghai on 12/23/14.
  */
-public class DBAdapter {
+public class WordDBAdapter {
     public static final String KEY_ROWID = "_id";
     public static final String KEY_WORD = "word";
     public static final String KEY_PRONUNCIATION = "pronunciation";
-    private static final String TAG = "DBAdapter";
+    private static final String TAG = "WordDBAdapter";
 
     private static final String DATABASE_NAME = "word";
     private static final String DATABASE_TABLE = "pronunciation";
@@ -36,7 +35,7 @@ public class DBAdapter {
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
 
-    public DBAdapter(Context ctx)
+    public WordDBAdapter(Context ctx)
     {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);
@@ -85,7 +84,7 @@ public class DBAdapter {
     }
 
     //---opens the database---
-    public DBAdapter open() throws SQLException
+    public WordDBAdapter open() throws SQLException
     {
         db = DBHelper.getWritableDatabase();
         return this;
