@@ -1,6 +1,9 @@
 package com.cmg.android.voicerecorder.dictionary;
 
+import android.content.Context;
+
 import com.cmg.android.voicerecorder.AppLog;
+import com.cmg.android.voicerecorder.utils.FileHelper;
 import com.cmg.android.voicerecorder.utils.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -36,6 +39,19 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
     public OxfordDictionaryWalker(File targetDir, Language language) {
         this(targetDir);
         this.language = language;
+    }
+
+    public static DictionaryItem getExistingDictionary(Context context,String word) {
+        Gson gson = new Gson();
+        File wordData = new File(FileHelper.getAudioDir(context), word + ".json");
+        if (wordData.exists()) {
+            try {
+                return gson.fromJson(FileUtils.readFileToString(wordData, "UTF-8"), DictionaryItem.class);
+            } catch (Exception ex) {
+
+            }
+        }
+        return null;
     }
 
     @Override

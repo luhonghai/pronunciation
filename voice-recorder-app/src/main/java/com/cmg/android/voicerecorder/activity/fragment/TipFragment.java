@@ -11,13 +11,12 @@ import com.cmg.android.voicerecorder.R;
 /**
  * Created by cmg on 2/12/15.
  */
-public class HistoryGraphFragment extends FragmentTab {
+public class TipFragment extends FragmentTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_layout, container, false);
-        TextView tv = (TextView) v.findViewById(R.id.text);
-        tv.setText(this.getTag() + " content.");
+        View v = inflater.inflate(R.layout.fragment_tip, container, false);
+
         return v;
     }
 }

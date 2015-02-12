@@ -1,5 +1,9 @@
 package com.cmg.android.voicerecorder.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,10 +20,14 @@ import com.cmg.android.voicerecorder.AppLog;
 import com.cmg.android.voicerecorder.PlayerHelper;
 import com.cmg.android.voicerecorder.R;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
+import com.cmg.android.voicerecorder.activity.fragment.GraphFragment;
+import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
+import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
 import com.cmg.android.voicerecorder.data.SphinxResult;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
+import com.cmg.android.voicerecorder.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.voicerecorder.utils.ColorHelper;
 import com.google.gson.Gson;
 
@@ -36,7 +44,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         WAIT_FOR_ANIMATION_MAX
     }
 
-
     enum ButtonState {
         RED,
         ORANGE,
@@ -44,9 +51,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         PLAYING
     }
 
-    public static final String DICTIONARY_ITEM = "DICTIONARY_ITEM";
 
-    public static final String USER_VOICE_MODEL = "USER_VOICE_MODEL";
 
     private DisplayingState displayingState;
 
@@ -77,30 +82,22 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Gson gson = new Gson();
+        model = gson.fromJson(this.getIntent().getExtras().get(USER_VOICE_MODEL).toString(), UserVoiceModel.class);
         setContentView(R.layout.detail);
         initCustomActionBar();
         initTabHost();
-
-        Gson gson = new Gson();
-        model = gson.fromJson(this.getIntent().getExtras().get(USER_VOICE_MODEL).toString(), UserVoiceModel.class);
-        dictionaryItem = gson.fromJson(this.getIntent().getExtras().get(DICTIONARY_ITEM).toString(), DictionaryItem.class);
         initDetailView();
-        showPhonemes();
+        showData(model,false);
+        registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
     }
 
-    private void initDetailView() {
-        webView = (WebView) findViewById(R.id.webview_score);
-        recordingView = (RecordingView) findViewById(R.id.main_recording_view);
-        recordingView.setAnimationListener(this);
+    private void showData(UserVoiceModel userVoiceModel, boolean showScore) {
+        model = userVoiceModel;
+        dictionaryItem = OxfordDictionaryWalker.getExistingDictionary(this, model.getWord());
         recordingView.setScore(model.getScore());
-        btnAudio = (ImageButton) findViewById(R.id.btnAudio);
-        btnAudio.setOnClickListener(this);
-        txtPhonemes = (TextView) findViewById(R.id.txtPhoneme);
         txtPhonemes.setText(dictionaryItem.getPronunciation());
-        txtPhonemes.setOnClickListener(this);
-        txtWord = (TextView) findViewById(R.id.txtWord);
         txtWord.setText(dictionaryItem.getWord());
-        txtWord.setOnClickListener(this);
         if (model.getScore() >= 80.0) {
             lastState = ButtonState.GREEN;
         } else if (model.getScore() >= 45.0) {
@@ -109,6 +106,27 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             lastState = ButtonState.RED;
         }
         switchButtonState();
+        showPhonemes();
+        if (showScore) {
+            displayingState = DisplayingState.WAIT_FOR_ANIMATION_MAX;
+            recordingView.setScore(0.0f);
+            recordingView.recycle();
+            recordingView.invalidate();
+            recordingView.startPingAnimation(DetailActivity.this, 2000, model.getScore(), true);
+        }
+    }
+
+    private void initDetailView() {
+        webView = (WebView) findViewById(R.id.webview_score);
+        recordingView = (RecordingView) findViewById(R.id.main_recording_view);
+        recordingView.setAnimationListener(this);
+        btnAudio = (ImageButton) findViewById(R.id.btnAudio);
+        btnAudio.setOnClickListener(this);
+        txtPhonemes = (TextView) findViewById(R.id.txtPhoneme);
+        txtPhonemes.setOnClickListener(this);
+        txtWord = (TextView) findViewById(R.id.txtWord);
+        txtWord.setOnClickListener(this);
+
     }
 
     @Override
@@ -136,6 +154,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     protected void onDestroy() {
         super.onDestroy();
         try {
+            unregisterReceiver(mHandleHistoryAction);
+        } catch (Exception ex) {
+
+        }
+        try {
             recordingView.stopPingAnimation();
         } catch (Exception ex) {
 
@@ -149,19 +172,22 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void initTabHost() {
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        if (mTabHost == null) return;
+        if (mTabHost == null || model == null) return;
 
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
 
+        Bundle bundle = new Bundle();
+        bundle.putString(FragmentTab.ARG_WORD, model.getWord());
+
         mTabHost.addTab(
                 mTabHost.newTabSpec("graph").setIndicator("Graph", null),
-                FragmentTab.class, null);
+                GraphFragment.class, bundle);
         mTabHost.addTab(
                 mTabHost.newTabSpec("history").setIndicator("History", null),
-                FragmentTab.class, null);
+                HistoryFragment.class, bundle);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tips").setIndicator("Tips", null),
-                FragmentTab.class, null);
+                TipFragment.class, bundle);
     }
 
     private void initCustomActionBar() {
@@ -204,7 +230,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
-
 
     private void play(String file) {
         play(new File(file));
@@ -337,8 +362,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 }
                 sb1.append("</tr></table>");
                 sb2.append("</tr></table>");
-
                 webView.loadData("<style>body{margin:0;padding:0;background:white}</style><div style='background:white;margin:0;padding:0'>" + sb1.toString() + sb2.toString() + "</div>","text/html", "UTF-8");
+                webView.reload();
             }
         });
     }
@@ -356,4 +381,32 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public void onAnimationMin() {
 
     }
+
+    private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle.containsKey(BaseActivity.USER_VOICE_MODEL)) {
+                String modelSource = bundle.getString(BaseActivity.USER_VOICE_MODEL);
+                String word = bundle.getString(FragmentTab.ARG_WORD);
+                int type = bundle.getInt(FragmentTab.ACTION_TYPE);
+                if (word != null && word.length() > 0) {
+                    Gson gson = new Gson();
+                    final UserVoiceModel model = gson.fromJson(modelSource, UserVoiceModel.class);
+                    if (model != null) {
+                        switch (type) {
+                            case HistoryFragment.CLICK_LIST_ITEM:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        showData(model, true);
+                                    }
+                                });
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    };
 }

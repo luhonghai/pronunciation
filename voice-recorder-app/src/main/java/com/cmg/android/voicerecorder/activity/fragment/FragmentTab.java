@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.cmg.android.voicerecorder.R;
 
 public class FragmentTab extends Fragment {
+    public static final String ARG_WORD = "word";
+    public static final String ACTION_TYPE = "action_type";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,7 +9,13 @@ import android.util.Log;
 
 import com.cmg.android.voicerecorder.AppLog;
 import com.cmg.android.voicerecorder.R;
+import com.cmg.android.voicerecorder.utils.FileHelper;
+import com.google.gson.Gson;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,6 +75,15 @@ public class ScoreDBAdapter {
 
         public void setTimestamp(Date timestamp) {
             this.timestamp = timestamp;
+        }
+
+        public String getUserVoiceModel(Context context) throws IOException {
+            if (dataId == null || dataId.length() == 0) return null;
+            File modelSource = new File(FileHelper.getPronunciationScoreDir(context), dataId + FileHelper.JSON_EXTENSION);
+            if (modelSource.exists()) {
+                return FileUtils.readFileToString(modelSource, "UTF-8");
+            }
+            return null;
         }
     }
 
@@ -206,12 +221,12 @@ public class ScoreDBAdapter {
                                 KEY_DATA_ID,
                                 KEY_SCORE,
                                 KEY_TIMESTAMP},
-                        KEY_WORD + "=" + word,
+                        KEY_WORD + "=?",
+                        new String[]{word},
                         null,
                         null,
-                        null,
-                        null,
-                KEY_TIMESTAMP + " DESC");
+                KEY_TIMESTAMP + " DESC",
+                null);
     }
 
     public boolean update(PronunciationScore score)

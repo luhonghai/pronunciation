@@ -5,6 +5,8 @@
 
     <dimen name="button_default_size">70dp</dimen>
 
+
+
     <!-- Main screen - recording area -->
     <dimen name="main_action_button_margin">20dp</dimen>
     <dimen name="main_selected_word_margin">10dp</dimen>
@@ -18,4 +20,8 @@
 
     <!-- Detail view -->
     <dimen name="detail_score_padding">15dp</dimen>
+
+    <!-- History list -->
+    <dimen name="button_list_default_size">50dp</dimen>
+    <dimen name="history_list_item_padding">10dp</dimen>
 </resources>

@@ -42,7 +42,10 @@ import com.cmg.android.voicerecorder.activity.BaseActivity;
 import com.cmg.android.voicerecorder.activity.DetailActivity;
 import com.cmg.android.voicerecorder.activity.SettingsActivity;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
+import com.cmg.android.voicerecorder.activity.fragment.GraphFragment;
+import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
 import com.cmg.android.voicerecorder.activity.fragment.Preferences;
+import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
 import com.cmg.android.voicerecorder.data.ScoreDBAdapter;
 import com.cmg.android.voicerecorder.data.WordDBAdapter;
@@ -242,6 +245,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
+        registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
         getWord("necessarily");
         scoreDBAdapter = new ScoreDBAdapter(this);
     }
@@ -299,13 +303,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         mTabHost.addTab(
                 mTabHost.newTabSpec("graph").setIndicator("Graph", null),
-                FragmentTab.class, null);
+                GraphFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("history").setIndicator("History", null),
-                FragmentTab.class, null);
+                HistoryFragment.class, null);
         mTabHost.addTab(
                 mTabHost.newTabSpec("tips").setIndicator("Tips", null),
-                FragmentTab.class, null);
+                TipFragment.class, null);
     }
 
     private void initCustomActionBar() {
@@ -697,6 +701,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            unregisterReceiver(mHandleHistoryAction);
+        } catch (Exception e) {
+
+        }
         stop();
         try {
             dbAdapter.close();
@@ -798,7 +807,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (currentModel != null && dictionaryItem != null) {
                     Gson gson = new Gson();
                     Intent intent = new Intent(this, DetailActivity.class);
-                    intent.putExtra(DetailActivity.DICTIONARY_ITEM, gson.toJson(dictionaryItem));
                     intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
                     startActivity(intent);
                 }
@@ -951,6 +959,42 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+            }
+        }
+    };
+
+    private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle.containsKey(BaseActivity.USER_VOICE_MODEL)) {
+                String modelSource = bundle.getString(BaseActivity.USER_VOICE_MODEL);
+                String word = bundle.getString(FragmentTab.ARG_WORD);
+                int type = bundle.getInt(FragmentTab.ACTION_TYPE);
+                if (word == null || word.length() == 0) {
+                    Gson gson = new Gson();
+                    final UserVoiceModel model = gson.fromJson(modelSource, UserVoiceModel.class);
+                    if (model != null) {
+                        switch (type) {
+                            case HistoryFragment.CLICK_LIST_ITEM:
+                                Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
+                                detailIntent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
+                                startActivity(detailIntent);
+                                break;
+                            case HistoryFragment.CLICK_PLAY_BUTTON:
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        play(model.getAudioFile());
+                                    }
+                                });
+                                break;
+                            case HistoryFragment.CLICK_RECORD_BUTTON:
+                                getWord(model.getWord());
+                                break;
+                        }
+                    }
+                }
             }
         }
     };
