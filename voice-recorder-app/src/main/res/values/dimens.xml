@@ -24,4 +24,7 @@
     <!-- History list -->
     <dimen name="button_list_default_size">50dp</dimen>
     <dimen name="history_list_item_padding">10dp</dimen>
+
+    <!-- Tip view -->
+    <dimen name="button_tip_margin">20dp</dimen>
 </resources>

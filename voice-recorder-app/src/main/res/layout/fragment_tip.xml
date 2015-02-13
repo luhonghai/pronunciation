@@ -3,36 +3,67 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
-    <TextView
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainScrollView"
         android:layout_weight="1"
-        android:id="@+id/textview_name"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_width="fill_parent"
         android:gravity="center"
-        android:textSize="@dimen/main_selected_word_size"
-        android:textColor="#579e11"
-        android:padding="10dp"
-        android:text="To make R sound, first, from your mouth as if you are going to make an U sound"
-        android:background="@drawable/rounded_corner"
-        />
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_corner">
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="center|top"
-        android:textSize="@dimen/main_selected_word_size"
-        android:textStyle="bold"
+        android:id="@+id/txtTextTip"
+        android:gravity="center"
+        android:textSize="@dimen/main_selected_phoneme_size"
         android:textColor="#579e11"
         android:padding="10dp"
-        android:text="rabbit"
-
+        android:text="To make R sound, first, from your mouth as if you are going to make an U sound"
         />
+    </ScrollView>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/p_prev"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_width="@dimen/button_list_default_size"
+            android:layout_height="@dimen/button_list_default_size"
+            android:id="@+id/btnPrevTip"
+            android:layout_marginLeft="@dimen/button_tip_margin"/>
+
+        <TextView
+            android:layout_height="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center|top"
+            android:textSize="@dimen/main_selected_word_size"
+            android:textStyle="bold"
+            android:textColor="#579e11"
+            android:padding="10dp"
+            android:id="@+id/txtWordTip"
+            android:text="rabbit"
+            />
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/p_next"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_width="@dimen/button_list_default_size"
+            android:layout_height="@dimen/button_list_default_size"
+            android:id="@+id/btnNextTip"
+            android:layout_marginRight="@dimen/button_tip_margin"/>
+    </LinearLayout>
     <ImageButton
         android:background="@null"
+        android:id="@+id/btnRecordTip"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
         android:src="@drawable/p_record_green"

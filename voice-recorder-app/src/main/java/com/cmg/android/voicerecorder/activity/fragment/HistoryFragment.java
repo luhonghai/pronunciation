@@ -95,7 +95,7 @@ public class HistoryFragment extends FragmentTab {
             } else {
                 view.txtWordItem.setText(score.getWord());
             }
-            view.txtWordScore.setText(Integer.toString((int) scoreVal) + "%");
+            view.txtWordScore.setText(Integer.toString(Math.round(scoreVal)) + "%");
 
             if (scoreVal >= 80.0f) {
                 view.txtWordItem.setTextColor(ColorHelper.COLOR_GREEN);
@@ -155,19 +155,39 @@ public class HistoryFragment extends FragmentTab {
 
     private String word;
 
-    private ScoreDBAdapter.PronunciationScore[] listScores;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         listView = (ListView) v.findViewById(R.id.listHistory);
+        isLoadedView = true;
         dbAdapter = new ScoreDBAdapter(getActivity());
         Bundle bundle =  getArguments();
         if (bundle != null)
             word = bundle.getString(ARG_WORD);
         loadScore();
+
         return v;
+    }
+
+    @Override
+    protected void onUpdateData(String data) {
+        loadScore();
+    }
+
+    @Override
+    protected void enableView(boolean enable) {
+        if (listView == null || historyAdapter == null || historyAdapter.isEmpty()) return;
+        enableItemView(R.id.btnPlayItem, enable);
+        enableItemView(R.id.btnRecordItem, enable);
+        enableItemView(R.id.txtWordItem, enable);
+        enableItemView(R.id.txtWordScore, enable);
+    }
+
+    private void enableItemView(int id, boolean enable) {
+        View v = listView.findViewById(id);
+        if (v != null)
+            v.setEnabled(enable);
     }
 
     private void loadScore() {
@@ -193,10 +213,12 @@ public class HistoryFragment extends FragmentTab {
             }
         }
         if (scores != null && scores.size() > 0) {
-            listScores = new ScoreDBAdapter.PronunciationScore[scores.size()];
+            ScoreDBAdapter.PronunciationScore[]
+                    listScores = new ScoreDBAdapter.PronunciationScore[scores.size()];
             scores.toArray(listScores);
             historyAdapter = new HistoryAdapter(getActivity(), listScores, isDetail);
             listView.setAdapter(historyAdapter);
+            historyAdapter.notifyDataSetChanged();
         }
     }
 

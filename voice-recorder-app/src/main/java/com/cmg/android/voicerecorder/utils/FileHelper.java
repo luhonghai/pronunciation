@@ -22,6 +22,8 @@ public class FileHelper {
 
     private static final String PRONUNCIATION_SCORE_DIR = "score";
 
+    private static final String TIPS_JSON_FILE = "tips" + JSON_EXTENSION;
+
     public static File getAudioDir(Context context) {
         return new File(getApplicationDir(context), AUDIO_DEFAULT_DIR);
     }
@@ -39,5 +41,9 @@ public class FileHelper {
         } catch (PackageManager.NameNotFoundException e) {
             return new File(Environment.getExternalStorageDirectory().getPath() + File.separator + PRONUNCIATION_DEFAULT_DIR);
         }
+    }
+
+    public static File getSavedTipFile(Context context) {
+        return new File(getApplicationDir(context), TIPS_JSON_FILE);
     }
 }

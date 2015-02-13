@@ -62,7 +62,7 @@ public class WordDBAdapter {
                 if (tmp.length == 2) {
                     String w = tmp[0].trim();
                     String p = tmp[1].trim();
-                    AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
+              //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
                     ContentValues initialValues = new ContentValues();
                     initialValues.put(KEY_WORD, w);
                     initialValues.put(KEY_PRONUNCIATION, p);
