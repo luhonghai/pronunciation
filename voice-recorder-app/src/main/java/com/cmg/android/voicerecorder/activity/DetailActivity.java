@@ -333,7 +333,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void showPhonemes() {
-        if (model == null || model.getResult() == null) return;
+        if (model == null || model.getResult() == null || webView == null) return;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
