@@ -88,7 +88,8 @@
                 </LinearLayout>
                 <it.sephiroth.android.library.widget.HListView
                     android:id="@+id/listViewScore"
-                    android:layout_weight="4.8" android:layout_height="fill_parent" android:layout_width="fill_parent">
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="4.8" android:layout_height="wrap_content" android:layout_width="wrap_content">
 
                  </it.sephiroth.android.library.widget.HListView>
                  <WebView android:id="@+id/webview_score"

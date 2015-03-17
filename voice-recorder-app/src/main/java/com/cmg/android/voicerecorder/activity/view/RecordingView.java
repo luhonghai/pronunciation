@@ -380,6 +380,7 @@ public class RecordingView extends View {
     public void setScore(float score) {
         this.score = score;
     }
+
     @Deprecated
     public void showScore() {
         if (initBitmap()) {
@@ -391,7 +392,7 @@ public class RecordingView extends View {
             } else {
                 drawCycle(Stage.RED);
             }
-            //drawScore(Math.round(score), true);
+            drawScore(Math.round(score), true);
             invalidate();
         }
     }

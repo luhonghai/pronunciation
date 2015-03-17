@@ -15,7 +15,7 @@ import com.cmg.android.voicerecorder.data.SphinxResult;
 /**
  * Created by luhonghai on 3/17/15.
  */
-public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> implements View.OnClickListener {
+public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> {
 
     private static class ViewHolder {
         private TextView txtPhonemeDefault;
@@ -26,9 +26,12 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> i
 
     private final SphinxResult.PhonemeScore[] scores;
 
-    public PhoneScoreAdapter(Context context, SphinxResult.PhonemeScore[] objects) {
+    private final View.OnClickListener onPhonemeClickListener;
+
+    public PhoneScoreAdapter(Context context, SphinxResult.PhonemeScore[] objects, View.OnClickListener onPhonemeClickListener) {
         super(context, R.layout.list_phome_item, objects);
         this.scores = objects;
+        this.onPhonemeClickListener = onPhonemeClickListener;
     }
 
     @Override
@@ -41,9 +44,9 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> i
             convertView = inflator.inflate(R.layout.list_phome_item,
                     null);
             view.txtPhonemeDefault = (TextView) convertView.findViewById(R.id.txtPhonemeDefault);
-            view.txtPhonemeDefault.setOnClickListener(this);
+            view.txtPhonemeDefault.setOnClickListener(onPhonemeClickListener);
             view.txtPhonemeScore = (TextView) convertView.findViewById(R.id.txtPhonemeScore);
-            view.txtPhonemeScore.setOnClickListener(this);
+            view.txtPhonemeScore.setOnClickListener(onPhonemeClickListener);
             convertView.setTag(view);
         } else {
             view = (ViewHolder) convertView.getTag();
@@ -68,19 +71,6 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> i
             view.txtPhonemeScore.setBackground(drawable);
         }
         return convertView;
-    }
-
-    @Override
-    public void onClick(View v) {
-        SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
-        switch (v.getId()) {
-            case R.id.txtPhonemeDefault:
-
-                break;
-            case R.id.txtPhonemeScore:
-
-                break;
-        }
     }
 
 }
