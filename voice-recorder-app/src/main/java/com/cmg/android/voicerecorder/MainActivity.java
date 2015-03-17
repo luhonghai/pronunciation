@@ -48,6 +48,7 @@ import com.cmg.android.voicerecorder.activity.fragment.Preferences;
 import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
 import com.cmg.android.voicerecorder.data.ScoreDBAdapter;
+import com.cmg.android.voicerecorder.data.TipsContainer;
 import com.cmg.android.voicerecorder.data.WordDBAdapter;
 import com.cmg.android.voicerecorder.data.UserProfile;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
@@ -207,6 +208,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Load tips
+        TipsContainer tipsContainer = new TipsContainer(this.getApplicationContext());
+        tipsContainer.load();
 
         setContentView(R.layout.main);
         initCustomActionBar();
@@ -772,36 +776,35 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 break;
             case R.id.txtPhoneme:
             case R.id.txtWord:
-//                if (dictionaryItem != null) {
-//                    play(dictionaryItem.getAudioFile());
-//                }
-//get root layout
-                RelativeLayout rootView = (RelativeLayout)findViewById(R.id.content);
-
-                PopoverView popoverView = new PopoverView(this, R.layout.popover_showed_view);
-                popoverView.setContentSizeForViewInPopover(new Point(320, 340));
-                popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
-                    @Override
-                    public void popoverViewWillShow(PopoverView view) {
-
-                    }
-
-                    @Override
-                    public void popoverViewDidShow(PopoverView view) {
-
-                    }
-
-                    @Override
-                    public void popoverViewWillDismiss(PopoverView view) {
-
-                    }
-
-                    @Override
-                    public void popoverViewDidDismiss(PopoverView view) {
-
-                    }
-                });
-                popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionAny, true);
+                if (dictionaryItem != null) {
+                    play(dictionaryItem.getAudioFile());
+                }
+//                RelativeLayout rootView = (RelativeLayout)findViewById(R.id.content);
+//
+//                PopoverView popoverView = new PopoverView(this, R.layout.popover_showed_view);
+//                popoverView.setContentSizeForViewInPopover(new Point(320, 340));
+//                popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
+//                    @Override
+//                    public void popoverViewWillShow(PopoverView view) {
+//
+//                    }
+//
+//                    @Override
+//                    public void popoverViewDidShow(PopoverView view) {
+//
+//                    }
+//
+//                    @Override
+//                    public void popoverViewWillDismiss(PopoverView view) {
+//
+//                    }
+//
+//                    @Override
+//                    public void popoverViewDidDismiss(PopoverView view) {
+//
+//                    }
+//                });
+//                popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionAny, true);
                 break;
             case R.id.main_recording_view:
                 if (currentModel != null && dictionaryItem != null) {
@@ -819,6 +822,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void switchButtonStage(ButtonState state) {
+        boolean isProcess = true;
         switch (state) {
             case RECORDING:
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
@@ -852,6 +856,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                isProcess = false;
                 break;
             case ORANGE:
                 btnAudio.setEnabled(true);
@@ -862,6 +867,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                isProcess = false;
                 break;
             case RED:
                 btnAudio.setEnabled(true);
@@ -872,6 +878,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_RED);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                isProcess = false;
                 break;
             case DISABLED:
                 btnAudio.setEnabled(false);
@@ -893,8 +900,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                isProcess = false;
                 break;
         }
+        // Call other view update
+        Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
+        notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
+        sendBroadcast(notifyUpdateIntent);
         if (!checkAudioExist()) {
             btnAudio.setEnabled(false);
             btnAudio.setImageResource(R.drawable.p_audio_gray);
@@ -1094,6 +1106,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 } else {
                     lastState = ButtonState.RED;
                 }
+                // Call other view update
+                Gson gson = new Gson();
+                Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
+                notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, FragmentTab.TYPE_RELOAD_DATA);
+                notifyUpdateIntent.putExtra(FragmentTab.ACTION_DATA, gson.toJson(currentModel));
+                sendBroadcast(notifyUpdateIntent);
                 switchButtonStage();
 
             } else {

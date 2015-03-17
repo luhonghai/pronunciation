@@ -51,8 +51,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         PLAYING
     }
 
-
-
     private DisplayingState displayingState;
 
     private MaterialMenuView materialMenu;
@@ -178,6 +176,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
         Bundle bundle = new Bundle();
         bundle.putString(FragmentTab.ARG_WORD, model.getWord());
+        Gson gson = new Gson();
+        bundle.putString(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
 
         mTabHost.addTab(
                 mTabHost.newTabSpec("graph").setIndicator("Graph", null),
@@ -405,6 +405,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 break;
                         }
                     }
+                } else {
+                    if (type == HistoryFragment.CLICK_RECORD_BUTTON)
+                        onBackPressed();
                 }
             }
         }
