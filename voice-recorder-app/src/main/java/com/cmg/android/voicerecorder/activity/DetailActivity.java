@@ -24,6 +24,7 @@ import com.cmg.android.voicerecorder.activity.fragment.GraphFragment;
 import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
 import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
+import com.cmg.android.voicerecorder.activity.view.adapter.PhoneScoreAdapter;
 import com.cmg.android.voicerecorder.data.SphinxResult;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
@@ -33,6 +34,8 @@ import com.google.gson.Gson;
 
 import java.io.File;
 import java.util.List;
+
+import it.sephiroth.android.library.widget.HListView;
 
 /**
  * Created by luhonghai on 12/22/14.
@@ -75,6 +78,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private WebView webView;
 
+    private HListView hListView;
+
     private boolean isPlaying = false;
 
     @Override
@@ -105,6 +110,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         }
         switchButtonState();
         showPhonemes();
+        showPhonemesListView();
         if (showScore) {
             displayingState = DisplayingState.WAIT_FOR_ANIMATION_MAX;
             recordingView.setScore(0.0f);
@@ -114,7 +120,19 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private void showPhonemesListView() {
+        if (model == null || model.getResult() == null) return;
+        List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
+        if (phonemeScores == null || phonemeScores.size() == 0) return;
+        SphinxResult.PhonemeScore[] scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
+        phonemeScores.toArray(scores);
+        PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores);
+        hListView.setAdapter(scoreAdapter);
+        scoreAdapter.notifyDataSetChanged();
+    }
+
     private void initDetailView() {
+        hListView = (HListView) findViewById(R.id.listViewScore);
         webView = (WebView) findViewById(R.id.webview_score);
         recordingView = (RecordingView) findViewById(R.id.main_recording_view);
         recordingView.setAnimationListener(this);
