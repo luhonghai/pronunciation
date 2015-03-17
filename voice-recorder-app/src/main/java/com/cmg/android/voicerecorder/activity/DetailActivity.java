@@ -278,11 +278,14 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 if (recordingView != null) {
                     recordingView.setScore(totalScore);
                     recordingView.showScore();
+                    recordingView.setOnClickListener(DetailActivity.this);
                 } else {
                     AppLog.logString("No score view found");
                 }
+
                 TextView textView = (TextView) view.findViewById(R.id.txtTotalPhonemeScore);
                 if (textView != null) {
+                    textView.setOnClickListener(DetailActivity.this);
                     if (totalScore > 80.0f) {
                         textView.setTextColor(getResources().getColor(R.color.app_green));
                     } else if (totalScore >= 45.0f) {
