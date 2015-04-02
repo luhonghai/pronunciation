@@ -23,12 +23,15 @@ import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -304,16 +307,28 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (mTabHost == null) return;
 
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
+        addTab(R.drawable.p_graph_blue,
+                GraphFragment.class, "graph");
+        addTab(R.drawable.p_history_blue,
+                HistoryFragment.class, "history");
+        addTab(R.drawable.p_tip_blue,
+                TipFragment.class, "tip");
+    }
 
-        mTabHost.addTab(
-                mTabHost.newTabSpec("graph").setIndicator("Graph", null),
-                GraphFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("history").setIndicator("History", null),
-                HistoryFragment.class, null);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tips").setIndicator("Tips", null),
-                TipFragment.class, null);
+    private void addTab(int drawableId, Class<?> c, String labelId)
+    {
+
+        Intent intent = new Intent(this, c);
+        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+
+        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, (RelativeLayout) findViewById(R.id.content), false);
+
+        ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
+        icon.setImageResource(drawableId);
+        spec.setIndicator(tabIndicator);
+        spec.setContent(intent);
+        mTabHost.addTab(spec, c, null);
+
     }
 
     private void initCustomActionBar() {

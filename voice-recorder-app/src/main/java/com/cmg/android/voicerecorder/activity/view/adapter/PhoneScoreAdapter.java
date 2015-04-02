@@ -18,7 +18,6 @@ import com.cmg.android.voicerecorder.data.SphinxResult;
 public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> implements View.OnClickListener {
 
     private static class ViewHolder {
-        private TextView txtPhonemeDefault;
         private TextView txtPhonemeScore;
     }
 
@@ -40,18 +39,15 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> i
             view = new ViewHolder();
             convertView = inflator.inflate(R.layout.list_phome_item,
                     null);
-            view.txtPhonemeDefault = (TextView) convertView.findViewById(R.id.txtPhonemeDefault);
-            view.txtPhonemeDefault.setOnClickListener(this);
+
             view.txtPhonemeScore = (TextView) convertView.findViewById(R.id.txtPhonemeScore);
             view.txtPhonemeScore.setOnClickListener(this);
             convertView.setTag(view);
         } else {
             view = (ViewHolder) convertView.getTag();
         }
-        view.txtPhonemeDefault.setTag(score);
         view.txtPhonemeScore.setTag(score);
 
-        view.txtPhonemeDefault.setText(score.getName());
         view.txtPhonemeScore.setText(score.getName());
         int sdk = android.os.Build.VERSION.SDK_INT;
         Drawable drawable;
@@ -74,9 +70,7 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> i
     public void onClick(View v) {
         SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
         switch (v.getId()) {
-            case R.id.txtPhonemeDefault:
 
-                break;
             case R.id.txtPhonemeScore:
 
                 break;
