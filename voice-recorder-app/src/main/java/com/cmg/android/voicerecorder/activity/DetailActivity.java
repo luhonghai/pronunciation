@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -25,11 +28,13 @@ import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
 import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
 import com.cmg.android.voicerecorder.activity.view.adapter.PhoneScoreAdapter;
+import com.cmg.android.voicerecorder.activity.view.adapter.PhoneScoreItemAdapter;
 import com.cmg.android.voicerecorder.data.SphinxResult;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
 import com.cmg.android.voicerecorder.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.voicerecorder.utils.ColorHelper;
+import com.cmg.android.voicerecorder.view.PopoverView;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -91,7 +96,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         initCustomActionBar();
         initTabHost();
         initDetailView();
-        showData(model,false);
+        showData(model, false);
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
     }
 
@@ -126,7 +131,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         if (phonemeScores == null || phonemeScores.size() == 0) return;
         SphinxResult.PhonemeScore[] scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
         phonemeScores.toArray(scores);
-        PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores);
+        PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores, this);
         hListView.setAdapter(scoreAdapter);
         scoreAdapter.notifyDataSetChanged();
     }
@@ -246,7 +251,74 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     playAudio();
                 }
                 break;
+            case R.id.txtPhonemeScore:
+                showPopup(v);
+                break;
         }
+    }
+
+    private void showPopup(View v) {
+        final SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
+        final float totalScore = score.getTotalScore();
+        RelativeLayout rootView = (RelativeLayout)findViewById(R.id.content);
+        PopoverView popoverView = new PopoverView(this, R.layout.popover_showed_view);
+        popoverView.setContentSizeForViewInPopover(new Point(440, 260));
+        popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
+            @Override
+            public void popoverViewWillShow(PopoverView view) {
+
+            }
+
+            @Override
+            public void popoverViewDidShow(PopoverView view) {
+                RecordingView recordingView = (RecordingView) view.findViewById(R.id.cyclePhoneScore);
+                if (recordingView != null) {
+                    recordingView.setScore(totalScore);
+                    recordingView.showScore();
+                    recordingView.setOnClickListener(DetailActivity.this);
+                } else {
+                    AppLog.logString("No score view found");
+                }
+
+                TextView textView = (TextView) view.findViewById(R.id.txtTotalPhonemeScore);
+                if (textView != null) {
+                    textView.setOnClickListener(DetailActivity.this);
+                    if (totalScore > 80.0f) {
+                        textView.setTextColor(getResources().getColor(R.color.app_green));
+                    } else if (totalScore >= 45.0f) {
+                        textView.setTextColor(getResources().getColor(R.color.app_orange));
+                    } else {
+                        textView.setTextColor(getResources().getColor(R.color.app_red));
+                    }
+                    textView.setText(Math.round(totalScore) + "% like " + score.getName().toUpperCase());
+                }
+                List<SphinxResult.PhonemeScoreUnit> scoreItems = score.getPhonemes();
+                if (scoreItems != null && scoreItems.size() > 0) {
+                    SphinxResult.PhonemeScoreUnit[] scoreItemArray = new SphinxResult.PhonemeScoreUnit[scoreItems.size()];
+                    scoreItems.toArray(scoreItemArray);
+                    ListView listView = (ListView) view.findViewById(R.id.listViewScoreItem);
+                    PhoneScoreItemAdapter adapter = new PhoneScoreItemAdapter(DetailActivity.this, scoreItemArray);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void popoverViewWillDismiss(PopoverView view) {
+
+            }
+
+            @Override
+            public void popoverViewDidDismiss(PopoverView view) {
+                RecordingView recordingView = (RecordingView) view.findViewById(R.id.cyclePhoneScore);
+                if (recordingView != null) {
+                    try {
+                        recordingView.recycle();
+                    } catch (Exception ex) {}
+                }
+            }
+        });
+        popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionDown, true);
     }
 
     private void play(String file) {

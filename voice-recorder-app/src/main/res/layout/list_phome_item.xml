@@ -4,14 +4,14 @@
     android:layout_height="wrap_content">
     <TextView
         android:id="@+id/txtPhonemeScore"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/phone_score_size"
+        android:layout_height="@dimen/phone_score_size"
         android:text="TH"
         android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/rounded_corner_color_green"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/phone_score_text_size"
         android:textStyle="bold"
-        android:layout_margin="5dp"
-        android:padding="4dp"/>
+        android:layout_margin="@dimen/phone_score_margin"
+        android:padding="@dimen/phone_score_padding"/>
 </LinearLayout>
