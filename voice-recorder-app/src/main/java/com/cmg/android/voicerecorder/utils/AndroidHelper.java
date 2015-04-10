@@ -1,10 +1,17 @@
 package com.cmg.android.voicerecorder.utils;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Point;
 import android.os.Build;
+import android.util.Base64;
 import android.view.Display;
 import android.view.WindowManager;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by cmg on 2/11/15.
@@ -36,5 +43,23 @@ public class AndroidHelper {
             Display d = w.getDefaultDisplay();
             return d.getHeight();
         }
+    }
+
+    public static String getKeyHash(Context context) {
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo("com.cmg.android.voicerecorder", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                return Base64.encodeToString(md.digest(), Base64.DEFAULT);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+
+        }
+        return "";
     }
 }

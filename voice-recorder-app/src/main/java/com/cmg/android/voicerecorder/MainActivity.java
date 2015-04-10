@@ -18,6 +18,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -46,11 +47,14 @@ import com.cmg.android.voicerecorder.activity.DetailActivity;
 import com.cmg.android.voicerecorder.activity.SettingsActivity;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
 import com.cmg.android.voicerecorder.activity.fragment.GraphFragment;
+import com.cmg.android.voicerecorder.activity.fragment.GraphFragmentParent;
 import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
 import com.cmg.android.voicerecorder.activity.fragment.Preferences;
 import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
+import com.cmg.android.voicerecorder.data.PhonemeScoreDBAdapter;
 import com.cmg.android.voicerecorder.data.ScoreDBAdapter;
+import com.cmg.android.voicerecorder.data.SphinxResult;
 import com.cmg.android.voicerecorder.data.TipsContainer;
 import com.cmg.android.voicerecorder.data.WordDBAdapter;
 import com.cmg.android.voicerecorder.data.UserProfile;
@@ -79,6 +83,7 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import be.tarsos.dsp.AudioDispatcher;
@@ -211,10 +216,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Load tips
-        TipsContainer tipsContainer = new TipsContainer(this.getApplicationContext());
-        tipsContainer.load();
-
         setContentView(R.layout.main);
         initCustomActionBar();
         initTabHost();
@@ -307,26 +308,28 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (mTabHost == null) return;
 
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        addTab(R.drawable.p_graph_blue,
+        addTabImage(R.drawable.tab_graph,
                 GraphFragment.class, "graph");
-        addTab(R.drawable.p_history_blue,
+        addTabImage(R.drawable.tab_history,
                 HistoryFragment.class, "history");
-        addTab(R.drawable.p_tip_blue,
+        addTabImage(R.drawable.tab_tip,
                 TipFragment.class, "tip");
+    }
+
+    private void addTabImage(int drawableId, Class<?> c, String labelId)
+    {
+        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
+        mTabHost.addTab(spec, c, null);
+
     }
 
     private void addTab(int drawableId, Class<?> c, String labelId)
     {
-
-        Intent intent = new Intent(this, c);
         TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, (RelativeLayout) findViewById(R.id.content), false);
-
         ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
         icon.setImageResource(drawableId);
         spec.setIndicator(tabIndicator);
-        spec.setContent(intent);
         mTabHost.addTab(spec, c, null);
 
     }
@@ -505,15 +508,38 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return false;
     }
 
+    private Runnable updateQueryRunnable = new Runnable() {
+        @Override
+        public void run() {
+            updateQuery();
+        }
+    };
+
+    private void updateQuery() {
+        final Cursor c = dbAdapter.search(searchText);
+        if (c.getCount() > 0) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    searchView.getSuggestionsAdapter().changeCursor(c);
+                    searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    private Handler updateQueryHandler = new Handler();
+
+    private String searchText;
+
     @Override
     public boolean onQueryTextChange(String s) {
         if (s.length() > 0) {
-            Cursor c = dbAdapter.search(s);
-            if (c.getCount() > 0) {
-                searchView.getSuggestionsAdapter().changeCursor(c);
-                searchView.getSuggestionsAdapter().notifyDataSetChanged();
-                return true;
-            }
+            searchText = s;
+//            updateQueryHandler.removeCallbacks(updateQueryRunnable);
+//            updateQueryHandler.post(updateQueryRunnable);
+            updateQuery();
+            return true;
         }
         return false;
     }
@@ -794,32 +820,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (dictionaryItem != null) {
                     play(dictionaryItem.getAudioFile());
                 }
-//                RelativeLayout rootView = (RelativeLayout)findViewById(R.id.content);
-//
-//                PopoverView popoverView = new PopoverView(this, R.layout.popover_showed_view);
-//                popoverView.setContentSizeForViewInPopover(new Point(320, 340));
-//                popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
-//                    @Override
-//                    public void popoverViewWillShow(PopoverView view) {
-//
-//                    }
-//
-//                    @Override
-//                    public void popoverViewDidShow(PopoverView view) {
-//
-//                    }
-//
-//                    @Override
-//                    public void popoverViewWillDismiss(PopoverView view) {
-//
-//                    }
-//
-//                    @Override
-//                    public void popoverViewDidDismiss(PopoverView view) {
-//
-//                    }
-//                });
-//                popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionAny, true);
                 break;
             case R.id.main_recording_view:
                 if (currentModel != null && dictionaryItem != null) {
@@ -1187,6 +1187,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             scoreDBAdapter.open();
             scoreDBAdapter.insert(score);
             scoreDBAdapter.close();
+
+            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
+            phonemeScoreDBAdapter.open();
+            List<SphinxResult.PhonemeScore> phonemeScoreList  = currentModel.getResult().getPhonemeScores();
+            for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
+                phonemeScoreDBAdapter.insert(phonemeScore);
+            }
+            phonemeScoreDBAdapter.close();
         }
     }
 

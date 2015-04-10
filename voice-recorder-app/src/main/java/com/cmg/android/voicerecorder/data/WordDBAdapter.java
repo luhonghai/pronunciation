@@ -10,7 +10,13 @@ import android.util.Log;
 import com.cmg.android.voicerecorder.AppLog;
 import com.cmg.android.voicerecorder.R;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * Created by luhonghai on 12/23/14.
@@ -168,5 +174,24 @@ public class WordDBAdapter {
 
         return db.update(DATABASE_TABLE, args,
                 KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    public Map<String,String> getPhonemeCMUvsIPA() {
+        Map<String, String> maps = new Hashtable<String, String>();
+        try {
+            String source = IOUtils.toString(context.getResources().openRawResource(R.raw.phoneme_cmu_ipa), "UTF-8");
+            String[] lines = source.split("\n");
+            for (String line : lines) {
+                if (line.trim().length() > 0) {
+                    String[] data = line.split(" ");
+                    if (data.length == 2) {
+                        maps.put(data[0].trim().toUpperCase(), data[1].trim());
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return maps;
     }
 }

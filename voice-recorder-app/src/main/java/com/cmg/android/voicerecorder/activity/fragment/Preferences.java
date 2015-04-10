@@ -3,6 +3,7 @@ package com.cmg.android.voicerecorder.activity.fragment;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -78,7 +79,11 @@ public class Preferences extends PreferenceFragment implements
         initPreferences();
         initUsername();
         prefVersion = (Preference) getPreferenceScreen().findPreference("version");
-        prefVersion.setSummary(getResources().getString(R.string.version));
+        try {
+            prefVersion.setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            prefVersion.setSummary("Unknown");
+        }
 
     }
 

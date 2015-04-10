@@ -5,4 +5,5 @@
     <dimen name="phone_score_margin">2dp</dimen>
     <dimen name="phone_score_text_size">16dp</dimen>
     <dimen name="phone_score_rounded_radius">7dp</dimen>
+    <dimen name="phone_detail_rounded_radius">40dp</dimen>
 </resources>

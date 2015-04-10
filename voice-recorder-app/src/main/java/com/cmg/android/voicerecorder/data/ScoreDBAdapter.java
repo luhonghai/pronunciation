@@ -176,6 +176,22 @@ public class ScoreDBAdapter {
                 "=" + rowId, null) > 0;
     }
 
+    public Cursor getAllTime()
+    {
+        return db.query(DATABASE_TABLE, new String[] {
+                        KEY_ROWID,
+                        KEY_WORD,
+                        KEY_DATA_ID,
+                        KEY_SCORE,
+                        KEY_TIMESTAMP},
+                null,
+                null,
+                null,
+                null,
+                KEY_TIMESTAMP + " DESC",
+                null);
+    }
+
     public Cursor getAll()
     {
         return db.query(DATABASE_TABLE, new String[] {
@@ -188,7 +204,8 @@ public class ScoreDBAdapter {
                 null,
                 null,
                 null,
-                KEY_TIMESTAMP + " DESC");
+                KEY_TIMESTAMP + " DESC",
+                "30");
     }
 
     public Cursor get(long rowId) throws SQLException
@@ -226,7 +243,23 @@ public class ScoreDBAdapter {
                         null,
                         null,
                 KEY_TIMESTAMP + " DESC",
-                null);
+                "30");
+    }
+
+    public Cursor getLatestByWord(String word) throws SQLException
+    {
+        return db.query(true, DATABASE_TABLE, new String[] {
+                        KEY_ROWID,
+                        KEY_WORD,
+                        KEY_DATA_ID,
+                        KEY_SCORE,
+                        KEY_TIMESTAMP},
+                KEY_WORD + "=?",
+                new String[]{word},
+                null,
+                null,
+                KEY_TIMESTAMP + " DESC",
+                "1");
     }
 
     public boolean update(PronunciationScore score)

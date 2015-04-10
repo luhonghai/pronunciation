@@ -12,20 +12,19 @@ android {
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/NOTICE.txt'
     }
-
     //compileSdkVersion 19
     buildToolsVersion "19.1.0"
-
     defaultConfig {
         applicationId "com.cmg.android.voicerecorder"
-        versionCode 1
-        versionName "1.0"
+        versionCode 131
+        versionName "1.3.1"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
         compileSdkVersion 19
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -36,8 +35,10 @@ dependencies {
     compile 'commons-io:commons-io:2.4'
     compile 'com.balysv.materialmenu:material-menu-abs:1.5.0'
     compile 'org.jsoup:jsoup:1.7.3'
+    compile project(':facebook')
     compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
-    compile ('com.jjoe64:graphview:4.0.0') {
+    compile('com.jjoe64:graphview:4.0.0') {
         exclude module: 'appcompat-v7'
     }
+    compile 'com.google.android.gms:play-services:6.5.87'
 }

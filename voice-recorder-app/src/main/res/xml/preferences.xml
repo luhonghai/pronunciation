@@ -81,5 +81,5 @@
             android:title="Auto stop recording"
             android:summary="Automatically stop recording after no detected pitch found in 2 seconds (No voice found)"/>
     </PreferenceCategory>
-    <Preference android:title="Version" android:key="version"></Preference>
+    <Preference android:title="Version" android:key="version"/>
 </PreferenceScreen>

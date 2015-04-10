@@ -9,6 +9,10 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <style name="Theme.WhiteDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/white_panel_background</item>
+    </style>
+
     <style name="StatusInfoOverlayText">
         <item name="android:paddingLeft">2px</item>
         <item name="android:paddingBottom">2px</item>

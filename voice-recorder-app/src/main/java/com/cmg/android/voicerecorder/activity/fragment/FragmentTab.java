@@ -18,6 +18,7 @@ public abstract class FragmentTab extends Fragment {
     public static final int TYPE_RELOAD_DATA = 0;
     public static final int TYPE_ENABLE_VIEW = 1;
     public static final int TYPE_DISABLE_VIEW = 2;
+    public static final int TYPE_SELECT_PHONEME_GRAPH = 3;
 
     public static final String ON_UPDATE_DATA = "com.cmg.android.voicerecorder.activity.fragment.FragmentTab.ON_UPDATE_DATA";
     public static final String ARG_WORD = "word";

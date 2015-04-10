@@ -1,19 +1,25 @@
 package com.cmg.android.voicerecorder.activity;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.view.View;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -24,6 +30,7 @@ import com.cmg.android.voicerecorder.PlayerHelper;
 import com.cmg.android.voicerecorder.R;
 import com.cmg.android.voicerecorder.activity.fragment.FragmentTab;
 import com.cmg.android.voicerecorder.activity.fragment.GraphFragment;
+import com.cmg.android.voicerecorder.activity.fragment.GraphFragmentParent;
 import com.cmg.android.voicerecorder.activity.fragment.HistoryFragment;
 import com.cmg.android.voicerecorder.activity.fragment.TipFragment;
 import com.cmg.android.voicerecorder.activity.view.RecordingView;
@@ -31,14 +38,21 @@ import com.cmg.android.voicerecorder.activity.view.adapter.PhoneScoreAdapter;
 import com.cmg.android.voicerecorder.activity.view.adapter.PhoneScoreItemAdapter;
 import com.cmg.android.voicerecorder.data.SphinxResult;
 import com.cmg.android.voicerecorder.data.UserVoiceModel;
+import com.cmg.android.voicerecorder.data.WordDBAdapter;
 import com.cmg.android.voicerecorder.dictionary.DictionaryItem;
 import com.cmg.android.voicerecorder.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.voicerecorder.utils.ColorHelper;
+import com.cmg.android.voicerecorder.utils.FileHelper;
 import com.cmg.android.voicerecorder.view.PopoverView;
 import com.google.gson.Gson;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import it.sephiroth.android.library.widget.HListView;
 
@@ -87,9 +101,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private boolean isPlaying = false;
 
+    private Map<String, String> mapCMUvsIPA;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WordDBAdapter wordDBAdapter = new WordDBAdapter(this);
+        mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(this.getIntent().getExtras().get(USER_VOICE_MODEL).toString(), UserVoiceModel.class);
         setContentView(R.layout.detail);
@@ -97,6 +115,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         initTabHost();
         initDetailView();
         showData(model, false);
+        registerReceiver(mHandleUpdate, new IntentFilter(FragmentTab.ON_UPDATE_DATA));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
     }
 
@@ -180,6 +199,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
         }
         try {
+            unregisterReceiver(mHandleUpdate);
+        } catch (Exception ex) {
+
+        }
+        try {
             recordingView.stopPingAnimation();
         } catch (Exception ex) {
 
@@ -202,15 +226,19 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         Gson gson = new Gson();
         bundle.putString(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
 
-        mTabHost.addTab(
-                mTabHost.newTabSpec("graph").setIndicator("Graph", null),
-                GraphFragment.class, bundle);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("history").setIndicator("History", null),
-                HistoryFragment.class, bundle);
-        mTabHost.addTab(
-                mTabHost.newTabSpec("tips").setIndicator("Tips", null),
-                TipFragment.class, bundle);
+        addTabImage(R.drawable.tab_graph,
+                GraphFragmentParent.class, "graph", bundle);
+        addTabImage(R.drawable.tab_history,
+                HistoryFragment.class, "history", bundle);
+        addTabImage(R.drawable.tab_tip,
+                TipFragment.class, "tip", bundle);
+    }
+
+    private void addTabImage(int drawableId, Class<?> c, String labelId, Bundle bundle)
+    {
+        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
+        mTabHost.addTab(spec, c, bundle);
+
     }
 
     private void initCustomActionBar() {
@@ -252,11 +280,90 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.txtPhonemeScore:
-                showPopup(v);
+                showDialog(v);
                 break;
         }
     }
 
+    private void showDialog(View v) {
+        final SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
+        final float totalScore = score.getTotalScore();
+        final Dialog dialog = new Dialog(this, R.style.Theme_WhiteDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.phone_info_dialog);
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        Drawable drawable;
+        if (totalScore >= 80.0f) {
+            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_green_dialog);
+            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_green_rev);
+            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_green_rev);
+        } else if (totalScore >= 45.0f) {
+            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_orange_dialog);
+            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_orange_rev);
+            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_orange_rev);
+        } else {
+            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_red_dialog);
+            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_red_rev);
+            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_red_rev);
+        }
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            dialog.findViewById(R.id.content).setBackgroundDrawable(drawable);
+        } else {
+            dialog.findViewById(R.id.content).setBackground(drawable);
+        }
+        dialog.findViewById(R.id.btnGraph).setTag(score.getName());
+        dialog.findViewById(R.id.btnGraph).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
+                notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, FragmentTab.TYPE_SELECT_PHONEME_GRAPH);
+                notifyUpdateIntent.putExtra(FragmentTab.ACTION_DATA, v.getTag().toString());
+                sendBroadcast(notifyUpdateIntent);
+                dialog.dismiss();
+            }
+        });
+        ((TextView) dialog.findViewById(R.id.txtPhonemeScore)).setText(Math.round(totalScore) + "%");
+        String ipa = "";
+        if (mapCMUvsIPA.containsKey(score.getName().toUpperCase())) {
+            ipa = mapCMUvsIPA.get(score.getName().toUpperCase());
+        }
+        ((TextView) dialog.findViewById(R.id.txtPhonemeReal)).setText(ipa);
+        ((TextView) dialog.findViewById(R.id.txtPhoneme)).setText(score.getName());
+        dialog.findViewById(R.id.btnAudioPhoneme).setTag(score.getName());
+        dialog.findViewById(R.id.btnAudioPhoneme).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File ipaAudio = new File(FileHelper.getIPACacheDir(DetailActivity.this), v.getTag().toString() + ".mp3");
+                try {
+                    if (ipaAudio.exists())
+                        FileUtils.forceDelete(ipaAudio);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (!ipaAudio.exists()) {
+                    try {
+                        FileUtils.copyInputStreamToFile(getAssets().open("ipa-help/" + v.getTag().toString().toUpperCase() + ".mp3"), ipaAudio);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                playFile(ipaAudio);
+            }
+        });
+        dialog.setTitle(null);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.dismiss();
+            }
+        }, 10000);
+    }
+
+    @Deprecated
     private void showPopup(View v) {
         final SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
         final float totalScore = score.getTotalScore();
@@ -326,6 +433,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void play(File file) {
+        if (!file.exists()) return;
         try {
             if (player != null) {
                 try {
@@ -340,7 +448,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                     mp.release();
                     try {
                         player.stop();
-
                     } catch (Exception ex) {
 
                     }
@@ -391,8 +498,12 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void playAudio() {
-        isPlaying = true;
         switchButtonState(ButtonState.PLAYING);
+        playFile(new File(model.getAudioFile()));
+    }
+
+    private void playFile(File file) {
+        isPlaying = true;
         try {
             if (player != null) {
                 try {
@@ -401,7 +512,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
                 }
             }
-            player = new PlayerHelper(new File(model.getAudioFile()), new MediaPlayer.OnCompletionListener() {
+            player = new PlayerHelper(file, new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
@@ -471,6 +582,18 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public void onAnimationMin() {
 
     }
+
+    private final BroadcastReceiver mHandleUpdate = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final int type = intent.getExtras().getInt(FragmentTab.ACTION_TYPE);
+            switch (type) {
+                case FragmentTab.TYPE_SELECT_PHONEME_GRAPH:
+                    mTabHost.setCurrentTab(0);
+                    break;
+            }
+        }
+    };
 
     private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
         @Override

@@ -22,6 +22,8 @@ public class FileHelper {
 
     private static final String PRONUNCIATION_SCORE_DIR = "score";
 
+    private static final String IPA_CACHE_DIR = "ipa";
+
     private static final String TIPS_JSON_FILE = "tips" + JSON_EXTENSION;
 
     public static File getAudioDir(Context context) {
@@ -30,6 +32,14 @@ public class FileHelper {
 
     public static File getPronunciationScoreDir(Context context) {
         return new File(getApplicationDir(context), PRONUNCIATION_SCORE_DIR);
+    }
+
+    public static File getIPACacheDir(Context context) {
+        File dir = new File(getApplicationDir(context), IPA_CACHE_DIR);
+        if (!dir.exists() || !dir.isDirectory()) {
+            dir.mkdirs();
+        }
+        return dir;
     }
 
     public static File getApplicationDir(Context context) {

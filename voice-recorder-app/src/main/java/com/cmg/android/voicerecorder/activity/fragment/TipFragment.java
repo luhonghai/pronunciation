@@ -149,7 +149,10 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
         if (currentTip != null) {
             List<String> words = currentTip.getWords();
             if (words != null && words.size() > 0) {
-                if (currentTipIndex == 0) {
+                if (words.size() == 1) {
+                    btnPrev.setVisibility(View.INVISIBLE);
+                    btnNext.setVisibility(View.INVISIBLE);
+                } else if (currentTipIndex == 0) {
                     btnPrev.setVisibility(View.INVISIBLE);
                     btnNext.setVisibility(View.VISIBLE);
                 } else if (currentTipIndex == words.size() - 1) {

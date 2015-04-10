@@ -88,61 +88,65 @@ public class TipsContainer {
         this.context = context;
     }
 
-    public void load() {
-        isLoaded = false;
+    public void loadSync() {
         if (tips == null)
             tips = new PronunciationTip[0];
         synchronized (tips) {
-            AsyncTask<Void,Void,Void> asyncTask = new AsyncTask<Void, Void, Void>() {
+            File tipFile = FileHelper.getSavedTipFile(context);
+            File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
+            try {
+                FileUtils.copyURLToFile(new URL(context.getResources().getString(R.string.tips_url)), tmpFile, TIMEOUT,TIMEOUT);
+                if (tmpFile.exists()) {
+                    if (tipFile.exists())
+                        FileUtils.forceDelete(tipFile);
+                    FileUtils.moveFile(tmpFile, tipFile);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            if (tipFile.exists()) {
+                Gson gson = new Gson();
+                try {
+                    String source = FileUtils.readFileToString(tipFile, "UTF-8");
+                    //AppLog.logString("Found tip source: " + source);
+                    if (source != null && source.length() > 0)
+                        tips = gson.fromJson(source, PronunciationTip[].class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+            tipIndex = new HashMap<String, List<Integer>>();
+            if (tips != null && tips.length > 0) {
+                for (int i = 0; i < tips.length; i++) {
+                    final PronunciationTip tip = tips[i];
+                    String phoneme = tip.getPhoneme().toLowerCase();
+                    if (tipIndex.containsKey(phoneme)) {
+                        tipIndex.get(phoneme).add(i);
+                    } else {
+                        List<Integer> index = new ArrayList<Integer>();
+                        index.add(i);
+                        tipIndex.put(phoneme, index);
+                    }
+                }
+            }
+            isLoaded = true;
+        }
+    }
+
+    public void load() {
+        isLoaded = false;
+        AsyncTask<Void,Void,Void> asyncTask = new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    File tipFile = FileHelper.getSavedTipFile(context);
-                    File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
-                    try {
-                        FileUtils.copyURLToFile(new URL(context.getResources().getString(R.string.tips_url)), tmpFile, TIMEOUT,TIMEOUT);
-                        if (tmpFile.exists()) {
-                            if (tipFile.exists())
-                                FileUtils.forceDelete(tipFile);
-                            FileUtils.moveFile(tmpFile, tipFile);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                    if (tipFile.exists()) {
-                        Gson gson = new Gson();
-                        try {
-                            String source = FileUtils.readFileToString(tipFile, "UTF-8");
-                            AppLog.logString("Found tip source: " + source);
-                            if (source != null && source.length() > 0)
-                                tips = gson.fromJson(source, PronunciationTip[].class);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    tipIndex = new HashMap<String, List<Integer>>();
-                    if (tips != null && tips.length > 0) {
-                        for (int i = 0; i < tips.length; i++) {
-                            final PronunciationTip tip = tips[i];
-                            String phoneme = tip.getPhoneme().toLowerCase();
-                            if (tipIndex.containsKey(phoneme)) {
-                                tipIndex.get(phoneme).add(i);
-                            } else {
-                                List<Integer> index = new ArrayList<Integer>();
-                                index.add(i);
-                                tipIndex.put(phoneme, index);
-                            }
-                        }
-                    }
-                    isLoaded = true;
-                    return null;
-                }
+                loadSync();
+                return null;
+            }
             };
-            asyncTask.execute();
-        }
+        asyncTask.execute();
     }
 
     public boolean isLoaded() {
