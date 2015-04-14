@@ -7,6 +7,11 @@
 	<!-- Persistence "unit" -->
 	<persistence-unit name="VRC">
         <class>com.cmg.vrc.data.jdo.UserVoiceModelJDO</class>
+        <class>com.cmg.vrc.data.jdo.UserDeviceJDO</class>
+        <class>com.cmg.vrc.data.jdo.UserJDO</class>
+        <class>com.cmg.vrc.data.jdo.SecurityJDO</class>
+        <class>com.cmg.vrc.data.jdo.UsageJDO</class>
+        <class>com.cmg.vrc.data.jdo.AppDetailJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

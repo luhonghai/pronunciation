@@ -141,6 +141,7 @@ public class VoiceRecordHandler extends HttpServlet {
                 }
 
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
+
                 dao.create(model);
                 String output = gson.toJson(model);
                 FileUtils.writeStringToFile(new File(target, word + "_" + uuid + ".json"), output);

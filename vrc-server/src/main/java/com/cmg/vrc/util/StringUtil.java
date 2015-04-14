@@ -15,7 +15,7 @@ public class StringUtil {
         }
     }
 	
-	public static String List2String(ArrayList<String> list){
+	public static String list2String(ArrayList<String> list){
        if(list.size() > 0 ){
            String temp = new String();
            for(String s : list){

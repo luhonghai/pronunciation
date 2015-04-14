@@ -10,76 +10,76 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="Profile">
-        <PreferenceScreen
-            android:key="select_username"
-            android:title="Select profile"
-            android:persistent="false">
-            <ListPreference
-                android:dialogTitle="Select profile"
-                android:key="username_list"
-                android:title="Select profile" />
-            <EditTextPreference
-                android:dialogTitle="Add new profile"
-                android:key="add_username"
-                android:title="Add new profile" />
-            <com.cmg.android.voicerecorder.preferences.YesNoPreference
-                android:dialogMessage="Are you sure you want to delete current profile?"
-                android:key="delete_profile"
-                android:summary=""
-                android:title="Delete current profile"/>
-        </PreferenceScreen>
+        <!--<PreferenceScreen-->
+            <!--android:key="select_username"-->
+            <!--android:title="Select profile"-->
+            <!--android:persistent="false">-->
+            <!--<ListPreference-->
+                <!--android:dialogTitle="Select profile"-->
+                <!--android:key="username_list"-->
+                <!--android:title="Select profile" />-->
+            <!--<EditTextPreference-->
+                <!--android:dialogTitle="Add new profile"-->
+                <!--android:key="add_username"-->
+                <!--android:title="Add new profile" />-->
+            <!--<bbcaccentferences.YesNoPreference-->
+                <!--android:dialogMessage="Are you sure you want to delete current profile?"-->
+                <!--android:key="delete_profile"-->
+                <!--android:summary=""-->
+                <!--android:title="Delete current profile"/>-->
+        <!--</PreferenceScreen>-->
         <ListPreference
             android:defaultValue="5"
             android:dialogTitle="English proficiency"
             android:entries="@array/english_proficiency_levels"
             android:entryValues="@array/english_proficiency_levels_value"
             android:key="english_proficiency"
-            android:title="English proficiency (Self assessed)" />
+            android:title="English proficiency (self assessed)" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="native_english"
-            android:title="Native English speaker" />
+            android:title="native English speaker" />
         <ListPreference
             android:defaultValue="GB"
-            android:dialogTitle="Country of birth"
+            android:dialogTitle="country of birth"
             android:entries="@array/country_of_birth"
             android:entryValues="@array/country_of_birth_value"
             android:key="country_of_birth"
-            android:title="Country of birth" />
-        <com.cmg.android.voicerecorder.preferences.DatePreference
-            android:key="dob" android:title="Date of birth"
+            android:title="country of birth" />
+        <com.cmg.android.bbcaccent.preferences.DatePreference
+            android:key="dob" android:title="date of birth"
             android:defaultValue="01/01/1900" />
 
         <CheckBoxPreference
                 android:defaultValue="true"
                 android:key="gender_male"
-                android:title="Male" />
+                android:title="male" />
         <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="gender_female"
-                android:title="Female" />
+                android:title="female" />
 
     </PreferenceCategory>
-    <PreferenceCategory android:title="Recorder" android:summary="">
-        <ListPreference
-            android:defaultValue="16000"
-            android:dialogTitle="Sample rate"
-            android:entries="@array/sample_rate_list"
-            android:entryValues="@array/sample_rate_list_value"
-            android:key="audio_sample_rate"
-            android:title="Sample rate" />
-        <ListPreference
-            android:defaultValue="mono"
-            android:dialogTitle="Chanel"
-            android:entries="@array/chanel_list"
-            android:entryValues="@array/chanel_list"
-            android:key="audio_chanel"
-            android:title="Chanel" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="auto_stop_recording"
-            android:title="Auto stop recording"
-            android:summary="Automatically stop recording after no detected pitch found in 2 seconds (No voice found)"/>
-    </PreferenceCategory>
-    <Preference android:title="Version" android:key="version"/>
+    <!--<PreferenceCategory android:title="Recorder" android:summary="">-->
+        <!--<ListPreference-->
+            <!--android:defaultValue="16000"-->
+            <!--android:dialogTitle="Sample rate"-->
+            <!--android:entries="@array/sample_rate_list"-->
+            <!--android:entryValues="@array/sample_rate_list_value"-->
+            <!--android:key="audio_sample_rate"-->
+            <!--android:title="Sample rate" />-->
+        <!--<ListPreference-->
+            <!--android:defaultValue="mono"-->
+            <!--android:dialogTitle="Chanel"-->
+            <!--android:entries="@array/chanel_list"-->
+            <!--android:entryValues="@array/chanel_list"-->
+            <!--android:key="audio_chanel"-->
+            <!--android:title="Chanel" />-->
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="auto_stop_recording"-->
+            <!--android:title="Auto stop recording"-->
+            <!--android:summary="Automatically stop recording after no detected pitch found in 2 seconds (No voice found)"/>-->
+    <!--</PreferenceCategory>-->
+    <!--<Preference android:title="Version" android:key="version"/>-->
 </PreferenceScreen>

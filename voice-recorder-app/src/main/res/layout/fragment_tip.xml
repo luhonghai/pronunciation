@@ -12,7 +12,7 @@
         android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         >
-    <TextView
+    <org.sufficientlysecure.htmltextview.HtmlTextView
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/txtTextTip"
@@ -20,7 +20,6 @@
         android:textSize="@dimen/main_selected_phoneme_size"
         android:textColor="#579e11"
         android:padding="10dp"
-        android:text="To make R sound, first, from your mouth as if you are going to make an U sound"
         />
     </ScrollView>
     <LinearLayout
