@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -27,6 +29,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -55,7 +58,7 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.fragment.TipFragment;
 import com.cmg.android.bbcaccent.activity.info.AboutActivity;
 import com.cmg.android.bbcaccent.activity.info.HelpActivity;
-import com.cmg.android.bbcaccent.activity.info.LicenseActivity;
+import com.cmg.android.bbcaccent.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -326,7 +329,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         startActivity(AboutActivity.class);
                         break;
                     case 3:
-                        startActivity(LicenseActivity.class);
+                        startActivity(LicenceActivity.class);
                         break;
                     case 4:
                         startActivity(FeedbackActivity.class);
@@ -839,6 +842,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        UserProfile userProfile = Preferences.getCurrentProfile(this);
+        if (userProfile != null && userProfile.getHelpStatus() == UserProfile.HELP_INIT) {
+            userProfile.setHelpStatus(UserProfile.HELP_SKIP);
+            Preferences.addProfile(this, userProfile);
+        }
         try {
             unregisterReceiver(mHandleMessageReader);
         } catch (Exception e) {
@@ -1031,10 +1039,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         UserProfile profile = Preferences.getCurrentProfile(this);
         if (profile == null) {
             AppLog.logString("No profile found");
-            openSettings();
+            //openSettings();
+            startActivity(HelpActivity.class);
         } else if (!profile.isSetup()) {
             AppLog.logString("Profile is not setup: " + profile.getUsername());
-            openSettings();
+            //openSettings();
+            startActivity(HelpActivity.class);
+        } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
+            showHelpDialog();
         }
     }
 
@@ -1370,6 +1382,53 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
             phonemeScoreDBAdapter.close();
         }
+    }
+
+
+    private void showHelpDialog() {
+        final Dialog dialog = new Dialog(this, R.style.Theme_WhiteDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.help_dialog);
+
+        dialog.findViewById(R.id.btnNever).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile userProfile = Preferences.getCurrentProfile(MainActivity.this);
+                if (userProfile != null) {
+                    userProfile.setHelpStatus(UserProfile.HELP_NEVER);
+                    Preferences.addProfile(MainActivity.this, userProfile);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(HelpActivity.class);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setTitle(null);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
 }

@@ -140,7 +140,7 @@ ADDED from AndroidManifest.xml:66:9
 		ADDED from AndroidManifest.xml:69:13
 	android:name
 		ADDED from AndroidManifest.xml:67:13
-activity#com.cmg.android.bbcaccent.activity.info.LicenseActivity
+activity#com.cmg.android.bbcaccent.activity.info.LicenceActivity
 ADDED from AndroidManifest.xml:73:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:78:13

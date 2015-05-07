@@ -9,6 +9,10 @@ public class UserProfile {
     public static final String TYPE_FACEBOOK = "facebook";
     public static final String TYPE_GOOGLE_PLUS = "googleplus";
 
+    public static final int HELP_INIT = 0;
+    public static final int HELP_SKIP = 1;
+    public static final int HELP_NEVER = 2;
+
     public static UserProfile getAnonymouse() {
         UserProfile anonymous = new UserProfile();
         anonymous.username = "anonymous";
@@ -62,6 +66,14 @@ public class UserProfile {
 
     public void setDeviceInfo(DeviceInfo deviceInfo) {
         this.deviceInfo = deviceInfo;
+    }
+
+    public int getHelpStatus() {
+        return helpStatus;
+    }
+
+    public void setHelpStatus(int helpStatus) {
+        this.helpStatus = helpStatus;
     }
 
     public static class UserLocation {
@@ -158,6 +170,7 @@ public class UserProfile {
     private UserLocation location;
     private DeviceInfo deviceInfo;
     private String uuid;
+    private int helpStatus = HELP_INIT;
 
     public int getEnglishProficiency() {
         return englishProficiency;

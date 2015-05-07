@@ -6,6 +6,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.Default">
+
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
             android:name="com.cmg.android.bbcaccent.SplashScreen"
@@ -71,8 +72,8 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.cmg.android.bbcaccent.activity.info.LicenseActivity"
-            android:label="license"
+            android:name=".activity.info.LicenceActivity"
+            android:label="licence"
             android:theme="@style/Theme.Default"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
@@ -80,7 +81,7 @@
         <activity
             android:name="com.cmg.android.bbcaccent.activity.info.HelpActivity"
             android:label="help"
-            android:theme="@style/Theme.Default"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>

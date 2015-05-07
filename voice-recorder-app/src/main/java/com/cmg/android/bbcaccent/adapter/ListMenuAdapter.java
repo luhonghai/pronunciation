@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ListMenuAdapter extends BaseAdapter {
 
-    private  List<String> menuText = Arrays.asList("help", "settings", "about", "license", "feedback", "logout");
+    private  List<String> menuText = Arrays.asList("help", "settings", "about", "licence", "feedback", "logout");
     private  List<Integer> menuIcon = Arrays.asList(
             R.drawable.p_menu_help,
             R.drawable.p_menu_setting,

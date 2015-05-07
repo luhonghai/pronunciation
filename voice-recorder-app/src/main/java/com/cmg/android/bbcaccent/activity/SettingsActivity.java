@@ -15,7 +15,6 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new Preferences()).commit();
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     @Override
@@ -30,7 +29,13 @@ public class SettingsActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        Preferences.setIsSetupProfile(this, Preferences.getSelectedUsername(this));
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Preferences.setIsSetupProfile(this, Preferences.getSelectedUsername(this));
+        super.onDestroy();
+
     }
 }

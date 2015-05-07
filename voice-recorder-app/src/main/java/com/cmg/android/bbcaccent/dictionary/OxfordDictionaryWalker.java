@@ -25,7 +25,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
 
     private static final String ENCODE = "UTF-8";
 
-    private Language language = Language.AMERICAN_ENGLISH;
+    private Language language = Language.ENGLISH;
 
     private Gson gson;
 
