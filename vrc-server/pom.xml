@@ -17,7 +17,7 @@
         <repository>
             <id>deployment</id>
             <name>CMG Public Repository</name>
-            <url>http://services.c-mg.vn/nexus/content/groups/public/</url>
+            <url>http://c-mg.vn/nexus/content/groups/public</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
