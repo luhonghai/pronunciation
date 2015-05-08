@@ -49,6 +49,9 @@ public class UserVoiceModelJDO implements Mirrorable {
     @Persistent
     private String hypothesis;
 
+    @Persistent
+    private String rawSphinxResult;
+
     public String getUsername() {
         return username;
     }
@@ -193,5 +196,13 @@ public class UserVoiceModelJDO implements Mirrorable {
 
     public void setHypothesis(String hypothesis) {
         this.hypothesis = hypothesis;
+    }
+
+    public String getRawSphinxResult() {
+        return rawSphinxResult;
+    }
+
+    public void setRawSphinxResult(String rawSphinxResult) {
+        this.rawSphinxResult = rawSphinxResult;
     }
 }

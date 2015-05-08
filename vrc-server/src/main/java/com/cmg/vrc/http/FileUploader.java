@@ -116,20 +116,4 @@ public class FileUploader {
         String result = upload(new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH)), paras, uploadUrl);
         return result;
     }
-
-
-    public static void main(String[] args) {
-        Map<String, String> data = new HashMap<String,String>();
-        data.put(FileCommon.PARA_FILE_NAME, "jewellery_test.wav");
-        data.put(FileCommon.PARA_FILE_PATH, "/Volumes/DATA/Development/voice-sample/necessarily-hai.wav");
-        data.put("key", "AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY");
-        try {
-            String result = FileUploader.upload(data, "http://192.168.1.123:8080/vrc/VoiceAnalyzeHandler");
-            System.out.println(result);
-        } catch (UploaderException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 }

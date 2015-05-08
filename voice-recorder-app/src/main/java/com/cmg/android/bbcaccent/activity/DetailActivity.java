@@ -156,6 +156,12 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         hListView = (HListView) findViewById(R.id.listViewScore);
         webView = (WebView) findViewById(R.id.webview_score);
         recordingView = (RecordingView) findViewById(R.id.main_recording_view);
+        recordingView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         recordingView.setAnimationListener(this);
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnAudio.setOnClickListener(this);

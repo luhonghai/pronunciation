@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -27,6 +29,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -55,7 +58,7 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.fragment.TipFragment;
 import com.cmg.android.bbcaccent.activity.info.AboutActivity;
 import com.cmg.android.bbcaccent.activity.info.HelpActivity;
-import com.cmg.android.bbcaccent.activity.info.LicenseActivity;
+import com.cmg.android.bbcaccent.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -72,9 +75,12 @@ import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.http.FileCommon;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -200,13 +206,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private UploaderAsync uploadTask;
 
     /**
-     *  Location
-     */
-    private LocationManager locationManager;
-    private String provider;
-    private Location location;
-
-    /**
      *  Search word
      */
     private WordDBAdapter dbAdapter;
@@ -244,7 +243,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         initRecordingView();
         initAnimation();
         switchButtonStage(ButtonState.DISABLED);
-        initLocation();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -286,23 +284,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
 
-    private void initLocation() {
-        // Get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        // Initialize the location fields
-        if (location != null) {
-            onLocationChanged(location);
-        } else {
-
-        }
-    }
-
     private void initAnimation() {
         fadeIn = AnimationUtils.loadAnimation(this.getApplicationContext(), android.R.anim.fade_in);
         fadeOut = AnimationUtils.loadAnimation(this.getApplicationContext(), android.R.anim.fade_out);
@@ -326,7 +307,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         startActivity(AboutActivity.class);
                         break;
                     case 3:
-                        startActivity(LicenseActivity.class);
+                        startActivity(LicenceActivity.class);
                         break;
                     case 4:
                         startActivity(FeedbackActivity.class);
@@ -338,6 +319,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
+                                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
+                                        if (profile != null) {
+                                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
+                                        }
                                         accountManager.logout();
                                         MainActivity.this.finish();
                                         startActivity(LoginActivity.class);
@@ -558,6 +543,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private GetWordAsync getWordAsync;
 
     private void getWord(final String word) {
+        AnalyticHelper.sendSelectWord(this, word);
         switchButtonStage(ButtonState.DISABLED);
         recordingView.startPingAnimation(this);
 
@@ -839,6 +825,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        UserProfile userProfile = Preferences.getCurrentProfile(this);
+        if (userProfile != null && userProfile.getHelpStatus() == UserProfile.HELP_INIT) {
+            userProfile.setHelpStatus(UserProfile.HELP_SKIP);
+            Preferences.addProfile(this, userProfile);
+        }
         try {
             unregisterReceiver(mHandleMessageReader);
         } catch (Exception e) {
@@ -866,7 +857,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onPause() {
         super.onPause();
-        locationManager.removeUpdates(this);
+        stopRequestLocation();
         if (currentModel != null) {
             recordingView.stopPingAnimation();
             recordingView.recycle();
@@ -876,10 +867,34 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
+    protected void stopRequestLocation() {
+        SimpleAppLog.info("Request location update");
+        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.removeUpdates(this);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not stop request location",e);
+        }
+    }
+
+    protected void requestLocation() {
+        SimpleAppLog.info("Request location update");
+        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not request GPS provider location", e);
+        }
+        try {
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not request Network provider location", e);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+        requestLocation();
         fetchSetting();
         isPrepared = false;
         if (currentModel != null) {
@@ -935,6 +950,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void switchButtonStage(ButtonState state) {
+        try {
         boolean isProcess = true;
         imgHelpHand.setVisibility(View.GONE);
         switch (state) {
@@ -1025,44 +1041,59 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             btnAudio.setEnabled(false);
             btnAudio.setImageResource(R.drawable.p_audio_gray);
         }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not update screen state",e);
+        }
     }
 
     private void checkProfile() {
         UserProfile profile = Preferences.getCurrentProfile(this);
         if (profile == null) {
             AppLog.logString("No profile found");
-            openSettings();
+            //openSettings();
+            startActivity(HelpActivity.class);
         } else if (!profile.isSetup()) {
             AppLog.logString("Profile is not setup: " + profile.getUsername());
-            openSettings();
+            //openSettings();
+            startActivity(HelpActivity.class);
+        } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
+            AppLog.logString("Display help dialog");
+            showHelpDialog();
+        } else {
+            SimpleAppLog.info("Help status: " + profile.getHelpStatus());
+            showHelpDialog();
         }
     }
 
     private void fetchSetting() {
-        UserProfile profile = Preferences.getCurrentProfile(this);
-        if (profile != null) {
-            txtUserName.setText(profile.getName());
-            txtUserEmail.setText(profile.getUsername());
-            if (profile.getProfileImage().length() > 0) {
-                if (!ImageLoader.getInstance().isInited()) {
-                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+        try {
+            UserProfile profile = Preferences.getCurrentProfile(this);
+            if (profile != null) {
+                txtUserName.setText(profile.getName());
+                txtUserEmail.setText(profile.getUsername());
+                if (profile.getProfileImage().length() > 0) {
+                    if (!ImageLoader.getInstance().isInited()) {
+                        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+                    }
+                    ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
                 }
-                ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
             }
+
+            String mChanel = Preferences.getString(Preferences.KEY_AUDIO_CHANEL, this.getApplicationContext(), "mono");
+            if (mChanel.equalsIgnoreCase("mono")) {
+                chanel = AudioFormat.CHANNEL_IN_MONO;
+            } else {
+                chanel = AudioFormat.CHANNEL_IN_STEREO;
+            }
+            sampleRate = Preferences.getInt(Preferences.KEY_AUDIO_SAMPLE_RATE, this.getApplicationContext(), 16000);
+            isAutoStop = Preferences.getBoolean(Preferences.KEY_AUDIO_AUTO_STOP_RECORDING, this.getApplicationContext(), true);
+
+            bufferSize = AudioRecord.getMinBufferSize(sampleRate, chanel, RECORDER_AUDIO_ENCODING);
+
+            isPrepared = false;
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not fetch setting",e);
         }
-
-        String mChanel = Preferences.getString(Preferences.KEY_AUDIO_CHANEL, this.getApplicationContext(), "mono");
-        if (mChanel.equalsIgnoreCase("mono")) {
-            chanel = AudioFormat.CHANNEL_IN_MONO;
-        } else {
-            chanel = AudioFormat.CHANNEL_IN_STEREO;
-        }
-        sampleRate = Preferences.getInt(Preferences.KEY_AUDIO_SAMPLE_RATE, this.getApplicationContext(), 16000);
-        isAutoStop = Preferences.getBoolean(Preferences.KEY_AUDIO_AUTO_STOP_RECORDING, this.getApplicationContext(), true);
-
-        bufferSize = AudioRecord.getMinBufferSize(sampleRate,chanel,RECORDER_AUDIO_ENCODING);
-
-        isPrepared = false;
     }
 
 
@@ -1107,10 +1138,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 try {
                     saveToDatabase();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    currentModel = null;
-                } catch (SQLException e) {
+                }catch (Exception e) {
+                    SimpleAppLog.error("Could not save data to database", e);
                     e.printStackTrace();
                     currentModel = null;
                 }
@@ -1158,41 +1187,46 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void uploadRecord() {
-        AppLog.logString("Start Uploading");
-        analyzingState = AnalyzingState.ANALYZING;
-        uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
-        Map<String, String> params = new HashMap<String, String>();
-        String fileName = audioStream.getFilename();
-        File tmp = new File(fileName);
-        if (tmp.exists()) {
-            UserProfile profile = Preferences.getCurrentProfile(this);
-            if (profile != null) {
-                Gson gson = new Gson();
-                profile.setUuid(new DeviceUuidFactory(this).getDeviceUuid().toString());
-                UserProfile.UserLocation lc = new UserProfile.UserLocation();
-                if (locationManager.isProviderEnabled(provider) && location != null) {
-                    lc.setLongitude(location.getLongitude());
-                    lc.setLatitude(location.getLatitude());
-                    AppLog.logString("Lat: " + lc.getLatitude() + ". Lon: " + lc.getLongitude());
-                    profile.setLocation(lc);
+        try {
+            AppLog.logString("Start Uploading");
+            analyzingState = AnalyzingState.ANALYZING;
+            uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
+            Map<String, String> params = new HashMap<String, String>();
+            String fileName = audioStream.getFilename();
+            File tmp = new File(fileName);
+            if (tmp.exists()) {
+                UserProfile profile = Preferences.getCurrentProfile(this);
+                if (profile != null) {
+                    Gson gson = new Gson();
+                    profile.setUuid(new DeviceUuidFactory(this).getDeviceUuid().toString());
+                    UserProfile.UserLocation lc = new UserProfile.UserLocation();
+                    Location location = AndroidHelper.getLastBestLocation(this);
+                    if (location != null) {
+                        lc.setLongitude(location.getLongitude());
+                        lc.setLatitude(location.getLatitude());
+                        AppLog.logString("Lat: " + lc.getLatitude() + ". Lon: " + lc.getLongitude());
+                        profile.setLocation(lc);
+                    }
+                    profile.setTime(System.currentTimeMillis());
+                    params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
+                    params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
+                    params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
+                    params.put("profile", gson.toJson(profile));
+                    params.put("word", selectedWord);
+                    uploadTask.execute(params);
+                } else {
+                    AppLog.logString("Could not get user profile");
                 }
-                profile.setTime(System.currentTimeMillis());
-                params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
-                params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
-                params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
-                params.put("profile", gson.toJson(profile));
-                params.put("word", selectedWord);
-                uploadTask.execute(params);
-            } else {
-                AppLog.logString("Could not get user profile");
             }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not upload recording", e);
         }
-    }
+     }
 
 
     @Override
     public void onLocationChanged(Location location) {
-        this.location = location;
+
     }
 
     @Override
@@ -1224,10 +1258,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void selectSuggestionWord(int index) {
-        AppLog.logString("Select suggestion: " + index);
-        Cursor cursor = (Cursor) adapter.getItem(index);
-        String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
-        searchView.setQuery(s, true);
+        try {
+            AppLog.logString("Select suggestion: " + index);
+            Cursor cursor = (Cursor) adapter.getItem(index);
+            String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
+            searchView.setQuery(s, true);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not select suggestion word",e);
+        }
     }
 
     @Override
@@ -1238,101 +1276,111 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public void onAnimationMax() {
-        if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
-            AppLog.logString("On animation max");
-            recordingView.stopPingAnimation();
-            isRecording = false;
-            if (currentModel != null) {
-                currentModel.setAudioFile(audioStream.getFilename());
-                float score = currentModel.getScore();
-                if (score >= 80.0) {
-                    lastState = ButtonState.GREEN;
-                } else if (score >= 45.0) {
-                    lastState = ButtonState.ORANGE;
+        try {
+            if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
+                AppLog.logString("On animation max");
+                recordingView.stopPingAnimation();
+                isRecording = false;
+                if (currentModel != null) {
+                    currentModel.setAudioFile(audioStream.getFilename());
+                    float score = currentModel.getScore();
+                    if (score >= 80.0) {
+                        lastState = ButtonState.GREEN;
+                    } else if (score >= 45.0) {
+                        lastState = ButtonState.ORANGE;
+                    } else {
+                        lastState = ButtonState.RED;
+                    }
+                    // Call other view update
+                    Gson gson = new Gson();
+                    Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
+                    notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, FragmentTab.TYPE_RELOAD_DATA);
+                    notifyUpdateIntent.putExtra(FragmentTab.ACTION_DATA, gson.toJson(currentModel));
+                    sendBroadcast(notifyUpdateIntent);
+                    switchButtonStage();
+
+                    YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            imgHelpHand.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(imgHelpHand);
                 } else {
-                    lastState = ButtonState.RED;
+                    switchButtonStage(ButtonState.RED);
                 }
-                // Call other view update
-                Gson gson = new Gson();
-                Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
-                notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, FragmentTab.TYPE_RELOAD_DATA);
-                notifyUpdateIntent.putExtra(FragmentTab.ACTION_DATA, gson.toJson(currentModel));
-                sendBroadcast(notifyUpdateIntent);
-                switchButtonStage();
-
-                YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        imgHelpHand.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                }).playOn(imgHelpHand);
-            } else {
-                switchButtonStage(ButtonState.RED);
+                analyzingState = AnalyzingState.DEFAULT;
             }
-            analyzingState = AnalyzingState.DEFAULT;
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not complete animation", e);
         }
     }
 
     @Override
     public void onAnimationMin() {
-        if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MIN) {
-            AppLog.logString("On animation min");
-            recordingView.setScore(0.0f);
-            recordingView.stopPingAnimation();
-            recordingView.recycle();
-            recordingView.invalidate();
-            if (currentModel != null) {
-                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
-            } else {
-                YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        imgHourGlass.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                }).playOn(imgHourGlass);
-                if (dictionaryItem != null) {
-                    txtWord.setText(dictionaryItem.getWord());
-                    txtPhonemes.setText(dictionaryItem.getPronunciation());
+        try {
+            if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MIN) {
+                AppLog.logString("On animation min");
+                recordingView.setScore(0.0f);
+                recordingView.stopPingAnimation();
+                recordingView.recycle();
+                recordingView.invalidate();
+                if (currentModel != null) {
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                    recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
                 } else {
-                    txtWord.setText("Not found");
-                    txtPhonemes.setText("Please try again!");
+                    YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            imgHourGlass.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).playOn(imgHourGlass);
+                    if (dictionaryItem != null) {
+                        txtWord.setText(dictionaryItem.getWord());
+                        txtWord.setSelected(true);
+                        txtPhonemes.setText(dictionaryItem.getPronunciation());
+                        txtWord.setSelected(true);
+                    } else {
+                        txtWord.setText("Not found");
+                        txtPhonemes.setText("Please try again!");
+                    }
+                    recordingView.drawEmptyCycle();
+                    // Null response
+                    analyzingState = AnalyzingState.DEFAULT;
+                    switchButtonStage();
                 }
-                recordingView.drawEmptyCycle();
-                // Null response
-                analyzingState = AnalyzingState.DEFAULT;
-                switchButtonStage();
             }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not complete animation",e);
         }
     }
 
@@ -1341,6 +1389,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         String tmpFile = audioStream.getFilename();
         File recordedFile = new File(tmpFile);
         if (recordedFile.exists() && currentModel != null) {
+            AnalyticHelper.sendAnalyzingWord(this, currentModel.getWord(), Math.round(currentModel.getScore()));
             File pronScoreDir = FileHelper.getPronunciationScoreDir(this.getApplicationContext());
             ScoreDBAdapter.PronunciationScore score = new ScoreDBAdapter.PronunciationScore();
             // Get ID from server
@@ -1370,6 +1419,53 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
             phonemeScoreDBAdapter.close();
         }
+    }
+
+
+    private void showHelpDialog() {
+        final Dialog dialog = new Dialog(this, R.style.Theme_WhiteDialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.help_dialog);
+
+        dialog.findViewById(R.id.btnNever).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile userProfile = Preferences.getCurrentProfile(MainActivity.this);
+                if (userProfile != null) {
+                    userProfile.setHelpStatus(UserProfile.HELP_NEVER);
+                    Preferences.addProfile(MainActivity.this, userProfile);
+                }
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(HelpActivity.class);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setTitle(null);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
 }

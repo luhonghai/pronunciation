@@ -219,7 +219,8 @@ public class Preferences extends PreferenceFragment implements
             dateDob.setTheDate(currentProfile.getDob());
             cbxFemale.setChecked(!currentProfile.isGender());
             cbxMale.setChecked(currentProfile.isGender());
-            cbxNativeEnglish.setChecked(currentProfile.isNativeEnglish());
+            if (cbxNativeEnglish != null)
+                cbxNativeEnglish.setChecked(currentProfile.isNativeEnglish());
         }
         if (screenSelectUsername != null) {
             Dialog dialog = screenSelectUsername.getDialog();
@@ -373,7 +374,8 @@ public class Preferences extends PreferenceFragment implements
     private void fillProfile(final UserProfile profile) {
         profile.setEnglishProficiency(Integer.parseInt(listEp.getValue()));
         profile.setCountry(listCob.getValue());
-        profile.setNativeEnglish(cbxNativeEnglish.isChecked());
+        if (cbxNativeEnglish != null)
+            profile.setNativeEnglish(cbxNativeEnglish.isChecked());
         profile.setGender(cbxMale.isChecked());
         profile.setDob(DatePreference.formatter().format(dateDob.getDate().getTime()));
     }

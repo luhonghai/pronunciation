@@ -1,14 +1,24 @@
 package com.cmg.android.bbcaccent;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.activity.BaseActivity;
@@ -16,6 +26,8 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -77,6 +89,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button);
         btnLoginGGPlus.setOnClickListener(this);
 
+        findViewById(R.id.btnLoginAccent).setOnClickListener(this);
+        findViewById(R.id.btnRegister).setOnClickListener(this);
+
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
@@ -87,6 +102,106 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             }
         };
         enableForm(true);
+        initAuthDialog();
+    }
+
+    private Dialog dialogLogin;
+
+    private Dialog dialogRegister;
+
+    private Dialog dialogValidation;
+
+    private void initAuthDialog() {
+        // Login dialog
+        dialogLogin = new Dialog(this, R.style.Theme_WhiteDialog);
+        prepareDialog(dialogLogin);
+        dialogLogin.setContentView(R.layout.dialog_login);
+        initDialog(dialogLogin);
+        dialogLogin.findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile profile = new UserProfile();
+                profile.setLoginType(UserProfile.TYPE_EASYACCENT);
+                profile.setUsername(((TextView) dialogLogin.findViewById(R.id.txtEmail)).getText().toString());
+                doAuth(profile);
+            }
+        });
+
+        dialogRegister = new Dialog(this, R.style.Theme_WhiteDialog);
+        prepareDialog(dialogRegister);
+        dialogRegister.setContentView(R.layout.dialog_register);
+        initDialog(dialogRegister);
+        dialogRegister.findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (dialogRegister.isShowing()) {
+                                    dialogRegister.cancel();
+                                    dialogValidation.show();
+                                }
+                            }
+                        });
+                    }
+                }, 1000);
+            }
+        });
+
+        dialogValidation = new Dialog(this, R.style.Theme_WhiteDialog);
+        prepareDialog(dialogValidation);
+        dialogValidation.setContentView(R.layout.dialog_validation);
+        initDialog(dialogValidation);
+        dialogValidation.findViewById(R.id.btnConfirmCode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogValidation.cancel();
+                dialogLogin.show();
+            }
+        });
+
+        dialogValidation.findViewById(R.id.btnChangeEmail).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogValidation.cancel();
+                dialogRegister.show();
+            }
+        });
+    }
+
+    private void prepareDialog(final Dialog dialog) {
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setTitle(null);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.setCancelable(true);
+    }
+
+    private void initDialog(final Dialog dialog) {
+        int fullWidth;
+        int fulHeight;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Display display = this.getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            fullWidth = size.x;
+            fulHeight = size.y;
+        } else {
+            Display display = this.getWindowManager().getDefaultDisplay();
+            fullWidth = display.getWidth();
+            fulHeight = display.getHeight();
+        }
+
+        final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources()
+                .getDisplayMetrics());
+
+        int w = fullWidth - padding;
+        //int h = dialog.getWindow().getAttributes().height;
+        int h = fulHeight - padding;
+        dialog.getWindow().setLayout(w,h);
     }
 
     @Override
@@ -204,7 +319,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         Toast.makeText(this, "Could not login to Facebook", Toast.LENGTH_LONG).show();
     }
 
-    private void doAuth(UserProfile profile) {
+    private void doAuth(final UserProfile profile) {
         //Toast.makeText(this, "Login with " + profile.getUsername(), Toast.LENGTH_LONG).show();
         Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
         Preferences.addProfile(this, profile);
@@ -225,13 +340,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             accountManager.auth(profile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {
+                    AnalyticHelper.sendUserLoginError(LoginActivity.this, profile.getUsername());
                     final SpannableString s = new SpannableString(message);
                     Linkify.addLinks(s, Linkify.ALL);
                     if (e != null) e.printStackTrace();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialog.Builder(LoginActivity.this)
+                            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
                                     .setTitle("Could not login")
                                     .setMessage(s)
                                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -239,14 +355,17 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                         public void onClick(DialogInterface dialog, int which) {
                                             LoginActivity.this.finish();
                                         }
-                                    })
-                                    .show();
+                                    }).create();
+                            d.show();
+                            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                         }
                     });
 
                 }
                 @Override
                 public void onSuccess() {
+                    AnalyticHelper.sendLoginType(LoginActivity.this, profile.getLoginType());
+                    AnalyticHelper.sendUserLogin(LoginActivity.this, profile.getUsername());
                     startMainActivity();
                 }
             });
@@ -301,6 +420,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             case R.id.loginButton:
                 enableForm(false);
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+                break;
+            case R.id.btnLoginAccent:
+                SimpleAppLog.info("show login dialog");
+                dialogLogin.show();
+                break;
+            case R.id.btnRegister:
+                SimpleAppLog.info("show register dialog");
+                dialogRegister.show();
                 break;
         }
     }

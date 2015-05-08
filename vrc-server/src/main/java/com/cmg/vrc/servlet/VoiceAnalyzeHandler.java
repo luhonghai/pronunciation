@@ -5,6 +5,7 @@ import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -65,8 +66,8 @@ public class VoiceAnalyzeHandler extends HttpServlet {
             String apiKey = Configuration.getValue(Configuration.API_KEY);
             if (key != null && key.length() > 0 && key.equalsIgnoreCase(apiKey)) {
                 if (tempWav.exists()) {
-                    Gson gson = new Gson();
-                    PhonemesDetector detector = new PhonemesDetector(tempWav, "");
+                    Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().setPrettyPrinting().create();
+                    PhonemesDetector detector = new PhonemesDetector(tempWav, storePara.get("word"));
                     SphinxResult result = detector.analyze();
                     out.print(gson.toJson(result));
                 } else {

@@ -72,6 +72,12 @@
                                     android:layout_weight=".4"
                                     android:textSize="@dimen/main_selected_word_size"
                                     android:gravity="center"
+                                    android:singleLine="true"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:freezesText="true"
+                                    android:ellipsize="marquee"
                                     android:text="necessarily"
                                     />
                                 <TextView
@@ -81,6 +87,12 @@
                                     android:textSize="@dimen/main_selected_phoneme_size"
                                     android:layout_weight=".6"
                                     android:gravity="center"
+                                    android:singleLine="true"
+                                    android:marqueeRepeatLimit="marquee_forever"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:freezesText="true"
+                                    android:ellipsize="marquee"
                                     android:text="nɛsəˈsɛrɪli"/>
                             </LinearLayout>
                         </RelativeLayout>

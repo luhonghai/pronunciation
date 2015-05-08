@@ -48,6 +48,12 @@ public class UserJDO implements Mirrorable {
     @Persistent
     private String rawJsonData;
 
+    @Persistent
+    private boolean isActivated;
+
+    @Persistent
+    private String activationCode;
+
     @Override
     public String getId() {
         return id;
@@ -144,5 +150,21 @@ public class UserJDO implements Mirrorable {
 
     public void setRawJsonData(String rawJsonData) {
         this.rawJsonData = rawJsonData;
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean isActivated) {
+        this.isActivated = isActivated;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }

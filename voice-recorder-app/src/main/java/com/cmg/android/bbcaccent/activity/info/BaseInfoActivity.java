@@ -7,6 +7,7 @@ import android.util.Base64;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 
@@ -19,7 +20,7 @@ import java.io.IOException;
 /**
  * Created by luhonghai on 4/10/15.
  */
-public abstract class BaseInfoActivity extends SherlockActivity {
+public abstract class BaseInfoActivity extends BaseActivity {
 
     private HtmlTextView textView;
 

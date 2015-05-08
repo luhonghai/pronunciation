@@ -28,6 +28,7 @@ public class UserVoiceModel implements Mirrorable {
     private String cleanRecordFile;
     private String phonemes;
     private String hypothesis;
+    private String rawSphinxResult;
 
     private SphinxResult result;
 
@@ -192,5 +193,13 @@ public class UserVoiceModel implements Mirrorable {
 
     public void setResult(SphinxResult result) {
         this.result = result;
+    }
+
+    public String getRawSphinxResult() {
+        return rawSphinxResult;
+    }
+
+    public void setRawSphinxResult(String rawSphinxResult) {
+        this.rawSphinxResult = rawSphinxResult;
     }
 }

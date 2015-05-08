@@ -11,6 +11,8 @@ public class Usage implements Mirrorable {
     
     private String id;
 
+    private String username;
+
     private String emei;
 
     private long latitude;
@@ -69,5 +71,13 @@ public class Usage implements Mirrorable {
 
     public void setAppVersion(String appVersion) {
         this.appVersion = appVersion;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

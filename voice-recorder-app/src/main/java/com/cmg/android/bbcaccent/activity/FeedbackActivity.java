@@ -43,7 +43,7 @@ import com.cmg.android.bbcaccent.utils.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FeedbackActivity extends SherlockActivity {
+public class FeedbackActivity extends BaseActivity {
     public static final String SEND_FEEDBACK_FINISH = "com.cmg.android.bbcaccent.activity.FeedbackActivity";
 
     String stackTrace;
@@ -167,7 +167,8 @@ public class FeedbackActivity extends SherlockActivity {
         if (pathLastScreenShot != null && pathLastScreenShot.length() > 0) {
             infos.put(ContentUtils.KEY_SCREENSHOOT, pathLastScreenShot);
         }
-
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        
         infos.put(DeviceInfoCommon.ACCOUNT, getItemSelectSpin());
         infos.put(DeviceInfoCommon.FEEDBACK_DESCRIPTION, getTextDescription());
         infos.put(DeviceInfoCommon.IMEI, uIdFac.getDeviceUuid().toString());

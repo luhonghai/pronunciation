@@ -38,7 +38,7 @@ public class CustomGraphView extends GraphView {
         tintPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
         tintPaint.setTextAlign(Paint.Align.RIGHT);
         tintPaint.setTypeface(Typeface.DEFAULT_BOLD);
-        tintPaint.setTextSize(100);
+
         tintPaint.setColor(getContext().getResources().getColor(R.color.app_tint));
     }
 
@@ -49,6 +49,7 @@ public class CustomGraphView extends GraphView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (tintText != null && tintText.length() > 0) {
+            tintPaint.setTextSize(getHeight()/5);
             canvas.drawText(tintText, getWidth() - 50, getHeight() - 60, tintPaint);
         }
         super.onDraw(canvas);

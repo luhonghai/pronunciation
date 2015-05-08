@@ -7,8 +7,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
@@ -16,7 +18,9 @@ import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
 import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
@@ -24,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,56 +90,79 @@ public class SplashScreen extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         startTime = System.currentTimeMillis();
-        accountManager = new AccountManager(this);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
-                .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-
         AppLog.logString("Key hash: " + AndroidHelper.getKeyHash(getApplicationContext()));
         setContentView(R.layout.splashscreen);
         imgDog = (ImageView) findViewById(R.id.imgDog);
+        if (checkNetwork()) {
+            accountManager = new AccountManager(this);
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
+                    .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+            loadStatus.add(LoadItem.FACEBOOK);
+            loadStatus.add(LoadItem.GOOGLE_PLUS);
+            loadStatus.add(LoadItem.DATABASE);
 
-        loadStatus.add(LoadItem.FACEBOOK);
-        loadStatus.add(LoadItem.GOOGLE_PLUS);
-        loadStatus.add(LoadItem.DATABASE);
+            new DatabasePrepare(this, this).prepare();
 
-        new DatabasePrepare(this, this).prepare();
-
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (AccessToken.getCurrentAccessToken() != null) {
-                    isLogin = true;
-                    AppLog.logString("Login with facebook");
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (AccessToken.getCurrentAccessToken() != null) {
+                        isLogin = true;
+                        AppLog.logString("Login with facebook");
+                    }
+                    AppLog.logString("Complete check facebook");
+                    loadStatus.remove(LoadItem.FACEBOOK);
+                    validateCallback();
+                    return null;
                 }
-                AppLog.logString("Complete check facebook");
-                loadStatus.remove(LoadItem.FACEBOOK);
-                validateCallback();
-                return null;
-            }
-        }.execute();
-        handlerDogAnimation.post(runnableDogAnimation);
+            }.execute();
+            handlerDogAnimation.post(runnableDogAnimation);
+        }
+    }
+
+    private boolean checkNetwork() {
+        boolean isNetworkAvailable = AndroidHelper.isNetworkAvailable(this);
+        if (!isNetworkAvailable) {
+            final SpannableString s = new SpannableString("Could not connect to server. Please check your internet connection.");
+            Linkify.addLinks(s, Linkify.ALL);
+            AlertDialog d = new AlertDialog.Builder(SplashScreen.this)
+                    .setTitle("Network not available")
+                    .setMessage(s)
+                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SplashScreen.this.finish();
+                        }
+                    }).create();
+            d.show();
+            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        return isNetworkAvailable;
     }
 
 
     private void validateCallback() {
         if (loadStatus.isEmpty()) {
             if (isLogin) {
-                UserProfile profile = Preferences.getCurrentProfile(this);
+                final UserProfile profile = Preferences.getCurrentProfile(this);
                 if (profile == null) {
+
                     goToActivity(LoginActivity.class);
                 } else {
                     accountManager.auth(profile, new AccountManager.AuthListener() {
                         @Override
                         public void onError(final String message, Throwable e) {
+                            AnalyticHelper.sendUserLoginError(SplashScreen.this, profile.getUsername());
                             final SpannableString s = new SpannableString(message);
                             Linkify.addLinks(s, Linkify.ALL);
                             if (e != null) e.printStackTrace();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    new AlertDialog.Builder(SplashScreen.this)
+                                    AlertDialog d = new AlertDialog.Builder(SplashScreen.this)
                                             .setTitle("Could not login")
                                             .setMessage(s)
                                             .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -142,13 +170,15 @@ public class SplashScreen extends BaseActivity implements
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     SplashScreen.this.finish();
                                                 }
-                                            })
-                                            .show();
+                                            }).create();
+                                    d.show();
+                                    ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                                 }
                             });
                         }
                         @Override
                         public void onSuccess() {
+                            AnalyticHelper.sendUserReturn(SplashScreen.this, profile.getUsername());
                             goToActivity(MainActivity.class);
                         }
                     });
@@ -195,13 +225,14 @@ public class SplashScreen extends BaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
     }
