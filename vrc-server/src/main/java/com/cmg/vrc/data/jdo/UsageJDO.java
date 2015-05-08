@@ -16,7 +16,7 @@ public class UsageJDO implements Mirrorable {
     @PrimaryKey
     private String id;
 
-    @PrimaryKey
+    @Persistent
     private String username;
 
     @Persistent

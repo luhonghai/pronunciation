@@ -12,6 +12,7 @@
         <class>com.cmg.vrc.data.jdo.SecurityJDO</class>
         <class>com.cmg.vrc.data.jdo.UsageJDO</class>
         <class>com.cmg.vrc.data.jdo.AppDetailJDO</class>
+		<class>com.cmg.vrc.data.jdo.FeedbackJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->
