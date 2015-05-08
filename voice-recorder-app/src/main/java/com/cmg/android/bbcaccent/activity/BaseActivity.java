@@ -4,10 +4,16 @@ package com.cmg.android.bbcaccent.activity;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ExceptionHandler;
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import io.fabric.sdk.android.Fabric;
 
 public abstract class BaseActivity extends SherlockFragmentActivity  {
 
@@ -18,10 +24,18 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Tracker t = AnalyticHelper.getTracker(this);
+        if (t != null) {
+            t.setScreenName(this.getClass().getName());
+            t.send(new HitBuilders.ScreenViewBuilder().build());
+        }
+
+        Fabric.with(this, new Crashlytics());
+
         ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
                 .build();
         ImageLoader.getInstance().init(configuration);
-      //  Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        //Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
     }
 
     @Override

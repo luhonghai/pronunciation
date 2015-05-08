@@ -85,8 +85,8 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
+                            android:layout_gravity="center_horizontal|center_vertical"
                             android:orientation="vertical"
-                            android:padding="@dimen/main_selected_word_padding"
                             android:layout_marginLeft="@dimen/main_selected_word_margin"
                             android:layout_marginStart="@dimen/main_selected_word_margin"
                             android:layout_marginEnd="@dimen/main_selected_word_margin"
@@ -94,21 +94,33 @@
                             >
                             <TextView
                                 android:id="@+id/txtWord"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight=".4"
-                                android:textSize="@dimen/main_selected_word_size"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="necessarily"
+                                android:singleLine="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:freezesText="true"
+                                android:ellipsize="marquee"
+                                android:scrollHorizontally="true"
+                                android:textSize="@dimen/main_selected_word_size"
                                 />
                             <TextView
                                 android:id="@+id/txtPhoneme"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:textSize="@dimen/main_selected_phoneme_size"
-                                android:layout_weight=".6"
+                                android:singleLine="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:freezesText="true"
+                                android:ellipsize="marquee"
+                                android:scrollHorizontally="true"
                                 android:gravity="center"
-                                android:text="nɛsəˈsɛrɪli"/>
+                                android:layout_weight="1"/>
                         </LinearLayout>
                     </RelativeLayout>
 

@@ -16,6 +16,9 @@ public class UsageJDO implements Mirrorable {
     @PrimaryKey
     private String id;
 
+    @PrimaryKey
+    private String username;
+
     @Persistent
     private String emei;
 
@@ -79,5 +82,13 @@ public class UsageJDO implements Mirrorable {
 
     public void setAppVersion(String appVersion) {
         this.appVersion = appVersion;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

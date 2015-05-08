@@ -96,17 +96,17 @@ public class HistoryFragment extends FragmentTab {
                 view.txtWordItem.setTextColor(ColorHelper.COLOR_GREEN);
                 view.txtWordScore.setTextColor(ColorHelper.COLOR_GREEN);
                 view.btnPlayItem.setImageResource(R.drawable.p_audio_green);
-                view.btnRecordItem.setImageResource(R.drawable.p_record_green);
+                view.btnRecordItem.setImageResource(R.drawable.p_arrow_up_green);
             } else if (scoreVal >= 45.0f) {
                 view.txtWordItem.setTextColor(ColorHelper.COLOR_ORANGE);
                 view.txtWordScore.setTextColor(ColorHelper.COLOR_ORANGE);
                 view.btnPlayItem.setImageResource(R.drawable.p_audio_orange);
-                view.btnRecordItem.setImageResource(R.drawable.p_record_orange);
+                view.btnRecordItem.setImageResource(R.drawable.p_arrow_up_orange);
             } else {
                 view.txtWordItem.setTextColor(ColorHelper.COLOR_RED);
                 view.txtWordScore.setTextColor(ColorHelper.COLOR_RED);
                 view.btnPlayItem.setImageResource(R.drawable.p_audio_red);
-                view.btnRecordItem.setImageResource(R.drawable.p_record_red);
+                view.btnRecordItem.setImageResource(R.drawable.p_arrow_up_red);
             }
 
             return convertView;

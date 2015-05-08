@@ -41,4 +41,6 @@
 
     <string name="dialog_close">Close</string>
 
+    <string name="txtTermCondition"><a href="http://www.accenteasy.com/useraccounts/TnC">terms &amp; conditions</a></string>
+    <string name="lostpassword">If you lost your password please contact <a href="mailto:support@accenteasy.com?Subject=Lost%20Password" target="_top">support@accenteasy.com</a></string>
 </resources>

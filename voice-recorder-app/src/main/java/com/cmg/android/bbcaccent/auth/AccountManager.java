@@ -65,13 +65,13 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not contact to server. Please contact support@accenteasy.com", null);
+                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
-                    authListener.onError("Could not contact to server. Please contact support@accenteasy.com", e);
+                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
                 }
                 return null;
             }
