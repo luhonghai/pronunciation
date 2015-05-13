@@ -40,6 +40,34 @@
         <url-pattern>/VoiceAnalyzeHandler</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>RegisterHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.RegisterHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterHandler</servlet-name>
+        <url-pattern>/RegisterHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AuthHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AuthHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthHandler</servlet-name>
+        <url-pattern>/AuthHandler</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>FeedbackHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.FeedbackHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FeedbackHandler</servlet-name>
+        <url-pattern>/FeedbackHandler</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>SummaryReport</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.SummaryReportHandler</servlet-class>
@@ -49,4 +77,16 @@
         <url-pattern>/SummaryReport</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ActivationHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ActivationHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivationHandler</servlet-name>
+        <url-pattern>/activate</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>dashboard.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

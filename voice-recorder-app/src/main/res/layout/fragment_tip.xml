@@ -9,16 +9,17 @@
         android:layout_width="fill_parent"
         android:gravity="center"
         android:layout_height="0dp"
-        android:background="@drawable/rounded_corner">
-    <TextView
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@drawable/scrollbar"
+        >
+    <org.sufficientlysecure.htmltextview.HtmlTextView
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
         android:id="@+id/txtTextTip"
-        android:gravity="center"
+        android:gravity="start"
         android:textSize="@dimen/main_selected_phoneme_size"
         android:textColor="#579e11"
         android:padding="10dp"
-        android:text="To make R sound, first, from your mouth as if you are going to make an U sound"
         />
     </ScrollView>
     <LinearLayout
@@ -66,7 +67,7 @@
         android:id="@+id/btnRecordTip"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
-        android:src="@drawable/p_record_green"
+        android:src="@drawable/p_arrow_up_green"
         android:adjustViewBounds="true"
         android:layout_gravity="center"
         android:scaleType="fitCenter"

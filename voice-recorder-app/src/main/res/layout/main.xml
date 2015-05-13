@@ -27,12 +27,39 @@
                     android:layout_width="fill_parent"
                     android:layout_weight="1.5"
                     android:layout_centerHorizontal="true">
-                    <com.cmg.android.voicerecorder.activity.view.RecordingView
+                    <com.cmg.android.bbcaccent.activity.view.RecordingView
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
                         android:layout_centerInParent="true"
                         android:background="@android:color/white"
                         android:id="@+id/main_recording_view" />
+                    <ImageButton
+                        android:id="@+id/imgHourGlass"
+                        android:background="@null"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_margin="40dp"
+                        android:src="@drawable/p_hour_glass"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:clickable="false"
+                        android:visibility="gone"
+                     />
+                    <ImageButton
+                        android:id="@+id/imgHelpHand"
+                        android:background="@null"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="120dp"
+                        android:layout_marginRight="120dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_marginTop="120dp"
+                        android:src="@drawable/p_help_hand"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:clickable="false"
+                        android:visibility="gone"
+                        />
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_height="fill_parent"
@@ -58,8 +85,8 @@
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
+                            android:layout_gravity="center_horizontal|center_vertical"
                             android:orientation="vertical"
-                            android:padding="@dimen/main_selected_word_padding"
                             android:layout_marginLeft="@dimen/main_selected_word_margin"
                             android:layout_marginStart="@dimen/main_selected_word_margin"
                             android:layout_marginEnd="@dimen/main_selected_word_margin"
@@ -67,21 +94,33 @@
                             >
                             <TextView
                                 android:id="@+id/txtWord"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight=".4"
-                                android:textSize="@dimen/main_selected_word_size"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="necessarily"
+                                android:singleLine="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:freezesText="true"
+                                android:ellipsize="marquee"
+                                android:scrollHorizontally="true"
+                                android:textSize="@dimen/main_selected_word_size"
                                 />
                             <TextView
                                 android:id="@+id/txtPhoneme"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:textSize="@dimen/main_selected_phoneme_size"
-                                android:layout_weight=".6"
+                                android:singleLine="true"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:freezesText="true"
+                                android:ellipsize="marquee"
+                                android:scrollHorizontally="true"
                                 android:gravity="center"
-                                android:text="nɛsəˈsɛrɪli"/>
+                                android:layout_weight="1"/>
                         </LinearLayout>
                     </RelativeLayout>
 
@@ -135,13 +174,62 @@
         android:layout_gravity="start"
         android:dividerHeight="0dp"
         android:background="@android:color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:id="@+id/imgAvatar"/>
+                    <RelativeLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical|center_horizontal">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/txtUserName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"/>
+                            <TextView
+                                android:id="@+id/txtUserEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/app_gray"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+                <ListView
+                    android:id="@+id/listMenu"
+                    android:layout_width="match_parent"
+                    android:divider="@android:color/white"
+                    android:dividerHeight="0dp"
+                    android:layout_height="match_parent">
+                </ListView>
+            </RelativeLayout>
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:padding="30dp"
-            android:layout_centerInParent="true"/>
 
     </RelativeLayout>
 
