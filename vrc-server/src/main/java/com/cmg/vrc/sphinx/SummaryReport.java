@@ -8,8 +8,12 @@ import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.util.StringUtil;
+import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.math3.stat.descriptive.summary.Sum;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -42,26 +46,30 @@ public class SummaryReport {
         public void onError(String error);
     }
 
-    private static SummaryReport instance;
+    private static Object lock = new Object();
 
     public static boolean analyze() {
         return analyze(null);
     }
 
     public static boolean analyze(final MessageListener listener) {
-        if (instance == null) {
-            String recordDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
-            instance = new SummaryReport(new File(recordDir, "summary.xlsx"), new File(recordDir));
-        }
-        synchronized (instance) {
+        synchronized (lock) {
+            SummaryReport instance;
+            File recordDir = new File(FileUtils.getTempDirectoryPath(), UUIDGenerator.generateUUID());
+                    //Configuration.getValue(Configuration.VOICE_RECORD_DIR);
+            if (!recordDir.exists() || !recordDir.isDirectory()) {
+                recordDir.mkdirs();
+            }
+            instance = new SummaryReport(new File(recordDir, "summary.xlsx"), new File(Configuration.getValue(Configuration.VOICE_RECORD_DIR)));
             try {
                 if (listener != null)
                     instance.setMessageListener(listener);
                 instance.execute();
                 return true;
             } catch (Exception ex) {
+
                 if (listener != null)
-                    listener.onError("Could not execute summary report. Message: " + ex.getMessage());
+                    listener.onError("Could not execute summary report. Message: " + ExceptionUtils.getFullStackTrace(ex));
                 logger.log(Level.SEVERE, "Could not execute summary report", ex);
             } finally {
             }
@@ -69,20 +77,21 @@ public class SummaryReport {
         }
     }
 
-
     private static final Logger logger = Logger.getLogger(SummaryReport.class.getName());
     private final File reportFile;
     private final File targetDir;
 
     private long start;
-    private Gson gson;
     private String[] recipients;
+    private MessageListener messageListener;
+    private Gson gson;
+
     private int totalWord = 0;
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private SimpleDateFormat sdf;
 
-    private MessageListener messageListener;
+
 
     private SummaryReport(File reportFile, File targetDir) {
         this.reportFile = reportFile;
@@ -101,8 +110,8 @@ public class SummaryReport {
         if (messageListener != null) {
             if (ex != null || level != Level.INFO) {
                 if (ex != null) {
-                   // String error = org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(ex);
-                    String error = ex.getMessage();
+                    String error = org.apache.commons.lang.exception.ExceptionUtils.getFullStackTrace(ex);
+                    //String error = ex.getMessage();
                     error = error.replace("\\n", "<br/>");
                     messageListener.onError(message + ". Message: " + error);
                 } else {
@@ -126,7 +135,8 @@ public class SummaryReport {
             log(Level.SEVERE, "Could not found target dir " + targetDir);
             return;
         }
-        gson = new Gson();
+        totalWord = 0;
+        gson = new GsonBuilder().serializeSpecialFloatingPointValues().create();
         sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         start = System.currentTimeMillis();
         log("Start analyzing voice data. Target dir " + targetDir);
@@ -148,11 +158,11 @@ public class SummaryReport {
         header.createCell(11).setCellValue("Device UUID");
         header.createCell(12).setCellValue("Word");
         header.createCell(13).setCellValue("Raw WAV name");
-        header.createCell(14).setCellValue("Raw WAV - Phonemes");
-        header.createCell(15).setCellValue("Raw WAV - Hypothesis");
-        header.createCell(16).setCellValue("Clean WAV name");
-        header.createCell(17).setCellValue("Clean WAV - Phonemes");
-        header.createCell(18).setCellValue("Clean WAV - Hypothesis");
+        header.createCell(14).setCellValue("Raw WAV - Score");
+        header.createCell(15).setCellValue("Raw WAV - JSON");
+//        header.createCell(16).setCellValue("Clean WAV name");
+//        header.createCell(17).setCellValue("Clean WAV - Score");
+//        header.createCell(18).setCellValue("Clean WAV - JSON");
         walk(targetDir);
         save();
         sendMail();
@@ -178,39 +188,83 @@ public class SummaryReport {
     }
 
     private void walk(File dir) {
-        File[] files = dir.listFiles();
-        for (File f : files) {
-            if (f.isDirectory()) {
-                walk(f);
-            } else {
-                analyze(dir, f);
+        if (dir != null && dir.exists()) {
+            File[] files = dir.listFiles();
+            if (files != null && files.length > 0) {
+                for (File f : files) {
+                    if (f.isDirectory()) {
+                        walk(f);
+                    } else {
+                        analyze(dir, f);
+                    }
+                }
             }
         }
     }
 
     private void analyze(File dir, File file) {
-        String fileName = file.getName();
-        if (fileName.toLowerCase().endsWith(".json")) {
-            log("Detect json data " + file);
-            String rawName = fileName.substring(0, fileName.toLowerCase().lastIndexOf(".json"));
-            String cleanWav = rawName + "_clean.wav";
-            String rawWav = rawName + "_raw.wav";
-            log("Clean WAV file");
-            try {
+        if (file == null || dir == null) return;
+        try {
+            if (!(dir.getName().equalsIgnoreCase("dominic")
+                    || dir.getName().equalsIgnoreCase("elaine")
+                    || dir.getName().equalsIgnoreCase("hai_lu")
+                    || dir.getName().equalsIgnoreCase("lan_ta")
+                    || dir.getName().equalsIgnoreCase("my_vu")
+                    || dir.getName().equalsIgnoreCase("xuan_bui")
+                    || dir.getName().equalsIgnoreCase("anh_nguyen")
+            )) {
+                return;
+            }
+        } catch (Exception e) {
+
+        }
+        try {
+            String fileName = file.getName();
+            if (fileName.toLowerCase().endsWith(".json")) {
+                log("Detect json data " + file);
+                String rawName = fileName.substring(0, fileName.toLowerCase().lastIndexOf(".json"));
+                String cleanWav = rawName + "_clean.wav";
+                String rawWav = rawName + "_raw.wav";
+                //log("Clean WAV file");
+
 
                 String modelData = FileUtils.readFileToString(file);
                 log("Read model " + modelData);
                 UserVoiceModel model = gson.fromJson(modelData, UserVoiceModel.class);
                 if (model == null || model.getWord() == null || model.getWord().length() == 0)
                     return;
-                File targetClean = new File(dir, cleanWav);
+             //   File targetClean = new File(dir, cleanWav);
                 File targetRaw = new File(dir, rawWav);
-                AudioCleaner cleaner = new SoXCleaner(targetClean, targetRaw);
-                log("Clean wav to " + targetClean);
-                cleaner.clean();
-//                PhonemesDetector.Result cleanResult = analyzeVoice(targetClean,modelData);
-//                PhonemesDetector.Result rawResult = analyzeVoice(targetRaw, modelData);
+//                AudioCleaner cleaner = new SoXCleaner(targetClean, targetRaw);
+//                log("Clean wav to " + targetClean);
+//                cleaner.clean();
+                //SphinxResult resultClean = null;
+                SphinxResult resultRaw = null;
 
+//                try {
+//                    log("Start analyze clean WAV " + targetClean);
+//                    PhonemesDetector detector = new PhonemesDetector(targetClean, model.getWord());
+//                    resultClean = detector.analyze();
+//                    if (resultClean != null) {
+//                        log("Score: " + resultClean.getScore());
+//                    } else {
+//                        log("No score found");
+//                    }
+//                } catch (Exception e) {
+//                    log(Level.SEVERE, "Could not analyze clean WAV", e);
+//                }
+                try {
+                    log("Start analyze raw WAV " + targetRaw);
+                    PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
+                    resultRaw = detector.analyze();
+                    if (resultRaw != null) {
+                        log("Score: " + resultRaw.getScore());
+                    } else {
+                        log("No score found");
+                    }
+                } catch (Exception e) {
+                    log(Level.SEVERE, "Could not analyze raw WAV", e);
+                }
                 final Row row = sheet.createRow(++totalWord);
                 row.createCell(0).setCellValue(model.getId());
                 row.createCell(1).setCellValue(model.getUsername());
@@ -227,17 +281,19 @@ public class SummaryReport {
                 row.createCell(11).setCellValue(model.getUuid());
                 row.createCell(12).setCellValue(model.getWord());
                 row.createCell(13).setCellValue(rawWav);
-                //if (rawResult != null) {
-                    //row.createCell(14).setCellValue(rawResult.getPhonemes());
-                //}
-                row.createCell(16).setCellValue("Clean WAV name");
-               // if (cleanResult != null) {
-                    //row.createCell(17).setCellValue(cleanResult.getPhonemes());
-                    //row.createCell(18).setCellValue(cleanResult.getHypothesis());
-               // }
-            } catch (Exception ex) {
-                log(Level.SEVERE, "Could not analyze file " + file, ex);
+                if (resultRaw != null) {
+                    row.createCell(14).setCellValue(resultRaw.getScore());
+                    row.createCell(15).setCellValue(gson.toJson(resultRaw));
+                }
+//                row.createCell(16).setCellValue("Clean WAV name");
+//                if (resultClean != null) {
+//                    row.createCell(17).setCellValue(resultClean.getScore());
+//                    row.createCell(18).setCellValue(gson.toJson(resultClean));
+//                }
+                log("================");
             }
+        } catch (Exception ex) {
+            log(Level.SEVERE, "Could not analyze file " + file, ex);
         }
     }
 
@@ -267,8 +323,9 @@ public class SummaryReport {
                 || Configuration.getValue(Configuration.CONTACT_US_EMAIL_PASSWORD).length() == 0
                 || Configuration.getValue(Configuration.RECIPIENTS).length() == 0)
             return;
-        recipients = Configuration.getValue(Configuration.RECIPIENTS).split(",");
         log("Send report via email");
+        recipients = Configuration.getValue(Configuration.RECIPIENTS).split(",");
+
         // SMTP info
         String host = "smtp.gmail.com";
         String port = "465";

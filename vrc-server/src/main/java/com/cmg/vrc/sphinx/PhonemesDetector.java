@@ -234,17 +234,21 @@ public class PhonemesDetector {
     }
 
     private int getValidatePhonemeType(String selectedPhoneme, String targetPhoneme) {
-        if (selectedPhoneme.equalsIgnoreCase(targetPhoneme)) {
-            return SphinxResult.PhonemeScoreUnit.MATCHED;
-        } else {
-            if (neighbourPhones.containsKey(selectedPhoneme.toLowerCase())) {
-                List<String> neighbourPhonemes = neighbourPhones.get(selectedPhoneme.toLowerCase());
-                for (String phoneme : neighbourPhonemes) {
-                    if (phoneme.equalsIgnoreCase(targetPhoneme)) {
-                        return SphinxResult.PhonemeScoreUnit.NEIGHBOR;
+        try {
+            if (selectedPhoneme.equalsIgnoreCase(targetPhoneme)) {
+                return SphinxResult.PhonemeScoreUnit.MATCHED;
+            } else {
+                if (neighbourPhones.containsKey(selectedPhoneme.toLowerCase())) {
+                    List<String> neighbourPhonemes = neighbourPhones.get(selectedPhoneme.toLowerCase());
+                    for (String phoneme : neighbourPhonemes) {
+                        if (phoneme.equalsIgnoreCase(targetPhoneme)) {
+                            return SphinxResult.PhonemeScoreUnit.NEIGHBOR;
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return SphinxResult.PhonemeScoreUnit.NOT_MATCH;
     }
@@ -254,28 +258,33 @@ public class PhonemesDetector {
                                                                 String selectedPhoneme,
                                                                 String nextPhoneme) {
         if (bestPhonemes.size() == 0) return null;
-        SphinxResult.Phoneme phoneme = bestPhonemes.get(0);
-        SphinxResult.PhonemeScoreUnit scoreUnit = createPhonemeScoreUnit(selectedPhoneme, phoneme, index);
-        int nextPhonemeType = nextPhoneme.length() == 0 ?
-                                        SphinxResult.PhonemeScoreUnit.NOT_MATCH :
-                                        getValidatePhonemeType(nextPhoneme, phoneme.getName());
+        try {
+            SphinxResult.Phoneme phoneme = bestPhonemes.get(0);
+            SphinxResult.PhonemeScoreUnit scoreUnit = createPhonemeScoreUnit(selectedPhoneme, phoneme, index);
+            int nextPhonemeType = (nextPhoneme == null || nextPhoneme.length() == 0) ?
+                    SphinxResult.PhonemeScoreUnit.NOT_MATCH :
+                    getValidatePhonemeType(nextPhoneme, phoneme.getName());
 
-        boolean isMatchedWithNextPhoneme = false;
-        for (int i = cIndex + 1; i < correctPhonemes.size(); i++) {
-            int type = getValidatePhonemeType(correctPhonemes.get(i), phoneme.getName());
-            if (type != SphinxResult.PhonemeScoreUnit.NOT_MATCH && i - cIndex <= 3) {
-                isMatchedWithNextPhoneme = true;
-                break;
+            boolean isMatchedWithNextPhoneme = false;
+            for (int i = cIndex + 1; i < correctPhonemes.size(); i++) {
+                int type = getValidatePhonemeType(correctPhonemes.get(i), phoneme.getName());
+                if (type != SphinxResult.PhonemeScoreUnit.NOT_MATCH && i - cIndex <= 3) {
+                    isMatchedWithNextPhoneme = true;
+                    break;
+                }
             }
-        }
-        if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED
-                || scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR
-                || !isMatchedWithNextPhoneme) {
-            bestPhonemes.remove(0);
-            return scoreUnit;
-        } else  {
-            // Look like the current best score is matched with next phoneme
-            // return null will move next phoneme
+            if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED
+                    || scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR
+                    || !isMatchedWithNextPhoneme) {
+                bestPhonemes.remove(0);
+                return scoreUnit;
+            } else {
+                // Look like the current best score is matched with next phoneme
+                // return null will move next phoneme
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -283,14 +292,24 @@ public class PhonemesDetector {
     private SphinxResult.PhonemeScoreUnit createPhonemeScoreUnit(String selectedPhoneme,
                                                                  SphinxResult.Phoneme phoneme,
                                                                  int index) {
-        SphinxResult.PhonemeScoreUnit scoreUnit = new SphinxResult.PhonemeScoreUnit();
-        int selectedPhonemeType = getValidatePhonemeType(selectedPhoneme, phoneme.getName());
+        try {
+            SphinxResult.PhonemeScoreUnit scoreUnit = new SphinxResult.PhonemeScoreUnit();
+            scoreUnit.setIndex(index);
+            if (phoneme != null) {
+                int selectedPhonemeType = getValidatePhonemeType(selectedPhoneme, phoneme.getName());
+                scoreUnit.setCount(phoneme.getCount());
+                scoreUnit.setName(phoneme.getName());
+                scoreUnit.setType(selectedPhonemeType);
+            } else {
+                scoreUnit.setCount(0);
+                scoreUnit.setName(selectedPhoneme);
+                scoreUnit.setType(SphinxResult.PhonemeScoreUnit.NOT_MATCH);
+            }
+            return scoreUnit;
+        } catch (Exception e) {
 
-        scoreUnit.setCount(phoneme.getCount());
-        scoreUnit.setIndex(index);
-        scoreUnit.setName(phoneme.getName());
-        scoreUnit.setType(selectedPhonemeType);
-        return scoreUnit;
+            return null;
+        }
     }
 
     private void calculateScore(final SphinxResult result) {
@@ -381,7 +400,12 @@ public class PhonemesDetector {
         String fBarter = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/barter_a1f7b6cd-4969-45df-bcd0-cea2d76d8542_raw.wav";
         String fBorrower = "/Volumes/DATA/Development/voice-sample/dominic_1_1_2 2/borrower_8c830b69-4068-45b2-b549-fefed76a2726_raw.wav";
 
-        PhonemesDetector detector = new PhonemesDetector(new File(fAnhNecessarily), "necessarily".toLowerCase());
+
+        String buttomUk = "/Volumes/DATA/Development/voice-sample/bottom/bottom-uk.wav";
+        String buttomUs = "/Volumes/DATA/Development/voice-sample/bottom/bottom-us.wav";
+
+
+        PhonemesDetector detector = new PhonemesDetector(new File(buttomUk), "bottom".toLowerCase());
         try {
             SphinxResult rs = detector.analyze();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();

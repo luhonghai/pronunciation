@@ -77,6 +77,15 @@
         <url-pattern>/SummaryReport</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ActivationHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ActivationHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ActivationHandler</servlet-name>
+        <url-pattern>/activate</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>

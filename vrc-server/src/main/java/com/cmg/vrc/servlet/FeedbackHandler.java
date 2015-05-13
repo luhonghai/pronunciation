@@ -29,6 +29,7 @@ public class FeedbackHandler extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        ResponseData<String> responseData = new ResponseData<String>();
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();

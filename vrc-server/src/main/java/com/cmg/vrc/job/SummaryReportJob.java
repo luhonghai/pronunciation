@@ -32,7 +32,7 @@ public class SummaryReportJob implements Job {
                     .newTrigger()
                     .withIdentity("summaryReportTrigger", "SummaryGroup")
                     .startNow()
-                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0, 0))
+                    .withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(DateBuilder.FRIDAY, 0, 1))
                     .build();
 
             //Pass JobDetail and trigger dependencies to schedular

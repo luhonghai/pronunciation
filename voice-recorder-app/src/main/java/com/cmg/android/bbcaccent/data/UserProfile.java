@@ -76,6 +76,30 @@ public class UserProfile {
         this.helpStatus = helpStatus;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -155,6 +179,9 @@ public class UserProfile {
     }
 
     private String username;
+    private String firstName;
+
+    private String lastName;
     private String name;
     private String loginType;
     private String profileImage;
@@ -171,6 +198,7 @@ public class UserProfile {
     private DeviceInfo deviceInfo;
     private String uuid;
     private int helpStatus = HELP_INIT;
+    private boolean isLogin = false;
 
     public int getEnglishProficiency() {
         return englishProficiency;

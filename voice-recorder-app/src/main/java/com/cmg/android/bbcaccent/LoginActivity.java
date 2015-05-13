@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.TypedValue;
@@ -26,6 +27,7 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.CallbackManager;
@@ -43,6 +45,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -123,7 +126,20 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 UserProfile profile = new UserProfile();
                 profile.setLoginType(UserProfile.TYPE_EASYACCENT);
                 profile.setUsername(((TextView) dialogLogin.findViewById(R.id.txtEmail)).getText().toString());
-                doAuth(profile);
+                profile.setPassword(((TextView) dialogLogin.findViewById(R.id.txtPassword)).getText().toString());
+                if (profile.getUsername().length() > 0 && profile.getPassword().length() > 0) {
+                    dialogLogin.findViewById(R.id.btnLogin).setEnabled(false);
+                    doAuth(profile);
+                } else {
+                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+                            .setMessage("Please enter email and password")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
             }
         });
 
@@ -134,20 +150,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         dialogRegister.findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (dialogRegister.isShowing()) {
-                                    dialogRegister.cancel();
-                                    dialogValidation.show();
-                                }
-                            }
-                        });
-                    }
-                }, 1000);
+                doRegister();
             }
         });
 
@@ -158,8 +161,109 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         dialogValidation.findViewById(R.id.btnConfirmCode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogValidation.cancel();
-                dialogLogin.show();
+                dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(false);
+                accountManager.submitActivationCode(
+                        ((TextView) dialogValidation.findViewById(R.id.txtCode)).getText().toString().trim(),
+                        new AccountManager.AuthListener() {
+                            @Override
+                            public void onError(String message, Throwable e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                .setTitle("Validation failed")
+                                                .setMessage("Sorry your registration code has not be recognised, please enter again or request a new code")
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create();
+                                        alertDialog.show();
+                                        dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
+                                        dialogValidation.cancel();
+                                        dialogLogin.show();
+                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                .setTitle("Validation successful")
+                                                .setMessage("Please login with your email and password")
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create();
+                                        alertDialog.show();
+                                    }
+                                });
+
+                            }
+                        });
+
+            }
+        });
+
+        dialogValidation.findViewById(R.id.btnSendCode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogValidation.findViewById(R.id.btnSendCode).setEnabled(false);
+                final UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
+                accountManager.resendActivationCode(profile,
+                        new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
+                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Could not send code")
+                                        .setMessage(message)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                alertDialog.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
+                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Successfully sent")
+                                        .setMessage("Please check message in your email " + profile.getUsername())
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                alertDialog.show();
+                            }
+                        });
+                    }
+                });
             }
         });
 
@@ -170,6 +274,89 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 dialogRegister.show();
             }
         });
+    }
+
+    private void doRegister() {
+        final UserProfile profile = new UserProfile();
+        profile.setUsername(((TextView) dialogRegister.findViewById(R.id.txtEmail)).getText().toString());
+        profile.setFirstName(((TextView) dialogRegister.findViewById(R.id.txtFirstname)).getText().toString());
+        profile.setLastName(((TextView) dialogRegister.findViewById(R.id.txtLastname)).getText().toString());
+        profile.setName(profile.getFirstName() + " " + profile.getLastName());
+        String p1 = ((TextView) dialogRegister.findViewById(R.id.txtPassword)).getText().toString();
+        String p2 = ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).getText().toString();
+        if (isValidEmail(profile.getUsername())) {
+            if (p1.length() > 6 && p2.length() > 6 && p1.equals(p2)) {
+                profile.setPassword(p1);
+                profile.setLoginType(UserProfile.TYPE_EASYACCENT);
+                dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
+                accountManager.register(profile, new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                                AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Could not register")
+                                        .setMessage(message)
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        }).create();
+                                d.show();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Preferences.addProfile(LoginActivity.this, profile);
+                                Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
+                                dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                                dialogRegister.cancel();
+                                ((TextView)dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
+                                dialogValidation.show();
+                            }
+                        });
+
+                    }
+                });
+            } else {
+                new AlertDialog.Builder(this).setTitle("Invalid password")
+                        .setMessage("Please enter invalid password")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+                        ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+                        dialog.dismiss();
+                    }
+                }).show();
+            }
+        } else {
+            new AlertDialog.Builder(this).setTitle("Invalid email")
+                    .setMessage("Please enter an invalid email")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 
     private void prepareDialog(final Dialog dialog) {
@@ -201,7 +388,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         int w = fullWidth - padding;
         //int h = dialog.getWindow().getAttributes().height;
         int h = fulHeight - padding;
-        dialog.getWindow().setLayout(w,h);
+        dialog.getWindow().setLayout(w, h);
     }
 
     @Override
@@ -323,9 +510,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         //Toast.makeText(this, "Login with " + profile.getUsername(), Toast.LENGTH_LONG).show();
         Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
         Preferences.addProfile(this, profile);
-
-        UserProfile currentProfile = Preferences.getCurrentProfile(this);
+        final UserProfile currentProfile = Preferences.getCurrentProfile(this);
         if (currentProfile == null) {
+            dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle("Error")
                     .setMessage("Could not create profile")
@@ -347,13 +534,18 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
                             AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
                                     .setTitle("Could not login")
                                     .setMessage(s)
                                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            LoginActivity.this.finish();
+                                            if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+                                                dialog.dismiss();
+                                            } else {
+                                                LoginActivity.this.finish();
+                                            }
                                         }
                                     }).create();
                             d.show();
@@ -364,6 +556,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
                 @Override
                 public void onSuccess() {
+                    currentProfile.setIsLogin(true);
+                    Preferences.addProfile(LoginActivity.this, currentProfile);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
+                        }
+                    });
                     AnalyticHelper.sendLoginType(LoginActivity.this, profile.getLoginType());
                     AnalyticHelper.sendUserLogin(LoginActivity.this, profile.getUsername());
                     startMainActivity();
