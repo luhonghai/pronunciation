@@ -9,21 +9,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by CMGT400 on 5/8/2015.
- */
+
 public class TestServlet  {
     public static void main(String[] args) {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
+//        try {
+//            feedbackDAO.deleteAll();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        Feedback feedback = new Feedback();
+
         try {
-            feedbackDAO.deleteAll();
-        } catch (Exception e) {
+            Feedback abc=feedbackDAO.getById("b3d4069a-4cb1-4595-be87-fe6020069cbc");
+            System.out.print(abc.getAccount());
+        }catch (Exception e){
             e.printStackTrace();
         }
-        Feedback feedback = new Feedback();
-        feedback.setAccount("test");
-        feedback.setAppVersion("1.3");
-        feedback.setDescription("abc");
+
 
         try {
             feedbackDAO.put(feedback);
