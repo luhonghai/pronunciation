@@ -39,6 +39,7 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ContentUtils;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.ExceptionHandler;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -168,7 +169,7 @@ public class FeedbackActivity extends BaseActivity {
             infos.put(ContentUtils.KEY_SCREENSHOOT, pathLastScreenShot);
         }
         UserProfile profile = Preferences.getCurrentProfile(this);
-        
+
         infos.put(DeviceInfoCommon.ACCOUNT, getItemSelectSpin());
         infos.put(DeviceInfoCommon.FEEDBACK_DESCRIPTION, getTextDescription());
         infos.put(DeviceInfoCommon.IMEI, uIdFac.getDeviceUuid().toString());
@@ -177,6 +178,10 @@ public class FeedbackActivity extends BaseActivity {
         infos.put(DeviceInfoCommon.OS_VERSION, System.getProperty("os.version"));
         infos.put(DeviceInfoCommon.OS_API_LEVEL, android.os.Build.VERSION.SDK);
         infos.put(DeviceInfoCommon.DEVICE_NAME, android.os.Build.DEVICE);
+        if (profile != null) {
+            Gson gson = new Gson();
+            infos.put("profile", gson.toJson(profile));
+        }
         if (stackTrace != null && stackTrace.length() > 0) {
             infos.put(DeviceInfoCommon.STACK_TRACE, stackTrace);
         }

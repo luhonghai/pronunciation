@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.UserDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.jdo.User;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.processor.AudioCleaner;
@@ -10,6 +12,7 @@ import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
@@ -52,7 +55,19 @@ public class AuthHandler extends HttpServlet {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "success";
                 if (user != null) {
+                    UserDAO userDAO = new UserDAO();
+                    if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+                        User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
+                        if (u != null) {
+                            if (!u.isActivated()) {
+                                message = "Email " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
+                            }
+                        } else {
+                            message = "Invalid username or password";
+                        }
+                    } else {
 
+                    }
                 }
                 out.print(message);
             } else {

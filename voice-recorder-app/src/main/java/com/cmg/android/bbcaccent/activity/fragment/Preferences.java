@@ -129,6 +129,11 @@ public class Preferences extends PreferenceFragment implements
             }
         }
         if (oldProfile != null) {
+            if (profile.getName() == null || profile.getName().length() == 0) {
+                profile.setName(oldProfile.getName());
+                profile.setFirstName(oldProfile.getFirstName());
+                profile.setLastName(oldProfile.getLastName());
+            }
             profile.setGender(oldProfile.isGender());
             profile.setDob(oldProfile.getDob());
             profile.setEnglishProficiency(oldProfile.getEnglishProficiency());

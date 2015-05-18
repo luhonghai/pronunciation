@@ -120,6 +120,11 @@ public class SplashScreen extends BaseActivity implements
                 }
             }.execute();
             handlerDogAnimation.post(runnableDogAnimation);
+            UserProfile profile = Preferences.getCurrentProfile(this);
+            if (profile != null && profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
+                    && profile.isLogin()) {
+                isLogin = true;
+            }
         }
     }
 
@@ -146,10 +151,9 @@ public class SplashScreen extends BaseActivity implements
 
     private void validateCallback() {
         if (loadStatus.isEmpty()) {
+            final UserProfile profile = Preferences.getCurrentProfile(this);
             if (isLogin) {
-                final UserProfile profile = Preferences.getCurrentProfile(this);
                 if (profile == null) {
-
                     goToActivity(LoginActivity.class);
                 } else {
                     accountManager.auth(profile, new AccountManager.AuthListener() {
@@ -162,15 +166,37 @@ public class SplashScreen extends BaseActivity implements
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    AlertDialog d = new AlertDialog.Builder(SplashScreen.this)
-                                            .setTitle("Could not login")
-                                            .setMessage(s)
-                                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    SplashScreen.this.finish();
-                                                }
-                                            }).create();
+                                    AlertDialog d;
+                                    if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
+                                            && (message.equalsIgnoreCase("Invalid username or password")
+                                                || message.endsWith("is not activated"))) {
+                                        d = new AlertDialog.Builder(SplashScreen.this)
+                                                .setTitle("Could not login")
+                                                .setMessage(s)
+                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        SplashScreen.this.finish();
+                                                    }
+                                                })
+                                                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        goToActivity(LoginActivity.class);
+                                                    }
+                                                })
+                                                .create();
+                                    } else {
+                                       d = new AlertDialog.Builder(SplashScreen.this)
+                                                .setTitle("Could not login")
+                                                .setMessage(s)
+                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        SplashScreen.this.finish();
+                                                    }
+                                                }).create();
+                                    }
                                     d.show();
                                     ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                                 }
