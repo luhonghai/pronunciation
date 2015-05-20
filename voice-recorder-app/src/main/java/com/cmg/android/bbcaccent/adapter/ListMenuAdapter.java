@@ -63,6 +63,7 @@ public class ListMenuAdapter extends BaseAdapter {
             convertView.setTag(view);
         } else {
             view = (ViewHolder) convertView.getTag();
+
         }
         view.textView.setText(menuText.get(position));
         if (position == 5) {
@@ -73,7 +74,9 @@ public class ListMenuAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
+
         ImageButton imageButton;
+
         TextView textView;
     }
 }
