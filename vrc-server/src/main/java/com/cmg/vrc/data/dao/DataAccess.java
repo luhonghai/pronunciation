@@ -292,22 +292,23 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Transaction tx = pm.currentTransaction();
 		try {
-			tx.begin();
+			//tx.begin();
 			try {
 				T tmp = pm.getObjectById(clazzT, id);
+
 				if (tmp != null) {
 					verifyObject(tmp);
 					return tmp;
 				}
 			} catch (JDOObjectNotFoundException jex) {
 			}
-			tx.commit();
+			//tx.commit();
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			pm.close();
 		}
 		return null;

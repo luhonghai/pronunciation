@@ -5,16 +5,58 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Feedbacks Manage</h1>
+                <h1 class="page-header">Feedback Manage</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Account</label>
+                        <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">IMEI</label>
+                        <input type="text" name="filter-imei" id="imei" class="form-control" placeholder="IMEI">
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">App Version</label>
+                        <input type="text" name="filter-appversion" id="appversion" class="form-control" placeholder="App Version">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">OS Version</label>
+                        <input type="text" name="filter-osversion" id="osversion" class="form-control" placeholder="OS Version">
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Created Date</label>
+                        <div class="input-group date">
+                        <input type="text" name="filter-createddate" id="createddate" class="form-control" placeholder="Created Date" data-format="YYYY-MM-DD">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
+
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        DataTables Advanced Tables
+
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -22,21 +64,16 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>User Name</th>
-                                    <th>Content Feedbacks</th>
-                                    <th>Date</th>
+                                    <th>Account</th>
+                                    <th>IMEI</th>
+                                    <th>App Version</th>
+                                    <th>OS Version</th>
+                                    <th>Created Date</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX">
-                                    <td>1</td>
-                                    <td>viet nam</td>
-                                    <td>viet nam 123</td>
-                                    <td>04-10-2014</td>
-                                    <td ></td>
-                                </tr>
+
                                 </tbody>
                             </table>
 
@@ -55,4 +92,94 @@
     <!-- /#wrapper -->
 
 
+    <div id="feedback1" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+                            <h1 align="center">Feedback Detail</h1>
+                            <form name="feedback" class="form-horizontal"
+                                  style="margin-top: 25px" id="feedback">
+
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">Account:</label>
+                                    <label id="accountmd" name="accountmd" class="col-xs-4  col-sm-3  "></label>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-4  col-sm-3  control-label">Description:</label>
+                                    <label id="descriptionmd" name="descriptionmd" class="col-xs-4  col-sm-3  "></label>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-xs-4  col-sm-3  control-label">IMEI:</label>
+                                    <label id="IMEImd" name="IMEImd" class="col-xs-4  col-sm-3  "></label>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">Device Name:</label>
+                                    <label id="deviceNamemd" name="deviceNamemd" class="col-xs-4  col-sm-3 "></label>
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">App Version:</label>
+                                    <label id="appVersionmd" name="appVersionmd" class="col-xs-4  col-sm-3  "></label>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">OS Version:</label>
+                                    <label id="OSVersionmd" name="OSVersionmd" class="col-xs-4  col-sm-3  "></label>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">OS Api Level:</label>
+                                    <label id="OSApiLevelmd" name="OSApiLevelmd" class="col-xs-4  col-sm-3"></label>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">Stack Trace:</label>
+                                    <textarea id="StackTracemd" name="StackTracemd" class="col-xs-4  col-sm-8  "></textarea>
+
+
+                                </div>
+
+                                <div class="form-group">
+
+                                    <label class="col-xs-4  col-sm-3  control-label">Screenshoot:</label>
+
+                                    <label id="Screenshootmd" name="Screenshootmd" class="col-xs-4  col-sm-3 "></label>
+
+                                </div>
+
+
+
+                                <div class="modal-footer">
+                                    <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
     </t:main>
+<script src="<%=request.getContextPath() %>/js/feedback.js"></script>

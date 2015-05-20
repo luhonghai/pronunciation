@@ -7,7 +7,7 @@
 <!-- Navigation -->
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-	<div style="height:100px;">
+	<div style="height:70px;">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
@@ -33,7 +33,7 @@
 			<ul class="dropdown-menu dropdown-user">
 
 				<li class="divider"></li>
-				<li><a href="login.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+				<li><a href="../../../logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 				</li>
 			</ul>
 			<!-- /.dropdown-user -->
@@ -58,7 +58,7 @@
 					<a href="ManageFeedbacks.jsp"><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
 				<li>
-					<a href="PronunciationScore.jsp"><i class="fa fa-edit fa-fw"></i> Pronunciation Score </a>
+					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
 				</li>
 				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
