@@ -1,6 +1,9 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.DeviceInfoCommon;
 import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.FeedbackDAO;
+import com.cmg.vrc.data.jdo.Feedback;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +57,20 @@ public class FeedbackHandler extends HttpServlet {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "";
                 if (user != null) {
-
+                    Feedback feedback = new Feedback();
+                    feedback.setAccount(user.getUsername());
+                    feedback.setAppVersion(storePara.get(DeviceInfoCommon.APP_VERSION));
+                    feedback.setCreatedDate(new Date(System.currentTimeMillis()));
+                    feedback.setDescription(storePara.get(DeviceInfoCommon.FEEDBACK_DESCRIPTION));
+                    feedback.setDeviceName(storePara.get(DeviceInfoCommon.DEVICE_NAME));
+                    feedback.setImei(storePara.get(DeviceInfoCommon.IMEI));
+                    feedback.setOsApiLevel(storePara.get(DeviceInfoCommon.OS_API_LEVEL));
+                    feedback.setOsVersion(storePara.get(DeviceInfoCommon.OS_VERSION));
+                    feedback.setScreenshoot("");
+                    feedback.setStackTrace(storePara.get(DeviceInfoCommon.STACK_TRACE));
+                    FeedbackDAO feedbackDAO = new FeedbackDAO();
+                    feedbackDAO.put(feedback);
+                    message="Done";
                 }
                 out.print(message);
             } else {

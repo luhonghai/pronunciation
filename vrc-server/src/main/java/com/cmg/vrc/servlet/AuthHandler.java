@@ -66,6 +66,7 @@ public class AuthHandler extends HttpServlet {
                             message = "Invalid username or password";
                         }
                     } else {
+                        //
 
                     }
                 }
