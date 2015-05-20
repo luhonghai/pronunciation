@@ -48,7 +48,9 @@ import org.apache.log4j.Logger;
  * @Last changed: $LastChangedDate$
  */
 public final class FileHelper {
+
 	private static Logger log = Logger.getLogger(FileHelper.class);
+
 	public static final int BYTE_LENGTH = 4096;
 
 	public static final int CONNECTION_TIMEOUT = 10000;

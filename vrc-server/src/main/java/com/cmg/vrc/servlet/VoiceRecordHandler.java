@@ -68,6 +68,9 @@ public class VoiceRecordHandler extends HttpServlet {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
             String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
+            if (targetDir == null || targetDir.length() == 0) {
+
+            }
             String tmpFile = UUID.randomUUID().toString();
             String tmpDir = System.getProperty("java.io.tmpdir");
             while (iter.hasNext()) {
@@ -104,7 +107,11 @@ public class VoiceRecordHandler extends HttpServlet {
                 String fileClean = word + "_" + uuid + "_clean" + ".wav";
                 File targetClean = new File(target, fileClean);
                 FileUtils.moveFile(tmpFileIn, targetRaw);
-                tmpFileIn.delete();
+                try {
+                    if (tmpFileIn.exists())
+                    FileUtils.forceDelete(tmpFileIn);
+                } catch (Exception e) {}
+
 
                 AudioCleaner cleaner = new SoXCleaner(targetClean,targetRaw);
                 cleaner.clean();
@@ -144,6 +151,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
                 dao.create(model);
                 String output = gson.toJson(model);
+
                 FileUtils.writeStringToFile(new File(target, word + "_" + uuid + ".json"), output);
                 out.print(output);
             } else {
