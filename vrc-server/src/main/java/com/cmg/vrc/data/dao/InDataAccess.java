@@ -49,4 +49,8 @@ public interface InDataAccess<T, E> {
 	public List<E> list(String query) throws Exception;
 	
 	public boolean checkExistence(String id) throws Exception;
+
+	public double getCount() throws Exception;
+
+	public double getCount(String query, Object... parameters) throws Exception;
 }

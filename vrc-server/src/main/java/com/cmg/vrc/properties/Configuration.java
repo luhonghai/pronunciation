@@ -38,6 +38,8 @@ public class Configuration {
     public static final String RECIPIENTS = "recipients";
 
     public static final String SYSTEM_ENVIRONMENT = "sysenv";
+
+	public static final String AWS_S3_BUCKET_NAME = "aws.s3.bucket.name";
 	
 	private static Properties prop;
 
