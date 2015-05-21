@@ -473,4 +473,32 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 			pm.close();
 		}
 	}
+
+	@Override
+	public double getCount() throws Exception {
+		return getCount("");
+	}
+
+	@Override
+	public double getCount(String query, Object... parameters) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Transaction tx = pm.currentTransaction();
+		Long count;
+		Query q = pm.newQuery("SELECT COUNT(id) FROM " + clazzT.getCanonicalName() + " " + query);
+		try {
+			tx.begin();
+			count = (Long) q.execute(parameters);
+			tx.commit();
+			return count.doubleValue();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			q.closeAll();
+			pm.close();
+		}
+	}
+
 }
