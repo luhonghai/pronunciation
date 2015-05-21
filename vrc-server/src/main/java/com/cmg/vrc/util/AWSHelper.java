@@ -37,11 +37,13 @@ public class AWSHelper {
 
     public boolean download(String keyName, File file) {
         try {
+            System.out.println("Start download file " + keyName + " to local path: " + file.getAbsolutePath());
             s3client.getObject(new GetObjectRequest(bucketName, keyName), file);
             if (file.exists() && file.canRead()) {
                 return true;
             }
         } catch (Exception e) {
+            System.out.println("Could not download file " + keyName + " from AWS S3. Message: " + e.getMessage());
             logger.log(Level.SEVERE, "Could not download file " + keyName + " from AWS S3", e);
         }
         return false;
@@ -65,6 +67,7 @@ public class AWSHelper {
 
     public boolean upload(String keyName, File file) {
         try {
+            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
             s3client.putObject(new PutObjectRequest(bucketName, keyName, file));
             return true;
         } catch (AmazonServiceException ase) {
@@ -78,6 +81,7 @@ public class AWSHelper {
             sb.append("\n").append("AWS Error Code:   " + ase.getErrorCode());
             sb.append("\n").append("Error Type:       " + ase.getErrorType());
             sb.append("\n").append("Request ID:       " + ase.getRequestId());
+            System.out.println(sb.toString());
             logger.log(Level.SEVERE, sb.toString(), ase);
         } catch (AmazonClientException ace) {
             StringBuffer sb = new StringBuffer();
@@ -87,8 +91,10 @@ public class AWSHelper {
                     "communicate with S3, " +
                     "such as not being able to access the network.");
             sb.append("\n").append("Error Message: " + ace.getMessage());
+            System.out.println(sb.toString());
             logger.log(Level.SEVERE, sb.toString(), ace);
         } catch (Exception e) {
+            System.out.println("Could not upload file to S3. Message: " + e.getMessage());
             logger.log(Level.SEVERE, "Could not upload file to S3", e);
         }
         return false;

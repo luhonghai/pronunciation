@@ -141,7 +141,7 @@ public class MailService {
         }
                 ,"accenteasy - account activation"
                 ,"Please select the link below to activate your account: <br> " +
-                "http://services.c-mg.vn/vrc/activate?acc=" + activationCode
+                Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) + "?acc=" + activationCode
                 + "<br> Or enter the following activation code on your mobile device: <b>" + activationCode + "</b>"
                 + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
     }
@@ -154,7 +154,7 @@ public class MailService {
         }
                 ,"accenteasy - account activation"
                 ,"Please select the link below to activate your account: <br> " +
-                "http://services.c-mg.vn/vrc/activate?acc=" + "ABC1235BE135"
+                Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) + "?acc=" + "ABC1235BE135"
                 + "<br> Or enter the following activation code on your mobile device: <b>" + "ABC1235BE135" + "</b>"
                 + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
     }

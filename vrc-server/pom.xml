@@ -140,6 +140,11 @@
                 <artifactId>jvm</artifactId>
                 <version>2.0</version>
             </dependency>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>1.9.35</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
@@ -415,6 +420,7 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.9.35</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.lingala.zip4j</groupId>
@@ -451,6 +457,7 @@
 				<grammarPath>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/grammar</grammarPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
             </properties>
 		</profile>
         <profile>
@@ -478,6 +485,7 @@
 				<grammarPath>/cmg/grammar</grammarPath>
                 <recipients>hai.lu@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
             </properties>
         </profile>
 		<profile>
@@ -505,10 +513,11 @@
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
 			</properties>
 		</profile>
 		<profile>
-			<id>env-sing</id>
+			<id>env-prod</id>
 			<properties>
 				<sysenv>aws</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
@@ -519,7 +528,6 @@
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://127.0.0.1:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
-
 				<contact.us.email>website@c-mg.com</contact.us.email>
 				<contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -532,6 +540,7 @@
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
+				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
 			</properties>
 		</profile>
 	</profiles>

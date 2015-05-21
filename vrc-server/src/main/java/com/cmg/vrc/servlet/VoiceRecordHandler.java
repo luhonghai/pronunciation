@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
@@ -107,20 +109,21 @@ public class VoiceRecordHandler extends HttpServlet {
                 String uuid = UUIDGenerator.generateUUID();
                 String fileTempName  = word + "_" + uuid + "_raw" + ".wav";
                 File targetRaw = new File(target, fileTempName);
-                String fileClean = word + "_" + uuid + "_clean" + ".wav";
-                File targetClean = new File(target, fileClean);
+                //String fileClean = word + "_" + uuid + "_clean" + ".wav";
+                //File targetClean = new File(target, fileClean);
                 FileUtils.moveFile(tmpFileIn, targetRaw);
                 try {
                     if (tmpFileIn.exists())
                         FileUtils.forceDelete(tmpFileIn);
                 } catch (Exception e) {}
+                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + fileTempName,
+                        targetRaw);
 
-
-                AudioCleaner cleaner = new SoXCleaner(targetClean,targetRaw);
-                cleaner.clean();
+//                AudioCleaner cleaner = new SoXCleaner(targetClean,targetRaw);
+//                cleaner.clean();
 
                 UserVoiceModel model = new UserVoiceModel();
-                model.setCleanRecordFile(fileClean);
+                //model.setCleanRecordFile(fileClean);
                 model.setUsername(user.getUsername());
                 model.setCountry(user.getCountry());
                 model.setDob(user.getDob());
@@ -151,11 +154,26 @@ public class VoiceRecordHandler extends HttpServlet {
                 }
 
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
-
                 dao.create(model);
                 String output = gson.toJson(model);
+                File jsonModel = new File(target, word + "_" + uuid + ".json");
+                FileUtils.writeStringToFile(jsonModel, output);
+                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + word + "_" + uuid + ".json",
+                        jsonModel);
+                if (jsonModel.exists()) {
+                    try {
+                        FileUtils.forceDelete(jsonModel);
+                    } catch (Exception e) {
 
-                FileUtils.writeStringToFile(new File(target, word + "_" + uuid + ".json"), output);
+                    }
+                }
+                if (targetRaw.exists()) {
+                    try {
+                        FileUtils.forceDelete(targetRaw);
+                    } catch (Exception e) {
+
+                    }
+                }
                 out.print(output);
             } else {
                 out.print("No parameter found");

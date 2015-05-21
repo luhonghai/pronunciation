@@ -46,7 +46,7 @@ public class SummaryReportJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         logger.info("Start summary report job");
-        SummaryReport.analyze();
+        //SummaryReport.analyze();
         logger.info("Complete summary report job");
     }
 }

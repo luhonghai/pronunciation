@@ -40,6 +40,8 @@ public class Configuration {
     public static final String SYSTEM_ENVIRONMENT = "sysenv";
 
 	public static final String AWS_S3_BUCKET_NAME = "aws.s3.bucket.name";
+
+	public static final String URL_ACTIVE_ACCOUNT = "url.active.account";
 	
 	private static Properties prop;
 
@@ -47,11 +49,14 @@ public class Configuration {
 		if (prop == null)
 			getProperties(SYSTEM_PROPERTIES);
         try {
+			String sysEnvKey = "VRC_" + key.replaceAll("\\.", "_").toUpperCase();
+			if (System.getenv().containsKey(sysEnvKey)) {
+				return System.getenv().get(sysEnvKey);
+			}
             return prop != null ? prop.getProperty(key).trim() : "";
         } catch (Exception ex) {
             return "";
         }
-
 	}
 
 	public static void getProperties(String propName) {
@@ -63,5 +68,10 @@ public class Configuration {
 		} catch (Exception ex) {
 			logger.error("Cannot load properties", ex);
 		}
+	}
+
+	public static void main(String[] args) {
+		String test = "model.fst.ser";
+		System.out.print(test.replaceAll("\\.", "_").toUpperCase());
 	}
 }

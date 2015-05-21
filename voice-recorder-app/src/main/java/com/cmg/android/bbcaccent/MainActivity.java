@@ -1410,14 +1410,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             scoreDBAdapter.open();
             scoreDBAdapter.insert(score);
             scoreDBAdapter.close();
-
-            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
-            phonemeScoreDBAdapter.open();
-            List<SphinxResult.PhonemeScore> phonemeScoreList  = currentModel.getResult().getPhonemeScores();
-            for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                phonemeScoreDBAdapter.insert(phonemeScore);
+            if (currentModel.getResult() != null) {
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
+                phonemeScoreDBAdapter.open();
+                List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
+                if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
+                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
+                        phonemeScoreDBAdapter.insert(phonemeScore);
+                    }
+                }
+                phonemeScoreDBAdapter.close();
             }
-            phonemeScoreDBAdapter.close();
         }
     }
 
