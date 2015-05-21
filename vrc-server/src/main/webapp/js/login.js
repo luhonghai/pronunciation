@@ -1,4 +1,4 @@
-
+var CONTEXT_PATH = "<%=request.getContextPath()%>";
 function login(){
     $(document).on("click","#login", function (){
     var account=$("#account").val();
@@ -29,10 +29,10 @@ function login(){
         },
         success :function(result){
             if(result=="success"){
-                window.location = "/dashboard.jsp";
+                window.location =CONTEXT_PATH+ "/dashboard.jsp";
             }
            if(result=="error"){
-               window.location = "/login.jsp";
+               window.location =CONTEXT_PATH+ "/login.jsp";
            }
            },
         error:function(){
