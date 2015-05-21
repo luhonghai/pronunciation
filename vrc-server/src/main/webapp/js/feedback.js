@@ -65,7 +65,7 @@ function detail(){
         $("#feedback1").modal('show');
         var idd=$(this).attr('id-column');
         $.ajax({
-            url:"../Feedbacks",
+            url:"Feedbacks",
             type:"POST",
             dataType:"json",
             data:{
