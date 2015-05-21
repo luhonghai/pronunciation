@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label class="control-label">Date To</label>
                         <div class='input-group date' id='DateTo'>
-                            <input type='text' class="form-control" placeholder="To"/>
+                            <input type='text' class="form-control" placeholder="To" />
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                             </span>

@@ -28,6 +28,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
 
         q.setRange(start, start + length);
+
         try {
             tx.begin();
             List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>) q.execute();
@@ -47,13 +48,14 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             pm.close();
         }
     }
-    public List<LicenseCode> listAll(int start, int length,String account) throws Exception {
+    public List<LicenseCode> listAll(int start, int length,String account,String code, String acti,String dateFrom,String dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
 
         q.setRange(start, start + length);
+
         try {
             tx.begin();
             List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>) q.execute();

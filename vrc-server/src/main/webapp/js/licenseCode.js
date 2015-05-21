@@ -4,8 +4,6 @@ function listLicenseCode(){
     myTable=$('#dataTables-example').dataTable({
                 "retrieve": true,
                 "destroy": true,
-                //"paging": false,
-                //"searching": false,
                 "bProcessing": true,
                 "bServerSide": true,
                 "ajax": {

@@ -26,7 +26,7 @@
           <div class="form-group">
             <label class="control-label">Date From</label>
             <div class='input-group date' id='activatedDateFrom'>
-              <input type='text' class="form-control" id="dateFrom" placeholder="From" />
+              <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -44,7 +44,7 @@
           <div class="form-group">
             <label class="control-label">Date To</label>
             <div class='input-group date' id='activatedDateTo'>
-              <input type='text' class="form-control" id="dateTo" placeholder="To"/>
+              <input type='text' class="form-control" id="dateTo" placeholder="To" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
