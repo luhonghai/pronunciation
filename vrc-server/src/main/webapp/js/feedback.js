@@ -1,12 +1,9 @@
 function listFeedback(){
 
             $('#dataTables-example').dataTable({
-
-                "iTotalRecords":10,
-                "iTotalDisplayRecords":10,
                 "bProcessing": true,
                 "bServerSide": true,
-                "sAjaxDataProp":"",
+
                 "ajax": {
                     "url": "Feedbacks",
                     "type": "POST",
@@ -16,28 +13,28 @@ function listFeedback(){
                     }
                 },
 
-                "aoColumns": [{
-                    "mData": "account",
+                "columns": [{
+                    "data": "account",
                     "sDefaultContent":""
 
                 }, {
                     "sWidth": "20%",
-                    "mData": "imei",
+                    "data": "imei",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "appVersion",
+                    "data": "appVersion",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "osVersion",
+                    "data": "osVersion",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "createdDate",
+                    "data": "createdDate",
                     "sDefaultContent":""
                 }, {
-                    "mData": null,
+                    "data": null,
 
                     "bSortable": false,
                     "mRender": function (data, type, full) {

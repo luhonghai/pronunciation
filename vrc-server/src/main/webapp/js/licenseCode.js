@@ -49,6 +49,41 @@ function activated(){
 
     });
 }
+
+function search(){
+    $(document).on("click","#button-filter", function(){
+
+        var account=$("#account").val();
+        var code=$("#code").val();
+        var Acti=$("#Acti").val();
+        var dateFrom=$("#dateFrom").text();
+        var dateTo=$("#dateTo").text();
+        $.ajax({
+            url:"",
+            type:"POST",
+            dataType:"json",
+            data:{
+                filter:"button-filter",
+                account:account,
+                code:code,
+                Acti:Acti,
+                dateFrom:dateFrom,
+                dateTo:dateTo
+            },
+            success:function(result){
+
+
+
+            },
+            error:function(e){
+                alert("error"+e);
+            }
+
+        });
+
+    });
+}
+
 function add(){
     $(document).on("click","#addCode",function() {
         $("#addCode1").modal('show');
@@ -65,7 +100,7 @@ function dateTo(){
 function addCode(){
     $(document).on("click","#Yes",function(){
         $.ajax({
-            url:"../LicenseCodes",
+            url:CONTEXT_PATH+"/LicenseCodes",
             type:"POST",
             dataType:"text",
             data:{
@@ -90,7 +125,7 @@ function addCode(){
 
 
 $(document).ready(function(){
-
+    search();
     add();
     addCode();
     listLicenseCode();

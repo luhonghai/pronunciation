@@ -21,8 +21,8 @@ import java.util.Random;
 public class LicenseCodes extends HttpServlet {
     class license{
         public int draw;
-        public int recordsTotal;
-        public int recordsFiltered;
+        public Double recordsTotal;
+        public Double recordsFiltered;
 
         List<LicenseCode> data;
     }
@@ -33,7 +33,7 @@ public class LicenseCodes extends HttpServlet {
     static Random rnd = new Random();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LicenseCodeDAO lis=new LicenseCodeDAO();
-       LicenseCode lisence=new LicenseCode();
+        LicenseCode lisence=new LicenseCode();
 
         if(request.getParameter("list")!=null){
             LicenseCodes.license licen=new license();
@@ -45,13 +45,12 @@ public class LicenseCodes extends HttpServlet {
             int length=Integer.parseInt(l);
             int draw=Integer.parseInt(d);
             try {
-                List<com.cmg.vrc.data.jdo.LicenseCode> li=lis.listAll();
-                int count=li.size();
+                Double count=lis.getCount();
                 licen.draw=draw;
                 licen.recordsTotal=count;
                 licen.recordsFiltered=count;
                 licen.data=lis.listAll(start,length);
-                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
+//                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
                 Gson gson = new Gson();
                 String licenseCode = gson.toJson(licen);
                 response.getWriter().write(licenseCode);
@@ -68,7 +67,7 @@ public class LicenseCodes extends HttpServlet {
                List<com.cmg.vrc.data.jdo.LicenseCode> lists=lis.listAll();
                 for (int i=0;i<lists.size();i++){
                     if(lists.get(i).getCode().contains(codeRandom)){
-                       logger.debug(lists.get(i).getCode());
+//                       logger.debug(lists.get(i).getCode());
                         codeRandom=randomString(6);
                     }
                 }
@@ -81,6 +80,17 @@ public class LicenseCodes extends HttpServlet {
             }
 
        }
+
+        if(request.getParameter("filter")!=null){
+            String ac=request.getParameter("account");
+            String co=request.getParameter("code");
+            String activated=request.getParameter("Acti");
+            String dateFrom=request.getParameter("dateFrom");
+            String dateTo=request.getParameter("dateTo");
+            String dateFrom1=dateFrom.substring(0, 10);
+            String dateTo1=dateTo.substring(0,10);
+
+        }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
