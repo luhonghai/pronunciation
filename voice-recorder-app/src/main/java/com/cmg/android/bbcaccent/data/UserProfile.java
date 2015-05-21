@@ -101,6 +101,7 @@ public class UserProfile {
     }
 
     public String getLicenseCode() {
+        if (licenseCode == null) return "";
         return licenseCode;
     }
 

@@ -33,38 +33,45 @@ public class LicenseHandler extends BaseServlet {
         try {
             String message = "";
             LicenseCodeDAO licenseCodeDAO = new LicenseCodeDAO();
-            String code = getParameter(request, "code");
-            String action = getParameter(request, "action");
-            String account = getParameter(request, "account");
+            String code = request.getParameter("code");
+            String action = request.getParameter("action");
+            String account = request.getParameter("account");
 
-            if (!StringUtils.isEmpty(code) && !StringUtils.isEmpty(account) && !StringUtils.isEmpty(action)) {
-                LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
-                if (licenseCode != null) {
-                    if (action.equalsIgnoreCase("active")) {
-                        if (StringUtils.isEmpty(licenseCode.getAccount())
-                                || account.equalsIgnoreCase(licenseCode.getAccount())) {
-                            licenseCode.setAccount(account);
-                            licenseCode.setActivated(true);
-                            licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
-                            licenseCodeDAO.put(licenseCode);
+            if (!StringUtils.isEmpty(account) && !StringUtils.isEmpty(action)) {
+                if (action.equalsIgnoreCase("check")) {
+                    LicenseCode licenseCode = licenseCodeDAO.getByEmail(account);
+                    if (account.equalsIgnoreCase(licenseCode.getAccount())) {
+                        if (licenseCode.isActivated()) {
                             message = "success";
                         } else {
-                            message = "Code is already registered";
+                            message = "Code is suspended";
                         }
-                    } else if (action.equalsIgnoreCase("check")) {
-                        if (account.equalsIgnoreCase(licenseCode.getAccount())) {
-                            if (licenseCode.isActivated()) {
-                                message = "success";
-                            } else {
-                                message = "Code is suspended";
-                            }
-                        } else {
-                            message = "Invalid account";
-                        }
+                    } else {
+                        message = "Invalid account";
                     }
                 } else {
-                    message = "Invalid license code";
+                    if (!StringUtils.isEmpty(code)) {
+                        LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
+                        if (licenseCode != null) {
+                            if (StringUtils.isEmpty(licenseCode.getAccount())
+                                    || account.equalsIgnoreCase(licenseCode.getAccount())) {
+                                licenseCode.setAccount(account);
+                                licenseCode.setActivated(true);
+                                licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
+                                licenseCodeDAO.put(licenseCode);
+                                message = "success";
+                            } else {
+                                message = "Code is already registered";
+                            }
+                        } else {
+                            message = "Invalid license code";
+                        }
+                    } else {
+                        message = "Please check your license code";
+                    }
                 }
+            } else {
+                message = "Invalid parameter";
             }
             out.print(message);
         } catch (Exception e) {

@@ -153,23 +153,32 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         dialogLicense.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
-                if (profile != null) {
-                    profile.setLicenseCode(((TextView) dialogLicense.findViewById(R.id.txtCode)).getText().toString());
-                    if (profile.getLicenseCode().length() > 0) {
-                        dialogLogin.findViewById(R.id.btnActivateLicense).setEnabled(false);
-                        doActivateLicense(profile);
-                    } else {
-                        new AlertDialog.Builder(LoginActivity.this).setTitle(null)
-                                .setMessage("Please enter licence code")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
+                        if (profile != null) {
+                            profile.setLicenseCode(((TextView) dialogLicense.findViewById(R.id.txtCode)).getText().toString());
+                            SimpleAppLog.error("Start active license: " + profile.getLicenseCode());
+                            if (profile.getLicenseCode().length() > 0) {
+                                dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(false);
+                                doActivateLicense(profile);
+                            } else {
+                                new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+                                        .setMessage("Please enter licence code")
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
+                            }
+                        } else {
+                            SimpleAppLog.error("No profile found");
+                        }
                     }
-                }
+                });
+
             }
         });
 
