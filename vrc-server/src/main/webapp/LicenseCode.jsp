@@ -25,11 +25,10 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label class="control-label">Date From</label>
-            <div class='input-group date' id='activatedDateFrom'>
+            <div>
+
               <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+
             </div>
           </div>
           <div class="form-group">
@@ -43,11 +42,10 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label class="control-label">Date To</label>
-            <div class='input-group date' id='activatedDateTo'>
+            <div >
+
               <input type='text' class="form-control" id="dateTo" placeholder="To" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+
             </div>
           </div>
           <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>

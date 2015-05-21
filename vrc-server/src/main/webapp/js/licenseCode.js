@@ -89,16 +89,16 @@ function add(){
 }
 
 function dateFrom(){
-    $('#activatedDateFrom').datetimepicker();
+    $('#dateFrom').datetimepicker();
 }
 function dateTo(){
-    $('#activatedDateTo').datetimepicker();
+    $('#dateTo').datetimepicker();
 }
 
 function addCode(){
     $(document).on("click","#Yes",function(){
         $.ajax({
-            url:CONTEXT_PATH+"/LicenseCodes",
+            url:"LicenseCodes",
             type:"POST",
             dataType:"text",
             data:{

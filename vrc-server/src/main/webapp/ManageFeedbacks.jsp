@@ -37,11 +37,9 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label class="control-label">Date From</label>
-                        <div class='input-group date' id='DateFrom'>
-                            <input type='text' class="form-control" placeholder="From" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <div >
+                            <input type='text' class="form-control" id='DateFrom' placeholder="From" />
+
                         </div>
                     </div>
 
@@ -50,11 +48,9 @@
                 <div class="col-sm-3">
                     <div class="form-group">
                         <label class="control-label">Date To</label>
-                        <div class='input-group date' id='DateTo'>
-                            <input type='text' class="form-control" placeholder="To" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                        <div >
+                            <input type='text' class="form-control" id='DateTo' placeholder="To"/>
+
                         </div>
                     </div>
                     <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>

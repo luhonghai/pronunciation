@@ -19,7 +19,7 @@ function login(){
         }
 
     $.ajax({
-        url: CONTEXT_PATH+"/Login",
+        url: "Login",
         type:"POST",
         dataType:"text",
         data:{
@@ -29,10 +29,10 @@ function login(){
         },
         success :function(result){
             if(result=="success"){
-                window.location = CONTEXT_PATH+"/dashboard.jsp";
+                window.location = "/dashboard.jsp";
             }
            if(result=="error"){
-               window.location = CONTEXT_PATH+"/login.jsp";
+               window.location = "/login.jsp";
            }
            },
         error:function(){
