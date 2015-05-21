@@ -1,5 +1,7 @@
 package com.cmg.vrc.sphinx;
 
+import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.cmu.sphinx.api.Configuration;
@@ -36,6 +38,8 @@ public class PhonemesDetector {
 
     private static Map<String, List<String>> neighbourPhones;
 
+    private final File sphinx4DataTmpDir = FileHelper.getTmpSphinx4DataDir();
+
     public PhonemesDetector(File target, String word) {
         this.target = target;
         this.word = word;
@@ -47,9 +51,21 @@ public class PhonemesDetector {
         initNeighbourPhonemes();
 
         if (recognizer == null) {
+            AWSHelper awsHelper = new AWSHelper();
+
             Configuration conf = new Configuration();
-            conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
-            conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
+            //conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
+            File tmpAcousticModelDir = new File(sphinx4DataTmpDir, "wsj-en-us");
+            if (!tmpAcousticModelDir.exists()) {
+                awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", sphinx4DataTmpDir);
+            }
+            conf.setAcousticModelPath(tmpAcousticModelDir.getAbsolutePath());
+            File tmpPhonemesDictFile = new File(sphinx4DataTmpDir, "cmuphonemedict");
+            if (!tmpPhonemesDictFile.exists()) {
+                awsHelper.download("sphinx-data/dict/cmuphonemedict", tmpPhonemesDictFile);
+            }
+            conf.setDictionaryPath(tmpPhonemesDictFile.getAbsolutePath());
+            //conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
             //conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
             conf.setGrammarPath(getGrammarPath());
             conf.setUseGrammar(true);
@@ -64,15 +80,21 @@ public class PhonemesDetector {
     }
 
     private String getGrammarPath() {
-        String grammarPath = com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.GRAMMAR_PATH);
-        File grammarDir = new File(grammarPath);
+        //String grammarPath = com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.GRAMMAR_PATH);
+        File grammarDir = new File(sphinx4DataTmpDir, "grammar");
         if (!grammarDir.exists()) {
             grammarDir.mkdirs();
         }
 
         StringBuffer sb = new StringBuffer();
         sb.append("#JSGF V1.0;\n\n").append("grammar phonelist;\n\n").append("public <phonelist> = (SIL ");
-        for (String phoneme : correctPhonemes) {
+        for (String p : correctPhonemes) {
+            String phoneme;
+            if (DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(p.toUpperCase())) {
+                phoneme = DictionaryHelper.BEEP_TO_CMU_PHONEMES.get(p.toUpperCase());
+            } else {
+                phoneme = p;
+            }
             List<String> neighbours = neighbourPhones.get(phoneme.toLowerCase());
             sb.append("(");
             if (neighbours!=null && neighbours.size() > 0) {
@@ -87,7 +109,7 @@ public class PhonemesDetector {
         }
         sb.append("SIL);");
 
-        File grammarFile = new File(grammarPath, word + ".gram");
+        File grammarFile = new File(grammarDir, word + ".gram");
         if (!grammarFile.exists() || grammarFile.isDirectory()) {
             try {
                 FileUtils.write(grammarFile, sb.toString(), "UTF-8");
@@ -95,7 +117,7 @@ public class PhonemesDetector {
                 e.printStackTrace();
             }
         }
-        return grammarPath;
+        return grammarDir.getAbsolutePath();
     }
 
     private void initNeighbourPhonemes() {
@@ -150,14 +172,8 @@ public class PhonemesDetector {
 
     private void generatePhonemes() {
         try {
-            G2PConverter converter = new G2PConverter(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.MODEL_FST_SER));
-            ArrayList<Path> list = converter.phoneticize(word, 1);
-            correctPhonemes = new ArrayList<>();
-            for (Path p : list) {
-                for (String _p : p.getPath()) {
-                    correctPhonemes.add(_p);
-                }
-            }
+            DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
+            correctPhonemes = helper.getCorrectPhonemes(word);
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Could not generate phonemes from word " + word, ex);
         }
@@ -237,9 +253,18 @@ public class PhonemesDetector {
         try {
             if (selectedPhoneme.equalsIgnoreCase(targetPhoneme)) {
                 return SphinxResult.PhonemeScoreUnit.MATCHED;
+            } else if (DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(selectedPhoneme.toUpperCase())
+                    && DictionaryHelper.BEEP_TO_CMU_PHONEMES.get(selectedPhoneme.toUpperCase()).equalsIgnoreCase(targetPhoneme)) {
+                return SphinxResult.PhonemeScoreUnit.BEEP_PHONEME;
             } else {
-                if (neighbourPhones.containsKey(selectedPhoneme.toLowerCase())) {
-                    List<String> neighbourPhonemes = neighbourPhones.get(selectedPhoneme.toLowerCase());
+                String testPhoneme;
+                if (DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(selectedPhoneme.toUpperCase())) {
+                    testPhoneme= DictionaryHelper.BEEP_TO_CMU_PHONEMES.get(selectedPhoneme.toUpperCase());
+                } else {
+                    testPhoneme = selectedPhoneme;
+                }
+                if (neighbourPhones.containsKey(testPhoneme.toLowerCase())) {
+                    List<String> neighbourPhonemes = neighbourPhones.get(testPhoneme.toLowerCase());
                     for (String phoneme : neighbourPhonemes) {
                         if (phoneme.equalsIgnoreCase(targetPhoneme)) {
                             return SphinxResult.PhonemeScoreUnit.NEIGHBOR;
@@ -273,8 +298,9 @@ public class PhonemesDetector {
                     break;
                 }
             }
-            if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED
-                    || scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR
+            if ((scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED)
+                    || (scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR)
+                    || (scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME)
                     || !isMatchedWithNextPhoneme) {
                 bestPhonemes.remove(0);
                 return scoreUnit;
@@ -355,6 +381,9 @@ public class PhonemesDetector {
                 if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED) {
                     // 100% score
                     totalScore += scoreUnit.getCount();
+                } else if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME){
+                    // 90% score
+                    totalScore += (float) scoreUnit.getCount() * 0.9f;
                 } else if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR) {
                     // 50% score
                     totalScore += (float) scoreUnit.getCount() / 2;

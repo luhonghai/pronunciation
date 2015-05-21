@@ -14,6 +14,7 @@ import org.jsoup.nodes.Element;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,11 +73,11 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             url = OXFORD_DICTIONARIES_ROOT + language + "/" + URLEncoder.encode(word, ENCODE);
         } catch (UnsupportedEncodingException e) {
             url = OXFORD_DICTIONARIES_ROOT + language + "/" + word;
-            logger.log(Level.WARNING, "Could not encode URL", e);
+           // logger.log(Level.WARNING, "Could not encode URL", e);
         }
         File tmpSource = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
         try {
-            logger.log(Level.INFO, "Fetch word: " + word + ". URL: " + url);
+           // logger.log(Level.INFO, "Fetch word: " + word + ". URL: " + url);
 
             FileUtils.copyURLToFile(new URL(url), tmpSource);
             Document doc = Jsoup.parse(tmpSource, ENCODE);
@@ -102,30 +103,31 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 } catch (Exception e) {
 
                 }
+                if (isFetchAudio()) {
+                    // Find line breaks
+                    //item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
+                    // Find audio sound url. Type mp3
+                    try {
+                        String audioUrl = doc.select(".audio_play_button").first().attr("data-src-mp3");
+                        if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
+                            item.setAudioUrl(audioUrl);
+                            if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
+                                getTargetDir().mkdirs();
+                            }
+                            File saveFile = new File(getTargetDir(), word + ".mp3");
 
-                // Find line breaks
-                //item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
-                // Find audio sound url. Type mp3
-                try {
-                    String audioUrl = doc.select(".audio_play_button").first().attr("data-src-mp3");
-                    if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
-                        item.setAudioUrl(audioUrl);
-                        if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
-                            getTargetDir().mkdirs();
+                            if (saveFile.exists()) {
+
+                            } else {
+                              //  logger.info("Download URL " + item.getAudioUrl() + " to file: " + saveFile);
+                                FileUtils.copyURLToFile(new URL(item.getAudioUrl()), saveFile);
+
+                            }
+                            item.setAudioFile(saveFile.getAbsolutePath());
                         }
-                        File saveFile = new File(getTargetDir(), word + ".mp3");
-
-                        if (saveFile.exists()) {
-
-                        } else {
-                            logger.info("Download URL " + item.getAudioUrl() + " to file: " + saveFile);
-                            FileUtils.copyURLToFile(new URL(item.getAudioUrl()), saveFile);
-
-                        }
-                        item.setAudioFile(saveFile.getAbsolutePath());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
                 }
                 AppLog.logString("Found: " + gson.toJson(item));
                 FileUtils.write(new File(getTargetDir(), word + ".json"), gson.toJson(item), "UTF-8");
@@ -150,9 +152,47 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 if (tmpSource.exists())
                     FileUtils.forceDelete(tmpSource);
             } catch (IOException e) {
-                logger.log(Level.WARNING, "Could not delete temp file " + tmpSource, e);
+                //logger.log(Level.WARNING, "Could not delete temp file " + tmpSource, e);
             }
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        DictionaryWalker walker = new OxfordDictionaryWalker(new File("/Volumes/DATA/Development/test-zone/ict"));
+        walker.setFetchAudio(false);
+        final File wordXml = new File("/Volumes/DATA/Development/test-zone/ict/words.xml");
+        if (wordXml.exists()) {
+            FileUtils.forceDelete(wordXml);
+        }
+        FileUtils.writeStringToFile(wordXml, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<resources>\n" +
+                "\t<string-array name=\"words_list\">", true);
+        walker.setListener(new DictionaryListener() {
+            @Override
+            public void onDetectWord(DictionaryItem item) {
+                System.out.println("Write word " + item.getWord() + " to list");
+                try {
+                    FileUtils.writeStringToFile(wordXml, "\n\t\t<item>" + item.getWord() + "|" + item.getPronunciation() + "</item>", true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onWordNotFound(DictionaryItem item, FileNotFoundException ex) {
+                System.out.println("ERROR: word " + item.getWord() + " not found");
+            }
+
+            @Override
+            public void onError(DictionaryItem item, Exception ex) {
+                System.out.println("ERROR: Could not fetch word " + item.getWord() + ". Message: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
+        List<String> words = FileUtils.readLines(new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/words/british/brit-a-z.txt"), "UTF-8");
+        walker.execute(words);
+        FileUtils.writeStringToFile(wordXml, "\t</string-array>\n" +
+                "</resources>", true);
     }
 
 }

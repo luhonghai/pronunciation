@@ -24,7 +24,7 @@ public class FileHelper {
 
     private static final String IPA_CACHE_DIR = "ipa";
 
-    private static final String TIPS_JSON_FILE = "tips" + JSON_EXTENSION;
+    private static final String TIPS_JSON_FILE = "tips.json" + JSON_EXTENSION;
 
     public static final String SCREENSHOOTS_FOLDER = "screenshoot";
 

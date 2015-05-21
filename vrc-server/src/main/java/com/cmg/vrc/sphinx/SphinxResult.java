@@ -28,9 +28,11 @@ public class SphinxResult {
     }
 
     public static class PhonemeScoreUnit {
+        public static final int BEEP_PHONEME = 3;
         public static final int NEIGHBOR = 2;
         public static final int MATCHED = 1;
         public static final int NOT_MATCH = 0;
+
 
         private int index;
         private int type;

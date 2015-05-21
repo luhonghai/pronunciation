@@ -11,6 +11,14 @@ import java.util.logging.Logger;
  */
 public abstract class DictionaryWalker {
 
+    public boolean isFetchAudio() {
+        return fetchAudio;
+    }
+
+    public void setFetchAudio(boolean fetchAudio) {
+        this.fetchAudio = fetchAudio;
+    }
+
     public static class WalkerException extends Exception {
 
         protected  WalkerException(String message) {
@@ -39,14 +47,23 @@ public abstract class DictionaryWalker {
         }
     }
 
-    protected final Logger logger;
+    //protected final Logger logger;
 
     private final File targetDir;
 
     private DictionaryListener listener;
 
+    private boolean fetchAudio;
+
     public DictionaryWalker(File targetDir) {
-        logger =  Logger.getLogger(this.getClass().toString());
+        //logger =  Logger.getLogger(this.getClass().toString());
+        this.targetDir = targetDir;
+        this.fetchAudio = true;
+    }
+
+    public DictionaryWalker(File targetDir, boolean fetchAudio) {
+        //logger =  Logger.getLogger(this.getClass().toString());
+        this.fetchAudio = fetchAudio;
         this.targetDir = targetDir;
     }
 
@@ -70,14 +87,14 @@ public abstract class DictionaryWalker {
     }
 
     protected void onError(DictionaryItem item, String message, Exception ex) {
-        logger.log(Level.SEVERE, message ,ex);
+       // logger.log(Level.SEVERE, message ,ex);
         if (listener != null) {
             listener.onError(item ,ex);
         }
     }
 
     protected void onWordNotFound(DictionaryItem item, FileNotFoundException ex) {
-        logger.log(Level.SEVERE, "Could not found word: " + item.getWord() ,ex);
+       // logger.log(Level.SEVERE, "Could not found word: " + item.getWord() ,ex);
         if (listener != null) {
             listener.onWordNotFound(item, ex);
         }

@@ -33,5 +33,11 @@ public class TestDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        try {
+            System.out.println("Count: " + userDAO.getCount());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

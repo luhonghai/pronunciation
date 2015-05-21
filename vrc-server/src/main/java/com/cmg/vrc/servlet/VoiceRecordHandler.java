@@ -12,6 +12,7 @@ import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
+import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
@@ -57,6 +58,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        AWSHelper awsHelper = new AWSHelper();
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
@@ -66,11 +68,12 @@ public class VoiceRecordHandler extends HttpServlet {
             FileItemIterator iter = null;
             iter = upload.getItemIterator(request);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-
-            String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
-            if (targetDir == null || targetDir.length() == 0) {
-
+            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "voices");
+            if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
+                voiceRecordDir.mkdirs();
             }
+            //String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
+            String targetDir = voiceRecordDir.getAbsolutePath();
             String tmpFile = UUID.randomUUID().toString();
             String tmpDir = System.getProperty("java.io.tmpdir");
             while (iter.hasNext()) {
@@ -109,7 +112,7 @@ public class VoiceRecordHandler extends HttpServlet {
                 FileUtils.moveFile(tmpFileIn, targetRaw);
                 try {
                     if (tmpFileIn.exists())
-                    FileUtils.forceDelete(tmpFileIn);
+                        FileUtils.forceDelete(tmpFileIn);
                 } catch (Exception e) {}
 
 
