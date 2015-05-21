@@ -34,14 +34,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-
+        <%
+                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
+                        response.sendRedirect("login.jsp");
+                }
+        %>
 
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";
         </script>
-        <%
-                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
-                        response.sendRedirect("/login.jsp");
-                }
-        %>
 </head>
