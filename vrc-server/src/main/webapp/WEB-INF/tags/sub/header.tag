@@ -61,6 +61,9 @@
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
 				</li>
 				<li>
+					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
+				</li>
+				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
 				</li>
 

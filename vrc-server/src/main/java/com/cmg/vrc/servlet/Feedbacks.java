@@ -19,15 +19,12 @@ import com.google.gson.Gson;
  * Created by CMGT400 on 5/11/2015.
  */
 public class Feedbacks extends HttpServlet {
-//    class feed{
-//        public int iTotalRecords;
-//        public int iTotalDisplayRecords;
-//        List<Feedback> data;
-//    }
-
-
-
-
+    class feed{
+        public int draw;
+        public int recordsTotal;
+        public int recordsFiltered;
+        List<Feedback> data;
+    }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
@@ -35,11 +32,17 @@ public class Feedbacks extends HttpServlet {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
         if(request.getParameter("list")!=null) {
             try {
-//                Feedbacks.feed abc=new feed();
-//                abc.iTotalDisplayRecords=3;
-//                abc.iTotalRecords=3;
-//
-//                abc.data = feedbackDAO.listAll();
+                String s=request.getParameter("start");
+                String l=request.getParameter("length");
+                String d=request.getParameter("draw");
+                int start=Integer.parseInt(s);
+                int length=Integer.parseInt(l);
+                int draw=Integer.parseInt(d);
+                Feedbacks.feed abc=new feed();
+                abc.recordsTotal=start;
+                abc.recordsFiltered=length;
+                abc.draw=draw;
+                abc.data = feedbackDAO.listAll();
 
                 List<Feedback> list = feedbackDAO.listAll();
 
