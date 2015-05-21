@@ -95,6 +95,7 @@ public class VoiceRecordHandler extends HttpServlet {
                     }
                 }
             }
+
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {

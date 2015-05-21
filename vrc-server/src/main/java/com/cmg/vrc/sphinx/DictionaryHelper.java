@@ -75,6 +75,9 @@ public class DictionaryHelper {
                                 AWSHelper awsHelper = new AWSHelper();
                                 awsHelper.download("sphinx-data/dict/beep-1.0", tmp);
                             }
+                            if (!tmp.exists()) {
+                                tmp = new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0");
+                            }
                             if (tmp.exists()) {
                                 logger.info("Start analyze BEEP dictionary");
                                 BEEP_CACHE = new HashMap<String, List<String>>();

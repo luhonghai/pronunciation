@@ -169,10 +169,42 @@ public class AccountManager {
             protected Void doInBackground(Void... params) {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
-                data.put("profile", gson.toJson(profile));
+                data.put("account", profile.getUsername());
+                data.put("action", "check");
+                data.put("code", profile.getLicenseCode());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
-                    String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
+                    String message = contacter.post(data, context.getResources().getString(R.string.license_url));
+                    if (message.equalsIgnoreCase("success")) {
+                        authListener.onSuccess();
+                    } else {
+                        if (message.toLowerCase().contains("<html>")) {
+                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                        } else {
+                            authListener.onError(message, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void activeLicense(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                data.put("account", profile.getUsername());
+                data.put("action", "active");
+                data.put("code", profile.getLicenseCode());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.license_url));
                     if (message.equalsIgnoreCase("success")) {
                         authListener.onSuccess();
                     } else {

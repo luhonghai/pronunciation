@@ -114,6 +114,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private Dialog dialogValidation;
 
+    private Dialog dialogLicense;
+
     private void initAuthDialog() {
         // Login dialog
         dialogLogin = new Dialog(this, R.style.Theme_WhiteDialog);
@@ -139,6 +141,34 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                     dialog.dismiss();
                                 }
                             }).show();
+                }
+            }
+        });
+
+        // License dialog
+        dialogLicense = new Dialog(this, R.style.Theme_WhiteDialog);
+        prepareDialog(dialogLicense);
+        dialogLicense.setContentView(R.layout.dialog_license);
+        initDialog(dialogLicense);
+        dialogLicense.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
+                if (profile != null) {
+                    profile.setLicenseCode(((TextView) dialogLicense.findViewById(R.id.txtCode)).getText().toString());
+                    if (profile.getLicenseCode().length() > 0) {
+                        dialogLogin.findViewById(R.id.btnActivateLicense).setEnabled(false);
+                        doActivateLicense(profile);
+                    } else {
+                        new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+                                .setMessage("Please enter licence code")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                    }
                 }
             }
         });
@@ -184,7 +214,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                         dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
                                     }
                                 });
-
                             }
 
                             @Override
@@ -272,6 +301,72 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             public void onClick(View v) {
                 dialogValidation.cancel();
                 dialogRegister.show();
+            }
+        });
+    }
+
+    private void doActivateLicense(final UserProfile profile) {
+        accountManager.activeLicense(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(final String message, Throwable e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                                .setTitle("Could not activate licence code")
+                                .setMessage(message)
+                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).create();
+                        d.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                        doCheckLicense(profile);
+                    }
+                });
+            }
+        });
+    }
+
+    private void doCheckLicense(UserProfile profile) {
+        accountManager.checkLicense(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(final String message, Throwable e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                        if (!dialogLicense.isShowing())
+                            dialogLicense.show();
+                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                                .setTitle("Invalid licence code")
+                                .setMessage(message)
+                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                }).create();
+                        d.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+                startMainActivity();
             }
         });
     }
@@ -566,7 +661,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     });
                     AnalyticHelper.sendLoginType(LoginActivity.this, profile.getLoginType());
                     AnalyticHelper.sendUserLogin(LoginActivity.this, profile.getUsername());
-                    startMainActivity();
+                    doCheckLicense(currentProfile);
                 }
             });
         }

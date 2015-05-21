@@ -204,8 +204,13 @@ public class SplashScreen extends BaseActivity implements
                         }
                         @Override
                         public void onSuccess() {
-                            AnalyticHelper.sendUserReturn(SplashScreen.this, profile.getUsername());
-                            goToActivity(MainActivity.class);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    doLicenseCheck(profile);
+                                }
+                            });
+
                         }
                     });
                 }
@@ -213,6 +218,48 @@ public class SplashScreen extends BaseActivity implements
                 goToActivity(LoginActivity.class);
             }
         }
+    }
+
+    private void doLicenseCheck(final UserProfile profile) {
+        accountManager.checkLicense(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(final String message, Throwable e) {
+                AnalyticHelper.sendUserLoginError(SplashScreen.this, profile.getUsername());
+                final SpannableString s = new SpannableString(message);
+                Linkify.addLinks(s, Linkify.ALL);
+                if (e != null) e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        AlertDialog d;
+                        d = new AlertDialog.Builder(SplashScreen.this)
+                                .setTitle("Invalid licence")
+                                .setMessage(s)
+                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SplashScreen.this.finish();
+                                    }
+                                })
+                                .setPositiveButton("Enter new license", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        goToActivity(LoginActivity.class);
+                                    }
+                                })
+                                .create();
+                        d.show();
+                        ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+                AnalyticHelper.sendUserReturn(SplashScreen.this, profile.getUsername());
+                goToActivity(MainActivity.class);
+            }
+        });
     }
 
     private void goToActivity(final Class clazz) {

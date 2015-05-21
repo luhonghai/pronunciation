@@ -19,6 +19,7 @@
     <string name="register_url">http://192.168.1.10:8080/vrc/RegisterHandler</string>
     <string name="activation_url">http://192.168.1.10:8080/vrc/activate</string>
     <string name="feedback_url">http://192.168.1.10:8080/vrc/FeedbackHandler</string>
+    <string name="license_url">http://192.168.1.10:8080/vrc/LicenseHandler</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>

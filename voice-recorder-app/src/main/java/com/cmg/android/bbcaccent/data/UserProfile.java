@@ -100,6 +100,14 @@ public class UserProfile {
         this.isLogin = isLogin;
     }
 
+    public String getLicenseCode() {
+        return licenseCode;
+    }
+
+    public void setLicenseCode(String licenseCode) {
+        this.licenseCode = licenseCode;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -199,6 +207,8 @@ public class UserProfile {
     private String uuid;
     private int helpStatus = HELP_INIT;
     private boolean isLogin = false;
+
+    private String licenseCode;
 
     public int getEnglishProficiency() {
         return englishProficiency;

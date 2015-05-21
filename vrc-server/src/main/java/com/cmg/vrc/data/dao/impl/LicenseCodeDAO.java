@@ -75,4 +75,11 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             pm.close();
         }
     }
+
+    public LicenseCode getByCode(String code) throws Exception {
+        List<LicenseCode> list = list("WHERE code = :1", code);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
 }

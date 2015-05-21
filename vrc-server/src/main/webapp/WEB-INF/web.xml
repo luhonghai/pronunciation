@@ -92,6 +92,16 @@
         <servlet-name>Feedbacks</servlet-name>
         <url-pattern>/Feedbacks</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LicenseHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LicenseHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LicenseHandler</servlet-name>
+        <url-pattern>/LicenseHandler</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>LicenseCodes</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.LicenseCodes</servlet-class>

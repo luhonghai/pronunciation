@@ -54,18 +54,25 @@ public class PhonemesDetector {
             AWSHelper awsHelper = new AWSHelper();
 
             Configuration conf = new Configuration();
-            //conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
+
             File tmpAcousticModelDir = new File(sphinx4DataTmpDir, "wsj-en-us");
             if (!tmpAcousticModelDir.exists()) {
                 awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", sphinx4DataTmpDir);
             }
-            conf.setAcousticModelPath(tmpAcousticModelDir.getAbsolutePath());
+            if (tmpAcousticModelDir.exists()) {
+                conf.setAcousticModelPath(tmpAcousticModelDir.getAbsolutePath());
+            } else {
+                conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
+            }
             File tmpPhonemesDictFile = new File(sphinx4DataTmpDir, "cmuphonemedict");
             if (!tmpPhonemesDictFile.exists()) {
                 awsHelper.download("sphinx-data/dict/cmuphonemedict", tmpPhonemesDictFile);
             }
-            conf.setDictionaryPath(tmpPhonemesDictFile.getAbsolutePath());
-            //conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
+            if (tmpPhonemesDictFile.exists()) {
+                conf.setDictionaryPath(tmpPhonemesDictFile.getAbsolutePath());
+            } else {
+                conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
+            }
             //conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
             conf.setGrammarPath(getGrammarPath());
             conf.setUseGrammar(true);

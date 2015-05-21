@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 
 public class AWSHelper {
 
+    private static final boolean ENABLE_AWS = false;
+
     private static final Logger logger= Logger.getLogger(AWSHelper.class.getName());
 
     private AmazonS3 s3client;
@@ -31,11 +33,14 @@ public class AWSHelper {
     private String bucketName;
 
     public AWSHelper() {
-        s3client = new AmazonS3Client(new ProfileCredentialsProvider());
-        bucketName = Configuration.getValue(Configuration.AWS_S3_BUCKET_NAME);
+        if (ENABLE_AWS) {
+            s3client = new AmazonS3Client(new ProfileCredentialsProvider());
+            bucketName = Configuration.getValue(Configuration.AWS_S3_BUCKET_NAME);
+        }
     }
 
     public boolean download(String keyName, File file) {
+        if (!ENABLE_AWS) return false;
         try {
             System.out.println("Start download file " + keyName + " to local path: " + file.getAbsolutePath());
             s3client.getObject(new GetObjectRequest(bucketName, keyName), file);
@@ -50,6 +55,7 @@ public class AWSHelper {
     }
 
     public boolean downloadAndUnzip(String keyName, File targetFolder) {
+        if (!ENABLE_AWS) return false;
         File tmp = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".zip");
         if (download(keyName, tmp)) {
             try {
@@ -66,6 +72,7 @@ public class AWSHelper {
     }
 
     public boolean upload(String keyName, File file) {
+        if (!ENABLE_AWS) return false;
         try {
             System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
             s3client.putObject(new PutObjectRequest(bucketName, keyName, file));
@@ -101,6 +108,7 @@ public class AWSHelper {
     }
 
     public void uploadInThread(final String keyName, File file) throws IOException {
+        if (!ENABLE_AWS) return;
         final File tmp = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".tmp");
         FileUtils.copyFile(file, tmp);
         if (tmp.exists()) {
