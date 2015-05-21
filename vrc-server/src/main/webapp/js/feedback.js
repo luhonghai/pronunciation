@@ -1,54 +1,45 @@
 function listFeedback(){
-    var data1;
-    $.ajax({
-        url: "../Feedbacks",
-        type: "POST",
-        dataType: "text",
-        data:{
-          list:"list"
-        },
-        success :function(result){
 
-            data1=$.parseJSON(result);
             $('#dataTables-example').dataTable({
+                "bProcessing": true,
+                "bServerSide": true,
 
-                "responsive": true,
-                "bJQueryUI": true,
-                "bDestroy": true,
-                "processing": true,
-                "serverSide": true,
-                "iTotalDisplayRecords":3,
-                "iTotalRecords":3,
-                "aaData": data1,
+                "ajax": {
+                    "url": "Feedbacks",
+                    "type": "POST",
+                    "dataType":"json",
+                    "data":{
+                        list:"list"
+                    }
+                },
 
-
-                "aoColumns": [{
-                    "mData": "account",
+                "columns": [{
+                    "data": "account",
                     "sDefaultContent":""
 
                 }, {
                     "sWidth": "20%",
-                    "mData": "imei",
+                    "data": "imei",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "appVersion",
+                    "data": "appVersion",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "osVersion",
+                    "data": "osVersion",
                     "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
-                    "mData": "createdDate",
+                    "data": "createdDate",
                     "sDefaultContent":""
                 }, {
-                    "mData": null,
+                    "data": null,
 
                     "bSortable": false,
                     "mRender": function (data, type, full) {
                         //  console.log(data);
-                        return '<button type="button" id="detail" id-column=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Detail' + '</button>';
+                        return '<button type="button" id="detail" id-column=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + '  !  ' + '</button>';
                     }
 
                 }]
@@ -58,12 +49,15 @@ function listFeedback(){
             });
 
 
-        }
 
 
-    });
+}
 
-
+function dateFrom(){
+    $('#DateFrom').datetimepicker();
+}
+function dateTo(){
+    $('#DateTo').datetimepicker();
 }
 
 function detail(){
@@ -103,7 +97,7 @@ function detail(){
 }
  function searchAdvanted(){
      $(document).on("click","#button-filter", function(){
-         var data1;
+
          var account=$("#account").val();
          var imei=$("#imei").val();
          var appVersion=$("#appversion").val();
@@ -125,50 +119,8 @@ function detail(){
              },
              success:function(result){
 
-                 data1=$.parseJSON(result);
-                 $('#dataTables-example').dataTable({
-                     "bJQueryUI": true,
-                     "bDestroy": true,
-                     "responsive": true,
-                     "iTotalDisplayRecords":3,
-                     "iTotalRecords":3,
-                     "aaData": data1,
-                     "bProcessing": true,
 
 
-
-                     "aoColumns": [{
-                         "mData": "account",
-                         "sDefaultContent":""
-
-                     }, {
-                         "sWidth": "20%",
-                         "mData": "imei",
-                         "sDefaultContent":""
-                     }, {
-                         "sWidth": "20%",
-                         "mData": "appVersion",
-                         "sDefaultContent":""
-                     }, {
-                         "sWidth": "20%",
-                         "mData": "osVersion",
-                         "sDefaultContent":""
-                     }, {
-                         "sWidth": "20%",
-                         "mData": "createdDate",
-                         "sDefaultContent":""
-                     }, {
-                         "mData":null,
-                         "bSortable": false,
-                         "mRender": function(data, type, full) {
-                             console.log(data);
-                             return '<button type="button" id="detail" id-column='+data.id+' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Detail' + '</button>';
-                         }
-                     }
-                         ]
-
-
-                 });
              },
              error:function(e){
                  alert("error"+e);
@@ -182,5 +134,7 @@ $(document).ready(function(){
     listFeedback();
     detail();
     searchAdvanted();
+    dateFrom();
+    dateTo();
 
 });

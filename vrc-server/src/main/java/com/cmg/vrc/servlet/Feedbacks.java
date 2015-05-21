@@ -19,34 +19,36 @@ import com.google.gson.Gson;
  * Created by CMGT400 on 5/11/2015.
  */
 public class Feedbacks extends HttpServlet {
-//    class feed{
-//        public int iTotalRecords;
-//        public int iTotalDisplayRecords;
-//        List<Feedback> data;
-//    }
-
-
-
-
+    class feed{
+        public int draw;
+        public Double recordsTotal;
+        public Double recordsFiltered;
+        List<Feedback> data;
+    }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
+        Feedback feedback=new Feedback();
+
         if(request.getParameter("list")!=null) {
+            Feedbacks.feed abc=new feed();
+            String s=request.getParameter("start");
+            String l=request.getParameter("length");
+            String d=request.getParameter("draw");
+            int start=Integer.parseInt(s);
+            int length=Integer.parseInt(l);
+            int draw=Integer.parseInt(d);
             try {
-//                Feedbacks.feed abc=new feed();
-//                abc.iTotalDisplayRecords=3;
-//                abc.iTotalRecords=3;
-//
-//                abc.data = feedbackDAO.listAll();
-
-                List<Feedback> list = feedbackDAO.listAll();
-
+                Double count=feedbackDAO.getCount();
+                abc.recordsTotal=count;
+                abc.recordsFiltered=count;
+                abc.draw=draw;
+                abc.data=feedbackDAO.listAll(start,length);
                 Gson gson = new Gson();
-                String feedbacks = gson.toJson(list);
-                response.getWriter().write(feedbacks);
-
+                String feed = gson.toJson(abc);
+                response.getWriter().write(feed);
             } catch (Exception e) {
                 response.getWriter().write("error");
                 e.printStackTrace();
@@ -58,8 +60,8 @@ public class Feedbacks extends HttpServlet {
             try {
                 Feedback byId=feedbackDAO.getById(id);
                 Gson gson = new Gson();
-                String feedback = gson.toJson(byId);
-                response.getWriter().write(feedback);
+                String feedbac = gson.toJson(byId);
+                response.getWriter().write(feedbac);
             } catch (Exception e) {
                 e.printStackTrace();
             }

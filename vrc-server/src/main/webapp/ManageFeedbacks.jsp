@@ -12,7 +12,7 @@
         <!-- /.row -->
         <div class="well">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
                         <label class="control-label">Account</label>
                         <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
@@ -23,7 +23,7 @@
                     </div>
 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
                         <label class="control-label">App Version</label>
                         <input type="text" name="filter-appversion" id="appversion" class="form-control" placeholder="App Version">
@@ -34,17 +34,27 @@
                     </div>
 
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <label class="control-label">Created Date</label>
-                        <div class="input-group date">
-                        <input type="text" name="filter-createddate" id="createddate" class="form-control" placeholder="Created Date" data-format="YYYY-MM-DD">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default">
-                                    <i class="fa fa-calendar"></i>
-                                </button>
+                        <label class="control-label">Date From</label>
+                        <div class='input-group date' id='DateFrom'>
+                            <input type='text' class="form-control" placeholder="From" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
+                        </div>
+                    </div>
 
+
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">Date To</label>
+                        <div class='input-group date' id='DateTo'>
+                            <input type='text' class="form-control" placeholder="To" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
                     </div>
                     <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>

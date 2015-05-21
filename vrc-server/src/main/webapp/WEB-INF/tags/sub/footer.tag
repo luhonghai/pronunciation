@@ -22,6 +22,13 @@
 <!-- DataTables JavaScript -->
 <script src="<%=request.getContextPath() %>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
+
+<script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
+
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
 <%--<script>--%>
 	<%--$(document).ready(function() {--%>
 		<%--$('#dataTables-example').DataTable({--%>
@@ -30,7 +37,7 @@
 	<%--});--%>
 <%--</script>--%>
 <!-- Custom Theme JavaScript -->
-<script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
+
 <script type="text/javascript" src="//www.google.com/jsapi"></script>
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
 
