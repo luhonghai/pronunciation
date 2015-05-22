@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class AWSHelper {
 
-    private static final boolean ENABLE_AWS = false;
+    private static final boolean ENABLE_AWS = true;
 
     private static final Logger logger= Logger.getLogger(AWSHelper.class.getName());
 
@@ -130,9 +130,9 @@ public class AWSHelper {
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
         System.out.println("Start uploading");
-        //awsHelper.upload("sphinx-data/wsj-en-us.zip", new File("/Users/cmg/git/pronunciation/sphinx-data/wsj-en-us.zip"));
+        awsHelper.upload("sphinx-data/wsj-en-us.zip", new File("/Users/cmg/git/pronunciation/sphinx-data/wsj-en-us.zip"));
         //awsHelper.upload("sphinx-data/dict/beep-1.0", new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0"));
-        awsHelper.upload("sphinx-data/dict/cmuphonemedict", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict"));
+        //awsHelper.upload("sphinx-data/dict/cmuphonemedict", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict"));
 
         System.out.println("Complete uploading");
 //        System.out.println("Start downloading & unzip");
