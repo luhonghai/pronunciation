@@ -14,6 +14,7 @@ apply plugin: 'io.fabric'
 repositories {
     mavenLocal()
     jcenter()
+    mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
 }
 
@@ -68,7 +69,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:support-v4:22.1.1'
     compile 'com.google.code.gson:gson:2.3'
     compile 'commons-io:commons-io:2.4'
     compile 'com.balysv.materialmenu:material-menu-abs:1.5.0'
