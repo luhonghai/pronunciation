@@ -144,6 +144,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
             }
         });
+        ((TextView)dialogLogin.findViewById(R.id.txtLostPassword)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)dialogLogin.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // License dialog
         dialogLicense = new Dialog(this, R.style.Theme_WhiteDialog);
@@ -181,6 +183,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             }
         });
+        ((TextView)dialogLicense.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         dialogRegister = new Dialog(this, R.style.Theme_WhiteDialog);
         prepareDialog(dialogRegister);
@@ -192,6 +195,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 doRegister();
             }
         });
+        ((TextView)dialogRegister.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         dialogValidation = new Dialog(this, R.style.Theme_WhiteDialog);
         prepareDialog(dialogValidation);
@@ -252,6 +256,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             }
         });
+
 
         dialogValidation.findViewById(R.id.btnSendCode).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,6 +358,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
             public void onError(final String message, Throwable e) {
+                if (e != null)
+                    e.printStackTrace();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -433,7 +440,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 });
             } else {
                 new AlertDialog.Builder(this).setTitle("Invalid password")
-                        .setMessage("Please enter invalid password")
+                        .setMessage("Please enter a valid password")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -444,8 +451,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }).show();
             }
         } else {
-            new AlertDialog.Builder(this).setTitle("Invalid email")
-                    .setMessage("Please enter an invalid email")
+            new AlertDialog.Builder(this).setTitle("Invalid email address")
+                    .setMessage("Please enter a valid email address")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -493,6 +500,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         //int h = dialog.getWindow().getAttributes().height;
         int h = fulHeight - padding;
         dialog.getWindow().setLayout(w, h);
+
     }
 
     @Override
@@ -628,6 +636,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     })
                     .show();
         } else {
+            if (!profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+                accountManager.register(profile, null);
+            }
+
             accountManager.auth(profile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {

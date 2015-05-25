@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.FeedbackActivity;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -29,11 +30,13 @@ import java.util.Map;
  * @Creator Hai Lu
  * @Last changed: $LastChangedDate$
  */
-public class UploadFeedbackAsync extends AsyncTask<Map<String, String>, Void, String> {
+public class UploadFeedbackAsync extends AsyncTask<Void, Void, String> {
     private final Context context;
+    private final Map<String, String> params;
 
-    public UploadFeedbackAsync(Context context) {
+    public UploadFeedbackAsync(Context context, Map<String, String> params) {
         this.context = context;
+        this.params = params;
     }
 
     @Override
@@ -42,19 +45,16 @@ public class UploadFeedbackAsync extends AsyncTask<Map<String, String>, Void, St
     }
 
     @Override
-    protected String doInBackground(Map<String, String>... params) {
+    protected String doInBackground(Void... v) {
         try {
-            StringBuffer results = new StringBuffer();
-            if (params != null && params.length > 0) {
-                for (Map<String, String> param : params) {
-                    results.append(FileUploader.upload(param, context.getResources().getString(R.string.feedback_url)));
-                }
-            }
-
-            return results.toString();
+            String result = FileUploader.upload(params, context.getResources().getString(R.string.feedback_url));
+            SimpleAppLog.info("Feedback response: " + result);
+            return result;
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
             return e.getMessage();
         } catch (UploaderException e) {
+            e.printStackTrace();
             return e.getMessage();
         }
     }

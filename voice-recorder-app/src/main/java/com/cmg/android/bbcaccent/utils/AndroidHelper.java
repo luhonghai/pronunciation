@@ -235,6 +235,17 @@ public class AndroidHelper {
         return "";
     }
 
+
+    public static String getVersionCode(Context context) {
+        String version;
+        try {
+            version = Integer.toString(context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode);
+        } catch (PackageManager.NameNotFoundException e) {
+            version = "Unknown";
+        }
+        return version;
+    }
+
     public static String getVersionName(Context context) {
         String version;
         try {

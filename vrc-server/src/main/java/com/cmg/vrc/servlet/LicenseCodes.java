@@ -41,6 +41,7 @@ public class LicenseCodes extends HttpServlet {
             String s=request.getParameter("start");
             String l=request.getParameter("length");
             String d=request.getParameter("draw");
+            String search=request.getParameter("search[value]");
             int start=Integer.parseInt(s);
             int length=Integer.parseInt(l);
             int draw=Integer.parseInt(d);

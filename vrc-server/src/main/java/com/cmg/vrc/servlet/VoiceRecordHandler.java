@@ -4,13 +4,7 @@ import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.processor.AudioCleaner;
-import com.cmg.vrc.http.FileCommon;
-import com.cmg.vrc.http.FileUploader;
-import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.job.SummaryReportJob;
-import com.cmg.vrc.processor.SoXCleaner;
-import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
@@ -30,11 +24,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLEncoder;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.logging.Level;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -42,9 +39,6 @@ import java.util.logging.Level;
 public class VoiceRecordHandler extends HttpServlet {
     private static final Logger logger = Logger.getLogger(VoiceRecordHandler.class
             .getName());
-    private static String PARA_FILE_NAME = "FILE_NAME";
-    private static String PARA_FILE_PATH = "FILE_PATH";
-    private static String PARA_FILE_TYPE = "FILE_TYPE";
     private static String PARA_PROFILE = "profile";
     private static String PARA_WORD = "word";
 
@@ -76,8 +70,8 @@ public class VoiceRecordHandler extends HttpServlet {
             }
             //String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
             String targetDir = voiceRecordDir.getAbsolutePath();
-            String tmpFile = UUID.randomUUID().toString();
-            String tmpDir = System.getProperty("java.io.tmpdir");
+            String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
+            String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
@@ -91,7 +85,8 @@ public class VoiceRecordHandler extends HttpServlet {
                     logger.info("getname = :" +getName);
                     // Process the input stream
                     if(getName.endsWith(".wav")){
-                        FileHelper.saveFile(tmpDir, tmpFile, stream);
+                        FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
+                        //FileHelper.saveFile(tmpDir, tmpFile, stream);
                     }
                 }
             }

@@ -241,7 +241,7 @@ public class SplashScreen extends BaseActivity implements
                                         SplashScreen.this.finish();
                                     }
                                 })
-                                .setPositiveButton("Enter new license", new DialogInterface.OnClickListener() {
+                                .setPositiveButton("Enter licence", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         goToActivity(LoginActivity.class);

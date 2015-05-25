@@ -39,6 +39,7 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ContentUtils;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.ExceptionHandler;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -47,15 +48,21 @@ import java.util.Map;
 public class FeedbackActivity extends BaseActivity {
     public static final String SEND_FEEDBACK_FINISH = "com.cmg.android.bbcaccent.activity.FeedbackActivity";
 
-    String stackTrace;
+    private String stackTrace;
 
     private AlertDialog dialogWaiting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+        //Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_feedback);
+        findViewById(R.id.btnSend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendFeedback();
+            }
+        });
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.containsKey(ExceptionHandler.STACK_TRACE)) {
             stackTrace =bundle.getString(ExceptionHandler.STACK_TRACE);
@@ -112,9 +119,9 @@ public class FeedbackActivity extends BaseActivity {
 //                MenuItem.SHOW_AS_ACTION_ALWAYS
 //                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
-        menu.add("send").setShowAsAction(
-                MenuItem.SHOW_AS_ACTION_ALWAYS
-                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+//        menu.add("send").setShowAsAction(
+//                MenuItem.SHOW_AS_ACTION_ALWAYS
+//                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
         return true;
     }
@@ -147,18 +154,22 @@ public class FeedbackActivity extends BaseActivity {
 
             dialogChangeLog.show();
         } else if (item.getTitle().toString().equalsIgnoreCase("send")) {
-            Map<String, String> params = getFormData();
-            String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
-            params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
-            params.put(FileCommon.PARA_FILE_NAME,
-                    ContentUtils.getFileName(screenshootPath));
-            params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
-            UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext());
-            uploadAsync.execute(params);
-
-            dialogWaiting.show();
+            sendFeedback();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendFeedback() {
+        Map<String, String> params = getFormData();
+        String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
+        SimpleAppLog.info("screenshootPath: " + screenshootPath);
+        params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
+        params.put(FileCommon.PARA_FILE_NAME,
+                ContentUtils.getFileName(screenshootPath));
+        params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
+        UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext(), params);
+        uploadAsync.execute();
+        dialogWaiting.show();
     }
 
     private Map<String, String> getFormData() {
@@ -169,8 +180,6 @@ public class FeedbackActivity extends BaseActivity {
             infos.put(ContentUtils.KEY_SCREENSHOOT, pathLastScreenShot);
         }
         UserProfile profile = Preferences.getCurrentProfile(this);
-
-        infos.put(DeviceInfoCommon.ACCOUNT, getItemSelectSpin());
         infos.put(DeviceInfoCommon.FEEDBACK_DESCRIPTION, getTextDescription());
         infos.put(DeviceInfoCommon.IMEI, uIdFac.getDeviceUuid().toString());
         infos.put(DeviceInfoCommon.APP_VERSION, AndroidHelper.getVersionName(this.getApplicationContext()));
@@ -179,6 +188,7 @@ public class FeedbackActivity extends BaseActivity {
         infos.put(DeviceInfoCommon.OS_API_LEVEL, android.os.Build.VERSION.SDK);
         infos.put(DeviceInfoCommon.DEVICE_NAME, android.os.Build.DEVICE);
         if (profile != null) {
+            infos.put(DeviceInfoCommon.ACCOUNT, profile.getUsername());
             Gson gson = new Gson();
             infos.put("profile", gson.toJson(profile));
         }
@@ -210,15 +220,14 @@ public class FeedbackActivity extends BaseActivity {
                     return;
                 if (dialogWaiting.isShowing()) {
                     dialogWaiting.dismiss();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            closeFeedBack();
-                        }
-                    }, 3000);
-
                 }
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        closeFeedBack();
+                    }
+                }, 3000);
             }
         }
     };

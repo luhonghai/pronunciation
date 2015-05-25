@@ -189,7 +189,6 @@ public class UserProfile {
 
     private String username;
     private String firstName;
-
     private String lastName;
     private String name;
     private String loginType;

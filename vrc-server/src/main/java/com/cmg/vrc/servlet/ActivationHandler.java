@@ -23,7 +23,9 @@ public class ActivationHandler extends HttpServlet {
     private static final Logger logger = Logger.getLogger(ActivationHandler.class
             .getName());
     private static String PARA_PROFILE = "profile";
+    private static String VERSION_CODE = "version_code";
     private static String PARA_ACC = "acc";
+    private static String PARA_LANG_PREFIX = "lang_prefix";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -41,6 +43,13 @@ public class ActivationHandler extends HttpServlet {
                 }
             } else {
                 String profile = request.getParameter(PARA_PROFILE);
+                String versionCode = request.getParameter(VERSION_CODE);
+                if (versionCode == null || versionCode.length() == 0) {
+                    versionCode = "000";
+                }
+                String langPrefix = request.getParameter(PARA_LANG_PREFIX);
+                if (langPrefix == null || langPrefix.length() == 0)
+                    langPrefix = "BE";
                 if (profile != null && profile.length() > 0) {
                     Gson gson = new Gson();
                     UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -52,7 +61,7 @@ public class ActivationHandler extends HttpServlet {
                                 Random random = new Random();
                                 u.setActivationCode(StringUtil.md5(user.getUsername()).substring(0,2).toUpperCase()
                                         + random.nextInt(99999)
-                                        + "BE135");
+                                        + langPrefix.toUpperCase() + versionCode);
                                 MailService mailService = new MailService();
                                 mailService.sendActivationEmail(user.getUsername(), u.getActivationCode());
                                 userDAO.put(u);

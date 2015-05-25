@@ -462,7 +462,11 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.9.36</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.3</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -493,7 +497,7 @@
 				<grammarPath>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/grammar</grammarPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
             </properties>
 		</profile>
         <profile>
@@ -521,7 +525,7 @@
 				<grammarPath>/cmg/grammar</grammarPath>
                 <recipients>hai.lu@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
             </properties>
         </profile>
 		<profile>
@@ -549,7 +553,7 @@
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
 			</properties>
 		</profile>
 		<profile>
@@ -576,7 +580,7 @@
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
-				<url.active.account>http://services.c-mg.vn/vrc/activate</url.active.account>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
 			</properties>
 		</profile>
 	</profiles>

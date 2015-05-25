@@ -8,6 +8,8 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.http.HttpContacter;
 import com.cmg.android.bbcaccent.http.ResponseData;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,6 +61,8 @@ public class AccountManager {
             protected Void doInBackground(Void... params) {
                 Map<String, String> data = new HashMap<String, String>();
                 data.put("acc", code);
+                data.put("lang_prefix", "BE");
+                data.put("version_code", AndroidHelper.getVersionCode(context));
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.activation_url));
@@ -86,6 +90,8 @@ public class AccountManager {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
                 data.put("profile", gson.toJson(profile));
+                data.put("lang_prefix", "BE");
+                data.put("version_code", AndroidHelper.getVersionCode(context));
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.activation_url));
@@ -112,23 +118,28 @@ public class AccountManager {
             protected Void doInBackground(Void... params) {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
+                data.put("version_code", AndroidHelper.getVersionCode(context));
                 data.put("profile", gson.toJson(profile));
+                data.put("lang_prefix", "BE");
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.register_url));
 
                     ResponseData<UserProfile> responseData = gson.fromJson(message, ResponseData.class);
-                    if (responseData.isStatus()) {
-                        authListener.onSuccess();
-                    } else {
-                        if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                    if (authListener != null) {
+                        if (responseData.isStatus()) {
+                            authListener.onSuccess();
                         } else {
-                            authListener.onError(responseData.getMessage(), null);
+                            if (message.toLowerCase().contains("<html>")) {
+                                authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            } else {
+                                authListener.onError(responseData.getMessage(), null);
+                            }
                         }
                     }
                 } catch (Exception e) {
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    if (authListener != null)
+                        authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
                 }
                 return null;
             }
@@ -175,6 +186,7 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.license_url));
+                    SimpleAppLog.info("License response: " + message);
                     if (message.equalsIgnoreCase("success")) {
                         authListener.onSuccess();
                     } else {

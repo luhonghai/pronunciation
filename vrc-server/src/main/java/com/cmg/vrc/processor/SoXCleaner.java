@@ -36,8 +36,8 @@ public class SoXCleaner extends AudioCleaner {
     public static void main(String[] args) throws Exception {
         AudioCleaner cleaner =
                 new SoXCleaner(
-                        new File("/Volumes/DATA/Development/voice-sample/variable-anh-c-n.wav"),
-                        new File("/Volumes/DATA/Development/voice-sample/variable-anh.wav"));
+                        new File("/Volumes/DATA/PlanX/Nambeo/Cau_22_dac_diem_cau_truc_chuc_nang_cua_MLCT.cleaned.wav"),
+                        new File("/Volumes/DATA/PlanX/Nambeo/Cau_22_dac_diem_cau_truc_chuc_nang_cua_MLCT.m4a.wav"));
         cleaner.clean();
     }
 }

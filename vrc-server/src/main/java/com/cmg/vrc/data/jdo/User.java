@@ -17,6 +17,10 @@ public class User implements Mirrorable {
 
     private String name;
 
+    private String firstName;
+
+    private String lastName;
+
     private String loginType;
 
     private String profileImage;
@@ -151,5 +155,21 @@ public class User implements Mirrorable {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

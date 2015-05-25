@@ -53,6 +53,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         Transaction tx = pm.currentTransaction();
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
+        q.setFilter("lastName == 'Jones' && age < age_limit");
 
         q.setRange(start, start + length);
 
@@ -88,5 +89,32 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;
+    }
+    public List<LicenseCode> listAll(int start, int length,String search) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        List<LicenseCode> list = new ArrayList<LicenseCode>();
+        Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
+        q.setFilter("account LIKE ");
+        q.setRange(start, start + length);
+
+        try {
+            tx.begin();
+            List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>) q.execute();
+            Iterator<LicenseCodeJDO> iter = tmp.iterator();
+            while (iter.hasNext()) {
+                list.add(to(iter.next()));
+            }
+            tx.commit();
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
     }
 }
