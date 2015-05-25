@@ -59,6 +59,10 @@ android {
                     output.outputFile.name.replace(".apk", "-v${variant.versionName}.apk"))
         }
     }
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
