@@ -35,8 +35,29 @@ android {
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
         compileSdkVersion 19
+        archivesBaseName = "bbc-accent"
     }
     productFlavors {
+    }
+    signingConfigs {
+        release {
+            storeFile file("../keystore/com-cmg-android.keystore")
+            storePassword "admincmg@3f"
+            keyAlias "com-cmg-android"
+            keyPassword "admincmg@3f"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace(".apk", "-v${variant.versionName}.apk"))
+        }
     }
 }
 
