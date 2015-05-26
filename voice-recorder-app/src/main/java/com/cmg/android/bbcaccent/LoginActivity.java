@@ -518,7 +518,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     }
 
     private void resolveSignInError() {
-        if (mConnectionResult.hasResolution()) {
+        if (mConnectionResult != null && mConnectionResult.hasResolution()) {
             try {
                 mIntentInProccess = true;
                 mConnectionResult.startResolutionForResult(this, 0);
