@@ -196,6 +196,8 @@ public class PhonemesDetector {
     public SphinxResult analyze() throws IOException {
         init();
         InputStream stream = null;
+        SphinxResult r = new SphinxResult();
+        r.setCorrectPhonemes(correctPhonemes);
         if (target.exists() && !target.isDirectory()) {
             logger.info("Start analyze WAV record: " + target);
             try {
@@ -235,11 +237,11 @@ public class PhonemesDetector {
                     }
                 }
                 //recognizer.stopRecognition();
-                SphinxResult r = new SphinxResult();
+
                 r.setBestPhonemes(bestTokenPhonemes);
-                r.setCorrectPhonemes(correctPhonemes);
                 calculateScore(r);
-                return r;
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Could not calculate pronunciation" ,e);
             } finally {
                 try {
                     close();
@@ -253,7 +255,7 @@ public class PhonemesDetector {
                 }
             }
         }
-        return null;
+        return r;
     }
 
     private int getValidatePhonemeType(String selectedPhoneme, String targetPhoneme) {

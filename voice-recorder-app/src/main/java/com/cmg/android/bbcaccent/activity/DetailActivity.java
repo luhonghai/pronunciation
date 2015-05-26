@@ -103,7 +103,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WordDBAdapter wordDBAdapter = new WordDBAdapter(this);
+        WordDBAdapter wordDBAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
         mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(this.getIntent().getExtras().get(USER_VOICE_MODEL).toString(), UserVoiceModel.class);
@@ -130,7 +130,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             lastState = ButtonState.RED;
         }
         switchButtonState();
-        showPhonemes();
+        //showPhonemes();
         showPhonemesListView();
         if (showScore) {
             displayingState = DisplayingState.WAIT_FOR_ANIMATION_MAX;
@@ -143,10 +143,22 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void showPhonemesListView() {
         if (model == null || model.getResult() == null) return;
+        List<String> phonemes = model.getResult().getCorrectPhonemes();
+        int size = model.getResult().getCorrectPhonemes().size();
         List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
-        if (phonemeScores == null || phonemeScores.size() == 0) return;
-        SphinxResult.PhonemeScore[] scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
-        phonemeScores.toArray(scores);
+
+        SphinxResult.PhonemeScore[] scores = new SphinxResult.PhonemeScore[size];
+        if (phonemeScores == null || phonemeScores.size() == 0) {
+            for (int i = 0; i < size; i++) {
+                SphinxResult.PhonemeScore score = new SphinxResult.PhonemeScore();
+                score.setIndex(0);
+                score.setName(phonemes.get(i));
+                score.setTotalScore(0);
+                scores[i] = score;
+            }
+        } else {
+            phonemeScores.toArray(scores);
+        }
         PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores, this);
         hListView.setAdapter(scoreAdapter);
         scoreAdapter.notifyDataSetChanged();
@@ -546,23 +558,40 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 sb1.append("<table style=\"margin: 0 auto;\" cellpadding=\"3\" cellspacing=\"3\"><tr>");
                 sb2.append("<table style=\"margin: 0 auto;\" cellpadding=\"3\" cellspacing=\"3\"><tr>");
                 List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
-                for (SphinxResult.PhonemeScore phonemeScore : phonemeScores) {
+                if (phonemeScores != null && phonemeScores.size() > 0) {
+                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScores) {
 
-                    sb1.append("<td style=\"background-color: " + ColorHelper.COLOR_DEFAULT_STRING + ";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                    sb1.append(phonemeScore.getName());
-                    sb1.append("</td>");
+                        sb1.append("<td style=\"background-color: " + ColorHelper.COLOR_DEFAULT_STRING + ";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
+                        sb1.append(phonemeScore.getName());
+                        sb1.append("</td>");
 
-                    sb2.append("<td style=\"background-color: ");
-                    if (phonemeScore.getTotalScore() >= 80.0) {
-                        sb2.append(ColorHelper.COLOR_GREEN_STRING);
-                    } else if (phonemeScore.getTotalScore() >= 45.0) {
-                        sb2.append(ColorHelper.COLOR_ORANGE_STRING);
-                    } else {
-                        sb2.append(ColorHelper.COLOR_RED_STRING);
+                        sb2.append("<td style=\"background-color: ");
+                        if (phonemeScore.getTotalScore() >= 80.0) {
+                            sb2.append(ColorHelper.COLOR_GREEN_STRING);
+                        } else if (phonemeScore.getTotalScore() >= 45.0) {
+                            sb2.append(ColorHelper.COLOR_ORANGE_STRING);
+                        } else {
+                            sb2.append(ColorHelper.COLOR_RED_STRING);
+                        }
+                        sb2.append(";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
+                        sb2.append(phonemeScore.getName());
+                        sb2.append("</td>");
                     }
-                    sb2.append(";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                    sb2.append(phonemeScore.getName());
-                    sb2.append("</td>");
+                } else {
+                    List<String> correctPhonemes = model.getResult().getCorrectPhonemes();
+                    if (correctPhonemes != null && correctPhonemes.size() > 0) {
+                        for (String phoneme : correctPhonemes) {
+                            sb1.append("<td style=\"background-color: " + ColorHelper.COLOR_DEFAULT_STRING + ";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
+                            sb1.append(phoneme);
+                            sb1.append("</td>");
+
+                            sb2.append("<td style=\"background-color: ");
+                            sb2.append(ColorHelper.COLOR_GRAY_STRING);
+                            sb2.append(";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
+                            sb2.append(phoneme);
+                            sb2.append("</td>");
+                        }
+                    }
                 }
                 sb1.append("</tr></table>");
                 sb2.append("</tr></table>");

@@ -21,6 +21,8 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
 
     public static final String USER_VOICE_MODEL = "USER_VOICE_MODEL";
 
+    private boolean isRunning = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,21 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
     @Override
     protected void onPause() {
         AndroidHelper.takeScreenShot(this);
+        isRunning = false;
         super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        isRunning = true;
+        super.onResume();
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean isRunning) {
+        this.isRunning = isRunning;
     }
 }

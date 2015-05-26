@@ -231,25 +231,27 @@ public class SplashScreen extends BaseActivity implements
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        AlertDialog d;
-                        d = new AlertDialog.Builder(SplashScreen.this)
-                                .setTitle("Invalid licence")
-                                .setMessage(s)
-                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        SplashScreen.this.finish();
-                                    }
-                                })
-                                .setPositiveButton("Enter licence", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        goToActivity(LoginActivity.class);
-                                    }
-                                })
-                                .create();
-                        d.show();
-                        ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                        if (isRunning()) {
+                            AlertDialog d;
+                            d = new AlertDialog.Builder(SplashScreen.this)
+                                    .setTitle("Invalid licence")
+                                    .setMessage(s)
+                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            SplashScreen.this.finish();
+                                        }
+                                    })
+                                    .setPositiveButton("Enter licence", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            goToActivity(LoginActivity.class);
+                                        }
+                                    })
+                                    .create();
+                            d.show();
+                            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                        }
                     }
                 });
             }
