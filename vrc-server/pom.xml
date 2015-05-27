@@ -161,7 +161,7 @@
 
 	</dependencyManagement>
 	<build>
-		<finalName>vrc</finalName>
+		<finalName>bbc-accent-server-v${project.version}</finalName>
 		<plugins>
 
 			<plugin>
@@ -285,7 +285,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
