@@ -441,6 +441,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
+            searchView.setFocusable(true);
+            searchView.performClick();
+            searchView.requestFocus();
+            searchView.setIconified(true);
             dbAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
             try {
                 dbAdapter.open();
