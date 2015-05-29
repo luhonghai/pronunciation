@@ -547,6 +547,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private GetWordAsync getWordAsync;
 
     private void getWord(final String word) {
+        if (isRecording) return;
         AnalyticHelper.sendSelectWord(this, word);
         switchButtonStage(ButtonState.DISABLED);
         recordingView.startPingAnimation(this);
@@ -1374,19 +1375,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         }
                     }).playOn(imgHourGlass);
-                    if (dictionaryItem != null) {
-                        txtWord.setText(dictionaryItem.getWord());
-                        txtWord.setSelected(true);
-                        txtPhonemes.setText(dictionaryItem.getPronunciation());
-                        txtWord.setSelected(true);
-                    } else {
-                        txtWord.setText("Not found");
-                        txtPhonemes.setText("Please try again!");
-                    }
+
                     recordingView.drawEmptyCycle();
                     // Null response
                     analyzingState = AnalyzingState.DEFAULT;
                     switchButtonStage();
+
+                    if (dictionaryItem != null) {
+                        txtWord.setText(dictionaryItem.getWord());
+                        txtWord.setSelected(true);
+                        txtWord.setClickable(true);
+                        txtPhonemes.setText(dictionaryItem.getPronunciation());
+                        txtPhonemes.setSelected(true);
+                        txtPhonemes.setClickable(true);
+                    } else {
+                        txtWord.setText("Not found");
+                        txtPhonemes.setText("Please try again!");
+                    }
                 }
             }
         } catch (Exception e) {

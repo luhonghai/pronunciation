@@ -29,12 +29,14 @@ public class ActivationHandler extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        boolean isDevice = false;
+
+        boolean isDevice = true;
         String versionCode = request.getParameter(VERSION_CODE);
         if (versionCode == null || versionCode.length() == 0) {
             versionCode = "000";
-            isDevice = true;
+            isDevice = false;
         }
+        response.setContentType("text/html");
         try {
 
 
