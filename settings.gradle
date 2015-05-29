@@ -1,3 +1,2 @@
-include ':voice-recorder-app', ':facebook', ':material-dialogs'
+include ':voice-recorder-app', ':facebook'
 project(':facebook').projectDir = new File('voice-recorder-app/libraries/facebook')
-project(':material-dialogs').projectDir = new File('voice-recorder-app/material-dialogs')
