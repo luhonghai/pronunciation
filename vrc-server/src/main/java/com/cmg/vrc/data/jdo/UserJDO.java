@@ -19,6 +19,12 @@ public class UserJDO implements Mirrorable {
     private String username;
 
     @Persistent
+    private String firstName;
+
+    @Persistent
+    private String lastName;
+
+    @Persistent
     private String name;
 
     @Persistent
@@ -166,5 +172,21 @@ public class UserJDO implements Mirrorable {
 
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

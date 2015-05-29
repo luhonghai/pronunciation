@@ -1,10 +1,13 @@
 package com.cmg.vrc.job;
 
+import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.SummaryReport;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
@@ -32,7 +35,7 @@ public class SummaryReportJob implements Job {
                     .newTrigger()
                     .withIdentity("summaryReportTrigger", "SummaryGroup")
                     .startNow()
-                    .withSchedule(CronScheduleBuilder.weeklyOnDayAndHourAndMinute(DateBuilder.FRIDAY, 0, 1))
+                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0,1))
                     .build();
 
             //Pass JobDetail and trigger dependencies to schedular
@@ -46,7 +49,14 @@ public class SummaryReportJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         logger.info("Start summary report job");
-        SummaryReport.analyze();
+        //SummaryReport.analyze();
+        try {
+            OxfordDictionaryWalker.generateDictionary();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         logger.info("Complete summary report job");
     }
 }

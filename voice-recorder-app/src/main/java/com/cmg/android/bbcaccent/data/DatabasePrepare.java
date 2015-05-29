@@ -39,9 +39,9 @@ public class DatabasePrepare {
     }
 
     private void loadDatabase() {
-        ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context);
-        WordDBAdapter wordDBAdapter = new WordDBAdapter(context);
-        PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context);
+        ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context.getApplicationContext());
+        WordDBAdapter wordDBAdapter = WordDBAdapter.getInstance(context.getApplicationContext());
+        PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context.getApplicationContext());
         try {
             scoreDBAdapter.open();
             scoreDBAdapter.getAll();

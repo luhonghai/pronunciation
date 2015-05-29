@@ -64,6 +64,22 @@ public class UserProfile {
         this.deviceInfo = deviceInfo;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -144,6 +160,9 @@ public class UserProfile {
 
     private String username;
     private String name;
+    private String firstName;
+    private String lastName;
+
     private String loginType;
     private String profileImage;
     private String password;
@@ -169,11 +188,14 @@ public class UserProfile {
 
 
     public String getUsername() {
+        if (username != null) return username.toLowerCase();
         return username;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        if (username != null) {
+            this.username = username.toLowerCase();
+        }
     }
 
     public boolean isNativeEnglish() {

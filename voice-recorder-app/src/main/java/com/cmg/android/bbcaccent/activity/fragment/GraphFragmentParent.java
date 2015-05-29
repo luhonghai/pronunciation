@@ -77,9 +77,9 @@ public class GraphFragmentParent extends Fragment {
                         case FragmentTab.TYPE_SELECT_PHONEME_GRAPH:
                                 if (model != null && mViewPager != null) {
                                     AppLog.logString("Select phoneme: " + data);
-                                    List<SphinxResult.PhonemeScore> phonemeScoreList = model.getResult().getPhonemeScores();
+                                    List<String> phonemeScoreList = model.getResult().getCorrectPhonemes();
                                     for (int i = 0; i < phonemeScoreList.size(); i ++) {
-                                        if (data.equalsIgnoreCase(phonemeScoreList.get(i).getName())) {
+                                        if (data.equalsIgnoreCase(phonemeScoreList.get(i))) {
                                             mViewPager.setCurrentItem(i + 1);
                                             break;
                                         }
@@ -115,14 +115,22 @@ public class GraphFragmentParent extends Fragment {
             if (position == 0) {
                 graphFragment.setWord(word);
             } else {
-                graphFragment.setPhoneme(userVoiceModel.getResult().getPhonemeScores().get(position - 1).getName());
+                try {
+                    graphFragment.setPhoneme(userVoiceModel.getResult().getCorrectPhonemes().get(position - 1));
+                } catch (NullPointerException npe) {
+                    graphFragment.setPhoneme("N/A");
+                }
             }
             return graphFragment;
         }
 
         @Override
         public int getCount() {
-            return userVoiceModel.getResult().getPhonemeScores().size() + 1;
+            try {
+                return userVoiceModel.getResult().getCorrectPhonemes().size() + 1;
+            } catch (NullPointerException npe) {
+                return 1;
+            }
         }
     }
 }

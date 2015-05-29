@@ -102,6 +102,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         }else if(column==2 && order.equals("desc")) {
             q.setOrdering("activatedDate desc");
         }
+
         q.setRange(start, start + length);
 
         try {
@@ -122,5 +123,19 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             q.closeAll();
             pm.close();
         }
+    }
+
+    public LicenseCode getByCode(String code) throws Exception {
+        List<LicenseCode> list = list("WHERE code == :1", code);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
+    public LicenseCode getByEmail(String email) throws Exception {
+        List<LicenseCode> list = list("WHERE account == :1", email);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
     }
 }

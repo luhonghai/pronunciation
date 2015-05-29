@@ -39,7 +39,16 @@ public class WordDBAdapter {
     private DatabaseHelper DBHelper;
     private SQLiteDatabase db;
 
-    public WordDBAdapter(Context ctx)
+    private static WordDBAdapter sInstance;
+
+    public static synchronized WordDBAdapter getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new WordDBAdapter(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    private WordDBAdapter(Context ctx)
     {
         this.context = ctx;
         DBHelper = new DatabaseHelper(context);

@@ -11,6 +11,7 @@ package com.cmg.android.bbcaccent.http;
 
 
 import com.cmg.android.bbcaccent.AppLog;
+import com.cmg.android.bbcaccent.common.FileCommon;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
 
 import org.apache.http.HttpEntity;
@@ -74,14 +75,14 @@ public class FileUploader {
      * @throws UploaderException
      */
     public static String upload(InputStream is, Map<String, String> paras, String uploadUrl) throws UploaderException {
-        if (!paras.containsKey(FileCommon.PARA_FILE_NAME)) {
-            throw new UploaderException("Missing parameter PARA_FILE_NAME");
-        }
+//        if (!paras.containsKey(FileCommon.PARA_FILE_NAME)) {
+//            throw new UploaderException("Missing parameter PARA_FILE_NAME");
+//        }
         SimpleMultipartEntity entity = new SimpleMultipartEntity();
         Iterator<String> keys = paras.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            if (key != FileCommon.PARA_FILE_NAME && key != FileCommon.PARA_FILE_TYPE)
+            if (!key.equals(FileCommon.PARA_FILE_NAME) && !key.equals(FileCommon.PARA_FILE_TYPE))
                 entity.addPart(key, paras.get(key));
         }
         if (paras.containsKey(FileCommon.PARA_FILE_TYPE)) {
@@ -113,10 +114,10 @@ public class FileUploader {
      * @throws java.io.FileNotFoundException
      */
     public static String upload(Map<String, String> paras, String uploadUrl) throws UploaderException, FileNotFoundException {
-        if (!paras.containsKey(FileCommon.PARA_FILE_PATH)) {
-            throw new UploaderException("Missing parameter PARA_FILE_PATH");
-        }
-        String result = upload(new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH)), paras, uploadUrl);
+//        if (!paras.containsKey(FileCommon.PARA_FILE_PATH)) {
+//            throw new UploaderException("Missing parameter PARA_FILE_PATH");
+//        }
+        String result = upload(new FileInputStream(new File(paras.get(FileCommon.PARA_FILE_PATH))), paras, uploadUrl);
         AppLog.logString(result);
         return result;
     }

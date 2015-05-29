@@ -33,7 +33,8 @@ public class RegisterHandler extends BaseServlet {
     private static final Logger logger = Logger.getLogger(RegisterHandler.class
             .getName());
     private static String PARA_PROFILE = "profile";
-
+    private static String PARA_VERSION_CODE = "version_code";
+    private static String PARA_LANG_PREFIX = "lang_prefix";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -43,6 +44,13 @@ public class RegisterHandler extends BaseServlet {
         try {
 
             String profile = getParameter(request, PARA_PROFILE);
+            String versionCode = getParameter(request, PARA_VERSION_CODE);
+            String langPrefix = getParameter(request, PARA_LANG_PREFIX);
+            if (versionCode == null || versionCode.length() == 0) {
+                versionCode = "000";
+            }
+            if (langPrefix == null || langPrefix.length() == 0)
+                langPrefix = "BE";
             if (profile != null && profile.length() > 0) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "";
@@ -56,6 +64,8 @@ public class RegisterHandler extends BaseServlet {
                         cUser.setPassword(StringUtil.md5(user.getPassword()));
                         cUser.setCountry(user.getCountry());
                         cUser.setUsername(user.getUsername());
+                        cUser.setLastName(user.getLastName());
+                        cUser.setFirstName(user.getFirstName());
                         cUser.setEnglishProficiency(user.getEnglishProficiency());
                         cUser.setDob(user.getDob());
                         cUser.setGender(user.isGender());
@@ -66,7 +76,7 @@ public class RegisterHandler extends BaseServlet {
                         Random random = new Random();
                         cUser.setActivationCode(StringUtil.md5(user.getUsername()).substring(0,2).toUpperCase()
                                 + random.nextInt(99999)
-                                + "BE135");
+                                + langPrefix.toUpperCase() + versionCode);
                         responseData.setStatus(true);
                         responseData.setData(user);
                         if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
@@ -90,7 +100,6 @@ public class RegisterHandler extends BaseServlet {
                             cUser.setActivated(true);
                             userDAO.put(cUser);
                         }
-
                     }
                 }
                 responseData.setMessage(message);

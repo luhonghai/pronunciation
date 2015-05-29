@@ -2,11 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>2.0</version>
-	<artifactId>Server</artifactId>
+	<version>2.0.1</version>
+	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>VRC Server</description>
+	<properties>
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+		<beanstalk.versionLabel>${maven.build.timestamp}</beanstalk.versionLabel>
+		<beanstalk.cnamePrefix>accenteasytomcat-prd</beanstalk.cnamePrefix>
+		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
+		<beanstalker.region>ap-southeast-1</beanstalker.region>
+	</properties>
 	<repositories>
         <repository>
             <id>deployment</id>
@@ -140,11 +147,21 @@
                 <artifactId>jvm</artifactId>
                 <version>2.0</version>
             </dependency>
+			<dependency>
+				<groupId>net.lingala.zip4j</groupId>
+				<artifactId>zip4j</artifactId>
+				<version>1.3.2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk</artifactId>
+				<version>1.9.36</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
 	<build>
-		<finalName>vrc</finalName>
+		<finalName>bbc-accent-server-v${project.version}</finalName>
 		<plugins>
 
 			<plugin>
@@ -249,6 +266,30 @@
 						<phase>process-classes</phase>
 						<goals>
 							<goal>enhance</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>br.com.ingenieux</groupId>
+				<artifactId>beanstalk-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<configuration>
+					<applicationName>AccentEasyTomcatServer</applicationName>
+					<cnamePrefix>accenteasytomcat-prd</cnamePrefix>
+					<environmentName>accenteasytomcat-PRD</environmentName>
+					<environmentRef>accenteasytomcat-prd.elasticbeanstalk.com</environmentRef>
+					<s3Bucket>elasticbeanstalk-ap-southeast-1-673375924332</s3Bucket>
+					<s3Key>${project.artifactId}/${project.build.finalName}-${maven.build.timestamp}.war</s3Key>
+					<!-- will save as s3://[bucket name]/[artifactId]/artifactId-version-TIMESTAMP.war -->
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>upload-source-bundle</goal>
+							<goal>create-application-version</goal>
+							<goal>update-environment</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -406,6 +447,11 @@
             <artifactId>quartz-jobs</artifactId>
             <version>2.2.1</version>
         </dependency>
+		<dependency>
+			<groupId>net.lingala.zip4j</groupId>
+			<artifactId>zip4j</artifactId>
+			<version>1.3.2</version>
+		</dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -414,12 +460,12 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
-			<version>1.9.35</version>
+			<version>1.9.36</version>
 		</dependency>
 		<dependency>
-			<groupId>net.lingala.zip4j</groupId>
-			<artifactId>zip4j</artifactId>
-			<version>1.3.2</version>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.3</version>
 		</dependency>
 	</dependencies>
 
@@ -451,6 +497,7 @@
 				<grammarPath>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/grammar</grammarPath>
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
             </properties>
 		</profile>
         <profile>
@@ -478,6 +525,7 @@
 				<grammarPath>/cmg/grammar</grammarPath>
                 <recipients>hai.lu@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
             </properties>
         </profile>
 		<profile>
@@ -505,10 +553,11 @@
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
 			</properties>
 		</profile>
 		<profile>
-			<id>env-sing</id>
+			<id>env-prod</id>
 			<properties>
 				<sysenv>aws</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
@@ -516,12 +565,11 @@
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
 				<project.dir>/var/www/webdav/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://127.0.0.1:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
-				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
-
-				<contact.us.email>website@c-mg.com</contact.us.email>
-				<contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
+				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<contact.us.email>support@accenteasy.com</contact.us.email>
+				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
 				<voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
 				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
@@ -530,8 +578,9 @@
 				<languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
 				<grammarPath>/vol/Sphinx/grammar</grammarPath>
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
-				<recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
+				<recipients>feedback@accenteasy.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
+				<url.active.account>http://reg.accenteasy.com/activate</url.active.account>
 			</properties>
 		</profile>
 	</profiles>

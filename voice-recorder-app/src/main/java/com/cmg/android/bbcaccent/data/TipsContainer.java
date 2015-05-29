@@ -3,17 +3,14 @@ package com.cmg.android.bbcaccent.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
-import com.cmg.android.bbcaccent.utils.UUIDGenerator;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,14 +89,18 @@ public class TipsContainer {
             tips = new PronunciationTip[0];
         synchronized (tips) {
             File tipFile = FileHelper.getSavedTipFile(context);
-            File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
+            //File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
             try {
-                FileUtils.copyURLToFile(new URL(context.getResources().getString(R.string.tips_url)), tmpFile, TIMEOUT,TIMEOUT);
-                if (tmpFile.exists()) {
-                    if (tipFile.exists())
-                        FileUtils.forceDelete(tipFile);
-                    FileUtils.moveFile(tmpFile, tipFile);
+                if (tipFile.exists()) {
+                    FileUtils.forceDelete(tipFile);
                 }
+                FileUtils.copyInputStreamToFile(context.getAssets().open("tips.json"), tipFile);
+//                FileUtils.copyURLToFile(new URL(context.getResources().getString(R.string.tips_url)), tmpFile, TIMEOUT,TIMEOUT);
+//                if (tmpFile.exists()) {
+//                    if (tipFile.exists())
+//                        FileUtils.forceDelete(tipFile);
+//                    FileUtils.moveFile(tmpFile, tipFile);
+//                }
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception ex) {

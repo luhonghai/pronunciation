@@ -3,6 +3,8 @@ package com.cmg.android.bbcaccent.utils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -18,6 +20,12 @@ public class SimpleAppLog {
         //Log.i(TAG, log);
         if (Fabric.isInitialized())
             Crashlytics.log(Log.INFO, TAG, log);
+    }
+
+    public static void logJson(Object obj) {
+        if (obj ==  null) return;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        info(gson.toJson(obj));
     }
 
     public static void debug(String log) {

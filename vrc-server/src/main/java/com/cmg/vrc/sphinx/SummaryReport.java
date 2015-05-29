@@ -1,5 +1,6 @@
 package com.cmg.vrc.sphinx;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.processor.AudioCleaner;
 import com.cmg.vrc.http.FileCommon;
@@ -7,6 +8,7 @@ import com.cmg.vrc.http.FileUploader;
 import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.processor.SoXCleaner;
 import com.cmg.vrc.properties.Configuration;
+import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
@@ -60,7 +62,7 @@ public class SummaryReport {
             if (!recordDir.exists() || !recordDir.isDirectory()) {
                 recordDir.mkdirs();
             }
-            instance = new SummaryReport(new File(recordDir, "summary.xlsx"), new File(Configuration.getValue(Configuration.VOICE_RECORD_DIR)));
+            instance = new SummaryReport(new File(recordDir, "summary.xlsx"), new File(FileHelper.getTmpSphinx4DataDir(), Constant.FOLDER_RECORDED_VOICES));
             try {
                 if (listener != null)
                     instance.setMessageListener(listener);

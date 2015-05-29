@@ -1,24 +1,31 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.common.DeviceInfoCommon;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.FeedbackDAO;
 import com.cmg.vrc.data.jdo.Feedback;
+import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +41,7 @@ public class FeedbackHandler extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         ResponseData<String> responseData = new ResponseData<String>();
+        File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".tmp.png");
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
@@ -49,6 +57,8 @@ public class FeedbackHandler extends HttpServlet {
                 if (item.isFormField()) {
                     String value = Streams.asString(stream);
                     storePara.put(name, value);
+                } else {
+                    FileUtils.copyInputStreamToFile(stream, tmpFile);
                 }
             }
             String profile = storePara.get(PARA_PROFILE);
@@ -66,7 +76,14 @@ public class FeedbackHandler extends HttpServlet {
                     feedback.setImei(storePara.get(DeviceInfoCommon.IMEI));
                     feedback.setOsApiLevel(storePara.get(DeviceInfoCommon.OS_API_LEVEL));
                     feedback.setOsVersion(storePara.get(DeviceInfoCommon.OS_VERSION));
-                    feedback.setScreenshoot("");
+                    if (tmpFile.exists()) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                        AWSHelper awsHelper = new AWSHelper();
+                        String fName = sdf.format(new Date(System.currentTimeMillis())) + ".png";
+                        awsHelper.upload(Constant.FOLDER_FEEDBACK + "/" + user.getUsername() + "/" + fName, tmpFile);
+                        FileUtils.forceDelete(tmpFile);
+                        feedback.setScreenshoot(fName);
+                    }
                     feedback.setStackTrace(storePara.get(DeviceInfoCommon.STACK_TRACE));
                     FeedbackDAO feedbackDAO = new FeedbackDAO();
                     feedbackDAO.put(feedback);

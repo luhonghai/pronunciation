@@ -1,13 +1,20 @@
 package com.cmg.vrc.util;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by lantb on 2014-04-21.
  */
 public class StringUtil {
+
+    private static final Map<String, String> RESOURCE_CACHE = new HashMap<String, String>();
 
     public static Object isNull(final Object o, final Object dflt) {
         if (o == null) {
@@ -59,5 +66,21 @@ public class StringUtil {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static String readResource(String resource) {
+        if (RESOURCE_CACHE.containsKey(resource.toLowerCase())) {
+            return RESOURCE_CACHE.get(resource.toLowerCase());
+        }
+        try {
+            String s = IOUtils.toString(StringUtil.class.getClassLoader().getResourceAsStream(resource), "UTF-8");
+            if (s != null && s.length() > 0) {
+                RESOURCE_CACHE.put(resource.toLowerCase(), s);
+            }
+            return s;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

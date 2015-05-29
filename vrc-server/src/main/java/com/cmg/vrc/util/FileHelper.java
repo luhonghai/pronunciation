@@ -415,4 +415,12 @@ public final class FileHelper {
 
 	}
 
+
+	public static File getTmpSphinx4DataDir() {
+		File tmp = new File(FileUtils.getTempDirectory(), "sphinx4-data");
+		if (!tmp.exists() || !tmp.isDirectory()) {
+			tmp.mkdirs();
+		}
+		return tmp;
+	}
 }

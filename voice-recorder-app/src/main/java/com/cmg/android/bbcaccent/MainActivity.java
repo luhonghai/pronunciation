@@ -62,6 +62,7 @@ import com.cmg.android.bbcaccent.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
+import com.cmg.android.bbcaccent.common.FileCommon;
 import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.SphinxResult;
@@ -73,7 +74,6 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
-import com.cmg.android.bbcaccent.http.FileCommon;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
@@ -441,7 +441,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
-            dbAdapter = new WordDBAdapter(this);
+            searchView.setFocusable(true);
+            searchView.performClick();
+            searchView.requestFocus();
+            searchView.setIconified(true);
+            dbAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
             try {
                 dbAdapter.open();
             } catch (SQLException e) {
@@ -601,13 +605,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void updateQuery() {
+        try {
+            dbAdapter.close();
+            dbAdapter.open();
+        } catch (Exception e) {
+
+        }
         final Cursor c = dbAdapter.search(searchText);
         if (c.getCount() > 0) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     searchView.getSuggestionsAdapter().changeCursor(c);
-                    searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                    //searchView.getSuggestionsAdapter().notifyDataSetChanged();
                 }
             });
         }
@@ -621,9 +631,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public boolean onQueryTextChange(String s) {
         if (s.length() > 0) {
             searchText = s;
-//            updateQueryHandler.removeCallbacks(updateQueryRunnable);
-//            updateQueryHandler.post(updateQueryRunnable);
-            updateQuery();
+            updateQueryHandler.removeCallbacks(updateQueryRunnable);
+            updateQueryHandler.postDelayed(updateQueryRunnable, 200);
+            //updateQuery();
             return true;
         }
         return false;
@@ -1410,14 +1420,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             scoreDBAdapter.open();
             scoreDBAdapter.insert(score);
             scoreDBAdapter.close();
-
-            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
-            phonemeScoreDBAdapter.open();
-            List<SphinxResult.PhonemeScore> phonemeScoreList  = currentModel.getResult().getPhonemeScores();
-            for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                phonemeScoreDBAdapter.insert(phonemeScore);
+            if (currentModel.getResult() != null) {
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
+                phonemeScoreDBAdapter.open();
+                List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
+                if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
+                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
+                        phonemeScoreDBAdapter.insert(phonemeScore);
+                    }
+                }
+                phonemeScoreDBAdapter.close();
             }
-            phonemeScoreDBAdapter.close();
         }
     }
 

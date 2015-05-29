@@ -23,11 +23,21 @@ public class ActivationHandler extends HttpServlet {
     private static final Logger logger = Logger.getLogger(ActivationHandler.class
             .getName());
     private static String PARA_PROFILE = "profile";
+    private static String VERSION_CODE = "version_code";
     private static String PARA_ACC = "acc";
+    private static String PARA_LANG_PREFIX = "lang_prefix";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        boolean isDevice = false;
+        String versionCode = request.getParameter(VERSION_CODE);
+        if (versionCode == null || versionCode.length() == 0) {
+            versionCode = "000";
+            isDevice = true;
+        }
         try {
+
+
             UserDAO userDAO = new UserDAO();
             String acc = request.getParameter(PARA_ACC);
             if (acc != null && acc.length() > 0) {
@@ -35,12 +45,24 @@ public class ActivationHandler extends HttpServlet {
                 if (u != null) {
                     u.setActivated(true);
                     userDAO.put(u);
-                    out.print("success");
+                    if (isDevice) {
+                        out.print("success");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-success.html"));
+                    }
                 } else {
-                    out.print("Invalid activation code");
+                    if (isDevice) {
+                        out.print("Invalid activation code");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-invalid.html"));
+                    }
                 }
             } else {
                 String profile = request.getParameter(PARA_PROFILE);
+
+                String langPrefix = request.getParameter(PARA_LANG_PREFIX);
+                if (langPrefix == null || langPrefix.length() == 0)
+                    langPrefix = "BE";
                 if (profile != null && profile.length() > 0) {
                     Gson gson = new Gson();
                     UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -52,7 +74,7 @@ public class ActivationHandler extends HttpServlet {
                                 Random random = new Random();
                                 u.setActivationCode(StringUtil.md5(user.getUsername()).substring(0,2).toUpperCase()
                                         + random.nextInt(99999)
-                                        + "BE135");
+                                        + langPrefix.toUpperCase() + versionCode);
                                 MailService mailService = new MailService();
                                 mailService.sendActivationEmail(user.getUsername(), u.getActivationCode());
                                 userDAO.put(u);
@@ -65,12 +87,20 @@ public class ActivationHandler extends HttpServlet {
                     }
                     out.print(message);
                 } else {
-                    out.print("No parameter found");
+                    if (isDevice) {
+                        out.print("No parameter found");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-error.html"));
+                    }
                 }
             }
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);
-            out.print("Error when login. Message:: " + e.getMessage());
+            if (isDevice) {
+                out.print("Error when login. Message:: " + e.getMessage());
+            } else {
+                out.print(StringUtil.readResource("contents/activation-error.html"));
+            }
         }
     }
 

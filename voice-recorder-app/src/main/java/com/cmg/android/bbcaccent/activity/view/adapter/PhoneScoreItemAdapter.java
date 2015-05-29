@@ -50,7 +50,7 @@ public class PhoneScoreItemAdapter extends ArrayAdapter<SphinxResult.PhonemeScor
 
         view.txtPhonemeScore.setText(Math.round(scoreVal) + "% like " + score.getName());
 
-        if (score.getType() == SphinxResult.PhonemeScoreUnit.MATCHED) {
+        if (score.getType() == SphinxResult.PhonemeScoreUnit.MATCHED || score.getType() == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME) {
             view.txtPhonemeScore.setTextColor(getContext().getResources().getColor(R.color.app_green));
         } else if (score.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR) {
             view.txtPhonemeScore.setTextColor(getContext().getResources().getColor(R.color.app_orange));

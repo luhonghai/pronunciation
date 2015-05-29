@@ -96,13 +96,12 @@
         android:background="@color/app_green"
         android:textAlignment="center"/>
     <TextView
+        android:id="@+id/txtTermAndCondition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:autoLink="web"
         android:padding="5dp"
-        android:linksClickable="true"
         android:text="@string/txtTermCondition"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 </LinearLayout>

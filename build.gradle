@@ -2,7 +2,9 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.2.3'
@@ -14,6 +16,14 @@ buildscript {
 
 allprojects {
     repositories {
+        def androidHome = System.getenv("ANDROID_HOME")
+        maven {
+            url "$androidHome/extras/android/m2repository/"
+        }
+        mavenLocal()
         jcenter()
+        mavenCentral()
     }
 }
+
+tasks.findByPath(":facebook:androidJavadocs").enabled = false

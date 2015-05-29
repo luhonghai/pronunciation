@@ -8,16 +8,26 @@
     <string name="stop_recording">Stop</string>
     <string name="upload_recording">Upload</string>
     <string name="audio_format">Format</string>
-    <string name="upload_url">http://dyyazm8g35t11.cloudfront.net/vrc/VoiceRecordHandler</string>
 
-    <string name="auth_url">http://dyyazm8g35t11.cloudfront.net/vrc/AuthHandler</string>
-    <string name="register_url">http://dyyazm8g35t11.cloudfront.net/vrc/RegisterHandler</string>
-    <string name="activation_url">http://dyyazm8g35t11.cloudfront.net/vrc/activate</string>
-    <string name="feedback_url">http://dyyazm8g35t11.cloudfront.net/vrc/FeedbackHandler</string>
-    <!--<string name="auth_url">http://192.168.1.25:8080/vrc/AuthHandler</string>-->
-    <!--<string name="register_url">http://192.168.1.25:8080/vrc/RegisterHandler</string>-->
-    <!--<string name="activation_url">http://192.168.1.25:8080/vrc/activate</string>-->
-    <!--<string name="feedback_url">http://192.168.1.25:8080/vrc/FeedbackHandler</string>-->
+    <!--<string name="upload_url">http://dyyazm8g35t11.cloudfront.net/vrc/VoiceRecordHandler</string>-->
+    <!--<string name="auth_url">http://dyyazm8g35t11.cloudfront.net/vrc/AuthHandler</string>-->
+    <!--<string name="register_url">http://dyyazm8g35t11.cloudfront.net/vrc/RegisterHandler</string>-->
+    <!--<string name="activation_url">http://dyyazm8g35t11.cloudfront.net/vrc/activate</string>-->
+    <!--<string name="feedback_url">http://dyyazm8g35t11.cloudfront.net/vrc/FeedbackHandler</string>-->
+
+    <!--<string name="upload_url">http://192.168.1.22:8080/vrc/VoiceRecordHandler</string>-->
+    <!--<string name="auth_url">http://192.168.1.22:8080/vrc/AuthHandler</string>-->
+    <!--<string name="register_url">http://192.168.1.22:8080/vrc/RegisterHandler</string>-->
+    <!--<string name="activation_url">http://192.168.1.22:8080/vrc/activate</string>-->
+    <!--<string name="feedback_url">http://192.168.1.22:8080/vrc/FeedbackHandler</string>-->
+    <!--<string name="license_url">http://192.168.1.22:8080/vrc/LicenseHandler</string>-->
+
+    <string name="upload_url">http://db7uw33kg4m0i.cloudfront.net/VoiceRecordHandler</string>
+    <string name="auth_url">http://db7uw33kg4m0i.cloudfront.net/AuthHandler</string>
+    <string name="register_url">http://db7uw33kg4m0i.cloudfront.net/RegisterHandler</string>
+    <string name="activation_url">http://db7uw33kg4m0i.cloudfront.net/activate</string>
+    <string name="feedback_url">http://db7uw33kg4m0i.cloudfront.net/FeedbackHandler</string>
+    <string name="license_url">http://db7uw33kg4m0i.cloudfront.net/LicenseHandler</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
