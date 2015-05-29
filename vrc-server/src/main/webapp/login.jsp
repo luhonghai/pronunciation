@@ -34,12 +34,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
-                <h1 class="text-center">Login</h1>
+                <img class="img-responsive" style="margin: 0 auto;" alt="accenteasy logo" src="http://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-prod/images/accenteasy_icon_text.png"/>
             </div>
             <div class="modal-body">
                 <form >
-                    <div id="result"></div>
+                    <div id="result" style="margin-bottom: 10px;"></div>
                     <div class="form-group">
                         <input type="text" id="account" name="account" class="form-control input-lg" placeholder="Email">
                     </div>
@@ -51,11 +50,6 @@
 
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-12">
-
-                </div>
             </div>
         </div>
     </div>
