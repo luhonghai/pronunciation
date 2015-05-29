@@ -15,27 +15,27 @@
         <div class="col-sm-4">
           <div class="form-group">
             <label class="control-label">Account</label>
-            <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
+            <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
           </div>
           <div class="form-group">
             <label class="control-label">Code</label>
-            <input type="text" name="filter-code" id="code" class="form-control" placeholder="Code">
+            <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
             <label class="control-label">Date From</label>
             <div>
-
-              <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
-
+              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
+              <option value="All">All</option>c
               <option value="isActivated">isActivated</option>
               <option value="Activated">Activated</option>
+
             </select>
           </div>
         </div>
@@ -44,11 +44,11 @@
             <label class="control-label">Date To</label>
             <div >
 
-              <input type='text' class="form-control" id="dateTo" placeholder="To" />
+              <input type='text' class="form-control" id="dateTo1" placeholder="To" />
 
             </div>
           </div>
-          <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
+          <button type="button" id="buttonFilter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
         </div>
 
       </div>
