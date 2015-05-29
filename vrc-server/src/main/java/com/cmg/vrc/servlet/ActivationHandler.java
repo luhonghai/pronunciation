@@ -29,7 +29,15 @@ public class ActivationHandler extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
+        boolean isDevice = false;
+        String versionCode = request.getParameter(VERSION_CODE);
+        if (versionCode == null || versionCode.length() == 0) {
+            versionCode = "000";
+            isDevice = true;
+        }
         try {
+
+
             UserDAO userDAO = new UserDAO();
             String acc = request.getParameter(PARA_ACC);
             if (acc != null && acc.length() > 0) {
@@ -37,16 +45,21 @@ public class ActivationHandler extends HttpServlet {
                 if (u != null) {
                     u.setActivated(true);
                     userDAO.put(u);
-                    out.print("success");
+                    if (isDevice) {
+                        out.print("success");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-success.html"));
+                    }
                 } else {
-                    out.print("Invalid activation code");
+                    if (isDevice) {
+                        out.print("Invalid activation code");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-invalid.html"));
+                    }
                 }
             } else {
                 String profile = request.getParameter(PARA_PROFILE);
-                String versionCode = request.getParameter(VERSION_CODE);
-                if (versionCode == null || versionCode.length() == 0) {
-                    versionCode = "000";
-                }
+
                 String langPrefix = request.getParameter(PARA_LANG_PREFIX);
                 if (langPrefix == null || langPrefix.length() == 0)
                     langPrefix = "BE";
@@ -74,12 +87,20 @@ public class ActivationHandler extends HttpServlet {
                     }
                     out.print(message);
                 } else {
-                    out.print("No parameter found");
+                    if (isDevice) {
+                        out.print("No parameter found");
+                    } else {
+                        out.print(StringUtil.readResource("contents/activation-error.html"));
+                    }
                 }
             }
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);
-            out.print("Error when login. Message:: " + e.getMessage());
+            if (isDevice) {
+                out.print("Error when login. Message:: " + e.getMessage());
+            } else {
+                out.print(StringUtil.readResource("contents/activation-error.html"));
+            }
         }
     }
 

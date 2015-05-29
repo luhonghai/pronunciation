@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>2.0</version>
+	<version>2.0.1</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
@@ -285,7 +285,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -568,8 +568,8 @@
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
-				<contact.us.email>website@c-mg.com</contact.us.email>
-				<contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
+				<contact.us.email>support@accenteasy.com</contact.us.email>
+				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
 				<voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
 				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
@@ -578,9 +578,9 @@
 				<languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
 				<grammarPath>/vol/Sphinx/grammar</grammarPath>
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
-				<recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
+				<recipients>feedback@accenteasy.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
-				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
+				<url.active.account>http://reg.accenteasy.com/activate</url.active.account>
 			</properties>
 		</profile>
 	</profiles>

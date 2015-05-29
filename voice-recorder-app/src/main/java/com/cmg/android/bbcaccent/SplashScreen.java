@@ -128,25 +128,7 @@ public class SplashScreen extends BaseActivity implements
         }
     }
 
-    private boolean checkNetwork() {
-        boolean isNetworkAvailable = AndroidHelper.isNetworkAvailable(this);
-        if (!isNetworkAvailable) {
-            final SpannableString s = new SpannableString("Could not connect to server. Please check your internet connection.");
-            Linkify.addLinks(s, Linkify.ALL);
-            AlertDialog d = new AlertDialog.Builder(SplashScreen.this)
-                    .setTitle("Network not available")
-                    .setMessage(s)
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            SplashScreen.this.finish();
-                        }
-                    }).create();
-            d.show();
-            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
-        }
-        return isNetworkAvailable;
-    }
+
 
 
     private void validateCallback() {
@@ -232,25 +214,29 @@ public class SplashScreen extends BaseActivity implements
                     @Override
                     public void run() {
                         if (isRunning()) {
-                            AlertDialog d;
-                            d = new AlertDialog.Builder(SplashScreen.this)
-                                    .setTitle("Invalid licence")
-                                    .setMessage(s)
-                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            SplashScreen.this.finish();
-                                        }
-                                    })
-                                    .setPositiveButton("Enter licence", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            goToActivity(LoginActivity.class);
-                                        }
-                                    })
-                                    .create();
-                            d.show();
-                            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                            if (profile.getLicenseCode() != null && profile.getLicenseCode().length() > 0) {
+                                AlertDialog d;
+                                d = new AlertDialog.Builder(SplashScreen.this)
+                                        .setTitle("Invalid licence")
+                                        .setMessage("You need a valid licence code")
+                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                SplashScreen.this.finish();
+                                            }
+                                        })
+                                        .setPositiveButton("Enter licence code", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                goToActivity(LoginActivity.class);
+                                            }
+                                        })
+                                        .create();
+                                d.show();
+                                ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+                            } else {
+                                goToActivity(LoginActivity.class);
+                            }
                         }
                     }
                 });

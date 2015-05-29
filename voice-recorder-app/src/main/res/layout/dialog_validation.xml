@@ -60,4 +60,15 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textAlignment="center"/>
+    <Button
+        android:id="@+id/btnLoginAccent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="proceed to login"
+        android:textSize="30sp"
+        android:textColor="@android:color/white"
+        android:background="@color/app_gray"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textAlignment="center"/>
 </LinearLayout>

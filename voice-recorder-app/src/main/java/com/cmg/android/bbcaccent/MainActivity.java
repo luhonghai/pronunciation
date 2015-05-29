@@ -605,13 +605,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void updateQuery() {
+        try {
+            dbAdapter.close();
+            dbAdapter.open();
+        } catch (Exception e) {
+
+        }
         final Cursor c = dbAdapter.search(searchText);
         if (c.getCount() > 0) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     searchView.getSuggestionsAdapter().changeCursor(c);
-                    searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                    //searchView.getSuggestionsAdapter().notifyDataSetChanged();
                 }
             });
         }
@@ -625,9 +631,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public boolean onQueryTextChange(String s) {
         if (s.length() > 0) {
             searchText = s;
-//            updateQueryHandler.removeCallbacks(updateQueryRunnable);
-//            updateQueryHandler.post(updateQueryRunnable);
-            updateQuery();
+            updateQueryHandler.removeCallbacks(updateQueryRunnable);
+            updateQueryHandler.postDelayed(updateQueryRunnable, 200);
+            //updateQuery();
             return true;
         }
         return false;

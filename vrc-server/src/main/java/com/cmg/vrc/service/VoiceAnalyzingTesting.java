@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,14 +19,7 @@ import java.util.Map;
 public class VoiceAnalyzingTesting {
 
     public static final TestingData[] data = new TestingData[] {
-//            new TestingData("necessarily-anh.wav","necessarily", "/Volumes/DATA/Development/voice-sample/necessarily-anh.wav"),
-            //new TestingData("necessarily-hai.wav","necessarily", "/Volumes/DATA/Development/voice-sample/necessarily-hai.wav"),
-           // new TestingData("necessarily-lan.wav","necessarily", "/Volumes/DATA/Development/voice-sample/necessarily-lan.wav"),
-            new TestingData("necessarily-dominic.wav","necessarily", "/Volumes/DATA/Development/voice-sample/necessarily-dominic.wav"),
-            new TestingData("seashell-anh.wav","seashell", "/Volumes/DATA/Development/voice-sample/seashell-anh.wav"),
-            new TestingData("seashell-hai.wav","seashell", "/Volumes/DATA/Development/voice-sample/seashell-hai.wav"),
-            new TestingData("variable-hai.wav","variable", "/Volumes/DATA/Development/voice-sample/variable-hai.wav"),
-            new TestingData("variable-anh.wav","variable", "/Volumes/DATA/Development/voice-sample/variable-anh.wav")
+            new TestingData("","", "/Users/cmg/Desktop/voice-sample/"),
     };
 
     public static class TestingData {
@@ -134,7 +128,7 @@ public class VoiceAnalyzingTesting {
         float score = 0.0f;
 
         try {
-            String result = FileUploader.upload(data, "http://dyyazm8g35t11.cloudfront.net/vrc/VoiceAnalyzeHandler");
+            String result = FileUploader.upload(data, "http://accenteasytomcat-prd.elasticbeanstalk.com/VoiceAnalyzeHandler");
             //System.out.println(result);
             if (!result.trim().startsWith("{")) {
                 System.out.println(result);
@@ -162,13 +156,32 @@ public class VoiceAnalyzingTesting {
 
 
     public static void main(String[] args) {
+        int wordSize = 10;
+        File sourceVoice = new File("/Users/cmg/Desktop/voice-sample/");
+        File[] list = sourceVoice.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                if (pathname.getName().equalsIgnoreCase(".DS_Store")) return false;
+                return  (pathname.isFile());
+            }
+        });
+        if (wordSize > list.length) wordSize = list.length;
+        TestingData[] data = new TestingData[wordSize];
+        for (int i = 0; i < wordSize; i++) {
+            TestingData td = new TestingData();
+            td.setName(list[i].getName());
+            td.setFilePath(list[i].getAbsolutePath());
+            td.setWord(td.getName().split("_")[0]);
+            data[i] = td;
+        }
+        System.out.println("Total words to analyze: " + wordSize);
         System.out.println("========================== NONE THREAD SECTION ==================");
-        String targetFolder = "/Volumes/DATA/Development/analyzing-result/none-thread";
+        String targetFolder = "/Users/cmg/Desktop/voice-sample/result/none-thread";
         for (TestingData testingData : data) {
             test(testingData, targetFolder);
         }
         System.out.println("========================== MULTI THREAD SECTION ==================");
-        final String targetFolderThread = "/Volumes/DATA/Development/analyzing-result/multi-thread";
+        final String targetFolderThread = "/Users/cmg/Desktop/voice-sample/result/multi-thread";
         for (final TestingData testingData : data) {
             new Thread(new Runnable() {
                 @Override

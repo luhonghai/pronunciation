@@ -45,6 +45,26 @@
             android:textColor="@android:color/white"
             android:background="@color/app_green"
             android:textAlignment="center"/>
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="logout"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:background="@color/app_red"
+            android:textAlignment="center"/>
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="exit"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:background="@color/app_gray"
+            android:textAlignment="center"/>
     </LinearLayout>
 
     <TextView

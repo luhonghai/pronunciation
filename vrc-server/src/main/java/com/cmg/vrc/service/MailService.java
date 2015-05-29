@@ -2,6 +2,7 @@ package com.cmg.vrc.service;
 
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.SummaryReport;
+import org.apache.commons.io.IOUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -140,22 +141,33 @@ public class MailService {
                 email
         }
                 ,"accenteasy - account activation"
-                ,"Please select the link below to activate your account: <br> " +
-                Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) + "?acc=" + activationCode
-                + "<br> Or enter the following activation code on your mobile device: <b>" + activationCode + "</b>"
-                + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
+                ,generateActivationContent(activationCode));
     }
 
     public static void main(String[] args) throws MessagingException {
         // Send mail with code
         MailService mailService = new MailService();
-        mailService.sendEmail(new String[] {
-              "luhonghai@gmail.com"
+//        mailService.sendEmail(new String[] {
+//              "luhonghai@gmail.com"
+//        }
+//                ,"accenteasy - account activation"
+//                ,"Please select the link below to activate your account: <br> " +
+//                Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) + "?acc=" + "ABC1235BE135"
+//                + "<br> Or enter the following activation code on your mobile device: <b>" + "ABC1235BE135" + "</b>"
+//                + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
+
+        System.out.println(mailService.generateActivationContent("BASAS12321"));
+    }
+
+    private String generateActivationContent(String code) {
+        try {
+            String source = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("contents/activation-email.html"));
+            source = source.replaceAll("%ACTIVATION_CODE%",code);
+            source = source.replaceAll("%URL_ACTIVE_ACCOUNT%", Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) );
+            return source;
+        } catch (IOException e) {
+            log(Level.SEVERE, "Could not read activation HTML template", e);
         }
-                ,"accenteasy - account activation"
-                ,"Please select the link below to activate your account: <br> " +
-                Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) + "?acc=" + "ABC1235BE135"
-                + "<br> Or enter the following activation code on your mobile device: <b>" + "ABC1235BE135" + "</b>"
-                + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
+        return "";
     }
 }

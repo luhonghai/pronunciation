@@ -63,6 +63,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private ImageButton btnLoginFB;
 
+    private ImageButton btnLoginAccent;
+
+    private ImageButton btnRegister;
+
     private GoogleApiClient mGoogleApiClient;
 
     private boolean mIntentInProccess;
@@ -86,14 +90,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         LoginManager.getInstance().registerCallback(callbackManager, this);
         setContentView(R.layout.login);
 
-        btnLoginFB = (ImageButton) findViewById(R.id.loginButton);
-        btnLoginFB.setOnClickListener(this);
-
-        btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button);
-        btnLoginGGPlus.setOnClickListener(this);
-
-        findViewById(R.id.btnLoginAccent).setOnClickListener(this);
-        findViewById(R.id.btnRegister).setOnClickListener(this);
+        (btnLoginFB = (ImageButton) findViewById(R.id.loginButton)).setOnClickListener(this);
+        (btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button)).setOnClickListener(this);
+        (btnLoginAccent = (ImageButton) findViewById(R.id.btnLoginAccent)).setOnClickListener(this);
+        (btnRegister = (ImageButton) findViewById(R.id.btnRegister)).setOnClickListener(this);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
@@ -152,6 +152,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         prepareDialog(dialogLicense);
         dialogLicense.setContentView(R.layout.dialog_license);
         initDialog(dialogLicense);
+        dialogLicense.setCancelable(false);
+        dialogLicense.setCanceledOnTouchOutside(false);
         dialogLicense.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,6 +185,26 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             }
         });
+        dialogLicense.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                accountManager.logout();
+                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                    Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                    mGoogleApiClient.disconnect();
+                    mGoogleApiClient.connect();
+                }
+                dialogLicense.cancel();
+            }
+        });
+
+        dialogLicense.findViewById(R.id.btnExit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginActivity.this.finish();
+            }
+        });
+
         ((TextView)dialogLicense.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         dialogRegister = new Dialog(this, R.style.Theme_WhiteDialog);
@@ -265,48 +287,56 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 final UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
                 accountManager.resendActivationCode(profile,
                         new AccountManager.AuthListener() {
-                    @Override
-                    public void onError(final String message, Throwable e) {
-                        runOnUiThread(new Runnable() {
                             @Override
-                            public void run() {
-                                dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
-                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("Could not send code")
-                                        .setMessage(message)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .create();
-                                alertDialog.show();
+                            public void onError(final String message, Throwable e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
+                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                .setTitle("Could not send code")
+                                                .setMessage(message)
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create();
+                                        alertDialog.show();
+                                    }
+                                });
                             }
-                        });
-                    }
 
-                    @Override
-                    public void onSuccess() {
-                        runOnUiThread(new Runnable() {
                             @Override
-                            public void run() {
-                                dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
-                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("Successfully sent")
-                                        .setMessage("Please check message in your email " + profile.getUsername())
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .create();
-                                alertDialog.show();
+                            public void onSuccess() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
+                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                .setTitle("Successfully sent")
+                                                .setMessage("Please check message in your email " + profile.getUsername())
+                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create();
+                                        alertDialog.show();
+                                    }
+                                });
                             }
                         });
-                    }
-                });
+            }
+        });
+
+        dialogValidation.findViewById(R.id.btnLoginAccent).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogValidation.cancel();
+                dialogLogin.show();
             }
         });
 
@@ -354,7 +384,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         });
     }
 
-    private void doCheckLicense(UserProfile profile) {
+    private void doCheckLicense(final UserProfile profile) {
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
             public void onError(final String message, Throwable e) {
@@ -364,18 +394,20 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     @Override
                     public void run() {
                         dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
-                        if (!dialogLicense.isShowing())
-                            dialogLicense.show();
-                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                                .setTitle("Invalid licence code")
-                                .setMessage(message)
-                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).create();
-                        d.show();
+                        if (profile.isLogin() && isRunning()) {
+                            if (!dialogLicense.isShowing())
+                                dialogLicense.show();
+                        }
+//                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                                .setTitle("Invalid licence code")
+//                                .setMessage(message)
+//                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.dismiss();
+//                                    }
+//                                }).create();
+//                        d.show();
                     }
                 });
             }
@@ -462,7 +494,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         }
     }
 
-    public final static boolean isValidEmail(CharSequence target) {
+    public static boolean isValidEmail(CharSequence target) {
         if (TextUtils.isEmpty(target)) {
             return false;
         } else {
@@ -554,6 +586,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     public void onSuccess(LoginResult loginResult) {
+        enableForm(true);
 //        Toast.makeText(this, "Login successfully", Toast.LENGTH_LONG).show();
 //        startMainActivity();
 
@@ -610,12 +643,25 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     public void onCancel() {
-        Toast.makeText(this, "Cancel login", Toast.LENGTH_LONG).show();
+        enableForm(true);
+        //Toast.makeText(this, "Cancel login", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onError(FacebookException e) {
-        Toast.makeText(this, "Could not login to Facebook", Toast.LENGTH_LONG).show();
+        enableForm(true);
+        //Toast.makeText(this, "Could not login to Facebook", Toast.LENGTH_LONG).show();
+        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                .setTitle("Could not login")
+                .setMessage("Sorry but your Internet connection does not appear to be working")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        d.show();
+        ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void doAuth(final UserProfile profile) {
@@ -690,10 +736,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     }
 
-    private void startMainActivity() {
-        Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
+    private void startActivity(Class clazz) {
+        Intent mainIntent = new Intent(LoginActivity.this,clazz);
         LoginActivity.this.startActivity(mainIntent);
         LoginActivity.this.finish();
+    }
+
+    private void startMainActivity() {
+        startActivity(MainActivity.class);
     }
 
     @Override
@@ -711,11 +761,22 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
             doAuth(profile);
         }
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        SimpleAppLog.info("Connection Suspended. Code: " + i);
+        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                .setTitle("Could not login")
+                .setMessage("Sorry but your Internet connection does not appear to be working")
+                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        d.show();
+        ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         mGoogleApiClient.connect();
     }
 
@@ -730,20 +791,28 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
-                enableForm(false);
-                googlePlusLogin();
+                if (checkNetwork(false)) {
+                    enableForm(false);
+                    googlePlusLogin();
+                }
                 break;
             case R.id.loginButton:
-                enableForm(false);
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+                if (checkNetwork(false)) {
+                    enableForm(false);
+                    LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+                }
                 break;
             case R.id.btnLoginAccent:
-                SimpleAppLog.info("show login dialog");
-                dialogLogin.show();
+                if (checkNetwork(false)) {
+                    SimpleAppLog.info("show login dialog");
+                    dialogLogin.show();
+                }
                 break;
             case R.id.btnRegister:
-                SimpleAppLog.info("show register dialog");
-                dialogRegister.show();
+                if (checkNetwork(false)) {
+                    SimpleAppLog.info("show register dialog");
+                    dialogRegister.show();
+                }
                 break;
         }
     }
@@ -768,8 +837,25 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         enableForm(true);
+        SimpleAppLog.info("Could not connect to Google plus. Error code: " + connectionResult.getErrorCode()
+                + ". Read more at: http://developer.android.com/reference/com/google/android/gms/common/ConnectionResult.html");
+        if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR) {
+            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                    .setTitle("Could not login")
+                    .setMessage("Sorry but your Internet connection does not appear to be working")
+                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+            d.show();
+            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+        }
+
         if (!connectionResult.hasResolution()) {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
+            // Skip error message
+            //GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
             return;
         }
         if (!mIntentInProccess) {
@@ -783,5 +869,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     private void enableForm(boolean enable) {
         btnLoginGGPlus.setEnabled(enable);
         btnLoginFB.setEnabled(enable);
+        btnRegister.setEnabled(enable);
+        btnLoginAccent.setEnabled(enable);
     }
 }

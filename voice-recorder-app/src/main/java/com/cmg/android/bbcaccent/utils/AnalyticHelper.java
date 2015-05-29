@@ -37,7 +37,7 @@ public class AnalyticHelper {
             Tracker t = analytics.newTracker(R.xml.global_tracker);
             t.enableAdvertisingIdCollection(true);
             t.enableAutoActivityTracking(true);
-            t.enableExceptionReporting(true);
+            //t.enableExceptionReporting(true);
             return t;
         } catch (Exception e) {
             e.printStackTrace();
