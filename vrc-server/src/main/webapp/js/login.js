@@ -1,6 +1,5 @@
 
 function login(){
-    $(document).on("click","#login", function (){
     var account=$("#account").val();
     var pass=$("#password").val();
         if (account==null || account=="") {
@@ -44,9 +43,24 @@ function login(){
         })
 
 
+
+}
+function loginButton(){
+    $(document).on("click","#login", function () {
+        login();
     });
 }
+function loginEnter(){
+    $(document).on("keyup","#password", function () {
+        if(e.keyCode == 13)
+        {
+           login();
+        }
+    });
+}
+
 $(document).ready(function(){
-    login();
+    loginButton();
+    loginEnter();
 });
 

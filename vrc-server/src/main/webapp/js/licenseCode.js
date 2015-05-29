@@ -11,7 +11,12 @@ function listLicenseCode(){
                     "type": "POST",
                     "dataType":"json",
                     "data":{
-                        list:"list"
+                        list:"list",
+                        account:$("#account1").val() ,
+                        code:$("#code1").val() ,
+                        Acti:$("#Acti").val() ,
+                        dateFrom:$("#dateFrom1").val(),
+                        dateTo: $("#dateTo1").val()
                     }
                 },
                 "columns": [{
@@ -31,8 +36,11 @@ function listLicenseCode(){
                     "data": null,
                     "bSortable": false,
                     "mRender": function (data, type, full) {
-
-                        return '<button type="button" id="detail" id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-ok-circle"></span>' + ' </button>';
+                        if (data.isActivated == true) {
+                            return '<button type="button" id="detail" name='+data.isActivated+'  id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-remove-sign"></span>' + ' </button>';
+                        }else if(data.isActivated==false){
+                            return '<button type="button" id="detail" name='+data.isActivated+' id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-ok-circle"></span>' + ' </button>';
+                        }
                     }
                 }]
             });
@@ -41,46 +49,40 @@ function listLicenseCode(){
 
 function activated(){
     $(document).on("click","#detail",function(){
+        var idd=$(this).attr('name');
+        var id=$(this).attr('id-column');
+        var acti;
         var $el = $(this);
         $el.find('span').toggleClass('glyphicon-remove-sign glyphicon-ok-circle');
         $el.toggleClass('showArchieved');
-
-    });
-}
-
-function search(){
-    $(document).on("click","#button-filter", function(){
-
-        var account=$("#account").val();
-        var code=$("#code").val();
-        var Acti=$("#Acti").val();
-        var dateFrom=$("#dateFrom").text();
-        var dateTo=$("#dateTo").text();
+        if(idd=="true"){
+            acti=false;
+        }
+        if(idd=="false"){
+            acti=true;
+        }
         $.ajax({
-            url:"",
-            type:"POST",
-            dataType:"json",
-            data:{
-                filter:"button-filter",
-                account:account,
-                code:code,
-                Acti:Acti,
-                dateFrom:dateFrom,
-                dateTo:dateTo
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"text",
+            "data": {
+                activated: "activated",
+                id:id,
+                acti:acti
             },
-            success:function(result){
-
-
-
-            },
-            error:function(e){
-                alert("error"+e);
+            success:function(data){
+                if(data=="success"){
+                    $("tbody").html("");
+                    myTable.fnDraw();
+                }
             }
 
         });
 
+
     });
 }
+
 
 function add(){
     $(document).on("click","#addCode",function() {
@@ -89,10 +91,35 @@ function add(){
 }
 
 function dateFrom(){
-    $('#dateFrom').datetimepicker();
+    $('#dateFrom1').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
 }
 function dateTo(){
-    $('#dateTo').datetimepicker();
+    $('#dateTo1').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+
+function filter(){
+    $(document).on("click","#buttonFilter",function(){
+        myTable.fnSettings().ajax = {
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                list:"list",
+                account:$("#account1").val() ,
+                code:$("#code1").val() ,
+                Acti:$("#Acti").val() ,
+                dateFrom:$("#dateFrom1").val(),
+                dateTo: $("#dateTo1").val()
+            }
+        };
+        $("tbody").html("");
+        myTable.fnDraw();
+    });
+
 }
 
 function addCode(){
@@ -121,9 +148,13 @@ function addCode(){
     });
 }
 
+function searchAll(){
+
+}
 
 $(document).ready(function(){
-    search();
+    filter();
+
     add();
     addCode();
     listLicenseCode();

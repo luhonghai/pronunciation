@@ -1,6 +1,9 @@
+var myTable;
 function listFeedback(){
 
-            $('#dataTables-example').dataTable({
+    myTable=$('#dataTables-example').dataTable({
+                "retrieve": true,
+                "destroy": true,
                 "bProcessing": true,
                 "bServerSide": true,
 
@@ -9,7 +12,13 @@ function listFeedback(){
                     "type": "POST",
                     "dataType":"json",
                     "data":{
-                        list:"list"
+                        list:"list",
+                        account:$("#account").val(),
+                        imei:$("#imei").val(),
+                        appVersion:$("#appversion").val(),
+                        osVersion:$("#osversion").val(),
+                        dateFrom:$("#DateFrom").val(),
+                        dateTo: $("#DateTo").val()
                     }
                 },
 
@@ -54,10 +63,14 @@ function listFeedback(){
 }
 
 function dateFrom(){
-    $('#DateFrom').datetimepicker();
+    $('#DateFrom').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
 }
 function dateTo(){
-    $('#DateTo').datetimepicker();
+    $('#DateTo').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
 }
 
 function detail(){
@@ -97,36 +110,23 @@ function detail(){
 }
  function searchAdvanted(){
      $(document).on("click","#button-filter", function(){
-
-         var account=$("#account").val();
-         var imei=$("#imei").val();
-         var appVersion=$("#appversion").val();
-         var osVersion=$("#osversion").val();
-         var date=$("#createddate").val();
-         $.ajax({
-             url:"",
-             type:"POST",
-             dataType:"json",
-             data:{
-                 filter:"button-filter",
-                 account:account,
-                 imei:imei,
-                 appVersion:appVersion,
-                 osVersion:osVersion,
-                 date:date
-
-
-             },
-             success:function(result){
-
-
-
-             },
-             error:function(e){
-                 alert("error"+e);
+         myTable.fnSettings().ajax = {
+             "url": "Feedbacks",
+             "type": "POST",
+             "dataType":"json",
+             "data":{
+                 list:"list",
+                 account:$("#account").val(),
+                 imei:$("#imei").val(),
+                 appVersion:$("#appversion").val(),
+                 osVersion:$("#osversion").val(),
+                 dateFrom:$("#DateFrom").val(),
+                 dateTo: $("#DateTo").val()
              }
+         };
+         $("tbody").html("");
+         myTable.fnDraw();
 
-         });
 
      });
  }
