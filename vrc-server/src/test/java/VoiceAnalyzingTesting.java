@@ -1,5 +1,3 @@
-package com.cmg.vrc.service;
-
 import com.cmg.vrc.http.FileCommon;
 import com.cmg.vrc.http.FileUploader;
 import com.cmg.vrc.sphinx.SphinxResult;
@@ -10,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -118,7 +117,7 @@ public class VoiceAnalyzingTesting {
 
     public static void test(TestingData testingData, String targetFolder) {
         testingData.setStartTime(System.currentTimeMillis());
-        System.out.println("Start analyze " + testingData.getName());
+        printLog("Start analyze " + testingData.getName());
         Map<String, String> data = new HashMap<String,String>();
         data.put(FileCommon.PARA_FILE_NAME, testingData.getName());
         data.put("word", testingData.getWord());
@@ -131,7 +130,7 @@ public class VoiceAnalyzingTesting {
             String result = FileUploader.upload(data, "http://accenteasytomcat-prd.elasticbeanstalk.com/VoiceAnalyzeHandler");
             //System.out.println(result);
             if (!result.trim().startsWith("{")) {
-                System.out.println(result);
+                printLog(result);
             }
             testingData.setResult(gson.fromJson(result, SphinxResult.class));
             if (testingData.getResult() != null) {
@@ -143,7 +142,7 @@ public class VoiceAnalyzingTesting {
         testingData.setScore(score);
         testingData.setEndTime(System.currentTimeMillis());
         testingData.setTotalTime(testingData.getEndTime() - testingData.getStartTime());
-        System.out.println("Complete analyze "
+        printLog("Complete analyze "
                 + testingData.getName()
                 + ". Score: " + testingData.getScore()
                 + ". Total time: " + testingData.getTotalTime() + "ms");
@@ -156,7 +155,7 @@ public class VoiceAnalyzingTesting {
 
 
     public static void main(String[] args) {
-        int wordSize = 10;
+        int wordSize = 20;
         File sourceVoice = new File("/Users/cmg/Desktop/voice-sample/");
         File[] list = sourceVoice.listFiles(new FileFilter() {
             @Override
@@ -174,13 +173,13 @@ public class VoiceAnalyzingTesting {
             td.setWord(td.getName().split("_")[0]);
             data[i] = td;
         }
-        System.out.println("Total words to analyze: " + wordSize);
-        System.out.println("========================== NONE THREAD SECTION ==================");
+        printLog("Total words to analyze: " + wordSize);
+        printLog("========================== NONE THREAD SECTION ==================");
         String targetFolder = "/Users/cmg/Desktop/voice-sample/result/none-thread";
         for (TestingData testingData : data) {
             test(testingData, targetFolder);
         }
-        System.out.println("========================== MULTI THREAD SECTION ==================");
+        printLog("========================== MULTI THREAD SECTION ==================");
         final String targetFolderThread = "/Users/cmg/Desktop/voice-sample/result/multi-thread";
         for (final TestingData testingData : data) {
             new Thread(new Runnable() {
@@ -191,5 +190,11 @@ public class VoiceAnalyzingTesting {
             }).start();
 
         }
+    }
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    private static void printLog(String log) {
+        System.out.println(sdf.format(System.currentTimeMillis()) + " | " + log);
     }
 }

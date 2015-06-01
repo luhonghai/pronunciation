@@ -33,6 +33,8 @@ public class UserVoiceModelJDO implements Mirrorable {
     @Persistent
     private long duration;
     @Persistent
+    private float score;
+    @Persistent
     private double latitude;
     @Persistent
     private double longitude;
@@ -204,5 +206,13 @@ public class UserVoiceModelJDO implements Mirrorable {
 
     public void setRawSphinxResult(String rawSphinxResult) {
         this.rawSphinxResult = rawSphinxResult;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 }
