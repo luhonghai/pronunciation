@@ -29,15 +29,15 @@
                 android:src="@drawable/sl_title_beta"
                 android:gravity="center_horizontal|center_vertical"
                 />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sl_beta"
-                android:gravity="bottom|end"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                />
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/sl_beta"-->
+                <!--android:gravity="bottom|end"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--/>-->
         </RelativeLayout>
 
     </RelativeLayout>

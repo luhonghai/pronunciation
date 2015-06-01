@@ -547,6 +547,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private GetWordAsync getWordAsync;
 
     private void getWord(final String word) {
+        if (isRecording) return;
         AnalyticHelper.sendSelectWord(this, word);
         switchButtonStage(ButtonState.DISABLED);
         recordingView.startPingAnimation(this);
@@ -835,11 +836,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        UserProfile userProfile = Preferences.getCurrentProfile(this);
-        if (userProfile != null && userProfile.getHelpStatus() == UserProfile.HELP_INIT) {
-            userProfile.setHelpStatus(UserProfile.HELP_SKIP);
-            Preferences.addProfile(this, userProfile);
-        }
+
         try {
             unregisterReceiver(mHandleMessageReader);
         } catch (Exception e) {
@@ -1061,17 +1058,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (profile == null) {
             AppLog.logString("No profile found");
             //openSettings();
-            startActivity(HelpActivity.class);
-        } else if (!profile.isSetup()) {
+            //startActivity(HelpActivity.class);
+        } else if (profile.getHelpStatus() == UserProfile.HELP_INIT) {
             AppLog.logString("Profile is not setup: " + profile.getUsername());
             //openSettings();
+            //profile.setHelpStatus(UserProfile.HELP_SKIP);
+            Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
             startActivity(HelpActivity.class);
         } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
             AppLog.logString("Display help dialog");
             showHelpDialog();
         } else {
             SimpleAppLog.info("Help status: " + profile.getHelpStatus());
-            showHelpDialog();
+            //showHelpDialog();
         }
     }
 
@@ -1374,19 +1373,21 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         }
                     }).playOn(imgHourGlass);
-                    if (dictionaryItem != null) {
-                        txtWord.setText(dictionaryItem.getWord());
-                        txtWord.setSelected(true);
-                        txtPhonemes.setText(dictionaryItem.getPronunciation());
-                        txtWord.setSelected(true);
-                    } else {
-                        txtWord.setText("Not found");
-                        txtPhonemes.setText("Please try again!");
-                    }
+
                     recordingView.drawEmptyCycle();
                     // Null response
                     analyzingState = AnalyzingState.DEFAULT;
                     switchButtonStage();
+
+                    if (dictionaryItem != null) {
+                        txtWord.setText(dictionaryItem.getWord());
+                        txtWord.setSelected(true);
+                        txtPhonemes.setText(dictionaryItem.getPronunciation());
+                        txtPhonemes.setSelected(true);
+                    } else {
+                        txtWord.setText("Not found");
+                        txtPhonemes.setText("Please try again!");
+                    }
                 }
             }
         } catch (Exception e) {
@@ -1446,8 +1447,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             public void onClick(View v) {
                 UserProfile userProfile = Preferences.getCurrentProfile(MainActivity.this);
                 if (userProfile != null) {
-                    userProfile.setHelpStatus(UserProfile.HELP_NEVER);
-                    Preferences.addProfile(MainActivity.this, userProfile);
+                    Preferences.setHelpStatusProfile(MainActivity.this, userProfile.getUsername(), UserProfile.HELP_NEVER);
                 }
                 dialog.dismiss();
             }

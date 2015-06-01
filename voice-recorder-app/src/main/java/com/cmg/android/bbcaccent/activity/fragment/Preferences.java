@@ -140,12 +140,43 @@ public class Preferences extends PreferenceFragment implements
             profile.setCountry(oldProfile.getCountry());
             profile.setIsSetup(oldProfile.isSetup());
             profile.setNativeEnglish(oldProfile.isNativeEnglish());
+            profile.setHelpStatus(oldProfile.getHelpStatus());
         }
         userData.add(gson.toJson(profile));
         SharedPreferences.Editor editor = pref.edit();
         editor.putStringSet(PREF_USERNAMES, userData);
         //editor.apply();
         editor.commit();
+    }
+
+
+    public static void setHelpStatusProfile(Context context, String username, int status) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
+        if (userData == null) {
+            userData = new HashSet<String>();
+        }
+        Gson gson = new Gson();
+        Iterator<String> iterator = userData.iterator();
+        UserProfile profile = null;
+        while (iterator.hasNext()) {
+            String raw = iterator.next();
+            UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+            if (tmp.getUsername().equalsIgnoreCase(username)) {
+                profile = tmp;
+                userData.remove(raw);
+                break;
+            }
+        }
+
+        if (profile != null) {
+            profile.setHelpStatus(status);
+            AppLog.logString("Set help status to " + status + " username: " + username);
+            userData.add(gson.toJson(profile));
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putStringSet(PREF_USERNAMES, userData);
+            editor.commit();
+        }
     }
 
     public static void setIsSetupProfile(Context context, String username) {

@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
+import com.cmg.android.bbcaccent.data.UserProfile;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -126,6 +127,11 @@ public class HelpActivity extends BaseActivity {
         HelpPageAdapter pageAdapter = new HelpPageAdapter(getSupportFragmentManager(), imageLoadingListener);
         pagerHelpContent.setAdapter(pageAdapter);
         handler.postDelayed(runnable, HELP_DISPLAY_TIME);
+
+        UserProfile userProfile = Preferences.getCurrentProfile(this);
+        if (userProfile != null && userProfile.getHelpStatus() == UserProfile.HELP_INIT) {
+            Preferences.setHelpStatusProfile(this, userProfile.getUsername(), UserProfile.HELP_SKIP);
+        }
     }
 
     @Override
