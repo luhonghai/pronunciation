@@ -28,7 +28,7 @@
 
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 
-<script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
 <%--<script>--%>
 	<%--$(document).ready(function() {--%>
 		<%--$('#dataTables-example').DataTable({--%>

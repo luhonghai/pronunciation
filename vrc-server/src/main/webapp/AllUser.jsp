@@ -10,6 +10,64 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">UserName</label>
+                        <input type="text" name="filter-username" id="username" class="form-control" placeholder="UserName">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Full Name</label>
+                        <input type="text" name="filter-fullname" id="fullname" class="form-control" placeholder="Full Name">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">Gender</label>
+                        <select name="gender" id="gender" class="form-control" required="required">
+                            <option value="All">All</option>c
+                            <option value="Man">Man</option>
+                            <option value="WoMan">Woman</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Country</label>
+                        <input type="text" name="filter-country" id="country" class="form-control" placeholder="Country">
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">Date From</label>
+                        <div>
+                            <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Activated</label>
+                        <select name="Acti" id="Acti" class="form-control" required="required">
+                            <option value="All">All</option>c
+                            <option value="isActivated">isActivated</option>
+                            <option value="Activated">Activated</option>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="control-label">Date To</label>
+                        <div >
+
+                            <input type='text' class="form-control" id="dateTo1" placeholder="To" />
+
+                        </div>
+                    </div>
+                    <button type="button" id="buttonFilter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
+                </div>
+
+            </div>
+        </div>
         <!-- /.row -->
         <div class="row">
             <div class="col-lg-12">
@@ -22,26 +80,19 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
+                                    <th>UserName</th>
+                                    <th>Full Name</th>
+                                    <th>Login type</th>
+                                    <th>Gender</th>
+                                    <th>Date Of Birth</th>
+                                    <th>Country</th>
+                                    <th>Activation code</th>
+                                    <th>Activation</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="odd gradeX">
-                                    <td>1</td>
-                                    <td>nam</td>
-                                    <td>bui</td>
-                                    <td>nam.bui@c-mg.com</td>
-                                    <td>10-12-2014</td>
-                                    <td > <button id="buton">Enable</button></td>
-                                    <td><a href="UserManage.jsp" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
 
-                                </tr>
                                 </tbody>
                             </table>
 
@@ -61,3 +112,4 @@
     <!-- /#page-wrapper -->
 
 </t:main>
+<script src="<%=request.getContextPath() %>/js/users.js"></script>

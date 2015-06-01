@@ -40,10 +40,12 @@ public class TestDAO {
 //        }
         LicenseCodeDAO lice=new LicenseCodeDAO();
         FeedbackDAO fe=new FeedbackDAO();
+        UserDAO userDAO=new UserDAO();
 
         try {
           //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
-            fe.listAll(0,10,"df",0,"asc","ds","fdsf","ds","fdsf",new Date(10/12/2014),new Date(9/8/2015));
+            //fe.listAll(0,10,"df",0,"asc","ds","fdsf","ds","fdsf",new Date(10/12/2014),new Date(9/8/2015));
+            userDAO.listAll(0,10,"sa",0,"asc","na","fdfs","nam","vietnam","dsa",new Date(10/12/2014),new Date(9/8/2015));
 
         } catch (Exception e) {
             e.printStackTrace();
