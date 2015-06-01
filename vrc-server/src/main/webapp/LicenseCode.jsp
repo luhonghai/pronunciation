@@ -69,7 +69,7 @@
                   <th>Account</th>
                   <th>Code</th>
                   <th>Activated Date</th>
-                  <th>Activated</th>
+                  <th>Activation</th>
                 </tr>
                 </thead>
                 <tbody>

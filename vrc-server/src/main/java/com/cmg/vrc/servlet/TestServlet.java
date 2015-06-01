@@ -2,8 +2,10 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.FeedbackDAO;
 import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
+import com.cmg.vrc.data.dao.impl.UsageDAO;
 import com.cmg.vrc.data.jdo.Feedback;
 import com.cmg.vrc.data.jdo.LicenseCode;
+import com.cmg.vrc.data.jdo.Usage;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,32 +19,44 @@ public class TestServlet  {
     public static void main(String[] args) {
         LicenseCodeDAO lis=new LicenseCodeDAO();
         FeedbackDAO feedbackDAO = new FeedbackDAO();
+        UsageDAO usageDAO=new UsageDAO();
 //        try {
 //            feedbackDAO.deleteAll();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        Feedback feedback = new Feedback();
-        feedback.setAccount("nambui");
-        feedback.setImei("nsm");
-        feedback.setAppVersion("2.5");
-
-        LicenseCode license=new LicenseCode();
-        license.setCode("dsadfd");
+//        Feedback feedback = new Feedback();
+//        feedback.setAccount("nambui");
+//        feedback.setImei("nsm");
+//        feedback.setAppVersion("2.5");
+//
+//        LicenseCode license=new LicenseCode();
+//        license.setCode("dsadfd");
+//        try {
+//            lis.put(license);
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
+        Usage usage=new Usage();
+        usage.setAppVersion("323");
+        usage.setEmei("fdsfg");
+        usage.setTime(new Date(2-10-2014));
+        usage.setUsername("nam bui");
         try {
-            lis.put(license);
-        }catch (Exception e){
-            e.getStackTrace();
-        }
+            usageDAO.put(usage);
 
-
-
-        try {
-            Feedback abc=feedbackDAO.getById("b3d4069a-4cb1-4595-be87-fe6020069cbc");
-            System.out.print(abc.getAccount());
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
+
+//        try {
+//            Feedback abc=feedbackDAO.getById("b3d4069a-4cb1-4595-be87-fe6020069cbc");
+//            System.out.print(abc.getAccount());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
 
 //        try {

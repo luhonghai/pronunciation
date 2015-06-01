@@ -111,6 +111,16 @@
         <url-pattern>/LicenseCodes</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Users</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Users</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Users</servlet-name>
+        <url-pattern>/Users</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>ActivationHandler</servlet-name>
