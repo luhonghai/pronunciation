@@ -414,6 +414,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             @Override
             public void onSuccess() {
+                Preferences.addProfile(LoginActivity.this, profile);
                 startMainActivity();
             }
         });

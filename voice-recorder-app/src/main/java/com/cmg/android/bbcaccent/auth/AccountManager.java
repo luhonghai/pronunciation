@@ -9,6 +9,7 @@ import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.http.HttpContacter;
 import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
@@ -63,6 +64,7 @@ public class AccountManager {
                 data.put("acc", code);
                 data.put("lang_prefix", "BE");
                 data.put("version_code", AndroidHelper.getVersionCode(context));
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.activation_url));
@@ -92,6 +94,7 @@ public class AccountManager {
                 data.put("profile", gson.toJson(profile));
                 data.put("lang_prefix", "BE");
                 data.put("version_code", AndroidHelper.getVersionCode(context));
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.activation_url));
@@ -121,6 +124,7 @@ public class AccountManager {
                 data.put("version_code", AndroidHelper.getVersionCode(context));
                 data.put("profile", gson.toJson(profile));
                 data.put("lang_prefix", "BE");
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.register_url));
@@ -153,6 +157,7 @@ public class AccountManager {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
                 data.put("profile", gson.toJson(profile));
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
@@ -183,6 +188,7 @@ public class AccountManager {
                 data.put("account", profile.getUsername());
                 data.put("action", "check");
                 data.put("code", profile.getLicenseCode());
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.license_url));
@@ -214,6 +220,7 @@ public class AccountManager {
                 data.put("account", profile.getUsername());
                 data.put("action", "active");
                 data.put("code", profile.getLicenseCode());
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.license_url));
