@@ -50,13 +50,13 @@ public class SummaryReportJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         logger.info("Start summary report job");
         //SummaryReport.analyze();
-        try {
-            OxfordDictionaryWalker.generateDictionary();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            OxfordDictionaryWalker.generateDictionary();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
         logger.info("Complete summary report job");
     }
 }
