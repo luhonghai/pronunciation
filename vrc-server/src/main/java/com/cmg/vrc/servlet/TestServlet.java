@@ -3,9 +3,9 @@ package com.cmg.vrc.servlet;
 import com.cmg.vrc.data.dao.impl.FeedbackDAO;
 import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
 import com.cmg.vrc.data.dao.impl.UsageDAO;
-import com.cmg.vrc.data.jdo.Feedback;
-import com.cmg.vrc.data.jdo.LicenseCode;
-import com.cmg.vrc.data.jdo.Usage;
+import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
+import com.cmg.vrc.data.jdo.*;
+import com.cmg.vrc.data.jdo.UserDevice;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,17 +37,34 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.getStackTrace();
 //        }
-        Usage usage=new Usage();
-        usage.setAppVersion("323");
-        usage.setEmei("fdsfg");
-        usage.setTime(new Date(2-10-2014));
-        usage.setUsername("nam bui");
+//        Usage usage=new Usage();
+//        usage.setAppVersion("323");
+//        usage.setLatitude(543.765);
+//        usage.setLongitude(423.65);
+//
+//        usage.setEmei("fdsfg");
+//        usage.setTime(new Date(2-10-2014));
+//        usage.setUsername("nam bui");
+//        try {
+//            usageDAO.put(usage);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
+        userDevice.setEmei("nam123");
+        userDevice.setDeviceName("cmg");
+        userDevice.setOsApiLevel("12ds");
+        userDevice.setOsVersion("1.53");
         try {
-            usageDAO.put(usage);
+            userDeviceDAO.put(userDevice);
 
-        }catch (Exception e){
+      }catch (Exception e) {
             e.printStackTrace();
         }
+
+
 
 
 

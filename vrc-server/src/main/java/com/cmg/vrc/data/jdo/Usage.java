@@ -15,9 +15,9 @@ public class Usage implements Mirrorable {
 
     private String emei;
 
-    private long latitude;
+    private double latitude;
 
-    private long longitude;
+    private double longitude;
 
     private Date time;
 
@@ -41,19 +41,19 @@ public class Usage implements Mirrorable {
         this.emei = emei;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

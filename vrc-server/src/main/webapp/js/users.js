@@ -6,8 +6,8 @@ function listUsers(){
         "destroy": true,
         "bProcessing": true,
         "bServerSide": true,
-        "scrollX": "100%",
-        "scrollCollapse": true,
+        "sScrollX": "100%",
+        "bScrollCollapse": true,
         "sScrollXInner": "140%",
         "ajax": {
             "url": "Users",
@@ -85,9 +85,17 @@ function listUsers(){
             "bSortable": false,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                return '<a href="UserManage.jsp" class="btn btn-default btn-xs"><i class="fa fa-chevron-circle-right fa-2x"></i></a>';
+                return '<button type="button" id="user" user=' + data.username + '>' + ' <i class="fa fa-chevron-circle-right"></i>' + ' </button>';
             }
         },]
+    });
+
+}
+
+function user(){
+    $(document).on("click","#user",function() {
+        var user = $(this).attr('user');
+        window.location.href = "UserManage.jsp?username=" + user;
     });
 
 }
@@ -168,6 +176,7 @@ function filter(){
 
 
 $(document).ready(function(){
+    user();
     filter();
     listUsers();
     activated();
