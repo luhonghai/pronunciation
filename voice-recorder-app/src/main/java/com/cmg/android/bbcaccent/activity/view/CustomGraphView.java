@@ -3,6 +3,7 @@ package com.cmg.android.bbcaccent.activity.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
@@ -33,6 +34,8 @@ public class CustomGraphView extends GraphView {
 
     private Paint tintPaint;
 
+    private Point tintTextPoint;
+
     private void initPaint() {
         tintPaint = new Paint();
         tintPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -42,6 +45,10 @@ public class CustomGraphView extends GraphView {
         tintPaint.setColor(getContext().getResources().getColor(R.color.app_tint));
     }
 
+    public void setTintTextPoint(Point tintTextPoint) {
+        this.tintTextPoint = tintTextPoint;
+    }
+
     public void setTintText(String tintText) {
         this.tintText = tintText;
     }
@@ -49,9 +56,21 @@ public class CustomGraphView extends GraphView {
     @Override
     protected void onDraw(Canvas canvas) {
         if (tintText != null && tintText.length() > 0) {
-            tintPaint.setTextSize(getHeight()/5);
-            canvas.drawText(tintText, getWidth() - 50, getHeight() - 60, tintPaint);
+            float tSize = getHeight() / 5;
+            int paddingRight = (tintTextPoint != null) ? tintTextPoint.x : 50;
+            do  {
+                tintPaint.setTextSize(tSize);
+                tSize -= 5;
+            } while (tintPaint.measureText(tintText) > getWidth() - paddingRight);
+
+            if (tintTextPoint != null) {
+                canvas.drawText(tintText, getWidth() - tintTextPoint.x, getHeight() - tintTextPoint.y, tintPaint);
+            } else {
+                canvas.drawText(tintText, getWidth() - 50, getHeight() - 60, tintPaint);
+            }
         }
         super.onDraw(canvas);
     }
+
+
 }

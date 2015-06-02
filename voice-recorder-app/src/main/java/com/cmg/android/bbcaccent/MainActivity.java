@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +82,7 @@ import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -162,8 +164,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private ImageButton btnAnalyzing;
     private ImageButton btnAudio;
 
-    private TextView txtWord;
-    private TextView txtPhonemes;
+    private AlwaysMarqueeTextView txtWord;
+    private AlwaysMarqueeTextView txtPhonemes;
 
     private ImageButton imgHourGlass;
     private ImageButton imgHelpHand;
@@ -357,9 +359,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         btnAnalyzing.setOnClickListener(this);
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnAudio.setOnClickListener(this);
-        txtPhonemes = (TextView) findViewById(R.id.txtPhoneme);
+        txtPhonemes = (AlwaysMarqueeTextView) findViewById(R.id.txtPhoneme);
         txtPhonemes.setText("");
-        txtWord = (TextView) findViewById(R.id.txtWord);
+        txtWord = (AlwaysMarqueeTextView) findViewById(R.id.txtWord);
         txtWord.setText("");
         txtPhonemes.setOnClickListener(this);
         txtWord.setOnClickListener(this);
@@ -647,6 +649,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void play(String file) {
+        if (file == null || file.length() == 0) return;
         play(new File(file));
     }
 
@@ -1381,9 +1384,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                     if (dictionaryItem != null) {
                         txtWord.setText(dictionaryItem.getWord());
-                        txtWord.setSelected(true);
                         txtPhonemes.setText(dictionaryItem.getPronunciation());
-                        txtPhonemes.setSelected(true);
+                        txtWord.setEnabled(true);
+                        txtPhonemes.setEnabled(true);
+                        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
+                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getPronunciation()));
+                        //txtPhonemes.setSelected(true);
+                        //txtWord.setSelected(true);
+
                     } else {
                         txtWord.setText("Not found");
                         txtPhonemes.setText("Please try again!");
@@ -1394,6 +1402,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             SimpleAppLog.error("Could not complete animation",e);
         }
     }
+
+
 
     private void saveToDatabase() throws IOException, SQLException {
         if (audioStream == null) return;

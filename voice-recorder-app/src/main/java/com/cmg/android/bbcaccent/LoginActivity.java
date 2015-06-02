@@ -49,7 +49,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.helper.StringUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 /**
@@ -80,6 +82,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     private ProfileTracker profileTracker;
 
     private AccountManager accountManager;
+
+    private boolean willShowLicenceWarning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -347,6 +351,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 dialogRegister.show();
             }
         });
+        ((TextView)dialogValidation.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void doActivateLicense(final UserProfile profile) {
@@ -397,17 +402,17 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         if (profile.isLogin() && isRunning()) {
                             if (!dialogLicense.isShowing())
                                 dialogLicense.show();
+//                            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                                    .setTitle("Invalid licence code")
+//                                    .setMessage(message + "\n Please enter new licence code!")
+//                                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            dialog.dismiss();
+//                                        }
+//                                    }).create();
+//                            d.show();
                         }
-//                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-//                                .setTitle("Invalid licence code")
-//                                .setMessage(message)
-//                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).create();
-//                        d.show();
                     }
                 });
             }
@@ -609,8 +614,11 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
                             }
                             try {
-                                profile.setDob(object.getString("birthday"));
-                            } catch (JSONException e) {
+                                String birthDay = object.getString("birthday");
+                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+                                profile.setDob(sdf2.format(sdf1.parse(birthDay)));
+                            } catch (Exception e) {
 
                             }
                             try {

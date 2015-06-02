@@ -1,8 +1,10 @@
 package com.cmg.android.bbcaccent.activity.fragment;
 
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.cmg.android.bbcaccent.activity.view.CustomGraphView;
 import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.SphinxResult;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
@@ -67,7 +70,30 @@ public class GraphFragment extends FragmentTab {
         graph.getGridLabelRenderer().setNumVerticalLabels(3);
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
         graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
-        graph.getGridLabelRenderer().setPadding(30);
+        int screenSize = AndroidHelper.getScreenSize(getActivity());
+        Point tintTextPoint = new Point();
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                graph.getGridLabelRenderer().setPadding(30);
+                tintTextPoint.x = 50;
+                tintTextPoint.y = 60;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                graph.getGridLabelRenderer().setPadding(20);
+                tintTextPoint.x = 30;
+                tintTextPoint.y = 40;
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                graph.getGridLabelRenderer().setPadding(10);
+                tintTextPoint.x = 20;
+                tintTextPoint.y = 25;
+                break;
+            default:
+                graph.getGridLabelRenderer().setPadding(5);
+                tintTextPoint.x = 15;
+                tintTextPoint.y = 22;
+        }
+        graph.setTintTextPoint(tintTextPoint);
         graph.getViewport().setMaxY(100);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxX(30);
@@ -184,13 +210,39 @@ public class GraphFragment extends FragmentTab {
     private void drawData(DataPoint[] points, float latestScore) {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(points);
         series.setDrawDataPoints(true);
-        series.setDataPointsRadius(4);
-        series.setThickness(5);
+
 
         Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
-        paint.setPathEffect(new CornerPathEffect(5));
-        paint.setStrokeWidth(5);
+
+
+        int screenSize = AndroidHelper.getScreenSize(getActivity());
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                series.setDataPointsRadius(4);
+                series.setThickness(5);
+                paint.setPathEffect(new CornerPathEffect(5));
+                paint.setStrokeWidth(5);
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                series.setDataPointsRadius(2);
+                series.setThickness(3);
+                paint.setPathEffect(new CornerPathEffect(3));
+                paint.setStrokeWidth(3);
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                series.setDataPointsRadius(2);
+                series.setThickness(2);
+                paint.setPathEffect(new CornerPathEffect(2));
+                paint.setStrokeWidth(2);
+                break;
+            default:
+                series.setDataPointsRadius(2);
+                series.setThickness(2);
+                paint.setPathEffect(new CornerPathEffect(2));
+                paint.setStrokeWidth(2);
+        }
+
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         series.setCustomPaint(paint);
         if (latestScore >= 80.0f) {
