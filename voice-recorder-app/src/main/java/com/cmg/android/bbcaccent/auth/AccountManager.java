@@ -192,7 +192,7 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.license_url));
-                    SimpleAppLog.info("License response: " + message);
+                    SimpleAppLog.info("License check response: " + message);
                     if (message.equalsIgnoreCase("success")) {
                         authListener.onSuccess();
                     } else {
@@ -224,6 +224,7 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.license_url));
+                    SimpleAppLog.info("License activate response: " + message);
                     if (message.equalsIgnoreCase("success")) {
                         authListener.onSuccess();
                     } else {

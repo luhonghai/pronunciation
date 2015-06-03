@@ -51,20 +51,24 @@ public class LicenseHandler extends BaseServlet {
                     if (!StringUtils.isEmpty(code)) {
                         LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
                         if (licenseCode != null) {
-                            if (StringUtils.isEmpty(licenseCode.getAccount())
-                                    || account.equalsIgnoreCase(licenseCode.getAccount())) {
-                                if (!StringUtils.isEmpty(licenseCode.getImei()) && !licenseCode.getImei().equalsIgnoreCase(imei)) {
-                                    message = "Your code and account was registered by another device";
+                            if (licenseCode.isActivated()) {
+                                if (StringUtils.isEmpty(licenseCode.getAccount())
+                                        || account.equalsIgnoreCase(licenseCode.getAccount())) {
+                                    if (!StringUtils.isEmpty(licenseCode.getImei()) && !imei.equalsIgnoreCase(licenseCode.getImei())) {
+                                        message = "Your code and account was registered by another device";
+                                    } else {
+                                        licenseCode.setAccount(account);
+                                        licenseCode.setImei(imei);
+                                        licenseCode.setActivated(true);
+                                        licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
+                                        licenseCodeDAO.put(licenseCode);
+                                        message = "success";
+                                    }
                                 } else {
-                                    licenseCode.setAccount(account);
-                                    licenseCode.setImei(imei);
-                                    licenseCode.setActivated(true);
-                                    licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
-                                    licenseCodeDAO.put(licenseCode);
-                                    message = "success";
+                                    message = "Code is already registered by other account";
                                 }
                             } else {
-                                message = "Code is already registered by other account";
+                                message = "Code is suspended";
                             }
                         } else {
                             message = "Invalid licence code";
