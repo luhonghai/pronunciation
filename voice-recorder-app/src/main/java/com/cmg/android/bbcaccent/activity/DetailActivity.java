@@ -86,6 +86,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private AlwaysMarqueeTextView txtPhonemes;
 
+    private RelativeLayout rlVoiceExample;
+
     private DictionaryItem dictionaryItem;
 
     private UserVoiceModel model;
@@ -169,6 +171,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initDetailView() {
+        rlVoiceExample = (RelativeLayout) findViewById(R.id.rlVoiceExample);
         hListView = (HListView) findViewById(R.id.listViewScore);
         webView = (WebView) findViewById(R.id.webview_score);
         recordingView = (RecordingView) findViewById(R.id.main_recording_view);
@@ -185,6 +188,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         txtPhonemes.setOnClickListener(this);
         txtWord = (AlwaysMarqueeTextView) findViewById(R.id.txtWord);
         txtWord.setOnClickListener(this);
+        rlVoiceExample.setOnClickListener(this);
 
     }
 
@@ -281,6 +285,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rlVoiceExample:
             case R.id.txtPhoneme:
             case R.id.txtWord:
                 play(dictionaryItem.getAudioFile());

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
@@ -35,6 +36,7 @@ public class HistoryFragment extends FragmentTab {
     public static final String ON_HISTORY_LIST_CLICK = "com.cmg.android.bbcaccent.activity.fragment.HistoryFragment.ListView.click";
 
     private static class ViewHolder {
+        private RelativeLayout rlHistoryItem;
         private AlwaysMarqueeTextView txtWordItem;
         private TextView txtWordScore;
         private ImageButton btnPlayItem;
@@ -79,6 +81,8 @@ public class HistoryFragment extends FragmentTab {
                     view.btnPlayItem.setVisibility(View.GONE);
                     view.btnRecordItem.setVisibility(View.GONE);
                 }
+                view.rlHistoryItem  = (RelativeLayout) convertView.findViewById(R.id.rlHistoryItem);
+                view.rlHistoryItem.setOnClickListener(this);
                 convertView.setTag(view);
             } else {
                 view = (ViewHolder) convertView.getTag();
@@ -87,6 +91,7 @@ public class HistoryFragment extends FragmentTab {
             view.txtWordScore.setTag(score);
             view.btnPlayItem.setTag(score);
             view.btnRecordItem.setTag(score);
+            view.rlHistoryItem.setTag(score);
             if (isDetail) {
                 view.txtWordItem.setText(simpleDateFormat.format(score.getTimestamp()));
             } else {
@@ -141,6 +146,7 @@ public class HistoryFragment extends FragmentTab {
                         e.printStackTrace();
                     }
                     break;
+                case R.id.rlHistoryItem:
                 case R.id.txtWordItem:
                 case R.id.txtWordScore:
                     try {

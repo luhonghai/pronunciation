@@ -167,6 +167,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private AlwaysMarqueeTextView txtWord;
     private AlwaysMarqueeTextView txtPhonemes;
 
+    private RelativeLayout rlVoiceExample;
+
     private ImageButton imgHourGlass;
     private ImageButton imgHelpHand;
 
@@ -346,7 +348,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void initRecordingView() {
-
+        rlVoiceExample = (RelativeLayout) findViewById(R.id.rlVoiceExample);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
@@ -365,6 +367,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         txtWord.setText("");
         txtPhonemes.setOnClickListener(this);
         txtWord.setOnClickListener(this);
+        rlVoiceExample.setOnClickListener(this);
         recordingView.setOnClickListener(this);
         recordingView.setAnimationListener(this);
     }
@@ -595,6 +598,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public boolean onQueryTextSubmit(final String s) {
         if (s.length() > 0) {
             hideSoftKeyboard();
+            View v = getCurrentFocus();
+            if (v != null)
+                v.clearFocus();
             getWord(s);
         }
         return false;
@@ -940,6 +946,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 break;
             case R.id.txtPhoneme:
             case R.id.txtWord:
+            case R.id.rlVoiceExample:
                 if (dictionaryItem != null) {
                     play(dictionaryItem.getAudioFile());
                 }
@@ -975,6 +982,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GRAY);
                 txtPhonemes.setEnabled(false);
                 txtWord.setEnabled(false);
+                rlVoiceExample.setEnabled(false);
                 break;
             case PLAYING:
                 btnAudio.startAnimation(fadeOut);
@@ -986,6 +994,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GRAY);
                 txtPhonemes.setEnabled(false);
                 txtWord.setEnabled(false);
+                rlVoiceExample.setEnabled(false);
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
@@ -996,6 +1005,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                rlVoiceExample.setEnabled(true);
                 isProcess = false;
                 break;
             case ORANGE:
@@ -1007,6 +1017,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                rlVoiceExample.setEnabled(true);
                 isProcess = false;
                 break;
             case RED:
@@ -1018,6 +1029,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_RED);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                rlVoiceExample.setEnabled(true);
                 isProcess = false;
                 break;
             case DISABLED:
@@ -1040,6 +1052,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 txtWord.setTextColor(ColorHelper.COLOR_GREEN);
                 txtPhonemes.setEnabled(true);
                 txtWord.setEnabled(true);
+                rlVoiceExample.setEnabled(true);
                 isProcess = false;
                 break;
         }
@@ -1387,6 +1400,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         txtPhonemes.setText(dictionaryItem.getPronunciation());
                         txtWord.setEnabled(true);
                         txtPhonemes.setEnabled(true);
+                        rlVoiceExample.setEnabled(true);
                         AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
                         AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getPronunciation()));
                         //txtPhonemes.setSelected(true);

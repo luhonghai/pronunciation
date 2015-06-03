@@ -54,16 +54,16 @@
             android:textColor="@android:color/white"
             android:background="@color/app_red"
             android:textAlignment="center"/>
-        <Button
-            android:id="@+id/btnExit"
-            android:layout_marginTop="@dimen/dialog_button_margin_top"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_button_height"
-            android:text="exit"
-            android:textSize="@dimen/dialog_button_text_size"
-            android:textColor="@android:color/white"
-            android:background="@color/app_gray"
-            android:textAlignment="center"/>
+        <!--<Button-->
+            <!--android:id="@+id/btnExit"-->
+            <!--android:layout_marginTop="@dimen/dialog_button_margin_top"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dialog_button_height"-->
+            <!--android:text="exit"-->
+            <!--android:textSize="@dimen/dialog_button_text_size"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:background="@color/app_gray"-->
+            <!--android:textAlignment="center"/>-->
     </LinearLayout>
 
     <TextView

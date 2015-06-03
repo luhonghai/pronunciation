@@ -107,6 +107,12 @@
                                 android:gravity="center"
                                 android:layout_weight="1"/>
                         </LinearLayout>
+                        <RelativeLayout
+                            android:id="@+id/rlVoiceExample"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        </RelativeLayout>
                     </RelativeLayout>
 
                     <ImageButton

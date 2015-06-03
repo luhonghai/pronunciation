@@ -6,29 +6,43 @@
     <RelativeLayout
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingRight="5dp"
-        android:paddingEnd="5dp">
-        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
-            android:id="@+id/txtWordItem"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_list_default_size"
-            android:textSize="@dimen/main_selected_word_size"
-            android:gravity="start|center_vertical"
-            android:textStyle="bold"
-            android:text="necessarily"
-            />
-    </RelativeLayout>
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp">
+                <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+                    android:id="@+id/txtWordItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_list_default_size"
+                    android:textSize="@dimen/main_selected_word_size"
+                    android:gravity="start|center_vertical"
+                    android:textStyle="bold"
+                    android:text="necessarily"
+                    />
 
-     <TextView
+            </RelativeLayout>
+            <TextView
                 android:id="@+id/txtWordScore"
                 android:layout_width="wrap_content"
-         android:layout_height="@dimen/button_list_default_size"
-         android:textSize="@dimen/main_selected_word_size"
-         android:gravity="center"
-         android:textStyle="bold"
+                android:layout_height="@dimen/button_list_default_size"
+                android:textSize="@dimen/main_selected_word_size"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:text="60%"/>
-
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rlHistoryItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </RelativeLayout>
+    </RelativeLayout>
     <ImageButton
         android:id="@+id/btnPlayItem"
         android:background="@null"

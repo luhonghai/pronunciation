@@ -16,8 +16,8 @@
     <dimen name="main_selected_word_margin">5dp</dimen>
     <!-- Text size -->
 
-    <dimen name="main_selected_word_size">18sp</dimen>
-    <dimen name="main_selected_phoneme_size">12sp</dimen>
+    <dimen name="main_selected_word_size">14sp</dimen>
+    <dimen name="main_selected_phoneme_size">10sp</dimen>
 
     <dimen name="main_selected_word_padding">6dp</dimen>
 

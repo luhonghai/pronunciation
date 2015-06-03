@@ -34,7 +34,8 @@ public class LicenseHandler extends BaseServlet {
                 if (action.equalsIgnoreCase("check")) {
                     LicenseCode licenseCode = licenseCodeDAO.getByEmail(account);
                     if (licenseCode != null) {
-                        if (imei.equalsIgnoreCase(licenseCode.getImei())) {
+                        if (imei.equalsIgnoreCase(licenseCode.getImei())
+                                && account.equalsIgnoreCase(licenseCode.getAccount())) {
                             if (licenseCode.isActivated()) {
                                 message = "success";
                             } else {
@@ -52,8 +53,8 @@ public class LicenseHandler extends BaseServlet {
                         if (licenseCode != null) {
                             if (StringUtils.isEmpty(licenseCode.getAccount())
                                     || account.equalsIgnoreCase(licenseCode.getAccount())) {
-                                if (!StringUtils.isEmpty(licenseCode.getImei()) && licenseCode.getImei().equalsIgnoreCase(imei)) {
-                                    message = "Your account was registered by another device";
+                                if (!StringUtils.isEmpty(licenseCode.getImei()) && !licenseCode.getImei().equalsIgnoreCase(imei)) {
+                                    message = "Your code and account was registered by another device";
                                 } else {
                                     licenseCode.setAccount(account);
                                     licenseCode.setImei(imei);
