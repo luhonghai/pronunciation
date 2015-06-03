@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
+import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,7 +36,8 @@ public class HistoryFragment extends FragmentTab {
     public static final String ON_HISTORY_LIST_CLICK = "com.cmg.android.bbcaccent.activity.fragment.HistoryFragment.ListView.click";
 
     private static class ViewHolder {
-        private TextView txtWordItem;
+        private RelativeLayout rlHistoryItem;
+        private AlwaysMarqueeTextView txtWordItem;
         private TextView txtWordScore;
         private ImageButton btnPlayItem;
         private ImageButton btnRecordItem;
@@ -59,13 +63,13 @@ public class HistoryFragment extends FragmentTab {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflator = LayoutInflater.from(context);
-            ScoreDBAdapter.PronunciationScore score = scores[position];
+            final ScoreDBAdapter.PronunciationScore score = scores[position];
             float scoreVal = score.getScore();
             if (convertView == null) {
                 view = new ViewHolder();
                 convertView = inflator.inflate(R.layout.fragment_history_list_item,
                         null);
-                view.txtWordItem = (TextView) convertView.findViewById(R.id.txtWordItem);
+                view.txtWordItem = (AlwaysMarqueeTextView) convertView.findViewById(R.id.txtWordItem);
                 view.txtWordItem.setOnClickListener(this);
                 view.txtWordScore = (TextView) convertView.findViewById(R.id.txtWordScore);
                 view.txtWordScore.setOnClickListener(this);
@@ -77,6 +81,8 @@ public class HistoryFragment extends FragmentTab {
                     view.btnPlayItem.setVisibility(View.GONE);
                     view.btnRecordItem.setVisibility(View.GONE);
                 }
+                view.rlHistoryItem  = (RelativeLayout) convertView.findViewById(R.id.rlHistoryItem);
+                view.rlHistoryItem.setOnClickListener(this);
                 convertView.setTag(view);
             } else {
                 view = (ViewHolder) convertView.getTag();
@@ -85,10 +91,20 @@ public class HistoryFragment extends FragmentTab {
             view.txtWordScore.setTag(score);
             view.btnPlayItem.setTag(score);
             view.btnRecordItem.setTag(score);
+            view.rlHistoryItem.setTag(score);
             if (isDetail) {
                 view.txtWordItem.setText(simpleDateFormat.format(score.getTimestamp()));
             } else {
                 view.txtWordItem.setText(score.getWord());
+                view.txtWordItem.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        AndroidHelper.updateMarqueeTextView((TextView)v, !AndroidHelper.isCorrectWidth((TextView) v, score.getWord()));
+                        v.setSelected(true);
+                       // v.requestFocus();
+                    }
+                });
+
             }
             view.txtWordScore.setText(Integer.toString(Math.round(scoreVal)) + "%");
 
@@ -130,6 +146,7 @@ public class HistoryFragment extends FragmentTab {
                         e.printStackTrace();
                     }
                     break;
+                case R.id.rlHistoryItem:
                 case R.id.txtWordItem:
                 case R.id.txtWordScore:
                     try {

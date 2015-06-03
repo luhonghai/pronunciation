@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.Address;
@@ -16,12 +18,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.data.GMapGeocodeResponse;
+import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -471,5 +476,46 @@ public class AndroidHelper {
 
         }
         return false;
+    }
+
+    public static int getScreenSize(Context context) {
+        int screenSize = context.getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+        String toastMsg;
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+                toastMsg = "Large screen";
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                toastMsg = "Normal screen";
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                toastMsg = "Small screen";
+                break;
+            default:
+                toastMsg = "Screen size is neither large, normal or small";
+        }
+        return screenSize;
+    }
+
+
+    public static boolean isCorrectWidth(TextView textView, String text)
+    {
+        Paint paint = new Paint();
+        Rect bounds = new Rect();
+        paint.setTypeface(textView.getTypeface());
+        float textSize = textView.getTextSize();
+        paint.setTextSize(textSize);
+        paint.getTextBounds(text, 0, text.length(), bounds);
+        return bounds.width() <= textView.getWidth();
+    }
+
+    public static void updateMarqueeTextView(final TextView textView, boolean enable) {
+        textView.setSingleLine(enable);
+        textView.setHorizontallyScrolling(enable);
+        textView.setFocusable(true);
+        textView.setFocusableInTouchMode(true);
+        textView.setClickable(true);
+        ((AlwaysMarqueeTextView) textView).setAlwaysMarquee(enable);
     }
 }

@@ -1,3 +1,4 @@
+<%@ page import="com.cmg.vrc.properties.Configuration" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,6 +51,9 @@
 
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer" style="text-align: center; font-size: 10px;color: grey">
+                Version <%=Configuration.getValue(Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
             </div>
         </div>
     </div>

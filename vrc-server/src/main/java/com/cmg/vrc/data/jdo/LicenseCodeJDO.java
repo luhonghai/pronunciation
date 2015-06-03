@@ -28,6 +28,9 @@ public class LicenseCodeJDO implements Mirrorable {
     @Persistent
     private boolean isActivated;
 
+    @Persistent
+    private String imei;
+
     @Override
     public String getId() {
         return id;
@@ -68,5 +71,13 @@ public class LicenseCodeJDO implements Mirrorable {
 
     public void setActivated(boolean isActivated) {
         this.isActivated = isActivated;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 }

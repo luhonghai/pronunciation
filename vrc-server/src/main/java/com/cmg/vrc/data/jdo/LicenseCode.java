@@ -19,6 +19,8 @@ public class LicenseCode implements Mirrorable {
 
     private boolean isActivated;
 
+    private String imei;
+
     @Override
     public String getId() {
         return id;
@@ -59,5 +61,13 @@ public class LicenseCode implements Mirrorable {
 
     public void setActivated(boolean isActivated) {
         this.isActivated = isActivated;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 }

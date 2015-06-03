@@ -49,7 +49,9 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.helper.StringUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 /**
@@ -80,6 +82,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     private ProfileTracker profileTracker;
 
     private AccountManager accountManager;
+
+    private boolean willShowLicenceWarning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,12 +202,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             }
         });
 
-        dialogLicense.findViewById(R.id.btnExit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginActivity.this.finish();
-            }
-        });
+//        dialogLicense.findViewById(R.id.btnExit).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoginActivity.this.finish();
+//            }
+//        });
 
         ((TextView)dialogLicense.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -347,6 +351,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 dialogRegister.show();
             }
         });
+        ((TextView)dialogValidation.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void doActivateLicense(final UserProfile profile) {
@@ -397,23 +402,24 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         if (profile.isLogin() && isRunning()) {
                             if (!dialogLicense.isShowing())
                                 dialogLicense.show();
+//                            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                                    .setTitle("Invalid licence code")
+//                                    .setMessage(message + "\n Please enter new licence code!")
+//                                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            dialog.dismiss();
+//                                        }
+//                                    }).create();
+//                            d.show();
                         }
-//                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-//                                .setTitle("Invalid licence code")
-//                                .setMessage(message)
-//                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                }).create();
-//                        d.show();
                     }
                 });
             }
 
             @Override
             public void onSuccess() {
+                Preferences.addProfile(LoginActivity.this, profile);
                 startMainActivity();
             }
         });
@@ -428,51 +434,65 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         String p1 = ((TextView) dialogRegister.findViewById(R.id.txtPassword)).getText().toString();
         String p2 = ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).getText().toString();
         if (isValidEmail(profile.getUsername())) {
-            if (p1.length() > 6 && p2.length() > 6 && p1.equals(p2)) {
-                profile.setPassword(p1);
-                profile.setLoginType(UserProfile.TYPE_EASYACCENT);
-                dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
-                accountManager.register(profile, new AccountManager.AuthListener() {
-                    @Override
-                    public void onError(final String message, Throwable e) {
-                        runOnUiThread(new Runnable() {
+            if (p1.length() >= 6 && p2.length() >= 6) {
+                    if (p1.equals(p2)) {
+                        profile.setPassword(p1);
+                        profile.setLoginType(UserProfile.TYPE_EASYACCENT);
+                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
+                        accountManager.register(profile, new AccountManager.AuthListener() {
                             @Override
-                            public void run() {
-                                dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
-                                AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("Could not register")
-                                        .setMessage(message)
-                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        }).create();
-                                d.show();
+                            public void onError(final String message, Throwable e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+                                                .setTitle("Could not register")
+                                                .setMessage(message)
+                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                }).create();
+                                        d.show();
+                                    }
+                                });
+
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Preferences.addProfile(LoginActivity.this, profile);
+                                        Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
+                                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                                        dialogRegister.cancel();
+                                        ((TextView) dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
+                                        dialogValidation.show();
+                                    }
+                                });
+
                             }
                         });
+                    } else {
+                        new AlertDialog.Builder(this).setTitle("Invalid password")
+                                .setMessage("Both passwords must match")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+                                        ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+                                        dialog.dismiss();
+                                    }
+                                }).show();
 
                     }
-
-                    @Override
-                    public void onSuccess() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Preferences.addProfile(LoginActivity.this, profile);
-                                Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
-                                dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
-                                dialogRegister.cancel();
-                                ((TextView)dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
-                                dialogValidation.show();
-                            }
-                        });
-
-                    }
-                });
             } else {
                 new AlertDialog.Builder(this).setTitle("Invalid password")
-                        .setMessage("Please enter a valid password")
+                        .setMessage("Passwords must be at least 6 characters in length")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -608,8 +628,11 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
                             }
                             try {
-                                profile.setDob(object.getString("birthday"));
-                            } catch (JSONException e) {
+                                String birthDay = object.getString("birthday");
+                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+                                profile.setDob(sdf2.format(sdf1.parse(birthDay)));
+                            } catch (Exception e) {
 
                             }
                             try {

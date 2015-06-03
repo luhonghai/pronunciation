@@ -42,6 +42,8 @@ public class Configuration {
 	public static final String AWS_S3_BUCKET_NAME = "aws.s3.bucket.name";
 
 	public static final String URL_ACTIVE_ACCOUNT = "url.active.account";
+
+	public static final String PROJECT_VERSION = "project.version";
 	
 	private static Properties prop;
 

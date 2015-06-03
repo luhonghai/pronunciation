@@ -218,7 +218,7 @@ public class SplashScreen extends BaseActivity implements
                                 AlertDialog d;
                                 d = new AlertDialog.Builder(SplashScreen.this)
                                         .setTitle("Invalid licence")
-                                        .setMessage("You need a valid licence code")
+                                        .setMessage(message)
                                         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {

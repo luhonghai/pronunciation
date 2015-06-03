@@ -133,9 +133,13 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     }
 
     public LicenseCode getByEmail(String email) throws Exception {
-        List<LicenseCode> list = list("WHERE account == :1", email);
+        List<LicenseCode> list = listByEmail(email);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;
+    }
+
+    public List<LicenseCode> listByEmail(String email) throws Exception {
+        return list("WHERE account == :1", email);
     }
 }

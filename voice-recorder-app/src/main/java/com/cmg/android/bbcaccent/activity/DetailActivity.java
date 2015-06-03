@@ -39,8 +39,10 @@ import com.cmg.android.bbcaccent.data.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.PopoverView;
 import com.google.gson.Gson;
 
@@ -80,9 +82,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private ImageButton btnAudio;
 
-    private TextView txtWord;
+    private AlwaysMarqueeTextView txtWord;
 
-    private TextView txtPhonemes;
+    private AlwaysMarqueeTextView txtPhonemes;
+
+    private RelativeLayout rlVoiceExample;
 
     private DictionaryItem dictionaryItem;
 
@@ -122,6 +126,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         recordingView.setScore(model.getScore());
         txtPhonemes.setText(dictionaryItem.getPronunciation());
         txtWord.setText(dictionaryItem.getWord());
+        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
+        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtPhonemes, dictionaryItem.getPronunciation()));
         if (model.getScore() >= 80.0) {
             lastState = ButtonState.GREEN;
         } else if (model.getScore() >= 45.0) {
@@ -165,6 +171,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initDetailView() {
+        rlVoiceExample = (RelativeLayout) findViewById(R.id.rlVoiceExample);
         hListView = (HListView) findViewById(R.id.listViewScore);
         webView = (WebView) findViewById(R.id.webview_score);
         recordingView = (RecordingView) findViewById(R.id.main_recording_view);
@@ -177,10 +184,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         recordingView.setAnimationListener(this);
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnAudio.setOnClickListener(this);
-        txtPhonemes = (TextView) findViewById(R.id.txtPhoneme);
+        txtPhonemes = (AlwaysMarqueeTextView) findViewById(R.id.txtPhoneme);
         txtPhonemes.setOnClickListener(this);
-        txtWord = (TextView) findViewById(R.id.txtWord);
+        txtWord = (AlwaysMarqueeTextView) findViewById(R.id.txtWord);
         txtWord.setOnClickListener(this);
+        rlVoiceExample.setOnClickListener(this);
 
     }
 
@@ -277,6 +285,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.rlVoiceExample:
             case R.id.txtPhoneme:
             case R.id.txtWord:
                 play(dictionaryItem.getAudioFile());
@@ -444,6 +453,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void play(String file) {
+        if (file == null || file.length() == 0) return;
         play(new File(file));
     }
 

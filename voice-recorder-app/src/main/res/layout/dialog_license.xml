@@ -11,8 +11,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:paddingBottom="20dp"
+            android:paddingTop="@dimen/dialog_logo_padding_top"
+            android:paddingBottom="@dimen/dialog_logo_padding_bottom"
             android:src="@drawable/accenteasy_icon_text"
             />
     </RelativeLayout>
@@ -32,39 +32,38 @@
             android:id="@+id/txtCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapCharacters"
             android:textColorHint="@android:color/darker_gray"
             android:hint="licence code"/>
         <Button
             android:id="@+id/btnActivateLicense"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/dialog_button_margin_top"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dialog_button_height"
             android:text="activate"
-            android:textSize="30sp"
+            android:textSize="@dimen/dialog_button_text_size"
             android:textColor="@android:color/white"
             android:background="@color/app_green"
             android:textAlignment="center"/>
         <Button
             android:id="@+id/btnLogout"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/dialog_button_margin_top"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dialog_button_height"
             android:text="logout"
-            android:textSize="30sp"
+            android:textSize="@dimen/dialog_button_text_size"
             android:textColor="@android:color/white"
             android:background="@color/app_red"
             android:textAlignment="center"/>
-        <Button
-            android:id="@+id/btnExit"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="exit"
-            android:textSize="30sp"
-            android:textColor="@android:color/white"
-            android:background="@color/app_gray"
-            android:textAlignment="center"/>
+        <!--<Button-->
+            <!--android:id="@+id/btnExit"-->
+            <!--android:layout_marginTop="@dimen/dialog_button_margin_top"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dialog_button_height"-->
+            <!--android:text="exit"-->
+            <!--android:textSize="@dimen/dialog_button_text_size"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:background="@color/app_gray"-->
+            <!--android:textAlignment="center"/>-->
     </LinearLayout>
 
     <TextView

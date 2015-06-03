@@ -37,12 +37,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal|center_vertical"
-        android:paddingTop="40dp">
+        android:paddingTop="@dimen/login_botton_layout_container_padding_top">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
+            android:padding="@dimen/login_button_layout_container_padding"
             android:background="@android:color/white">
             <ImageButton
                 android:id="@+id/loginButton"
@@ -52,7 +52,7 @@
                 android:src="@drawable/p_btn_login_facebook"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/login_button_margin"
                 android:clickable="false"/>
             <ImageButton
                 android:id="@+id/sign_in_button"
@@ -62,7 +62,7 @@
                 android:src="@drawable/p_btn_login_googleplus"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/login_button_margin"
                 android:clickable="false"/>
             <ImageButton
                 android:id="@+id/btnLoginAccent"
@@ -72,7 +72,7 @@
                 android:src="@drawable/p_btn_login_accenteasy"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/login_button_margin"
                 android:clickable="false"/>
             <ImageButton
                 android:id="@+id/btnRegister"
@@ -81,7 +81,7 @@
                 android:layout_height="@dimen/button_login_height"
                 android:src="@drawable/p_btn_register"
                 android:adjustViewBounds="true"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/login_button_margin"
                 android:scaleType="fitCenter"
                 android:clickable="false"/>
         </LinearLayout>
