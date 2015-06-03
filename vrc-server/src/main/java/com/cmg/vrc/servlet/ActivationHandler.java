@@ -25,6 +25,7 @@ public class ActivationHandler extends HttpServlet {
     private static String PARA_PROFILE = "profile";
     private static String VERSION_CODE = "version_code";
     private static String PARA_ACC = "acc";
+    private static String PARA_USER = "user";
     private static String PARA_LANG_PREFIX = "lang_prefix";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,30 +39,36 @@ public class ActivationHandler extends HttpServlet {
         }
         response.setContentType("text/html");
         try {
-
-
             UserDAO userDAO = new UserDAO();
             String acc = request.getParameter(PARA_ACC);
-            if (acc != null && acc.length() > 0) {
+            String username  = request.getParameter(PARA_USER);
+            if (acc != null && acc.length() > 0 && username != null && username.length() > 0) {
                 User u = userDAO.getUserByValidationCode(acc);
-                if (u != null) {
-                    u.setActivated(true);
-                    userDAO.put(u);
-                    if (isDevice) {
-                        out.print("success");
+                if (u != null && u.getUsername().equalsIgnoreCase(username)) {
+                    if (u.isActivated()) {
+                        if (isDevice) {
+                            out.print("Your account has already been activated");
+                        } else {
+                            out.print(StringUtil.readResource("contents/activation-is-activated.html"));
+                        }
                     } else {
-                        out.print(StringUtil.readResource("contents/activation-success.html"));
+                        u.setActivated(true);
+                        userDAO.put(u);
+                        if (isDevice) {
+                            out.print("success");
+                        } else {
+                            out.print(StringUtil.readResource("contents/activation-success.html"));
+                        }
                     }
                 } else {
                     if (isDevice) {
-                        out.print("Invalid activation code");
+                        out.print("Sorry your registration code has not be recognised, please enter again or request a new code");
                     } else {
                         out.print(StringUtil.readResource("contents/activation-invalid.html"));
                     }
                 }
             } else {
                 String profile = request.getParameter(PARA_PROFILE);
-
                 String langPrefix = request.getParameter(PARA_LANG_PREFIX);
                 if (langPrefix == null || langPrefix.length() == 0)
                     langPrefix = "BE";

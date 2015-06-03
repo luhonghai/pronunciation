@@ -3,6 +3,7 @@ package com.cmg.vrc.service;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.sphinx.SummaryReport;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -10,6 +11,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -141,7 +143,7 @@ public class MailService {
                 email
         }
                 ,"accenteasy - account activation"
-                ,generateActivationContent(activationCode));
+                ,generateActivationContent(email, activationCode));
     }
 
     public static void main(String[] args) throws MessagingException {
@@ -156,16 +158,17 @@ public class MailService {
 //                + "<br> Or enter the following activation code on your mobile device: <b>" + "ABC1235BE135" + "</b>"
 //                + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
 
-        System.out.println(mailService.generateActivationContent("BASAS12321"));
+        System.out.println(mailService.generateActivationContent("luhonghai@gmail.com","BASAS12321"));
     }
 
-    private String generateActivationContent(String code) {
+    private String generateActivationContent(String account, String code) {
         try {
             String source = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("contents/activation-email.html"));
-            source = source.replaceAll("%ACTIVATION_CODE%",code);
+            source = source.replaceAll("%ACTIVATION_CODE%",URLEncoder.encode(code, "UTF-8"));
             source = source.replaceAll("%URL_ACTIVE_ACCOUNT%", Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) );
+            source = source.replaceAll("%ACTIVATION_USER%", URLEncoder.encode(account, "UTF-8"));
             return source;
-        } catch (IOException e) {
+        } catch (Exception e) {
             log(Level.SEVERE, "Could not read activation HTML template", e);
         }
         return "";

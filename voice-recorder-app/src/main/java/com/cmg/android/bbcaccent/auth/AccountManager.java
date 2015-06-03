@@ -56,12 +56,13 @@ public class AccountManager {
         }
     }
 
-    public void submitActivationCode(final String code, final AuthListener authListener) {
+    public void submitActivationCode(final String code, final UserProfile profile, final AuthListener authListener) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
                 Map<String, String> data = new HashMap<String, String>();
                 data.put("acc", code);
+                data.put("user", profile.getUsername());
                 data.put("lang_prefix", "BE");
                 data.put("version_code", AndroidHelper.getVersionCode(context));
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
