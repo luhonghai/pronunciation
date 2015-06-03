@@ -33,7 +33,7 @@ function user(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" id="map" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                return '<button type="button" id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
             }
         }, {
             "sWidth": "20%",
@@ -83,7 +83,7 @@ function mapss(latitude,longitude) {
 }
 
 function maps() {
-    $(document).on("click", "#map", function () {
+    $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');
         var x=parseFloat(latitude);
