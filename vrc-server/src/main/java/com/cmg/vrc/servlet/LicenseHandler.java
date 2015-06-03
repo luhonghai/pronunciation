@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -32,18 +33,18 @@ public class LicenseHandler extends BaseServlet {
 
             if (!StringUtils.isEmpty(account) && !StringUtils.isEmpty(action)  && !StringUtils.isEmpty(imei)) {
                 if (action.equalsIgnoreCase("check")) {
-                    LicenseCode licenseCode = licenseCodeDAO.getByEmail(account);
-                    if (licenseCode != null) {
-                        if (imei.equalsIgnoreCase(licenseCode.getImei())
-                                && account.equalsIgnoreCase(licenseCode.getAccount())) {
-                            if (licenseCode.isActivated()) {
-                                message = "success";
-                            } else {
-                                message = "Code is suspended";
+                    List<LicenseCode> licenseCodes = licenseCodeDAO.listByEmail(account);
+                    boolean check = false;
+                    if (licenseCodes != null && licenseCodes.size() > 0) {
+                        for (LicenseCode licenseCode : licenseCodes) {
+                            if (imei.equalsIgnoreCase(licenseCode.getImei()) && licenseCode.isActivated()) {
+                                check = true;
+                                break;
                             }
-                        } else {
-                            message = "Your account was registered with another device";
                         }
+                    }
+                    if (check) {
+                        message = "success";
                     } else {
                         message = "You need a valid licence code";
                     }
@@ -52,20 +53,23 @@ public class LicenseHandler extends BaseServlet {
                         LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
                         if (licenseCode != null) {
                             if (licenseCode.isActivated()) {
-                                if (StringUtils.isEmpty(licenseCode.getAccount())
-                                        || account.equalsIgnoreCase(licenseCode.getAccount())) {
-                                    if (!StringUtils.isEmpty(licenseCode.getImei()) && !imei.equalsIgnoreCase(licenseCode.getImei())) {
-                                        message = "Your code and account was registered by another device";
-                                    } else {
-                                        licenseCode.setAccount(account);
-                                        licenseCode.setImei(imei);
-                                        licenseCode.setActivated(true);
-                                        licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
-                                        licenseCodeDAO.put(licenseCode);
-                                        message = "success";
-                                    }
+                                if (StringUtils.isEmpty(licenseCode.getAccount())) {
+                                    licenseCode.setAccount(account);
+                                    licenseCode.setImei(imei);
+                                    licenseCode.setActivated(true);
+                                    licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
+                                    licenseCodeDAO.put(licenseCode);
+                                    message = "success";
                                 } else {
-                                    message = "Code is already registered by other account";
+                                    if (account.equalsIgnoreCase(licenseCode.getAccount())) {
+                                        if (imei.equalsIgnoreCase(licenseCode.getImei())) {
+                                            message = "success";
+                                        } else {
+                                            message = "Code and account are already registered by another device";
+                                        }
+                                    } else {
+                                        message = "Code is already registered by another account";
+                                    }
                                 }
                             } else {
                                 message = "Code is suspended";

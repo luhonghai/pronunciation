@@ -20,16 +20,22 @@ function listLicenseCode(){
                     }
                 },
                 "columns": [{
-                    "sWidth": "30%",
+                    "sWidth": "25%",
                     "data": "account",
                     "sDefaultContent":""
 
-                }, {
-                    "sWidth": "25%",
+                },
+                    {
+                        "sWidth": "20%",
+                        "data": "imei",
+                        "sDefaultContent":""
+                    }
+                    , {
+                    "sWidth": "20%",
                     "data": "code",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "30%",
+                    "sWidth": "25%",
                     "data": "activatedDate",
                     "sDefaultContent":""
                 }, {
