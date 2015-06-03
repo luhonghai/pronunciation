@@ -45,8 +45,8 @@ $(document).ready(function(){
             }
         ]
     }
-    if($("#buyers").length>0) {
+
         var buy = document.getElementById('buyers').getContext('2d');
         new Chart(buy).Line(buyerData);
-    }
+
 });

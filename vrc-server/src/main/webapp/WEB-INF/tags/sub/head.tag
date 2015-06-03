@@ -37,11 +37,16 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style>
-                @media (min-width: 768px) and (max-width: 970px) {
-                        .form-horizontal .control-label {
-                                padding-top: 0px;
-                        }
-                }
+                /*@media (min-width: 768px) and (max-width: 970px) {*/
+                        /*.form-horizontal .control-label {*/
+                                /*padding-top: 0px;*/
+                        /*}*/
+                /*}*/
+                /*th, td { white-space: nowrap; }*/
+                /*div.dataTables_wrapper {*/
+                        /*width: 800px;*/
+                        /*margin: 0 auto;*/
+                /*}*/
         </style>
 
         <%

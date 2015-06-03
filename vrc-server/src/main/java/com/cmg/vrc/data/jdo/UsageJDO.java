@@ -23,10 +23,10 @@ public class UsageJDO implements Mirrorable {
     private String emei;
 
     @Persistent
-    private long latitude;
+    private double latitude;
 
     @Persistent
-    private long longitude;
+    private double longitude;
 
     @Persistent
     private Date time;
@@ -52,7 +52,7 @@ public class UsageJDO implements Mirrorable {
         this.emei = emei;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -60,7 +60,7 @@ public class UsageJDO implements Mirrorable {
         this.latitude = latitude;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 

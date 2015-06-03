@@ -29,6 +29,7 @@
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 <%--<script>--%>
 	<%--$(document).ready(function() {--%>
 		<%--$('#dataTables-example').DataTable({--%>
@@ -40,8 +41,5 @@
 
 <script type="text/javascript" src="//www.google.com/jsapi"></script>
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
-
-<script src="<%=request.getContextPath() %>/js/geochart.js"></script>
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
-<script src="<%=request.getContextPath() %>/js/Linechart.js"></script>
 

@@ -111,49 +111,49 @@
 
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">Account:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Account:</label>
                                     <label id="accountmd" name="accountmd" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-xs-4  col-sm-3  control-label">Description:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Description:</label>
                                     <label id="descriptionmd" name="descriptionmd" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-4  col-sm-3  control-label">IMEI:</label>
+                                    <label class="col-xs-4  col-sm-3 ">IMEI:</label>
                                     <label id="IMEImd" name="IMEImd" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">Device Name:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Device Name:</label>
                                     <label id="deviceNamemd" name="deviceNamemd" class="col-xs-8  col-sm-9 "></label>
 
                                 </div>
 
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">App Version:</label>
+                                    <label class="col-xs-4  col-sm-3 ">App Version:</label>
                                     <label id="appVersionmd" name="appVersionmd" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">OS Version:</label>
+                                    <label class="col-xs-4  col-sm-3 ">OS Version:</label>
                                     <label id="OSVersionmd" name="OSVersionmd" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">OS Api Level:</label>
+                                    <label class="col-xs-4  col-sm-3 ">OS Api Level:</label>
                                     <label id="OSApiLevelmd" name="OSApiLevelmd" class="col-xs-8  col-sm-9"></label>
 
                                 </div>
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">Stack Trace:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Stack Trace:</label>
                                     <textarea id="StackTracemd" name="StackTracemd" class="col-xs-7  col-sm-8  "></textarea>
 
 
@@ -161,7 +161,7 @@
 
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3  control-label">Screenshoot:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Screenshoot:</label>
 
                                     <label id="Screenshootmd" name="Screenshootmd" class="col-xs-4  col-sm-3 "></label>
 

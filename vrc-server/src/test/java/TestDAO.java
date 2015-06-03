@@ -1,7 +1,6 @@
-import com.cmg.vrc.data.dao.impl.FeedbackDAO;
-import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
-import com.cmg.vrc.data.dao.impl.UserDAO;
+import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.User;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.util.StringUtil;
 import org.joda.time.DateTime;
 
@@ -41,11 +40,18 @@ public class TestDAO {
         LicenseCodeDAO lice=new LicenseCodeDAO();
         FeedbackDAO fe=new FeedbackDAO();
         UserDAO userDAO=new UserDAO();
+        UsageDAO usageDAO=new UsageDAO();
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
+
 
         try {
+
           //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
             //fe.listAll(0,10,"df",0,"asc","ds","fdsf","ds","fdsf",new Date(10/12/2014),new Date(9/8/2015));
-            userDAO.listAll(0,10,"sa",0,"asc","na","fdfs","nam","vietnam","dsa",new Date(10/12/2014),new Date(9/8/2015));
+           // userDAO.listAll(0,10,"sa",0,"asc","na","fdfs","nam","vietnam","dsa",new Date(10/12/2014),new Date(9/8/2015));
+            usageDAO.listAll(0,10,"na",0,"asc","nam");
+           // userDeviceDAO.listAll(0,10,"fds",0,"fdsf","dgfd","fds","gfd","fds","fdsds","fdsg",new Date(10/12/2014),new Date(9/8/2015));
 
         } catch (Exception e) {
             e.printStackTrace();

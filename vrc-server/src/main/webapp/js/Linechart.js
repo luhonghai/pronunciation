@@ -16,8 +16,8 @@ function drawChart(){
             }
         ]
     }
-    if ($("#word1").length > 0) {
+
         var buyer = document.getElementById('word1').getContext('2d');
         new Chart(buyer).Line(Data);
-    }
+
 }

@@ -121,6 +121,26 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>UserManage</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.UserManage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserManage</servlet-name>
+        <url-pattern>/UserManage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserDevice</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.UserDevice</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserDevice</servlet-name>
+        <url-pattern>/UserDevice</url-pattern>
+    </servlet-mapping>
+
+
+
 
     <servlet>
         <servlet-name>ActivationHandler</servlet-name>

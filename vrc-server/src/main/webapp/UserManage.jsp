@@ -1,7 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="x" tagdir="/WEB-INF/tags/sub"%>
 
 <t:main pageTitle="Wholesale delivery system" index="0">
+   <x:java pageTitle="java"></x:java>
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
@@ -21,20 +23,15 @@
                             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Word</th>
-                                    <th>Point</th>
-                                    <th>Date</th>
+                                    <th>Username</th>
+                                    <th>Emei</th>
+                                    <th>Appversion</th>
+                                    <th>Map</th>
+                                    <th>Time</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <td>1</td>
-                                <td>hello</td>
-                                <td>70</td>
-                                <td>10-04-2015</td>
-                                <td><a href="Graphic.jsp" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-
                                 </tbody>
                             </table>
                         </div>
@@ -50,4 +47,33 @@
     </div>
     <!-- /#page-wrapper -->
 
-    </t:main>
+    <div id="mapDetail" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+                            <h1 align="center">Map Detail</h1>
+                            <form name="map" class="form-horizontal"
+                                  style="margin-top: 25px" id="feedback">
+                                <div id="map"></div>
+
+
+                                <div class="modal-footer">
+                                    <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</t:main>
+<script src="<%=request.getContextPath() %>/js/manageUser.js"></script>
