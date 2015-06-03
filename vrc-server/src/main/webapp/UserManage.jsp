@@ -56,8 +56,8 @@
 
                             <h1 align="center">Map Detail</h1>
                             <form name="map" class="form-horizontal"
-                                  style="margin-top: 25px" id="feedback">
-                                <div id="map"></div>
+                                  style="margin-top: 25px" id="us">
+                                <div id="map" style="width: 480px; height: 480px;"></div>
 
 
                                 <div class="modal-footer">

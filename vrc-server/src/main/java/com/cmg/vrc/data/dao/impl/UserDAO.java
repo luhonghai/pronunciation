@@ -66,10 +66,10 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         if(country.length()>0){
             string.append("(country.toLowerCase().indexOf(country.toLowerCase()) != -1) &&");
         }
-        if(acti.equals("isActivated")){
+        if(acti.equals("Yes")){
             string.append("isActivated==true &&");
         }
-        if(acti.equals("Activated")){
+        if(acti.equals("No")){
             string.append("isActivated==false &&");
         }
 

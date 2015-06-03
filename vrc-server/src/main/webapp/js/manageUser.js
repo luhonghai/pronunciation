@@ -56,35 +56,45 @@ function userDevice(){
     });
 
 }
+var mapOptions;
+var map;
+var marker;
 
-function mapdetail(){
-    $(document).on("click","#map",function() {
-        var latitude=$(this).attr('latitude');
-        var longitude=$(this).attr('longitude');
-        $("#mapDetail").modal('show');
-        map(latitude,longitude);
+function mapss(latitude,longitude) {
+     mapOptions = {
+        scaleControl: true,
+        center: new google.maps.LatLng(latitude, longitude),
+        zoom: 4
+    };
+
+     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+     marker = new google.maps.Marker({
+        map: map,
+        position: map.getCenter()
+    });
+    marker.setMap(map);
+
+    $('#mapDetail').modal('show', google.maps.event.trigger(map, 'resize'));
+    // infowindow = new google.maps.InfoWindow();
+    //google.maps.event.addListener(marker, 'click', function () {
+    //    infowindow.open(map, marker);
+    //});
+}
+
+function maps() {
+    $(document).on("click", "#map", function () {
+        var latitude = $(this).attr('latitude');
+        var longitude = $(this).attr('longitude');
+        var x=parseFloat(latitude);
+        var y=parseFloat(longitude);
+        mapss(x,y);
     });
 }
 
-function map(lat,long){
-    var myLatlng = new google.maps.LatLng(lat,long);
-    var myOptions = {
-        zoom: 4,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    map = new google.maps.Map($('#map'), myOptions);
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title:"Map detail"
-
-});
-}
-
-
 $(document).ready(function(){
-    mapdetail();
+
+    maps();
     userDevice();
     user();
 });
