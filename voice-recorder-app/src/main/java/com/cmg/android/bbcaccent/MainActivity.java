@@ -944,8 +944,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     play();
                 }
                 break;
-            case R.id.txtPhoneme:
-            case R.id.txtWord:
+            //case R.id.txtPhoneme:
+            //case R.id.txtWord:
             case R.id.rlVoiceExample:
                 if (dictionaryItem != null) {
                     play(dictionaryItem.getAudioFile());

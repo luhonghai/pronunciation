@@ -147,8 +147,8 @@ public class HistoryFragment extends FragmentTab {
                     }
                     break;
                 case R.id.rlHistoryItem:
-                case R.id.txtWordItem:
-                case R.id.txtWordScore:
+                //case R.id.txtWordItem:
+                //case R.id.txtWordScore:
                     try {
                         sendAction(score, CLICK_LIST_ITEM);
                     } catch (IOException e) {

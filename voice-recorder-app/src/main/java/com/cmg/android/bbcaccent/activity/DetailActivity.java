@@ -286,8 +286,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlVoiceExample:
-            case R.id.txtPhoneme:
-            case R.id.txtWord:
+            //case R.id.txtPhoneme:
+            //case R.id.txtWord:
                 play(dictionaryItem.getAudioFile());
                 break;
             case R.id.btnAudio:

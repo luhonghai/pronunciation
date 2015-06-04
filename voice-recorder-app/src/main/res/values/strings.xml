@@ -22,12 +22,12 @@
     <!--<string name="feedback_url">http://192.168.1.22:8080/vrc/FeedbackHandler</string>-->
     <!--<string name="license_url">http://192.168.1.22:8080/vrc/LicenseHandler</string>-->
 
-    <string name="upload_url">http://db7uw33kg4m0i.cloudfront.net/VoiceRecordHandler</string>
-    <string name="auth_url">http://db7uw33kg4m0i.cloudfront.net/AuthHandler</string>
-    <string name="register_url">http://db7uw33kg4m0i.cloudfront.net/RegisterHandler</string>
-    <string name="activation_url">http://db7uw33kg4m0i.cloudfront.net/activate</string>
-    <string name="feedback_url">http://db7uw33kg4m0i.cloudfront.net/FeedbackHandler</string>
-    <string name="license_url">http://db7uw33kg4m0i.cloudfront.net/LicenseHandler</string>
+    <string name="upload_url">http://reg.accenteasy.com/VoiceRecordHandler</string>
+    <string name="auth_url">http://reg.accenteasy.com/AuthHandler</string>
+    <string name="register_url">http://reg.accenteasy.com/RegisterHandler</string>
+    <string name="activation_url">http://reg.accenteasy.com/activate</string>
+    <string name="feedback_url">http://reg.accenteasy.com/FeedbackHandler</string>
+    <string name="license_url">http://reg.accenteasy.com/LicenseHandler</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
