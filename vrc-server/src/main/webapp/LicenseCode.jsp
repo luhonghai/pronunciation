@@ -67,6 +67,7 @@
                 <thead>
                 <tr>
                   <th>Account</th>
+                  <th>IMEI</th>
                   <th>Code</th>
                   <th>Activated Date</th>
                   <th>Activation</th>

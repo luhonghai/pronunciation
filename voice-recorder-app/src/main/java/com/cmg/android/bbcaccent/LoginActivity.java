@@ -231,25 +231,45 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             @Override
             public void onClick(View v) {
                 dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(false);
+                UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
                 accountManager.submitActivationCode(
                         ((TextView) dialogValidation.findViewById(R.id.txtCode)).getText().toString().trim(),
+                        profile,
                         new AccountManager.AuthListener() {
                             @Override
-                            public void onError(String message, Throwable e) {
+                            public void onError(final String message, Throwable e) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                .setTitle("Validation failed")
-                                                .setMessage("Sorry your registration code has not be recognised, please enter again or request a new code")
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .create();
-                                        alertDialog.show();
+                                        if (message.equalsIgnoreCase("Your account has already been activated")) {
+                                            dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
+                                            dialogValidation.cancel();
+                                            dialogLogin.show();
+                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                    .setTitle("Validation successful")
+                                                    .setMessage("Your account has already been activated.\nPlease login with your email and password")
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    })
+                                                    .create();
+                                            alertDialog.show();
+                                        } else {
+                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                                    .setTitle("Validation failed")
+                                                    .setMessage(message)
+                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            dialog.dismiss();
+                                                        }
+                                                    })
+                                                    .create();
+                                            alertDialog.show();
+
+                                        }
                                         dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
                                     }
                                 });
