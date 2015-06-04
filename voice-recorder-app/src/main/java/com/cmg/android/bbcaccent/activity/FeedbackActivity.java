@@ -174,13 +174,14 @@ public class FeedbackActivity extends BaseActivity {
 
     private Map<String, String> getFormData() {
         Map<String, String> infos = new HashMap<String, String>();
-        DeviceUuidFactory uIdFac = new DeviceUuidFactory(this);
+
         String pathLastScreenShot = AndroidHelper.getLatestScreenShootURL(this);
         if (pathLastScreenShot != null && pathLastScreenShot.length() > 0) {
             infos.put(ContentUtils.KEY_SCREENSHOOT, pathLastScreenShot);
         }
         UserProfile profile = Preferences.getCurrentProfile(this);
         infos.put(DeviceInfoCommon.FEEDBACK_DESCRIPTION, getTextDescription());
+        DeviceUuidFactory uIdFac = new DeviceUuidFactory(this);
         infos.put(DeviceInfoCommon.IMEI, uIdFac.getDeviceUuid().toString());
         infos.put(DeviceInfoCommon.APP_VERSION, AndroidHelper.getVersionName(this.getApplicationContext()));
         infos.put(DeviceInfoCommon.MODEL, android.os.Build.MODEL);

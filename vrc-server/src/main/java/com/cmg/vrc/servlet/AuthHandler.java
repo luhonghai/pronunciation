@@ -1,10 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.UserProfile;
-import com.cmg.vrc.data.dao.impl.UserDAO;
-import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
-import com.cmg.vrc.data.jdo.User;
-import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.data.dao.impl.*;
+import com.cmg.vrc.data.jdo.*;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.processor.AudioCleaner;
 import com.cmg.vrc.processor.SoXCleaner;
@@ -33,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -55,19 +55,75 @@ public class AuthHandler extends HttpServlet {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "success";
                 if (user != null) {
+
                     UserDAO userDAO = new UserDAO();
                     if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
                         User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
                         if (u != null) {
                             if (!u.isActivated()) {
-                                message = "Email " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
+                                message = "Account " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
                             }
                         } else {
                             message = "Invalid username or password";
                         }
                     } else {
-                        //
+                        User u = userDAO.getUserByEmail(user.getUsername());
+                        if (u != null && !u.isActivated()) {
+                            message = "Account " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
+                        }
+                    }
 
+                    try {
+                        SecurityDAO securityDAO = new SecurityDAO();
+                        Security security = securityDAO.getByAccount(user.getUsername());
+                        if (security == null)
+                            security = new Security();
+                        security.setUsername(user.getUsername());
+                        UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                        if (deviceInfo != null) {
+                            security.setAppVersion(deviceInfo.getAppVersion());
+                        }
+                        security.setLoginType(user.getLoginType());
+                        security.setPassword(StringUtil.md5(user.getPassword()));
+                        if (security.getFirstAccess() == null)
+                            security.setFirstAccess(new Date(System.currentTimeMillis()));
+                        securityDAO.put(security);
+                    } catch (Exception e) {
+                        logger.error("Error when gather user security info. Message:: " + e.getMessage(),e);
+                    }
+
+                    try {
+                        UsageDAO usageDAO = new UsageDAO();
+                        Usage usage = new Usage();
+                        UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
+                        UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                        usage.setUsername(user.getUsername());
+                        if (deviceInfo != null) {
+                            com.cmg.vrc.data.jdo.UserDevice userDevice= userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
+                            if (userDevice == null)
+                                userDevice = new UserDevice();
+                            userDevice.setEmei(deviceInfo.getEmei());
+                            userDevice.setDeviceName(deviceInfo.getDeviceName());
+                            userDevice.setModel(deviceInfo.getModel());
+                            userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
+                            userDevice.setOsVersion(deviceInfo.getOsVersion());
+                            if (userDevice.getAttachedDate() == null) {
+                                userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
+                            }
+                            userDeviceDAO.put(userDevice);
+
+                            usage.setAppVersion(deviceInfo.getAppVersion());
+                            usage.setEmei(deviceInfo.getEmei());
+                        }
+                        UserProfile.UserLocation location = user.getLocation();
+                        if (location != null) {
+                            usage.setLatitude(location.getLatitude());
+                            usage.setLongitude(location.getLongitude());
+                        }
+                        usage.setTime(new Date(System.currentTimeMillis()));
+                        usageDAO.put(usage);
+                    } catch (Exception e) {
+                        logger.error("Error when gather user data. Message:: " + e.getMessage(),e);
                     }
                 }
                 out.print(message);
