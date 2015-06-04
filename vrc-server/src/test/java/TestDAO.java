@@ -1,4 +1,5 @@
 import com.cmg.vrc.data.dao.impl.*;
+import com.cmg.vrc.data.jdo.AppDetail;
 import com.cmg.vrc.data.jdo.User;
 import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.util.StringUtil;
@@ -43,6 +44,8 @@ public class TestDAO {
         UsageDAO usageDAO=new UsageDAO();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
+        AppDetailDAO appDetailDAO=new AppDetailDAO();
+        AppDetail appDetail=new AppDetail();
 
 
         try {
@@ -50,8 +53,10 @@ public class TestDAO {
           //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
             //fe.listAll(0,10,"df",0,"asc","ds","fdsf","ds","fdsf",new Date(10/12/2014),new Date(9/8/2015));
            // userDAO.listAll(0,10,"sa",0,"asc","na","fdfs","nam","vietnam","dsa",new Date(10/12/2014),new Date(9/8/2015));
-            usageDAO.listAll(0,10,"na",0,"asc","nam");
+            //usageDAO.listAll(0,10,"na",0,"asc","nam");
            // userDeviceDAO.listAll(0,10,"fds",0,"fdsf","dgfd","fds","gfd","fds","fdsds","fdsg",new Date(10/12/2014),new Date(9/8/2015));
+            appDetailDAO.listAll();
+
 
         } catch (Exception e) {
             e.printStackTrace();

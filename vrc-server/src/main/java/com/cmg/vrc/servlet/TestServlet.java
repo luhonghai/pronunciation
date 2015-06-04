@@ -1,9 +1,6 @@
 package com.cmg.vrc.servlet;
 
-import com.cmg.vrc.data.dao.impl.FeedbackDAO;
-import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
-import com.cmg.vrc.data.dao.impl.UsageDAO;
-import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
+import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.data.jdo.UserDevice;
 
@@ -51,16 +48,28 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
-        UserDevice userDevice=new UserDevice();
-        userDevice.setEmei("nam123");
-        userDevice.setDeviceName("cmg");
-        userDevice.setOsApiLevel("12ds");
-        userDevice.setOsVersion("1.53");
-        try {
-            userDeviceDAO.put(userDevice);
+//        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+//        UserDevice userDevice=new UserDevice();
+//        userDevice.setEmei("nam123");
+//        userDevice.setDeviceName("cmg");
+//        userDevice.setOsApiLevel("12ds");
+//        userDevice.setOsVersion("1.53");
+//
+//
+//        try {
+//            userDeviceDAO.put(userDevice);
+//
+//      }catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-      }catch (Exception e) {
+        AppDetailDAO appDetailDAO=new AppDetailDAO();
+        AppDetail appDetail=new AppDetail();
+        appDetail.setNoAccessMessage("message");
+        appDetail.setRegistration(true);
+        try {
+            appDetailDAO.put(appDetail);
+        }catch (Exception e){
             e.printStackTrace();
         }
 

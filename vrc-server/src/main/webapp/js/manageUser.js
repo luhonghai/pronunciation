@@ -64,25 +64,30 @@ function mapss(latitude,longitude) {
      mapOptions = {
         scaleControl: true,
         center: new google.maps.LatLng(latitude, longitude),
-        zoom: 4
+        zoom: 5,
+        MapTypeId:google.maps.MapTypeId.ROADMAP
     };
 
      map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
      marker = new google.maps.Marker({
         map: map,
-        position: map.getCenter()
+        content :  map.getCenter().toUrlValue(),
+        position: map.getCenter(),
+        disableAutoPan: true
     });
     marker.setMap(map);
-
-    $('#mapDetail').modal('show', google.maps.event.trigger(map, 'resize'));
-    // infowindow = new google.maps.InfoWindow();
-    //google.maps.event.addListener(marker, 'click', function () {
-    //    infowindow.open(map, marker);
-    //});
+    $('#mapDetail').modal('show');
 }
+function refreshMap() {
+    google.maps.event.trigger(map, 'resize');
 
+}
 function maps() {
+    $('#mapDetail').on("show.bs.modal", function() {
+        setTimeout(refreshMap, 300);
+    });
+
     $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');

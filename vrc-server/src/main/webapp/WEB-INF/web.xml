@@ -139,6 +139,15 @@
         <url-pattern>/UserDevice</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AppDetails</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AppDetails</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AppDetails</servlet-name>
+        <url-pattern>/AppDetails</url-pattern>
+    </servlet-mapping>
+
 
 
 
