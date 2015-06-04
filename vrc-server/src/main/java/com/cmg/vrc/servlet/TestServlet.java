@@ -63,12 +63,21 @@ public class TestServlet  {
 //            e.printStackTrace();
 //        }
 
-        AppDetailDAO appDetailDAO=new AppDetailDAO();
-        AppDetail appDetail=new AppDetail();
-        appDetail.setNoAccessMessage("message");
-        appDetail.setRegistration(true);
+//        AppDetailDAO appDetailDAO=new AppDetailDAO();
+//        AppDetail appDetail=new AppDetail();
+//        appDetail.setNoAccessMessage("message");
+//        appDetail.setRegistration(true);
+//        try {
+//            appDetailDAO.put(appDetail);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
+        UserVoiceModel userVoiceModel=new UserVoiceModel();
+        userVoiceModel.setUsername("nam123");
+        userVoiceModel.setCountry("VN");
         try {
-            appDetailDAO.put(appDetail);
+            userVoiceModelDAO.put(userVoiceModel);
         }catch (Exception e){
             e.printStackTrace();
         }

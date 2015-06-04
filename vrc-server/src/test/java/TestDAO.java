@@ -46,6 +46,7 @@ public class TestDAO {
         UserDevice userDevice=new UserDevice();
         AppDetailDAO appDetailDAO=new AppDetailDAO();
         AppDetail appDetail=new AppDetail();
+        UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
 
 
         try {
@@ -55,7 +56,8 @@ public class TestDAO {
            // userDAO.listAll(0,10,"sa",0,"asc","na","fdfs","nam","vietnam","dsa",new Date(10/12/2014),new Date(9/8/2015));
             //usageDAO.listAll(0,10,"na",0,"asc","nam");
            // userDeviceDAO.listAll(0,10,"fds",0,"fdsf","dgfd","fds","gfd","fds","fdsds","fdsg",new Date(10/12/2014),new Date(9/8/2015));
-            appDetailDAO.listAll();
+           // appDetailDAO.listAll();
+            userVoiceModelDAO.listAll(0,10,"ds",0,"asc","nam","hello","sd");
 
 
         } catch (Exception e) {
