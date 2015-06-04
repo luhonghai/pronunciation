@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.AppLog;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.common.DeviceInfoCommon;
 import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.preferences.YesNoPreference;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.google.gson.Gson;
 
 import com.cmg.android.bbcaccent.preferences.DatePreference;
@@ -109,7 +113,27 @@ public class Preferences extends PreferenceFragment implements
         return data;
     }
 
-    public static void addProfile(Context context, UserProfile profile) {
+    public static void updateAdditionalProfile(final Context context, final UserProfile profile) {
+        Location location = AndroidHelper.getLastBestLocation(context);
+        if (location != null) {
+            UserProfile.UserLocation userLocation = new UserProfile.UserLocation();
+            userLocation.setLatitude(location.getLatitude());
+            userLocation.setLongitude(location.getLongitude());
+            profile.setLocation(userLocation);
+        }
+        UserProfile.DeviceInfo deviceInfo = new UserProfile.DeviceInfo();
+        deviceInfo.setAppVersion(AndroidHelper.getVersionName(context));
+        DeviceUuidFactory uIdFac = new DeviceUuidFactory(context);
+        deviceInfo.setEmei(uIdFac.getDeviceUuid().toString());
+        deviceInfo.setModel(android.os.Build.MODEL);
+        deviceInfo.setOsVersion(System.getProperty("os.version"));
+        deviceInfo.setOsApiLevel(android.os.Build.VERSION.SDK);
+        deviceInfo.setDeviceName(android.os.Build.DEVICE);
+        profile.setDeviceInfo(deviceInfo);
+    }
+
+    public static void addProfile(Context context, final UserProfile profile) {
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
         if (userData == null) {

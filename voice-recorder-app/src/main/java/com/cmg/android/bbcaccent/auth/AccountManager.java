@@ -157,6 +157,7 @@ public class AccountManager {
             protected Void doInBackground(Void... params) {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
                 data.put("profile", gson.toJson(profile));
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
