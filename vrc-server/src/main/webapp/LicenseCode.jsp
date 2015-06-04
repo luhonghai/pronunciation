@@ -33,8 +33,8 @@
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
               <option value="All">All</option>c
-              <option value="isActivated">isActivated</option>
-              <option value="Activated">Activated</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
 
             </select>
           </div>

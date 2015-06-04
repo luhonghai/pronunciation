@@ -33,7 +33,7 @@ function user(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" id="map" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                return '<button type="button" id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
             }
         }, {
             "sWidth": "20%",
@@ -56,35 +56,50 @@ function userDevice(){
     });
 
 }
+var mapOptions;
+var map;
+var marker;
 
-function mapdetail(){
-    $(document).on("click","#map",function() {
-        var latitude=$(this).attr('latitude');
-        var longitude=$(this).attr('longitude');
-        $("#mapDetail").modal('show');
-        map(latitude,longitude);
+function mapss(latitude,longitude) {
+     mapOptions = {
+        scaleControl: true,
+        center: new google.maps.LatLng(latitude, longitude),
+        zoom: 5,
+        MapTypeId:google.maps.MapTypeId.ROADMAP
+    };
+
+     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+     marker = new google.maps.Marker({
+        map: map,
+        content :  map.getCenter().toUrlValue(),
+        position: map.getCenter(),
+        disableAutoPan: true
+    });
+    marker.setMap(map);
+    $('#mapDetail').modal('show');
+}
+function refreshMap() {
+    google.maps.event.trigger(map, 'resize');
+
+}
+function maps() {
+    $('#mapDetail').on("show.bs.modal", function() {
+        setTimeout(refreshMap, 300);
+    });
+
+    $(document).on("click", "#maps", function () {
+        var latitude = $(this).attr('latitude');
+        var longitude = $(this).attr('longitude');
+        var x=parseFloat(latitude);
+        var y=parseFloat(longitude);
+        mapss(x,y);
     });
 }
 
-function map(lat,long){
-    var myLatlng = new google.maps.LatLng(lat,long);
-    var myOptions = {
-        zoom: 4,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    map = new google.maps.Map($('#map'), myOptions);
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        title:"Map detail"
-
-});
-}
-
-
 $(document).ready(function(){
-    mapdetail();
+
+    maps();
     userDevice();
     user();
 });

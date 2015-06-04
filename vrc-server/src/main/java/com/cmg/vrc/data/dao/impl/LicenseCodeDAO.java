@@ -62,10 +62,10 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if(co.length()>0){
             string.append("(code.toLowerCase().indexOf(co.toLowerCase()) != -1) &&");
         }
-        if(acti.equals("isActivated")){
+        if(acti.equals("Yes")){
             string.append("isActivated==true &&");
         }
-        if(acti.equals("Activated")){
+        if(acti.equals("No")){
             string.append("isActivated==false &&");
         }
 

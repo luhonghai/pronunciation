@@ -22,6 +22,8 @@
 
         <!-- DataTables Responsive CSS -->
         <link href="bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+        <link href="bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">
+
 
         <!-- Custom CSS -->
         <link href="dist/css/sb-admin-2.css" rel="stylesheet">
