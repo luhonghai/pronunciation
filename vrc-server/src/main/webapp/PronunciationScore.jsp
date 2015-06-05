@@ -15,39 +15,20 @@
       <div class="row">
         <div class="col-sm-4">
           <div class="form-group">
-            <label class="control-label">Account</label>
-            <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
-          </div>
-          <div class="form-group">
-            <label class="control-label">Code</label>
-            <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
+            <label class="control-label">UserName</label>
+            <input type="text" name="filter-username" id="username" class="form-control" placeholder="UserName">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label class="control-label">Date From</label>
-            <div>
-              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label">Activated</label>
-            <select name="Acti" id="Acti" class="form-control" required="required">
-              <option value="All">All</option>c
-              <option value="isActivated">isActivated</option>
-              <option value="Activated">Activated</option>
-
-            </select>
+            <label class="control-label">Word</label>
+            <input type="text" name="filter-word" id="word" class="form-control" placeholder="Word">
           </div>
         </div>
         <div class="col-sm-4">
           <div class="form-group">
-            <label class="control-label">Date To</label>
-            <div >
-
-              <input type='text' class="form-control" id="dateTo1" placeholder="To" />
-
-            </div>
+            <label class="control-label">uuid</label>
+            <input type="text" name="filter-uuid" id="uuid" class="form-control" placeholder="uuid">
           </div>
           <button type="button" id="buttonFilter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
         </div>
@@ -66,24 +47,14 @@
               <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                 <tr>
-                  <th>ID</th>
                   <th>User Name</th>
                   <th>Word</th>
                   <th>Score</th>
-                  <th>Date</th>
-                  <th></th>
+                  <th>uuid</th>
+                  <th>Map</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="odd gradeX">
-                  <td>1</td>
-                  <td>nambui</td>
-                  <td>hello</td>
-                  <td>70</td>
-                  <td>10-12-2014</td>
-                  <td><a href="UserManage.jsp" class="btn btn-default btn-xs edit"><i class="glyphicon glyphicon-triangle-right"></i></a></td>
-
-                </tr>
                 </tbody>
               </table>
 
@@ -101,5 +72,33 @@
   </div>
   <!-- /#wrapper -->
   <!-- /#page-wrapper -->
+  <div id="mapDetail" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+              <h1 align="center">Map Detail</h1>
+              <form name="map" class="form-horizontal"
+                    style="margin-top: 25px" id="us">
+                <div id="map" style="width: 480px; height: 480px;"></div>
+
+
+                <div class="modal-footer">
+                  <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
 
 </t:main>
+<script src="<%=request.getContextPath() %>/js/pronunciation.js"></script>

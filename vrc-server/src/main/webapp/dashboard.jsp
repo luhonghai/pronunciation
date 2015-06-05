@@ -18,7 +18,9 @@
                             <div class="row">
 
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        <label id="feedback"></label>
+                                    </div>
                                     <div>Feedbacks!</div>
                                 </div>
                             </div>
@@ -38,7 +40,9 @@
                             <div class="row">
 
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        <label id="user"></label>
+                                    </div>
                                     <div>Total User!</div>
                                 </div>
                             </div>
@@ -58,7 +62,9 @@
                             <div class="row">
 
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
+                                    <div class="huge">
+                                        <label id="pronunciation"></label>
+                                    </div>
                                     <div>Pronunciation!</div>
                                 </div>
                             </div>
@@ -78,8 +84,10 @@
                             <div class="row">
 
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0</div>
-                                    <div>User Online!</div>
+                                    <div class="huge">
+                                        <label id="license"></label>
+                                    </div>
+                                    <div>License Code!</div>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +113,6 @@
         </div>
 
 </t:main>
-
+<script src="<%=request.getContextPath() %>/js/dashboard.js"></script>
 <script src="<%=request.getContextPath() %>/js/geochart.js"></script>
-
 <script src="<%=request.getContextPath() %>/js/Linechart.js"></script>

@@ -148,6 +148,23 @@
         <url-pattern>/AppDetails</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Dashboard</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Dashboard</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Dashboard</servlet-name>
+        <url-pattern>/Dashboard</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Pronunciations</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Pronunciations</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Pronunciations</servlet-name>
+        <url-pattern>/Pronunciations</url-pattern>
+    </servlet-mapping>
 
 
 

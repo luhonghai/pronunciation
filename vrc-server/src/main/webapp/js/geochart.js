@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 
     var buyerData = {
-        labels : ["January","February","March","April","May","June"],
+        labels : [],
         datasets : [
             {
                 fillColor : "rgba(172,194,132,0.4)",

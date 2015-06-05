@@ -1,9 +1,12 @@
+<%@ tag import="com.cmg.vrc.properties.Configuration" %>
 <%@tag description="Footer" pageEncoding="UTF-8" %>
 	    <div class="footer" style="height: 100px;">
 	    	<div class="container">
 		    	<div class="row">
 		    		<div class="col-md-12">
-		    			<div class="footer-copyright">C-MG<strong> &copy; 2015</strong></div>
+						<div style="text-align: center; font-size: 15px;color: grey">
+							Version <%=Configuration.getValue(Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
+						</div>
 		    		</div>
 		    	</div>
 		    </div>
@@ -27,6 +30,7 @@
 <script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
 
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/raphael/raphael-min.js"></script>
 
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
