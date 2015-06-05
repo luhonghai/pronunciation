@@ -44,11 +44,16 @@ public class UserManage extends HttpServlet {
             int length = Integer.parseInt(l);
             int col = Integer.parseInt(column);
             int draw = Integer.parseInt(d);
+            Double count;
 
             String username=request.getParameter("user");
             try {
                 UserManage.user user=new user();
-                Double count = usageDAO.getCount();
+                if(search.length()>0||username.length()>0){
+                     count=usageDAO.getCountSearch(search,username);
+                }else {
+                     count = usageDAO.getCount();
+                }
                 user.draw=draw;
                 user.recordsTotal=count;
                 user.recordsFiltered=count;

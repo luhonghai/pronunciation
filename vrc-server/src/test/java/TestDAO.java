@@ -57,9 +57,12 @@ public class TestDAO {
             //usageDAO.listAll(0,10,"na",0,"asc","nam");
            // userDeviceDAO.listAll(0,10,"fds",0,"fdsf","dgfd","fds","gfd","fds","fdsds","fdsg",new Date(10/12/2014),new Date(9/8/2015));
            // appDetailDAO.listAll();
-            userVoiceModelDAO.listAll(0,10,"ds",0,"asc","nam","hello","sd");
-
-
+            //userVoiceModelDAO.listAll(0,10,"ds",0,"asc","nam","hello","sd");
+           // userDAO.getCountSearch("dsad","dsa","fgd","fdsf","tre","sdf",new Date(10/12/2014),new Date(9/8/2015));
+         // fe.getCountSearch("dfss","fdsf","fsd","fds","fds",new Date(10/12/2014),new Date(9/8/2015));
+      // userVoiceModelDAO.getCountSearch("fdsf","fdsf","fdsf","sada");
+           // lice.getCountSearch("dsad","sdsad","fdsfs","fds",new Date(10/12/2014),new Date(9/8/2015));
+            usageDAO.getCountSearch("dsd","dsad");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -54,6 +54,7 @@ public class Users extends HttpServlet {
             String dateTo = request.getParameter("dateTo");
             Date dateFrom1 = null;
             Date dateTo1 = null;
+            Double count;
             if (dateFrom.length() > 0) {
                 try {
                     dateFrom1 = df.parse(dateFrom);
@@ -70,7 +71,11 @@ public class Users extends HttpServlet {
 
             }
             try {
-                Double count = userDAO.getCount();
+                if(search.length()>0||username.length()>0||fullname.length()>0||gender.length()>0||country.length()>0||Acti.length()>0||dateFrom1!=null||dateTo1!=null){
+                    count=userDAO.getCountSearch(search,username,fullname,gender,country,Acti,dateFrom1,dateTo1);
+                }else {
+                    count = userDAO.getCount();
+                }
                 use.draw = draw;
                 use.recordsTotal = count;
                 use.recordsFiltered = count;

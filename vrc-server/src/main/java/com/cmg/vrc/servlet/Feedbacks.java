@@ -55,6 +55,7 @@ public class Feedbacks extends HttpServlet {
             String dateTo = request.getParameter("dateTo");
             Date dateFrom1=null;
             Date dateTo1=null;
+            Double count;
             if(dateFrom.length()>0){
                 try {
                     dateFrom1=df.parse(dateFrom);
@@ -71,7 +72,11 @@ public class Feedbacks extends HttpServlet {
 
             }
             try {
-                Double count=feedbackDAO.getCount();
+                if (search.length()>0||ac.length()>0||app.length()>0||os.length()>0||imei.length()>0||dateFrom1!=null||dateTo1!=null){
+                    count=feedbackDAO.getCountSearch(search,ac,app,os,imei,dateFrom1,dateTo1);
+                }else {
+                    count = feedbackDAO.getCount();
+                }
                 abc.recordsTotal=count;
                 abc.recordsFiltered=count;
                 abc.draw=draw;

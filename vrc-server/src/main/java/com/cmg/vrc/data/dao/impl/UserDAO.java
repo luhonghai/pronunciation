@@ -149,4 +149,74 @@ public class UserDAO extends DataAccess<UserJDO, User> {
             pm.close();
         }
     }
+
+
+    public double getCountSearch(String search,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo ) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + UserJDO.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+
+
+        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country == null || country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode == null || activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+
+        if(user.length()>0){
+            string.append("(username.toLowerCase().indexOf(user.toLowerCase()) != -1) &&");
+        }
+        if(fullname.length()>0){
+            string.append("(name.toLowerCase().indexOf(fullname.toLowerCase()) != -1) &&");
+        }
+        if(gender.equals("Man")){
+            string.append("gender==true &&");
+        }
+        if(gender.equals("WoMan")){
+            string.append("gender==false &&");
+        }
+        if(country.length()>0){
+            string.append("(country.toLowerCase().indexOf(country.toLowerCase()) != -1) &&");
+        }
+        if(acti.equals("Yes")){
+            string.append("isActivated==true &&");
+        }
+        if(acti.equals("No")){
+            string.append("isActivated==false &&");
+        }
+
+        if(dateFrom!=null&&dateTo!=null){
+            string.append("(dob >= dateFrom && dob <= dateTo) &&");
+        }
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+        q.setFilter(string.toString());
+        q.declareParameters("String search, String user,String fullname,String country,java.util.Date dateFrom,java.util.Date dateTo");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        params.put("user", user);
+        params.put("fullname", fullname);
+        params.put("country", country);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
+        try {
+            tx.begin();
+            count = (Long) q.executeWithMap(params);
+            tx.commit();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
 }

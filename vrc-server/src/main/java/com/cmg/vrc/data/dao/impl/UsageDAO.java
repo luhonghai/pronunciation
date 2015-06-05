@@ -73,4 +73,40 @@ public class UsageDAO extends DataAccess<UsageJDO, Usage> {
             pm.close();
         }
     }
+
+    public double getCountSearch(String search, String name) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + UsageJDO.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei == null || emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+        if(name.length() > 0) {
+            string.append("(username==name)");
+        }
+        q.setFilter(string.toString());
+        q.declareParameters("String name,String search");
+
+        try {
+            tx.begin();
+            count = (Long) q.execute(search,name);
+            tx.commit();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
 }

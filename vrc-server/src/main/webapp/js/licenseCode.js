@@ -43,9 +43,9 @@ function listLicenseCode(){
                     "bSortable": false,
                     "mRender": function (data, type, full) {
                         if (data.isActivated == true) {
-                            return '<button type="button" id="detail" name='+data.isActivated+'  id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-remove-sign"></span>' + ' </button>';
+                            return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
                         }else if(data.isActivated==false){
-                            return '<button type="button" id="detail" name='+data.isActivated+' id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-ok-circle"></span>' + ' </button>';
+                            return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
                         }
                     }
                 }]

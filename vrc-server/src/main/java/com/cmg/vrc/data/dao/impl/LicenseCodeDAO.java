@@ -142,4 +142,58 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     public List<LicenseCode> listByEmail(String email) throws Exception {
         return list("WHERE account == :1", email);
     }
+    public double getCountSearch(String search, String ac,String co, String acti,Date dateFrom,Date dateTo) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + LicenseCodeJDO.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+
+        if(ac.length()>0){
+            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
+        }
+        if(co.length()>0){
+            string.append("(code.toLowerCase().indexOf(co.toLowerCase()) != -1) &&");
+        }
+        if(acti.equals("Yes")){
+            string.append("isActivated==true &&");
+        }
+        if(acti.equals("No")){
+            string.append("isActivated==false &&");
+        }
+
+        if(dateFrom!=null&&dateTo!=null){
+            string.append("(activatedDate >= dateFrom && activatedDate <= dateTo) &&");
+        }
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+        q.setFilter(string.toString());
+        q.declareParameters("String search, String ac, String co,java.util.Date dateFrom,java.util.Date dateTo");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        params.put("ac", ac);
+        params.put("co", co);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
+        try {
+            tx.begin();
+            count = (Long) q.executeWithMap(params);
+            tx.commit();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
 }

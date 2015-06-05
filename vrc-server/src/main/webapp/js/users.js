@@ -38,10 +38,10 @@ function listUsers(){
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
                 if(data.loginType=="googleplus") {
-                    return '<i class="fa fa-google-plus-square fa-2x"></i>';
+                    return '<i class="fa fa-google-plus-square fa-2x"  style="color:#CC0000" ></i>';
                 }
                 if(data.loginType=="facebook"){
-                    return '<i class="fa fa-facebook-square fa-2x"></i>';
+                    return '<i class="fa fa-facebook-square fa-2x"  style="color:#3366CC"></i>';
                 }
                 if(data.loginType=="easyaccent"){
                     return '<i class=""></i>';
@@ -50,14 +50,14 @@ function listUsers(){
             }
         }, {
             "data": null,
-            "bSortable": false,
+            "bSortable": true,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
                 if(data.gender==true) {
-                    return '<i class="fa fa-male fa-2x"></i>';
+                    return '<i class="fa fa-male fa-2x" style="color:#0088CC"></i>';
                 }
                 if(data.gender==false){
-                    return '<i class="fa fa-female fa-2x"></i>';
+                    return '<i class="fa fa-female fa-2x" style="color:#FF3399" ></i>';
                 }
             }
         }, {
@@ -75,9 +75,9 @@ function listUsers(){
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
                 if (data.isActivated == true) {
-                    return '<button type="button" id="detail" name='+data.isActivated+'  id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-remove-sign" ></span>' + ' </button>';
+                    return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
                 }else if(data.isActivated==false){
-                    return '<button type="button" id="detail" name='+data.isActivated+' id-column=' + data.id + ' class="showArchieved" ' + full[0] + '>' + ' <span class="glyphicon glyphicon-ok-circle"></span>' + ' </button>';
+                    return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
                 }
             }
         },{

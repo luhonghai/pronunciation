@@ -63,6 +63,7 @@ public class LicenseCodes extends HttpServlet {
             String dateTo = request.getParameter("dateTo");
             Date dateFrom1=null;
             Date dateTo1=null;
+            Double count;
             if(dateFrom.length()>0){
                 try {
                     dateFrom1=df.parse(dateFrom);
@@ -78,12 +79,12 @@ public class LicenseCodes extends HttpServlet {
                 }
 
             }
-
-
-
-
             try {
-                Double count = lis.getCount();
+                if(search.length()>0||ac.length()>0||co.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null){
+                    count=lis.getCountSearch(search,ac,co,activated,dateFrom1,dateTo1);
+                }else {
+                     count = lis.getCount();
+                }
                 licen.draw = draw;
                 licen.recordsTotal = count;
                 licen.recordsFiltered = count;
