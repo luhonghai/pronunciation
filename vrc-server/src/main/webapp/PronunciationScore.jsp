@@ -100,5 +100,13 @@
     </div>
   </div>
 
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-md-4" id="mappronunciation" style="width: 400px; height: 200px;"></div>
+    <div class="col-md-4 col-md-offset-2">
+      <canvas id="buyers" style="width: 400px; height: 200px;"></canvas>
+
+    </div>
+  </div>
+
 </t:main>
 <script src="<%=request.getContextPath() %>/js/pronunciation.js"></script>
