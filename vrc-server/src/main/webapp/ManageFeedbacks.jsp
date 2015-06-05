@@ -67,7 +67,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <table class="table table-striped table-bordered table-hover table-responsive" id="dataTables-example">
                                 <thead>
                                 <tr>
                                     <th>Account</th>
