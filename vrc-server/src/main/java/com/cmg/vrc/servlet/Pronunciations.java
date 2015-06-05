@@ -42,12 +42,18 @@ public class Pronunciations extends HttpServlet{
             int length = Integer.parseInt(l);
             int col = Integer.parseInt(column);
             int draw = Integer.parseInt(d);
+            Double count;
             String username = request.getParameter("username");
             String word = request.getParameter("word");
             String uuid = request.getParameter("uuid");
             try {
                 Pronunciations.pronunciation pronunciation=new pronunciation();
-                Double count = userVoiceModelDAO.getCount();
+
+                if(search.length()>0||username.length()>0||word.length()>0||uuid.length()>0){
+                    count=userVoiceModelDAO.getCountSearch(search,username,word,uuid);
+                }else {
+                     count = userVoiceModelDAO.getCount();
+                }
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;

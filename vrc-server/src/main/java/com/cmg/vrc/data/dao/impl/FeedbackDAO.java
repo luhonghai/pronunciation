@@ -106,4 +106,60 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
             pm.close();
         }
     }
+    public double getCountSearch(String search, String ac,String app, String os,String imei,Date dateFrom,Date dateTo) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + FeedbackJDO.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion == null || osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei == null || imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        if(ac.length()>0){
+            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
+        }
+        if(app.length()>0){
+            string.append("(appVersion.toLowerCase().indexOf(app.toLowerCase()) != -1) &&");
+        }
+        if(os.length()>0){
+            string.append("(osVersion.toLowerCase().indexOf(os.toLowerCase()) != -1) &&");
+        }
+        if(imei.length()>0){
+            string.append("(imei.toLowerCase().indexOf(imei.toLowerCase()) != -1) &&");
+        }
+
+        if(dateFrom!=null&&dateTo!=null){
+            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
+        }
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+        q.setFilter(string.toString());
+        q.declareParameters("String search, String ac, String app,String os,String imei,java.util.Date dateFrom,java.util.Date dateTo");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        params.put("ac", ac);
+        params.put("app", app);
+        params.put("os", os);
+        params.put("imei", imei);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
+
+        try {
+            tx.begin();
+            count = (Long) q.executeWithMap(params);
+            tx.commit();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
 }
