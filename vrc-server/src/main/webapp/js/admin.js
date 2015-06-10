@@ -41,7 +41,7 @@ function listAdmin(){
             "bSortable": false,
             "mRender": function (data, type, full) {
                 console.log(data);
-                return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
+                return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' pass=' + data.password + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
             }
 
 
@@ -192,12 +192,13 @@ function edit(){
         var first = $(this).attr('firstname');
         var last=$(this).attr('lastname');
         var role = $(this).attr('role');
+        var pass = $(this).attr('pass');
 
         $("#idedit").val(idd);
        $("#editusername").val(user);
         $("#editfirstname").val(first);
        $("#editlastname").val(last);
-       $("#editpassword").val("");
+       $("#editpassword").val("pass");
        $("#editrole").val(role);
     });
 
