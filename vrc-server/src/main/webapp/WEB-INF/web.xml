@@ -149,6 +149,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Admins</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Admins</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Admins</servlet-name>
+        <url-pattern>/Admins</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Dashboard</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.Dashboard</servlet-class>
     </servlet>

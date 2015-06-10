@@ -1,8 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
+<%@taglib prefix="x" tagdir="/WEB-INF/tags/sub"%>
 <t:main pageTitle="Wholesale delivery system" index="0">
-
+    <x:appDetail pageTitle="appDetail"></x:appDetail>
 
         <div id="page-wrapper">
             <div class="row">
@@ -14,9 +14,10 @@
             <!-- /.row -->
             <input type="hidden" id="id" name="id">
             <div class="row" style="margin-top: 30px;">
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <div class="form-group">
-                        <input class="form-control" name="noAccessMessage" type="text" id="noAccessMessage" placeholder="noAccessMessage">
+                        <textarea type="text" name="noAccessMessage" id="noAccessMessage" class="form-control" rows="3" required="required" placeholder="noAccessMessage"></textarea>
+                        <%--<input class="form-control" name="noAccessMessage" type="text" id="noAccessMessage" placeholder="noAccessMessage">--%>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">

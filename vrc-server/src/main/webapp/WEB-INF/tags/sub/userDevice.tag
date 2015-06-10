@@ -1,4 +1,4 @@
-<%@tag description="Java" pageEncoding="UTF-8" %>
+<%@tag description="userDevice" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%
   String emei=request.getParameter("emei");

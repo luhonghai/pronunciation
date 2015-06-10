@@ -44,7 +44,7 @@
           <!-- /.panel-heading -->
           <div class="panel-body">
             <div class="dataTable_wrapper">
-              <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+              <table class="table table-striped table-bordered table-hover table-responsive" id="dataTables-example">
                 <thead>
                 <tr>
                   <th>User Name</th>
@@ -94,16 +94,13 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </div>
 
   <div class="row" style="margin-top: 50px;">
-    <div class="col-md-4" id="mappronunciation" style="width: 400px; height: 200px;"></div>
     <div class="col-md-4 col-md-offset-2">
-      <canvas id="buyers" style="width: 400px; height: 200px;"></canvas>
+      <canvas id="mappronunciation" style="width: 400px; height: 200px;"></canvas>
 
     </div>
   </div>

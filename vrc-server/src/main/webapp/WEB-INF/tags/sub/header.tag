@@ -15,19 +15,13 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<div class="modal-header">
+		<div class="col-xs-9 col-sm-11">
 			<img class="img-responsive" style="margin: 0 auto;" alt="accenteasy logo" src="http://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-prod/images/accenteasy_icon_text.png"/>
 		</div>
 	</div>
 	<!-- /.navbar-header -->
 
 	<ul class="nav navbar-top-links navbar-right">
-
-		<!-- /.dropdown -->
-
-		<!-- /.dropdown -->
-
-		<!-- /.dropdown -->
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
@@ -57,7 +51,7 @@
 					<!-- /.nav-second-level -->
 				</li>
 				<li>
-					<a href="ManageFeedbacks.jsp"><i class="glyphicon glyphicon-comment"></i> Feedback </a>
+					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
 				<li>
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
@@ -67,6 +61,9 @@
 				</li>
 				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+				</li>
+				<li>
+					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i> Admin</a>
 				</li>
 
 

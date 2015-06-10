@@ -38,7 +38,8 @@ function listScore(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                console.log(data.score);
+                return '<button type="button" scouse='+data.score+' id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
             }
         } ]
     });
@@ -105,13 +106,36 @@ function maps() {
     });
 }
 
+function drawMap(){
+    var scoure=$("#maps").attr('scouse');
+    var buyerData = {
+        labels : [],
+        datasets : [
+            {
+                fillColor : "rgba(172,194,132,0.4)",
+                strokeColor : "#ACC26D",
+                pointColor : "#fff",
+                pointStrokeColor : "#9DB86D",
+                data : []
+            }
+        ]
+    }
 
+    var buy = document.getElementById('mappronunciation').getContext('2d');
+    new Chart(buy).Line(buyerData);
+    $.each(scoure, function(scoure) {
+        chartData.datasets.data.push(scoure);
+
+    });
+
+}
 
 
 $(document).ready(function(){
     maps();
     filter();
     listScore();
+    //drawMap();
 
 });
 

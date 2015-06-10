@@ -1,5 +1,7 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.jdo.Admin;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -27,19 +29,35 @@ import java.io.IOException;
         doPost(request,response);
     }
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        AdminDAO adminDAO=new AdminDAO();
         HttpSession session=request.getSession();
         String name=request.getParameter("account");
         String pass=request.getParameter("pass");
+        try {
+           Admin admin= adminDAO.getUserByEmailPassword(name, pass);
+            if (admin!=null){
+              //  session.setAttribute("nambui",admin);
+                    session.setAttribute("username",admin.getUserName());
+                    session.setAttribute("password",admin.getPassword());
+                    session.setAttribute("role",admin.getRole());
+                    response.getWriter().write("success");
+            }
+            else {
+                response.getWriter().write("error");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
-        if(name.equals("admin") && pass.equals("admincmg@3f")){
-            session.setAttribute("username",name);
-            session.setAttribute("password",pass);
-            response.getWriter().write("success");
-        }
-        else {
-            response.getWriter().write("error");
-        }
+//        if(name.equals("admin") && pass.equals("admincmg@3f")){
+//            session.setAttribute("username",name);
+//            session.setAttribute("password",pass);
+//            response.getWriter().write("success");
+//        }
+//        else {
+//            response.getWriter().write("error");
+//        }
     }
 }

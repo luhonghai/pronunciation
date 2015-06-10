@@ -72,14 +72,24 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-        UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
-        UserVoiceModel userVoiceModel=new UserVoiceModel();
-        userVoiceModel.setUsername("nam123");
-        userVoiceModel.setCountry("VN");
+//        UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
+//        UserVoiceModel userVoiceModel=new UserVoiceModel();
+//        userVoiceModel.setUsername("nam123");
+//        userVoiceModel.setCountry("VN");
+//        try {
+//            userVoiceModelDAO.put(userVoiceModel);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+        AdminDAO adminDAO=new AdminDAO();
+        Admin admin=new Admin();
+        admin.setPassword("1234");
+        admin.setUserName("namhd");
+        admin.setRole(1);
         try {
-            userVoiceModelDAO.put(userVoiceModel);
+            adminDAO.put(admin);
         }catch (Exception e){
-            e.printStackTrace();
+            e.printStackTrace();;
         }
 
 

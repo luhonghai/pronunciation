@@ -1,6 +1,7 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.AppDetailDAO;
+import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.data.jdo.AppDetail;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -36,6 +37,10 @@ public class AppDetails extends HttpServlet{
         }
 
         if(request.getParameter("save")!=null){
+//            Admin admin=(Admin)request.getSession().getAttribute("nambui");
+//            String rr=admin.getRole();
+
+            String role=request.getSession().getAttribute("role").toString();
             String message=request.getParameter("message");
             String regis=request.getParameter("regis");
             String id=request.getParameter("id");
@@ -43,29 +48,27 @@ public class AppDetails extends HttpServlet{
             appDetail.setId(id);
             appDetail.setRegistration(register);
             appDetail.setNoAccessMessage(message);
-
             try {
-                if (appDetailDAO.getCount()==0){
-                    appDetailDAO.put(appDetail);
+                if(role.equals("1")) {
+                    if (appDetailDAO.getCount() == 0) {
+                        appDetailDAO.put(appDetail);
+                    } else if (appDetailDAO.getCount() > 0) {
+                        AppDetail appDetail1 = appDetailDAO.getById(id);
+                        appDetail1.setNoAccessMessage(message);
+                        appDetail1.setRegistration(register);
+                        appDetail1.setId(id);
+                        appDetailDAO.put(appDetail1);
+                    }
+                        response.getWriter().write("success");
+                    }
+                if(role.equals("2")){
+                        response.getWriter().write("error");
                 }
-                else if(appDetailDAO.getCount()>0){
-                    AppDetail appDetail1=appDetailDAO.getById(id);
-                    appDetail1.setNoAccessMessage(message);
-                    appDetail1.setRegistration(register);
-                    appDetail1.setId(id);
-                    appDetailDAO.put(appDetail1);
-                }
-                response.getWriter().write("success");
-            }catch (Exception e){
+
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
         }
-
-
-
 
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

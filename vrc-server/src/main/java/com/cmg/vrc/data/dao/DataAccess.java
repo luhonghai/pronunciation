@@ -163,7 +163,8 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 		return delete(((Mirrorable) obj).getId());
 	}
 	/**
-	 * 
+	 *
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
