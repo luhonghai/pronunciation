@@ -76,8 +76,14 @@ function filter(){
 
 }
 
-
+function button(){
+    var visible=$("#roles").val();
+    if(visible=="1"){
+        $("#server").show();
+    }
+}
 $(document).ready(function(){
+    button();
     filter();
     listUserDevice();
 
