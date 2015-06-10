@@ -56,6 +56,15 @@
                         response.sendRedirect("login.jsp");
                 }
         %>
+        <%--<%--%>
+                <%--if(session.getAttribute("role").equals("admin")){--%>
+
+                <%--}--%>
+                <%--if(session.getAttribute("role").equals("user")){--%>
+
+                <%--}--%>
+
+        <%--%>--%>
 
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";

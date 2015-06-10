@@ -37,15 +37,20 @@ function save(){
             url:"AppDetails",
             type:"POST",
             dataType:"text",
-            data:{
-                save:"save",
-                id:id,
-                message:message,
-                regis:regis
+            data: {
+                save: "save",
+                id: id,
+                message: message,
+                regis: regis
             },
             success:function(data){
                 if(data=="success"){
                     appDetail();
+                }
+                if(data=="error"){
+                    alert("You can not edit information!");
+                    appDetail();
+                    $("#save").attr("disabled",'disabled');
                 }
 
             }
@@ -55,8 +60,14 @@ function save(){
 
     });
 }
-
+function button(){
+    var visible=$("#role").val();
+    if(visible=="2"){
+        $("#save").attr("disabled",'disabled');
+    }
+}
 $(document).ready(function(){
+    button();
     save();
     appDetail();
 });

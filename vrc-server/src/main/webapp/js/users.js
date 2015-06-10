@@ -44,7 +44,8 @@ function listUsers(){
                     return '<i class="fa fa-facebook-square fa-2x"  style="color:#3366CC"></i>';
                 }
                 if(data.loginType=="easyaccent"){
-                    return '<i class=""></i>';
+                    //return '<i src="accenteasy.com/favicon.ico"></i>';
+                    return '<img src="http://www.accenteasy.com/favicon.ico">';
 
                 }
             }

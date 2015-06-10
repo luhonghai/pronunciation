@@ -14,6 +14,7 @@
         <class>com.cmg.vrc.data.jdo.AppDetailJDO</class>
 		<class>com.cmg.vrc.data.jdo.FeedbackJDO</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeJDO</class>
+		<class>com.cmg.vrc.data.jdo.AdminJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

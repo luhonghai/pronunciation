@@ -47,6 +47,7 @@ public class TestDAO {
         AppDetailDAO appDetailDAO=new AppDetailDAO();
         AppDetail appDetail=new AppDetail();
         UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
+        AdminDAO adminDAO=new AdminDAO();
 
 
         try {
@@ -62,7 +63,10 @@ public class TestDAO {
          // fe.getCountSearch("dfss","fdsf","fsd","fds","fds",new Date(10/12/2014),new Date(9/8/2015));
       // userVoiceModelDAO.getCountSearch("fdsf","fdsf","fdsf","sada");
            // lice.getCountSearch("dsad","sdsad","fdsfs","fds",new Date(10/12/2014),new Date(9/8/2015));
-            usageDAO.getCountSearch("dsd","dsad");
+           // usageDAO.getCountSearch("dsd","dsad");
+          //  userVoiceModelDAO.getListScore("fdsf","fdsf","fdsf","sada");
+           // adminDAO.getCountSearch("dfs","fds","fdsf");
+            adminDAO.listAll(0,10,"dsa",0,"erwe","fewf","dgf","fds");
         } catch (Exception e) {
             e.printStackTrace();
         }
