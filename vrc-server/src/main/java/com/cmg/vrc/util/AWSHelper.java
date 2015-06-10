@@ -5,6 +5,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.policy.actions.ElasticBeanstalkActions;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalkClient;
 import com.amazonaws.services.elasticbeanstalk.model.*;
 import com.amazonaws.services.s3.AmazonS3;
@@ -13,6 +14,8 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 import com.cmg.vrc.properties.Configuration;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
@@ -44,6 +47,7 @@ public class AWSHelper {
             BasicAWSCredentials credentials = new BasicAWSCredentials("AKIAIW47GXTESF26RHZQ", "o+o1yyloDI4yRfwx0ffTAmk5nEc7iU7Bi32ur/gy");
             s3client = new AmazonS3Client(credentials);
             beanstalkClient = new AWSElasticBeanstalkClient(credentials);
+            beanstalkClient.configureRegion(Regions.AP_SOUTHEAST_1);
             bucketName = Configuration.getValue(Configuration.AWS_S3_BUCKET_NAME);
         }
     }
@@ -137,28 +141,24 @@ public class AWSHelper {
     }
 
 
-    public void getEnvironmentInfo(String envId) {
-        RetrieveEnvironmentInfoResult result =  beanstalkClient.retrieveEnvironmentInfo(new RetrieveEnvironmentInfoRequest().withEnvironmentId(envId));
-        List<EnvironmentInfoDescription> infos = result.getEnvironmentInfo();
-        for (EnvironmentInfoDescription info : infos) {
-            System.out.println("Instance ID: " + info.getEc2InstanceId()
-                    //+ ". Info type: " + info.getInfoType()
-                    + ". Message: " + info.getMessage());
-        }
+    public List<EnvironmentDescription> getEnvironments() {
+        DescribeEnvironmentsResult describeEnvironmentsResult = beanstalkClient.describeEnvironments();
+        return describeEnvironmentsResult.getEnvironments();
     }
 
-    public void restartBeanstalkApp(String envId) {
-        beanstalkClient.restartAppServer(new RestartAppServerRequest().withEnvironmentId(envId));
-
+    public void restartBeanstalkApp(String envName) {
+        beanstalkClient.restartAppServer(new RestartAppServerRequest().withEnvironmentName(envName));
     }
 
-    public void rebuildEnvironment(String envId) {
-        beanstalkClient.rebuildEnvironment(new RebuildEnvironmentRequest().withEnvironmentId(envId));
+    public void rebuildEnvironment(String envName) {
+        beanstalkClient.rebuildEnvironment(new RebuildEnvironmentRequest().withEnvironmentName(envName));
     }
 
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
-        awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
+        awsHelper.restartBeanstalkApp("accenteasytomcat-PRD-1");
+        //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
+        //awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
        // System.out.println("Start uploading");
         //awsHelper.upload("sphinx-data/wsj-en-us.zip", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us.zip"));
        // awsHelper.upload("sphinx-data/dict/brit-a-z.txt", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/words/british/brit-a-z.txt"));
