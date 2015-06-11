@@ -47,7 +47,7 @@ function listAdmin(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 $button.attr("id-column-edit", data.id );
                 $button.attr("username", data.userName);
                 $button.attr("first", data.firstName );

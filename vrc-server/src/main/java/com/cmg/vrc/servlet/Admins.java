@@ -117,10 +117,12 @@ public class Admins extends HttpServlet {
             String password = request.getParameter("password");
             String role = request.getParameter("role");
 
-
             int ro=0;
-            if(role.length()>0) {
-                ro=Integer.parseInt(role);
+            if(role.length()>0 && role.equals("Admin")) {
+                ro=1;
+            }
+            if(role.length()>0 && role.equals("User")) {
+                ro=2;
             }
             try{
                 Admin a=adminDAO.getUserByEmailPassword(username, password);
