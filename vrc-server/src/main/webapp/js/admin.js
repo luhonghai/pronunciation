@@ -47,7 +47,15 @@ function listAdmin(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
+                $button.attr("id-column-edit", data.id );
+                $button.attr("username", data.userName);
+                $button.attr("first", data.firstName );
+                $button.attr("last", data.lastName );
+                $button.attr("role", data.role );
+
+
+                return $("<div/>").append($button).html();
             }
 
 
@@ -232,19 +240,26 @@ function deleteuser(){
 function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
+        var roles;
         var idd = $(this).attr('id-column-edit');
         var user=$(this).attr('username');
-        var first = $(this).attr('firstname');
-        var last=$(this).attr('lastname');
+        var first = $(this).attr('first');
+        var last=$(this).attr('last');
         var role = $(this).attr('role');
         //var pass = $(this).attr('pass');
+        if(role==1){
+            roles="Admin";
+        }
+        if(role==2){
+            roles="User";
+        }
 
         $("#idedit").val(idd);
        $("#editusername").val(user);
         $("#editfirstname").val(first);
        $("#editlastname").val(last);
-       //$("#editpassword").val("pass");
-       $("#editrole").val(role);
+       $("#editpassword").val("");
+       $("#editrole").val(roles);
     });
 
 }
