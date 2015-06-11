@@ -11,10 +11,16 @@ function getCouse(){
             $("#user").text(result.y);
             $("#pronunciation").text(result.z);
             $("#license").text(result.t);
-
         }
     });
 }
+function button(){
+    var visible=$("#roles").val();
+    if(visible=="1"){
+        $("#server").show();
+    }
+}
 $(document).ready(function(){
+    button();
    getCouse();
 });

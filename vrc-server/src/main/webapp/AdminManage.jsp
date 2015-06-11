@@ -122,10 +122,8 @@
                   <label class="col-xs-4  col-sm-3 control-label">Role:</label>
                   <div class="col-xs-4  col-sm-5">
                     <select name="addrole" id="addrole" class="form-control" required="required">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value="Admin">Admin</option>
+                      <option value="User">User</option>
                     </select>
                     <p id="roleadds" class="roleadd" style="color:red; display: none">Required field to enter data</p>
                   </div>
@@ -195,10 +193,8 @@
                   <label class="col-xs-4  col-sm-3 control-label">Role:</label>
                   <div class="col-xs-4  col-sm-5">
                     <select name="editrole" id="editrole" class="form-control" required="required">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value="Admin">Admin</option>
+                      <option value="User">User</option>
                     </select>
                     <p id="roleEdits" class="roleEdit" style="color:red;display: none;">Required field to enter data</p>
                   </div>

@@ -96,9 +96,14 @@ function maps() {
         mapss(x,y);
     });
 }
-
+function button(){
+    var visible=$("#roles").val();
+    if(visible=="1"){
+        $("#server").show();
+    }
+}
 $(document).ready(function(){
-
+    button();
     maps();
     userDevice();
     user();

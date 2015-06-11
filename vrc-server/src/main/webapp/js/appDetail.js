@@ -60,14 +60,21 @@ function save(){
 
     });
 }
-function button(){
+function buttons(){
     var visible=$("#role").val();
     if(visible=="2"){
         $("#save").attr("disabled",'disabled');
     }
 }
+function button(){
+    var visible=$("#roles").val();
+    if(visible=="1"){
+        $("#server").show();
+    }
+}
 $(document).ready(function(){
     button();
+    buttons();
     save();
     appDetail();
 });

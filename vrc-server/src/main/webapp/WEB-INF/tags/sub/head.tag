@@ -52,19 +52,19 @@
         </style>
 
         <%
-                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
+                String role=null;
+                if (session.getAttribute("username") == null || session.getAttribute("password") == null || session.getAttribute("role")==null){
                         response.sendRedirect("login.jsp");
                 }
+                if(session.getAttribute("role")!=null && session.getAttribute("role").equals(1)){
+                        role="1";
+                }
+                if(session.getAttribute("role")!=null && session.getAttribute("role").equals(2)){
+                        role="2";
+                }
         %>
-        <%--<%--%>
-                <%--if(session.getAttribute("role").equals("admin")){--%>
+        <input type="hidden" name="roles" id="roles" value="<%=role%>">
 
-                <%--}--%>
-                <%--if(session.getAttribute("role").equals("user")){--%>
-
-                <%--}--%>
-
-        <%--%>--%>
 
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";

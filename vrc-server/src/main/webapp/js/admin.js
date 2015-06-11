@@ -33,14 +33,20 @@ function listAdmin(){
             "data": "lastName",
             "sDefaultContent":""
         }, {
-            "sWidth": "20%",
-            "data": "role",
-            "sDefaultContent":""
+            "data": null,
+            "bSortable": true,
+            "mRender": function (data, type, full) {
+                if(data.role==1){
+                    return '<p>'+'Admin'+'</p>';
+                }
+                if(data.role==2){
+                    return '<p>'+'User'+'</p>';
+                }
+            }
         }, {
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                console.log(data);
                 return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' pass=' + data.password + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
             }
 
@@ -332,7 +338,14 @@ function hideeditmessage(){
     });
 
 }
+function button(){
+    var visible=$("#roles").val();
+    if(visible=="1"){
+        $("#server").show();
+    }
+}
 $(document).ready(function(){
+    button();
     hideaddmessage();
     hideeditmessage();
     add();
