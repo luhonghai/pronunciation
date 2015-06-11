@@ -54,9 +54,9 @@
 
         <%
 
-//                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
-//                        response.sendRedirect("login.jsp");
-//                }
+                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
+                        response.sendRedirect("login.jsp");
+                }
 
         %>
 

@@ -2,32 +2,22 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="com.cmg.vrc.dictionary.OxfordDictionaryWalker" %>
 <%@ page import="javax.mail.MessagingException" %>
+<%@ page import="com.cmg.vrc.data.jdo.Admin" %>
+<%@ page import="com.cmg.vrc.data.dao.impl.AdminDAO" %>
+<%@ page import="com.cmg.vrc.util.StringUtil" %>
 <html>
 <body>
 <table>
 <%
-  Map<String, String> env =System.getenv();
-  Iterator<String> keys = env.keySet().iterator();
-  while (keys.hasNext()) {
-    String key = keys.next();
-    %>
-  <table>
-    <tr>
-      <td><%=key%></td>
-      <td><%=env.get(key)%></td>
-    </tr>
-
-  <hr/>
-  <%
-  }
-%>
-  </table>
-  <%
+    Admin admin = new Admin();
+    admin.setUserName("admin");
+    admin.setPassword(StringUtil.md5("admincmg@3f"));
+    AdminDAO adminDAO = new AdminDAO();
     try {
-OxfordDictionaryWalker.generateDictionary();} catch (MessagingException e) {
+adminDAO.put(admin);} catch (Exception e) {
     e.printStackTrace();
 }
-  %>
+    %>
   <p>done</p>
 </body>
 </html>
