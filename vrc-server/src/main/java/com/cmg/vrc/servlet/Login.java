@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -34,9 +35,10 @@ import java.io.IOException;
         String name=request.getParameter("account");
         String pass=request.getParameter("pass");
         try {
-           Admin admin= adminDAO.getUserByEmailPassword(name, pass);
+           Admin admin= adminDAO.getUserByEmailPassword(name, StringUtil.md5(pass));
             if (admin!=null){
               //  session.setAttribute("nambui",admin);
+                    session.setAttribute("id",admin.getId());
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());

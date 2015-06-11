@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -83,14 +84,17 @@ public class Admins extends HttpServlet {
             String role = request.getParameter("role");
 
             int ro=0;
-            if(role.length()>0) {
-                ro=Integer.parseInt(role);
+            if(role.length()>0 && role.equals("Admin")) {
+                ro=1;
+            }
+            if(role.length()>0 && role.equals("User")) {
+                ro=2;
             }
             try{
                 Admin a=adminDAO.getUserByEmailPassword(username, password);
             if(a==null) {
                 ad.setUserName(username);
-                ad.setPassword(password);
+                ad.setPassword(StringUtil.md5(password));
                 ad.setFirstName(firstname);
                 ad.setLastName(lastname);
                 ad.setRole(ro);
@@ -123,7 +127,7 @@ public class Admins extends HttpServlet {
                 if(a==null) {
                     Admin admi = adminDAO.getById(id);
                     admi.setUserName(username);
-                    admi.setPassword(password);
+                    admi.setPassword(StringUtil.md5(password));
                     admi.setFirstName(firstname);
                     admi.setLastName(lastname);
                     admi.setRole(ro);
@@ -141,10 +145,16 @@ public class Admins extends HttpServlet {
         }
 
         if(request.getParameter("delete")!=null){
+//            String ids=request.getSession().getAttribute("id").toString();
             String id=request.getParameter("id");
             try {
-                adminDAO.delete(id);
-                response.getWriter().write("success");
+//                if (id.equals(ids)) {
+//                    response.getWriter().write("error");
+//                }
+//                else {
+                    adminDAO.delete(id);
+                    response.getWriter().write("success");
+//                }
             }catch (Exception e){
                 e.printStackTrace();
             }

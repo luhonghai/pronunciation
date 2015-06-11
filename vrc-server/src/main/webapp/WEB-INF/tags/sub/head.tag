@@ -52,19 +52,12 @@
         </style>
 
         <%
-                String role=null;
-                if (session.getAttribute("username") == null || session.getAttribute("password") == null || session.getAttribute("role")==null){
+
+                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
                         response.sendRedirect("login.jsp");
                 }
-                if(session.getAttribute("role")!=null && session.getAttribute("role").equals(1)){
-                        role="1";
-                }
-                if(session.getAttribute("role")!=null && session.getAttribute("role").equals(2)){
-                        role="2";
-                }
-        %>
-        <input type="hidden" name="roles" id="roles" value="<%=role%>">
 
+        %>
 
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";

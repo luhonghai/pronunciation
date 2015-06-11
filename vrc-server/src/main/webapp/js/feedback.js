@@ -130,14 +130,9 @@ function detail(){
 
      });
  }
-function button(){
-    var visible=$("#roles").val();
-    if(visible=="1"){
-        $("#server").show();
-    }
-}
+
 $(document).ready(function(){
-    button();
+
     listFeedback();
     detail();
     searchAdvanted();

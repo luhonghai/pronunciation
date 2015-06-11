@@ -3,6 +3,7 @@ package com.cmg.vrc.servlet;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.data.jdo.UserDevice;
+import com.cmg.vrc.util.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -83,9 +84,11 @@ public class TestServlet  {
 //        }
         AdminDAO adminDAO=new AdminDAO();
         Admin admin=new Admin();
-        admin.setPassword("1234");
-        admin.setUserName("namhd");
+        admin.setPassword(StringUtil.md5("1234"));
+        admin.setUserName("nam@gmail.com");
         admin.setRole(1);
+        admin.setLastName("");
+        admin.setFirstName("");
         try {
             adminDAO.put(admin);
         }catch (Exception e){
