@@ -206,7 +206,7 @@ function deleteuser(){
                 },
                 success: function (data) {
                     if (data == "success") {
-                        window.location =CONTEXT_PATH + "/login.jsp";
+                        window.location =CONTEXT_PATH + "/logout.jsp";
                     }
                     //if (data == "error") {
                     //    alert("You don't allow to delete yourshelf!");
