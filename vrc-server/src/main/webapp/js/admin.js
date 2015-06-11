@@ -47,7 +47,7 @@ function listAdmin(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' pass=' + data.password + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
+                return '<button type="button" style="margin-right:10px" id="edit" id-column-edit=' + data.id + ' username=' + data.userName + ' firstname=' + data.firstName + ' lastname=' + data.lastName + ' role=' + data.role + ' class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" id-column-delete=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>';
             }
 
 
@@ -164,26 +164,65 @@ function deletes(){
 function deleteuser(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
+        var ids=$("#ids").val();
+        if(id!=ids) {
             $.ajax({
                 url: "Admins",
                 type: "POST",
                 dataType: "text",
                 data: {
-                    delete:"delete",
-                    id:id
+                    delete: "delete",
+                    id: id
                 },
                 success: function (data) {
                     if (data == "success") {
+
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#deletes").modal('hide');
                     }
+                    //if (data == "error") {
+                    //    alert("You don't allow to delete yourshelf!");
+                    //    $("tbody").html("");
+                    //    myTable.fnDraw();
+                    //    $("#deletes").modal('hide');
+                    //}
+
                 },
                 error: function () {
                     alert("error");
                 }
 
             });
+        }
+        if(id==ids){
+            $.ajax({
+                url: "Admins",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    delete: "delete",
+                    id: id
+                },
+                success: function (data) {
+                    if (data == "success") {
+                        window.location =CONTEXT_PATH + "/logout.jsp";
+                    }
+                    //if (data == "error") {
+                    //    alert("You don't allow to delete yourshelf!");
+                    //    $("tbody").html("");
+                    //    myTable.fnDraw();
+                    //    $("#deletes").modal('hide');
+                    //}
+
+                },
+                error: function () {
+                    alert("error");
+                }
+
+            });
+
+        }
 
 
     });
@@ -198,13 +237,13 @@ function edit(){
         var first = $(this).attr('firstname');
         var last=$(this).attr('lastname');
         var role = $(this).attr('role');
-        var pass = $(this).attr('pass');
+        //var pass = $(this).attr('pass');
 
         $("#idedit").val(idd);
        $("#editusername").val(user);
         $("#editfirstname").val(first);
        $("#editlastname").val(last);
-       $("#editpassword").val("pass");
+       //$("#editpassword").val("pass");
        $("#editrole").val(role);
     });
 
@@ -338,14 +377,9 @@ function hideeditmessage(){
     });
 
 }
-function button(){
-    var visible=$("#roles").val();
-    if(visible=="1"){
-        $("#server").show();
-    }
-}
+
 $(document).ready(function(){
-    button();
+
     hideaddmessage();
     hideeditmessage();
     add();

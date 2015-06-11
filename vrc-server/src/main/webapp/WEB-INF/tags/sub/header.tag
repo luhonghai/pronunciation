@@ -65,9 +65,7 @@
 				<li>
 					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i>Admin</a>
 				</li>
-				<li>
-					<a href="RestartServer.jsp" id="server" style="display: none"><i class="fa fa-server"></i>Server</a>
-				</li>
+
 
 
 			</ul>

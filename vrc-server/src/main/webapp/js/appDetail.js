@@ -66,14 +66,9 @@ function buttons(){
         $("#save").attr("disabled",'disabled');
     }
 }
-function button(){
-    var visible=$("#roles").val();
-    if(visible=="1"){
-        $("#server").show();
-    }
-}
+
 $(document).ready(function(){
-    button();
+
     buttons();
     save();
     appDetail();
