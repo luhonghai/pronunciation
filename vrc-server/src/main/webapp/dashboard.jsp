@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" tagdir="/WEB-INF/tags/content"%>
 <t:main pageTitle="Dashboard" index="0">
 
 
@@ -103,6 +104,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row" style="margin-top: 50px;">
                 <div class="col-md-4" id="geochart1" style="width: 400px; height: 200px;"></div>
                 <div class="col-md-4 col-md-offset-2">
@@ -110,7 +112,9 @@
 
                 </div>
             </div>
-
+           <hr/>
+           <h2>Application server</h2>
+           <c:aws_control_dashboard></c:aws_control_dashboard>
             <!-- /.row -->
         </div>
 

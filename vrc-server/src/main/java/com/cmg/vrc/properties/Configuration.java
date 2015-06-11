@@ -43,6 +43,8 @@ public class Configuration {
 
 	public static final String URL_ACTIVE_ACCOUNT = "url.active.account";
 
+	public static final String URL_RESET_PASSWORD = "url.reset.password";
+
 	public static final String PROJECT_VERSION = "project.version";
 	
 	private static Properties prop;

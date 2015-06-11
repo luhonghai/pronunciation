@@ -146,6 +146,14 @@ public class MailService {
                 ,generateActivationContent(email, activationCode));
     }
 
+    public void sendResetPasswordEmail(String email, String code) throws MessagingException {
+        sendEmail(new String[] {
+                email
+        }
+                ,"accenteasy - password reset"
+                ,generateResetPasswordContent(email, code));
+    }
+
     public static void main(String[] args) throws MessagingException {
         // Send mail with code
         MailService mailService = new MailService();
@@ -158,7 +166,7 @@ public class MailService {
 //                + "<br> Or enter the following activation code on your mobile device: <b>" + "ABC1235BE135" + "</b>"
 //                + "<br><br>Thank you and Best regards,<br>Admin accenteasy");
 
-        System.out.println(mailService.generateActivationContent("luhonghai@gmail.com","BASAS12321"));
+        System.out.println(mailService.generateActivationContent("luhonghai@gmail.com", "BASAS12321"));
     }
 
     private String generateActivationContent(String account, String code) {
@@ -167,6 +175,18 @@ public class MailService {
             source = source.replaceAll("%ACTIVATION_CODE%",URLEncoder.encode(code, "UTF-8"));
             source = source.replaceAll("%URL_ACTIVE_ACCOUNT%", Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) );
             source = source.replaceAll("%ACTIVATION_USER%", URLEncoder.encode(account, "UTF-8"));
+            return source;
+        } catch (Exception e) {
+            log(Level.SEVERE, "Could not read activation HTML template", e);
+        }
+        return "";
+    }
+
+    private String generateResetPasswordContent(String account, String code) {
+        try {
+            String source = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("contents/resetpassword-email.html"));
+            source = source.replaceAll("%RESET_CODE%",URLEncoder.encode(code, "UTF-8"));
+            source = source.replaceAll("%URL_RESET_PASSWORD%", Configuration.getValue(Configuration.URL_RESET_PASSWORD));
             return source;
         } catch (Exception e) {
             log(Level.SEVERE, "Could not read activation HTML template", e);

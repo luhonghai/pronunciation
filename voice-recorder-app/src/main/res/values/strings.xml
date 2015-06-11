@@ -28,6 +28,7 @@
     <string name="activation_url">http://reg.accenteasy.com/activate</string>
     <string name="feedback_url">http://reg.accenteasy.com/FeedbackHandler</string>
     <string name="license_url">http://reg.accenteasy.com/LicenseHandler</string>
+    <string name="reset_password_url">http://reg.accenteasy.com/ResetPasswordHandler</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
@@ -58,5 +59,5 @@
     <string name="dialog_close">Close</string>
 
     <string name="txtTermCondition"><a href="http://www.accenteasy.com/useraccounts/TnC">terms &amp; conditions</a></string>
-    <string name="lostpassword">If you lost your password please contact <a href="mailto:support@accenteasy.com?Subject=Lost%20Password" target="_top">support@accenteasy.com</a></string>
+    <string name="lostpassword">click here if you have forgotten your password</string>
 </resources>

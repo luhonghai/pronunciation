@@ -19,6 +19,13 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         super(UserJDO.class, User.class);
     }
 
+    public User getUserByResetPasswordCode(String code) throws Exception {
+        List<User> userList = list("WHERE resetPasswordCode == :1", code);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+
     public User getUserByEmail(String email) throws Exception {
         List<User> userList = list("WHERE username == :1", email);
         if (userList != null && userList.size() > 0)

@@ -9,7 +9,7 @@
 	<description>VRC Server</description>
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-		<beanstalk.versionLabel>${maven.build.timestamp}</beanstalk.versionLabel>
+		<beanstalk.versionLabel>v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
 		<beanstalk.cnamePrefix>accenteasytomcat-prd</beanstalk.cnamePrefix>
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
@@ -498,6 +498,7 @@
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
 				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
+				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
             </properties>
 		</profile>
         <profile>
@@ -526,6 +527,7 @@
                 <recipients>hai.lu@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
 				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
+				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
             </properties>
         </profile>
 		<profile>
@@ -554,6 +556,7 @@
                 <recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
 				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
+				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
 			</properties>
 		</profile>
 		<profile>
@@ -581,6 +584,7 @@
 				<recipients>feedback@accenteasy.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
 				<url.active.account>http://reg.accenteasy.com/activate</url.active.account>
+				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
 			</properties>
 		</profile>
 	</profiles>

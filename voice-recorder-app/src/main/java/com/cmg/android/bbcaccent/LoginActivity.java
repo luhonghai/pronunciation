@@ -120,7 +120,37 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private Dialog dialogLicense;
 
+    private Dialog dialogResetPassword;
+
     private void initAuthDialog() {
+
+        // Reset password dialog
+        dialogResetPassword = new Dialog(this, R.style.Theme_WhiteDialog);
+        prepareDialog(dialogResetPassword);
+        dialogResetPassword.setContentView(R.layout.dialog_reset_password);
+        initDialog(dialogResetPassword);
+        dialogResetPassword.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserProfile profile = new UserProfile();
+                profile.setUsername(((TextView) dialogResetPassword.findViewById(R.id.txtEmail)).getText().toString());
+                if (profile.getUsername().length() > 0) {
+                    dialogResetPassword.findViewById(R.id.btnReset).setEnabled(false);
+                    doResetPassword(profile);
+                } else {
+                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+                            .setMessage("Please enter email")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
+                }
+            }
+        });
+        ((TextView)dialogResetPassword.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
+
         // Login dialog
         dialogLogin = new Dialog(this, R.style.Theme_WhiteDialog);
         prepareDialog(dialogLogin);
@@ -148,7 +178,15 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
             }
         });
-        ((TextView)dialogLogin.findViewById(R.id.txtLostPassword)).setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView)dialogLogin.findViewById(R.id.txtLostPassword)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!dialogResetPassword.isShowing() && isRunning()) {
+                    ((TextView) dialogResetPassword.findViewById(R.id.txtEmail)).setText(((TextView) dialogLogin.findViewById(R.id.txtEmail)).getText());
+                    dialogResetPassword.show();
+                }
+            }
+        });
         ((TextView)dialogLogin.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // License dialog
@@ -372,6 +410,53 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             }
         });
         ((TextView)dialogValidation.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void doResetPassword(final UserProfile profile) {
+        accountManager.resetPassword(profile,
+                new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogResetPassword.findViewById(R.id.btnReset).setEnabled(true);
+                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Could not send request")
+                                        .setMessage(message)
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                alertDialog.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogResetPassword.findViewById(R.id.btnReset).setEnabled(true);
+                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+                                        .setTitle("Successfully sent")
+                                        .setMessage("Please check message in your email " + profile.getUsername())
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                        .create();
+                                alertDialog.show();
+                            }
+                        });
+                    }
+                });
     }
 
     private void doActivateLicense(final UserProfile profile) {
