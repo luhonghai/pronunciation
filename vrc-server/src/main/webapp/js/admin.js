@@ -48,17 +48,13 @@ function listAdmin(){
             "bSortable": false,
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
-                $button.attr("id-column-edit", data.id );
+                $button.attr("id-column", data.id );
                 $button.attr("username", data.userName);
                 $button.attr("first", data.firstName );
                 $button.attr("last", data.lastName );
                 $button.attr("role", data.role );
-
-
                 return $("<div/>").append($button).html();
             }
-
-
         }]
 
     });
@@ -164,7 +160,7 @@ function validateFormAdd(){
 function deletes(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
-        var idd=$(this).attr('id-column-delete');
+        var idd=$(this).attr('id-column');
         $("#iddelete").val(idd);
     });
 }
@@ -241,7 +237,7 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var roles;
-        var idd = $(this).attr('id-column-edit');
+        var idd = $(this).attr('id-column');
         var user=$(this).attr('username');
         var first = $(this).attr('first');
         var last=$(this).attr('last');
