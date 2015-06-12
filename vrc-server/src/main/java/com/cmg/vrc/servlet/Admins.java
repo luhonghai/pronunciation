@@ -91,8 +91,10 @@ public class Admins extends HttpServlet {
                 ro=2;
             }
             try{
-                Admin a=adminDAO.getUserByEmailPassword(username, password);
-            if(a==null) {
+                Admin a=adminDAO.getUserByEmail(username);
+            if(a!=null) {
+                response.getWriter().write("error");
+            } else {
                 ad.setUserName(username);
                 ad.setPassword(StringUtil.md5(password));
                 ad.setFirstName(firstname);
@@ -100,9 +102,7 @@ public class Admins extends HttpServlet {
                 ad.setRole(ro);
                 adminDAO.put(ad);
                 response.getWriter().write("success");
-            }
-                else {
-                response.getWriter().write("error");
+
             }
             }catch (Exception e){
                 e.printStackTrace();
@@ -127,7 +127,7 @@ public class Admins extends HttpServlet {
                 ro=2;
             }
             try{
-                Admin a=adminDAO.getUserByEmailPassword(username, password);
+                Admin a=adminDAO.getUserByEmail(username);
                 if(a==null) {
                     Admin admi = adminDAO.getById(id);
                     if (username.length()>0) {

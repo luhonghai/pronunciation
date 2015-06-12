@@ -37,7 +37,7 @@ import java.io.IOException;
         try {
            Admin admin= adminDAO.getUserByEmailPassword(name, StringUtil.md5(pass));
             if (admin!=null){
-              //  session.setAttribute("nambui",admin);
+                    session.setAttribute("nambui",admin);
                     session.setAttribute("id",admin.getId());
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
