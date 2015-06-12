@@ -147,7 +147,7 @@ public class Admins extends HttpServlet {
                     adminDAO.put(admi);
                     response.getWriter().write("success");
                 }
-                if(a!=null && id.equals(idd)) {
+                else if(a!=null && id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
                     if (username.length()>0) {
                         admi.setUserName(username);
