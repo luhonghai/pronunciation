@@ -165,7 +165,6 @@
                   <label class="col-xs-4  col-sm-3 control-label">UserName:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="editusername" name="editusername" class=" form-control" style="padding-left: 0px;">
-                    <p id="nameEdits" class="nameEdit" style="color:red;display: none;">Required field to enter data</p>
                     <p id="nameeditsemail" class="nameeditemail" style="color:red; display: none;">Email format wrong!</p>
                   </div>
                 </div>
@@ -187,7 +186,7 @@
                     <label class="col-xs-4  col-sm-3 control-label">Password:</label>
                     <div class="col-xs-8  col-sm-9">
                       <input  type="password" id="editpassword" name="editpassword" class=" form-control" style="padding-left: 0px;">
-                      <p id="passEdits" class="passEdit" style="color:red;display: none;">Required field to enter data</p>
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -197,7 +196,6 @@
                       <option value="Admin">Admin</option>
                       <option value="User">User</option>
                     </select>
-                    <p id="roleEdits" class="roleEdit" style="color:red;display: none;">Required field to enter data</p>
                   </div>
                 </div>
                 <div class="modal-footer">

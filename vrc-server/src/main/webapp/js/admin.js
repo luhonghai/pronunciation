@@ -289,7 +289,7 @@ function edituser(){
                     if (data == "success") {
                         $("tbody").html("");
                         myTable.fnDraw();
-                        $("#add").modal('hide');
+                        $("#edits").modal('hide');
                     }
                     if (data == "error") {
                         $("#UserNameExitUpdate").show();
@@ -310,37 +310,12 @@ function edituser(){
 function validateFormUpdate(){
     var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     var username=$.trim($("#editusername").val());
-    var pass=$.trim($("#editpassword").val());
-    var role=$.trim($("#editrole").val());
-
-    if(username == "" || username.length == 0 || typeof username ==='underfined'){
-        $("#nameEdits").show();
-        return false;
-    }else{
-        $("#nameEdits").hide();
-    }
-
-    if(!filter.test(username)){
+    if(username.length>0 && !filter.test(username)){
         $("#nameeditsemail").show();
         return false;
     }else{
         $("#nameeditsemail").hide();
     }
-
-    if(pass =="" || pass.length == 0 || typeof pass ==='underfined'){
-        $("#passEdits").show();
-        return false;
-    }else{
-        $("#passEdits").hide();
-    }
-
-    if( role.length ==0 || typeof role == 'underfined'){
-        $("#roleEdits").show();
-        return false;
-    }else{
-        $("#roleEdits").hide();
-    }
-
 
     return true;
 
@@ -379,11 +354,8 @@ function hideaddmessage(){
 }
 function hideeditmessage(){
     $(document).on("click","#closeedit", function(){
-        $("#nameEdits").hide();
-        $("#passEdits").hide();
         $("#nameeditsemail").hide();
         $("#UserNameExitUpdate").hide();
-        $("#roleEdits").hide();
 
     });
 
