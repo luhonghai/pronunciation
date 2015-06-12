@@ -1076,6 +1076,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         public void run() {
                             //dialogProgress.dismissWithAnimation();
                             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
+                            if (dialogLogin.isShowing()) {
+                                dialogLogin.cancel();
+                            }
                             //showProcessDialog();
                         }
                     });
