@@ -110,6 +110,7 @@ public class Admins extends HttpServlet {
 
         }
         if(request.getParameter("edit")!=null){
+            String idd=request.getSession().getAttribute("id").toString();
             String id=request.getParameter("id");
             String username = request.getParameter("username");
             String firstname = request.getParameter("firstname");
@@ -129,6 +130,24 @@ public class Admins extends HttpServlet {
             try{
                 Admin a=adminDAO.getUserByEmail(username);
                 if(a==null) {
+                    Admin admi = adminDAO.getById(id);
+                    if (username.length()>0) {
+                        admi.setUserName(username);
+                    }
+                    if (password.length()>0) {
+                        admi.setPassword(StringUtil.md5(password));
+                    }
+                    if (firstname.length()>0) {
+                        admi.setFirstName(firstname);
+                    }
+                    if (lastname.length()>0) {
+                        admi.setLastName(lastname);
+                    }
+                    admi.setRole(ro);
+                    adminDAO.put(admi);
+                    response.getWriter().write("success");
+                }
+                if(a!=null && id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
                     if (username.length()>0) {
                         admi.setUserName(username);
