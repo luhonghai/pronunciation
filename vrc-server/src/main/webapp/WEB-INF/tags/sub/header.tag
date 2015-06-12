@@ -63,7 +63,7 @@
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
 				</li>
 				<li>
-					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i>Admin</a>
+					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i> Admin</a>
 				</li>
 
 

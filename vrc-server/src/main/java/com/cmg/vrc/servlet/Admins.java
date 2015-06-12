@@ -117,6 +117,8 @@ public class Admins extends HttpServlet {
             String password = request.getParameter("password");
             String role = request.getParameter("role");
 
+
+
             int ro=0;
             if(role.length()>0 && role.equals("Admin")) {
                 ro=1;
@@ -128,10 +130,18 @@ public class Admins extends HttpServlet {
                 Admin a=adminDAO.getUserByEmailPassword(username, password);
                 if(a==null) {
                     Admin admi = adminDAO.getById(id);
-                    admi.setUserName(username);
-                    admi.setPassword(StringUtil.md5(password));
-                    admi.setFirstName(firstname);
-                    admi.setLastName(lastname);
+                    if (username.length()>0) {
+                        admi.setUserName(username);
+                    }
+                    if (password.length()>0) {
+                        admi.setPassword(StringUtil.md5(password));
+                    }
+                    if (firstname.length()>0) {
+                        admi.setFirstName(firstname);
+                    }
+                    if (lastname.length()>0) {
+                        admi.setLastName(lastname);
+                    }
                     admi.setRole(ro);
                     adminDAO.put(admi);
                     response.getWriter().write("success");

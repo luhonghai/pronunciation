@@ -48,17 +48,13 @@ function listAdmin(){
             "bSortable": false,
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
-                $button.attr("id-column-edit", data.id );
+                $button.attr("id-column", data.id );
                 $button.attr("username", data.userName);
                 $button.attr("first", data.firstName );
                 $button.attr("last", data.lastName );
                 $button.attr("role", data.role );
-
-
                 return $("<div/>").append($button).html();
             }
-
-
         }]
 
     });
@@ -164,7 +160,7 @@ function validateFormAdd(){
 function deletes(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
-        var idd=$(this).attr('id-column-delete');
+        var idd=$(this).attr('id-column');
         $("#iddelete").val(idd);
     });
 }
@@ -241,7 +237,7 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var roles;
-        var idd = $(this).attr('id-column-edit');
+        var idd = $(this).attr('id-column');
         var user=$(this).attr('username');
         var first = $(this).attr('first');
         var last=$(this).attr('last');
@@ -293,7 +289,7 @@ function edituser(){
                     if (data == "success") {
                         $("tbody").html("");
                         myTable.fnDraw();
-                        $("#add").modal('hide');
+                        $("#edits").modal('hide');
                     }
                     if (data == "error") {
                         $("#UserNameExitUpdate").show();
@@ -314,37 +310,12 @@ function edituser(){
 function validateFormUpdate(){
     var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
     var username=$.trim($("#editusername").val());
-    var pass=$.trim($("#editpassword").val());
-    var role=$.trim($("#editrole").val());
-
-    if(username == "" || username.length == 0 || typeof username ==='underfined'){
-        $("#nameEdits").show();
-        return false;
-    }else{
-        $("#nameEdits").hide();
-    }
-
-    if(!filter.test(username)){
+    if(username.length>0 && !filter.test(username)){
         $("#nameeditsemail").show();
         return false;
     }else{
         $("#nameeditsemail").hide();
     }
-
-    if(pass =="" || pass.length == 0 || typeof pass ==='underfined'){
-        $("#passEdits").show();
-        return false;
-    }else{
-        $("#passEdits").hide();
-    }
-
-    if( role.length ==0 || typeof role == 'underfined'){
-        $("#roleEdits").show();
-        return false;
-    }else{
-        $("#roleEdits").hide();
-    }
-
 
     return true;
 
@@ -383,11 +354,8 @@ function hideaddmessage(){
 }
 function hideeditmessage(){
     $(document).on("click","#closeedit", function(){
-        $("#nameEdits").hide();
-        $("#passEdits").hide();
         $("#nameeditsemail").hide();
         $("#UserNameExitUpdate").hide();
-        $("#roleEdits").hide();
 
     });
 

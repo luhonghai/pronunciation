@@ -56,12 +56,18 @@ public class AdminJDO implements Mirrorable {
         return firstName;
     }
     public void setFirstName(String firstName){
+        if(firstName==null){
+            this.firstName="";
+        }
         this.firstName =firstName;
     }
     public String getLastName(){
         return lastName;
     }
     public void setLastName(String lastName){
+        if(lastName==null){
+            this.lastName="";
+        }
         this.lastName =lastName;
     }
     public int getRole(){
