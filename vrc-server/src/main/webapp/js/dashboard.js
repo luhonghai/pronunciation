@@ -17,48 +17,50 @@ function getCouse(){
     });
 }
 
-function loadEnvironments() {
-    var template = Handlebars.compile($("#environment-entry-template").html());
-    var $container = $("#aws-environments");
-    $.ajax({
-        url: CONTEXT_PATH + "awsservice",
-        type:"GET",
-        dataType:"json",
-        data:{
-            target: "environment",
-            action: "list"
-        },
-        success:function(data){
-            if (typeof data != 'undefined' && data != null && data.status) {
-                var items =  data.data;
-                if (typeof items != 'undefined' && items.length > 0) {
-                    $container.empty();
-                    for (var i = 0; i < items.length; i++) {
-                        var item = items[i];
-                        item.health = item.health.toLowerCase();
-                        if (item.status.indexOf("Ready") != -1) {
-                            item.statusColor = "info";
-                            item.statusAction = "";
-                        } else if (item.status.indexOf("Terminated") != -1) {
-                            item.statusColor = "danger";
-                            item.statusAction = "disabled=disabled";
-                        } else {
-                            item.statusColor = "warning";
-                            item.statusAction = "disabled=disabled";
-                        }
-                        $container.append(template(item));
-                    }
-                    updateEnvButtonEvent();
-                }
-            } else {
+function loadEnvironments(){
 
+        var template = Handlebars.compile($("#environment-entry-template").html());
+        var $container = $("#aws-environments");
+        $.ajax({
+            url: CONTEXT_PATH + "awsservice",
+            type: "GET",
+            dataType: "json",
+            data: {
+                target: "environment",
+                action: "list"
+            },
+            success: function (data) {
+                if (typeof data != 'undefined' && data != null && data.status) {
+                    var items = data.data;
+                    if (typeof items != 'undefined' && items.length > 0) {
+                        $container.empty();
+                        for (var i = 0; i < items.length; i++) {
+                            var item = items[i];
+                            item.health = item.health.toLowerCase();
+                            if (item.status.indexOf("Ready") != -1) {
+                                item.statusColor = "info";
+                                item.statusAction = "";
+                            } else if (item.status.indexOf("Terminated") != -1) {
+                                item.statusColor = "danger";
+                                item.statusAction = "disabled=disabled";
+                            } else {
+                                item.statusColor = "warning";
+                                item.statusAction = "disabled=disabled";
+                            }
+                            $container.append(template(item));
+                        }
+                        updateEnvButtonEvent();
+                    }
+                } else {
+
+                }
+                updateEnvTimer();
+            },
+            error: function (e) {
+                updateEnvTimer();
             }
-            updateEnvTimer();
-        },
-        error: function(e) {
-            updateEnvTimer();
-        }
-    });
+        });
+
 }
 
 function updateEnvButtonEvent() {
@@ -157,6 +159,10 @@ function updateEnvTimer(doNow) {
 
 
 $(document).ready(function(){
+    var role=$("#roles").val();
     getCouse();
-    loadEnvironments();
+    if(role=="1"){
+        $("#title-server").show();
+        loadEnvironments();
+    }
 });

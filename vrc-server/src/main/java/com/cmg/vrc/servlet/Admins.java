@@ -91,8 +91,10 @@ public class Admins extends HttpServlet {
                 ro=2;
             }
             try{
-                Admin a=adminDAO.getUserByEmailPassword(username, password);
-            if(a==null) {
+                Admin a=adminDAO.getUserByEmail(username);
+            if(a!=null) {
+                response.getWriter().write("error");
+            } else {
                 ad.setUserName(username);
                 ad.setPassword(StringUtil.md5(password));
                 ad.setFirstName(firstname);
@@ -100,9 +102,7 @@ public class Admins extends HttpServlet {
                 ad.setRole(ro);
                 adminDAO.put(ad);
                 response.getWriter().write("success");
-            }
-                else {
-                response.getWriter().write("error");
+
             }
             }catch (Exception e){
                 e.printStackTrace();
@@ -110,6 +110,7 @@ public class Admins extends HttpServlet {
 
         }
         if(request.getParameter("edit")!=null){
+            String idd=request.getSession().getAttribute("id").toString();
             String id=request.getParameter("id");
             String username = request.getParameter("username");
             String firstname = request.getParameter("firstname");
@@ -127,8 +128,26 @@ public class Admins extends HttpServlet {
                 ro=2;
             }
             try{
-                Admin a=adminDAO.getUserByEmailPassword(username, password);
+                Admin a=adminDAO.getUserByEmail(username);
                 if(a==null) {
+                    Admin admi = adminDAO.getById(id);
+                    if (username.length()>0) {
+                        admi.setUserName(username);
+                    }
+                    if (password.length()>0) {
+                        admi.setPassword(StringUtil.md5(password));
+                    }
+                    if (firstname.length()>0) {
+                        admi.setFirstName(firstname);
+                    }
+                    if (lastname.length()>0) {
+                        admi.setLastName(lastname);
+                    }
+                    admi.setRole(ro);
+                    adminDAO.put(admi);
+                    response.getWriter().write("success");
+                }
+                if(a!=null && id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
                     if (username.length()>0) {
                         admi.setUserName(username);

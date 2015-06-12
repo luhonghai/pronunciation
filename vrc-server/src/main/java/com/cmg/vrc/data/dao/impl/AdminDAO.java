@@ -24,6 +24,13 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
             return userList.get(0);
         return null;
     }
+    public Admin getUserByEmail(String email) throws Exception {
+        List<Admin> userList = list("WHERE userName == :1", email);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+
 
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 

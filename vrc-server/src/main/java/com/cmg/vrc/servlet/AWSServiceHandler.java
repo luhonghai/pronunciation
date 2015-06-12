@@ -28,6 +28,7 @@ public class AWSServiceHandler extends BaseServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String action = request.getParameter("action");
         String target = request.getParameter("target");
         String data = request.getParameter("data");
@@ -62,6 +63,7 @@ public class AWSServiceHandler extends BaseServlet {
             rd.message = "An error occurs while complete request. Message: " + e.getMessage();
             printMessage(response, gson.toJson(rd));
         }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
