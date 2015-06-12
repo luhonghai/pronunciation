@@ -28,6 +28,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,39 +149,62 @@ public class SplashScreen extends BaseActivity implements
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    AlertDialog d;
+
+                                    SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.ERROR_TYPE);
+                                    d.setTitleText("Could not login");
+                                    d.setContentText(message);
+                                    d.setCancelText("Close");
+                                    d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            SplashScreen.this.finish();
+                                        }
+                                    });
                                     if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
                                             && (message.equalsIgnoreCase("Invalid username or password")
-                                                || message.endsWith("is not activated"))) {
-                                        d = new AlertDialog.Builder(SplashScreen.this)
-                                                .setTitle("Could not login")
-                                                .setMessage(s)
-                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        SplashScreen.this.finish();
-                                                    }
-                                                })
-                                                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        goToActivity(LoginActivity.class);
-                                                    }
-                                                })
-                                                .create();
-                                    } else {
-                                       d = new AlertDialog.Builder(SplashScreen.this)
-                                                .setTitle("Could not login")
-                                                .setMessage(s)
-                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        SplashScreen.this.finish();
-                                                    }
-                                                }).create();
+                                            || message.endsWith("is not activated"))) {
+                                        d.setConfirmText("Login");
+                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                goToActivity(LoginActivity.class);
+                                            }
+                                        });
                                     }
                                     d.show();
-                                    ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+//                                    AlertDialog d;
+//                                    if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
+//                                            && (message.equalsIgnoreCase("Invalid username or password")
+//                                                || message.endsWith("is not activated"))) {
+//                                        d = new AlertDialog.Builder(SplashScreen.this)
+//                                                .setTitle("Could not login")
+//                                                .setMessage(s)
+//                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        SplashScreen.this.finish();
+//                                                    }
+//                                                })
+//                                                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        goToActivity(LoginActivity.class);
+//                                                    }
+//                                                })
+//                                                .create();
+//                                    } else {
+//                                       d = new AlertDialog.Builder(SplashScreen.this)
+//                                                .setTitle("Could not login")
+//                                                .setMessage(s)
+//                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        SplashScreen.this.finish();
+//                                                    }
+//                                                }).create();
+//                                    }
+//                                    d.show();
+//                                    ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                                 }
                             });
                         }
@@ -215,25 +239,45 @@ public class SplashScreen extends BaseActivity implements
                     public void run() {
                         if (isRunning()) {
                             if (profile.getLicenseCode() != null && profile.getLicenseCode().length() > 0) {
-                                AlertDialog d;
-                                d = new AlertDialog.Builder(SplashScreen.this)
-                                        .setTitle("Invalid licence")
-                                        .setMessage(message)
-                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                SplashScreen.this.finish();
-                                            }
-                                        })
-                                        .setPositiveButton("Enter licence code", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                goToActivity(LoginActivity.class);
-                                            }
-                                        })
-                                        .create();
+
+                                SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText("Invalid licence");
+                                d.setContentText(message);
+                                d.setConfirmText("Enter licence code");
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        goToActivity(LoginActivity.class);
+                                    }
+                                });
+                                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        SplashScreen.this.finish();
+                                    }
+                                });
+                                d.setCancelText("Close");
                                 d.show();
-                                ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+//
+//                                AlertDialog d;
+//                                d = new AlertDialog.Builder(SplashScreen.this)
+//                                        .setTitle("Invalid licence")
+//                                        .setMessage(message)
+//                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                SplashScreen.this.finish();
+//                                            }
+//                                        })
+//                                        .setPositiveButton("Enter licence code", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                            }
+//                                        })
+//                                        .create();
+//                                d.show();
+//                                ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                             } else {
                                 goToActivity(LoginActivity.class);
                             }

@@ -55,10 +55,12 @@ public class UserVoiceModelJDO implements Mirrorable {
     private String rawSphinxResult;
 
     public String getUsername() {
+        if (username != null) username = username.toLowerCase();
         return username;
     }
 
     public void setUsername(String username) {
+        if (username != null) username = username.toLowerCase();
         this.username = username;
     }
 

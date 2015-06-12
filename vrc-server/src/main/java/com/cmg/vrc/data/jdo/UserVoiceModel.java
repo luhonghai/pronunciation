@@ -33,10 +33,12 @@ public class UserVoiceModel implements Mirrorable {
     private SphinxResult result;
 
     public String getUsername() {
+        if (username != null) username = username.toLowerCase();
         return username;
     }
 
     public void setUsername(String username) {
+        if (username != null) username = username.toLowerCase();
         this.username = username;
     }
 

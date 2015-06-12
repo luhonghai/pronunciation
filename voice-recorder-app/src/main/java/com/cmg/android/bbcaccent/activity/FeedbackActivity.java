@@ -45,12 +45,14 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class FeedbackActivity extends BaseActivity {
     public static final String SEND_FEEDBACK_FINISH = "com.cmg.android.bbcaccent.activity.FeedbackActivity";
 
     private String stackTrace;
 
-    private AlertDialog dialogWaiting;
+    private SweetAlertDialog dialogProcess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,35 +68,43 @@ public class FeedbackActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.containsKey(ExceptionHandler.STACK_TRACE)) {
             stackTrace =bundle.getString(ExceptionHandler.STACK_TRACE);
-            final AlertDialog dialogError = new AlertDialog.Builder(this).setTitle("An unexpected error occurred")
-                    .setMessage(getResources().getString(R.string.error_message))
-                    .setNegativeButton(getResources().getString(R.string.dialog_close),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.dismiss();
-                                }
-                            }).create();
-            dialogError.show();
+
+            SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+            d.setTitleText("An unexpected error occurred");
+            d.setContentText(getResources().getString(R.string.error_message));
+            d.setConfirmText("Ok");
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            d.show();
+//            final AlertDialog dialogError = new AlertDialog.Builder(this).setTitle("An unexpected error occurred")
+//                    .setMessage(getResources().getString(R.string.error_message))
+//                    .setNegativeButton(getResources().getString(R.string.dialog_close),
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).create();
+//            dialogError.show();
         }
         TextView t3 = (TextView) findViewById(R.id.textView2);
         t3.setText(Html.fromHtml("<a href=\"http://www.accenteasy.com/bbcaccent/privacy\">How is my information stored and shared</a>"));
         t3.setMovementMethod(LinkMovementMethod.getInstance());
-        dialogWaiting = new AlertDialog.Builder(this)
-                .setMessage("Please wait a moment while your feedback is being processed")
-                .setNegativeButton(getResources().getString(R.string.dialog_close),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
-        registerReceiver(mHandleMessageReader, new IntentFilter(SEND_FEEDBACK_FINISH));
+        registerReceiver(mHandleMessageReader, new IntentFilter(FeedbackActivity.SEND_FEEDBACK_FINISH));
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void showProcessDialog() {
+        dialogProcess = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        dialogProcess.setTitleText("processing");
+        dialogProcess.setCancelable(false);
+        dialogProcess.show();
+    }
 
     public String getItemSelectSpin() {
         UserProfile profile = Preferences.getCurrentProfile(this);
@@ -108,71 +118,69 @@ public class FeedbackActivity extends BaseActivity {
         return desc;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //super.onCreateOptionsMenu(menu);
-//        menu.add("Cancel").setShowAsAction(
-//                MenuItem.SHOW_AS_ACTION_ALWAYS
-//                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 //
-//        menu.add("Preview").setShowAsAction(
-//                MenuItem.SHOW_AS_ACTION_ALWAYS
-//                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-//        menu.add("send").setShowAsAction(
-//                MenuItem.SHOW_AS_ACTION_ALWAYS
-//                        | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-                onBackPressed();
-                return true;
-        }
-        if (item.getTitle().equals("Cancel")) {
-            super.onBackPressed();
-        } else if (item.getTitle().equals("Preview")) {
-            String html = ContentUtils.generatePreviewHtmlFeedback(getFormData());
-            View view = getLayoutInflater().inflate(R.layout.change_log, null);
-            ((WebView) view.findViewById(R.id.webView)).loadDataWithBaseURL(
-                    html, html, "text/html", null, null);
-            final AlertDialog dialogChangeLog = new AlertDialog.Builder(this)
-                    .setTitle("Preview Feedback")
-                    .setView(view)
-                    .setNegativeButton(getResources().getString(R.string.dialog_close),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    dialog.dismiss();
-
-                                }
-                            }).create();
-
-            dialogChangeLog.show();
-        } else if (item.getTitle().toString().equalsIgnoreCase("send")) {
-            sendFeedback();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+//                onBackPressed();
+//                return true;
+//        }
+//        if (item.getTitle().equals("Cancel")) {
+//            super.onBackPressed();
+//        } else if (item.getTitle().equals("Preview")) {
+//            String html = ContentUtils.generatePreviewHtmlFeedback(getFormData());
+//            View view = getLayoutInflater().inflate(R.layout.change_log, null);
+//            ((WebView) view.findViewById(R.id.webView)).loadDataWithBaseURL(
+//                    html, html, "text/html", null, null);
+//            final AlertDialog dialogChangeLog = new AlertDialog.Builder(this)
+//                    .setTitle("Preview Feedback")
+//                    .setView(view)
+//                    .setNegativeButton(getResources().getString(R.string.dialog_close),
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int which) {
+//                                    dialog.dismiss();
+//
+//                                }
+//                            }).create();
+//
+//            dialogChangeLog.show();
+//        } else if (item.getTitle().toString().equalsIgnoreCase("send")) {
+//            sendFeedback();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void sendFeedback() {
-        Map<String, String> params = getFormData();
-        String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
-        SimpleAppLog.info("screenshootPath: " + screenshootPath);
-        params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
-        params.put(FileCommon.PARA_FILE_NAME,
-                ContentUtils.getFileName(screenshootPath));
-        params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
-        UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext(), params);
-        uploadAsync.execute();
-        dialogWaiting.show();
+        if (getTextDescription().trim().length() == 0) {
+            SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+            d.setTitleText("Please enter your message");
+            d.setContentText("");
+            d.setConfirmText("Ok");
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            d.show();
+        } else {
+            Map<String, String> params = getFormData();
+            String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
+            SimpleAppLog.info("screenshootPath: " + screenshootPath);
+            params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
+            params.put(FileCommon.PARA_FILE_NAME,
+                    ContentUtils.getFileName(screenshootPath));
+            params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
+            UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext(), params);
+            uploadAsync.execute();
+            showProcessDialog();
+        }
     }
 
     private Map<String, String> getFormData() {
+
         Map<String, String> infos = new HashMap<String, String>();
 
         String pathLastScreenShot = AndroidHelper.getLatestScreenShootURL(this);
@@ -203,11 +211,15 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(mHandleMessageReader);
+        try {
+            unregisterReceiver(mHandleMessageReader);
+        } catch (Exception e) {
+
+        }
     }
 
     private void closeFeedBack(){
-        super.onBackPressed();
+        this.finish();
     }
 
     /**
@@ -216,20 +228,24 @@ public class FeedbackActivity extends BaseActivity {
     private final BroadcastReceiver mHandleMessageReader = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras().containsKey(SEND_FEEDBACK_FINISH)) {
-                if (dialogWaiting == null)
-                    return;
-                if (dialogWaiting.isShowing()) {
-                    dialogWaiting.dismiss();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (dialogProcess != null)
+                        dialogProcess.dismissWithAnimation();
+                    SweetAlertDialog d = new SweetAlertDialog(FeedbackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                    d.setTitleText("Successfully submitted");
+                    d.setContentText("Thank you for your feedback. We appreciate your feedback and will continue to strive to make our application better. Thank you!");
+                    d.setConfirmText("Ok");
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            FeedbackActivity.this.finish();
+                        }
+                    });
+                    d.show();
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeFeedBack();
-                    }
-                }, 3000);
-            }
+            });
         }
     };
 

@@ -42,10 +42,12 @@ public class LicenseCodeJDO implements Mirrorable {
     }
 
     public String getAccount() {
+        if (account != null) account = account.toLowerCase();
         return account;
     }
 
     public void setAccount(String account) {
+        if (account != null) account = account.toLowerCase();
         this.account = account;
     }
 

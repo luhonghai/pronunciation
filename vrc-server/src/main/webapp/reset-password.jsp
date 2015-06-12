@@ -53,7 +53,7 @@
             <input type="password" id="password1" name="password1" class="form-control input-lg">
           </div>
           <div class="form-group">
-            <button type="button" id="reset" name="reset" class="btn btn-primary btn-lg btn-block btn-reset">Reset</button>
+            <button type="button" id="reset" name="reset" class="btn btn-primary btn-lg btn-block btn-reset">reset</button>
           </div>
         </div>
         <%} else {%>
@@ -71,7 +71,7 @@
       if (p1.length >= 6 && p2.length >= 6) {
         if (p1 == p2) {
           $.ajax({
-            url: <%=request.getContextPath()%> +"/ResetPasswordHandler",
+            url: "<%=request.getContextPath()%>/ResetPasswordHandler",
             type: "POST",
             data: {
               code: $("#code").val(),

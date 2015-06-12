@@ -108,6 +108,7 @@ import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
                                                             View.OnClickListener,
@@ -231,6 +232,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private  ImageView imgAvatar;
     private TextView txtUserName;
     private TextView txtUserEmail;
+    private boolean isInitTabHost = false;
     /**
      *
      * @param savedInstanceState
@@ -243,7 +245,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         setContentView(R.layout.main);
         initListMenu();
         initCustomActionBar();
-        initTabHost();
+        if (savedInstanceState != null) {
+            isInitTabHost = true;
+            initTabHost();
+        }
         initRecordingView();
         initAnimation();
         switchButtonStage(ButtonState.DISABLED);
@@ -317,23 +322,48 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         startActivity(FeedbackActivity.class);
                         break;
                     case 5:
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Logout account")
-                                .setMessage("Are you sure you want to logout this account")
-                                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
-                                        if (profile != null) {
-                                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
-                                        }
-                                        accountManager.logout();
-                                        MainActivity.this.finish();
-                                        startActivity(LoginActivity.class);
-                                    }
-                                })
-                                .setNegativeButton("No",null)
-                        .show();
+                        SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                        d.setTitleText("Logout account");
+                        d.setContentText("Are you sure you want to logout this account?");
+                        d.setConfirmText("Logout");
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
+                                if (profile != null) {
+                                    AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
+                                }
+                                accountManager.logout();
+                                MainActivity.this.finish();
+                                startActivity(LoginActivity.class);
+                            }
+                        });
+                        d.setCancelText("No");
+                        d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+                        d.show();
+
+//                        new AlertDialog.Builder(MainActivity.this)
+//                                .setTitle("Logout account")
+//                                .setMessage("Are you sure you want to logout this account")
+//                                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
+//                                        if (profile != null) {
+//                                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
+//                                        }
+//                                        accountManager.logout();
+//                                        MainActivity.this.finish();
+//                                        startActivity(LoginActivity.class);
+//                                    }
+//                                })
+//                                .setNegativeButton("No",null)
+//                        .show();
                         break;
                 }
             }
@@ -467,9 +497,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     new int[] {R.id.txtWord, R.id.txtPhoneme},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             searchView.setSuggestionsAdapter(adapter);
-
         }
-        return super.onCreateOptionsMenu(menu);
+        //return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -485,8 +515,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     drawerLayout.openDrawer(Gravity.LEFT);
                 }
                 break;
+            case R.id.menu_feedback:
+                startActivity(FeedbackActivity.class);
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        //return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void completeGetWord(DictionaryItem item, ButtonState state) {
@@ -872,7 +906,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onPause() {
-        super.onPause();
+        if (mTabHost != null) {
+            mTabHost.getTabWidget().setEnabled(false);
+        }
         stopRequestLocation();
         if (currentModel != null) {
             recordingView.stopPingAnimation();
@@ -881,6 +917,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             // Null response
             analyzingState = AnalyzingState.DEFAULT;
         }
+        super.onPause();
     }
 
     protected void stopRequestLocation() {
@@ -910,6 +947,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onResume() {
         super.onResume();
+        if (!isInitTabHost) {
+            isInitTabHost = true;
+            initTabHost();
+
+        }
+        mTabHost.getTabWidget().setEnabled(true);
+
         requestLocation();
         fetchSetting();
         isPrepared = false;

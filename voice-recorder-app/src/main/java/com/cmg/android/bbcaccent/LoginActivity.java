@@ -1,15 +1,12 @@
 package com.cmg.android.bbcaccent;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
@@ -20,14 +17,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.UserProfile;
-import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.CallbackManager;
@@ -41,18 +36,17 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.helper.StringUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by luhonghai on 3/17/15.
@@ -85,6 +79,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private boolean willShowLicenceWarning = false;
 
+    private SweetAlertDialog dialogProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +104,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
             }
         };
-        enableForm(true);
         initAuthDialog();
+        enableForm(false);
     }
 
     private Dialog dialogLogin;
@@ -122,8 +118,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private Dialog dialogResetPassword;
 
-    private void initAuthDialog() {
+    private void showProcessDialog() {
+        dialogProgress = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        dialogProgress.setTitleText("processing");
+        dialogProgress.setCancelable(false);
+        dialogProgress.show();
+    }
 
+    private void initAuthDialog() {
         // Reset password dialog
         dialogResetPassword = new Dialog(this, R.style.Theme_WhiteDialog);
         prepareDialog(dialogResetPassword);
@@ -136,16 +138,28 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 profile.setUsername(((TextView) dialogResetPassword.findViewById(R.id.txtEmail)).getText().toString());
                 if (profile.getUsername().length() > 0) {
                     dialogResetPassword.findViewById(R.id.btnReset).setEnabled(false);
+                    showProcessDialog();
                     doResetPassword(profile);
                 } else {
-                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
-                            .setMessage("Please enter email")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                    SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    d.setTitleText("Missing email address");
+                    d.setContentText("Please enter email");
+                    d.setConfirmText("Ok");
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
+//                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+//                            .setMessage("Please enter email")
+//                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).show();
                 }
             }
         });
@@ -165,16 +179,28 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 profile.setPassword(((TextView) dialogLogin.findViewById(R.id.txtPassword)).getText().toString());
                 if (profile.getUsername().length() > 0 && profile.getPassword().length() > 0) {
                     dialogLogin.findViewById(R.id.btnLogin).setEnabled(false);
+                    showProcessDialog();
                     doAuth(profile);
                 } else {
-                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
-                            .setMessage("Please enter email and password")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
+                    SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    d.setTitleText("Missing data");
+                    d.setContentText("Please enter email and password");
+                    d.setConfirmText("Ok");
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
+//                    new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+//                            .setMessage("Please enter email and password")
+//                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            }).show();
                 }
             }
         });
@@ -208,16 +234,28 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             SimpleAppLog.error("Start active license: " + profile.getLicenseCode());
                             if (profile.getLicenseCode().length() > 0) {
                                 dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(false);
+                                showProcessDialog();
                                 doActivateLicense(profile);
                             } else {
-                                new AlertDialog.Builder(LoginActivity.this).setTitle(null)
-                                        .setMessage("Please enter licence code")
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        }).show();
+                                SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
+                                d.setTitleText("Missing licence code");
+                                d.setContentText("Please enter licence code");
+                                d.setConfirmText("Ok");
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+                                d.show();
+//                                new AlertDialog.Builder(LoginActivity.this).setTitle(null)
+//                                        .setMessage("Please enter licence code")
+//                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        }).show();
                             }
                         } else {
                             SimpleAppLog.error("No profile found");
@@ -269,6 +307,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             @Override
             public void onClick(View v) {
                 dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(false);
+                showProcessDialog();
                 UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
                 accountManager.submitActivationCode(
                         ((TextView) dialogValidation.findViewById(R.id.txtCode)).getText().toString().trim(),
@@ -279,33 +318,59 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        dialogProgress.dismissWithAnimation();
                                         if (message.equalsIgnoreCase("Your account has already been activated")) {
                                             dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
                                             dialogValidation.cancel();
                                             dialogLogin.show();
-                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                    .setTitle("Validation successful")
-                                                    .setMessage("Your account has already been activated.\nPlease login with your email and password")
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                        }
-                                                    })
-                                                    .create();
-                                            alertDialog.show();
+
+                                            SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                            d.setTitleText("Validation successful");
+                                            d.setContentText("Your account has already been activated.\n" +
+                                                    "Please login with your email and password");
+                                            d.setConfirmText("Ok");
+                                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    sweetAlertDialog.dismissWithAnimation();
+                                                }
+                                            });
+                                            d.show();
+
+//                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                                    .setTitle("Validation successful")
+//                                                    .setMessage("Your account has already been activated.\nPlease login with your email and password")
+//                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialog, int which) {
+//                                                            dialog.dismiss();
+//                                                        }
+//                                                    })
+//                                                    .create();
+//                                            alertDialog.show();
                                         } else {
-                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                    .setTitle("Validation failed")
-                                                    .setMessage(message)
-                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            dialog.dismiss();
-                                                        }
-                                                    })
-                                                    .create();
-                                            alertDialog.show();
+                                            SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                            d.setTitleText("Validation failed");
+                                            d.setContentText(message);
+                                            d.setConfirmText("Ok");
+                                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                    sweetAlertDialog.dismissWithAnimation();
+                                                }
+                                            });
+                                            d.show();
+//                                            AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                                    .setTitle("Validation failed")
+//                                                    .setMessage(message)
+//                                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                        @Override
+//                                                        public void onClick(DialogInterface dialog, int which) {
+//                                                            dialog.dismiss();
+//                                                        }
+//                                                    })
+//                                                    .create();
+//                                            alertDialog.show();
 
                                         }
                                         dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
@@ -318,20 +383,32 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        dialogProgress.dismissWithAnimation();
                                         dialogValidation.findViewById(R.id.btnConfirmCode).setEnabled(true);
                                         dialogValidation.cancel();
                                         dialogLogin.show();
-                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                .setTitle("Validation successful")
-                                                .setMessage("Please login with your email and password")
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .create();
-                                        alertDialog.show();
+                                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                        d.setTitleText("Validation successful");
+                                        d.setContentText("Please login with your email and password");
+                                        d.setConfirmText("Ok");
+                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
+                                        d.show();
+//                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                                .setTitle("Validation successful")
+//                                                .setMessage("Please login with your email and password")
+//                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        dialog.dismiss();
+//                                                    }
+//                                                })
+//                                                .create();
+//                                        alertDialog.show();
                                     }
                                 });
 
@@ -346,6 +423,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             @Override
             public void onClick(View v) {
                 dialogValidation.findViewById(R.id.btnSendCode).setEnabled(false);
+                showProcessDialog();
                 final UserProfile profile = Preferences.getCurrentProfile(LoginActivity.this);
                 accountManager.resendActivationCode(profile,
                         new AccountManager.AuthListener() {
@@ -354,18 +432,32 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        dialogProgress.dismissWithAnimation();
                                         dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
-                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                .setTitle("Could not send code")
-                                                .setMessage(message)
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .create();
-                                        alertDialog.show();
+
+                                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                        d.setTitleText("Could not send code");
+                                        d.setContentText(message);
+                                        d.setConfirmText("Ok");
+                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
+                                        d.show();
+
+//                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                                .setTitle("Could not send code")
+//                                                .setMessage(message)
+//                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        dialog.dismiss();
+//                                                    }
+//                                                })
+//                                                .create();
+//                                        alertDialog.show();
                                     }
                                 });
                             }
@@ -375,18 +467,32 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        dialogProgress.dismissWithAnimation();
                                         dialogValidation.findViewById(R.id.btnSendCode).setEnabled(true);
-                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                                .setTitle("Successfully sent")
-                                                .setMessage("Please check message in your email " + profile.getUsername())
-                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                })
-                                                .create();
-                                        alertDialog.show();
+
+                                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                        d.setTitleText("Successfully submitted");
+                                        d.setContentText("Please check message in your email " + profile.getUsername());
+                                        d.setConfirmText("Ok");
+                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
+                                        d.show();
+
+//                                        AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                                .setTitle("Successfully sent")
+//                                                .setMessage("Please check message in your email " + profile.getUsername())
+//                                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        dialog.dismiss();
+//                                                    }
+//                                                })
+//                                                .create();
+//                                        alertDialog.show();
                                     }
                                 });
                             }
@@ -420,18 +526,31 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                dialogProgress.dismissWithAnimation();
                                 dialogResetPassword.findViewById(R.id.btnReset).setEnabled(true);
-                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("Could not send request")
-                                        .setMessage(message)
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .create();
-                                alertDialog.show();
+                                SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText("Could not send request");
+                                d.setContentText(message);
+                                d.setConfirmText("Ok");
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+                                d.show();
+
+//                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                        .setTitle("Could not send request")
+//                                        .setMessage(message)
+//                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        })
+//                                        .create();
+//                                alertDialog.show();
                             }
                         });
                     }
@@ -441,18 +560,32 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                dialogProgress.dismissWithAnimation();
                                 dialogResetPassword.findViewById(R.id.btnReset).setEnabled(true);
-                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
-                                        .setTitle("Successfully sent")
-                                        .setMessage("Please check message in your email " + profile.getUsername())
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.dismiss();
-                                            }
-                                        })
-                                        .create();
-                                alertDialog.show();
+
+                                SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                d.setTitleText("Successfully submitted");
+                                d.setContentText("Please check message in your email " + profile.getUsername());
+                                d.setConfirmText("Ok");
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+                                d.show();
+
+//                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this)
+//                                        .setTitle("Successfully sumitted")
+//                                        .setMessage("Please check message in your email " + profile.getUsername())
+//                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        })
+//                                        .create();
+//                                alertDialog.show();
                             }
                         });
                     }
@@ -466,16 +599,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialogProgress.dismissWithAnimation();
                         dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
-                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                                .setTitle("Could not activate licence code")
-                                .setMessage(message)
-                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                }).create();
+                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                        d.setTitleText("Could not activate licence code");
+                        d.setContentText(message);
+                        d.setConfirmText("Ok");
                         d.show();
                     }
                 });
@@ -503,6 +632,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialogProgress.dismissWithAnimation();
                         dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
                         if (profile.isLogin() && isRunning()) {
                             if (!dialogLicense.isShowing())
@@ -524,6 +654,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             @Override
             public void onSuccess() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogProgress.dismissWithAnimation();
+                    }
+                });
                 Preferences.addProfile(LoginActivity.this, profile);
                 startMainActivity();
             }
@@ -544,26 +680,40 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         profile.setPassword(p1);
                         profile.setLoginType(UserProfile.TYPE_EASYACCENT);
                         dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
+                        showProcessDialog();
                         accountManager.register(profile, new AccountManager.AuthListener() {
                             @Override
                             public void onError(final String message, Throwable e) {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        dialogProgress.dismissWithAnimation();
                                         dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
-                                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                                                .setTitle("Could not register")
-                                                .setMessage(message)
-                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                    }
-                                                }).create();
+
+                                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                        d.setTitleText("Could not register");
+                                        d.setContentText(message);
+                                        d.setConfirmText("Ok");
+                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
                                         d.show();
+
+//                                        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                                                .setTitle("Could not register")
+//                                                .setMessage(message)
+//                                                .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                                    @Override
+//                                                    public void onClick(DialogInterface dialog, int which) {
+//                                                        dialog.dismiss();
+//                                                    }
+//                                                }).create();
+//                                        d.show();
                                     }
                                 });
-
                             }
 
                             @Override
@@ -575,6 +725,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                         Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
                                         dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
                                         dialogRegister.cancel();
+                                        dialogProgress.dismissWithAnimation();
                                         ((TextView) dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
                                         dialogValidation.show();
                                     }
@@ -583,39 +734,76 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             }
                         });
                     } else {
-                        new AlertDialog.Builder(this).setTitle("Invalid password")
-                                .setMessage("Both passwords must match")
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
-                                        ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+                        SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                        d.setTitleText("Invalid password");
+                        d.setContentText("Both passwords must match");
+                        d.setConfirmText("Ok");
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+                                ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+                        d.show();
+//                        new AlertDialog.Builder(this).setTitle("Invalid password")
+//                                .setMessage("Both passwords must match")
+//                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+//                                        ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+//                                        dialog.dismiss();
+//                                    }
+//                                }).show();
 
                     }
             } else {
-                new AlertDialog.Builder(this).setTitle("Invalid password")
-                        .setMessage("Passwords must be at least 6 characters in length")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                d.setTitleText("Invalid password");
+                d.setContentText("Passwords must be at least 6 characters in length");
+                d.setConfirmText("Ok");
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
                         ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
                         ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
-                        dialog.dismiss();
+                        sweetAlertDialog.dismissWithAnimation();
                     }
-                }).show();
+                });
+                d.show();
+//                new AlertDialog.Builder(this).setTitle("Invalid password")
+//                        .setMessage("Passwords must be at least 6 characters in length")
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+//                        ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+//                        dialog.dismiss();
+//                    }
+//                }).show();
             }
         } else {
-            new AlertDialog.Builder(this).setTitle("Invalid email address")
-                    .setMessage("Please enter a valid email address")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+            SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+            d.setTitleText("Invalid email address");
+            d.setContentText("Please enter a valid email address");
+            d.setConfirmText("Ok");
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            d.show();
+//            new AlertDialog.Builder(this).setTitle("Invalid email address")
+//                    .setMessage("Please enter a valid email address")
+//                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).show();
         }
     }
 
@@ -676,6 +864,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private void resolveSignInError() {
         if (mConnectionResult != null && mConnectionResult.hasResolution()) {
+
             try {
                 mIntentInProccess = true;
                 mConnectionResult.startResolutionForResult(this, 0);
@@ -711,9 +900,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     public void onSuccess(LoginResult loginResult) {
-        enableForm(true);
-//        Toast.makeText(this, "Login successfully", Toast.LENGTH_LONG).show();
-//        startMainActivity();
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -751,6 +937,13 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
                             }
                             profile.setLoginType(UserProfile.TYPE_FACEBOOK);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    enableForm(true);
+                                    showProcessDialog();
+                                }
+                            });
                             doAuth(profile);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -779,16 +972,27 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     public void onError(FacebookException e) {
         enableForm(true);
         //Toast.makeText(this, "Could not login to Facebook", Toast.LENGTH_LONG).show();
-        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                .setTitle("Could not login")
-                .setMessage("Sorry but your Internet connection does not appear to be working")
-                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+        d.setTitleText("Could not login");
+        d.setContentText("Sorry but your Internet connection does not appear to be working");
+        d.setConfirmText("Ok");
+        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
         d.show();
+//        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                .setTitle("Could not login")
+//                .setMessage("Sorry but your Internet connection does not appear to be working")
+//                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).create();
+//        d.show();
         ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -799,21 +1003,22 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         final UserProfile currentProfile = Preferences.getCurrentProfile(this);
         if (currentProfile == null) {
             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
-            new AlertDialog.Builder(LoginActivity.this)
-                    .setTitle("Error")
-                    .setMessage("Could not create profile")
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            LoginActivity.this.finish();
-                        }
-                    })
-                    .show();
+            dialogProgress.dismissWithAnimation();
+            SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+            d.setTitleText("Error");
+            d.setContentText("Could not create new profile");
+            d.setConfirmText("Ok");
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    LoginActivity.this.finish();
+                }
+            });
+            d.show();
         } else {
             if (!profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
                 accountManager.register(profile, null);
             }
-
             accountManager.auth(profile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {
@@ -825,21 +1030,39 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         @Override
                         public void run() {
                             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
-                            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                                    .setTitle("Could not login")
-                                    .setMessage(s)
-                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
-                                                dialog.dismiss();
-                                            } else {
-                                                LoginActivity.this.finish();
-                                            }
-                                        }
-                                    }).create();
+                            dialogProgress.dismissWithAnimation();
+
+                            final SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                            d.setTitleText("Could not login");
+                            d.setContentText(message);
+                            d.setConfirmText("Ok");
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    } else {
+                                        LoginActivity.this.finish();
+                                    }
+                                }
+                            });
                             d.show();
-                            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+//                            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                                    .setTitle("Could not login")
+//                                    .setMessage(s)
+//                                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(DialogInterface dialog, int which) {
+//                                            if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+//                                                dialog.dismiss();
+//                                            } else {
+//                                                LoginActivity.this.finish();
+//                                            }
+//                                        }
+//                                    }).create();
+//                            d.show();
+//                            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                         }
                     });
 
@@ -851,7 +1074,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            //dialogProgress.dismissWithAnimation();
                             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
+                            //showProcessDialog();
                         }
                     });
                     AnalyticHelper.sendLoginType(LoginActivity.this, profile.getLoginType());
@@ -887,6 +1112,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             profile.setName(person.getDisplayName());
             profile.setGender(person.getGender() == 1);
             profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
+            showProcessDialog();
             doAuth(profile);
         }
     }
@@ -894,16 +1120,27 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     public void onConnectionSuspended(int i) {
         SimpleAppLog.info("Connection Suspended. Code: " + i);
-        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                .setTitle("Could not login")
-                .setMessage("Sorry but your Internet connection does not appear to be working")
-                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).create();
+        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+        d.setTitleText("Could not login");
+        d.setContentText("Sorry but your Internet connection does not appear to be working");
+        d.setConfirmText("Ok");
+        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
         d.show();
+//        AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                .setTitle("Could not login")
+//                .setMessage("Sorry but your Internet connection does not appear to be working")
+//                .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).create();
+//        d.show();
         ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         mGoogleApiClient.connect();
     }
@@ -912,6 +1149,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         if (!mGoogleApiClient.isConnecting()) {
             signedInUser = true;
             resolveSignInError();
+        } else {
+            enableForm(true);
         }
     }
 
@@ -968,17 +1207,29 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         SimpleAppLog.info("Could not connect to Google plus. Error code: " + connectionResult.getErrorCode()
                 + ". Read more at: http://developer.android.com/reference/com/google/android/gms/common/ConnectionResult.html");
         if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR) {
-            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
-                    .setTitle("Could not login")
-                    .setMessage("Sorry but your Internet connection does not appear to be working")
-                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create();
+            SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+            d.setTitleText("Could not login");
+            d.setContentText("Sorry but your Internet connection does not appear to be working");
+            d.setConfirmText("Ok");
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
             d.show();
-            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+//            AlertDialog d = new AlertDialog.Builder(LoginActivity.this)
+//                    .setTitle("Could not login")
+//                    .setMessage("Sorry but your Internet connection does not appear to be working")
+//                    .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    }).create();
+//            d.show();
+//            ((TextView)d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         }
 
         if (!connectionResult.hasResolution()) {
@@ -995,6 +1246,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     }
 
     private void enableForm(boolean enable) {
+        if (enable) {
+            if (dialogProgress != null && dialogProgress.isShowing())
+                dialogProgress.dismissWithAnimation();
+        } else {
+            showProcessDialog();
+        }
         btnLoginGGPlus.setEnabled(enable);
         btnLoginFB.setEnabled(enable);
         btnRegister.setEnabled(enable);

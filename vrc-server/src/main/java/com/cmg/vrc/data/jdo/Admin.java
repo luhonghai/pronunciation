@@ -23,9 +23,11 @@ public class Admin implements Mirrorable {
         this.id=id;
     }
    public String getUserName(){
+       if (userName != null) userName = userName.toLowerCase();
        return userName;
    }
     public void setUserName(String userName){
+        if (userName != null) userName = userName.toLowerCase();
         this.userName=userName;
     }
     public String getPassword(){

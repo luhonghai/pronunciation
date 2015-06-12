@@ -154,9 +154,14 @@ public class AWSHelper {
         beanstalkClient.rebuildEnvironment(new RebuildEnvironmentRequest().withEnvironmentName(envName));
     }
 
+    public void terminateEnvironment(String envName) {
+        beanstalkClient.terminateEnvironment(new TerminateEnvironmentRequest().withEnvironmentName(envName));
+    }
+
+
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
-        awsHelper.restartBeanstalkApp("accenteasytomcat-PRD-1");
+        awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
         //awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
        // System.out.println("Start uploading");

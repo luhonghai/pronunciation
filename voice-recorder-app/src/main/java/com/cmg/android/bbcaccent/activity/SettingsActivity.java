@@ -1,8 +1,11 @@
 package com.cmg.android.bbcaccent.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 
 /**
@@ -14,16 +17,6 @@ public class SettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new Preferences()).commit();
         getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return (super.onOptionsItemSelected(menuItem));
     }
 
     @Override

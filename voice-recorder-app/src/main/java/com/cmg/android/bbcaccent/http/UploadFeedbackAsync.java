@@ -64,7 +64,7 @@ public class UploadFeedbackAsync extends AsyncTask<Void, Void, String> {
         Intent intent = new Intent(FeedbackActivity.SEND_FEEDBACK_FINISH);
         intent.putExtra(FeedbackActivity.SEND_FEEDBACK_FINISH, "true");
         context.sendBroadcast(intent);
-        Toast.makeText(context, "Completed", Toast.LENGTH_LONG).show();
+        //Toast.makeText(context, "Completed", Toast.LENGTH_LONG).show();
         super.onPostExecute(v);
     }
 

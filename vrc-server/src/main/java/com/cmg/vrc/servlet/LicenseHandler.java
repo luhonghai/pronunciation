@@ -32,6 +32,7 @@ public class LicenseHandler extends BaseServlet {
             String imei = request.getParameter("imei");
 
             if (!StringUtils.isEmpty(account) && !StringUtils.isEmpty(action)  && !StringUtils.isEmpty(imei)) {
+                account = account.toLowerCase();
                 if (action.equalsIgnoreCase("check")) {
                     List<LicenseCode> licenseCodes = licenseCodeDAO.listByEmail(account);
                     boolean check = false;

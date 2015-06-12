@@ -111,6 +111,7 @@
             </div>
            <hr/>
            <h2>Application server</h2>
+
            <c:aws_control_dashboard></c:aws_control_dashboard>
             <!-- /.row -->
         </div>

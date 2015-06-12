@@ -43,6 +43,7 @@ public class ActivationHandler extends HttpServlet {
             String acc = request.getParameter(PARA_ACC);
             String username  = request.getParameter(PARA_USER);
             if (acc != null && acc.length() > 0 && username != null && username.length() > 0) {
+                acc = acc.toLowerCase();
                 User u = userDAO.getUserByValidationCode(acc);
                 if (u != null && u.getUsername().equalsIgnoreCase(username)) {
                     if (u.isActivated()) {
