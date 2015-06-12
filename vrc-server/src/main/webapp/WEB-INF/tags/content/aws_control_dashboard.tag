@@ -1,3 +1,4 @@
+
 <script id="environment-entry-template" type="text/x-handlebars-template">
     <div class="col-md-3 col-sm-6 aws-env-item">
         <div class="panel panel-{{health}}">
@@ -27,6 +28,19 @@
         </div>
     </div>
 </script>
+<%
+    String role=null;
+    if (session.getAttribute("role")==null){
+        return;
+    }
+    if(session.getAttribute("role").equals(1)){
+       role="1";
+    }
+    if(session.getAttribute("role").equals(2)){
+      role="2";
+    }
+%>
+<input type="hidden" id="roles" value="<%=role%>">
 
 <div id="aws-environments" class="row" style="margin-top: 30px;">
 
