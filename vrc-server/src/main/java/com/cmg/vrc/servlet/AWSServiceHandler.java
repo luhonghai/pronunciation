@@ -28,42 +28,44 @@ public class AWSServiceHandler extends BaseServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String role = request.getSession().getAttribute("role").toString();
+        if (role.equals("1")) {
+            String action = request.getParameter("action");
+            String target = request.getParameter("target");
+            String data = request.getParameter("data");
+            ResponseData<Object> rd = new ResponseData<Object>();
+            Gson gson = new Gson();
+            try {
+                if (!StringUtils.isEmpty(action) && !StringUtils.isEmpty(target)) {
+                    AWSHelper helper = new AWSHelper();
 
-        String action = request.getParameter("action");
-        String target = request.getParameter("target");
-        String data = request.getParameter("data");
-        ResponseData<Object> rd = new ResponseData<Object>();
-        Gson gson = new Gson();
-        try {
-            if (!StringUtils.isEmpty(action) && !StringUtils.isEmpty(target)) {
-                AWSHelper helper = new AWSHelper();
-
-                if (target.equalsIgnoreCase("environment")) {
-                    if (action.equalsIgnoreCase("list")) {
-                        ResponseData<EnvironmentDescription> responseData = new ResponseData<EnvironmentDescription>();
-                        responseData.data = helper.getEnvironments();
-                        responseData.status = true;
-                        printMessage(response, gson.toJson(responseData));
-                    } else if (action.equalsIgnoreCase("restart")) {
-                        helper.restartBeanstalkApp(data);
-                        rd.status = true;
-                        rd.message = "Successfully";
-                        printMessage(response, gson.toJson(rd));
-                    } else if (action.equalsIgnoreCase("rebuild")) {
-                        helper.rebuildEnvironment(data);
-                        rd.status = true;
-                        rd.message = "Successfully";
-                        printMessage(response, gson.toJson(rd));
+                    if (target.equalsIgnoreCase("environment")) {
+                        if (action.equalsIgnoreCase("list")) {
+                            ResponseData<EnvironmentDescription> responseData = new ResponseData<EnvironmentDescription>();
+                            responseData.data = helper.getEnvironments();
+                            responseData.status = true;
+                            printMessage(response, gson.toJson(responseData));
+                        } else if (action.equalsIgnoreCase("restart")) {
+                            helper.restartBeanstalkApp(data);
+                            rd.status = true;
+                            rd.message = "Successfully";
+                            printMessage(response, gson.toJson(rd));
+                        } else if (action.equalsIgnoreCase("rebuild")) {
+                            helper.rebuildEnvironment(data);
+                            rd.status = true;
+                            rd.message = "Successfully";
+                            printMessage(response, gson.toJson(rd));
+                        }
                     }
                 }
+            } catch (Exception e) {
+                logger.error("Could not complete request", e);
+                rd.status = false;
+                rd.message = "An error occurs while complete request. Message: " + e.getMessage();
+                printMessage(response, gson.toJson(rd));
             }
-        } catch (Exception e) {
-            logger.error("Could not complete request",e);
-            rd.status = false;
-            rd.message = "An error occurs while complete request. Message: " + e.getMessage();
-            printMessage(response, gson.toJson(rd));
-        }
 
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
