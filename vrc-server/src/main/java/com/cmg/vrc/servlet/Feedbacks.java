@@ -1,6 +1,7 @@
 package com.cmg.vrc.servlet;
 
 
+import com.cmg.vrc.util.AWSHelper;
 import org.apache.log4j.Logger;
 import com.cmg.vrc.data.dao.impl.FeedbackDAO;
 import com.cmg.vrc.data.jdo.Feedback;
@@ -81,6 +82,12 @@ public class Feedbacks extends HttpServlet {
                 abc.recordsFiltered=count;
                 abc.draw=draw;
                 abc.data=feedbackDAO.listAll(start,length,search,col,oder,ac,app,os,imei,dateFrom1,dateTo1);
+//                if (abc.data != null && abc.data.size() > 0) {
+//                    AWSHelper awsHelper = new AWSHelper();
+//                    for (final Feedback f : abc.data) {
+//                        f.setScreenshoot(awsHelper.generateFeedbackImageUrl(f.getAccount(), f.getScreenshoot()));
+//                    }
+//                }
                 Gson gson = new Gson();
                 String feed = gson.toJson(abc);
                 response.getWriter().write(feed);
@@ -94,6 +101,10 @@ public class Feedbacks extends HttpServlet {
             String id=request.getParameter("id");
             try {
                 Feedback byId=feedbackDAO.getById(id);
+                if (byId != null) {
+                    AWSHelper awsHelper = new AWSHelper();
+                    byId.setScreenshoot(awsHelper.generateFeedbackImageUrl(byId.getAccount(), byId.getScreenshoot()));
+                }
                 Gson gson = new Gson();
                 String feedbac = gson.toJson(byId);
                 response.getWriter().write(feedbac);

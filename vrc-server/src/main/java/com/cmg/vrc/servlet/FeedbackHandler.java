@@ -77,7 +77,7 @@ public class FeedbackHandler extends HttpServlet {
                     feedback.setOsApiLevel(storePara.get(DeviceInfoCommon.OS_API_LEVEL));
                     feedback.setOsVersion(storePara.get(DeviceInfoCommon.OS_VERSION));
                     if (tmpFile.exists()) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
                         AWSHelper awsHelper = new AWSHelper();
                         String fName = sdf.format(new Date(System.currentTimeMillis())) + ".png";
                         awsHelper.upload(Constant.FOLDER_FEEDBACK + "/" + user.getUsername() + "/" + fName, tmpFile);

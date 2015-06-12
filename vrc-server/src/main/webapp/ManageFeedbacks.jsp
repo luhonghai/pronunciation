@@ -160,11 +160,8 @@
                                 </div>
 
                                 <div class="form-group">
-
                                     <label class="col-xs-4  col-sm-3 ">Screenshoot:</label>
-
-                                    <label id="Screenshootmd" name="Screenshootmd" class="col-xs-4  col-sm-3 "></label>
-
+                                    <img  id="Screenshootmd" name="Screenshootmd" class="img-responsive" style="margin: 0 auto;" alt="Screenshoot">
                                 </div>
 
 
