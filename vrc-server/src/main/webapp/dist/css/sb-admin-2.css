@@ -352,3 +352,28 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+
+.panel-grey {
+    border-color: #808080;
+}
+
+.panel-grey .panel-heading {
+    border-color: #808080;
+    color: #fff;
+    background-color: #808080;
+}
+
+.panel-grey a {
+    color: #808080;
+}
+
+.panel-grey a:hover {
+    color: #696969;
+}
+.aws-detail {
+    padding: 5px;
+}
+.aws-env-item {
+    min-width: 320px;
+}

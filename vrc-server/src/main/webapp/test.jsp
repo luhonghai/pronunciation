@@ -2,6 +2,23 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="com.cmg.vrc.dictionary.OxfordDictionaryWalker" %>
 <%@ page import="javax.mail.MessagingException" %>
+<<<<<<< HEAD
+<%@ page import="com.cmg.vrc.data.jdo.Admin" %>
+<%@ page import="com.cmg.vrc.data.dao.impl.AdminDAO" %>
+<%@ page import="com.cmg.vrc.util.StringUtil" %>
+<html>
+<body>
+<table>
+<%
+    Admin admin = new Admin();
+    admin.setUserName("admin");
+    admin.setPassword(StringUtil.md5("admincmg@3f"));
+    AdminDAO adminDAO = new AdminDAO();
+    try {
+adminDAO.put(admin);} catch (Exception e) {
+    e.printStackTrace();
+}
+=======
 <%@ page import="com.cmg.vrc.data.dao.impl.AdminDAO" %>
 <%@ page import="com.cmg.vrc.data.jdo.Admin" %>
 <%@ page import="com.cmg.vrc.util.StringUtil" %>
@@ -49,6 +66,7 @@
          e.printStackTrace();;
         }
 
+>>>>>>> 1cd3b969443c99f373fc5ada66b8ad1b3f8c6c27
     %>
   <p>done</p>
 </body>

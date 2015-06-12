@@ -43,6 +43,8 @@ public class User implements Mirrorable {
 
     private String activationCode;
 
+    private String resetPasswordCode;
+
     @Override
     public String getId() {
         return id;
@@ -171,5 +173,13 @@ public class User implements Mirrorable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getResetPasswordCode() {
+        return resetPasswordCode;
+    }
+
+    public void setResetPasswordCode(String resetPasswordCode) {
+        this.resetPasswordCode = resetPasswordCode;
     }
 }

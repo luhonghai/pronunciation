@@ -175,7 +175,23 @@
         <url-pattern>/Pronunciations</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AWSServiceHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AWSServiceHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AWSServiceHandler</servlet-name>
+        <url-pattern>/awsservice</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ResetPasswordHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ResetPasswordHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ResetPasswordHandler</servlet-name>
+        <url-pattern>/ResetPasswordHandler</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>ActivationHandler</servlet-name>

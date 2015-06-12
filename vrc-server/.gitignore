@@ -5,6 +5,8 @@ target/**
 bin/**
 src/main/resources/**
 src/main/resources/META-INF/**
+src/test/resources/**
+src/test/resources/META-INF/**
 .idea
 .idea/**
 .settings

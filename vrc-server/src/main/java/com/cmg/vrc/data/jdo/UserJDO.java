@@ -60,6 +60,9 @@ public class UserJDO implements Mirrorable {
     @Persistent
     private String activationCode;
 
+    @Persistent
+    private String resetPasswordCode;
+
     @Override
     public String getId() {
         return id;
@@ -188,5 +191,13 @@ public class UserJDO implements Mirrorable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getResetPasswordCode() {
+        return resetPasswordCode;
+    }
+
+    public void setResetPasswordCode(String resetPasswordCode) {
+        this.resetPasswordCode = resetPasswordCode;
     }
 }
