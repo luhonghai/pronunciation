@@ -1,63 +1,65 @@
 var myTable;
+
 function listAdmin(){
 
-    myTable=$('#dataTables-example').dataTable({
-        "retrieve": true,
-        "destroy": true,
-        "bProcessing": true,
-        "bServerSide": true,
+        myTable = $('#dataTables-example').dataTable({
+            "retrieve": true,
+            "destroy": true,
+            "bProcessing": true,
+            "bServerSide": true,
 
-        "ajax": {
-            "url": "Admins",
-            "type": "POST",
-            "dataType":"json",
-            "data":{
-                list:"list",
-                username:$("#username").val(),
-                firstname:$("#firstname").val(),
-                lastname:$("#lastname").val()
-            }
-        },
-
-        "columns": [{
-            "sWidth": "25%",
-            "data": "userName",
-            "sDefaultContent":""
-
-        },{
-            "sWidth": "20%",
-            "data": "firstName",
-            "sDefaultContent":""
-        },{
-            "sWidth": "20%",
-            "data": "lastName",
-            "sDefaultContent":""
-        }, {
-            "data": null,
-            "bSortable": true,
-            "mRender": function (data, type, full) {
-                if(data.role==1){
-                    return '<p>'+'Admin'+'</p>';
+            "ajax": {
+                "url": "Admins",
+                "type": "POST",
+                "dataType": "json",
+                "data": {
+                    list: "list",
+                    username: $("#username").val(),
+                    firstname: $("#firstname").val(),
+                    lastname: $("#lastname").val()
                 }
-                if(data.role==2){
-                    return '<p>'+'User'+'</p>';
-                }
-            }
-        }, {
-            "data": null,
-            "bSortable": false,
-            "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>'+'<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
-                $button.attr("id-column", data.id );
-                $button.attr("username", data.userName);
-                $button.attr("first", data.firstName );
-                $button.attr("last", data.lastName );
-                $button.attr("role", data.role );
-                return $("<div/>").append($button).html();
-            }
-        }]
+            },
 
-    });
+            "columns": [{
+                "sWidth": "25%",
+                "data": "userName",
+                "sDefaultContent": ""
+
+            }, {
+                "sWidth": "20%",
+                "data": "firstName",
+                "sDefaultContent": ""
+            }, {
+                "sWidth": "20%",
+                "data": "lastName",
+                "sDefaultContent": ""
+            }, {
+                "data": null,
+                "bSortable": true,
+                "mRender": function (data, type, full) {
+                    if (data.role == 1) {
+                        return '<p>' + 'Admin' + '</p>';
+                    }
+                    if (data.role == 2) {
+                        return '<p>' + 'User' + '</p>';
+                    }
+                }
+            }, {
+                "data": null,
+                "bSortable": false,
+                "mRender": function (data, type, full) {
+                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
+                    $button.attr("id-column", data.id);
+                    $button.attr("username", data.userName);
+                    $button.attr("first", data.firstName);
+                    $button.attr("last", data.lastName);
+                    $button.attr("role", data.role);
+                    return $("<div/>").append($button).html();
+                }
+            }]
+
+        });
+
 
 }
 
@@ -362,7 +364,7 @@ function hideeditmessage(){
 }
 
 $(document).ready(function(){
-
+    var roleAdmin=$("#role").val();
     hideaddmessage();
     hideeditmessage();
     add();
@@ -371,7 +373,13 @@ $(document).ready(function(){
     edituser();
     deletes();
     deleteuser();
-    listAdmin();
+   // if(roleAdmin=="1"){
+        listAdmin();
+    //}
+    //if(roleAdmin=="2"){
+    //    window.location =CONTEXT_PATH + "/error.jsp";
+    //}
+
     searchAdvanted();
 });
 

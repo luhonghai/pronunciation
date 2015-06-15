@@ -7,7 +7,7 @@
 <!-- Navigation -->
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-	<div style="height:70px;">
+	<div style="height:50px;">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
@@ -21,21 +21,7 @@
 	</div>
 	<!-- /.navbar-header -->
 
-	<ul class="nav navbar-top-links navbar-right">
-		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-			</a>
-			<ul class="dropdown-menu dropdown-user">
 
-				<li class="divider"></li>
-				<li><a href="logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-				</li>
-			</ul>
-			<!-- /.dropdown-user -->
-		</li>
-		<!-- /.dropdown -->
-	</ul>
 	<!-- /.navbar-top-links -->
 	</div>
 	<div class="navbar-default sidebar" role="navigation">
@@ -62,10 +48,32 @@
 				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
 				</li>
+				<%
+
+					if (session.getAttribute("role")==null){
+						return;
+					}
+					if(session.getAttribute("role").equals(1)){
+				%>
+
 				<li>
 					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i> Admin</a>
 				</li>
+				<%
+					}
+				%>
+				<li class="dropdown">
+					<span id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:10px; padding-left: 15px">
+						<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+					</span>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 
+						<li class="divider"></li>
+						<li><a href="logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						</li>
+					</ul>
+					<!-- /.dropdown-user -->
+				</li>
 
 
 			</ul>
