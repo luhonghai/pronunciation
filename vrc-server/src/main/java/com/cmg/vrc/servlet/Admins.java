@@ -30,9 +30,9 @@ public class Admins extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AdminDAO adminDAO = new AdminDAO();
         Admin ad = new Admin();
+        String roless=request.getSession().getAttribute("role").toString();
         if (request.getParameter("list") != null) {
             Admins.admin admin = new admin();
-
             String s = request.getParameter("start");
             String l = request.getParameter("length");
             String d = request.getParameter("draw");
@@ -117,9 +117,6 @@ public class Admins extends HttpServlet {
             String lastname = request.getParameter("lastname");
             String password = request.getParameter("password");
             String role = request.getParameter("role");
-
-
-
             int ro=0;
             if(role.length()>0 && role.equals("Admin")) {
                 ro=1;
@@ -161,7 +158,7 @@ public class Admins extends HttpServlet {
                     if (lastname.length()>0) {
                         admi.setLastName(lastname);
                     }
-                    admi.setRole(ro);
+                    //admi.setRole(ro);
                     adminDAO.put(admi);
                     response.getWriter().write("success");
                 }
