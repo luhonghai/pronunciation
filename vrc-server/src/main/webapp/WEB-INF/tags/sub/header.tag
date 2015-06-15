@@ -63,13 +63,13 @@
 					}
 				%>
 				<li class="dropdown">
-					<span id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:10px; padding-left: 15px">
-						<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+					<span id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-top:10px; padding-bottom: 10px; padding-left: 15px; display: block; position: relative;">
+						<i class="fa fa-user fa-fw" style="color: #3276b1;"></i>  <i class="fa fa-caret-down" style="color: #3276b1;"></i>
 					</span>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 
 						<li class="divider"></li>
-						<li><a href="logout.jsp"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						<li><a href="logout.jsp" style="color: red"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 						</li>
 					</ul>
 					<!-- /.dropdown-user -->

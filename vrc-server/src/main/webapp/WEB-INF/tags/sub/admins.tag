@@ -254,7 +254,7 @@
 %>
 <div id="page-wrapper">
   <div class="row">
-    <h2 style="text-align: center; color: red;">You do not have access to this page.</h2>
+    <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
   </div>
 </div>
 <%
