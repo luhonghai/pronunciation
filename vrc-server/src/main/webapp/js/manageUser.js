@@ -61,39 +61,46 @@ var map;
 var marker;
 
 function mapss(latitude,longitude) {
-     mapOptions = {
+    mapOptions = {
         scaleControl: true,
         center: new google.maps.LatLng(latitude, longitude),
-        zoom: 5,
+        zoom: 15,
         MapTypeId:google.maps.MapTypeId.ROADMAP
     };
 
-     map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-     marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         map: map,
         content :  map.getCenter().toUrlValue(),
         position: map.getCenter(),
         disableAutoPan: true
     });
     marker.setMap(map);
-    $('#mapDetail').modal('show');
+
 }
 function refreshMap() {
-    google.maps.event.trigger(map, 'resize');
-
+    //google.maps.event.trigger(map, 'resize');
+    var latitude = $('#mapDetail').attr('latitude');
+    var longitude = $('#mapDetail').attr('longitude');
+    var x=parseFloat(latitude);
+    var y=parseFloat(longitude);
+    mapss(x,y);
 }
 function maps() {
     $('#mapDetail').on("show.bs.modal", function() {
-        setTimeout(refreshMap, 300);
+        setTimeout(refreshMap, 200);
     });
 
     $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');
-        var x=parseFloat(latitude);
-        var y=parseFloat(longitude);
-        mapss(x,y);
+        //var x=parseFloat(latitude);
+        //var y=parseFloat(longitude);
+        //mapss(x,y);
+        $('#mapDetail').attr("latitude", latitude);
+        $('#mapDetail').attr("longitude", longitude);
+        $('#mapDetail').modal('show');
     });
 }
 

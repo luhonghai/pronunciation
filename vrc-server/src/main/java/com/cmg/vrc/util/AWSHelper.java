@@ -10,9 +10,11 @@ import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalkClient;
 import com.amazonaws.services.elasticbeanstalk.model.*;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.properties.Configuration;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,6 +24,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +55,16 @@ public class AWSHelper {
             bucketName = Configuration.getValue(Configuration.AWS_S3_BUCKET_NAME);
         }
     }
+
+    public String generatePresignedUrl(String keyName) {
+        try {
+            URL url = s3client.generatePresignedUrl(new GeneratePresignedUrlRequest(bucketName, keyName));
+            return url.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
 
     public boolean download(String keyName, File file) {
         if (!ENABLE_AWS) return false;
@@ -158,10 +172,14 @@ public class AWSHelper {
         beanstalkClient.terminateEnvironment(new TerminateEnvironmentRequest().withEnvironmentName(envName));
     }
 
+    public String generateFeedbackImageUrl(String account, String fileName) {
+        return generatePresignedUrl(Constant.FOLDER_FEEDBACK + "/" + account+ "/" + fileName);
+    }
 
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
-        awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
+        System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
+        //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
         //awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
        // System.out.println("Start uploading");

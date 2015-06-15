@@ -76,6 +76,17 @@ function dateTo(){
 function detail(){
     $(document).on("click","#detail", function(){
         $("#feedback1").modal('show');
+
+        $("#accountmd").text("");
+        $("#descriptionmd").text("");
+        $("#IMEImd").text("");
+        $("#deviceNamemd").text("");
+        $("#appVersionmd").text("");
+        $("#OSVersionmd").text("");
+        $("#OSApiLevelmd").text("");
+        $("#StackTracemd").val("");
+        $("#Screenshootmd").attr("src", "");
+
         var idd=$(this).attr('id-column');
         $.ajax({
             url:"Feedbacks",
@@ -88,7 +99,6 @@ function detail(){
             success:function(data){
 
                 $("#accountmd").text(data.account);
-
                 $("#descriptionmd").text(data.description);
                 $("#IMEImd").text(data.imei);
                 $("#deviceNamemd").text(data.deviceName);
@@ -96,8 +106,8 @@ function detail(){
                 $("#OSVersionmd").text(data.osVersion);
                 $("#OSApiLevelmd").text(data.osApiLevel);
                 $("#StackTracemd").val(data.stackTrace);
-                $("#Screenshootmd").text(data.screenshoot);
-
+                if (data.screenshoot.length > 0)
+                    $("#Screenshootmd").attr("src", data.screenshoot);
 
             },
             error:function(){

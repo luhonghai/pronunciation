@@ -22,7 +22,7 @@ function loadEnvironments(){
         var template = Handlebars.compile($("#environment-entry-template").html());
         var $container = $("#aws-environments");
         $.ajax({
-            url: CONTEXT_PATH + "awsservice",
+            url: CONTEXT_PATH + "/awsservice",
             type: "GET",
             dataType: "json",
             data: {
@@ -81,7 +81,7 @@ function updateEnvButtonEvent() {
                 if (isConfirm) {
                     var envName = $(self).attr("env-name");
                     $.ajax({
-                        url: CONTEXT_PATH + "awsservice",
+                        url: CONTEXT_PATH + "/awsservice",
                         type:"GET",
                         dataType:"json",
                         data:{
@@ -122,7 +122,7 @@ function updateEnvButtonEvent() {
                 if (isConfirm) {
                     var envName = $(self).attr("env-name");
                     $.ajax({
-                        url: CONTEXT_PATH + "awsservice",
+                        url: CONTEXT_PATH + "/awsservice",
                         type:"GET",
                         dataType:"json",
                         data:{
