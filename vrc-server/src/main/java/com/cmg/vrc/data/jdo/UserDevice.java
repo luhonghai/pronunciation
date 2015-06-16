@@ -15,7 +15,7 @@ public class UserDevice implements Mirrorable {
     private String osVersion;
     private String osApiLevel;
     private String deviceName;
-    private String emei;
+    private String imei;
     private Date attachedDate;
 
     public String getModel() {
@@ -60,12 +60,12 @@ public class UserDevice implements Mirrorable {
         this.deviceName = deviceName;
     }
 
-    public String getEmei() {
-        return emei;
+    public String getImei() {
+        return imei;
     }
 
-    public void setEmei(String emei) {
-        this.emei = emei;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
     public Date getAttachedDate() {

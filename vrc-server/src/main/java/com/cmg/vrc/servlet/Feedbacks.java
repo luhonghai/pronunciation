@@ -1,6 +1,8 @@
 package com.cmg.vrc.servlet;
 
 
+import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.util.AWSHelper;
 import org.apache.log4j.Logger;
 import com.cmg.vrc.data.dao.impl.FeedbackDAO;
@@ -34,6 +36,9 @@ public class Feedbacks extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
         Feedback feedback=new Feedback();
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
+
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         if(request.getParameter("list")!=null) {
@@ -112,6 +117,22 @@ public class Feedbacks extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+        if(request.getParameter("detailmodal")!=null){
+            String emei=request.getParameter("emei");
+            try {
+                userDevice=userDeviceDAO.getDeviceByIMEI(emei);
+                Gson gson = new Gson();
+                String user1 = gson.toJson(userDevice);
+                response.getWriter().write(user1);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+
 
     }
 

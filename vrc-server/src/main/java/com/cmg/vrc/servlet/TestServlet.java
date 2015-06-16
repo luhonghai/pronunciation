@@ -25,9 +25,14 @@ public class TestServlet  {
 //        }
 //        Feedback feedback = new Feedback();
 //        feedback.setAccount("nambui");
-//        feedback.setImei("nsm");
+//        feedback.setImei("nam123");
 //        feedback.setAppVersion("2.5");
-//
+//        try {
+//            feedbackDAO.put(feedback);
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
+
 //        LicenseCode license=new LicenseCode();
 //        license.setCode("dsadfd");
 //        try {
@@ -40,7 +45,7 @@ public class TestServlet  {
 //        usage.setLatitude(543.765);
 //        usage.setLongitude(423.65);
 //
-//        usage.setEmei("fdsfg");
+//        usage.setImei("nam123");
 //        usage.setTime(new Date(2-10-2014));
 //        usage.setUsername("nam bui");
 //        try {
@@ -49,20 +54,20 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-//        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
-//        UserDevice userDevice=new UserDevice();
-//        userDevice.setEmei("nam123");
-//        userDevice.setDeviceName("cmg");
-//        userDevice.setOsApiLevel("12ds");
-//        userDevice.setOsVersion("1.53");
-//
-//
-//        try {
-//            userDeviceDAO.put(userDevice);
-//
-//      }catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
+        userDevice.setImei("nam123");
+        userDevice.setDeviceName("cmg");
+        userDevice.setOsApiLevel("12ds");
+        userDevice.setOsVersion("1.53");
+
+
+        try {
+            userDeviceDAO.put(userDevice);
+
+      }catch (Exception e) {
+            e.printStackTrace();
+        }
 
 //        AppDetailDAO appDetailDAO=new AppDetailDAO();
 //        AppDetail appDetail=new AppDetail();
@@ -82,18 +87,18 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.printStackTrace();
 //        }
-        AdminDAO adminDAO=new AdminDAO();
-        Admin admin=new Admin();
-        admin.setPassword(StringUtil.md5("1234"));
-        admin.setUserName("nam@gmail.com");
-        admin.setRole(1);
-        admin.setLastName("");
-        admin.setFirstName("");
-        try {
-            adminDAO.put(admin);
-        }catch (Exception e){
-            e.printStackTrace();;
-        }
+//        AdminDAO adminDAO=new AdminDAO();
+//        Admin admin=new Admin();
+//        admin.setPassword(StringUtil.md5("1234"));
+//        admin.setUserName("nam@gmail.com");
+//        admin.setRole(1);
+//        admin.setLastName("");
+//        admin.setFirstName("");
+//        try {
+//            adminDAO.put(admin);
+//        }catch (Exception e){
+//            e.printStackTrace();;
+//        }
 
 
 

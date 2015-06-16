@@ -2,7 +2,9 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.UsageDAO;
 
+import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
 import com.cmg.vrc.data.jdo.Usage;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -31,6 +33,9 @@ public class UserManage extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UsageDAO usageDAO=new UsageDAO();
         Usage usage=new Usage();
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
+
 
         if (request.getParameter("list") != null) {
 
@@ -68,6 +73,22 @@ public class UserManage extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+        if(request.getParameter("detail")!=null){
+            String emei=request.getParameter("emei");
+            try {
+                userDevice=userDeviceDAO.getDeviceByIMEI(emei);
+                Gson gson = new Gson();
+                String user1 = gson.toJson(userDevice);
+                response.getWriter().write(user1);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

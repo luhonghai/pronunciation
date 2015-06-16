@@ -29,7 +29,7 @@ public class UserDeviceJDO implements Mirrorable {
     private String deviceName;
 
     @Persistent
-    private String emei;
+    private String imei;
 
     @Persistent
     private Date attachedDate;
@@ -76,12 +76,12 @@ public class UserDeviceJDO implements Mirrorable {
         this.deviceName = deviceName;
     }
 
-    public String getEmei() {
-        return emei;
+    public String getImei() {
+        return imei;
     }
 
-    public void setEmei(String emei) {
-        this.emei = emei;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
     public Date getAttachedDate() {

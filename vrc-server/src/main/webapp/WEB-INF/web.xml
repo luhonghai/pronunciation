@@ -130,14 +130,6 @@
         <url-pattern>/UserManage</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>UserDevice</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.UserDevice</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserDevice</servlet-name>
-        <url-pattern>/UserDevice</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>AppDetails</servlet-name>
