@@ -20,7 +20,8 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="dataTable_wrapper">
-                            <table class="table table-striped table-bordered table-hover table-responsive" id="dataTables-example">
+                            <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th>Username</th>
@@ -33,6 +34,7 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                                </div>
                         </div>
                         <!-- /.table-responsive -->
 

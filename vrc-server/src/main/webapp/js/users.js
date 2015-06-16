@@ -4,11 +4,12 @@ function listUsers(){
     myTable=$('#dataTables-example').dataTable({
         "retrieve": true,
         "destroy": true,
+        "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-        "sScrollX": "100%",
+       // "sScrollX": "100%",
         "bScrollCollapse": true,
-        "sScrollXInner": "140%",
+       // "sScrollXInner": "140%",
         "ajax": {
             "url": "Users",
             "type": "POST",
@@ -25,14 +26,16 @@ function listUsers(){
             }
         },
         "columns": [{
-
+            "sWidth": "31%",
             "data": "username",
             "sDefaultContent":""
 
         }, {
+            "sWidth": "20%",
             "data": "name",
             "sDefaultContent":""
         },{
+            "sWidth": "4%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -50,6 +53,7 @@ function listUsers(){
                 }
             }
         }, {
+            "sWidth": "13%",
             "data": null,
             "bSortable": true,
             "sDefaultContent":"",
@@ -62,15 +66,19 @@ function listUsers(){
                 }
             }
         }, {
+            "sWidth": "7%",
             "data": "dob",
             "sDefaultContent":""
         }, {
+            "sWidth": "13%",
             "data": "country",
             "sDefaultContent":""
         }, {
+            "sWidth": "5%",
             "data": "activationCode",
             "sDefaultContent":""
         }, {
+            "sWidth": "2%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -82,6 +90,7 @@ function listUsers(){
                 }
             }
         },{
+            "sWidth": "2%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
