@@ -102,7 +102,7 @@ public class AuthHandler extends HttpServlet {
                             com.cmg.vrc.data.jdo.UserDevice userDevice= userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
                             if (userDevice == null)
                                 userDevice = new UserDevice();
-                            userDevice.setEmei(deviceInfo.getEmei());
+                            userDevice.setImei(deviceInfo.getEmei());
                             userDevice.setDeviceName(deviceInfo.getDeviceName());
                             userDevice.setModel(deviceInfo.getModel());
                             userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
@@ -113,7 +113,7 @@ public class AuthHandler extends HttpServlet {
                             userDeviceDAO.put(userDevice);
 
                             usage.setAppVersion(deviceInfo.getAppVersion());
-                            usage.setEmei(deviceInfo.getEmei());
+                            usage.setImei(deviceInfo.getEmei());
                         }
                         UserProfile.UserLocation location = user.getLocation();
                         if (location != null) {

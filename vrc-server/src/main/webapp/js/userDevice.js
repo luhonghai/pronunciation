@@ -3,6 +3,7 @@ function listUserDevice(){
     myTable=$('#dataTables-example').dataTable({
         "retrieve": true,
         "destroy": true,
+        "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
         "ajax": {

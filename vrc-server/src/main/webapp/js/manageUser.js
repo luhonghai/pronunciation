@@ -3,6 +3,7 @@ function user(){
     myTable=$('#dataTables-example').dataTable({
         "retrieve": true,
         "destroy": true,
+        "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
         "ajax": {
@@ -12,7 +13,6 @@ function user(){
             "data":{
                 list:"list",
                 user:$("#user").val()
-
             }
         },
 
@@ -22,9 +22,16 @@ function user(){
             "sDefaultContent":""
 
         },{
-            "sWidth": "25%",
-            "data": "emei",
-            "sDefaultContent":""
+            //"sWidth": "25%",
+            //"data": "emei",
+            //"sDefaultContent":""
+            "data": null,
+            "bSortable": false,
+            "mRender": function (data, type, full) {
+                if(data.imei.length!=0) {
+                    return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
+                }
+            }
         }, {
             "sWidth": "20%",
             "data": "appVersion",
@@ -39,23 +46,43 @@ function user(){
             "sWidth": "20%",
             "data": "time",
             "sDefaultContent":""
-        }, {
-            "data": null,
-            "bSortable": false,
-            "mRender": function (data, type, full) {
-                return '<button type="button" id="user"  emei=' + data.emei + '>' + ' <i class="fa fa-chevron-circle-right"></i>' + ' </button>';
-            }
         }]
     });
 
 }
-function userDevice(){
-    $(document).on("click","#user",function() {
-        var emei = $(this).attr('emei');
-        window.location.href = "UserDevice.jsp?emei=" + emei;
-    });
 
+function detail(){
+    $(document).on("click", "#emei", function () {
+        $('#emeimodal').modal('show');
+        var emei=$("#emei").attr('emeis');
+        $.ajax({
+            url:"UserManage",
+            type:"POST",
+            dataType:"json",
+            data:{
+                emei:emei,
+                detail:"detail"
+            },
+            success:function(data){
+
+                $("#emeipopup").text(data.imei);
+                $("#devicenamepopup").text(data.deviceName);
+                $("#modelpopup").text(data.model);
+                $("#osversionpopup").text(data.osVersion);
+                $("#osapilevelpopup").text(data.osApiLevel);
+                $("#attacheddatepopup").text(data.attachedDate);
+            },
+            error:function(){
+                alert("error");
+            }
+
+        });
+
+
+
+    });
 }
+
 var mapOptions;
 var map;
 var marker;
@@ -105,8 +132,7 @@ function maps() {
 }
 
 $(document).ready(function(){
-
+    detail();
     maps();
-    userDevice();
     user();
 });

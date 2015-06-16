@@ -13,7 +13,7 @@ public class Usage implements Mirrorable {
 
     private String username;
 
-    private String emei;
+    private String imei;
 
     private double latitude;
 
@@ -33,12 +33,12 @@ public class Usage implements Mirrorable {
         this.id = id;
     }
 
-    public String getEmei() {
-        return emei;
+    public String getImei() {
+        return imei;
     }
 
-    public void setEmei(String emei) {
-        this.emei = emei;
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
     public double getLatitude() {

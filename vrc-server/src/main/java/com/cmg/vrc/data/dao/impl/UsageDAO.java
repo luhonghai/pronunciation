@@ -25,8 +25,8 @@ public class UsageDAO extends DataAccess<UsageJDO, Usage> {
         List<Usage> list = new ArrayList<Usage>();
         Query q = pm.newQuery("SELECT FROM " + UsageJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
-        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei == null || emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei == null || imei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
         if(search.length()>0){
             string.append(a);
         }
@@ -44,9 +44,9 @@ public class UsageDAO extends DataAccess<UsageJDO, Usage> {
             q.setOrdering("username desc");
         }
         if (column==1 && order.equals("asc")) {
-            q.setOrdering("emei asc");
+            q.setOrdering("imei asc");
         }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("emei desc");
+            q.setOrdering("imei desc");
         }
         if (column==2 && order.equals("asc")) {
             q.setOrdering("appVersion asc");
@@ -80,8 +80,8 @@ public class UsageDAO extends DataAccess<UsageJDO, Usage> {
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + UsageJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
-        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(emei == null || emei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
+        String b="((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei == null || imei.toLowerCase().indexOf(search.toLowerCase()) != -1) ||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1))&&";
         if(search.length()>0){
             string.append(a);
         }

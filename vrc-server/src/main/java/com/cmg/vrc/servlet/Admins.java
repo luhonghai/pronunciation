@@ -112,7 +112,6 @@ public class Admins extends HttpServlet {
         if(request.getParameter("edit")!=null){
             String idd=request.getSession().getAttribute("id").toString();
             String id=request.getParameter("id");
-            String username = request.getParameter("username");
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
             String password = request.getParameter("password");
@@ -125,12 +124,8 @@ public class Admins extends HttpServlet {
                 ro=2;
             }
             try{
-                Admin a=adminDAO.getUserByEmail(username);
-                if(a==null) {
+                if(!id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
-                    if (username.length()>0) {
-                        admi.setUserName(username);
-                    }
                     if (password.length()>0) {
                         admi.setPassword(StringUtil.md5(password));
                     }
@@ -144,11 +139,8 @@ public class Admins extends HttpServlet {
                     adminDAO.put(admi);
                     response.getWriter().write("success");
                 }
-                else if(a!=null && id.equals(idd)) {
+                else if(id.equals(idd)) {
                     Admin admi = adminDAO.getById(id);
-                    if (username.length()>0) {
-                        admi.setUserName(username);
-                    }
                     if (password.length()>0) {
                         admi.setPassword(StringUtil.md5(password));
                     }
