@@ -27,33 +27,33 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
-            android:text="licence code"/>
+            android:text="@string/licence_code"/>
         <EditText
             android:id="@+id/txtCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@android:color/darker_gray"
-            android:hint="licence code"/>
+            android:hint="@string/licence_code"/>
         <Button
             android:id="@+id/btnActivateLicense"
             android:layout_marginTop="@dimen/dialog_button_margin_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_button_height"
-            android:text="activate"
+            android:text="@string/activate"
             android:textSize="@dimen/dialog_button_text_size"
             android:textColor="@android:color/white"
             android:background="@color/app_green"
-            android:textAlignment="center"/>
+            android:gravity="center_horizontal|center_vertical"/>
         <Button
             android:id="@+id/btnLogout"
             android:layout_marginTop="@dimen/dialog_button_margin_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_button_height"
-            android:text="logout"
+            android:text="@string/logout"
             android:textSize="@dimen/dialog_button_text_size"
             android:textColor="@android:color/white"
             android:background="@color/app_red"
-            android:textAlignment="center"/>
+            android:gravity="center_horizontal|center_vertical"/>
         <!--<Button-->
             <!--android:id="@+id/btnExit"-->
             <!--android:layout_marginTop="@dimen/dialog_button_margin_top"-->

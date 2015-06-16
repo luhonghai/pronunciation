@@ -73,13 +73,13 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -103,13 +103,13 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -136,7 +136,7 @@ public class AccountManager {
                             authListener.onSuccess();
                         } else {
                             if (message.toLowerCase().contains("<html>")) {
-                                authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                                authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                             } else {
                                 authListener.onError(responseData.getMessage(), null);
                             }
@@ -144,7 +144,7 @@ public class AccountManager {
                     }
                 } catch (Exception e) {
                     if (authListener != null)
-                        authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                        authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -167,14 +167,17 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
+                            if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                message = context.getString(R.string.invalid_email_address_or_password);
+                            }
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -199,14 +202,14 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -231,14 +234,14 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }
@@ -262,14 +265,14 @@ public class AccountManager {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError("Could not connect to server. Please contact support@accenteasy.com", null);
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
                         } else {
                             authListener.onError(message, null);
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    authListener.onError("Could not connect to server. Please contact support@accenteasy.com", e);
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
             }

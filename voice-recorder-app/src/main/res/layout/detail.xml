@@ -72,7 +72,6 @@
                                     android:layout_weight=".4"
                                     android:textSize="@dimen/main_selected_word_size"
                                     android:gravity="center"
-                                    android:text="necessarily"
                                     />
                                 <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
                                     android:id="@+id/txtPhoneme"
@@ -80,8 +79,7 @@
                                     android:layout_height="fill_parent"
                                     android:textSize="@dimen/main_selected_phoneme_size"
                                     android:layout_weight=".6"
-                                    android:gravity="center"
-                                    android:text="nɛsəˈsɛrɪli"/>
+                                    android:gravity="center"/>
                             </LinearLayout>
                             <RelativeLayout
                                 android:id="@+id/rlVoiceExample"

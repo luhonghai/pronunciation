@@ -47,7 +47,7 @@ public class LicenseHandler extends BaseServlet {
                     if (check) {
                         message = "success";
                     } else {
-                        message = "You need a valid licence code";
+                        message = "you need a valid licence code";
                     }
                 } else {
                     if (!StringUtils.isEmpty(code)) {
@@ -66,24 +66,24 @@ public class LicenseHandler extends BaseServlet {
                                         if (imei.equalsIgnoreCase(licenseCode.getImei())) {
                                             message = "success";
                                         } else {
-                                            message = "Code and account are already registered by another device";
+                                            message = "licence code and account are already registered by another device";
                                         }
                                     } else {
-                                        message = "Code is already registered by another account";
+                                        message = "licence code is already registered by another account";
                                     }
                                 }
                             } else {
-                                message = "Code is suspended";
+                                message = "licence code is suspended";
                             }
                         } else {
-                            message = "Invalid licence code";
+                            message = "invalid licence code";
                         }
                     } else {
-                        message = "Please check your licence code";
+                        message = "please check your licence code";
                     }
                 }
             } else {
-                message = "Invalid parameter";
+                message = "invalid parameter";
             }
             out.print(message);
         } catch (Exception e) {

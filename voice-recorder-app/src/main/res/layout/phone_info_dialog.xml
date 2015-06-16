@@ -24,7 +24,7 @@
                 android:gravity="bottom|start"
                 android:textSize="32sp"
                 android:textColor="@android:color/white"
-                android:text="ɛ"/>
+                android:text="@string/example_phoneme_ipa"/>
             <TextView
                 android:id="@+id/txtPhonemeScore"
                 android:layout_width="0dp"
@@ -33,7 +33,7 @@
                 android:gravity="bottom|end"
                 android:textSize="32sp"
                 android:textColor="@android:color/white"
-                android:text="56%"/>
+                android:text="@string/example_phoneme_score"/>
             </LinearLayout>
         </RelativeLayout>
     <RelativeLayout
@@ -47,7 +47,7 @@
             android:includeFontPadding="false"
             android:textSize="110sp"
             android:textColor="@android:color/white"
-            android:text="EH"
+            android:text="@string/example_phoneme"
             android:id="@+id/txtPhoneme" />
         </RelativeLayout>
     <RelativeLayout

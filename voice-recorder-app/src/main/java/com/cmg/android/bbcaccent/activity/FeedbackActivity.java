@@ -70,9 +70,9 @@ public class FeedbackActivity extends BaseActivity {
             stackTrace =bundle.getString(ExceptionHandler.STACK_TRACE);
 
             SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-            d.setTitleText("An unexpected error occurred");
+            d.setTitleText(getString(R.string.error_message_title));
             d.setContentText(getResources().getString(R.string.error_message));
-            d.setConfirmText("Ok");
+            d.setConfirmText(getResources().getString(R.string.dialog_ok));
             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -80,20 +80,9 @@ public class FeedbackActivity extends BaseActivity {
                 }
             });
             d.show();
-//            final AlertDialog dialogError = new AlertDialog.Builder(this).setTitle("An unexpected error occurred")
-//                    .setMessage(getResources().getString(R.string.error_message))
-//                    .setNegativeButton(getResources().getString(R.string.dialog_close),
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            }).create();
-//            dialogError.show();
         }
         TextView t3 = (TextView) findViewById(R.id.textView2);
-        t3.setText(Html.fromHtml("<a href=\"http://www.accenteasy.com/bbcaccent/privacy\">How is my information stored and shared</a>"));
+        //t3.setText(Html.fromHtml(getString(R.string.feedback_privacy_link)));
         t3.setMovementMethod(LinkMovementMethod.getInstance());
         registerReceiver(mHandleMessageReader, new IntentFilter(FeedbackActivity.SEND_FEEDBACK_FINISH));
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,14 +90,14 @@ public class FeedbackActivity extends BaseActivity {
 
     private void showProcessDialog() {
         dialogProcess = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        dialogProcess.setTitleText("processing");
+        dialogProcess.setTitleText(getString(R.string.processing));
         dialogProcess.setCancelable(false);
         dialogProcess.show();
     }
 
     public String getItemSelectSpin() {
         UserProfile profile = Preferences.getCurrentProfile(this);
-        return profile == null ? "unknown" : profile.getUsername();
+        return profile == null ? getString(R.string.unknown) : profile.getUsername();
     }
 
     public String getTextDescription() {
@@ -153,29 +142,31 @@ public class FeedbackActivity extends BaseActivity {
 //    }
 
     private void sendFeedback() {
-        if (getTextDescription().trim().length() == 0) {
-            SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-            d.setTitleText("Please enter your message");
-            d.setContentText("");
-            d.setConfirmText("Ok");
-            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
-            d.show();
-        } else {
-            Map<String, String> params = getFormData();
-            String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
-            SimpleAppLog.info("screenshootPath: " + screenshootPath);
-            params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
-            params.put(FileCommon.PARA_FILE_NAME,
-                    ContentUtils.getFileName(screenshootPath));
-            params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
-            UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext(), params);
-            uploadAsync.execute();
-            showProcessDialog();
+        if (checkNetwork(false)) {
+            if (getTextDescription().trim().length() == 0) {
+                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                d.setTitleText(getString(R.string.please_enter_your_message));
+                d.setContentText("");
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+            } else {
+                Map<String, String> params = getFormData();
+                String screenshootPath = AndroidHelper.getLatestScreenShootPath(this.getApplicationContext());
+                SimpleAppLog.info("screenshootPath: " + screenshootPath);
+                params.put(FileCommon.PARA_FILE_PATH, screenshootPath);
+                params.put(FileCommon.PARA_FILE_NAME,
+                        ContentUtils.getFileName(screenshootPath));
+                params.put(FileCommon.PARA_FILE_TYPE, FileCommon.PNG_MIME_TYPE);
+                UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(this.getApplicationContext(), params);
+                uploadAsync.execute();
+                showProcessDialog();
+            }
         }
     }
 
@@ -234,9 +225,9 @@ public class FeedbackActivity extends BaseActivity {
                     if (dialogProcess != null)
                         dialogProcess.dismissWithAnimation();
                     SweetAlertDialog d = new SweetAlertDialog(FeedbackActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                    d.setTitleText("Successfully submitted");
-                    d.setContentText("Thank you for your feedback. We appreciate your feedback and will continue to strive to make our application better. Thank you!");
-                    d.setConfirmText("Ok");
+                    d.setTitleText(getString(R.string.successfully_submitted));
+                    d.setContentText(getString(R.string.feedback_success_message));
+                    d.setConfirmText(getString(R.string.dialog_ok));
                     d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {

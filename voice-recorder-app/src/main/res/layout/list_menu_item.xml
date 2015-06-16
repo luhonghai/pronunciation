@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="about"
+            android:text="@string/menu_about"
             android:clickable="false"
             android:textSize="20sp"/>
     </RelativeLayout>

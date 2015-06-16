@@ -37,7 +37,8 @@
             android:layout_width="@dimen/button_list_default_size"
             android:layout_height="@dimen/button_list_default_size"
             android:id="@+id/btnPrevTip"
-            android:layout_marginLeft="@dimen/button_tip_margin"/>
+            android:layout_marginLeft="@dimen/button_tip_margin"
+            android:layout_marginStart="@dimen/button_tip_margin"/>
 
         <TextView
             android:layout_height="fill_parent"
@@ -49,7 +50,6 @@
             android:textColor="#579e11"
             android:padding="10dp"
             android:id="@+id/txtWordTip"
-            android:text="rabbit"
             />
         <ImageButton
             android:background="@null"
@@ -60,7 +60,8 @@
             android:layout_width="@dimen/button_list_default_size"
             android:layout_height="@dimen/button_list_default_size"
             android:id="@+id/btnNextTip"
-            android:layout_marginRight="@dimen/button_tip_margin"/>
+            android:layout_marginRight="@dimen/button_tip_margin"
+            android:layout_marginEnd="@dimen/button_tip_margin"/>
     </LinearLayout>
     <ImageButton
         android:background="@null"

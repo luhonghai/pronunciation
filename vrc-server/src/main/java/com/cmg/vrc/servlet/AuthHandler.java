@@ -61,15 +61,15 @@ public class AuthHandler extends HttpServlet {
                         User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
                         if (u != null) {
                             if (!u.isActivated()) {
-                                message = "Account " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
+                                message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
                             }
                         } else {
-                            message = "Invalid username or password";
+                            message = "invalid email address or password";
                         }
                     } else {
                         User u = userDAO.getUserByEmail(user.getUsername());
                         if (u != null && !u.isActivated()) {
-                            message = "Account " + u.getUsername() + " is not activated. Please contact support@accenteasy.com";
+                            message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
                         }
                     }
 

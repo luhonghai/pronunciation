@@ -24,7 +24,7 @@ public abstract class BaseInfoActivity extends BaseActivity {
 
     private HtmlTextView textView;
 
-    private static final String INFO_VERSION = "1";
+    private static final String INFO_VERSION = "2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -121,7 +121,7 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
     };
 
     private void displayLoading() {
-        txtText.setText("Loading ...");
+        txtText.setText(getString(R.string.loading));
         txtWord.setVisibility(View.INVISIBLE);
         btnPrev.setVisibility(View.INVISIBLE);
         btnNext.setVisibility(View.INVISIBLE);
@@ -140,8 +140,8 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
             }
             isLoadedTip = true;
         } else {
-            txtText.setText("No tip found");
-            txtWord.setText("Tap to reload");
+            txtText.setText(getString(R.string.no_tip_found));
+            txtWord.setText(getString(R.string.tap_to_reload));
             txtWord.setVisibility(View.VISIBLE);
         }
     }

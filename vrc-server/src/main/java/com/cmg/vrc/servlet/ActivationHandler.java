@@ -48,7 +48,7 @@ public class ActivationHandler extends HttpServlet {
                 if (u != null && u.getUsername().equalsIgnoreCase(username)) {
                     if (u.isActivated()) {
                         if (isDevice) {
-                            out.print("Your account has already been activated");
+                            out.print("your account has already been activated");
                         } else {
                             out.print(StringUtil.readResource("contents/activation-is-activated.html"));
                         }
@@ -63,7 +63,7 @@ public class ActivationHandler extends HttpServlet {
                     }
                 } else {
                     if (isDevice) {
-                        out.print("Sorry your registration code has not be recognised, please enter again or request a new code");
+                        out.print("sorry your registration code has not been recognised, please enter again or request a new code");
                     } else {
                         out.print(StringUtil.readResource("contents/activation-invalid.html"));
                     }
@@ -89,7 +89,7 @@ public class ActivationHandler extends HttpServlet {
                                 mailService.sendActivationEmail(user.getUsername(), u.getActivationCode());
                                 userDAO.put(u);
                             } else {
-                                message = "No email found";
+                                message = "no email address found";
                             }
                         } else {
 
@@ -98,7 +98,7 @@ public class ActivationHandler extends HttpServlet {
                     out.print(message);
                 } else {
                     if (isDevice) {
-                        out.print("No parameter found");
+                        out.print("no parameter found");
                     } else {
                         out.print(StringUtil.readResource("contents/activation-error.html"));
                     }

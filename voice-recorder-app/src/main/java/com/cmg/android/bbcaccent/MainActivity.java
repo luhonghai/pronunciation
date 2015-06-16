@@ -283,7 +283,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
-        getWord("necessarily");
+        getWord(getString(R.string.example_word));
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
     }
@@ -323,9 +323,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         break;
                     case 5:
                         SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                        d.setTitleText("Logout account");
-                        d.setContentText("Are you sure you want to logout this account?");
-                        d.setConfirmText("Logout");
+                        d.setTitleText(getString(R.string.logout_account_message_title));
+                        d.setContentText(getString(R.string.logout_account_message_content));
+                        d.setConfirmText(getString(R.string.logout));
                         d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -338,7 +338,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 startActivity(LoginActivity.class);
                             }
                         });
-                        d.setCancelText("No");
+                        d.setCancelText(getString(R.string.dialog_no));
                         d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -346,24 +346,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             }
                         });
                         d.show();
-
-//                        new AlertDialog.Builder(MainActivity.this)
-//                                .setTitle("Logout account")
-//                                .setMessage("Are you sure you want to logout this account")
-//                                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
-//                                        if (profile != null) {
-//                                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
-//                                        }
-//                                        accountManager.logout();
-//                                        MainActivity.this.finish();
-//                                        startActivity(LoginActivity.class);
-//                                    }
-//                                })
-//                                .setNegativeButton("No",null)
-//                        .show();
                         break;
                 }
             }
@@ -408,11 +390,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, "graph");
+                GraphFragment.class, getString(R.string.tab_graph));
         addTabImage(R.drawable.tab_history,
-                HistoryFragment.class, "history");
+                HistoryFragment.class, getString(R.string.tab_history));
         addTabImage(R.drawable.tab_tip,
-                TipFragment.class, "tip");
+                TipFragment.class, getString(R.string.tab_tip));
     }
 
     private void addTabImage(int drawableId, Class<?> c, String labelId)
@@ -486,7 +468,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            searchView.setQueryHint("Search word");
+            searchView.setQueryHint(getString(R.string.tint_search_word));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
           //  searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
@@ -587,45 +569,47 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void getWord(final String word) {
         if (isRecording) return;
-        AnalyticHelper.sendSelectWord(this, word);
-        switchButtonStage(ButtonState.DISABLED);
-        recordingView.startPingAnimation(this);
+        if (checkNetwork(false)) {
+            AnalyticHelper.sendSelectWord(this, word);
+            switchButtonStage(ButtonState.DISABLED);
+            recordingView.startPingAnimation(this);
 
-        YoYo.with(Techniques.FadeIn).duration(700).withListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                imgHourGlass.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.FadeIn).duration(700).withListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    imgHourGlass.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).playOn(imgHourGlass);
+
+            txtWord.setText(getString(R.string.searching));
+            txtPhonemes.setText(getString(R.string.please_wait));
+            dictionaryItem = null;
+            currentModel = null;
+            if (getWordAsync != null) {
+                try {
+                    while (!getWordAsync.isCancelled() && getWordAsync.cancel(true)) ;
+                } catch (Exception ex) {
+
+                }
             }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).playOn(imgHourGlass);
-
-        txtWord.setText("Searching");
-        txtPhonemes.setText("Please wait ...");
-        dictionaryItem = null;
-        currentModel = null;
-        if (getWordAsync != null) {
-            try {
-                while (!getWordAsync.isCancelled() && getWordAsync.cancel(true));
-            } catch (Exception ex) {
-
-            }
+            getWordAsync = new GetWordAsync(word);
+            getWordAsync.execute();
         }
-        getWordAsync = new GetWordAsync(word);
-        getWordAsync.execute();
     }
 
     @Override
@@ -967,18 +951,20 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAnalyzing:
-                if (isRecording) {
-                    stop();
-                    switchButtonStage(ButtonState.DISABLED);
-                    if (currentModel != null) {
-                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                        recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
+                if (checkNetwork(false)) {
+                    if (isRecording) {
+                        stop();
+                        switchButtonStage(ButtonState.DISABLED);
+                        if (currentModel != null) {
+                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                            recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
+                        } else {
+                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                            recordingView.startPingAnimation(this, 1000, 100.0f, false, false);
+                        }
                     } else {
-                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                        recordingView.startPingAnimation(this, 1000, 100.0f, false, false);
+                        analyze();
                     }
-                } else {
-                    analyze();
                 }
                 break;
             case R.id.btnAudio:
@@ -1451,8 +1437,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         //txtWord.setSelected(true);
 
                     } else {
-                        txtWord.setText("Not found");
-                        txtPhonemes.setText("Please try again!");
+                        txtWord.setText(getString(R.string.not_found));
+                        txtPhonemes.setText(getString(R.string.please_try_again));
                     }
                 }
             }

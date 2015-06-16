@@ -27,21 +27,21 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
-            android:text="email address"/>
+            android:text="@string/email_address"/>
         <EditText
             android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:textColorHint="@android:color/darker_gray"
-            android:hint="email@address"/>
+            android:hint="@string/hint_email_address"/>
         <TextView
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@android:color/black"
-            android:text="password"/>
+            android:text="@string/password"/>
         <EditText
             android:id="@+id/txtPassword"
             android:layout_width="match_parent"
@@ -52,11 +52,11 @@
             android:layout_marginTop="@dimen/dialog_button_margin_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dialog_button_height"
-            android:text="login"
+            android:text="@string/login"
             android:textSize="@dimen/dialog_button_text_size"
             android:textColor="@android:color/white"
             android:background="@color/app_green"
-            android:textAlignment="center"/>
+            android:gravity="center_horizontal|center_vertical"/>
     </LinearLayout>
 
     <TextView

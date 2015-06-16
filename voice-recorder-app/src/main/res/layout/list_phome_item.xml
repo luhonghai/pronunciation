@@ -6,7 +6,7 @@
         android:id="@+id/txtPhonemeScore"
         android:layout_width="@dimen/phone_score_size"
         android:layout_height="@dimen/phone_score_size"
-        android:text="TH"
+        android:text="@string/example_phoneme"
         android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/rounded_corner_color_green"
         android:textColor="@android:color/white"
