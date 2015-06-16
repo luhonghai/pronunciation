@@ -31,7 +31,6 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
         return null;
     }
 
-
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();

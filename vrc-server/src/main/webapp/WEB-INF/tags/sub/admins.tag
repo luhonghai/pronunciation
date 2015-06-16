@@ -170,14 +170,6 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <p id="UserNameExitUpdate" class="UserNameExitUpdate" style="color:red;margin-left:50px;display: none;">User name exits</p>
-                <label class="col-xs-4  col-sm-3 control-label">UserName:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editusername" name="editusername" class=" form-control" style="padding-left: 0px;">
-                  <p id="nameeditsemail" class="nameeditemail" style="color:red; display: none;">Email format wrong!</p>
-                </div>
-              </div>
-              <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">FirstName:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editfirstname" name="editfirstname" class=" form-control" style="padding-left: 0px;">

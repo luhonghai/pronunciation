@@ -66,7 +66,7 @@ public class TestDAO {
            // usageDAO.getCountSearch("dsd","dsad");
           //  userVoiceModelDAO.getListScore("fdsf","fdsf","fdsf","sada");
            // adminDAO.getCountSearch("dfs","fds","fdsf");
-            adminDAO.listAll(0,10,"dsa",0,"erwe","fewf","dgf","fds");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
