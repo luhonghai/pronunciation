@@ -85,7 +85,7 @@ public class FeedbackActivity extends BaseActivity {
         //t3.setText(Html.fromHtml(getString(R.string.feedback_privacy_link)));
         t3.setMovementMethod(LinkMovementMethod.getInstance());
         registerReceiver(mHandleMessageReader, new IntentFilter(FeedbackActivity.SEND_FEEDBACK_FINISH));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void showProcessDialog() {

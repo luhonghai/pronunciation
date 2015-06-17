@@ -52,7 +52,7 @@ public class AuthHandler extends HttpServlet {
             String profile = request.getParameter(PARA_PROFILE);
             if (profile != null && profile.length() > 0) {
                 Gson gson = new Gson();
-                UserProfile user = gson.fromJson(profile, UserProfile.class);
+                final UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "success";
                 if (user != null) {
 
@@ -72,59 +72,64 @@ public class AuthHandler extends HttpServlet {
                             message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
                         }
                     }
-
-                    try {
-                        SecurityDAO securityDAO = new SecurityDAO();
-                        Security security = securityDAO.getByAccount(user.getUsername());
-                        if (security == null)
-                            security = new Security();
-                        security.setUsername(user.getUsername());
-                        UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
-                        if (deviceInfo != null) {
-                            security.setAppVersion(deviceInfo.getAppVersion());
-                        }
-                        security.setLoginType(user.getLoginType());
-                        security.setPassword(StringUtil.md5(user.getPassword()));
-                        if (security.getFirstAccess() == null)
-                            security.setFirstAccess(new Date(System.currentTimeMillis()));
-                        securityDAO.put(security);
-                    } catch (Exception e) {
-                        logger.error("Error when gather user security info. Message:: " + e.getMessage(),e);
-                    }
-
-                    try {
-                        UsageDAO usageDAO = new UsageDAO();
-                        Usage usage = new Usage();
-                        UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
-                        UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
-                        usage.setUsername(user.getUsername());
-                        if (deviceInfo != null) {
-                            com.cmg.vrc.data.jdo.UserDevice userDevice= userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
-                            if (userDevice == null)
-                                userDevice = new UserDevice();
-                            userDevice.setImei(deviceInfo.getEmei());
-                            userDevice.setDeviceName(deviceInfo.getDeviceName());
-                            userDevice.setModel(deviceInfo.getModel());
-                            userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
-                            userDevice.setOsVersion(deviceInfo.getOsVersion());
-                            if (userDevice.getAttachedDate() == null) {
-                                userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                SecurityDAO securityDAO = new SecurityDAO();
+                                Security security = securityDAO.getByAccount(user.getUsername());
+                                if (security == null)
+                                    security = new Security();
+                                security.setUsername(user.getUsername());
+                                UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                                if (deviceInfo != null) {
+                                    security.setAppVersion(deviceInfo.getAppVersion());
+                                }
+                                security.setLoginType(user.getLoginType());
+                                security.setPassword(StringUtil.md5(user.getPassword()));
+                                if (security.getFirstAccess() == null)
+                                    security.setFirstAccess(new Date(System.currentTimeMillis()));
+                                securityDAO.put(security);
+                            } catch (Exception e) {
+                                logger.error("Error when gather user security info. Message:: " + e.getMessage(),e);
                             }
-                            userDeviceDAO.put(userDevice);
 
-                            usage.setAppVersion(deviceInfo.getAppVersion());
-                            usage.setImei(deviceInfo.getEmei());
+                            try {
+                                UsageDAO usageDAO = new UsageDAO();
+                                Usage usage = new Usage();
+                                UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
+                                UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                                usage.setUsername(user.getUsername());
+                                if (deviceInfo != null) {
+                                    com.cmg.vrc.data.jdo.UserDevice userDevice= userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
+                                    if (userDevice == null)
+                                        userDevice = new UserDevice();
+                                    userDevice.setImei(deviceInfo.getEmei());
+                                    userDevice.setDeviceName(deviceInfo.getDeviceName());
+                                    userDevice.setModel(deviceInfo.getModel());
+                                    userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
+                                    userDevice.setOsVersion(deviceInfo.getOsVersion());
+                                    if (userDevice.getAttachedDate() == null) {
+                                        userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
+                                    }
+                                    userDeviceDAO.put(userDevice);
+
+                                    usage.setAppVersion(deviceInfo.getAppVersion());
+                                    usage.setImei(deviceInfo.getEmei());
+                                }
+                                UserProfile.UserLocation location = user.getLocation();
+                                if (location != null) {
+                                    usage.setLatitude(location.getLatitude());
+                                    usage.setLongitude(location.getLongitude());
+                                }
+                                usage.setTime(new Date(System.currentTimeMillis()));
+                                usageDAO.put(usage);
+                            } catch (Exception e) {
+                                logger.error("Error when gather user data. Message:: " + e.getMessage(),e);
+                            }
                         }
-                        UserProfile.UserLocation location = user.getLocation();
-                        if (location != null) {
-                            usage.setLatitude(location.getLatitude());
-                            usage.setLongitude(location.getLongitude());
-                        }
-                        usage.setTime(new Date(System.currentTimeMillis()));
-                        usageDAO.put(usage);
-                    } catch (Exception e) {
-                        logger.error("Error when gather user data. Message:: " + e.getMessage(),e);
-                    }
+                    }).start();
+
                 }
                 out.print(message);
             } else {
