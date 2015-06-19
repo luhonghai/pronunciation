@@ -890,6 +890,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onPause() {
+        super.onPause();
         if (mTabHost != null) {
             mTabHost.getTabWidget().setEnabled(false);
         }
@@ -901,7 +902,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             // Null response
             analyzingState = AnalyzingState.DEFAULT;
         }
-        super.onPause();
     }
 
     protected void stopRequestLocation() {
