@@ -32,7 +32,7 @@
 					<a href="dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
 				</li>
 				<li>
-					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total User </a>
+					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
 
 					<!-- /.nav-second-level -->
 				</li>

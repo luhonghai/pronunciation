@@ -43,7 +43,7 @@
                                     <div class="huge">
                                         <label id="user"></label>
                                     </div>
-                                    <div>Total User!</div>
+                                    <div>Total user!</div>
                                 </div>
                             </div>
                         </div>

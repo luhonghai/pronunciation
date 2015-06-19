@@ -4,6 +4,8 @@ import com.cmg.vrc.data.Mirrorable;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 
+import java.util.Date;
+
 /**
  * Created by luhonghai on 9/30/14.
  */
@@ -18,6 +20,7 @@ public class UserVoiceModel implements Mirrorable {
     private int englishProficiency = 5;
     private long time;
     private long serverTime;
+    private Date serverDate;
     private long duration;
     private float score;
     private double latitude;
@@ -203,5 +206,15 @@ public class UserVoiceModel implements Mirrorable {
 
     public void setRawSphinxResult(String rawSphinxResult) {
         this.rawSphinxResult = rawSphinxResult;
+    }
+
+    public Date getServerDate() {
+        if (serverTime == 0)
+            return null;
+        return new Date(serverTime);
+    }
+
+    public void setServerDate(Date serverDate) {
+        this.serverDate = serverDate;
     }
 }

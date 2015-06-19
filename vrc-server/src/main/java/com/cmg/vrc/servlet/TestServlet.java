@@ -40,34 +40,34 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.getStackTrace();
 //        }
-//        Usage usage=new Usage();
-//        usage.setAppVersion("323");
-//        usage.setLatitude(543.765);
-//        usage.setLongitude(423.65);
-//
-//        usage.setImei("nam123");
-//        usage.setTime(new Date(2-10-2014));
-//        usage.setUsername("nam bui");
-//        try {
-//            usageDAO.put(usage);
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
-        UserDevice userDevice=new UserDevice();
-        userDevice.setImei("nam123");
-        userDevice.setDeviceName("cmg");
-        userDevice.setOsApiLevel("12ds");
-        userDevice.setOsVersion("1.53");
+        Usage usage=new Usage();
+        usage.setAppVersion("323");
+        usage.setLatitude(543.765);
+        usage.setLongitude(423.65);
 
-
+        usage.setImei("nam123");
+        usage.setTime(new Date(2-10-2014));
+        usage.setUsername("nam bui");
         try {
-            userDeviceDAO.put(userDevice);
+            usageDAO.put(usage);
 
-      }catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
         }
+//        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+//        UserDevice userDevice=new UserDevice();
+//        userDevice.setImei("nam123");
+//        userDevice.setDeviceName("cmg");
+//        userDevice.setOsApiLevel("12ds");
+//        userDevice.setOsVersion("1.53");
+//
+//
+//        try {
+//            userDeviceDAO.put(userDevice);
+//
+//      }catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        AppDetailDAO appDetailDAO=new AppDetailDAO();
 //        AppDetail appDetail=new AppDetail();

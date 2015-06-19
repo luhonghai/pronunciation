@@ -39,7 +39,6 @@ function listScore(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                console.log(data.score);
                 return '<button type="button" scouse='+data.score+' id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
             }
         } ]
@@ -62,6 +61,8 @@ function filter(){
         };
         $("tbody").html("");
         myTable.fnDraw();
+        drawMap();
+
     });
 
 }
@@ -115,38 +116,73 @@ function maps() {
 
     });
 }
+function search(){
+    $('#dataTables-example').on( 'search.dt', function () {
+        drawMap();
+    });
+}
 
 function drawMap(){
-    var scoure=$("#maps").attr('scouse');
-    var buyerData = {
-        labels : [],
-        datasets : [
-            {
-                fillColor : "rgba(172,194,132,0.4)",
-                strokeColor : "#ACC26D",
-                pointColor : "#fff",
-                pointStrokeColor : "#9DB86D",
-                data : []
-            }
-        ]
-    }
 
-    var buy = document.getElementById('mappronunciation').getContext('2d');
-    new Chart(buy).Line(buyerData);
-    $.each(scoure, function(scoure) {
-        chartData.datasets.data.push(scoure);
+    $.ajax({
+        "url": "Pronunciations",
+        "type": "POST",
+        "dataType":"json",
+        "data":{
+            draw:"draw",
+            username:$("#username").val(),
+            word:$("#word").val(),
+            uuid:$("#uuid").val(),
+            search:$(".table-responsive input[type=search]").val()
+        },
+        success:function(data){
+            if(data.recordsTotal<10000) {
+                drawChart(data.sc);
+
+            }
+            if(data.recordsTotal>=10000){
+                $("#drawchart").append("<b>Dữ liệu quá lớn</b>")
+            }
+
+        },
+        error:function(e){
+            alert(e);
+        }
 
     });
+}
 
+google.load('visualization', '1', {packages: ['corechart', 'line']});
+google.setOnLoadCallback(drawChart);
+
+function drawChart(sc) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'X');
+    data.addColumn('number', 'Score');
+    data.addRows(sc);
+
+    var options = {
+        hAxis: {
+            title: ''
+        },
+        vAxis: {
+            title: 'score'
+        },
+        width: 550,
+        height: 200
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('drawchart'));
+
+    chart.draw(data, options);
 }
 
 
 $(document).ready(function(){
-
     maps();
     filter();
     listScore();
-    //drawMap();
-
+    drawMap();
+    search();
 });
 

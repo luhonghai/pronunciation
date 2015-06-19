@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,12 @@ public class Pronunciations extends HttpServlet{
         public Double recordsFiltered;
 
         List<UserVoiceModel> data;
+
+    }
+
+    class score{
+        public Double recordsTotal;
+        List<List<Integer>> sc;
     }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
@@ -38,10 +45,11 @@ public class Pronunciations extends HttpServlet{
             String search = request.getParameter("search[value]");
             String column = request.getParameter("order[0][column]");
             String oder = request.getParameter("order[0][dir]");
-            int start = Integer.parseInt(s);
+
+            int  start = Integer.parseInt(s);
             int length = Integer.parseInt(l);
-            int col = Integer.parseInt(column);
-            int draw = Integer.parseInt(d);
+            int col= Integer.parseInt(column);
+            int  draw= Integer.parseInt(d);
             Double count;
             String username = request.getParameter("username");
             String word = request.getParameter("word");
@@ -57,8 +65,7 @@ public class Pronunciations extends HttpServlet{
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
-                pronunciation.data=userVoiceModelDAO.listAll(start,length,search,col,oder,username,word,uuid);
-
+                pronunciation.data = userVoiceModelDAO.listAll(start, length, search, col, oder, username, word, uuid);
                 Gson gson = new Gson();
                 String score = gson.toJson(pronunciation);
                 response.getWriter().write(score);
@@ -68,6 +75,48 @@ public class Pronunciations extends HttpServlet{
                 e.printStackTrace();
             }
         }
+
+        else if(request.getParameter("draw")!=null){
+
+            String search = request.getParameter("search");
+            Double count;
+            String username = request.getParameter("username");
+            String word = request.getParameter("word");
+            String uuid = request.getParameter("uuid");
+            try {
+                Pronunciations.pronunciation pronunciation=new pronunciation();
+
+                if(search.length()>0||username.length()>0||word.length()>0||uuid.length()>0){
+                    count=userVoiceModelDAO.getCountSearch(search,username,word,uuid);
+                }else {
+                    count = userVoiceModelDAO.getCount();
+                }
+                Pronunciations.score score=new score();
+                score.recordsTotal=count;
+
+                List<UserVoiceModel> userVoiceModels = userVoiceModelDAO.listAllScore(search, username, word, uuid);
+                List<List<Integer>> list = new ArrayList<>();
+
+                for (int i = 0; i < userVoiceModels.size(); i++) {
+                    List<Integer> item = new ArrayList<>();
+                    item.add(i);
+                    item.add((int)userVoiceModels.get(i).getScore());
+                    list.add(item);
+                }
+                score.sc=list;
+                Gson gson = new Gson();
+                String sc = gson.toJson(score);
+                response.getWriter().write(sc);
+
+            } catch (Exception e) {
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+        }
+        else{
+            response.getWriter().write("error");
+        }
+
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

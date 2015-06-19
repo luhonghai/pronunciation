@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -20,6 +21,7 @@ public class UsageJDO implements Mirrorable {
     private String username;
 
     @Persistent
+    @Column(name = "emei")
     private String imei;
 
     @Persistent

@@ -36,7 +36,9 @@
 
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<%--<script>--%>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<%--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>--%>
+<%--&lt;%&ndash;<script>&ndash;%&gt;--%>
 	<%--$(document).ready(function() {--%>
 		<%--$('#dataTables-example').DataTable({--%>
 			<%--responsive: true--%>
