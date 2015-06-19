@@ -9,7 +9,7 @@
     <Button
         android:id="@+id/btnSkip"
         android:layout_width="60dp"
-        android:text="skip"
+        android:text="@string/skip"
         android:background="@color/app_green"
         android:textColor="@android:color/white"
         android:layout_margin="10dp"

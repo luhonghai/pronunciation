@@ -18,7 +18,13 @@ import java.util.List;
  */
 public class ListMenuAdapter extends BaseAdapter {
 
-    private  List<String> menuText = Arrays.asList("help", "settings", "about", "licence", "feedback", "logout");
+    private  List<Integer> menuText = Arrays.asList(
+            R.string.menu_help,
+            R.string.menu_settings,
+            R.string.menu_about,
+            R.string.menu_licence,
+            R.string.menu_feedback,
+            R.string.menu_logout);
     private  List<Integer> menuIcon = Arrays.asList(
             R.drawable.p_menu_help,
             R.drawable.p_menu_setting,
@@ -65,7 +71,7 @@ public class ListMenuAdapter extends BaseAdapter {
             view = (ViewHolder) convertView.getTag();
 
         }
-        view.textView.setText(menuText.get(position));
+        view.textView.setText(context.getString(menuText.get(position)));
         if (position == 5) {
             view.textView.setTextColor(context.getResources().getColor(R.color.app_red));
         }

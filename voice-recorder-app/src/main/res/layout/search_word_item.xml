@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:textSize="@dimen/main_selected_word_size"
             android:textColor="#FFF2FF"
-            android:text="necessarily"
+            android:text="@string/example_word"
             />
         <TextView
             android:id="@+id/txtPhoneme"
@@ -28,7 +28,7 @@
             android:layout_height="fill_parent"
             android:textSize="@dimen/main_selected_phoneme_size"
             android:layout_weight="1"
-            android:text="nɛsəˈsɛrɪli"
+            android:text="@string/example_word_pronunciation"
             android:textColor="@android:color/darker_gray"/>
     </LinearLayout>
 </RelativeLayout>

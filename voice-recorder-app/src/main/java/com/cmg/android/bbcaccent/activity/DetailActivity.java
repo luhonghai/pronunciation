@@ -250,11 +250,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         bundle.putString(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
 
         addTabImage(R.drawable.tab_graph,
-                GraphFragmentParent.class, "graph", bundle);
+                GraphFragmentParent.class, getString(R.string.tab_graph), bundle);
         addTabImage(R.drawable.tab_history,
-                HistoryFragment.class, "history", bundle);
+                HistoryFragment.class, getString(R.string.tab_history), bundle);
         addTabImage(R.drawable.tab_tip,
-                TipFragment.class, "tip", bundle);
+                TipFragment.class, getString(R.string.tab_tip), bundle);
     }
 
     private void addTabImage(int drawableId, Class<?> c, String labelId, Bundle bundle)

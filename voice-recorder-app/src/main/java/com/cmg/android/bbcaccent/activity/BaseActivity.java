@@ -74,13 +74,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
     public boolean checkNetwork(final boolean closeApp) {
         boolean isNetworkAvailable = AndroidHelper.isNetworkAvailable(this);
         if (!isNetworkAvailable) {
-            final SpannableString s = new SpannableString("Sorry but your Internet connection does not appear to be working.");
-            Linkify.addLinks(s, Linkify.ALL);
-            SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-            d.setTitleText("Network not available");
-            d.setContentText("Sorry but your Internet connection does not appear to be working.");
-            d.setConfirmText("Close");
-            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            showErrorNetworkMessage(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                     if (closeApp) {
@@ -90,22 +84,6 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
                     }
                 }
             });
-            d.show();
-//            AlertDialog d = new AlertDialog.Builder(BaseActivity.this)
-//                    .setTitle("Network not available")
-//                    .setMessage(s)
-//                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (closeApp) {
-//                                BaseActivity.this.finish();
-//                            } else {
-//                                dialog.dismiss();
-//                            }
-//                        }
-//                    }).create();
-//            d.show();
-//            ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         }
         return isNetworkAvailable;
     }
@@ -143,5 +121,22 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
         super.onSaveInstanceState(outState);
+    }
+
+    protected void showErrorNetworkMessage(SweetAlertDialog.OnSweetClickListener onConfirmListener) {
+        SweetAlertDialog d = new SweetAlertDialog(BaseActivity.this, SweetAlertDialog.ERROR_TYPE);
+        d.setTitleText(getString(R.string.error_network_title));
+        d.setContentText(getString(R.string.error_network_message));
+        d.setConfirmText(getString(R.string.dialog_ok));
+        if (onConfirmListener == null) {
+            onConfirmListener = new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            };
+        }
+        d.setConfirmClickListener(onConfirmListener);
+        d.show();
     }
 }

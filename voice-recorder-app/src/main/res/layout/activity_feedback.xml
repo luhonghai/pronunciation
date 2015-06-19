@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:ems="10"
-        android:hint="Description"
+        android:hint="@string/description"
         android:paddingBottom="10dp" />
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
         android:orientation="vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
+        android:paddingStart="20dp"
         android:paddingTop="10dp">
 
         <TextView
@@ -41,18 +42,18 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/privacy_information_feedback_details"
+            android:text="@string/feedback_privacy_link"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/send"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:background="@color/app_green"
+            android:gravity="center_horizontal|center_vertical"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="send"
-        android:textSize="30sp"
-        android:textColor="@android:color/white"
-        android:background="@color/app_green"
-        android:textAlignment="center"/>
 
 </LinearLayout>

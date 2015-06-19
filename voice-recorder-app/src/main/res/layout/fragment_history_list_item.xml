@@ -24,7 +24,6 @@
                     android:textSize="@dimen/main_selected_word_size"
                     android:gravity="start|center_vertical"
                     android:textStyle="bold"
-                    android:text="necessarily"
                     />
 
             </RelativeLayout>
@@ -34,8 +33,7 @@
                 android:layout_height="@dimen/button_list_default_size"
                 android:textSize="@dimen/main_selected_word_size"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:text="60%"/>
+                android:textStyle="bold"/>
         </LinearLayout>
         <RelativeLayout
             android:id="@+id/rlHistoryItem"
