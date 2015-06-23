@@ -21,25 +21,30 @@ function listLicenseCode(){
                     }
                 },
                 "columns": [{
-                    "sWidth": "25%",
+                    "sWidth": "30%",
                     "data": "account",
                     "sDefaultContent":""
 
-                },
-                    {
-                        "sWidth": "20%",
-                        "data": "imei",
-                        "sDefaultContent":""
+                }, {
+                    "sWidth": "25%",
+                    "data": null,
+                    "bSortable": false,
+                    "sDefaultContent":"",
+                    "mRender": function (data, type, full) {
+                        if(data.imei!=null) {
+                            return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
+                        }
                     }
-                    , {
+                }, {
                     "sWidth": "20%",
                     "data": "code",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "25%",
+                    "sWidth": "20%",
                     "data": "activatedDate",
                     "sDefaultContent":""
                 }, {
+                    "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
                     "mRender": function (data, type, full) {
@@ -155,10 +160,43 @@ function addCode(){
     });
 }
 
+function detailemei(){
+    $(document).on("click", "#emei", function () {
+        $('#emeimodal').modal('show');
+        var emei=$("#emei").attr('emeis');
+        $.ajax({
+            url:"LicenseCodes",
+            type:"POST",
+            dataType:"json",
+            data:{
+                emei:emei,
+                detailmodal:"detailmodal"
+            },
+            success:function(data){
+
+                $("#emeipopup").text(data.imei);
+                $("#devicenamepopup").text(data.deviceName);
+                $("#modelpopup").text(data.model);
+                $("#osversionpopup").text(data.osVersion);
+                $("#osapilevelpopup").text(data.osApiLevel);
+                $("#attacheddatepopup").text(data.attachedDate);
+            },
+            error:function(){
+                alert("error");
+            }
+
+        });
+
+
+
+    });
+}
+
 
 
 $(document).ready(function(){
     filter();
+    detailemei();
 
     add();
     addCode();

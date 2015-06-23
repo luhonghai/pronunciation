@@ -30,8 +30,9 @@ function listFeedback(){
                 }, {
                     "data": null,
                     "bSortable": false,
+                    "sDefaultContent":"",
                     "mRender": function (data, type, full) {
-                        if(data.imei.length!=0) {
+                        if(data.imei!=null) {
                             return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
                         }
                     }
@@ -92,12 +93,13 @@ function detailemei(){
             },
             success:function(data){
 
-                $("#emeipopup").text(data.imei);
-                $("#devicenamepopup").text(data.deviceName);
-                $("#modelpopup").text(data.model);
-                $("#osversionpopup").text(data.osVersion);
-                $("#osapilevelpopup").text(data.osApiLevel);
-                $("#attacheddatepopup").text(data.attachedDate);
+                    $("#emeipopup").text(data.imei);
+                    $("#devicenamepopup").text(data.deviceName);
+                    $("#modelpopup").text(data.model);
+                    $("#osversionpopup").text(data.osVersion);
+                    $("#osapilevelpopup").text(data.osApiLevel);
+                    $("#attacheddatepopup").text(data.attachedDate);
+
             },
             error:function(){
                 alert("error");

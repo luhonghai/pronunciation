@@ -28,7 +28,10 @@ public class AWSServiceHandler extends BaseServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String role = request.getSession().getAttribute("role").toString();
+        String role =null;
+        if( request.getSession().getAttribute("role").toString()!=null){
+            role=request.getSession().getAttribute("role").toString();
+        }
         if (role.equals("1")) {
             String action = request.getParameter("action");
             String target = request.getParameter("target");

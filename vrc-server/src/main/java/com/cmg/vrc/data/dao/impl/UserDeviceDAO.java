@@ -25,4 +25,5 @@ public class UserDeviceDAO extends DataAccess<UserDeviceJDO, UserDevice> {
             return devices.get(0);
         return null;
     }
+
 }

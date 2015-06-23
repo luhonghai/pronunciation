@@ -19,27 +19,40 @@ function listScore(){
         },
 
         "columns": [{
-            "sWidth": "30%",
+            "sWidth": "25%",
             "data": "username",
             "sDefaultContent":""
 
         },{
-            "sWidth": "20%",
+            "sWidth": "15%",
             "data": "word",
             "sDefaultContent":""
         }, {
-            "sWidth": "15%",
+            "sWidth": "10%",
             "data": "score",
             "sDefaultContent":""
         }, {
             "sWidth": "25%",
-            "data": "uuid",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent":"",
+            "mRender": function (data, type, full) {
+                if(data.uuid!=null) {
+                    return '<i type="button" emeis='+data.uuid+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.uuid;
+                }
+            }
+        },{
+            "sWidth": "20%",
+            "data": "serverDate",
             "sDefaultContent":""
         },{
+            "sWidth": "5%",
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" scouse='+data.score+' id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                if (data.latitude != null && data.longitude != null) {
+                    return '<button type="button" scouse=' + data.score + ' id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                }
             }
         } ]
     });
@@ -108,8 +121,6 @@ function maps() {
     $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');
-        //var x=parseFloat(latitude);
-        //var y=parseFloat(longitude);
         $('#mapDetail').attr("latitude", latitude);
         $('#mapDetail').attr("longitude", longitude);
         $('#mapDetail').modal('show');
@@ -125,7 +136,7 @@ function search(){
 function drawMap(){
 
     $.ajax({
-        "url": "Pronunciations",
+        "url": "Pronunciationss",
         "type": "POST",
         "dataType":"json",
         "data":{
@@ -152,33 +163,104 @@ function drawMap(){
     });
 }
 
-google.load('visualization', '1', {packages: ['corechart', 'line']});
+google.load('visualization', '1', {packages: ['controls', 'charteditor']});
 google.setOnLoadCallback(drawChart);
 
 function drawChart(sc) {
     var data = new google.visualization.DataTable();
-    data.addColumn('number', 'X');
+    data.addColumn('datetime', 'date');
     data.addColumn('number', 'Score');
-    data.addRows(sc);
+    for(j=0;j<sc.length;j++){
+        data.addRow([new Date(sc[j][0]), sc[j][1]]);
+    }
 
-    var options = {
-        hAxis: {
-            title: ''
-        },
-        vAxis: {
-            title: 'score'
-        },
-        width: 550,
-        height: 200
-    };
 
-    var chart = new google.visualization.LineChart(document.getElementById('drawchart'));
 
-    chart.draw(data, options);
+    var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
+
+    var control = new google.visualization.ControlWrapper({
+        controlType: 'ChartRangeFilter',
+        containerId: 'control_div',
+        options: {
+            filterColumnIndex: 0,
+            ui: {
+                chartOptions: {
+                    height: 50,
+                    width: $("#width").width(),
+                    chartArea: {
+                        width: '80%'
+                    }
+                },
+                chartView: {
+                    columns: [0, 1]
+                }
+            }
+        }
+    });
+
+    var chart = new google.visualization.ChartWrapper({
+        chartType: 'LineChart',
+        containerId: 'drawchart'
+    });
+
+    function setOptions (wrapper) {
+        // sets the options on the chart wrapper so that it draws correctly
+        wrapper.setOption('height', 400);
+        wrapper.setOption('width', $("#width").width());
+        wrapper.setOption('chartArea.width', '80%');
+        // the chart editor automatically enables animations, which doesn't look right with the ChartRangeFilter
+        wrapper.setOption('animation.duration', 0);
+    }
+
+    setOptions(chart);
+
+    dash.bind([control], [chart]);
+    dash.draw(data);
 }
 
+function detailemei(){
+    $(document).on("click", "#emei", function () {
+        $('#emeimodal').modal('show');
+        var emei=$("#emei").attr('emeis');
+        $.ajax({
+            url:"Pronunciations",
+            type:"POST",
+            dataType:"json",
+            data:{
+                emei:emei,
+                detailmodal:"detailmodal"
+            },
+            success:function(data){
+                if(data!=null) {
+                    $("#emeipopup").text(data.imei);
+                    $("#devicenamepopup").text(data.deviceName);
+                    $("#modelpopup").text(data.model);
+                    $("#osversionpopup").text(data.osVersion);
+                    $("#osapilevelpopup").text(data.osApiLevel);
+                    $("#attacheddatepopup").text(data.attachedDate);
+                }else {
+                    $("#emeipopup").text("");
+                    $("#devicenamepopup").text("");
+                    $("#modelpopup").text("");
+                    $("#osversionpopup").text("");
+                    $("#osapilevelpopup").text("");
+                    $("#attacheddatepopup").text("");
+                }
+            },
+            error:function(){
+                alert("error");
+            }
+
+        });
+
+
+
+    });
+}
 
 $(document).ready(function(){
+
+    detailemei();
     maps();
     filter();
     listScore();

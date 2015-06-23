@@ -2,6 +2,8 @@ package com.cmg.vrc.servlet;
 
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
+import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
 import com.cmg.vrc.data.jdo.LicenseCode;
 import org.joda.time.LocalDate;
@@ -41,6 +43,8 @@ public class LicenseCodes extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LicenseCodeDAO lis = new LicenseCodeDAO();
         LicenseCode lisence = new LicenseCode();
+        UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserDevice userDevice=new UserDevice();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         if (request.getParameter("list") != null) {
@@ -134,7 +138,19 @@ public class LicenseCodes extends HttpServlet {
             }catch (Exception e){
                e.printStackTrace();
            }
+        }
 
+        if(request.getParameter("detailmodal")!=null){
+            String emei=request.getParameter("emei");
+            try {
+                userDevice=userDeviceDAO.getDeviceByIMEI(emei);
+                Gson gson = new Gson();
+                String user1 = gson.toJson(userDevice);
+                response.getWriter().write(user1);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
 
         }

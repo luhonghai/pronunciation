@@ -192,13 +192,13 @@
                     <div class="row">
                         <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-                            <h1 align="center">Feedback Detail</h1>
+                            <h1 align="center">Imei Detail</h1>
                             <form name="emei" class="form-horizontal"
                                   style="margin-top: 25px" id="emeis">
 
                                 <div class="form-group">
 
-                                    <label class="col-xs-4  col-sm-3 ">Emei:</label>
+                                    <label class="col-xs-4  col-sm-3 ">Imei:</label>
                                     <label id="emeipopup" name="emeipopup" class="col-xs-8  col-sm-9  "></label>
 
                                 </div>

@@ -168,6 +168,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Pronunciationss</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Pronunciationss</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Pronunciationss</servlet-name>
+        <url-pattern>/Pronunciationss</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AWSServiceHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AWSServiceHandler</servlet-class>
     </servlet>

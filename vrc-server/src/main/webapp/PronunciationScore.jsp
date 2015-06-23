@@ -52,6 +52,7 @@
                   <th>Word</th>
                   <th>Score</th>
                   <th>uuid</th>
+                  <th>Time</th>
                   <th>Map</th>
                 </tr>
                 </thead>
@@ -70,8 +71,9 @@
 
     </div>
     <div class="row" style="margin-top: 50px;">
-      <div class="col-md-4 col-md-offset-2">
+      <div id="dashboard">
         <div id="drawchart"></div>
+        <div id="control_div"></div>
       </div>
     </div>
     <!-- /#page-wrapper -->
@@ -80,7 +82,7 @@
   <!-- /#wrapper -->
   <!-- /#page-wrapper -->
   <div id="mapDetail" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog"  style="padding: 0px; position: static;">
       <div class="modal-content">
         <div class="modal-header">
           <div class="row">
@@ -90,10 +92,70 @@
               <form name="map" class="form-horizontal"
                     style="margin-top: 25px" id="us">
                 <div id="map" style="width: 480px; height: 480px;"></div>
-
-
                 <div class="modal-footer">
                   <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
+
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <%--Imei popup datail--%>
+
+  <div id="emeimodal" class="modal fade">
+    <div class="modal-dialog" style="padding: 0px; position: static;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="row">
+            <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+              <h1 align="center">Imei Detail</h1>
+              <form name="emei" class="form-horizontal"
+                    style="margin-top: 25px" id="emeis">
+
+                <div class="form-group">
+
+                  <label class="col-xs-4  col-sm-3 ">Imei:</label>
+                  <label id="emeipopup" name="emeipopup" class="col-xs-8  col-sm-9  "></label>
+
+                </div>
+                <div class="form-group">
+                  <label class="col-xs-4  col-sm-3 ">Devicename:</label>
+                  <label id="devicenamepopup" name="devicenamepopup" class="col-xs-8  col-sm-9  "></label>
+
+                </div>
+
+                <div class="form-group">
+                  <label class="col-xs-4  col-sm-3 ">Model:</label>
+                  <label id="modelpopup" name="modelpopup" class="col-xs-8  col-sm-9  "></label>
+
+                </div>
+                <div class="form-group">
+
+                  <label class="col-xs-4  col-sm-3 ">Osversion:</label>
+                  <label id="osversionpopup" name="osversionpopup" class="col-xs-8  col-sm-9 "></label>
+
+                </div>
+
+                <div class="form-group">
+
+                  <label class="col-xs-4  col-sm-3 ">Osapilevel:</label>
+                  <label id="osapilevelpopup" name="osapilevelpopup" class="col-xs-8  col-sm-9  "></label>
+
+                </div>
+                <div class="form-group">
+
+                  <label class="col-xs-4  col-sm-3 ">Attached Date:</label>
+                  <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-9  "></label>
+
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" name="close" id="closepopup" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
 
                 </div>
 

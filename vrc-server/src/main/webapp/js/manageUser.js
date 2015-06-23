@@ -27,8 +27,9 @@ function user(){
             //"sDefaultContent":""
             "data": null,
             "bSortable": false,
+            "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                if(data.imei.length!=0) {
+                if(data.imei!=null) {
                     return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
                 }
             }
@@ -40,7 +41,9 @@ function user(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                return '<button type="button" id="maps" latitude=' + data.latitude +' class="btn btn-info btn-sm" longitude=' + data.longitude +'>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                if (data.latitude != null && data.longitude != null) {
+                    return '<button type="button" id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
+                }
             }
         }, {
             "sWidth": "20%",
@@ -122,9 +125,6 @@ function maps() {
     $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');
-        //var x=parseFloat(latitude);
-        //var y=parseFloat(longitude);
-        //mapss(x,y);
         $('#mapDetail').attr("latitude", latitude);
         $('#mapDetail').attr("longitude", longitude);
         $('#mapDetail').modal('show');
