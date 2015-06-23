@@ -121,6 +121,7 @@ function maps() {
     $(document).on("click", "#maps", function () {
         var latitude = $(this).attr('latitude');
         var longitude = $(this).attr('longitude');
+
         $('#mapDetail').attr("latitude", latitude);
         $('#mapDetail').attr("longitude", longitude);
         $('#mapDetail').modal('show');
@@ -147,12 +148,17 @@ function drawMap(){
             search:$(".table-responsive input[type=search]").val()
         },
         success:function(data){
-            if(data.recordsTotal<10000) {
+            if(data.status==true) {
                 drawChart(data.sc);
+                google.setOnLoadCallback(drawChart);
 
             }
-            if(data.recordsTotal>=10000){
-                $("#drawchart").append("<b>Dữ liệu quá lớn</b>")
+            if(data.status==false){
+                $("#dashboard").append("<b style='font-size: 25px; color: red;'>Dữ liệu quá lớn</b>");
+            }
+            if(data.mess=="Error Sever")
+            {
+                $("#dashboard").append("<b style='font-size: 25px; color: red;'>Error.</b>");
             }
 
         },
@@ -164,8 +170,6 @@ function drawMap(){
 }
 
 google.load('visualization', '1', {packages: ['controls', 'charteditor']});
-google.setOnLoadCallback(drawChart);
-
 function drawChart(sc) {
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'date');

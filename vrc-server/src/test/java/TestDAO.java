@@ -68,6 +68,14 @@ public class TestDAO {
           //  userVoiceModelDAO.getListScore("fdsf","fdsf","fdsf","sada");
            // adminDAO.getCountSearch("dfs","fds","fdsf");
            // userVoiceModelDAO.getCountSearch("dfs","fsdgfd","dfs","fsg");
+//            long startTime = System.currentTimeMillis();
+//
+//            //userVoiceModelDAO.getCountSearch("dfs","fsdgfd","dfs","fsg");
+//            userVoiceModelDAO.getCount();
+//            long endTime   = System.currentTimeMillis();
+//            System.out.print("#1: " + ( endTime-startTime));
+//            userVoiceModelDAO.getCount();
+//            System.out.print("#2: " + ( System.currentTimeMillis() - endTime));
 
         } catch (Exception e) {
             e.printStackTrace();
