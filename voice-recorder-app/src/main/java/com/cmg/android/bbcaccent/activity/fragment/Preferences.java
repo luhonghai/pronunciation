@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.AppLog;
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.common.DeviceInfoCommon;
 import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.preferences.YesNoPreference;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;

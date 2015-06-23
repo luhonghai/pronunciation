@@ -987,8 +987,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode,resultCode, data);
+        SimpleAppLog.info("onActivityResult. requestCode: " + requestCode + ". resultCode: " + resultCode);
         switch (requestCode) {
             case 0:
+
                 if (resultCode == RESULT_OK) {
                     signedInUser = false;
                 }
@@ -1003,7 +1005,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         enableForm(true);
-        hideProcessDialog();
+        if (!mIntentInProccess) {
+            hideProcessDialog();
+        }
         SimpleAppLog.info("Could not connect to Google plus. Error code: " + connectionResult.getErrorCode()
                 + ". Read more at: http://developer.android.com/reference/com/google/android/gms/common/ConnectionResult.html");
         if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR) {

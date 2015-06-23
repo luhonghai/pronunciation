@@ -190,56 +190,59 @@ public class HelpActivity extends BaseActivity {
                 ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
             }
 
-            ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imgHelpContent);
+            final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imgHelpContent);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
-
-            ImageLoader.getInstance().displayImage("drawable://" + drawableId, imageView, options, new SimpleImageLoadingListener() {
+            imageView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
                 @Override
-                public void onLoadingStarted(String imageUri, View view) {
-                    spinner.setVisibility(View.VISIBLE);
-                    if (imageLoadingListener != null) {
-                        imageLoadingListener.onLoadingStarted(imageUri, view);
-                    }
-                }
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    ImageLoader.getInstance().displayImage("drawable://" + drawableId, (ImageView) v, options, new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+                            spinner.setVisibility(View.VISIBLE);
+                            if (imageLoadingListener != null) {
+                                imageLoadingListener.onLoadingStarted(imageUri, view);
+                            }
+                        }
 
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                    String message = null;
-                    switch (failReason.getType()) {
-                        case IO_ERROR:
-                            message = "Input/Output error";
-                            break;
-                        case DECODING_ERROR:
-                            message = "Image can't be decoded";
-                            break;
-                        case NETWORK_DENIED:
-                            message = "Downloads are denied";
-                            break;
-                        case OUT_OF_MEMORY:
-                            message = "Out Of Memory error";
-                            break;
-                        case UNKNOWN:
-                            message = "Unknown error";
-                            break;
-                    }
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                            String message = null;
+                            switch (failReason.getType()) {
+                                case IO_ERROR:
+                                    message = "Input/Output error";
+                                    break;
+                                case DECODING_ERROR:
+                                    message = "Image can't be decoded";
+                                    break;
+                                case NETWORK_DENIED:
+                                    message = "Downloads are denied";
+                                    break;
+                                case OUT_OF_MEMORY:
+                                    message = "Out Of Memory error";
+                                    break;
+                                case UNKNOWN:
+                                    message = "Unknown error";
+                                    break;
+                            }
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
-                    spinner.setVisibility(View.GONE);
-                    if (imageLoadingListener != null) {
-                        imageLoadingListener.onLoadingFailed(imageUri, view, failReason);
-                    }
-                }
+                            spinner.setVisibility(View.GONE);
+                            if (imageLoadingListener != null) {
+                                imageLoadingListener.onLoadingFailed(imageUri, view, failReason);
+                            }
+                        }
 
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    spinner.setVisibility(View.GONE);
-                    if (imageLoadingListener != null) {
-                        imageLoadingListener.onLoadingComplete(imageUri, view, loadedImage);
-                    }
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            spinner.setVisibility(View.GONE);
+                            if (imageLoadingListener != null) {
+                                imageLoadingListener.onLoadingComplete(imageUri, view, loadedImage);
+                            }
 
+                        }
+                    });
                 }
             });
-
             return imageLayout;
         }
 
