@@ -41,7 +41,7 @@ function user(){
             "data": null,
             "bSortable": false,
             "mRender": function (data, type, full) {
-                if (data.latitude != null && data.longitude != null) {
+                if (data.latitude != 0 && data.longitude != 0) {
                     return '<button type="button" id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
                 }
             }
@@ -107,7 +107,6 @@ function mapss(latitude,longitude) {
         disableAutoPan: true
     });
     marker.setMap(map);
-
 }
 function refreshMap() {
     //google.maps.event.trigger(map, 'resize');

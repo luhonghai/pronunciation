@@ -102,12 +102,13 @@
                 </div>
             </div>
 
-            <div class="row" style="margin-top: 50px;">
-                <div class="col-md-4" id="geochart1" style="width: 400px; height: 200px;"></div>
-                <div class="col-md-4 col-md-offset-2">
-                    <canvas id="buyers" style="width: 400px; height: 200px;"></canvas>
-
+            <div class="row" style="margin-top: 30px;">
+                <div class="col-sm-4" id="geochart1" style="width: 400px; height: 200px;"></div>
+                <div id="dashboard" class="pull-right col-sm-6">
+                    <div id="drawchart"></div>
+                    <div id="control_div"></div>
                 </div>
+
             </div>
            <hr/>
            <h2 id="title-server" style="display: none">Application server</h2>

@@ -85,6 +85,35 @@ public class Pronunciationss extends HttpServlet{
             }
         }
 
+        if(request.getParameter("draws")!=null) {
+            Pronunciationss.score score = new score();
+            try {
+                    List<UserVoiceModel> userVoiceModels = userVoiceModelDAO.listAllScore();
+                    List<List<Object>> list = new ArrayList<>();
+                    for (int i = 0; i < userVoiceModels.size(); i++) {
+                        List<Object> item = new ArrayList<>();
+                        item.add(userVoiceModels.get(i).getServerTime());
+                        item.add(userVoiceModels.get(i).getScore());
+                        list.add(item);
+                    }
+                    score.mess="success";
+                    score.status=true;
+                    score.sc = list;
+                    Gson gson = new Gson();
+                    String sc = gson.toJson(score);
+                    response.getWriter().write(sc);
+
+
+            } catch (Exception e) {
+                score.mess="error";
+                Gson gson = new Gson();
+                String sc = gson.toJson(score);
+                response.getWriter().write(sc);
+                e.printStackTrace();
+            }
+        }
+
+
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

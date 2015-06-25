@@ -76,6 +76,7 @@ public class TestDAO {
 //            System.out.print("#1: " + ( endTime-startTime));
 //            userVoiceModelDAO.getCount();
 //            System.out.print("#2: " + ( System.currentTimeMillis() - endTime));
+            userVoiceModelDAO.listAllScore();
 
         } catch (Exception e) {
             e.printStackTrace();

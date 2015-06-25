@@ -164,6 +164,37 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
         }
     }
 
+
+    public List<UserVoiceModel> listAllScore() throws Exception {
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        List<UserVoiceModel> list = new ArrayList<UserVoiceModel>();
+        Query q = pm.newQuery("SELECT FROM " + UserVoiceModelJDO.class.getCanonicalName());
+        q.setRange(0, 10000);
+        q.setOrdering("serverTime asc");
+        try {
+            tx.begin();
+            List<UserVoiceModelJDO> tmp = (List<UserVoiceModelJDO>)q.execute();
+            Iterator<UserVoiceModelJDO> iter = tmp.iterator();
+            while (iter.hasNext()) {
+                list.add(to(iter.next()));
+            }
+            tx.commit();
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
+
     public double getCountSearch(String search,String username1,String word1,String uuid1) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();

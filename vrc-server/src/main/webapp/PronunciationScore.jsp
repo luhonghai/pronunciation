@@ -96,7 +96,6 @@
                   <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
 
                 </div>
-
               </form>
             </div>
           </div>
