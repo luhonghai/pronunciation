@@ -43,8 +43,13 @@ function listScore(){
             }
         },{
             "sWidth": "20%",
-            "data": "serverDate",
-            "sDefaultContent":""
+            "data": null,
+            "bSortable": false,
+            "mRender": function (data, type, full) {
+                if (data.time != 0) {
+                    return new Date(data.time);
+                }
+            }
         },{
             "sWidth": "5%",
             "data": null,

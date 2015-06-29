@@ -24,10 +24,12 @@ function listFeedback(){
                 },
 
                 "columns": [{
+                    "sWidth": "30%",
                     "data": "account",
                     "sDefaultContent":""
 
                 }, {
+                    "sWidth": "25%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
@@ -37,15 +39,15 @@ function listFeedback(){
                         }
                     }
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "10%",
                     "data": "appVersion",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": "osVersion",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": "createdDate",
                     "sDefaultContent":""
                 }, {
