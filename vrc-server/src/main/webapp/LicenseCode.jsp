@@ -97,11 +97,11 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"
                   aria-hidden="true">&times;</button>
-          <h2 class="modal-title" align="center">Add Code</h2>
+          <h2 class="modal-title" align="center">Add new licence code</h2>
         </div>
         <form name="form-delete">
           <div class="modal-body">
-            <h4>Do you want to Add Code?</h4>
+            <h4>Do you want to add a new licence code?</h4>
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
