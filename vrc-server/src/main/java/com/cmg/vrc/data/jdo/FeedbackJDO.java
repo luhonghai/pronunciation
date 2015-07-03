@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -23,6 +24,7 @@ public class FeedbackJDO implements Mirrorable {
     private String screenshoot;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
     private String description;
 
     @Persistent
@@ -41,9 +43,11 @@ public class FeedbackJDO implements Mirrorable {
     private String deviceName;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
     private String stackTrace;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
     private String rawUserProfile;
 
     @Persistent

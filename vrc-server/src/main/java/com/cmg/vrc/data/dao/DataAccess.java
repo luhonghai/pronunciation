@@ -103,7 +103,7 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @param obj
 	 * @throws DataAccessException
 	 */
-	protected void verifyObject(Object obj) throws DataAccessException {
+	protected void verifyObject(final Object obj) throws DataAccessException {
 		if (obj instanceof Mirrorable) {
 			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0) 
 				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());			
@@ -119,7 +119,7 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean put(E obj) throws Exception {
+	public boolean put(final E obj) throws Exception {
 		verifyObject(obj);
 		String id = ((Mirrorable) obj).getId();
 		if (checkExistence(id))

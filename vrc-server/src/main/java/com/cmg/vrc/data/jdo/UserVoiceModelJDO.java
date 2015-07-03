@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -13,7 +14,6 @@ import javax.jdo.annotations.PrimaryKey;
 public class UserVoiceModelJDO implements Mirrorable {
     @PrimaryKey
     private String id;
-
     @Persistent
     private String username;
     @Persistent
@@ -52,6 +52,7 @@ public class UserVoiceModelJDO implements Mirrorable {
     private String hypothesis;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
     private String rawSphinxResult;
 
     public String getUsername() {

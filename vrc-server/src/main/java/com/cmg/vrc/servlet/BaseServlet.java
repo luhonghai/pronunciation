@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * Skeleton class for all servlets in this package.
  */
 @SuppressWarnings("serial")
-abstract class BaseServlet extends HttpServlet {
+public abstract class BaseServlet extends HttpServlet {
 
 	// change to true to allow GET calls
 	static final boolean DEBUG = true;

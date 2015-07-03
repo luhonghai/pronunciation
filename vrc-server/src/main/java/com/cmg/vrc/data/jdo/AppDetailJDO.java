@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,6 +17,7 @@ public class AppDetailJDO implements Mirrorable {
     private String id;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
     private String noAccessMessage;
 
     @Persistent

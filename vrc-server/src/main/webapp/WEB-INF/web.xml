@@ -203,6 +203,15 @@
         <url-pattern>/activate</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TranscriptionHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.amt.TranscriptionHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TranscriptionHandler</servlet-name>
+        <url-pattern>/transcription</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>
