@@ -1,0 +1,92 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+android {
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    //compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+    defaultConfig {
+        applicationId "com.cmg.android.bbcaccentamt"
+        versionCode 207
+        versionName "2.0.7"
+        minSdkVersion 11
+        targetSdkVersion 19
+        //TODO comment second line if build is not compiles for "L"
+        compileSdkVersion 19
+        archivesBaseName = "bbc-accent-amt"
+    }
+    productFlavors {
+    }
+    signingConfigs {
+        release {
+            storeFile file("../../keystore/com-cmg-android.keystore")
+            storePassword "admincmg@3f"
+            keyAlias "com-cmg-android"
+            keyPassword "admincmg@3f"
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace(".apk", "-v${variant.versionName}.apk"))
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.google.code.gson:gson:2.3'
+    compile ('cn.pedant.sweetalert:library:1.3') {
+        exclude module: 'appcompat-v7'
+    }
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.balysv.materialmenu:material-menu-abs:1.5.0'
+    compile 'org.jsoup:jsoup:1.7.3'
+    compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
+    compile('com.jjoe64:graphview:4.0.0') {
+        exclude module: 'appcompat-v7'
+    }
+    compile 'com.google.android.gms:play-services:4.+'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.1@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
+        transitive = true;
+    }
+}

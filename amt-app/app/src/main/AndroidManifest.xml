@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cmg.android.bbcaccentamt">
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!--
+     To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
+     option is required to comply with the Google+ Sign-In developer policies
+    -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <application
+        tools:replace="android:icon"
+        android:icon="@drawable/app_icon"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Default">
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
+
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.DetailActivity"
+            android:label="detail"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.SettingsActivity"
+            android:label="settings"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.info.AboutActivity"
+            android:label="about"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.info.LicenceActivity"
+            android:label="licence"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.info.HelpActivity"
+            android:label="help"
+            android:theme="@style/Theme.Sherlock.Light.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.cmg.android.bbcaccentamt.activity.FeedbackActivity"
+            android:label="feedback"
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:theme="@style/Theme.Default"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b2e1b26db34748286e936a40299c23c6d522a768" />
+    </application>
+</manifest>

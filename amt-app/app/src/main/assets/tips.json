@@ -1,0 +1,417 @@
+[
+  {
+    "type" : "text",
+    "data" : "<b>AA</b> as in the first <b>O</b> in common.<br/> <p>To pronounce the phoneme, half open your mouth, flatten your tongue, round your lips and make an \"OH\" sound as a quick release of air from the back of the throat.</p>",
+    "phoneme" : "AA",
+    "words" : [
+      "lot",
+      "common"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AE</b> as in the <b>A</b> in jam.<br/> <p>To pronounce the phoneme, fully open your mouth, flatten your tongue and push the tip against your bottom teeth. Make an \"AH\" sound as a quick release of air from the back of the throat.</p>",
+    "phoneme" : "AE",
+    "words" : [
+      "jam",
+      "ham",
+      "fan"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AH</b> as in the <b>U</b> in mud.<br/> <p>To pronounce the phoneme, half open your mouth, flatten your tongue, relax your lips and make an \"UH\" sound as a quick release of air from the back of the throat.</p>",
+    "phoneme" : "AH",
+    "words" : [
+      "strut",
+      "mud",
+      "just"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AO</b> as in the <b>O</b> in cloth.<br/> <p>To pronounce the phoneme, half open your mouth, slightly raise the back of the tongue and make a round shape with your lips. Make an \"OH\" sound as a quick release of air from the back of the throat. Do not move your tongue.</p>",
+    "phoneme" : "AO",
+    "words" : [
+      "cloth",
+      "lost"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AW</b> as in the <b>OW</b> in now.<br/> <p>To pronounce the phoneme, half open your mouth, flatten your tongue and pull the sides away from your teeth. Relax the back of the tongue and relax your lips. Make an \"OW\" sound by producing a small circle with your lips and at the same time quickly releasing air from the back of the throat. Do not move your tongue.</p>",
+    "phoneme" : "AW",
+    "words" : [
+      "mouth",
+      "accountant",
+      "now"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AY</b> as in the <b>I</b> in price.<br/> <p>To pronounce the phoneme, half open your mouth, relax the back of the tongue and relax your lips. Keeping your lips relaxed, close your mouth and at the same time slowly release air from the back of the throat. Do not move your tongue.</p>",
+    "phoneme" : "AY",
+    "words" : [
+      "right",
+      "price",
+      "quite"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>B</b> as in the <b>B</b> at the start of but.<br/> <p>To pronounce the phoneme, relax your tongue, curl your lips over your teeth and close them together. Now puff air through your curled lips whilst opening your mouth. Do not move your tongue.</p>",
+    "phoneme" : "B",
+    "words" : [
+      "but",
+      "web"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>CH</b> as in the <b>CH</b> at the start of chair.<br/> <p>To pronounce the phoneme, half open your mouth, push the front and middle of your tongue to the roof of your mouth without touching your teeth. Now make a huff sound as you open your mouth and pull your tongue away from the roof of your mouth.</p>",
+    "phoneme" : "CH",
+    "words" : [
+      "chair",
+      "nature",
+      "teach"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>D</b> as in the <b>D</b> at the start of do.<br/> <p>To pronounce the phoneme, open your mouth slightly and position the tip of your tongue behind your upper front teeth. Move your tongue away from your teeth while making a 'D' sound from the back of your throat.</p>",
+    "phoneme" : "D",
+    "words" : [
+      "do",
+      "odd"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>DH</b> as in the <b>TH</b> at the start of this.<br/> <p>To pronounce the phoneme, half open your mouth and push the tip of your tongue to the base of your upper teeth. Relax your lips, then make a huffing sound from the back of the throat while pulling the tip of your tongue  downwards. Do not move your jaw or lips.</p>",
+    "phoneme" : "DH",
+    "words" : [
+      "this",
+      "breath",
+      "father"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>EH</b> as in the <b>E</b> in the middle of when.<br/> <p>To pronounce the phoneme, half open your mouth and make a small open circle with your lips. Arch the middle of your tongue, but do not touch the roof of the mouth. Make an \"EH\" sound while pulling your lips into an open smile and slightly opening your jaw.</p>",
+    "phoneme" : "EH",
+    "words" : [
+      "when",
+      "descendent",
+      "Leicester"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>ER</b> as in the <b>UR</b> in the middle of turn.<br/><p>To pronounce the phoneme, relax your lips and almost completely close your mouth. Like a cough, quickly release an \"UH\" sound while opening your mouth half wide. Do not move your lips or tongue, they should remain relaxed.</p>",
+    "phoneme" : "ER",
+    "words" : [
+      "turn",
+      "diverse",
+      "nurse"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>EY</b> as in the <b>A</b> in the middle of face.<br/> <p>To pronounce the phoneme, half open your mouth and rest the tip of your tongue behind your lower teeth. Quickly release an \"A\" sound while closing your mouth slightly, but not fully.</p>",
+    "phoneme" : "EY",
+    "words" : [
+      "place",
+      "play",
+      "space",
+      "face"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>F</b> as in the <b>F</b> at the start of fool.<br/> <p>To pronounce the phoneme, relax your tongue and place your lower lip against the bottom of your upper teeth. Relax your top lip so it covers about half way down your upper teeth. Then without moving your lips, jaw or tongue, make a huffing sound.</p>",
+    "phoneme" : "F",
+    "words" : [
+      "fool",
+      "enough",
+      "leaf"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>G</b> as in the <b>G</b> at the start of go.<br/> <p> To pronounce the phoneme, half open your jaw, relax your lips and place the back of your tongue against the roof of your mouth. Without moving your jaw, make a huffing sound while pulling your tongue flat.</p>",
+    "phoneme" : "G",
+    "words" : [
+      "go",
+      "get",
+      "egg"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>HH</b> as in the <b>H</b> at the start of ham.<br/> <p> To pronounce the phoneme, half open your jaw, relax your lips and half raise the back of your tongue without touching the roof or your mouth. Without moving your jaw, lips or tongue, make a huffing sound.</p>",
+    "phoneme" : "HH",
+    "words" : [
+      "ham"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>IH</b> as in the <b>I</b> at the start of inherited.<br/> <p> To pronounce the phoneme, half open your jaw and relax your lips and tongue. Without moving your jaw, lips or tongue, make a quick blast from the voice box as an \"IH\" sound.</p>",
+    "phoneme" : "IH",
+    "words" : [
+      "inherited"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>IY</b> as in the <b>EE</b> in the middle of fleece.<br/> <p> To pronounce the phoneme, half open your jaw and relax your tongue. Gently pull the corners of your lips backwards into an open mouth smile. Without moving your jaw, lips or tongue, make a quick blast from the voice box as an \"IH\" sound.</p>",
+    "phoneme" : "IY",
+    "words" : [
+      "Greenham",
+      "peace",
+      "fleece"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>JH</b> as in the <b>J</b> at the start of joy.<br/> <p>To pronounce the phoneme, half open your jaw, make a round shape with your lips (as if to whistle). Now make a huffing sound while moving the middle of your tongue to the top of your mouth, keeping your tongue from touching your teeth. Continue the huffing sound whilst pulling your tongue back down to its original resting position.</p>",
+    "phoneme" : "JH",
+    "words" : [
+      "June",
+      "joy",
+      "edge"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>K</b> as in the <b>C</b> at the start of cat.<br/> <p>To pronounce the phoneme, open your jaw, relax your lips and place the back of your tongue against the roof of your mouth. Make a huffing sound while pulling your tongue downwards and at the same time release the air built up behind your tongue.</p>",
+    "phoneme" : "K",
+    "words" : [
+      "cat",
+      "cool",
+      "unique"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>L</b> as in the <b>L</b> at the start of left.<br/> <p>To pronounce the phoneme, open your jaw, relax your lips and place the tip of your tongue against the roof of your mouth. Your tongue should not touch your teeth. Make a huffing sound while flicking the tip of your tongue downwards and at the same time release the air built up behind your tongue.</p>",
+    "phoneme" : "L",
+    "words" : [
+      "left",
+      "able"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>M</b> as in the <b>M</b> at the start of mum. <p>To pronounce the phoneme, curl your lips over your teeth and keep your mouth closed. Now without moving your tongue lips or jaw make a humming sound.</p>",
+    "phoneme" : "M",
+    "words" : [
+      "mum",
+      "ham"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>N</b> as in the <b>N</b> at the start of no.</br> <p>To pronounce the phoneme, half open your jaw, relax your lips and slightly part them. Place the tip of your tongue just behind your top teeth. Without moving your jaw, lips or tongue make make a humming sound by vibrating the vocal chords while pushing air through the nose.</p>",
+    "phoneme" : "N",
+    "words" : [
+      "no",
+      "tin"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>NG</b> as in the <b>NG</b> at the end of sing.<br/> <p>To pronounce the phoneme, half open your jaw, relax your lips and place the back of your tongue against the roof of your mouth with the side of your tongue touching your teeth. Then without moving your jaw, lips or tongue, make a humming sound.</p>",
+    "phoneme" : "NG",
+    "words" : [
+      "ringer",
+      "sing",
+      "singer",
+      "drink"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>OW</b> as in the <b>O</b> in the middle of most.<br> <p>To pronounce the phoneme, half open your jaw, relax your lips and slightly part them. Slightly curl the edges of your tongue and make an \"OH\" sound while pursing your lips as if to whistle.</p>",
+    "phoneme" : "OW",
+    "words" : [
+      "most",
+      "close",
+      "goat"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>OY</b> as in the <b>OY</b> at the start of oyster.<br/> <p>To pronounce the phoneme, half open your jaw and round your lips. Keep the front part of your tongue in the lower part of your mouth and release air while widening your lips into a smile.</p>",
+    "phoneme" : "OY",
+    "words" : [
+      "choice",
+      "oyster"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>P</b> as in the <b>P</b> at the start of pen.<br/> <p>To pronounce the phoneme, half open your jaw, relax your tongue and curl your lips over your teeth. Bring your lips together, force air against them and open them to release a quick puff.</p>",
+    "phoneme" : "P",
+    "words" : [
+      "pen",
+      "spin",
+      "tip"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>R</b> as in the <b>r</b> in run.<br/> <p>To pronounce the phoneme, half open your jaw, slightly separate your lips and move the middle part of your tongue towards the roof of your mouth. Make a vibrating \"RH\" sound over the top of your arched tongue.</p>",
+    "phoneme" : "R",
+    "words" : [
+      "run",
+      "rule"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>S</b> as in the <b>C</b> at the start of city.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and widen your tongue. Place the tip of your tongue against the back of your lower teeth and make a hissing sound through the narrow channel you have created with your tongue.</p>",
+    "phoneme" : "S",
+    "words" : [
+      "steel",
+      "city",
+      "pass"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>SH</b> as in the <b>SH</b> at the start of shoe.<br/> <p>To pronounce the phoneme, almost close your mouth, form a circle with your lips and widen your tongue. Pull your tongue tip away from your teeth and make a hissing sound through the wide channel you have created with your tongue.</p>",
+    "phoneme" : "SH",
+    "words" : [
+      "shoe",
+      "shore",
+      "session",
+      "emotion"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>T</b> as in the <b>T</b> at the start of two.<br/> <p>To pronounce the phoneme, relax your mouth and lips and place the tip of your tongue on the roof of your mouth behind your upper teeth. Keeping your mouth, jaw and sides of your tongue still, use air pressure behind your tongue while withdrawing the tip from the roof of your mouth, to make the tutting \"T\" sound.</p>",
+    "phoneme" : "T",
+    "words" : [
+      "two",
+      "bet"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>TH</b> as in the <b>TH</b> at the end of tooth.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and leave them slightly parted. Relax your tongue. Make a huffing sound and at the same time bring the tip of the tongue to rest on the base of the upper front teeth.</p>",
+    "phoneme" : "TH",
+    "words" : [
+      "thing",
+      "tooth"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>UH</b> as in the <b>U</b> in the middle of put.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and leave them slightly parted. Relax your tongue and make a huffing sound without moving your jaw, tongue or lips.</p>",
+    "phoneme" : "UH",
+    "words" : [
+      "put",
+      "book"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>UW</b> as in the <b>WO</b> at the end of two.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and leave them slightly parted. Raise the rear of your tongue slightly. Make a \"OO\" sound without moving your jaw, tongue or lips.</p>",
+    "phoneme" : "UW",
+    "words" : [
+      "goose",
+      "junior",
+      "two",
+      "who"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>V</b> as in the <b>V</b> at the start of voice.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and leave them slightly parted. Rest your upper teeth on your lower lip and force air out while pushing your lip out away from your teeth. </p>",
+    "phoneme" : "V",
+    "words" : [
+      "voice",
+      "have"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>W</b> as in the <b>W</b> at the start of what.<br/> <p>To pronounce the phoneme, almost close your mouth, make a small \"O\" shape with your lips and leave them slightly parted. Keep your tongue in the centre of your mouth and make a huffing sound while widening your lips slightly.</p>",
+    "phoneme" : "W",
+    "words" : [
+      "what"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>Y</b> as in the <b>Y</b> at the start of yes.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and leave them parted. Rest the side and tip of your tongue on the inside of your lower teeth. Make an \"E\" sound whilst opening your lower jaw and keeping your tongue touching the inside of your lower teeth.</p>",
+    "phoneme" : "Y",
+    "words" : [
+      "yes"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>ZH</b> as in the <b>SU</b> in the middle of measure.<br/> <p>To pronounce the phoneme, half open your jaw, purse your lips into an circle shape and slightly curl the edges of your tongue so that the sides rest on top of your lower teeth. Without moving your tongue, lips or jaw, vibrate the air off your tongue.</p>",
+    "phoneme" : "ZH",
+    "words" : [
+      "measure"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>Z</b> as in the <b>SE</b> at the end of rose.<br/> <p>To pronounce the phoneme, almost close your mouth, relax your lips and widen your tongue. Place the tip of your tongue against the lower teeth and make a buzzing sound.</p>",
+    "phoneme" : "Z",
+    "words" : [
+      "zoo",
+      "rose"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>OH</b> as in the <b>O</b> at the start of opera.<br/> Half open your mouth and relax your lips and tongue. With an almost coughing sound, make an explosive oh sound with the back of the tongue and the roof of the back of the mouth.",
+    "phoneme" : "OH",
+    "words" : [
+      "opera",
+      "body"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>EA</b> as in the <b>AE</b> at the start of aerial.<br/> Open the mouth half way, relax lips and tongue. Make a sound from the back of the throat by using the rear of the tongue to block the throat, build pressure behind the tongue and then release by drawing the rear of the tongue downwards. The sound is similar to the word air.",
+    "phoneme" : "EA",
+    "words" : [
+      "aerial",
+      "aquarium"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>IA</b> as in the in the <b>AR</b> at the end of ear.<br/> This sound is similar to a huff and the word air. Relax your jaw, tongue and lips. The sound is made in the middle of the mouth by huffing over the tongue whilst raising the tongue in a flattened shape towards the roof of the mouth, before it reaches the roof the tongue is drawn back downwards.",
+    "phoneme" : "IA",
+    "words" : [
+      "ear",
+      "alias"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>AX</b> as in the <b>ER</b> at the end of her.<br/> Half open the mouth, relax the tongue and form a relaxed circle shape with the lips. Then make a huffing sound.",
+    "phoneme" : "AX",
+    "words" : [
+      "her",
+      "earlier"
+    ]
+  },
+  {
+    "type" : "text",
+    "data" : "<b>UA</b> as in the <b>UA</b> towards the end of usual.<br/> Slightly open the mouth, slightly curl the edges of the tongue and form a small circle with the lips. Then make a huffing sound whilst drawing the tongue away from the lower teeth it is relaxing on.",
+    "phoneme" : "UA",
+    "words" : [
+      "usual",
+      "actual"
+    ]
+  }
+]
