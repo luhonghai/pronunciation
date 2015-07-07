@@ -161,7 +161,7 @@
 
 	</dependencyManagement>
 	<build>
-		<finalName>bbc-accent-server-v${project.version}</finalName>
+		<finalName>bbc-accent-server-${sysenv}-v${project.version}</finalName>
 		<plugins>
 
 			<plugin>
@@ -283,7 +283,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -474,7 +474,7 @@
             </activation>
 			<id>env-dev</id>			
 			<properties>
-                <sysenv>dev</sysenv>
+                <sysenv>DEV</sysenv>
 			     <project.root.folder.dir>/Volumes/DATA/Development/test-zone/data/root</project.root.folder.dir>
 			    <project.temp.folder.dir>/Volumes/DATA/Development/test-zone/data/feedback</project.temp.folder.dir>
 				<logging.file>/Volumes/DATA/Development/test-zone/data/log/log.log</logging.file>
@@ -502,7 +502,7 @@
         <profile>
             <id>env-cmg</id>
             <properties>
-                <sysenv>cmg</sysenv>
+                <sysenv>CMG</sysenv>
                 <project.root.folder.dir>/cmg/data/root</project.root.folder.dir>
                 <project.temp.folder.dir>/cmg/data/feedback</project.temp.folder.dir>
                 <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
@@ -531,7 +531,7 @@
 		<profile>
 			<id>env-int</id>
 			<properties>
-                <sysenv>aws</sysenv>
+                <sysenv>AWS</sysenv>
 			    <project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 			    <project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
@@ -560,7 +560,7 @@
 		<profile>
 			<id>env-prod</id>
 			<properties>
-				<sysenv>aws</sysenv>
+				<sysenv>PROD</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
@@ -592,7 +592,7 @@
 		<profile>
 			<id>env-sat</id>
 			<properties>
-				<sysenv>aws</sysenv>
+				<sysenv>SAT</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
