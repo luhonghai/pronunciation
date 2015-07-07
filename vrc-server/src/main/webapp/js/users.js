@@ -116,8 +116,9 @@ function activated(){
         var id=$(this).attr('id-column');
         var acti;
         var $el = $(this);
-        $el.find('span').toggleClass('glyphicon-remove-sign glyphicon-ok-circle');
-        $el.toggleClass('showArchieved');
+        var cl=$(this).attr("class");
+        //$el.find('span').toggleClass('glyphicon-remove-sign glyphicon-ok-circle');
+        //$el.toggleClass('showArchieved');
         if(idd=="true"){
             acti=false;
         }
@@ -135,8 +136,15 @@ function activated(){
             },
             success:function(data){
                 if(data=="success"){
-                    $("tbody").html("");
-                    myTable.fnDraw();
+                    if(cl=="fa fa-times-circle fa-2x"){
+                        $el.attr('class','fa fa-check-circle fa-2x');
+                        $el.css('color','#00CC00');
+
+                    }
+                    if(cl=="fa fa-check-circle fa-2x"){
+                        $el.attr('class','fa fa-times-circle fa-2x');
+                        $el.css('color','#FF0000');
+                    }
                 }
             },
             error:function(e){

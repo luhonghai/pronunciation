@@ -38,6 +38,12 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
         if(imei.length()>0){
             string.append("(imei.toLowerCase().indexOf(imei.toLowerCase()) != -1) &&");
         }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(createdDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(createdDate <= dateTo) &&");
+        }
 
         if(dateFrom!=null&&dateTo!=null){
             string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
@@ -126,6 +132,13 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
         if(imei.length()>0){
             string.append("(imei.toLowerCase().indexOf(imei.toLowerCase()) != -1) &&");
         }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(createdDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(createdDate <= dateTo) &&");
+        }
+
 
         if(dateFrom!=null&&dateTo!=null){
             string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
