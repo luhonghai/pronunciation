@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>2.0.7</version>
+	<version>2.0.8</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
@@ -10,7 +10,7 @@
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		<beanstalk.versionLabel>v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
-		<beanstalk.cnamePrefix>accenteasytomcat-prd</beanstalk.cnamePrefix>
+
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
 	</properties>
@@ -276,16 +276,14 @@
 				<version>1.4.0</version>
 				<configuration>
 					<applicationName>AccentEasyTomcatServer</applicationName>
-					<cnamePrefix>accenteasytomcat-prd</cnamePrefix>
-					<environmentName>accenteasytomcat-PRD</environmentName>
-					<environmentRef>accenteasytomcat-prd.elasticbeanstalk.com</environmentRef>
+
 					<s3Bucket>elasticbeanstalk-ap-southeast-1-673375924332</s3Bucket>
 					<s3Key>${project.artifactId}/${project.build.finalName}-${maven.build.timestamp}.war</s3Key>
 					<!-- will save as s3://[bucket name]/[artifactId]/artifactId-version-TIMESTAMP.war -->
 				</configuration>
 				<executions>
 					<execution>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -585,6 +583,41 @@
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
 				<url.active.account>http://reg.accenteasy.com/activate</url.active.account>
 				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-PRD</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-prd.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-prd</beanstalk.cnamePrefix>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>env-sat</id>
+			<properties>
+				<sysenv>aws</sysenv>
+				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
+				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
+				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
+				<project.dir>/var/www/webdav/mobile</project.dir>
+				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
+				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<contact.us.email>support@accenteasy.com</contact.us.email>
+				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
+				<contact.us.email.password>W3lcom3123</contact.us.email.password>
+				<voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
+				<acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
+				<dictionaryPath>file:///vol/Sphinx/dict/cmuphonemedict</dictionaryPath>
+				<languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
+				<grammarPath>/vol/Sphinx/grammar</grammarPath>
+				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+				<recipients>feedback@accenteasy.com</recipients>
+				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
+				<url.active.account>http://accenteasytomcat-prd-1.elasticbeanstalk.com/activate</url.active.account>
+				<url.reset.password>http://accenteasytomcat-prd-1.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-PRD-1</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-prd-1.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-prd-1</beanstalk.cnamePrefix>
 			</properties>
 		</profile>
 	</profiles>

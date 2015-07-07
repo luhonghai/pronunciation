@@ -22,13 +22,21 @@
     <!--<string name="feedback_url">http://192.168.1.22:8080/vrc/FeedbackHandler</string>-->
     <!--<string name="license_url">http://192.168.1.22:8080/vrc/LicenseHandler</string>-->
 
-    <string name="upload_url">http://reg.accenteasy.com/VoiceRecordHandler</string>
-    <string name="auth_url">http://reg.accenteasy.com/AuthHandler</string>
-    <string name="register_url">http://reg.accenteasy.com/RegisterHandler</string>
-    <string name="activation_url">http://reg.accenteasy.com/activate</string>
-    <string name="feedback_url">http://reg.accenteasy.com/FeedbackHandler</string>
-    <string name="license_url">http://reg.accenteasy.com/LicenseHandler</string>
-    <string name="reset_password_url">http://reg.accenteasy.com/ResetPasswordHandler</string>
+    <!--<string name="upload_url">http://reg.accenteasy.com/VoiceRecordHandler</string>-->
+    <!--<string name="auth_url">http://reg.accenteasy.com/AuthHandler</string>-->
+    <!--<string name="register_url">http://reg.accenteasy.com/RegisterHandler</string>-->
+    <!--<string name="activation_url">http://reg.accenteasy.com/activate</string>-->
+    <!--<string name="feedback_url">http://reg.accenteasy.com/FeedbackHandler</string>-->
+    <!--<string name="license_url">http://reg.accenteasy.com/LicenseHandler</string>-->
+    <!--<string name="reset_password_url">http://reg.accenteasy.com/ResetPasswordHandler</string>-->
+
+    <string name="upload_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/VoiceRecordHandler</string>
+    <string name="auth_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/AuthHandler</string>
+    <string name="register_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/RegisterHandler</string>
+    <string name="activation_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/activate</string>
+    <string name="feedback_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/FeedbackHandler</string>
+    <string name="license_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/LicenseHandler</string>
+    <string name="reset_password_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/ResetPasswordHandler</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
