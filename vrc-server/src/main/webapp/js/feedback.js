@@ -24,7 +24,7 @@ function listFeedback(){
                 },
 
                 "columns": [{
-                    "sWidth": "30%",
+                    "sWidth": "25%",
                     "data": "account",
                     "sDefaultContent":""
 
@@ -39,7 +39,7 @@ function listFeedback(){
                         }
                     }
                 }, {
-                    "sWidth": "10%",
+                    "sWidth": "15%",
                     "data": "appVersion",
                     "sDefaultContent":""
                 }, {

@@ -103,7 +103,7 @@
                                     <label class="col-xs-4  col-sm-3 ">Model:</label>
                                     <label id="modelpopup" name="modelpopup" class="col-xs-8  col-sm-9  "></label>
 
-                                </div>s
+                                </div>
                                 <div class="form-group">
 
                                     <label class="col-xs-4  col-sm-3 ">Osversion:</label>
