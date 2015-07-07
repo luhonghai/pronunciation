@@ -1,8 +1,11 @@
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.AppDetail;
+import com.cmg.vrc.data.jdo.Usage;
 import com.cmg.vrc.data.jdo.User;
 import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -76,8 +79,12 @@ public class TestDAO {
 //            System.out.print("#1: " + ( endTime-startTime));
 //            userVoiceModelDAO.getCount();
 //            System.out.print("#2: " + ( System.currentTimeMillis() - endTime));
-            userVoiceModelDAO.listAllScore();
-
+            //userVoiceModelDAO.listAllScore();
+//            System.out.println(usageDAO.getCount());
+//           // System.out.println(usageDAO.listAll().size());
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            System.out.println(gson.toJson(usageDAO.listAll()));
+            usageDAO.getCountSearch("","anh.nguyen@c-mg.com");
         } catch (Exception e) {
             e.printStackTrace();
         }

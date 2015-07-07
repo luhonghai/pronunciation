@@ -32,11 +32,11 @@
 				value="hsql"/ -->
 
 			<!-- ENABLE THESE FOR MySQL/MariaDB -->
-			<property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false" />
+			<property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false" />
 			<property name="javax.jdo.option.ConnectionDriverName"
 				value="com.mysql.jdbc.Driver" />
 			<property name="javax.jdo.option.ConnectionUserName" value="admin" />
-			<property name="javax.jdo.option.ConnectionPassword" value="W3lcom3123" />
+			<property name="javax.jdo.option.ConnectionPassword" value="admincmg@3f" />
 			<property name="javax.jdo.option.Mapping" value="mysql" />
 
 			<!-- ENABLE THESE FOR ODF -->
