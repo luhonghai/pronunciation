@@ -6,7 +6,9 @@ bin/**
 src/main/resources/**
 src/main/resources/META-INF/**
 src/test/resources/**
+src/test/resources/*
 src/test/resources/META-INF/**
+src/test/resources/**/*
 .idea
 .idea/**
 .settings
