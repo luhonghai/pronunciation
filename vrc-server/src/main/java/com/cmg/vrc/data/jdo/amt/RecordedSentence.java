@@ -19,6 +19,8 @@ public class RecordedSentence implements Mirrorable {
 
     public static final int LOCKED = 4;
 
+    public static final int TESTING = 5;
+
     private String id;
 
     private String account;
