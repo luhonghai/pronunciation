@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
@@ -136,9 +139,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private DrawerLayout drawerLayout;
     private boolean isDrawerOpened;
     private MaterialMenuView materialMenu;
-
-    private FragmentTabHost mTabHost;
-
     private ListView listMenu;
 
 
@@ -161,10 +161,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private ImageButton btnAnalyzing;
     private ImageButton btnAudio;
 
-    private AlwaysMarqueeTextView txtWord;
-    private AlwaysMarqueeTextView txtPhonemes;
+    private ListView lvItem;
+    private TextView textrecord;
 
-    private RelativeLayout rlVoiceExample;
+
+
 
     private ImageButton imgHourGlass;
     private ImageButton imgHelpHand;
@@ -243,10 +244,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         initCustomActionBar();
         if (savedInstanceState != null) {
             isInitTabHost = true;
-            initTabHost();
         }
         initRecordingView();
         initAnimation();
+
         switchButtonStage(ButtonState.DISABLED);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
@@ -282,11 +283,30 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         getWord(getString(R.string.example_word));
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
+       ListAllItem();
+
     }
 
     private void openSettings() {
         startActivity(SettingsActivity.class);
     }
+
+    private void ListAllItem(){
+        lvItem=(ListView)findViewById(R.id.lvItem);
+        textrecord=(TextView)findViewById(R.id.textrecord);
+        String[] item={"Yet another Java enum example, nothing special, just for self-reference. Yet another Java enum example, nothing special, just for self-reference.","viet nam","cmg","ha noi"};
+        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement, item);
+        lvItem.setAdapter(arrayAdapter);
+        lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemValue = (String) lvItem.getItemAtPosition(position);
+                textrecord.setText(itemValue);
+
+            }
+        });
+    }
+
 
 
     private void initAnimation() {
@@ -356,7 +376,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void initRecordingView() {
-        rlVoiceExample = (RelativeLayout) findViewById(R.id.rlVoiceExample);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
@@ -369,47 +388,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         btnAnalyzing.setOnClickListener(this);
         btnAudio = (ImageButton) findViewById(R.id.btnAudio);
         btnAudio.setOnClickListener(this);
-        txtPhonemes = (AlwaysMarqueeTextView) findViewById(R.id.txtPhoneme);
-        txtPhonemes.setText("");
-        txtWord = (AlwaysMarqueeTextView) findViewById(R.id.txtWord);
-        txtWord.setText("");
-        txtPhonemes.setOnClickListener(this);
-        txtWord.setOnClickListener(this);
-        rlVoiceExample.setOnClickListener(this);
+
         recordingView.setOnClickListener(this);
         recordingView.setAnimationListener(this);
     }
 
-    private void initTabHost() {
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        if (mTabHost == null) return;
-
-        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, getString(R.string.tab_graph));
-        addTabImage(R.drawable.tab_history,
-                HistoryFragment.class, getString(R.string.tab_history));
-        addTabImage(R.drawable.tab_tip,
-                TipFragment.class, getString(R.string.tab_tip));
-    }
-
-    private void addTabImage(int drawableId, Class<?> c, String labelId)
-    {
-        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
-        mTabHost.addTab(spec, c, null);
-
-    }
-
-    private void addTab(int drawableId, Class<?> c, String labelId)
-    {
-        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, (RelativeLayout) findViewById(R.id.content), false);
-        ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-        icon.setImageResource(drawableId);
-        spec.setIndicator(tabIndicator);
-        mTabHost.addTab(spec, c, null);
-
-    }
 
     private void initCustomActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -472,7 +455,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
                     dbAdapter.getAll(),
                     new String[] {WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
-                    new int[] {R.id.txtWord, R.id.txtPhoneme},
+                    new int[] {},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             searchView.setSuggestionsAdapter(adapter);
         }
@@ -592,8 +575,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }).playOn(imgHourGlass);
 
-            txtWord.setText(getString(R.string.searching));
-            txtPhonemes.setText(getString(R.string.please_wait));
+
             dictionaryItem = null;
             currentModel = null;
             if (getWordAsync != null) {
@@ -887,9 +869,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onPause() {
         super.onPause();
-        if (mTabHost != null) {
-            mTabHost.getTabWidget().setEnabled(false);
-        }
         stopRequestLocation();
         if (currentModel != null) {
             recordingView.stopPingAnimation();
@@ -929,11 +908,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         super.onResume();
         if (!isInitTabHost) {
             isInitTabHost = true;
-            initTabHost();
+
 
         }
-        mTabHost.getTabWidget().setEnabled(true);
-
         requestLocation();
         fetchSetting();
         isPrepared = false;
@@ -970,13 +947,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     play();
                 }
                 break;
-            //case R.id.txtPhoneme:
-            //case R.id.txtWord:
-            case R.id.rlVoiceExample:
-                if (dictionaryItem != null) {
-                    play(dictionaryItem.getAudioFile());
-                }
-                break;
+
             case R.id.main_recording_view:
                 if (currentModel != null && dictionaryItem != null) {
                     Gson gson = new Gson();
@@ -1003,12 +974,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.startAnimation(fadeOut);
                 btnAnalyzing.setImageResource(R.drawable.p_close_red);
                 btnAnalyzing.startAnimation(fadeIn);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
 
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
-                rlVoiceExample.setEnabled(false);
                 break;
             case PLAYING:
                 btnAudio.startAnimation(fadeOut);
@@ -1016,22 +982,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.startAnimation(fadeIn);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 btnAnalyzing.setEnabled(false);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
-                rlVoiceExample.setEnabled(false);
+
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_green);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
+
                 isProcess = false;
                 break;
             case ORANGE:
@@ -1039,11 +997,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_orange);
                 btnAnalyzing.setImageResource(R.drawable.p_record_orange);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
-                txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
+
                 isProcess = false;
                 break;
             case RED:
@@ -1051,11 +1005,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_red);
                 btnAnalyzing.setImageResource(R.drawable.p_record_red);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
-                txtWord.setTextColor(ColorHelper.COLOR_RED);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
                 isProcess = false;
                 break;
             case DISABLED:
@@ -1063,10 +1012,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
                 break;
             case DEFAULT:
             default:
@@ -1074,11 +1019,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_green);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
+
                 isProcess = false;
                 break;
         }
@@ -1421,21 +1362,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     analyzingState = AnalyzingState.DEFAULT;
                     switchButtonStage();
 
-                    if (dictionaryItem != null) {
-                        txtWord.setText(dictionaryItem.getWord());
-                        txtPhonemes.setText(dictionaryItem.getPronunciation());
-                        txtWord.setEnabled(true);
-                        txtPhonemes.setEnabled(true);
-                        rlVoiceExample.setEnabled(true);
-                        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
-                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getPronunciation()));
-                        //txtPhonemes.setSelected(true);
-                        //txtWord.setSelected(true);
 
-                    } else {
-                        txtWord.setText(getString(R.string.not_found));
-                        txtPhonemes.setText(getString(R.string.please_try_again));
-                    }
                 }
             }
         } catch (Exception e) {

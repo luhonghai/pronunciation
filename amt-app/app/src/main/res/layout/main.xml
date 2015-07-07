@@ -25,39 +25,65 @@
                     android:layout_height="fill_parent"
                     android:layout_width="fill_parent"
                     android:layout_weight="1.5">
-                    <com.cmg.android.bbcaccentamt.activity.view.RecordingView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
                         android:layout_height="fill_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@android:color/white"
-                        android:id="@+id/main_recording_view" />
-                    <ImageButton
-                        android:id="@+id/imgHourGlass"
-                        android:background="@null"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_margin="40dp"
-                        android:src="@drawable/p_hour_glass"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="false"
-                        android:visibility="gone"
-                     />
-                    <ImageButton
-                        android:id="@+id/imgHelpHand"
-                        android:background="@null"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="120dp"
-                        android:layout_marginRight="120dp"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginTop="120dp"
-                        android:src="@drawable/p_help_hand"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
+                        android:orientation="horizontal">
+                        <ScrollView
+                            android:id="@+id/mainScrollView"
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="2"
+                            android:fadeScrollbars="false"
+                            android:scrollbarThumbVertical="@drawable/scrollbar"
+                            >
+
+                            <TextView
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="20sp"
+                                android:padding="10dip"
+                                android:id="@+id/textrecord"/>
+                        </ScrollView>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1">
+
+                        <com.cmg.android.bbcaccentamt.activity.view.RecordingView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:background="@android:color/white"
+                            android:id="@+id/main_recording_view" />
+                        <ImageButton
+                            android:id="@+id/imgHourGlass"
+                            android:background="@null"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_margin="40dp"
+                            android:src="@drawable/p_hour_glass"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:clickable="false"
+                            android:visibility="gone"
+                         />
+                        <ImageButton
+                            android:id="@+id/imgHelpHand"
+                            android:background="@null"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="120dp"
+                            android:layout_marginRight="120dp"
+                            android:layout_marginBottom="30dp"
+                            android:layout_marginTop="120dp"
+                            android:src="@drawable/p_help_hand"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:clickable="false"
+                            android:visibility="gone"
+                            />
+                        </RelativeLayout>
+                    </LinearLayout>
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_height="fill_parent"
@@ -74,9 +100,8 @@
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:clickable="false"
-                        android:layout_marginLeft="@dimen/main_action_button_margin"
-                        android:layout_marginStart="@dimen/main_action_button_margin"/>
+                        android:clickable="false"/>
+
                     <ImageButton
                         android:id="@+id/btnUpload"
                         android:background="@null"
@@ -86,9 +111,7 @@
                         android:src="@drawable/p_arrow_up_red"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:layout_marginEnd="@dimen/main_action_button_margin"
-                        android:layout_marginRight="@dimen/main_action_button_margin"/>
+                        android:scaleType="fitCenter"/>
                     <ImageButton
                         android:id="@+id/btnAnalyzing"
                         android:background="@null"
@@ -98,13 +121,15 @@
                         android:src="@drawable/p_record_orange"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:layout_marginEnd="@dimen/main_action_button_margin"
-                        android:layout_marginRight="@dimen/main_action_button_margin"/>
+                        android:scaleType="fitCenter" />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-
+                <ListView
+                    android:id="@+id/lvItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                </ListView>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
