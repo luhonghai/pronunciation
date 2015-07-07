@@ -40,6 +40,7 @@ function user(){
         }, {
             "data": null,
             "bSortable": false,
+            "sDefaultContent":"",
             "mRender": function (data, type, full) {
                 if (data.latitude != 0 && data.longitude != 0) {
                     return '<button type="button" id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
