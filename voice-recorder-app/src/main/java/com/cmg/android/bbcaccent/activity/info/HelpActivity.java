@@ -22,12 +22,14 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 /**
@@ -37,19 +39,7 @@ public class HelpActivity extends BaseActivity {
 
     private static final long HELP_DISPLAY_TIME = 5000;
 
-    private static final int[] HELP_CONTENT_DRAWABLE = new int[] {
-            R.drawable.help_content_1,
-            R.drawable.help_content_2,
-            R.drawable.help_content_3,
-            R.drawable.help_content_4,
-            R.drawable.help_content_5,
-            R.drawable.help_content_6,
-            R.drawable.help_content_7,
-            R.drawable.help_content_8,
-            R.drawable.help_content_9,
-            R.drawable.help_content_10,
-            R.drawable.help_content_11
-    };
+    private static final int HELP_CONTENT_LENGTH = 11;
 
     private ViewPager pagerHelpContent;
 
@@ -58,7 +48,7 @@ public class HelpActivity extends BaseActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (currentItem < HELP_CONTENT_DRAWABLE.length) {
+            if (currentItem < HELP_CONTENT_LENGTH) {
                 if (pagerHelpContent != null) {
                     if (isInit) {
                         pagerHelpContent.setCurrentItem(++currentItem, true);
@@ -154,14 +144,14 @@ public class HelpActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             HelpFragment helpFragment = new HelpFragment();
-            helpFragment.setDrawableId(HELP_CONTENT_DRAWABLE[position]);
+            helpFragment.setDrawableId(position + 1);
             helpFragment.setImageLoadingListener(imageLoadingListener);
             return helpFragment;
         }
 
         @Override
         public int getCount() {
-            return HELP_CONTENT_DRAWABLE.length;
+            return HELP_CONTENT_LENGTH;
         }
     }
 
@@ -179,7 +169,11 @@ public class HelpActivity extends BaseActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             options = new DisplayImageOptions.Builder()
-                    .displayer(new FadeInBitmapDisplayer(300))
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true)
+                    .considerExifParams(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    //.displayer(new FadeInBitmapDisplayer(300))
                     .build();
         }
 
@@ -192,57 +186,68 @@ public class HelpActivity extends BaseActivity {
 
             final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.imgHelpContent);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
-            imageView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            imageView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//                @Override
+//                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//
+//                }
+//            });
+
+            ImageLoader.getInstance().displayImage("assets://help-content/help_content_" + drawableId + ".png", imageView, options, new ImageLoadingListener() {
                 @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    ImageLoader.getInstance().displayImage("drawable://" + drawableId, (ImageView) v, options, new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            spinner.setVisibility(View.VISIBLE);
-                            if (imageLoadingListener != null) {
-                                imageLoadingListener.onLoadingStarted(imageUri, view);
-                            }
-                        }
+                public void onLoadingStarted(String imageUri, View view) {
+                    spinner.setVisibility(View.VISIBLE);
+                    if (imageLoadingListener != null) {
+                        imageLoadingListener.onLoadingStarted(imageUri, view);
+                    }
+                }
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            String message = null;
-                            switch (failReason.getType()) {
-                                case IO_ERROR:
-                                    message = "Input/Output error";
-                                    break;
-                                case DECODING_ERROR:
-                                    message = "Image can't be decoded";
-                                    break;
-                                case NETWORK_DENIED:
-                                    message = "Downloads are denied";
-                                    break;
-                                case OUT_OF_MEMORY:
-                                    message = "Out Of Memory error";
-                                    break;
-                                case UNKNOWN:
-                                    message = "Unknown error";
-                                    break;
-                            }
-                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    String message = null;
+                    switch (failReason.getType()) {
+                        case IO_ERROR:
+                            message = "Input/Output error";
+                            break;
+                        case DECODING_ERROR:
+                            message = "Image can't be decoded";
+                            break;
+                        case NETWORK_DENIED:
+                            message = "Downloads are denied";
+                            break;
+                        case OUT_OF_MEMORY:
+                            message = "Out Of Memory error";
+                            break;
+                        case UNKNOWN:
+                            message = "Unknown error";
+                            break;
+                    }
+                    SimpleAppLog.error("Could not load help image. Message: " + message);
+                    //Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
-                            spinner.setVisibility(View.GONE);
-                            if (imageLoadingListener != null) {
-                                imageLoadingListener.onLoadingFailed(imageUri, view, failReason);
-                            }
-                        }
+                    spinner.setVisibility(View.GONE);
+                    if (imageLoadingListener != null) {
+                        imageLoadingListener.onLoadingFailed(imageUri, view, failReason);
+                    }
+                }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            spinner.setVisibility(View.GONE);
-                            if (imageLoadingListener != null) {
-                                imageLoadingListener.onLoadingComplete(imageUri, view, loadedImage);
-                            }
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    spinner.setVisibility(View.GONE);
+                    if (imageLoadingListener != null) {
+                        imageLoadingListener.onLoadingComplete(imageUri, view, loadedImage);
+                    }
 
-                        }
-                    });
+                }
+
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    spinner.setVisibility(View.GONE);
+                    SimpleAppLog.error("Could not load help image. Message: " + "Cancelled");
+                    //Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
                 }
             });
+
             return imageLayout;
         }
 

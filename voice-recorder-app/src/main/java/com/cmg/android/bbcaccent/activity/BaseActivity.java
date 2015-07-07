@@ -41,17 +41,17 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
 
         Fabric.with(this, new Crashlytics());
 
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
-                .build();
-        ImageLoader.getInstance().init(configuration);
+        if (!ImageLoader.getInstance().isInited()) {
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+        }
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (ImageLoader.getInstance().isInited())
-            ImageLoader.getInstance().destroy();
+//        if (ImageLoader.getInstance().isInited())
+//            ImageLoader.getInstance().destroy();
     }
 
     @Override
