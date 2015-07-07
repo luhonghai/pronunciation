@@ -84,8 +84,8 @@
                         <div class="col-xs-12 col-md-10 col-md-offset-1">
 
                             <h1 align="center">Imei Detail</h1>
-                            < name="emei" class="form-horizontal"
-                                  style="margin-top: 25px" id="emeis">
+                            <form name="feedback" class="form-horizontal"
+                                  style="margin-top: 25px" id="feedback">
 
                                 <div class="form-group">
 
