@@ -165,8 +165,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private TextView textrecord;
 
 
-
-
     private ImageButton imgHourGlass;
     private ImageButton imgHelpHand;
 
@@ -294,7 +292,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void ListAllItem(){
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
-        String[] item={"Yet another Java enum example, nothing special, just for self-reference. Yet another Java enum example, nothing special, just for self-reference.","viet nam","cmg","ha noi"};
+        String[] item={"WE DIDN'T LIKE THAT",
+                "THE COMPANY DECLINED TO IDENTIFY THE BIDDERS BUT SAID IT RECEIVED OFFERS IN THE HIGH FORTY DOLLARS PER SHARE",
+        "THERE WERE TWO HUNDRED FIFTY SIX ISSUES ADVANCING THREE HUNDRED THREE DECLINING AND TWO HUNDRED NINETY TWO UNCHANGED",
+        "HOWEVER INVESTMENT INCOME WHICH REPRESENTS THIRTEEN PERCENT OF THE INDUSTRY'S REVENUES ROSE ELEVEN PERCENT IN THE QUARTER REFLECTING GAINS FROM THE RISING STOCK MARKET",
+        "NO ONE AT THE STATE DEPARTMENT WANTS TO LET SPIES IN",
+        "A LENGTHY FIGHT IS LIKELY",
+        "THE JURY AWARDED MR. SCHARENBERG ONE HUNDRED FIVE MILLION DOLLARS A FIGURE BASED ON TEN YEARS OF PROFITS HAD HIS PROJECT BEEN COMPLETED",
+        "TO MAKE THEM DIRECTLY COMPARABLE EACH INDEX IS BASED ON THE CLOSE OF NINETEEN SIXTY NINE EQUALING ONE HUNDRED",
+        "HE DECLINED TO NAME SPECIFIC PRODUCTS",
+        "IF THE DOLLAR STARTS TO PLUNGE THE FED MAY STEP UP ITS DEFENSE OF THE CURRENCY"};
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement, item);
         lvItem.setAdapter(arrayAdapter);
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
