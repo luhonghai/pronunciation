@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by cmg on 06/07/15.
  */
-public class LanguageModelVersion implements Mirrorable {
+public class DictionaryVersion implements Mirrorable {
 
     private String id;
 

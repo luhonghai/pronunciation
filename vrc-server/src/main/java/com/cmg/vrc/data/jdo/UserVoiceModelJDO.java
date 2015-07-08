@@ -52,7 +52,7 @@ public class UserVoiceModelJDO implements Mirrorable {
     private String hypothesis;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawSphinxResult;
 
     public String getUsername() {

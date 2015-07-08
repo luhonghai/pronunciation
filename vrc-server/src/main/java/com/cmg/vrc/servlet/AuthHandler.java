@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 
@@ -44,6 +45,7 @@ public class AuthHandler extends HttpServlet {
     private static final Logger logger = Logger.getLogger(AuthHandler.class
             .getName());
     private static String PARA_PROFILE = "profile";
+    private static String PARA_TYPE = "type";
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,81 +57,88 @@ public class AuthHandler extends HttpServlet {
                 final UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "success";
                 if (user != null) {
-
-                    UserDAO userDAO = new UserDAO();
-                    if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
-                        User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
-                        if (u != null) {
-                            if (!u.isActivated()) {
-                                message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
+                    String type = request.getParameter(PARA_TYPE);
+                    if (StringUtils.isEmpty(type)) {
+                        UserDAO userDAO = new UserDAO();
+                        if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+                            User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
+                            if (u != null) {
+                                if (!u.isActivated()) {
+                                    message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
+                                }
+                            } else {
+                                message = "invalid email address or password";
                             }
                         } else {
-                            message = "invalid email address or password";
-                        }
-                    } else {
-                        User u = userDAO.getUserByEmail(user.getUsername());
-                        if (u != null && !u.isActivated()) {
-                            message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
-                        }
-                    }
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                SecurityDAO securityDAO = new SecurityDAO();
-                                Security security = securityDAO.getByAccount(user.getUsername());
-                                if (security == null)
-                                    security = new Security();
-                                security.setUsername(user.getUsername());
-                                UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
-                                if (deviceInfo != null) {
-                                    security.setAppVersion(deviceInfo.getAppVersion());
-                                }
-                                security.setLoginType(user.getLoginType());
-                                security.setPassword(StringUtil.md5(user.getPassword()));
-                                if (security.getFirstAccess() == null)
-                                    security.setFirstAccess(new Date(System.currentTimeMillis()));
-                                securityDAO.put(security);
-                            } catch (Exception e) {
-                                logger.error("Error when gather user security info. Message:: " + e.getMessage(),e);
+                            User u = userDAO.getUserByEmail(user.getUsername());
+                            if (u != null && !u.isActivated()) {
+                                message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
                             }
-
-                            try {
-                                UsageDAO usageDAO = new UsageDAO();
-                                Usage usage = new Usage();
-                                UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
-                                UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
-                                usage.setUsername(user.getUsername());
-                                if (deviceInfo != null) {
-                                    com.cmg.vrc.data.jdo.UserDevice userDevice= userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
-                                    if (userDevice == null)
-                                        userDevice = new UserDevice();
-                                    userDevice.setImei(deviceInfo.getEmei());
-                                    userDevice.setDeviceName(deviceInfo.getDeviceName());
-                                    userDevice.setModel(deviceInfo.getModel());
-                                    userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
-                                    userDevice.setOsVersion(deviceInfo.getOsVersion());
-                                    if (userDevice.getAttachedDate() == null) {
-                                        userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
+                        }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    SecurityDAO securityDAO = new SecurityDAO();
+                                    Security security = securityDAO.getByAccount(user.getUsername());
+                                    if (security == null)
+                                        security = new Security();
+                                    security.setUsername(user.getUsername());
+                                    UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                                    if (deviceInfo != null) {
+                                        security.setAppVersion(deviceInfo.getAppVersion());
                                     }
-                                    userDeviceDAO.put(userDevice);
+                                    security.setLoginType(user.getLoginType());
+                                    security.setPassword(StringUtil.md5(user.getPassword()));
+                                    if (security.getFirstAccess() == null)
+                                        security.setFirstAccess(new Date(System.currentTimeMillis()));
+                                    securityDAO.put(security);
+                                } catch (Exception e) {
+                                    logger.error("Error when gather user security info. Message:: " + e.getMessage(), e);
+                                }
 
-                                    usage.setAppVersion(deviceInfo.getAppVersion());
-                                    usage.setImei(deviceInfo.getEmei());
+                                try {
+                                    UsageDAO usageDAO = new UsageDAO();
+                                    Usage usage = new Usage();
+                                    UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
+                                    UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                                    usage.setUsername(user.getUsername());
+                                    if (deviceInfo != null) {
+                                        com.cmg.vrc.data.jdo.UserDevice userDevice = userDeviceDAO.getDeviceByIMEI(deviceInfo.getEmei());
+                                        if (userDevice == null)
+                                            userDevice = new UserDevice();
+                                        userDevice.setImei(deviceInfo.getEmei());
+                                        userDevice.setDeviceName(deviceInfo.getDeviceName());
+                                        userDevice.setModel(deviceInfo.getModel());
+                                        userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
+                                        userDevice.setOsVersion(deviceInfo.getOsVersion());
+                                        if (userDevice.getAttachedDate() == null) {
+                                            userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
+                                        }
+                                        userDeviceDAO.put(userDevice);
+
+                                        usage.setAppVersion(deviceInfo.getAppVersion());
+                                        usage.setImei(deviceInfo.getEmei());
+                                    }
+                                    UserProfile.UserLocation location = user.getLocation();
+                                    if (location != null) {
+                                        usage.setLatitude(location.getLatitude());
+                                        usage.setLongitude(location.getLongitude());
+                                    }
+                                    usage.setTime(new Date(System.currentTimeMillis()));
+                                    usageDAO.put(usage);
+                                } catch (Exception e) {
+                                    logger.error("Error when gather user data. Message:: " + e.getMessage(), e);
                                 }
-                                UserProfile.UserLocation location = user.getLocation();
-                                if (location != null) {
-                                    usage.setLatitude(location.getLatitude());
-                                    usage.setLongitude(location.getLongitude());
-                                }
-                                usage.setTime(new Date(System.currentTimeMillis()));
-                                usageDAO.put(usage);
-                            } catch (Exception e) {
-                                logger.error("Error when gather user data. Message:: " + e.getMessage(),e);
                             }
-                        }
-                    }).start();
+                        }).start();
+                    } else if (type.equalsIgnoreCase("staff")) {
 
+                    } else {
+                        message = "Invalid type";
+                    }
+                } else {
+                    message = "No data found";
                 }
                 out.print(message);
             } else {
