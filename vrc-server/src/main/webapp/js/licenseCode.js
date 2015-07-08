@@ -51,6 +51,7 @@ function listLicenseCode(){
                     "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
+                    "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         if (data.isActivated == true) {
                             return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';

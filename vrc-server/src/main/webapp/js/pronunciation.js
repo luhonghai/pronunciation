@@ -45,6 +45,7 @@ function listScore(){
             "sWidth": "20%",
             "data": null,
             "bSortable": false,
+            "sDefaultContent": "",
             "mRender": function (data, type, full) {
                 if (data.time != 0) {
                     return new Date(data.time);
@@ -54,6 +55,7 @@ function listScore(){
             "sWidth": "5%",
             "data": null,
             "bSortable": false,
+            "sDefaultContent": "",
             "mRender": function (data, type, full) {
                 if (data.latitude != 0 && data.longitude != 0) {
                     return '<button type="button" scouse=' + data.score + ' id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';

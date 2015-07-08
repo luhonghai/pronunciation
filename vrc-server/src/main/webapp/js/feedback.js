@@ -52,8 +52,8 @@ function listFeedback(){
                     "sDefaultContent":""
                 }, {
                     "data": null,
-
                     "bSortable": false,
+                    "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         //  console.log(data);
                         return '<button type="button" id="detail" id-column=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + '  !  ' + '</button>';
