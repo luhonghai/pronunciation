@@ -8,7 +8,7 @@ public class UnitTesting {
     public static void main(String[] args) {
         TranscriptionService transcriptionService = new TranscriptionService();
         try {
-            transcriptionService.loadDefaultTranscription();
+            transcriptionService.loadTranscription();
         } catch (Exception e) {
             e.printStackTrace();
         }
