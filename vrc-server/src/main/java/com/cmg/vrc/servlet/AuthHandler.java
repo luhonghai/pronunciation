@@ -133,7 +133,13 @@ public class AuthHandler extends HttpServlet {
                             }
                         }).start();
                     } else if (type.equalsIgnoreCase("staff")) {
-
+                        AdminDAO adminDAO = new AdminDAO();
+                        Admin admin = adminDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
+                        if (admin != null) {
+                            message = "success";
+                        } else {
+                            message = "invalid email address or password";
+                        }
                     } else {
                         message = "Invalid type";
                     }
