@@ -24,7 +24,7 @@ public class FeedbackJDO implements Mirrorable {
     private String screenshoot;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String description;
 
     @Persistent
@@ -43,11 +43,11 @@ public class FeedbackJDO implements Mirrorable {
     private String deviceName;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String stackTrace;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawUserProfile;
 
     @Persistent

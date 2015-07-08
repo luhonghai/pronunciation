@@ -15,6 +15,11 @@
 		<class>com.cmg.vrc.data.jdo.FeedbackJDO</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeJDO</class>
 		<class>com.cmg.vrc.data.jdo.AdminJDO</class>
+		<class>com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO</class>
+		<class>com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO</class>
+		<class>com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO</class>
+		<class>com.cmg.vrc.data.jdo.amt.RecordedSentenceJDO</class>
+		<class>com.cmg.vrc.data.jdo.amt.TranscriptionJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

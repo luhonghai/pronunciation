@@ -13,10 +13,6 @@ import java.util.Date;
 @PersistenceCapable
 public class RecordedSentenceHistoryJDO implements Mirrorable {
 
-    public static final int ACTOR_TYPE_ADMIN = 0;
-
-    public static final int ACTOR_TYPE_USER = 1;
-
     @PrimaryKey
     private String id;
 

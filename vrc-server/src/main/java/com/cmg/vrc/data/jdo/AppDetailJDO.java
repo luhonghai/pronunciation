@@ -17,7 +17,7 @@ public class AppDetailJDO implements Mirrorable {
     private String id;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=Integer.MAX_VALUE)
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String noAccessMessage;
 
     @Persistent

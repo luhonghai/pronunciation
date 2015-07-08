@@ -13,18 +13,6 @@ import java.util.Date;
 @PersistenceCapable
 public class RecordedSentenceJDO implements Mirrorable {
 
-    public static final int DELETED = -1;
-
-    public static final int AWAITING = 0;
-
-    public static final int PENDING = 1;
-
-    public static final int REJECT = 2;
-
-    public static final int APPROVED = 3;
-
-    public static final int LOCKED = 4;
-
     @PrimaryKey
     private String id;
 
