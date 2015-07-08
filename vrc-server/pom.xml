@@ -598,7 +598,7 @@
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
 				<project.dir>/var/www/webdav/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
 				<contact.us.email>support@accenteasy.com</contact.us.email>
@@ -612,12 +612,12 @@
 				<grammarPath>/vol/Sphinx/grammar</grammarPath>
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<recipients>feedback@accenteasy.com</recipients>
-				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
-				<url.active.account>http://accenteasytomcat-prd-1.elasticbeanstalk.com/activate</url.active.account>
-				<url.reset.password>http://accenteasytomcat-prd-1.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
-				<beanstalk.environmentName>accenteasytomcat-PRD-1</beanstalk.environmentName>
-				<beanstalk.environmentRef>accenteasytomcat-prd-1.elasticbeanstalk.com</beanstalk.environmentRef>
-				<beanstalk.cnamePrefix>accenteasytomcat-prd-1</beanstalk.cnamePrefix>
+				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
+				<url.active.account>http://accenteasytomcat-sat.elasticbeanstalk.com/activate</url.active.account>
+				<url.reset.password>http://accenteasytomcat-sat.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-sat</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-sat.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-sat</beanstalk.cnamePrefix>
 			</properties>
 		</profile>
 	</profiles>

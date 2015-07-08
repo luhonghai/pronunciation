@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="upload_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/VoiceRecordHandler</string>
-    <string name="auth_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/AuthHandler</string>
-    <string name="register_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/RegisterHandler</string>
-    <string name="activation_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/activate</string>
-    <string name="feedback_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/FeedbackHandler</string>
-    <string name="license_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/LicenseHandler</string>
-    <string name="reset_password_url">http://accenteasytomcat-prd-1.elasticbeanstalk.com/ResetPasswordHandler</string>
+    <string name="upload_url">http://accenteasytomcat-sat.elasticbeanstalk.com/VoiceRecordHandler</string>
+    <string name="auth_url">http://accenteasytomcat-sat.elasticbeanstalk.com/AuthHandler</string>
+    <string name="register_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RegisterHandler</string>
+    <string name="activation_url">http://accenteasytomcat-sat.elasticbeanstalk.com/activate</string>
+    <string name="feedback_url">http://accenteasytomcat-sat.elasticbeanstalk.com/FeedbackHandler</string>
+    <string name="license_url">http://accenteasytomcat-sat.elasticbeanstalk.com/LicenseHandler</string>
+    <string name="reset_password_url">http://accenteasytomcat-sat.elasticbeanstalk.com/ResetPasswordHandler</string>
 </resources>

@@ -16,6 +16,7 @@ import java.util.Date;
 public class TestDAO {
     public static void main(String[] args) {
 
+
 //        User user = new User();
 //        user.setUsername("luhonghai@gmail.com");
 //        user.setPassword(StringUtil.md5("hurricane"));
