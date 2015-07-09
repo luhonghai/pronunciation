@@ -148,8 +148,8 @@
                 </div>
                 <div class="form-group">
 
-                  <label class="col-xs-4  col-sm-3 ">Attached Date:</label>
-                  <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-9  "></label>
+                  <label class="col-xs-4  col-sm-4 ">Attached Date:</label>
+                  <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-8  "></label>
 
                 </div>
 
