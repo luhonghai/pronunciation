@@ -39,7 +39,12 @@ public class TranscriptionService {
                 for (String t : transcriptions) {
                     t = t.trim();
                     if (t.length() > 0) {
-                        String sentence = t.substring(0, t.lastIndexOf("(")).trim();
+                        String sentence;
+                        if (t.contains("(")) {
+                            sentence = t.substring(0, t.lastIndexOf("(")).trim();
+                        } else {
+                            sentence = t.trim();
+                        }
                         if (sentence.length() > 0) {
                             Transcription transcription = new Transcription();
                             transcription.setAuthor(author);
