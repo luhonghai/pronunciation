@@ -13,9 +13,10 @@
             android:id="@+id/textStatement"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_list_default_size"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
             android:textSize="@dimen/main_selected_word_size"
             android:gravity="start|center_vertical"
-            android:textStyle="bold"
             />
 
     </RelativeLayout>

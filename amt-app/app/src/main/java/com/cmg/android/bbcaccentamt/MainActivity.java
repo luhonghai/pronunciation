@@ -95,6 +95,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -292,16 +293,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void ListAllItem(){
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
-        String[] item={"WE DIDN'T LIKE THAT",
-                "THE COMPANY DECLINED TO IDENTIFY THE BIDDERS BUT SAID IT RECEIVED OFFERS IN THE HIGH FORTY DOLLARS PER SHARE",
-        "THERE WERE TWO HUNDRED FIFTY SIX ISSUES ADVANCING THREE HUNDRED THREE DECLINING AND TWO HUNDRED NINETY TWO UNCHANGED",
-        "HOWEVER INVESTMENT INCOME WHICH REPRESENTS THIRTEEN PERCENT OF THE INDUSTRY'S REVENUES ROSE ELEVEN PERCENT IN THE QUARTER REFLECTING GAINS FROM THE RISING STOCK MARKET",
-        "NO ONE AT THE STATE DEPARTMENT WANTS TO LET SPIES IN",
-        "A LENGTHY FIGHT IS LIKELY",
-        "THE JURY AWARDED MR. SCHARENBERG ONE HUNDRED FIVE MILLION DOLLARS A FIGURE BASED ON TEN YEARS OF PROFITS HAD HIS PROJECT BEEN COMPLETED",
-        "TO MAKE THEM DIRECTLY COMPARABLE EACH INDEX IS BASED ON THE CLOSE OF NINETEEN SIXTY NINE EQUALING ONE HUNDRED",
-        "HE DECLINED TO NAME SPECIFIC PRODUCTS",
-        "IF THE DOLLAR STARTS TO PLUNGE THE FED MAY STEP UP ITS DEFENSE OF THE CURRENCY"};
+
+        String[] item={"We didn't like that.",
+                "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
+                "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
+                "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
+                "No one at the state department wants to let spies in.",
+                "A lengthy fight is likely.",
+                "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
+                "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
+                "He declined to name specific products.",
+                "If the dollar starts to plunge the fed may step up its defense of the currency."};;
+
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement, item);
         lvItem.setAdapter(arrayAdapter);
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -786,13 +789,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             && isAutoStop
                             && (length > (START_TIMEOUT + PITCH_TIMEOUT))) {
                         stopRecording(false);
-                        uploadRecord();
+                        //analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+
+
+
+                       //uploadRecord();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
+                                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+//                              recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
+
                             }
-                        });
+                       });
                     }
                 }
             }));
