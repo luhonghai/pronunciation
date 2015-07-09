@@ -43,6 +43,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="20sp"
                                 android:padding="10dip"
+                                android:text="We didn't like that."
                                 android:id="@+id/textrecord"/>
                         </ScrollView>
                         <RelativeLayout

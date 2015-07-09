@@ -789,18 +789,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             && isAutoStop
                             && (length > (START_TIMEOUT + PITCH_TIMEOUT))) {
                         stopRecording(false);
-                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                        //analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
 
 
 
                        //uploadRecord();
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-                             // recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+//                              recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
 
-//                            }
-//                        });
+                            }
+                       });
                     }
                 }
             }));
