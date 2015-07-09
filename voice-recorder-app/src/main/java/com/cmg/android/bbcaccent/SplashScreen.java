@@ -144,13 +144,14 @@ public class SplashScreen extends BaseActivity implements
                             final SpannableString s = new SpannableString(message);
                             Linkify.addLinks(s, Linkify.ALL);
                             if (e != null) e.printStackTrace();
+                            handlerDogAnimation.removeCallbacks(runnableDogAnimation);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.ERROR_TYPE);
                                     d.setTitleText(getString(R.string.could_not_login));
                                     d.setContentText(message);
-                                    d.setCancelText(getString(R.string.dialog_ok));
+                                    d.setCancelText(getString(R.string.dialog_close));
                                     d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -160,11 +161,13 @@ public class SplashScreen extends BaseActivity implements
                                     if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
                                             && (message.equalsIgnoreCase(getString(R.string.invalid_username_or_password))
                                             || message.equalsIgnoreCase(getString(R.string.invalid_email_address_or_password))
-                                            || message.endsWith(getString(R.string.is_not_activated)))) {
-                                        d.setConfirmText(getString(R.string.login));
+                                            || message.toLowerCase().contains(getString(R.string.is_not_activated))
+                                            || message.toLowerCase().contains(getString(R.string.is_temporarily_locked)))) {
+                                        d.setConfirmText(getString(R.string.logout));
                                         d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                accountManager.logout();
                                                 goToActivity(LoginActivity.class);
                                             }
                                         });
@@ -190,6 +193,44 @@ public class SplashScreen extends BaseActivity implements
         }
     }
 
+    private void doGetProfile(final UserProfile profile) {
+        accountManager.getProfile(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(final String message, Throwable e) {
+                AnalyticHelper.sendUserLoginError(SplashScreen.this, profile.getUsername());
+                final SpannableString s = new SpannableString(message);
+                Linkify.addLinks(s, Linkify.ALL);
+                if (e != null) e.printStackTrace();
+                handlerDogAnimation.removeCallbacks(runnableDogAnimation);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isRunning()) {
+                            SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.ERROR_TYPE);
+                            d.setTitleText(getString(R.string.could_not_fetch_profile));
+                            d.setContentText(message);
+                            d.setConfirmText(getString(R.string.dialog_close));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    SplashScreen.this.finish();
+                                }
+                            });
+                            d.show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
+                AnalyticHelper.sendUserReturn(SplashScreen.this, profile.getUsername());
+                Preferences.updateProfile(SplashScreen.this, profile);
+                goToActivity(MainActivity.class);
+            }
+        });
+    }
+
     private void doLicenseCheck(final UserProfile profile) {
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
@@ -198,19 +239,21 @@ public class SplashScreen extends BaseActivity implements
                 final SpannableString s = new SpannableString(message);
                 Linkify.addLinks(s, Linkify.ALL);
                 if (e != null) e.printStackTrace();
+                handlerDogAnimation.removeCallbacks(runnableDogAnimation);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (isRunning()) {
                             if (profile.getLicenseCode() != null && profile.getLicenseCode().length() > 0) {
 
-                                SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.ERROR_TYPE);
+                                SweetAlertDialog d = new SweetAlertDialog(SplashScreen.this, SweetAlertDialog.WARNING_TYPE);
                                 d.setTitleText(getString(R.string.invalid_licence));
                                 d.setContentText(message);
                                 d.setConfirmText(getString(R.string.enter_licence_code));
                                 d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        accountManager.logout();
                                         goToActivity(LoginActivity.class);
                                     }
                                 });
@@ -222,26 +265,6 @@ public class SplashScreen extends BaseActivity implements
                                 });
                                 d.setCancelText(getString(R.string.dialog_close));
                                 d.show();
-//
-//                                AlertDialog d;
-//                                d = new AlertDialog.Builder(SplashScreen.this)
-//                                        .setTitle("Invalid licence")
-//                                        .setMessage(message)
-//                                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialog, int which) {
-//                                                SplashScreen.this.finish();
-//                                            }
-//                                        })
-//                                        .setPositiveButton("Enter licence code", new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialog, int which) {
-//
-//                                            }
-//                                        })
-//                                        .create();
-//                                d.show();
-//                                ((TextView) d.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
                             } else {
                                 goToActivity(LoginActivity.class);
                             }
@@ -252,8 +275,7 @@ public class SplashScreen extends BaseActivity implements
 
             @Override
             public void onSuccess() {
-                AnalyticHelper.sendUserReturn(SplashScreen.this, profile.getUsername());
-                goToActivity(MainActivity.class);
+                doGetProfile(profile);
             }
         });
     }

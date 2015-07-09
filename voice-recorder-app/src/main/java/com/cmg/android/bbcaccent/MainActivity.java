@@ -1126,12 +1126,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             if (profile != null) {
                 txtUserName.setText(profile.getName());
                 txtUserEmail.setText(profile.getUsername());
-                if (profile.getProfileImage().length() > 0) {
-                    if (!ImageLoader.getInstance().isInited()) {
-                        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-                    }
-                    ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
+                if (!ImageLoader.getInstance().isInited()) {
+                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
                 }
+                ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
             }
 
             String mChanel = Preferences.getString(Preferences.KEY_AUDIO_CHANEL, this.getApplicationContext(), "mono");

@@ -81,6 +81,7 @@
     <string name="invalid_username_or_password">invalid username or password</string>
     <string name="invalid_email_address_or_password">invalid email address or password</string>
     <string name="is_not_activated">is not activated</string>
+    <string name="is_temporarily_locked">is temporarily locked</string>
     <string name="invalid_licence">invalid licence</string>
     <string name="enter_licence_code">enter licence code</string>
     <string name="logout_account_message_title">logout account</string>
@@ -109,6 +110,7 @@
     <string name="could_not_send_request">could not send request</string>
     <string name="could_not_activate_licence_code">could not activate licence code</string>
     <string name="could_not_register">could not register</string>
+    <string name="could_not_fetch_profile">could not fetch profile</string>
     <string name="invalid_password">invalid password</string>
     <string name="both_passwords_must_match">both passwords must match</string>
     <string name="error_password_length">passwords must be at least 6 characters in length</string>

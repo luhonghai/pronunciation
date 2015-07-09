@@ -537,13 +537,51 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             @Override
             public void onSuccess() {
+
+                Preferences.addProfile(LoginActivity.this, profile);
+                doGetProfile(profile);
+            }
+        });
+    }
+
+    private void doGetProfile(final UserProfile profile) {
+        accountManager.getProfile(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(final String message, Throwable e) {
+                AnalyticHelper.sendUserLoginError(LoginActivity.this, profile.getUsername());
+                final SpannableString s = new SpannableString(message);
+                Linkify.addLinks(s, Linkify.ALL);
+                if (e != null) e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialogProgress.dismissWithAnimation();
+                        if (isRunning()) {
+                            SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                            d.setTitleText(getString(R.string.could_not_fetch_profile));
+                            d.setContentText(message);
+                            d.setConfirmText(getString(R.string.dialog_close));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    LoginActivity.this.finish();
+                                }
+                            });
+                            d.show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         dialogProgress.dismissWithAnimation();
                     }
                 });
-                Preferences.addProfile(LoginActivity.this, profile);
+                Preferences.updateProfile(LoginActivity.this, profile);
                 startMainActivity();
             }
         });
@@ -858,7 +896,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         public void run() {
                             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
                             dialogProgress.dismissWithAnimation();
-
+                            accountManager.logout();
+                            if (mGoogleApiClient.isConnected()) {
+                                Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                                mGoogleApiClient.disconnect();
+                                mGoogleApiClient.connect();
+                            }
                             final SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
                             d.setTitleText(getString(R.string.could_not_login));
                             d.setContentText(message);
@@ -866,11 +909,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    } else {
-                                        LoginActivity.this.finish();
-                                    }
+                                    sweetAlertDialog.dismissWithAnimation();
                                 }
                             });
                             d.show();
