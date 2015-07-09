@@ -101,7 +101,7 @@
         </div>
         <form name="form-delete">
           <div class="modal-body">
-            <h4>'Do you want to add a new licence code?</h4>
+            <h4>Do you want to add a new licence code?</h4>
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
