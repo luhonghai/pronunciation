@@ -569,6 +569,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void getWord(final String word) {
         if (isRecording) return;
+        try {
+            recordingView.setScore(0.0f);
+            recordingView.stopPingAnimation();
+            recordingView.recycle();
+            recordingView.invalidate();
+            analyzingState = AnalyzingState.DEFAULT;
+
         if (checkNetwork(false)) {
             AnalyticHelper.sendSelectWord(this, word);
             switchButtonStage(ButtonState.DISABLED);
@@ -609,6 +616,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
             getWordAsync = new GetWordAsync(word);
             getWordAsync.execute();
+        }
+        } catch (Exception e) {
+
         }
     }
 
