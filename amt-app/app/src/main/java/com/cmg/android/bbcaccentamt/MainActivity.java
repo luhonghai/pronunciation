@@ -794,15 +794,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
 
                        //uploadRecord();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
 //                              recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
-
-                            }
-                       });
-                    }
+//
+//                            }
+//                       });
+                   }
                 }
             }));
             dispatcher.addAudioProcessor(new Oscilloscope(new Oscilloscope.OscilloscopeEventHandler() {
