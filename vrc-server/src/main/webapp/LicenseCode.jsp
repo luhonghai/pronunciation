@@ -70,7 +70,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
-                  <th>Activated Date</th>
+                  <th>Activated date for licence code</th>
                   <th>Activation</th>
                 </tr>
                 </thead>
