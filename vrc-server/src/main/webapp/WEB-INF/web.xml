@@ -60,6 +60,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>UserProfileHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.UserProfileHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserProfileHandler</servlet-name>
+        <url-pattern>/userprofile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>FeedbackHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.FeedbackHandler</servlet-class>
     </servlet>

@@ -2,6 +2,7 @@
 <resources>
     <string name="upload_url">http://reg.accenteasy.com/VoiceRecordHandler</string>
     <string name="auth_url">http://reg.accenteasy.com/AuthHandler</string>
+    <string name="user_profile_url">http://reg.accenteasy.com/userprofile</string>
     <string name="register_url">http://reg.accenteasy.com/RegisterHandler</string>
     <string name="activation_url">http://reg.accenteasy.com/activate</string>
     <string name="feedback_url">http://reg.accenteasy.com/FeedbackHandler</string>

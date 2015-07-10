@@ -1,17 +1,14 @@
 package com.cmg.android.bbcaccent;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,7 +23,6 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,11 +107,11 @@ import be.tarsos.dsp.pitch.PitchProcessor;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
-                                                            View.OnClickListener,
-                                                            Animation.AnimationListener,
-                                                            LocationListener,
-                                                            SearchView.OnSuggestionListener,
-                                                            RecordingView.OnAnimationListener {
+        View.OnClickListener,
+        Animation.AnimationListener,
+        LocationListener,
+        SearchView.OnSuggestionListener,
+        RecordingView.OnAnimationListener {
     /**
      * Define all button state
      */
@@ -211,7 +207,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private UploaderAsync uploadTask;
 
     /**
-     *  Search word
+     * Search word
      */
     private WordDBAdapter dbAdapter;
     private CursorAdapter adapter;
@@ -226,15 +222,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private AccountManager accountManager;
 
     /**
-     *  User profile
+     * User profile
      */
 
-    private  ImageView imgAvatar;
+    private ImageView imgAvatar;
     private TextView txtUserName;
     private TextView txtUserEmail;
     private boolean isInitTabHost = false;
+
     /**
-     *
      * @param savedInstanceState
      */
 
@@ -397,15 +393,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 TipFragment.class, getString(R.string.tab_tip));
     }
 
-    private void addTabImage(int drawableId, Class<?> c, String labelId)
-    {
+    private void addTabImage(int drawableId, Class<?> c, String labelId) {
         TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
         mTabHost.addTab(spec, c, null);
 
     }
 
-    private void addTab(int drawableId, Class<?> c, String labelId)
-    {
+    private void addTab(int drawableId, Class<?> c, String labelId) {
         TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, (RelativeLayout) findViewById(R.id.content), false);
         ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
@@ -470,13 +464,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
             searchView.setQueryHint(getString(R.string.tint_search_word));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-          //  searchView.setIconifiedByDefault(false);
+            //  searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
             searchView.setOnSuggestionListener(this);
             adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
                     dbAdapter.getAll(),
-                    new String[] {WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
-                    new int[] {R.id.txtWord, R.id.txtPhoneme},
+                    new String[]{WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
+                    new int[]{R.id.txtWord, R.id.txtPhoneme},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             searchView.setSuggestionsAdapter(adapter);
         }
@@ -513,7 +507,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
         analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
         lastState = state;
-        if (audioStream!=null)
+        if (audioStream != null)
             audioStream.clearOldRecord();
     }
 
@@ -523,6 +517,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         private GetWordAsync(String word) {
             this.word = word;
         }
+
         @Override
         protected Object doInBackground(Object[] params) {
             selectedWord = word;
@@ -569,46 +564,56 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void getWord(final String word) {
         if (isRecording) return;
-        if (checkNetwork(false)) {
-            AnalyticHelper.sendSelectWord(this, word);
-            switchButtonStage(ButtonState.DISABLED);
-            recordingView.startPingAnimation(this);
+        try {
+            if (checkNetwork(false)) {
+                currentModel = null;
+                recordingView.setScore(0.0f);
+                recordingView.stopPingAnimation();
+                recordingView.recycle();
+                recordingView.invalidate();
+                analyzingState = AnalyzingState.DEFAULT;
+                AnalyticHelper.sendSelectWord(this, word);
+                switchButtonStage(ButtonState.DISABLED);
+                recordingView.startPingAnimation(this);
 
-            YoYo.with(Techniques.FadeIn).duration(700).withListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    imgHourGlass.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.FadeIn).duration(700).withListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        imgHourGlass.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                }).playOn(imgHourGlass);
+
+                txtWord.setText(getString(R.string.searching));
+                txtPhonemes.setText(getString(R.string.please_wait));
+                dictionaryItem = null;
+                currentModel = null;
+                if (getWordAsync != null) {
+                    try {
+                        while (!getWordAsync.isCancelled() && getWordAsync.cancel(true)) ;
+                    } catch (Exception ex) {
+
+                    }
                 }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).playOn(imgHourGlass);
-
-            txtWord.setText(getString(R.string.searching));
-            txtPhonemes.setText(getString(R.string.please_wait));
-            dictionaryItem = null;
-            currentModel = null;
-            if (getWordAsync != null) {
-                try {
-                    while (!getWordAsync.isCancelled() && getWordAsync.cancel(true)) ;
-                } catch (Exception ex) {
-
-                }
+                getWordAsync = new GetWordAsync(word);
+                getWordAsync.execute();
             }
-            getWordAsync = new GetWordAsync(word);
-            getWordAsync.execute();
+        } catch (Exception e) {
+
         }
     }
 
@@ -748,7 +753,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         stopRecording();
         if (uploadTask != null) {
             try {
-                while(!uploadTask.isCancelled() && uploadTask.cancel(true));
+                while (!uploadTask.isCancelled() && uploadTask.cancel(true)) ;
                 uploadTask = null;
             } catch (Exception ex) {
 
@@ -910,7 +915,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             lm.removeUpdates(this);
         } catch (Exception e) {
-            SimpleAppLog.error("Could not stop request location",e);
+            SimpleAppLog.error("Could not stop request location", e);
         }
     }
 
@@ -928,6 +933,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             SimpleAppLog.error("Could not request Network provider location", e);
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -998,104 +1004,104 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void switchButtonStage(ButtonState state) {
         try {
-        boolean isProcess = true;
-        imgHelpHand.setVisibility(View.GONE);
-        switch (state) {
-            case RECORDING:
-                btnAudio.setImageResource(R.drawable.p_audio_gray);
-                btnAudio.setEnabled(false);
-                btnAnalyzing.startAnimation(fadeOut);
-                btnAnalyzing.setImageResource(R.drawable.p_close_red);
-                btnAnalyzing.startAnimation(fadeIn);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
+            boolean isProcess = true;
+            imgHelpHand.setVisibility(View.GONE);
+            switch (state) {
+                case RECORDING:
+                    btnAudio.setImageResource(R.drawable.p_audio_gray);
+                    btnAudio.setEnabled(false);
+                    btnAnalyzing.startAnimation(fadeOut);
+                    btnAnalyzing.setImageResource(R.drawable.p_close_red);
+                    btnAnalyzing.startAnimation(fadeIn);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
 
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
-                rlVoiceExample.setEnabled(false);
-                break;
-            case PLAYING:
-                btnAudio.startAnimation(fadeOut);
-                btnAudio.setImageResource(R.drawable.p_close_red);
-                btnAudio.startAnimation(fadeIn);
-                btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                btnAnalyzing.setEnabled(false);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
-                rlVoiceExample.setEnabled(false);
-                break;
-            case GREEN:
-                btnAudio.setEnabled(true);
-                btnAnalyzing.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_green);
-                btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
-                isProcess = false;
-                break;
-            case ORANGE:
-                btnAudio.setEnabled(true);
-                btnAnalyzing.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_orange);
-                btnAnalyzing.setImageResource(R.drawable.p_record_orange);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
-                txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
-                isProcess = false;
-                break;
-            case RED:
-                btnAudio.setEnabled(true);
-                btnAnalyzing.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_red);
-                btnAnalyzing.setImageResource(R.drawable.p_record_red);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
-                txtWord.setTextColor(ColorHelper.COLOR_RED);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
-                isProcess = false;
-                break;
-            case DISABLED:
+                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtPhonemes.setEnabled(false);
+                    txtWord.setEnabled(false);
+                    rlVoiceExample.setEnabled(false);
+                    break;
+                case PLAYING:
+                    btnAudio.startAnimation(fadeOut);
+                    btnAudio.setImageResource(R.drawable.p_close_red);
+                    btnAudio.startAnimation(fadeIn);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                    btnAnalyzing.setEnabled(false);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtPhonemes.setEnabled(false);
+                    txtWord.setEnabled(false);
+                    rlVoiceExample.setEnabled(false);
+                    break;
+                case GREEN:
+                    btnAudio.setEnabled(true);
+                    btnAnalyzing.setEnabled(true);
+                    btnAudio.setImageResource(R.drawable.p_audio_green);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
+                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                    txtPhonemes.setEnabled(true);
+                    txtWord.setEnabled(true);
+                    rlVoiceExample.setEnabled(true);
+                    isProcess = false;
+                    break;
+                case ORANGE:
+                    btnAudio.setEnabled(true);
+                    btnAnalyzing.setEnabled(true);
+                    btnAudio.setImageResource(R.drawable.p_audio_orange);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_orange);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
+                    txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
+                    txtPhonemes.setEnabled(true);
+                    txtWord.setEnabled(true);
+                    rlVoiceExample.setEnabled(true);
+                    isProcess = false;
+                    break;
+                case RED:
+                    btnAudio.setEnabled(true);
+                    btnAnalyzing.setEnabled(true);
+                    btnAudio.setImageResource(R.drawable.p_audio_red);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_red);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
+                    txtWord.setTextColor(ColorHelper.COLOR_RED);
+                    txtPhonemes.setEnabled(true);
+                    txtWord.setEnabled(true);
+                    rlVoiceExample.setEnabled(true);
+                    isProcess = false;
+                    break;
+                case DISABLED:
+                    btnAudio.setEnabled(false);
+                    btnAnalyzing.setEnabled(false);
+                    btnAudio.setImageResource(R.drawable.p_audio_gray);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtPhonemes.setEnabled(false);
+                    txtWord.setEnabled(false);
+                    break;
+                case DEFAULT:
+                default:
+                    btnAudio.setEnabled(true);
+                    btnAnalyzing.setEnabled(true);
+                    btnAudio.setImageResource(R.drawable.p_audio_green);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
+                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                    txtPhonemes.setEnabled(true);
+                    txtWord.setEnabled(true);
+                    rlVoiceExample.setEnabled(true);
+                    isProcess = false;
+                    break;
+            }
+            // Call other view update
+            Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
+            notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
+            sendBroadcast(notifyUpdateIntent);
+            if (!checkAudioExist()) {
                 btnAudio.setEnabled(false);
-                btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
-                btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                txtPhonemes.setEnabled(false);
-                txtWord.setEnabled(false);
-                break;
-            case DEFAULT:
-            default:
-                btnAudio.setEnabled(true);
-                btnAnalyzing.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_green);
-                btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                txtPhonemes.setEnabled(true);
-                txtWord.setEnabled(true);
-                rlVoiceExample.setEnabled(true);
-                isProcess = false;
-                break;
-        }
-        // Call other view update
-        Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
-        notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
-        sendBroadcast(notifyUpdateIntent);
-        if (!checkAudioExist()) {
-            btnAudio.setEnabled(false);
-            btnAudio.setImageResource(R.drawable.p_audio_gray);
-        }
+            }
         } catch (Exception e) {
-            SimpleAppLog.error("Could not update screen state",e);
+            SimpleAppLog.error("Could not update screen state", e);
         }
     }
 
@@ -1126,12 +1132,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             if (profile != null) {
                 txtUserName.setText(profile.getName());
                 txtUserEmail.setText(profile.getUsername());
-                if (profile.getProfileImage().length() > 0) {
-                    if (!ImageLoader.getInstance().isInited()) {
-                        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-                    }
-                    ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
+                if (!ImageLoader.getInstance().isInited()) {
+                    ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
                 }
+                ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
             }
 
             String mChanel = Preferences.getString(Preferences.KEY_AUDIO_CHANEL, this.getApplicationContext(), "mono");
@@ -1147,7 +1151,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
             isPrepared = false;
         } catch (Exception e) {
-            SimpleAppLog.error("Could not fetch setting",e);
+            SimpleAppLog.error("Could not fetch setting", e);
         }
     }
 
@@ -1193,7 +1197,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 try {
                     saveToDatabase();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     SimpleAppLog.error("Could not save data to database", e);
                     e.printStackTrace();
                     currentModel = null;
@@ -1276,7 +1280,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } catch (Exception e) {
             SimpleAppLog.error("Could not upload recording", e);
         }
-     }
+    }
 
 
     @Override
@@ -1319,7 +1323,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
             searchView.setQuery(s, true);
         } catch (Exception e) {
-            SimpleAppLog.error("Could not select suggestion word",e);
+            SimpleAppLog.error("Could not select suggestion word", e);
         }
     }
 
@@ -1443,10 +1447,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }
         } catch (Exception e) {
-            SimpleAppLog.error("Could not complete animation",e);
+            SimpleAppLog.error("Could not complete animation", e);
         }
     }
-
 
 
     private void saveToDatabase() throws IOException, SQLException {
@@ -1467,7 +1470,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
             // Save recorded file
             File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
-            FileUtils.copyFile(recordedFile,savedFile);
+            FileUtils.copyFile(recordedFile, savedFile);
             // Save json data
             Gson gson = new Gson();
             currentModel.setAudioFile(savedFile.getAbsolutePath());

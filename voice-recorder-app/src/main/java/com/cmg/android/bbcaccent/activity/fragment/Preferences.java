@@ -19,10 +19,12 @@ import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.AppLog;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.preferences.YesNoPreference;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import com.cmg.android.bbcaccent.preferences.DatePreference;
@@ -75,6 +77,8 @@ public class Preferences extends PreferenceFragment implements
     private Gson gson = new Gson();
 
     private Set<String> data;
+
+    private boolean isChanged = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -163,6 +167,38 @@ public class Preferences extends PreferenceFragment implements
             profile.setCountry(oldProfile.getCountry());
             profile.setIsSetup(oldProfile.isSetup());
             profile.setNativeEnglish(oldProfile.isNativeEnglish());
+            profile.setHelpStatus(oldProfile.getHelpStatus());
+        }
+        userData.add(gson.toJson(profile));
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putStringSet(PREF_USERNAMES, userData);
+        //editor.apply();
+        editor.commit();
+    }
+
+    public static void updateProfile(Context context, final UserProfile profile) {
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
+        if (userData == null) {
+            userData = new HashSet<String>();
+        }
+        Gson gson = new Gson();
+        Log.i(TAG, "Update profile " + profile.getUsername());
+        Iterator<String> iterator = userData.iterator();
+        UserProfile oldProfile = null;
+        while (iterator.hasNext()) {
+            String raw = iterator.next();
+            UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+            if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
+                oldProfile = tmp;
+                userData.remove(raw);
+                break;
+            }
+        }
+        if (oldProfile != null) {
+            profile.setIsLogin(oldProfile.isLogin());
+            profile.setIsSetup(oldProfile.isSetup());
             profile.setHelpStatus(oldProfile.getHelpStatus());
         }
         userData.add(gson.toJson(profile));
@@ -323,6 +359,7 @@ public class Preferences extends PreferenceFragment implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        isChanged = true;
         initPreferences();
         if (key.equalsIgnoreCase(KEY_ADD_USERNAME))
             addUsername(sharedPreferences);
@@ -437,6 +474,26 @@ public class Preferences extends PreferenceFragment implements
             profile.setNativeEnglish(cbxNativeEnglish.isChecked());
         profile.setGender(cbxMale.isChecked());
         profile.setDob(DatePreference.formatter().format(dateDob.getDate().getTime()));
+    }
+
+    @Override
+    public void onDestroy() {
+        if (isChanged) {
+            AccountManager accountManager = new AccountManager(getActivity());
+            accountManager.updateProfile(getCurrentProfile(getActivity()), new AccountManager.AuthListener() {
+                @Override
+                public void onError(String message, Throwable e) {
+                    SimpleAppLog.error(message, e);
+                }
+
+                @Override
+                public void onSuccess() {
+                    SimpleAppLog.info("send update profile request successfully");
+                }
+            });
+        }
+        super.onDestroy();
+
     }
 
     @Override
