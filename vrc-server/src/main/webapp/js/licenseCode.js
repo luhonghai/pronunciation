@@ -54,15 +54,17 @@ function listLicenseCode(){
                     "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         if (data.isActivated == true) {
-                            return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#FF0000" title="Click to deactivate" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }else if(data.isActivated==false){
-                            return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#00CC00" title="Click to activate" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }
                     }
                 }]
             });
 
 }
+
+
 
 function activated(){
     $(document).on("click","#detail",function(){
@@ -92,11 +94,17 @@ function activated(){
                 if(data=="success"){
                     if(cl=="fa fa-times-circle fa-2x"){
                         $el.attr('class','fa fa-check-circle fa-2x');
+                        $el.attr('name','false');
+                        $el.attr('title','Click to activate');
+
                         $el.css('color','#00CC00');
+
 
                     }
                     if(cl=="fa fa-check-circle fa-2x"){
                         $el.attr('class','fa fa-times-circle fa-2x');
+                        $el.attr('title','Click to deactivate');
+                        $el.attr('name','true');
                         $el.css('color','#FF0000');
                     }
                 }

@@ -5,6 +5,7 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
@@ -26,6 +27,8 @@ public class User implements Mirrorable {
     private String profileImage;
 
     private String password;
+
+    private Date createdDate;
 
     private boolean nativeEnglish = true;
 
@@ -177,6 +180,13 @@ public class User implements Mirrorable {
         this.lastName = lastName;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
     public String getResetPasswordCode() {
         return resetPasswordCode;
     }
