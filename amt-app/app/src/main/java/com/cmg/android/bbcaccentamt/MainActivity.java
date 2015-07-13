@@ -63,6 +63,7 @@ import com.cmg.android.bbcaccentamt.activity.view.RecordingView;
 import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
 import com.cmg.android.bbcaccentamt.common.FileCommon;
+import com.cmg.android.bbcaccentamt.data.CustomAdapter;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
 import com.cmg.android.bbcaccentamt.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.ScoreDBAdapter;
@@ -295,22 +296,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void listAllItem(){
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        CustomAdapter customAdapter=null;
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
         List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
-        for (int i=0;i<sentenceModels.size();i++){
-            List<String> sentence=new ArrayList<String>();
-            String senten=sentenceModels.get(i).getSentence();
-            sentence.add(senten);
-        }
+        customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
 
-
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement);
-        lvItem.setAdapter(arrayAdapter);
+        lvItem.setAdapter(customAdapter);
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String itemValue = (String) lvItem.getItemAtPosition(position);
+                SentenceModel a=(SentenceModel)lvItem.getItemAtPosition(position);
+                String itemValue=a.getSentence();
                 textrecord.setText(itemValue);
 
             }
@@ -423,25 +420,27 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void initCustomActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.main_action_bar);
-        materialMenu = (MaterialMenuView) actionBar.getCustomView().findViewById(R.id.action_bar_menu);
-        materialMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isDrawerOpened) {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
-                    drawerLayout.openDrawer(Gravity.LEFT);
+        if(actionBar!=null) {
+            actionBar.setHomeButtonEnabled(false);
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(R.layout.main_action_bar);
+            materialMenu = (MaterialMenuView) actionBar.getCustomView().findViewById(R.id.action_bar_menu);
+            materialMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isDrawerOpened) {
+                        materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
+                        drawerLayout.closeDrawer(Gravity.LEFT);
+                    } else {
+                        materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
+                        drawerLayout.openDrawer(Gravity.LEFT);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 

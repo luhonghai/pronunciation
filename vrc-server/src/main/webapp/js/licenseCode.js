@@ -1,7 +1,7 @@
 var myTable;
 function listLicenseCode(){
 
-    myTable=$('#dataTables-example').dataTable({
+    myTable=$('#dataTables-example').DataTable({
                 "retrieve": true,
                 "destroy": true,
                 "responsive": true,
@@ -35,10 +35,14 @@ function listLicenseCode(){
                             return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
                         }
                     }
-                }, {
-                    "sWidth": "20%",
-                    "data": "code",
-                    "sDefaultContent":""
+                },{
+                    "sWidth": "25%",
+                    "data": null,
+                    "bSortable": false,
+                    "sDefaultContent":"",
+                    "mRender": function (data, type, full) {
+                            return '<p style="font-family:tahoma">'+data.code+'</p>';
+                    }
                 }, {
                     "sWidth": "20%",
                     "data": "activatedDate",
@@ -47,11 +51,12 @@ function listLicenseCode(){
                     "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
+                    "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         if (data.isActivated == true) {
-                            return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }else if(data.isActivated==false){
-                            return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x showArchieved" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }
                     }
                 }]
@@ -65,8 +70,9 @@ function activated(){
         var id=$(this).attr('id-column');
         var acti;
         var $el = $(this);
-        $el.find('span').toggleClass('glyphicon-remove-sign glyphicon-ok-circle');
-        $el.toggleClass('showArchieved');
+        var cl=$(this).attr("class");
+        //$el.find('span').toggleClass('glyphicon-remove-sign glyphicon-ok-circle');
+        //$el.toggleClass('showArchieved');
         if(idd=="true"){
             acti=false;
         }
@@ -84,8 +90,15 @@ function activated(){
             },
             success:function(data){
                 if(data=="success"){
-                    $("tbody").html("");
-                    myTable.fnDraw();
+                    if(cl=="fa fa-times-circle fa-2x"){
+                        $el.attr('class','fa fa-check-circle fa-2x');
+                        $el.css('color','#00CC00');
+
+                    }
+                    if(cl=="fa fa-check-circle fa-2x"){
+                        $el.attr('class','fa fa-times-circle fa-2x');
+                        $el.css('color','#FF0000');
+                    }
                 }
             }
 
@@ -136,6 +149,7 @@ function filter(){
 
 function addCode(){
     $(document).on("click","#Yes",function(){
+        var newRow;
         $.ajax({
             url:"LicenseCodes",
             type:"POST",
@@ -144,12 +158,24 @@ function addCode(){
                 addCode:"addCode"
             },
             success:function(result){
-               if(result=="success"){
-                   $("tbody").html("");
-                   myTable.fnDraw();
-                   $("#addCode1").modal('hide');
+                newRow= "<tr>" +
+                    "<td>" + "" + "</td>" +
+                    "<td>" + "" + "</td>" +
+                    "<td>" + result.code + "</td>" +
+                    "<td>" + "" + "</td>" +
+                    "<td>" + '<span type="button" id="detail" style="color:#00CC00" name='+result.isActivated+' id-column=' + result.id + ' class="fa fa-check-circle fa-2x" ' + '>' + ' </span>' + "</td>" +"" +
+                    "</tr>";
+              // myTable.row.add($(newRow)).draw();
+                myTable.Rows.InsertAt(newRow, 0);
 
-               }
+                $("#addCode1").modal('hide');
+
+               //if(result=="success"){
+               //    $("tbody").html("");
+               //    myTable.fnDraw();
+               //    $("#addCode1").modal('hide');
+               //
+               //}
             },
             error:function(){
                 alert("error");

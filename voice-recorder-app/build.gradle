@@ -30,8 +30,8 @@ android {
     buildToolsVersion "19.1.0"
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
-        versionCode 207
-        versionName "2.0.7"
+        versionCode 2010
+        versionName "2.0.10"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
@@ -53,11 +53,27 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace(".apk", "-v${variant.versionName}.apk"))
+    if (project.hasProperty('env')) {
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                output.outputFile = new File(
+                        output.outputFile.parent,
+
+                        output.outputFile.name.replace(".apk", "-${env}-v${variant.versionName}.apk")
+
+                )
+            }
+        }
+    } else {
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                output.outputFile = new File(
+                        output.outputFile.parent,
+
+                        output.outputFile.name.replace(".apk", "-v${variant.versionName}.apk")
+
+                )
+            }
         }
     }
     lintOptions {
@@ -91,3 +107,18 @@ dependencies {
         transitive = true;
     }
 }
+
+task copyFiles(type: Copy)
+
+copyFiles {
+    description = 'Copies environment values'
+    if (project.hasProperty('env')) {
+        from "src/main/resources/env-values/${env}"
+    } else {
+        from "src/main/resources/env-values/sat"
+    }
+    into 'src/main/res/values'
+    include('**/*')
+}
+
+preBuild.dependsOn copyFiles

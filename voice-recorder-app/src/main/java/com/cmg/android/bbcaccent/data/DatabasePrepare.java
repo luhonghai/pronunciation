@@ -3,6 +3,9 @@ package com.cmg.android.bbcaccent.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 /**
  * Created by luhonghai on 4/10/15.
  */
@@ -27,10 +30,19 @@ public class DatabasePrepare {
             protected Void doInBackground(Void... params) {
                 loadDatabase();
                 loadTips();
+              //  loadHelpContent();
                 prepraredListener.onComplete();
                 return null;
             }
         }.execute();
+    }
+
+    private void loadHelpContent() {
+        if (!ImageLoader.getInstance().isInited()) {
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+        }
+        for (int i = 1; i <= 11; i++)
+            ImageLoader.getInstance().loadImageSync("assets://help-content/help_content_" + i + ".png");
     }
 
     private void loadTips() {

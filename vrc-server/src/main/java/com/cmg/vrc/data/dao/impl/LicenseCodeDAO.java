@@ -68,6 +68,12 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if(acti.equals("No")){
             string.append("isActivated==false &&");
         }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(activatedDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(activatedDate <= dateTo) &&");
+        }
 
         if(dateFrom!=null&&dateTo!=null){
             string.append("(activatedDate >= dateFrom && activatedDate <= dateTo) &&");
@@ -163,6 +169,13 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if(acti.equals("No")){
             string.append("isActivated==false &&");
         }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(activatedDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(activatedDate <= dateTo) &&");
+        }
+
 
         if(dateFrom!=null&&dateTo!=null){
             string.append("(activatedDate >= dateFrom && activatedDate <= dateTo) &&");

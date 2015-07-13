@@ -43,6 +43,8 @@ public class User implements Mirrorable {
 
     private String activationCode;
 
+    private boolean activationLocked;
+
     private String resetPasswordCode;
 
     @Override
@@ -183,5 +185,13 @@ public class User implements Mirrorable {
 
     public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
+    }
+
+    public boolean isActivationLocked() {
+        return activationLocked;
+    }
+
+    public void setActivationLocked(boolean activationLocked) {
+        this.activationLocked = activationLocked;
     }
 }

@@ -1,4 +1,7 @@
 package com.cmg.android.bbcaccentamt.http;
+
+import java.util.List;
+
 /**
  * Created by luhonghai on 5/8/15.
  */
