@@ -156,6 +156,7 @@ public class AccountManager {
                 Gson gson = new Gson();
                 Preferences.updateAdditionalProfile(context, profile);
                 data.put("profile", gson.toJson(profile));
+                data.put("type", "staff");
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
