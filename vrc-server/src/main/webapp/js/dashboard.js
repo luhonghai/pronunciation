@@ -158,9 +158,92 @@ function updateEnvTimer(doNow) {
 
 
 
+function drawMap(){
+
+    $.ajax({
+        "url": "Pronunciationss",
+        "type": "POST",
+        "dataType":"json",
+        "data":{
+            draws:"draws"
+        },
+        success:function(data){
+            if(data.status==true) {
+                drawChart(data.sc);
+                google.setOnLoadCallback(drawChart);
+
+            }
+            if(data.mess=="error")
+            {
+                $("#dashboard").append("<b style='font-size: 25px; color: red;'>Error.</b>");
+            }
+
+        },
+        error:function(e){
+            alert(e);
+        }
+
+    });
+}
+
+google.load('visualization', '1', {packages: ['controls', 'charteditor']});
+function drawChart(sc) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('datetime', 'date');
+    data.addColumn('number', 'Score');
+    for(j=0;j<sc.length;j++){
+        data.addRow([new Date(sc[j][0]), sc[j][1]]);
+    }
+
+
+
+    var dash = new google.visualization.Dashboard(document.getElementById('dashboard'));
+
+    var control = new google.visualization.ControlWrapper({
+        controlType: 'ChartRangeFilter',
+        containerId: 'control_div',
+        options: {
+            filterColumnIndex: 0,
+            ui: {
+                chartOptions: {
+                    height: 50,
+                    width: 450,
+                    chartArea: {
+                        width: '80%'
+                    }
+                },
+                chartView: {
+                    columns: [0, 1]
+                }
+            }
+        }
+    });
+
+    var chart = new google.visualization.ChartWrapper({
+        chartType: 'LineChart',
+        containerId: 'drawchart'
+    });
+
+    function setOptions (wrapper) {
+        // sets the options on the chart wrapper so that it draws correctly
+        wrapper.setOption('height', 200);
+        wrapper.setOption('width', 450);
+        wrapper.setOption('chartArea.width', '80%');
+        // the chart editor automatically enables animations, which doesn't look right with the ChartRangeFilter
+        wrapper.setOption('animation.duration', 0);
+
+    }
+
+    setOptions(chart);
+
+    dash.bind([control], [chart]);
+    dash.draw(data);
+}
+
 $(document).ready(function(){
     var role=$("#roles").val();
     getCouse();
+    drawMap();
     if(role=="1"){
         $("#title-server").show();
         loadEnvironments();

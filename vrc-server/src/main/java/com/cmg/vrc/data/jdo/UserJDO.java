@@ -61,6 +61,9 @@ public class UserJDO implements Mirrorable {
     private String activationCode;
 
     @Persistent
+    private boolean activationLocked;
+
+    @Persistent
     private String resetPasswordCode;
 
     @Override
@@ -201,5 +204,13 @@ public class UserJDO implements Mirrorable {
 
     public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
+    }
+
+    public boolean isActivationLocked() {
+        return activationLocked;
+    }
+
+    public void setActivationLocked(boolean activationLocked) {
+        this.activationLocked = activationLocked;
     }
 }

@@ -59,8 +59,6 @@
                             <form name="map" class="form-horizontal"
                                   style="margin-top: 25px" id="us">
                                 <div id="map" style="width: 480px; height: 480px;"></div>
-
-
                                 <div class="modal-footer">
                                     <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
 
@@ -86,8 +84,8 @@
                         <div class="col-xs-12 col-md-10 col-md-offset-1">
 
                             <h1 align="center">Imei Detail</h1>
-                            <form name="emei" class="form-horizontal"
-                                  style="margin-top: 25px" id="emeis">
+                            <form name="feedback" class="form-horizontal"
+                                  style="margin-top: 25px" id="feedback">
 
                                 <div class="form-group">
 
@@ -122,7 +120,7 @@
                                 <div class="form-group">
 
                                     <label class="col-xs-4  col-sm-4 ">Attached Date:</label>
-                                    <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-9  "></label>
+                                    <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-8  "></label>
 
                                 </div>
 
@@ -130,6 +128,7 @@
                                     <button type="button" name="close" id="closepopup" class="btn btn-default" data-dismiss="modal"value="Close" >Close</button>
 
                                 </div>
+
 
                             </form>
                         </div>

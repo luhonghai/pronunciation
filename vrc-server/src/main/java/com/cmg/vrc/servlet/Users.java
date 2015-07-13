@@ -102,6 +102,7 @@ public class Users extends HttpServlet {
             try {
                 User licen = userDAO.getById(id);
                 licen.setActivated(activated);
+                licen.setActivationLocked(true);
                 userDAO.put(licen);
                 response.getWriter().write("success");
             }catch (Exception e){

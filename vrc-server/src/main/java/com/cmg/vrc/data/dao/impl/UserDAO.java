@@ -79,6 +79,12 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         if(acti.equals("No")){
             string.append("isActivated==false &&");
         }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(dob >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(dob <= dateTo) &&");
+        }
 
         if(dateFrom!=null&&dateTo!=null){
             string.append("(dob >= dateFrom && dob <= dateTo) &&");
@@ -189,6 +195,12 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         }
         if(acti.equals("No")){
             string.append("isActivated==false &&");
+        }
+        if(dateFrom!=null&&dateTo==null){
+            string.append("(dob >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append("(dob <= dateTo) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){

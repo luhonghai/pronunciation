@@ -44,23 +44,30 @@ public class ActivationHandler extends HttpServlet {
             String username  = request.getParameter(PARA_USER);
             if (acc != null && acc.length() > 0 && username != null && username.length() > 0) {
                 username = username.toLowerCase();
-                User u = userDAO.getUserByValidationCode(acc);
-                if (u != null && u.getUsername().equalsIgnoreCase(username)) {
+                User u = userDAO.getUserByEmail(username);
+                if (u != null && u.getActivationCode().equals(acc)) {
                     if (u.isActivated()) {
                         if (isDevice) {
                             out.print("your account has already been activated");
                         } else {
                             out.print(StringUtil.readResource("contents/activation-is-activated.html"));
                         }
-                    } else {
-                        u.setActivated(true);
-                        userDAO.put(u);
+                    } else if (u.isActivationLocked()) {
                         if (isDevice) {
-                            out.print("success");
+                            out.print("your account is temporarily locked");
                         } else {
-                            out.print(StringUtil.readResource("contents/activation-success.html"));
+                            out.print(StringUtil.readResource("contents/activation-locked.html"));
                         }
+                    } else {
+                            u.setActivated(true);
+                            userDAO.put(u);
+                            if (isDevice) {
+                                out.print("success");
+                            } else {
+                                out.print(StringUtil.readResource("contents/activation-success.html"));
+                            }
                     }
+
                 } else {
                     if (isDevice) {
                         out.print("sorry your registration code has not been recognised, please enter again or request a new code");

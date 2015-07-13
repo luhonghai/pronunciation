@@ -27,8 +27,8 @@ public class TranscriptionHandler extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = getParameter(req, "action");
-        String data = getParameter(req, "data");
+        String action = req.getParameter("action");
+        String data = req.getParameter("data");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         ResponseData responseData = new ResponseData();
         responseData.status = false;

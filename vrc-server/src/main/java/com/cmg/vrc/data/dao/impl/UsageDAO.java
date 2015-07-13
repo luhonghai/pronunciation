@@ -92,7 +92,7 @@ public class UsageDAO extends DataAccess<UsageJDO, Usage> {
             string.append("(username==name)");
         }
         q.setFilter(string.toString());
-        q.declareParameters("String name,String search");
+        q.declareParameters("String search ,String name ");
 
         try {
             tx.begin();

@@ -37,6 +37,7 @@ function listAdmin(){
             }, {
                 "data": null,
                 "bSortable": true,
+                "sDefaultContent": "",
                 "mRender": function (data, type, full) {
                     if (data.role == 1) {
                         return '<p>' + 'Admin' + '</p>';
@@ -48,6 +49,7 @@ function listAdmin(){
             }, {
                 "data": null,
                 "bSortable": false,
+                "sDefaultContent": "",
                 "mRender": function (data, type, full) {
                     $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                     $button.attr("id-column", data.id);

@@ -19,7 +19,7 @@
     try {
        if(count==0){
        admin.setPassword(StringUtil.md5("admincmg@3f"));
-       admin.setUserName("admin");
+       admin.setUserName("admin@c-mg.com");
        admin.setRole(1);
        admin.setLastName("Admin");
        admin.setFirstName("CMG");
@@ -31,5 +31,7 @@
         }
     %>
   <p>done</p>
+
+
 </body>
 </html>

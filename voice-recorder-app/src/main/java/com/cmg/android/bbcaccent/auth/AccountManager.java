@@ -16,7 +16,9 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -174,6 +176,75 @@ public class AccountManager {
                             }
                             authListener.onError(message, null);
                         }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void getProfile(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                data.put("profile", gson.toJson(profile));
+                data.put("action", "get");
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String rawJson = contacter.post(data, context.getResources().getString(R.string.user_profile_url));
+                    Type collectionType = new TypeToken<ResponseData<UserProfile>>(){}.getType();
+                    ResponseData<UserProfile> rawData = gson.fromJson(rawJson, collectionType);
+                    UserProfile mUser = rawData.getData();
+                    if (rawData.isStatus() && mUser != null) {
+                        profile.setCountry(mUser.getCountry());
+                        profile.setDob(mUser.getDob());
+                        profile.setFirstName(mUser.getFirstName());
+                        profile.setLastName(mUser.getLastName());
+                        profile.setEnglishProficiency(mUser.getEnglishProficiency());
+                        profile.setGender(mUser.isGender());
+                        profile.setName(mUser.getName());
+                        profile.setNativeEnglish(mUser.isNativeEnglish());
+                        if (mUser.getProfileImage().length() > 0)
+                            profile.setProfileImage(mUser.getProfileImage());
+                        authListener.onSuccess();
+                    } else {
+                        authListener.onError(rawData.getMessage(), null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void updateProfile(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                data.put("profile", gson.toJson(profile));
+                data.put("action", "update");
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String rawJson = contacter.post(data, context.getResources().getString(R.string.user_profile_url));
+                    Type collectionType = new TypeToken<ResponseData<UserProfile>>(){}.getType();
+                    ResponseData<UserProfile> rawData = gson.fromJson(rawJson, collectionType);
+                    if (rawData.isStatus()) {
+                        authListener.onSuccess();
+                    } else {
+                        authListener.onError(rawData.getMessage(), null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

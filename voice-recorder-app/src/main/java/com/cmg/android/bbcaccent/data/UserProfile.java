@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.data;
 
+import com.cmg.android.bbcaccent.utils.MD5Util;
+
 /**
  * Created by luhonghai on 9/29/14.
  */
@@ -44,7 +46,7 @@ public class UserProfile {
     }
 
     public String getProfileImage() {
-        if (profileImage == null) return "";
+        if (profileImage == null || profileImage.length() == 0) return "http://www.gravatar.com/avatar/" + MD5Util.md5Hex(username.toLowerCase()) + "?d=mm";
         return profileImage;
     }
 

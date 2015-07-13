@@ -24,10 +24,12 @@ function listFeedback(){
                 },
 
                 "columns": [{
+                    "sWidth": "25%",
                     "data": "account",
                     "sDefaultContent":""
 
                 }, {
+                    "sWidth": "25%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
@@ -37,21 +39,21 @@ function listFeedback(){
                         }
                     }
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": "appVersion",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": "osVersion",
                     "sDefaultContent":""
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": "createdDate",
                     "sDefaultContent":""
                 }, {
                     "data": null,
-
                     "bSortable": false,
+                    "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         //  console.log(data);
                         return '<button type="button" id="detail" id-column=' + data.id + ' class="btn btn-info btn-sm" ' + full[0] + '>' + '  !  ' + '</button>';

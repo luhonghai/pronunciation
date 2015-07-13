@@ -70,7 +70,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
-                  <th>Activated Date</th>
+                  <th>Activated date for licence code</th>
                   <th>Activation</th>
                 </tr>
                 </thead>
@@ -97,11 +97,11 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"
                   aria-hidden="true">&times;</button>
-          <h2 class="modal-title" align="center">Add Code</h2>
+          <h2 class="modal-title" align="center">Add new licence code</h2>
         </div>
         <form name="form-delete">
           <div class="modal-body">
-            <h4>Do you want to Add Code?</h4>
+            <h4>Do you want to add a new licence code?</h4>
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
@@ -161,7 +161,7 @@
                 <div class="form-group">
 
                   <label class="col-xs-4  col-sm-4 ">Attached Date:</label>
-                  <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-9  "></label>
+                  <label id="attacheddatepopup" name="attacheddatepopup" class="col-xs-8  col-sm-8  "></label>
 
                 </div>
 
