@@ -63,8 +63,10 @@ import com.cmg.android.bbcaccentamt.activity.view.RecordingView;
 import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
 import com.cmg.android.bbcaccentamt.common.FileCommon;
+import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
 import com.cmg.android.bbcaccentamt.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccentamt.data.SentenceModel;
 import com.cmg.android.bbcaccentamt.data.SphinxResult;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.data.UserVoiceModel;
@@ -282,7 +284,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         getWord(getString(R.string.example_word));
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
-       ListAllItem();
+        addSentence();
+       listAllItem();
 
     }
 
@@ -290,22 +293,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         startActivity(SettingsActivity.class);
     }
 
-    private void ListAllItem(){
+    private void listAllItem(){
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
+        List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
+        for (int i=0;i<sentenceModels.size();i++){
+            List<String> sentence=new ArrayList<String>();
+            String senten=sentenceModels.get(i).getSentence();
+            sentence.add(senten);
+        }
 
-        String[] item={"We didn't like that.",
-                "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
-                "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
-                "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
-                "No one at the state department wants to let spies in.",
-                "A lengthy fight is likely.",
-                "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
-                "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
-                "He declined to name specific products.",
-                "If the dollar starts to plunge the fed may step up its defense of the currency."};;
 
-        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement, item);
+        ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this, R.layout.lv_statement,R.id.textStatement);
         lvItem.setAdapter(arrayAdapter);
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -315,6 +315,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
             }
         });
+    }
+    private void addSentence(){
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        String[] item={"We didn't like that.",
+                "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
+                "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
+                "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
+                "No one at the state department wants to let spies in.",
+                "A lengthy fight is likely.",
+                "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
+                "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
+                "He declined to name specific products.",
+                "If the dollar starts to plunge the fed may step up its defense of the currency."};
+        for(int i=0;i<item.length;i++){
+            databaseHandlerSentence.addSentence(new SentenceModel(i,item[i]));
+        }
+
     }
 
 
