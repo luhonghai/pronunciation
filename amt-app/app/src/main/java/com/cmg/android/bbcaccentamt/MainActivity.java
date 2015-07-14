@@ -285,7 +285,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         getWord(getString(R.string.example_word));
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
-        addSentence();
+        //addSentence();
+        delete();
        listAllItem();
 
     }
@@ -306,12 +307,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SentenceModel a=(SentenceModel)lvItem.getItemAtPosition(position);
-                String itemValue=a.getSentence();
+                SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
+                String itemValue = a.getSentence();
                 textrecord.setText(itemValue);
 
             }
         });
+    }
+    private void delete(){
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        databaseHandlerSentence.deleteAllSentence();
     }
     private void addSentence(){
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);

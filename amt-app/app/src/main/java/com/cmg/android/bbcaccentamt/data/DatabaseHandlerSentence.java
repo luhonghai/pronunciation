@@ -107,6 +107,11 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[] { String.valueOf(sentenceModel.getID()) });
         db.close();
     }
+    public void deleteAllSentence() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SENTENCE, null, null);
+        db.close();
+    }
 
     public int getSentenceCount() {
         String countQuery = "SELECT  * FROM " + TABLE_SENTENCE;
