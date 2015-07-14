@@ -64,8 +64,6 @@ function listLicenseCode(){
 
 }
 
-
-
 function activated(){
     $(document).on("click","#detail",function(){
         var idd=$(this).attr('name');
@@ -96,9 +94,7 @@ function activated(){
                         $el.attr('class','fa fa-check-circle fa-2x');
                         $el.attr('name','false');
                         $el.attr('title','Click to activate');
-
                         $el.css('color','#00CC00');
-
 
                     }
                     if(cl=="fa fa-check-circle fa-2x"){
