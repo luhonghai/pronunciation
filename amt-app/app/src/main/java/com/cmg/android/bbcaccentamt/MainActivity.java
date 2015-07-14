@@ -318,6 +318,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         databaseHandlerSentence.deleteAllSentence();
     }
+
     private void addSentence(){
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         String[] item={"We didn't like that.",

@@ -23,6 +23,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "sentence";
 
+
     public DatabaseHandlerSentence(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -120,5 +121,25 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         cursor.close();
         // return count
         return cursor.getCount();
+    }
+    public List<SentenceModel> getAllSentenceSearch(String sentence) {
+        List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + "WHERE  ";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                SentenceModel sentenceModel = new SentenceModel();
+                sentenceModel.setID(Integer.parseInt(cursor.getString(0)));
+                sentenceModel.setSentence(cursor.getString(1));
+                sentenceModelsList.add(sentenceModel);
+            } while (cursor.moveToNext());
+        }
+
+        return sentenceModelsList;
     }
 }
