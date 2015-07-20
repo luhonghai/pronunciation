@@ -44,7 +44,7 @@ function listScore(){
         },{
             "sWidth": "20%",
             "data": null,
-            "bSortable": false,
+            "bSortable": true,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
                 if (data.time != 0) {

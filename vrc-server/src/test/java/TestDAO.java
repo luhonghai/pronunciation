@@ -85,7 +85,8 @@ public class TestDAO {
 //           // System.out.println(usageDAO.listAll().size());
 //            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //            System.out.println(gson.toJson(usageDAO.listAll()));
-            usageDAO.getCountSearch("","anh.nguyen@c-mg.com");
+           // usageDAO.getCountSearch("","anh.nguyen@c-mg.com");
+            //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
         } catch (Exception e) {
             e.printStackTrace();
         }

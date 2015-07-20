@@ -12,7 +12,7 @@
     <!-- /.row -->
     <div class="well">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">Account</label>
             <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
@@ -22,26 +22,33 @@
             <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label class="control-label">Date From</label>
-            <div>
-              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
-            </div>
+
+        <div class="col-sm-3">
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
           </div>
           <div class="form-group">
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
-              <option value="All">All</option>c
+              <option value="All">All</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
 
             </select>
           </div>
         </div>
-        <div class="col-sm-4">
+
+        <div class="col-sm-3">
           <div class="form-group">
-            <label class="control-label">Date To</label>
+            <label class="control-label">From</label>
+            <div>
+              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="control-label">To</label>
             <div >
 
               <input type='text' class="form-control" id="dateTo1" placeholder="To" />
@@ -70,7 +77,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
-                  <th>Activated date for licence code</th>
+                  <th>Activated Date</th>
                   <th>Activation</th>
                 </tr>
                 </thead>

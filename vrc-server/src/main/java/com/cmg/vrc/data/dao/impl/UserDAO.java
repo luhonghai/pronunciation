@@ -8,6 +8,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -80,14 +81,14 @@ public class UserDAO extends DataAccess<UserJDO, User> {
             string.append("isActivated==false &&");
         }
         if(dateFrom!=null&&dateTo==null){
-            string.append("(dob >= dateFrom) &&");
+            string.append("(createdDate >= dateFrom) &&");
         }
         if(dateFrom==null&&dateTo!=null){
-            string.append("(dob <= dateTo) &&");
+            string.append("(createdDate <= dateTo) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
-            string.append("(dob >= dateFrom && dob <= dateTo) &&");
+            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
         }
         if(search.length()>0){
             string.append(a);
@@ -131,13 +132,18 @@ public class UserDAO extends DataAccess<UserJDO, User> {
             q.setOrdering("dob desc");
         }
         if (column==5 && order.equals("asc")) {
-            q.setOrdering("country asc");
+            q.setOrdering("createdDate asc");
         }else if(column==5 && order.equals("desc")) {
-            q.setOrdering("country desc");
+            q.setOrdering("createdDate desc");
         }
         if (column==6 && order.equals("asc")) {
-            q.setOrdering("activationCode asc");
+            q.setOrdering("country asc");
         }else if(column==6 && order.equals("desc")) {
+            q.setOrdering("country desc");
+        }
+        if (column==7 && order.equals("asc")) {
+            q.setOrdering("activationCode asc");
+        }else if(column==7 && order.equals("desc")) {
             q.setOrdering("activationCode desc");
         }
 
@@ -197,14 +203,14 @@ public class UserDAO extends DataAccess<UserJDO, User> {
             string.append("isActivated==false &&");
         }
         if(dateFrom!=null&&dateTo==null){
-            string.append("(dob >= dateFrom) &&");
+            string.append("(createdDate >= dateFrom) &&");
         }
         if(dateFrom==null&&dateTo!=null){
-            string.append("(dob <= dateTo) &&");
+            string.append("(createdDate <= dateTo) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
-            string.append("(dob >= dateFrom && dob <= dateTo) &&");
+            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
         }
         if(search.length()>0){
             string.append(a);
