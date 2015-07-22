@@ -1,7 +1,7 @@
 var myTable;
 function listLicenseCode(){
 
-    myTable=$('#dataTables-example').DataTable({
+    myTable=$('#dataTables-example').dataTable({
                 "retrieve": true,
                 "destroy": true,
                 "responsive": true,
