@@ -118,10 +118,7 @@ public class LicenseCodes extends HttpServlet {
 
                 lisence.setCode(codeRandom);
                 lis.put(lisence);
-                lisence=lis.getByCode(codeRandom);
-                Gson gson = new Gson();
-                String li = gson.toJson(lisence);
-                response.getWriter().write(li);
+                response.getWriter().write("success");
 
             } catch (Exception e) {
                 logger.error("Could not add code", e);

@@ -162,24 +162,13 @@ function addCode(){
                 addCode:"addCode"
             },
             success:function(result){
-                newRow= "<tr>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + result.code + "</td>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + '<span type="button" id="detail" style="color:#00CC00" name='+result.isActivated+' id-column=' + result.id + ' class="fa fa-check-circle fa-2x" ' + '>' + ' </span>' + "</td>" +"" +
-                    "</tr>";
-              // myTable.row.add($(newRow)).draw();
-                myTable.Rows.InsertAt(newRow, 0);
 
-                $("#addCode1").modal('hide');
+               if(result=="success"){
+                   $("tbody").html("");
+                   myTable.fnDraw();
+                   $("#addCode1").modal('hide');
 
-               //if(result=="success"){
-               //    $("tbody").html("");
-               //    myTable.fnDraw();
-               //    $("#addCode1").modal('hide');
-               //
-               //}
+               }
             },
             error:function(){
                 alert("error");
