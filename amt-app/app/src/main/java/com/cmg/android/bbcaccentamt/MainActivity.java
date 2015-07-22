@@ -33,6 +33,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -94,9 +95,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.apache.commons.io.FileUtils;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -126,6 +132,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         DEFAULT,
         RECORDING,
         PLAYING,
+        UPLOAD,
         ORANGE,
         RED,
         GREEN,
@@ -167,6 +174,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private ListView lvItem;
     private TextView textrecord;
+    private ImageButton uploadSentence;
+    private int idSentence;
 
 
     private ImageButton imgHourGlass;
@@ -212,7 +221,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     /**
      *  Search word
      */
-    private WordDBAdapter dbAdapter;
+    private DatabaseHandlerSentence dbAdapter;
     private CursorAdapter adapter;
     private SearchView searchView;
 
@@ -242,6 +251,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         accountManager = new AccountManager(this);
         setContentView(R.layout.main);
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         initListMenu();
         initCustomActionBar();
         if (savedInstanceState != null) {
@@ -285,9 +295,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         getWord(getString(R.string.example_word));
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
+        textrecord=(TextView)findViewById(R.id.textrecord);
+        SentenceModel sentenceModel=databaseHandlerSentence.getSentence(1);
+        String itemValue=sentenceModel.getSentence();
+        textrecord.setText(itemValue);
         //addSentence();
-        delete();
+        // delete();
        listAllItem();
+        uploadSentence();
 
     }
 
@@ -309,6 +324,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
                 String itemValue = a.getSentence();
+                idSentence = a.getID();
+
                 textrecord.setText(itemValue);
 
             }
@@ -336,6 +353,60 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
 
     }
+
+    public void uploadSentence(){
+        uploadSentence=(ImageButton)findViewById(R.id.btnUpload);
+        uploadSentence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickUpload();
+            }
+        });
+
+    }
+    public void clickUpload(){
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        int id=idSentence;
+        String idd=Integer.toString(id);
+        String output=audioStream.getTmpDir(idd);
+        File dstFile = new File(output);
+        if (dstFile.exists()) {
+            switchButtonStage(ButtonState.UPLOAD);
+            uploadRecord();
+        }
+        if (!dstFile.exists()) {
+            Toast.makeText(MainActivity.this,"This sentence not file record",Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void saveRecord(){
+        int id=idSentence;
+        String idd=Integer.toString(id);
+        String input = audioStream.getFilename();
+        String output=audioStream.getTmpDir(idd);
+        try {
+            File srcFile = new File(input);
+            File dstFile = new File(output);
+            if (!dstFile.exists()) {
+                dstFile.createNewFile();
+            }
+            FileInputStream in = new FileInputStream(srcFile);
+            FileOutputStream out = new FileOutputStream(dstFile);
+
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 
@@ -473,7 +544,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.performClick();
             searchView.requestFocus();
             searchView.setIconified(true);
-            dbAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
+            dbAdapter = DatabaseHandlerSentence.getInstance(this.getApplicationContext());
             try {
                 dbAdapter.open();
             } catch (SQLException e) {
@@ -486,8 +557,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.setOnSuggestionListener(this);
             adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
                     dbAdapter.getAll(),
-                    new String[] {WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
-                    new int[] {},
+                    new String[] {DatabaseHandlerSentence.KEY_NAME},
+                    new int[] {R.id.txtSentence},
                     CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
             searchView.setSuggestionsAdapter(adapter);
         }
@@ -811,7 +882,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             && isAutoStop
                             && (length > (START_TIMEOUT + PITCH_TIMEOUT))) {
                         stopRecording(false);
-                        //analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                        saveRecord();
+
 
 
 
@@ -996,12 +1068,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-    private void switchButtonStage() {
+    public void switchButtonStage() {
         if (lastState == null) lastState = ButtonState.DEFAULT;
         switchButtonStage(lastState);
     }
 
-    private void switchButtonStage(ButtonState state) {
+    public void switchButtonStage(ButtonState state) {
         try {
         boolean isProcess = true;
         imgHelpHand.setVisibility(View.GONE);
@@ -1012,6 +1084,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.startAnimation(fadeOut);
                 btnAnalyzing.setImageResource(R.drawable.p_close_red);
                 btnAnalyzing.startAnimation(fadeIn);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setEnabled(false);
 
                 break;
             case PLAYING:
@@ -1020,6 +1094,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.startAnimation(fadeIn);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 btnAnalyzing.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setEnabled(false);
+
+                break;
+            case UPLOAD:
+                uploadSentence.startAnimation(fadeOut);
+                uploadSentence.setImageResource(R.drawable.p_close_red);
+                uploadSentence.startAnimation(fadeIn);
+                btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                btnAnalyzing.setEnabled(false);
+                btnAudio.setImageResource(R.drawable.p_audio_gray);
+                btnAudio.setEnabled(false);
 
                 break;
             case GREEN:
@@ -1027,6 +1113,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_green);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                uploadSentence.setEnabled(true);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_green);
 
                 isProcess = false;
                 break;
@@ -1035,6 +1123,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_orange);
                 btnAnalyzing.setImageResource(R.drawable.p_record_orange);
+                uploadSentence.setEnabled(true);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
 
                 isProcess = false;
                 break;
@@ -1043,6 +1133,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_red);
                 btnAnalyzing.setImageResource(R.drawable.p_record_red);
+                uploadSentence.setEnabled(true);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_red);
+
                 isProcess = false;
                 break;
             case DISABLED:
@@ -1050,6 +1143,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                uploadSentence.setEnabled(true);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_red);
+
                 break;
             case DEFAULT:
             default:
@@ -1057,6 +1153,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(true);
                 btnAudio.setImageResource(R.drawable.p_audio_green);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                uploadSentence.setEnabled(true);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_green);
+
+
 
                 isProcess = false;
                 break;
@@ -1222,7 +1322,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             analyzingState = AnalyzingState.ANALYZING;
             uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
             Map<String, String> params = new HashMap<String, String>();
-            String fileName = audioStream.getFilename();
+            String fileName = audioStream.getTmpDir(Integer.toString(idSentence));
             File tmp = new File(fileName);
             if (tmp.exists()) {
                 UserProfile profile = Preferences.getCurrentProfile(this);
@@ -1248,6 +1348,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     AppLog.logString("Could not get user profile");
                 }
             }
+
         } catch (Exception e) {
             SimpleAppLog.error("Could not upload recording", e);
         }
@@ -1291,8 +1392,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
-            String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
-            searchView.setQuery(s, true);
+            String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
+            idSentence = cursor.getInt(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
+            textrecord.setText(s);
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word",e);
         }
