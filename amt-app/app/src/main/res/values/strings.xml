@@ -9,7 +9,7 @@
     <string name="upload_recording">Upload</string>
     <string name="audio_format">Format</string>
 
-    <string name="upload_url">http://192.168.1.17:8080/VoiceRecordHandler</string>
+    <string name="upload_url">http://192.168.1.17:8080/recordedsentence</string>
     <string name="auth_url">http://192.168.1.17:8080/AuthHandler</string>
     <string name="register_url">http://192.168.1.17:8080/RegisterHandler</string>
     <string name="activation_url">http://192.168.1.17:8080/activate</string>

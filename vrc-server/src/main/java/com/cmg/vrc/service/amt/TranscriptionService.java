@@ -89,7 +89,7 @@ public class TranscriptionService {
 
     public void loadTranscription(InputStream is) throws Exception {
         try {
-            transcriptionDAO.deleteAll();
+            //transcriptionDAO.deleteAll();
             List<String> transcriptions = IOUtils.readLines(is);
             if (transcriptions != null && transcriptions.size() > 0) {
                 for (String t : transcriptions) {
@@ -107,7 +107,8 @@ public class TranscriptionService {
                             transcription.setCreatedDate(new Date(System.currentTimeMillis()));
                             transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                             transcription.setSentence(sentence);
-                            transcriptionDAO.put(transcription);
+                            //transcriptionDAO.put(transcription);
+                            logger.info("Save transcription: " + sentence);
                         }
                     }
                 }
