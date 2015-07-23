@@ -21,6 +21,12 @@ import java.util.List;
  * Created by cmg on 08/07/15.
  */
 public class TranscriptionService {
+    public static final String DEFAULT_TRANSCRIPTION_RESOURCE = "amt/default_transcription.txt";
+
+    public static final String VOXFORGE_TRANSCRIPTION_RESOURCE = "amt/voxforge_en_sphinx.transcription";
+
+    public static final String ADDITIONAL_TRANSCRIPTION_RESOURCE = "amt/additional.transcription";
+
     private static final Logger logger = Logger.getLogger(TranscriptionService.class.getName());
 
     private TranscriptionDAO transcriptionDAO;
@@ -89,9 +95,10 @@ public class TranscriptionService {
 
     public void loadTranscription(InputStream is) throws Exception {
         try {
-            //transcriptionDAO.deleteAll();
+            transcriptionDAO.deleteAll();
             List<String> transcriptions = IOUtils.readLines(is);
             if (transcriptions != null && transcriptions.size() > 0) {
+                int count = 0;
                 for (String t : transcriptions) {
                     t = t.trim();
                     if (t.length() > 0) {
@@ -101,17 +108,24 @@ public class TranscriptionService {
                         } else {
                             sentence = t.trim();
                         }
-                        if (sentence.length() > 0 && transcriptionDAO.getBySentence(sentence) == null) {
+                        if (sentence.startsWith("<s>")) sentence = sentence.substring("<s>".length(), sentence.length());
+                        if (sentence.endsWith("</s>")) sentence = sentence.substring(0, sentence.length() - "</s>".length());
+                        sentence = sentence.trim();
+                        if (sentence.length() > 0
+                                && transcriptionDAO.getBySentence(sentence) == null
+                                ) {
                             Transcription transcription = new Transcription();
                             transcription.setAuthor(author);
                             transcription.setCreatedDate(new Date(System.currentTimeMillis()));
                             transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                             transcription.setSentence(sentence);
-                            //transcriptionDAO.put(transcription);
+                            transcriptionDAO.put(transcription);
                             logger.info("Save transcription: " + sentence);
+                            count++;
                         }
                     }
                 }
+                logger.info("Saved " + count + " transcriptions");
             } else {
                 logger.error("No default transcription found");
             }
@@ -128,7 +142,11 @@ public class TranscriptionService {
         loadTranscription(new FileInputStream(f));
     }
 
+    public void loadTranscription(String resource) throws Exception {
+        loadTranscription(this.getClass().getClassLoader().getResourceAsStream(resource));
+    }
+
     public void loadTranscription() throws Exception {
-        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/default_transcription.txt"));
+        loadTranscription(VOXFORGE_TRANSCRIPTION_RESOURCE);
     }
 }
