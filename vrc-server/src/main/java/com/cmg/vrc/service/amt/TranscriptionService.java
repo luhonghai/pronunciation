@@ -1,6 +1,11 @@
 package com.cmg.vrc.service.amt;
 
+import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceDAO;
+import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
+import com.cmg.vrc.data.jdo.amt.RecordedSentence;
+import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
 import com.cmg.vrc.data.jdo.amt.Transcription;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -20,15 +25,66 @@ public class TranscriptionService {
 
     private TranscriptionDAO transcriptionDAO;
 
+    private RecordedSentenceDAO recordedSentenceDAO;
+
+    private RecordedSentenceHistoryDAO recordedSentenceHistoryDAO;
+
     private String author = "system";
 
     public TranscriptionService() {
         transcriptionDAO = new TranscriptionDAO();
+        recordedSentenceDAO = new RecordedSentenceDAO();
+        recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
     }
 
     public TranscriptionService(String author) {
         this();
         this.author = author;
+    }
+
+    public List<Transcription> listTranscriptionByAccount(String account) throws Exception {
+        List<Transcription> transcriptions = transcriptionDAO.listAll();
+        if (transcriptions != null && transcriptions.size() > 0) {
+            for (final Transcription transcription : transcriptions) {
+                RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(transcription.getId(), account);
+                if (recordedSentence != null) {
+                    transcription.setStatus(recordedSentence.getStatus());
+                }
+            }
+        }
+        return transcriptions;
+    }
+
+    public RecordedSentenceHistory handleUploadedSentence(UserProfile user, String sentenceId, File recordedVoice) throws Exception {
+        RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
+        if (recordedSentence == null) {
+            recordedSentence = new RecordedSentence();
+        }
+        Date now = new Date(System.currentTimeMillis());
+        int lastStatus = recordedSentence.getStatus();
+        recordedSentence.setStatus(RecordedSentence.PENDING);
+        recordedSentence.setAccount(user.getUsername());
+        recordedSentence.setAdmin("System");
+        if (recordedSentence.getCreatedDate() == null)
+            recordedSentence.setCreatedDate(now);
+        recordedSentence.setModifiedDate(now);
+        recordedSentence.setFileName(recordedVoice.getName());
+        recordedSentence.setSentenceId(sentenceId);
+
+        if (recordedSentenceDAO.put(recordedSentence)) {
+            RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
+            recordedSentenceHistory.setActor(user.getUsername());
+            recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
+            recordedSentenceHistory.setPreviousStatus(lastStatus);
+            recordedSentenceHistory.setNewStatus(recordedSentence.getStatus());
+            recordedSentenceHistory.setMessage("Uploaded by user " + user.getUsername());
+            recordedSentenceHistory.setTimestamp(now);
+            recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
+            if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
+                return recordedSentenceHistory;
+            }
+        }
+        return null;
     }
 
     public void loadTranscription(InputStream is) throws Exception {
@@ -45,7 +101,7 @@ public class TranscriptionService {
                         } else {
                             sentence = t.trim();
                         }
-                        if (sentence.length() > 0) {
+                        if (sentence.length() > 0 && transcriptionDAO.getBySentence(sentence) == null) {
                             Transcription transcription = new Transcription();
                             transcription.setAuthor(author);
                             transcription.setCreatedDate(new Date(System.currentTimeMillis()));

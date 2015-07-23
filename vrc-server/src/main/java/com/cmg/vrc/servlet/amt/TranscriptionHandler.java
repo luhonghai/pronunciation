@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet.amt;
 
 import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.amt.Transcription;
+import com.cmg.vrc.service.amt.TranscriptionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
 import com.google.gson.Gson;
@@ -32,12 +33,13 @@ public class TranscriptionHandler extends BaseServlet {
         responseData.setStatus(false);
         try {
             TranscriptionDAO transcriptionDAO = new TranscriptionDAO();
+            TranscriptionService transcriptionService = new TranscriptionService();
             if (StringUtils.isEmpty(action)) {
                 responseData.setMessage("No action found");
             } else if (action.equalsIgnoreCase("list")) {
                 responseData.setStatus(true);
                 responseData.setMessage("success");
-                responseData.transcriptions = transcriptionDAO.listAll();
+                responseData.transcriptions = transcriptionService.listTranscriptionByAccount(data);
             } else if (action.equalsIgnoreCase("delete")) {
                 if (StringUtils.isEmpty(data)) {
                     responseData.setMessage("No transcription id found");

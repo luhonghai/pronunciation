@@ -1342,7 +1342,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                     params.put("profile", gson.toJson(profile));
-                    params.put("word", selectedWord);
+                    params.put("sentence", selectedWord);
                     uploadTask.execute(params);
                 } else {
                     AppLog.logString("Could not get user profile");

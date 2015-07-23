@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccentamt.R;
+import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.http.ResponseData;
 import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.FileHandler;
@@ -63,7 +65,11 @@ public class DatabasePrepare {
         File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
         try {
             if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
-            FileUtils.copyURLToFile(new URL(context.getString(R.string.transcription_url) + "?action=list"), tmpFile);
+            UserProfile profile = Preferences.getCurrentProfile(context);
+            String requestUrl = context.getString(R.string.transcription_url)
+                    + "?action=list&data="
+                    + URLEncoder.encode(profile.getUsername(),"UTF-8");
+            FileUtils.copyURLToFile(new URL(requestUrl), tmpFile);
             if (tmpFile.exists()) {
                 String rawJson = FileUtils.readFileToString(tmpFile, "UTF-8");
                 SimpleAppLog.info("Transcription json: " + rawJson);
@@ -120,6 +126,8 @@ public class DatabasePrepare {
 
         private Date modifiedDate;
 
+        private int status;
+
         public String getId() {
             return id;
         }
@@ -158,6 +166,14 @@ public class DatabasePrepare {
 
         public void setModifiedDate(Date modifiedDate) {
             this.modifiedDate = modifiedDate;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }
