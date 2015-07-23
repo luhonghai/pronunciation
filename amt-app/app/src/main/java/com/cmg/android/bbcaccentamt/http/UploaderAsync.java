@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 
+import com.cmg.android.bbcaccentamt.MainActivity;
 import com.cmg.android.bbcaccentamt.http.exception.UploaderException;
 
 import java.io.FileNotFoundException;
@@ -34,6 +35,7 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
         this.context = context;
         this.uploadUrl = uploadUrl;
     }
+    MainActivity main=new MainActivity();
 
     @Override
     protected void onPreExecute() {
@@ -48,6 +50,7 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
                 for (Map<String, String> param : params) {
                     results.append(FileUploader.upload(param, uploadUrl));
                 }
+
             }
             return results.toString();
         } catch (FileNotFoundException e) {
@@ -63,7 +66,9 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
         Intent intent = new Intent(UPLOAD_COMPLETE_INTENT);
         intent.putExtra(UPLOAD_COMPLETE_INTENT, v);
         context.sendBroadcast(intent);
+        main.switchButtonStage();
         super.onPostExecute(v);
     }
+
 
 }

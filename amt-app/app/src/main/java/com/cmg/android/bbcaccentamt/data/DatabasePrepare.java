@@ -50,6 +50,13 @@ public class DatabasePrepare {
             }
         }.execute();
     }
+    public static String properCase (String inputVal) {
+        if (inputVal.length() == 0) return "";
+
+        if (inputVal.length() == 1) return inputVal.toUpperCase();
+        return inputVal.substring(0,1).toUpperCase()
+                + inputVal.substring(1).toLowerCase();
+    }
 
     private void loadDatabase() {
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
@@ -64,8 +71,9 @@ public class DatabasePrepare {
                 ResponseData data = gson.fromJson(rawJson, ResponseData.class);
                 SimpleAppLog.info("Status: " + data.isStatus() + ". Message: " + data.getMessage());
                 if (data.transcriptions != null && data.transcriptions.size() >0 ) {
+                    databaseHandlerSentence.deleteAllSentence();
                     for(int i=0;i<data.transcriptions.size();i++){
-                        databaseHandlerSentence.addSentence(new SentenceModel(i,data.transcriptions.get(i).getSentence()));
+                        databaseHandlerSentence.addSentence(new SentenceModel(i,properCase( data.transcriptions.get(i).getSentence().toLowerCase())));
                     }
 
 
@@ -74,22 +82,22 @@ public class DatabasePrepare {
                 SimpleAppLog.info("No transcription data found");
             }
 
-//            if(databaseHandlerSentence.getSentenceCount()==0){
-//                String[] item={"We didn't like that.",
-//                        "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
-//                        "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
-//                        "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
-//                        "No one at the state department wants to let spies in.",
-//                        "A lengthy fight is likely.",
-//                        "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
-//                        "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
-//                        "He declined to name specific products.",
-//                        "If the dollar starts to plunge the fed may step up its defense of the currency."};
-//                for(int i=0;i<item.length;i++){
-//                    databaseHandlerSentence.addSentence(new SentenceModel(i,item[i]));
-//                }
-//
-//            }
+            if(databaseHandlerSentence.getSentenceCount()==0){
+                String[] item={"We didn't like that.",
+                        "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
+                        "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
+                        "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
+                        "No one at the state department wants to let spies in.",
+                        "A lengthy fight is likely.",
+                        "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
+                        "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
+                        "He declined to name specific products.",
+                        "If the dollar starts to plunge the fed may step up its defense of the currency."};
+                for(int i=0;i<item.length;i++){
+                    databaseHandlerSentence.addSentence(new SentenceModel(i,item[i]));
+                }
+
+            }
 
         } catch (Exception e) {
             SimpleAppLog.error("Could not fetch transcription",e);

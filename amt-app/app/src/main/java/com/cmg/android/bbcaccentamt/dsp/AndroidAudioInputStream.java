@@ -49,7 +49,10 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
 
     private static final String AUDIO_RECORDER_FOLDER = "AudioRecorder";
     private static final String AUDIO_RECORDER_OUTPUT_FILE = "record_temp.wav";
+    private static final String AUDIO_RECORDER_OUTPUT_TYPE = ".wav";
     private static final String AUDIO_RECORDER_TEMP_FILE = "record_temp.raw";
+    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + AUDIO_RECORDER_FOLDER;
+
 
 	private File tmpFile;
 	private final AudioRecord underlyingStream;
@@ -271,6 +274,17 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
         } catch (PackageManager.NameNotFoundException e) {
             return Environment.getExternalStorageDirectory().getPath() + File.separator + AUDIO_RECORDER_FOLDER;
         }
+    }
+    public String getTmpDir(String id) {
+        PackageManager m = context.getPackageManager();
+        String s = context.getPackageName();
+        try {
+            PackageInfo p = m.getPackageInfo(s, 0);
+            return new File(getTmpDir(), id + AUDIO_RECORDER_OUTPUT_TYPE).getAbsolutePath();
+        }catch (PackageManager.NameNotFoundException e){
+            return Environment.getExternalStorageDirectory().getPath() + File.separator + AUDIO_RECORDER_FOLDER;
+        }
+
     }
 
 }

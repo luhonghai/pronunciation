@@ -14,21 +14,13 @@
         android:layout_marginRight="@dimen/main_selected_word_margin"
         >
         <TextView
-            android:id="@+id/txtWord"
+            android:id="@+id/txtSentence"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
             android:textSize="@dimen/main_selected_word_size"
             android:textColor="#FFF2FF"
-            android:text="@string/example_word"
             />
-        <TextView
-            android:id="@+id/txtPhoneme"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:textSize="@dimen/main_selected_phoneme_size"
-            android:layout_weight="1"
-            android:text="@string/example_word_pronunciation"
-            android:textColor="@android:color/darker_gray"/>
     </LinearLayout>
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +21,16 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
 
     private static final String TABLE_SENTENCE = "sentences";
 
-    private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "sentence";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_NAME = "sentence";
+    private static DatabaseHandlerSentence sInstance;
+
+    public static synchronized DatabaseHandlerSentence getInstance(Context context) {
+        if (sInstance == null) {
+            sInstance = new DatabaseHandlerSentence(context.getApplicationContext());
+        }
+        return sInstance;
+    }
 
 
     public DatabaseHandlerSentence(Context context) {
@@ -56,7 +65,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         db.close();
     }
 
-    SentenceModel getSentence(int id) {
+    public SentenceModel getSentence(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_SENTENCE, new String[] { KEY_ID,
@@ -119,27 +128,39 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
-        // return count
         return cursor.getCount();
     }
-    public List<SentenceModel> getAllSentenceSearch(String sentence) {
-        List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + "WHERE  ";
-
+    public Cursor getAll()
+    {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                SentenceModel sentenceModel = new SentenceModel();
-                sentenceModel.setID(Integer.parseInt(cursor.getString(0)));
-                sentenceModel.setSentence(cursor.getString(1));
-                sentenceModelsList.add(sentenceModel);
-            } while (cursor.moveToNext());
-        }
-
-        return sentenceModelsList;
+        return db.query(TABLE_SENTENCE, new String[] {
+                        KEY_ID,
+                        KEY_NAME},
+                null,
+                null,
+                null,
+                null,
+                null);
     }
+    public Cursor search(String s) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.query(TABLE_SENTENCE, new String[] {
+                        KEY_ID,
+                        KEY_NAME},
+                "sentence LIKE ?",
+                new String[] {s + "%"},
+                null,
+                null,
+                null);
+    }
+    public DatabaseHandlerSentence open() throws SQLException
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return this;
+    }
+
+
+
+
 }
