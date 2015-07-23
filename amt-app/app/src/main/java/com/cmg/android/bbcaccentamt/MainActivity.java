@@ -136,8 +136,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         ORANGE,
         RED,
         GREEN,
-        DISABLED
+        DISABLED,
+        UPLOAD1,
+        NORECORDING
     }
+
 
     enum AnalyzingState {
         DEFAULT,
@@ -178,6 +181,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private int idSentence;
 
 
+
     private ImageButton imgHourGlass;
     private ImageButton imgHelpHand;
 
@@ -198,6 +202,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private boolean isPlaying = false;
     private boolean isUploading = false;
     private boolean isAutoStop = false;
+    private SentenceModel sentenceModel;
 
     private PlayerHelper player;
 
@@ -301,6 +306,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         textrecord.setText(itemValue);
         //addSentence();
         // delete();
+
        listAllItem();
         uploadSentence();
 
@@ -325,8 +331,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
                 String itemValue = a.getSentence();
                 idSentence = a.getID();
-
+                int status=a.getStatus();
                 textrecord.setText(itemValue);
+                if(status==1){
+                      switchButtonStage(ButtonState.NORECORDING);
+                }
+                if(status==3){
+                    switchButtonStage(ButtonState.UPLOAD1);
+                }
 
             }
         });
@@ -349,7 +361,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 "He declined to name specific products.",
                 "If the dollar starts to plunge the fed may step up its defense of the currency."};
         for(int i=0;i<item.length;i++){
-            databaseHandlerSentence.addSentence(new SentenceModel(i,item[i]));
+            databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
         }
 
     }
@@ -365,6 +377,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     }
     public void clickUpload(){
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
         audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
         int id=idSentence;
@@ -374,12 +387,33 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (dstFile.exists()) {
             switchButtonStage(ButtonState.UPLOAD);
             uploadRecord();
+            sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+            sentenceModel.setStatus(3);
+            databaseHandlerSentence.updateSentence(sentenceModel);
+            listAllItem();
+
         }
         if (!dstFile.exists()) {
             Toast.makeText(MainActivity.this,"This sentence not file record",Toast.LENGTH_SHORT).show();
         }
     }
+//    public void setAudio(){
+//        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+//        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+//        int id=idSentence;
+//        String idd=Integer.toString(id);
+//        String output=audioStream.getTmpDir(idd);
+//        File dstFile = new File(output);
+//        try {
+//            if (dstFile.exists()) {
+//                switchButtonStage(ButtonState.GREEN);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
     public void saveRecord(){
+
         int id=idSentence;
         String idd=Integer.toString(id);
         String input = audioStream.getFilename();
@@ -788,9 +822,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void play() {
+
         if (!checkAudioExist()) return;
         try {
-            String fileName = audioStream.getFilename();
+            String fileName = audioStream.getTmpDir(Integer.toString(idSentence));
             File file = new File(fileName);
             if (!file.exists()) return;
             switchButtonStage(ButtonState.PLAYING);
@@ -886,7 +921,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
 
 
-
                        //uploadRecord();
 //                        runOnUiThread(new Runnable() {
 //                            @Override
@@ -898,6 +932,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 //                       });
                    }
                 }
+
             }));
             dispatcher.addAudioProcessor(new Oscilloscope(new Oscilloscope.OscilloscopeEventHandler() {
                 @Override
@@ -907,10 +942,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         public void run() {
                             if (recordingView != null)
                                 recordingView.setData(floats, pitch);
+
                         }
                     });
 
                 }
+
             }));
             start = System.currentTimeMillis();
             runner = new Thread(dispatcher, "Audio Dispatcher");
@@ -946,6 +983,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 // ex.printStackTrace();
             }
         }
+
     }
 
     @Override
@@ -1032,6 +1070,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public void onClick(View v) {
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         switch (v.getId()) {
             case R.id.btnAnalyzing:
                 if (checkNetwork(false)) {
@@ -1047,6 +1086,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         }
                     } else {
                         analyze();
+                        sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+                        sentenceModel.setStatus(2);
+                        databaseHandlerSentence.updateSentence(sentenceModel);
+                        listAllItem();
+
+
                     }
                 }
                 break;
@@ -1073,7 +1118,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         switchButtonStage(lastState);
     }
 
-    public void switchButtonStage(ButtonState state) {
+
+    public  void switchButtonStage(ButtonState state) {
         try {
         boolean isProcess = true;
         imgHelpHand.setVisibility(View.GONE);
@@ -1107,6 +1153,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAudio.setEnabled(false);
 
+                break;
+            case UPLOAD1:
+                btnAudio.setEnabled(true);
+                btnAnalyzing.setEnabled(true);
+                btnAudio.setImageResource(R.drawable.p_audio_green);
+                btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                uploadSentence.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                break;
+            case NORECORDING:
+                btnAudio.setEnabled(false);
+                btnAnalyzing.setEnabled(true);
+                btnAudio.setImageResource(R.drawable.p_audio_gray);
+                btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                uploadSentence.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
@@ -1143,9 +1205,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                uploadSentence.setEnabled(true);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_red);
-
+                isProcess = false;
                 break;
             case DEFAULT:
             default:
@@ -1259,6 +1319,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         public void onReceive(Context context, Intent intent) {
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
+
                 String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
                 Gson gson = new Gson();
                 try {
@@ -1275,6 +1336,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
+                switchButtonStage(ButtonState.GREEN);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
@@ -1317,11 +1379,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void uploadRecord() {
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         try {
             AppLog.logString("Start Uploading");
             analyzingState = AnalyzingState.ANALYZING;
             uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
             Map<String, String> params = new HashMap<String, String>();
+             sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+            String sentence=sentenceModel.getSentence();
             String fileName = audioStream.getTmpDir(Integer.toString(idSentence));
             File tmp = new File(fileName);
             if (tmp.exists()) {
@@ -1342,8 +1407,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                     params.put("profile", gson.toJson(profile));
-                    params.put("word", selectedWord);
+                    params.put("sentence", sentence);
                     uploadTask.execute(params);
+
                 } else {
                     AppLog.logString("Could not get user profile");
                 }
@@ -1394,6 +1460,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getInt(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
+             int status= cursor.getInt(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_STATUS));
+             if(status==1){
+                   switchButtonStage(ButtonState.NORECORDING);
+             }
+             if(status==3){
+                 switchButtonStage(ButtonState.UPLOAD1);
+             }
             textrecord.setText(s);
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word",e);

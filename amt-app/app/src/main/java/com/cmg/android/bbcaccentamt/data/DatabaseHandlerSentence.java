@@ -22,6 +22,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     private static final String TABLE_SENTENCE = "sentences";
 
     public static final String KEY_ID = "_id";
+    public static final String KEY_STATUS = "status";
     public static final String KEY_NAME = "sentence";
     private static DatabaseHandlerSentence sInstance;
 
@@ -41,7 +42,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_SENTENCES_TABLE = "CREATE TABLE " + TABLE_SENTENCE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT" + ")" ;
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER" + ")" ;
         db.execSQL(CREATE_SENTENCES_TABLE);
     }
 
@@ -60,6 +61,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, sentenceModel.getSentence());
+        values.put(KEY_STATUS, sentenceModel.getStatus());
         // Inserting Row
         db.insert(TABLE_SENTENCE, null, values);
         db.close();
@@ -69,13 +71,12 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_SENTENCE, new String[] { KEY_ID,
-                        KEY_NAME}, KEY_ID + "=?",
+                        KEY_NAME, KEY_STATUS}, KEY_ID + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        SentenceModel sentenceModel = new SentenceModel(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1));
+        SentenceModel sentenceModel = new SentenceModel(Integer.parseInt(cursor.getString(0)),cursor.getString(1),Integer.parseInt(cursor.getString(2)));
         return sentenceModel;
     }
 
@@ -93,6 +94,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 SentenceModel sentenceModel = new SentenceModel();
                 sentenceModel.setID(Integer.parseInt(cursor.getString(0)));
                 sentenceModel.setSentence(cursor.getString(1));
+                sentenceModel.setStatus(Integer.parseInt(cursor.getString(2)));
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
@@ -105,6 +107,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, sentenceModel.getSentence());
+        values.put(KEY_STATUS, sentenceModel.getStatus());
 
 
         return db.update(TABLE_SENTENCE, values, KEY_ID + " = ?",
@@ -136,7 +139,8 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.query(TABLE_SENTENCE, new String[] {
                         KEY_ID,
-                        KEY_NAME},
+                        KEY_NAME,
+                        KEY_STATUS},
                 null,
                 null,
                 null,
@@ -147,7 +151,8 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.query(TABLE_SENTENCE, new String[] {
                         KEY_ID,
-                        KEY_NAME},
+                        KEY_NAME,
+                        KEY_STATUS},
                 "sentence LIKE ?",
                 new String[] {s + "%"},
                 null,
@@ -159,8 +164,5 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return this;
     }
-
-
-
 
 }

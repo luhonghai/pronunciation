@@ -35,7 +35,45 @@ public class CustomAdapter extends  ArrayAdapter<SentenceModel> {
         if(myArray.size()>0 && position>=0){
           TextView txtdisplay=(TextView)convertView.findViewById(R.id.textStatement);
             String sentence=myArray.get(position).getSentence();
-            txtdisplay.setText(sentence);
+            int status=myArray.get(position).getStatus();
+            switch (status){
+                case 1:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.BLACK);
+                    txtdisplay.setBackgroundColor(Color.WHITE);
+                    break;
+                case 2:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.WHITE);
+                    txtdisplay.setBackgroundColor(Color.BLUE);
+                    break;
+                case 3:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.WHITE);
+                    txtdisplay.setBackgroundColor(Color.YELLOW);
+                    break;
+                case 4:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.WHITE);
+                    txtdisplay.setBackgroundColor(Color.RED);
+                    break;
+                case 5:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.WHITE);
+                    txtdisplay.setBackgroundColor(Color.GREEN);
+                    break;
+                case 6:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.WHITE);
+                    txtdisplay.setBackgroundColor(Color.GRAY);
+                    break;
+                default:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(Color.BLACK);
+                    txtdisplay.setBackgroundColor(Color.WHITE);
+                    break;
+            }
+
         }
         return convertView;
     }

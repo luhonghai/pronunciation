@@ -73,7 +73,7 @@ public class DatabasePrepare {
                 if (data.transcriptions != null && data.transcriptions.size() >0 ) {
                     databaseHandlerSentence.deleteAllSentence();
                     for(int i=0;i<data.transcriptions.size();i++){
-                        databaseHandlerSentence.addSentence(new SentenceModel(i,properCase( data.transcriptions.get(i).getSentence().toLowerCase())));
+                        databaseHandlerSentence.addSentence(new SentenceModel(i,properCase( data.transcriptions.get(i).getSentence().toLowerCase()),1));
                     }
 
 
@@ -94,7 +94,7 @@ public class DatabasePrepare {
                         "He declined to name specific products.",
                         "If the dollar starts to plunge the fed may step up its defense of the currency."};
                 for(int i=0;i<item.length;i++){
-                    databaseHandlerSentence.addSentence(new SentenceModel(i,item[i]));
+                    databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
                 }
 
             }

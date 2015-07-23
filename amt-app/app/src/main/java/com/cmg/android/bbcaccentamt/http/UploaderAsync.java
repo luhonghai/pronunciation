@@ -35,7 +35,6 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
         this.context = context;
         this.uploadUrl = uploadUrl;
     }
-    MainActivity main=new MainActivity();
 
     @Override
     protected void onPreExecute() {
@@ -66,7 +65,6 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
         Intent intent = new Intent(UPLOAD_COMPLETE_INTENT);
         intent.putExtra(UPLOAD_COMPLETE_INTENT, v);
         context.sendBroadcast(intent);
-        main.switchButtonStage();
         super.onPostExecute(v);
     }
 
