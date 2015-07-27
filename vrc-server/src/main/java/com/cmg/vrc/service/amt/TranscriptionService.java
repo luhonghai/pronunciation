@@ -62,33 +62,41 @@ public class TranscriptionService {
     }
 
     public RecordedSentenceHistory handleUploadedSentence(UserProfile user, String sentenceId, File recordedVoice) throws Exception {
-        RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
-        if (recordedSentence == null) {
-            recordedSentence = new RecordedSentence();
-        }
-        Date now = new Date(System.currentTimeMillis());
-        int lastStatus = recordedSentence.getStatus();
-        recordedSentence.setStatus(RecordedSentence.PENDING);
-        recordedSentence.setAccount(user.getUsername());
-        recordedSentence.setAdmin("System");
-        if (recordedSentence.getCreatedDate() == null)
-            recordedSentence.setCreatedDate(now);
-        recordedSentence.setModifiedDate(now);
-        recordedSentence.setFileName(recordedVoice.getName());
-        recordedSentence.setSentenceId(sentenceId);
-
-        if (recordedSentenceDAO.put(recordedSentence)) {
-            RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
-            recordedSentenceHistory.setActor(user.getUsername());
-            recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
-            recordedSentenceHistory.setPreviousStatus(lastStatus);
-            recordedSentenceHistory.setNewStatus(recordedSentence.getStatus());
-            recordedSentenceHistory.setMessage("Uploaded by user " + user.getUsername());
-            recordedSentenceHistory.setTimestamp(now);
-            recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
-            if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
-                return recordedSentenceHistory;
+        logger.info("Save recorded sentence. ID: " + sentenceId + ". Account: " + user.getUsername());
+        Transcription transcription = transcriptionDAO.getById(sentenceId);
+        if (transcription != null) {
+            logger.info("Found sentence: " + transcription.getSentence() + ". ID: " + sentenceId);
+            RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
+            if (recordedSentence == null) {
+                recordedSentence = new RecordedSentence();
             }
+            Date now = new Date(System.currentTimeMillis());
+            int lastStatus = recordedSentence.getStatus();
+            recordedSentence.setStatus(RecordedSentence.PENDING);
+            recordedSentence.setAccount(user.getUsername());
+            recordedSentence.setAdmin("System");
+            if (recordedSentence.getCreatedDate() == null)
+                recordedSentence.setCreatedDate(now);
+            recordedSentence.setModifiedDate(now);
+            recordedSentence.setFileName(recordedVoice.getName());
+            recordedSentence.setSentenceId(sentenceId);
+            logger.info("Try to save recorded sentence info to database");
+            if (recordedSentenceDAO.put(recordedSentence)) {
+                logger.info("completed!");
+                RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
+                recordedSentenceHistory.setActor(user.getUsername());
+                recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
+                recordedSentenceHistory.setPreviousStatus(lastStatus);
+                recordedSentenceHistory.setNewStatus(recordedSentence.getStatus());
+                recordedSentenceHistory.setMessage("Uploaded by user " + user.getUsername());
+                recordedSentenceHistory.setTimestamp(now);
+                recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
+                if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
+                    return recordedSentenceHistory;
+                }
+            }
+        } else {
+            logger.error("No sentence with ID " + sentenceId + " found.");
         }
         return null;
     }
