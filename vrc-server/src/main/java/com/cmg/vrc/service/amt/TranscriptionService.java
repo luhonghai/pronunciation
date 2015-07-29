@@ -70,9 +70,8 @@ public class TranscriptionService {
         recordedSentence.setModifiedDate(now);
         recordedSentence.setFileName(recordedVoice.getName());
         recordedSentence.setSentenceId(sentenceId);
-        logger.info("Save recorded sentence to database");
+
         if (recordedSentenceDAO.put(recordedSentence)) {
-            logger.info("Save recorded sentence to database completed");
             RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
             recordedSentenceHistory.setActor(user.getUsername());
             recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
@@ -82,7 +81,6 @@ public class TranscriptionService {
             recordedSentenceHistory.setTimestamp(now);
             recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
             if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
-                logger.info("Save recorded sentence history to database completed");
                 return recordedSentenceHistory;
             }
         }
