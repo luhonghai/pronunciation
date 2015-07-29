@@ -42,7 +42,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_SENTENCES_TABLE = "CREATE TABLE " + TABLE_SENTENCE + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER" + ")" ;
+                + KEY_ID + " TEXT," + KEY_NAME + " TEXT," + KEY_STATUS + " INTEGER" + ")" ;
         db.execSQL(CREATE_SENTENCES_TABLE);
     }
 
@@ -60,6 +60,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, sentenceModel.getID());
         values.put(KEY_NAME, sentenceModel.getSentence());
         values.put(KEY_STATUS, sentenceModel.getStatus());
         // Inserting Row
@@ -67,7 +68,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         db.close();
     }
 
-    public SentenceModel getSentence(int id) {
+    public SentenceModel getSentence(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_SENTENCE, new String[] { KEY_ID,
@@ -76,7 +77,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        SentenceModel sentenceModel = new SentenceModel(Integer.parseInt(cursor.getString(0)),cursor.getString(1),Integer.parseInt(cursor.getString(2)));
+        SentenceModel sentenceModel = new SentenceModel(cursor.getString(0),cursor.getString(1),Integer.parseInt(cursor.getString(2)));
         return sentenceModel;
     }
 
@@ -92,7 +93,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 SentenceModel sentenceModel = new SentenceModel();
-                sentenceModel.setID(Integer.parseInt(cursor.getString(0)));
+                sentenceModel.setID(cursor.getString(0));
                 sentenceModel.setSentence(cursor.getString(1));
                 sentenceModel.setStatus(Integer.parseInt(cursor.getString(2)));
                 sentenceModelsList.add(sentenceModel);
@@ -102,10 +103,12 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         return sentenceModelsList;
     }
 
+
     public int updateSentence(SentenceModel sentenceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_ID, sentenceModel.getID());
         values.put(KEY_NAME, sentenceModel.getSentence());
         values.put(KEY_STATUS, sentenceModel.getStatus());
 
@@ -117,9 +120,17 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     public void deleteSentence(SentenceModel sentenceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SENTENCE, KEY_ID + " = ?",
-                new String[] { String.valueOf(sentenceModel.getID()) });
+                new String[]{String.valueOf(sentenceModel.getID())});
         db.close();
     }
+
+    public void deleteStatus(int status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SENTENCE, KEY_STATUS + " != ?",
+                new String[]{String.valueOf(status)});
+        db.close();
+    }
+
     public void deleteAllSentence() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SENTENCE, null, null);

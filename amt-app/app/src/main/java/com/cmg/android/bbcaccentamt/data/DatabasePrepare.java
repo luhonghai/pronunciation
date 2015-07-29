@@ -1,9 +1,13 @@
 package com.cmg.android.bbcaccentamt.data;
 
 import android.content.Context;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccentamt.R;
+import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
+import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccentamt.http.ResponseData;
 import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 import com.google.gson.Gson;
@@ -14,9 +18,12 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.FileHandler;
+
+import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 
 /**
  * Created by luhonghai on 4/10/15.
@@ -26,6 +33,12 @@ public class DatabasePrepare {
     private final Context context;
 
     private final OnPrepraredListener prepraredListener;
+    private AndroidAudioInputStream audioStream;
+    private AudioRecord audioInputStream;
+    private int chanel;
+    private int sampleRate;
+    private int bufferSize;
+
 
     public DatabasePrepare(Context context, OnPrepraredListener prepraredListener) {
         this.context = context;
@@ -60,10 +73,18 @@ public class DatabasePrepare {
 
     private void loadDatabase() {
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.context, audioInputStream, format, bufferSize);
+
         File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
         try {
             if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
-            FileUtils.copyURLToFile(new URL(context.getString(R.string.transcription_url) + "?action=list"), tmpFile);
+            UserProfile profile = Preferences.getCurrentProfile(context);
+            String name=profile.getUsername();
+            String requestUrl = context.getString(R.string.transcription_url)
+                    + "?action=list&data="
+                    + URLEncoder.encode(profile.getUsername(),"UTF-8");
+            FileUtils.copyURLToFile(new URL(requestUrl), tmpFile);
             if (tmpFile.exists()) {
                 String rawJson = FileUtils.readFileToString(tmpFile, "UTF-8");
                 SimpleAppLog.info("Transcription json: " + rawJson);
@@ -71,13 +92,28 @@ public class DatabasePrepare {
                 ResponseData data = gson.fromJson(rawJson, ResponseData.class);
                 SimpleAppLog.info("Status: " + data.isStatus() + ". Message: " + data.getMessage());
                 if (data.transcriptions != null && data.transcriptions.size() >0 ) {
+
                     databaseHandlerSentence.deleteAllSentence();
-                    for(int i=0;i<data.transcriptions.size();i++){
-                        databaseHandlerSentence.addSentence(new SentenceModel(i,properCase( data.transcriptions.get(i).getSentence().toLowerCase()),1));
-                    }
+                            for (int i = 0; i < data.transcriptions.size(); i++) {
+                                int n = 0;
+                                SentenceModel sentenceModel=new SentenceModel();
+                                String id=data.transcriptions.get(i).getId();
+                                    String output=audioStream.getTmpDir(id,name);
+                                    File dstFile = new File(output);
+                                    if (dstFile.exists() && data.transcriptions.get(i).getStatus()==0) {
+                                        sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
+                                        sentenceModel.setStatus(-1);
+                                        sentenceModel.setID(data.transcriptions.get(i).getId());
+                                        databaseHandlerSentence.addSentence(sentenceModel);
+                                        n = n + 1;
+                                    }
+                                if (n == 0) {
+                                    databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus()));
+                                }
+                                }
 
+                            }
 
-                }
             } else {
                 SimpleAppLog.info("No transcription data found");
             }
@@ -94,7 +130,7 @@ public class DatabasePrepare {
                         "He declined to name specific products.",
                         "If the dollar starts to plunge the fed may step up its defense of the currency."};
                 for(int i=0;i<item.length;i++){
-                    databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
+                    //databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
                 }
 
             }
@@ -119,6 +155,8 @@ public class DatabasePrepare {
         private Date createdDate;
 
         private Date modifiedDate;
+
+        private int status;
 
         public String getId() {
             return id;
@@ -158,6 +196,14 @@ public class DatabasePrepare {
 
         public void setModifiedDate(Date modifiedDate) {
             this.modifiedDate = modifiedDate;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 }

@@ -275,12 +275,12 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
             return Environment.getExternalStorageDirectory().getPath() + File.separator + AUDIO_RECORDER_FOLDER;
         }
     }
-    public String getTmpDir(String id) {
+    public String getTmpDir(String id,String name) {
         PackageManager m = context.getPackageManager();
         String s = context.getPackageName();
         try {
             PackageInfo p = m.getPackageInfo(s, 0);
-            return new File(getTmpDir(), id + AUDIO_RECORDER_OUTPUT_TYPE).getAbsolutePath();
+            return new File(getTmpDir(),name + id + AUDIO_RECORDER_OUTPUT_TYPE).getAbsolutePath();
         }catch (PackageManager.NameNotFoundException e){
             return Environment.getExternalStorageDirectory().getPath() + File.separator + AUDIO_RECORDER_FOLDER;
         }

@@ -19,6 +19,8 @@ public class Transcription implements Mirrorable {
 
     private Date modifiedDate;
 
+    private int status;
+
     public String getId() {
         return id;
     }
@@ -57,5 +59,13 @@ public class Transcription implements Mirrorable {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

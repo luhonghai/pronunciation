@@ -4,21 +4,21 @@ package com.cmg.android.bbcaccentamt.data;
  * Created by CMGT400 on 7/10/2015.
  */
 public class SentenceModel {
-    int _id;
+    String _id;
     String sentence;
     int status;
 
     public SentenceModel(){
     }
-    public SentenceModel(int id, String sentence, int status){
+    public SentenceModel(String id, String sentence, int status){
         this._id = id;
         this.sentence = sentence;
         this.status=status;
     }
-    public int getID(){
+    public String getID(){
         return this._id;
     }
-    public void setID(int id){
+    public void setID(String id){
         this._id = id;
     }
     public String getSentence(){

@@ -37,40 +37,40 @@ public class CustomAdapter extends  ArrayAdapter<SentenceModel> {
             String sentence=myArray.get(position).getSentence();
             int status=myArray.get(position).getStatus();
             switch (status){
+                case 0:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_black));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_white));
+                    break;
+                case -1:
+                    txtdisplay.setText(sentence);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_default));
+                    break;
                 case 1:
                     txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.BLACK);
-                    txtdisplay.setBackgroundColor(Color.WHITE);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_yellow));
                     break;
                 case 2:
                     txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.WHITE);
-                    txtdisplay.setBackgroundColor(Color.BLUE);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_red));
                     break;
                 case 3:
                     txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.WHITE);
-                    txtdisplay.setBackgroundColor(Color.YELLOW);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_green));
                     break;
                 case 4:
                     txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.WHITE);
-                    txtdisplay.setBackgroundColor(Color.RED);
-                    break;
-                case 5:
-                    txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.WHITE);
-                    txtdisplay.setBackgroundColor(Color.GREEN);
-                    break;
-                case 6:
-                    txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.WHITE);
-                    txtdisplay.setBackgroundColor(Color.GRAY);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_gray));
                     break;
                 default:
                     txtdisplay.setText(sentence);
-                    txtdisplay.setTextColor(Color.BLACK);
-                    txtdisplay.setBackgroundColor(Color.WHITE);
+                    txtdisplay.setTextColor(context.getResources().getColor(R.color.app_black));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_white));
                     break;
             }
 

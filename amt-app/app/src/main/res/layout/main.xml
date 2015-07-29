@@ -109,7 +109,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/p_arrow_up_red"
+                        android:src="@drawable/p_arrow_up_orange"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"/>

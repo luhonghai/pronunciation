@@ -221,6 +221,15 @@
         <url-pattern>/transcription</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RecordedSentenceHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.amt.RecordedSentenceHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RecordedSentenceHandler</servlet-name>
+        <url-pattern>/recordedsentence</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>
