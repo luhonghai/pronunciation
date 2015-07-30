@@ -100,41 +100,33 @@ public class TranscriptionService {
     }
 
     public RecordedSentenceHistory handleUploadedSentence(UserProfile user, String sentenceId, File recordedVoice) throws Exception {
-        logger.info("Save recorded sentence. ID: " + sentenceId + ". Account: " + user.getUsername());
-        Transcription transcription = transcriptionDAO.getById(sentenceId);
-        if (transcription != null) {
-            logger.info("Found sentence: " + transcription.getSentence() + ". ID: " + sentenceId);
-            RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
-            if (recordedSentence == null) {
-                recordedSentence = new RecordedSentence();
+        RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
+        if (recordedSentence == null) {
+            recordedSentence = new RecordedSentence();
+        }
+        Date now = new Date(System.currentTimeMillis());
+        int lastStatus = recordedSentence.getStatus();
+        recordedSentence.setStatus(RecordedSentence.PENDING);
+        recordedSentence.setAccount(user.getUsername());
+        recordedSentence.setAdmin("System");
+        if (recordedSentence.getCreatedDate() == null)
+            recordedSentence.setCreatedDate(now);
+        recordedSentence.setModifiedDate(now);
+        recordedSentence.setFileName(recordedVoice.getName());
+        recordedSentence.setSentenceId(sentenceId);
+
+        if (recordedSentenceDAO.put(recordedSentence)) {
+            RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
+            recordedSentenceHistory.setActor(user.getUsername());
+            recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
+            recordedSentenceHistory.setPreviousStatus(lastStatus);
+            recordedSentenceHistory.setNewStatus(recordedSentence.getStatus());
+            recordedSentenceHistory.setMessage("Uploaded by user " + user.getUsername());
+            recordedSentenceHistory.setTimestamp(now);
+            recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
+            if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
+                return recordedSentenceHistory;
             }
-            Date now = new Date(System.currentTimeMillis());
-            int lastStatus = recordedSentence.getStatus();
-            recordedSentence.setStatus(RecordedSentence.PENDING);
-            recordedSentence.setAccount(user.getUsername());
-            recordedSentence.setAdmin("System");
-            if (recordedSentence.getCreatedDate() == null)
-                recordedSentence.setCreatedDate(now);
-            recordedSentence.setModifiedDate(now);
-            recordedSentence.setFileName(recordedVoice.getName());
-            recordedSentence.setSentenceId(sentenceId);
-            logger.info("Try to save recorded sentence info to database");
-            if (recordedSentenceDAO.put(recordedSentence)) {
-                logger.info("completed!");
-                RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
-                recordedSentenceHistory.setActor(user.getUsername());
-                recordedSentenceHistory.setActorType(RecordedSentenceHistory.ACTOR_TYPE_USER);
-                recordedSentenceHistory.setPreviousStatus(lastStatus);
-                recordedSentenceHistory.setNewStatus(recordedSentence.getStatus());
-                recordedSentenceHistory.setMessage("Uploaded by user " + user.getUsername());
-                recordedSentenceHistory.setTimestamp(now);
-                recordedSentenceHistory.setRecordedSentenceId(recordedSentence.getId());
-                if (recordedSentenceHistoryDAO.put(recordedSentenceHistory)) {
-                    return recordedSentenceHistory;
-                }
-            }
-        } else {
-            logger.error("No sentence with ID " + sentenceId + " found.");
         }
         return null;
     }
@@ -274,7 +266,6 @@ public class TranscriptionService {
                 transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                 transcription.setSentence(sentence);
                 return transcriptionDAO.put(transcription);
-
             } else {
                 SENTENCES.add(sentence);
                 return true;
@@ -467,12 +458,8 @@ public class TranscriptionService {
         loadTranscription(new FileInputStream(f));
     }
 
-    public void loadTranscription(String resource) throws Exception {
-        loadTranscription(this.getClass().getClassLoader().getResourceAsStream(resource));
-    }
-
     public void loadTranscription() throws Exception {
-        loadTranscription(VOXFORGE_TRANSCRIPTION_RESOURCE);
+        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/default_transcription.txt"));
     }
 
     private void writeHtmlToResult(String html) throws IOException {

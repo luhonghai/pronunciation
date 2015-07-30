@@ -90,8 +90,9 @@ public class RecordedSentenceHandler extends HttpServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
+            logger.info("SentenceID: " + sentenceId);
+            logger.info("Profile: " + profile);
             if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0) {
-
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
 
                 File target = new File(targetDir, user.getUsername());
@@ -111,8 +112,10 @@ public class RecordedSentenceHandler extends HttpServlet {
                 } catch (Exception e) {}
 //                awsHelper.uploadInThread("sentences" + "/" + user.getUsername() + "/" + fileTempName,
 //                        targetRaw);
+                logger.info("Try to save");
                 TranscriptionService transcriptionService = new TranscriptionService();
                 RecordedSentenceHistory result = transcriptionService.handleUploadedSentence(user, sentenceId, targetRaw);
+                logger.info("Save completed");
                 if (result != null) {
                     responseData.setStatus(true);
                     responseData.setMessage("success");
@@ -131,7 +134,9 @@ public class RecordedSentenceHandler extends HttpServlet {
             logger.error("Error when upload file. Common exception, message: " + e.getMessage(),e);
             responseData.setMessage("Error when upload file. Message: " + e.getMessage());
         }
-        out.print(gson.toJson(responseData));
+        String responseText = gson.toJson(responseData);
+        logger.info("Response: " + responseText);
+        out.print(responseText);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
