@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class CustomAdapter extends  ArrayAdapter<SentenceModel> {
 
+
     Activity context=null;
     List<SentenceModel> myArray=null;
     int layoutId;
@@ -50,7 +51,7 @@ public class CustomAdapter extends  ArrayAdapter<SentenceModel> {
                 case 1:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_yellow));
+                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_orange));
                     break;
                 case 2:
                     txtdisplay.setText(sentence);

@@ -118,23 +118,6 @@ public class DatabasePrepare {
                 SimpleAppLog.info("No transcription data found");
             }
 
-            if(databaseHandlerSentence.getSentenceCount()==0){
-                String[] item={"We didn't like that.",
-                        "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
-                        "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
-                        "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
-                        "No one at the state department wants to let spies in.",
-                        "A lengthy fight is likely.",
-                        "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
-                        "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
-                        "He declined to name specific products.",
-                        "If the dollar starts to plunge the fed may step up its defense of the currency."};
-                for(int i=0;i<item.length;i++){
-                    //databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
-                }
-
-            }
-
         } catch (Exception e) {
             SimpleAppLog.error("Could not fetch transcription",e);
         }

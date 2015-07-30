@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     /**
      * Define all button state
      */
-    enum ButtonState {
+    public enum ButtonState {
         DEFAULT,
         RECORDING,
         PLAYING,
@@ -302,6 +302,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SentenceModel model=sentenceModel.get(0);
         String itemValue=model.getSentence();
         textrecord.setText(itemValue);
+
        listAllItem();
         uploadSentence();
 
@@ -337,31 +338,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if(status==-1){
                     switchButtonStage(ButtonState.GREEN);
                 }
+                if(status==2 || status==3 || status==4 || status==5){
+                    switchButtonStage(ButtonState.NORECORDING);
+                }
 
             }
         });
-    }
-    private void delete(){
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        databaseHandlerSentence.deleteAllSentence();
-    }
-
-    private void addSentence(){
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        String[] item={"We didn't like that.",
-                "The company declined to identify the bidders but said it received offers in the high forty dollars per share.",
-                "There were two hundred fifty six issues advancing three hundred three declining and two hundred ninety two unchanged.",
-                "However investment income which represents thirteen percent of the industry's revenues rose eleven percent in the quarter reflecting gains from the rising stock market.",
-                "No one at the state department wants to let spies in.",
-                "A lengthy fight is likely.",
-                "The jury awarded mr. scharenberg one hundred five million dollars a figure based on ten years of profits had his project been completed.",
-                "To make them directly comparable each index is based on the close of nineteen sixty nine equaling one hundred.",
-                "He declined to name specific products.",
-                "If the dollar starts to plunge the fed may step up its defense of the currency."};
-        for(int i=0;i<item.length;i++){
-            //databaseHandlerSentence.addSentence(new SentenceModel(i,item[i],1));
-        }
-
     }
 
     public void uploadSentence(){
@@ -629,7 +611,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            completeGetWord(dItem, ButtonState.DEFAULT);
+                            completeGetWord(dItem, ButtonState.NORECORDING);
                         }
                     });
                 }
@@ -909,7 +891,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 //                            @Override
 //                            public void run() {
 //                                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-//                              recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
+//                             recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
 //
 //                            }
 //                       });
@@ -1075,8 +1057,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         sentenceModel.setStatus(-1);
                         databaseHandlerSentence.updateSentence(sentenceModel);
                         listAllItem();
-
-
                     }
                 }
                 break;
@@ -1115,7 +1095,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.startAnimation(fadeOut);
                 btnAnalyzing.setImageResource(R.drawable.p_close_red);
                 btnAnalyzing.startAnimation(fadeIn);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
                 uploadSentence.setEnabled(false);
 
                 break;
@@ -1125,7 +1105,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.startAnimation(fadeIn);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 btnAnalyzing.setEnabled(false);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
                 uploadSentence.setEnabled(false);
 
                 break;
@@ -1145,7 +1125,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.setImageResource(R.drawable.p_audio_green);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
                 uploadSentence.setEnabled(false);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
 
                 break;
             case NORECORDING:
@@ -1154,7 +1134,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAnalyzing.setImageResource(R.drawable.p_record_green);
                 uploadSentence.setEnabled(false);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
 
                 break;
             case YESRECORDING:
@@ -1189,7 +1169,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAudio.setImageResource(R.drawable.p_audio_red);
                 btnAnalyzing.setImageResource(R.drawable.p_record_red);
                 uploadSentence.setEnabled(true);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_red);
+                uploadSentence.setImageResource(
+
+                        R.drawable.p_arrow_up_red);
 
                 isProcess = false;
                 break;
@@ -1218,12 +1200,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
         notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
         sendBroadcast(notifyUpdateIntent);
-        if (!checkAudioExist()) {
-            btnAudio.setEnabled(false);
-            btnAudio.setImageResource(R.drawable.p_audio_gray);
-            uploadSentence.setEnabled(false);
-            uploadSentence.setImageResource(R.drawable.p_arrow_up_orange);
-        }
+//        if (!checkAudioExist()) {
+//            btnAudio.setEnabled(false);
+//            btnAudio.setImageResource(R.drawable.p_audio_gray);
+//            uploadSentence.setEnabled(false);
+//            uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+//        }
         } catch (Exception e) {
             SimpleAppLog.error("Could not update screen state",e);
         }
