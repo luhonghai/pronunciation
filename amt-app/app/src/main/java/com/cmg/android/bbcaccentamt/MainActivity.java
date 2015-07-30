@@ -139,7 +139,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         DISABLED,
         UPLOAD1,
         NORECORDING,
-        YESRECORDING
+        SUCCESS,
+        SUCCESS1
+
     }
 
 
@@ -314,6 +316,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void listAllItem(){
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        final String name=profile.getUsername();
         CustomAdapter customAdapter=null;
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
@@ -329,17 +335,51 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 idSentence = a.getID();
                 int status=a.getStatus();
                 textrecord.setText(itemValue);
-                if(status==0){
-                      switchButtonStage(ButtonState.NORECORDING);
-                }
-                if(status==1){
-                    switchButtonStage(ButtonState.UPLOAD1);
-                }
-                if(status==-1){
-                    switchButtonStage(ButtonState.GREEN);
-                }
-                if(status==2 || status==3 || status==4 || status==5){
-                    switchButtonStage(ButtonState.NORECORDING);
+                String output=audioStream.getTmpDir(idSentence,name);
+                File dstFile = new File(output);
+                switch (status){
+                    case -1:
+                        switchButtonStage(ButtonState.GREEN);
+                        break;
+                    case 0:
+                        switchButtonStage(ButtonState.NORECORDING);
+                        break;
+                    case 1:
+                        if(dstFile.exists()){
+                            switchButtonStage(ButtonState.GREEN);
+                        }
+                        else {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 2:
+                        if(dstFile.exists()){
+                            switchButtonStage(ButtonState.GREEN);
+                        }
+                        else {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 3:
+                        if(dstFile.exists()){
+                            switchButtonStage(ButtonState.GREEN);
+                        }
+                        else {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 4:
+                        if(dstFile.exists()){
+                            switchButtonStage(ButtonState.SUCCESS);
+                        }
+                        else {
+                            switchButtonStage(ButtonState.SUCCESS1);
+                        }
+                        break;
+                    default:
+                        switchButtonStage(ButtonState.NORECORDING);
+                        break;
+
                 }
 
             }
@@ -885,8 +925,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         saveRecord();
 
                         runOnUiThread(new Runnable() {
+                            DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(getApplicationContext());
                             @Override
                             public void run() {
+
                                 recordingView.setScore(0.0f);
                                 //recordingView.startPingAnimation(MainActivity.this);
                                 recordingView.stopPingAnimation();
@@ -894,6 +936,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 recordingView.drawEmptyCycle();
                                 analyzingState = AnalyzingState.DEFAULT;
                                 switchButtonStage(ButtonState.GREEN);
+                                sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+                                sentenceModel.setStatus(-1);
+                                databaseHandlerSentence.updateSentence(sentenceModel);
+                                listAllItem();
                             }
                         });
 
@@ -1048,7 +1094,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public void onClick(View v) {
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         switch (v.getId()) {
             case R.id.btnAnalyzing:
                 if (checkNetwork(false)) {
@@ -1064,10 +1109,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         }
                     } else {
                         analyze();
-                        sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-                        sentenceModel.setStatus(-1);
-                        databaseHandlerSentence.updateSentence(sentenceModel);
-                        listAllItem();
                     }
                 }
                 break;
@@ -1148,12 +1189,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
 
                 break;
-            case YESRECORDING:
+            case SUCCESS:
                 btnAudio.setEnabled(true);
+                btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_green);
-                btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                uploadSentence.setEnabled(true);
-                uploadSentence.setImageResource(R.drawable.p_arrow_up_green);
+                btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                uploadSentence.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+
+                break;
+            case SUCCESS1:
+                btnAudio.setEnabled(false);
+                btnAnalyzing.setEnabled(false);
+                btnAudio.setImageResource(R.drawable.p_audio_gray);
+                btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                uploadSentence.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
@@ -1451,22 +1503,64 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void selectSuggestionWord(int index) {
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String name=profile.getUsername();
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
              int status= cursor.getInt(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_STATUS));
-             if(status==0){
-                   switchButtonStage(ButtonState.NORECORDING);
-             }
-             if(status==1){
-                 switchButtonStage(ButtonState.UPLOAD1);
-             }
-            if(status==-1){
-                switchButtonStage(ButtonState.GREEN);
-            }
             textrecord.setText(s);
+            String output=audioStream.getTmpDir(idSentence,name);
+            File dstFile = new File(output);
+            switch (status){
+                case -1:
+                    switchButtonStage(ButtonState.GREEN);
+                    break;
+                case 0:
+                    switchButtonStage(ButtonState.NORECORDING);
+                    break;
+                case 1:
+                    if(dstFile.exists()){
+                        switchButtonStage(ButtonState.GREEN);
+                    }
+                    else {
+                        switchButtonStage(ButtonState.NORECORDING);
+                    }
+                    break;
+                case 2:
+                    if(dstFile.exists()){
+                        switchButtonStage(ButtonState.GREEN);
+                    }
+                    else {
+                        switchButtonStage(ButtonState.NORECORDING);
+                    }
+                    break;
+                case 3:
+                    if(dstFile.exists()){
+                        switchButtonStage(ButtonState.GREEN);
+                    }
+                    else {
+                        switchButtonStage(ButtonState.NORECORDING);
+                    }
+                    break;
+                case 4:
+                    if(dstFile.exists()){
+                        switchButtonStage(ButtonState.SUCCESS);
+                    }
+                    else {
+                        switchButtonStage(ButtonState.SUCCESS1);
+                    }
+                    break;
+                default:
+                    switchButtonStage(ButtonState.NORECORDING);
+                    break;
+
+            }
+
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word",e);
         }
