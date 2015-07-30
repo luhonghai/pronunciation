@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transcription analyze result</title>
+    <style>
+        span {
+            padding: 2px;
+        }
+        .nb {
+            background-color: #FF0000;
+            color: white;
+        }
+
+        .na {
+            text-decoration:line-through;
+        }
+
+        .rp {
+            color: #00FFAD !important;
+            font-weight: bold;
+        }
+        .tc {
+            text-align: center;
+        }
+
+        .tl {
+            text-align: left;
+        }
+
+        #output-container {
+            position: fixed;
+            right: 0;
+            top: 0;
+            background: white;
+            border: 1px solid;
+            padding: 10px;
+        }
+        #btn-container {
+            text-align: right;
+        }
+        .btn {
+            margin: 4px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.css"/>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/qtip2/2.2.1/jquery.qtip.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.rp').qtip();
+            $('#btnToggle').click(function() {
+               var text = $(this).html();
+               if (text == 'show') {
+                   $(this).html('hide');
+                   $('#result').show();
+               } else{
+                   $(this).html('show');
+                   $('#result').hide();
+               }
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="top"></div>
+<hr/>

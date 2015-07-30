@@ -5,10 +5,12 @@ import com.cmg.vrc.util.FileHelper;
 import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +25,7 @@ public class DictionaryHelper {
 
     private static final Logger logger = Logger.getLogger(DictionaryHelper.class.getName());
 
-    enum Type {
+    public enum Type {
         G2P_CONVERTER,
         BEEP
     }
@@ -43,12 +45,65 @@ public class DictionaryHelper {
 
     private static HashMap<String, List<String>> BEEP_CACHE;
 
+    private static final Map<String, String> UK_VS_US_SPELLING = new HashMap<String, String>();
+
+    private static final Map<String, String> US_VS_UK_SPELLING = new HashMap<String, String>();
+
     private static final Object lock = new Object();
 
     private final Type type;
 
     public DictionaryHelper(Type type) {
         this.type = type;
+    }
+
+    public String getUKWord(String usWord) {
+        initSpellingDictionary();
+        if (US_VS_UK_SPELLING.containsKey(usWord)) {
+            return US_VS_UK_SPELLING.get(usWord);
+        } else {
+            return "";
+        }
+    }
+
+    public String getUSWord(String ukWord) {
+        initSpellingDictionary();
+        if (UK_VS_US_SPELLING.containsKey(ukWord)) {
+            return UK_VS_US_SPELLING.get(ukWord);
+        } else {
+            return "";
+        }
+    }
+
+    public int getBeepSize() {
+        checkBEEP();
+        if (BEEP_CACHE == null) return 0;
+        return BEEP_CACHE.size();
+    }
+
+    private static void initSpellingDictionary() {
+        if (UK_VS_US_SPELLING.isEmpty() || US_VS_UK_SPELLING.isEmpty()) {
+            synchronized (lock) {
+                try {
+                    List<String> rows = IOUtils.readLines(DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/uk_vs_us.spelling"));
+                    if (rows != null && rows.size() > 0) {
+                        for (String row : rows) {
+                            if (row.contains("|")) {
+                                String[] raw = row.split("\\|");
+                                if (raw.length == 2) {
+                                    String uk = raw[0].trim().toUpperCase();
+                                    String us = raw[1].trim().toUpperCase();
+                                    UK_VS_US_SPELLING.put(uk,us);
+                                    US_VS_UK_SPELLING.put(us, uk);
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.log(Level.SEVERE, "Could not load spelling dictionary",e);
+                }
+            }
+        }
     }
 
     public List<String> getCorrectPhonemes(String word) throws Exception {
@@ -66,59 +121,7 @@ public class DictionaryHelper {
                     return correctPhonemes;
                 case BEEP:
                 default:
-                    if (BEEP_CACHE == null || BEEP_CACHE.size() == 0) {
-                        synchronized (lock) {
-                            logger.info("Start fetch BEEP dictionary");
-                            File tmp = new File(FileHelper.getTmpSphinx4DataDir(), "sphinx-dict-beep-1.0.tmp");
-                            if (!tmp.exists()) {
-                                logger.info("Fetch BEEP dictionary from AWS S3");
-                                AWSHelper awsHelper = new AWSHelper();
-                                awsHelper.download("sphinx-data/dict/beep-1.0", tmp);
-                            }
-                            if (!tmp.exists()) {
-                                tmp = new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0");
-                            }
-                            if (tmp.exists()) {
-                                logger.info("Start analyze BEEP dictionary");
-                                BEEP_CACHE = new HashMap<String, List<String>>();
-                                BufferedReader br = null;
-                                try {
-                                    br = new BufferedReader(new FileReader(tmp));
-                                    String line;
-                                    while ((line = br.readLine()) != null) {
-                                        if (!line.startsWith("#")) {
-                                            while (line.contains("\t")) {
-                                                line = line.replace("\t", " ");
-                                            }
-                                            line = line.toUpperCase();
-                                            String[] lineData = line.split(" ");
-                                            if (lineData.length >= 2) {
-                                                List<String> phonemes = new ArrayList<String>();
-                                                for (int i = 1; i < lineData.length; i++) {
-                                                    String p =lineData[i].trim();
-                                                    if (p.length() > 0)
-                                                        phonemes.add(p);
-                                                }
-                                                BEEP_CACHE.put(lineData[0].trim(), phonemes);
-                                            }
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                } finally {
-                                    try {
-                                        if (br != null)
-                                            br.close();
-                                    } catch (Exception e) {
-
-                                    }
-                                }
-                            } else {
-                                logger.info("BEEP dictionary cache not found!");
-                            }
-                        }
-                        logger.info("Found " + BEEP_CACHE.size() + " words from BEEP dictionary");
-                    }
+                    checkBEEP();
                     if (BEEP_CACHE != null && BEEP_CACHE.size() > 0 && BEEP_CACHE.containsKey(word.toUpperCase())) {
                         return BEEP_CACHE.get(word.toUpperCase());
                     }
@@ -128,6 +131,62 @@ public class DictionaryHelper {
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Could not generate phonemes from word " + word, ex);
             throw ex;
+        }
+    }
+
+    private void checkBEEP() {
+        if (BEEP_CACHE == null || BEEP_CACHE.size() == 0) {
+            synchronized (lock) {
+                logger.info("Start fetch BEEP dictionary");
+                File tmp = new File(FileHelper.getTmpSphinx4DataDir(), "sphinx-dict-beep-1.0.tmp");
+                if (!tmp.exists()) {
+                    logger.info("Fetch BEEP dictionary from AWS S3");
+                    AWSHelper awsHelper = new AWSHelper();
+                    awsHelper.download("sphinx-data/dict/beep-1.0", tmp);
+                }
+                if (!tmp.exists()) {
+                    tmp = new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0");
+                }
+                if (tmp.exists()) {
+                    logger.info("Start analyze BEEP dictionary");
+                    BEEP_CACHE = new HashMap<String, List<String>>();
+                    BufferedReader br = null;
+                    try {
+                        br = new BufferedReader(new FileReader(tmp));
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            if (!line.startsWith("#")) {
+                                while (line.contains("\t")) {
+                                    line = line.replace("\t", " ");
+                                }
+                                line = line.toUpperCase();
+                                String[] lineData = line.split(" ");
+                                if (lineData.length >= 2) {
+                                    List<String> phonemes = new ArrayList<String>();
+                                    for (int i = 1; i < lineData.length; i++) {
+                                        String p =lineData[i].trim();
+                                        if (p.length() > 0)
+                                            phonemes.add(p);
+                                    }
+                                    BEEP_CACHE.put(lineData[0].trim(), phonemes);
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (br != null)
+                                br.close();
+                        } catch (Exception e) {
+
+                        }
+                    }
+                } else {
+                    logger.info("BEEP dictionary cache not found!");
+                }
+            }
+            logger.info("Found " + BEEP_CACHE.size() + " words from BEEP dictionary");
         }
     }
 
