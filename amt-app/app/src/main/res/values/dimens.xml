@@ -30,4 +30,9 @@
 
     <!-- Tip view -->
     <dimen name="button_tip_margin">20dp</dimen>
+    <dimen name="help">40dp</dimen>
+    <dimen name="font_help_status">20dp</dimen>
+    <dimen name="margin_help">10dp</dimen>
+    <dimen name="padding_help">10dp</dimen>
+    <dimen name="padding_help_content">20dp</dimen>
 </resources>

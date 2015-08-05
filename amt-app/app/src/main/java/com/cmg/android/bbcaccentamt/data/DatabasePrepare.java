@@ -104,11 +104,28 @@ public class DatabasePrepare {
                                         sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
                                         sentenceModel.setStatus(-1);
                                         sentenceModel.setID(data.transcriptions.get(i).getId());
+                                        sentenceModel.setIndex(2);
                                         databaseHandlerSentence.addSentence(sentenceModel);
                                         n = n + 1;
                                     }
                                 if (n == 0) {
-                                    databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus()));
+                                    if (data.transcriptions.get(i).getStatus()==2){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),1));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==0){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),3));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==1){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),4));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==3){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),5));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==4){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),6));
+                                    }
+
+
                                 }
                                 }
 

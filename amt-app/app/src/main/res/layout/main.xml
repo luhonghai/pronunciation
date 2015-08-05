@@ -114,6 +114,16 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"/>
                     <ImageButton
+                        android:id="@+id/btnUploadAll"
+                        android:background="@null"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_gravity="center"
+                        android:src="@drawable/p_arrow_up_gray"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"/>
+                    <ImageButton
                         android:id="@+id/btnAnalyzing"
                         android:background="@null"
                         android:layout_width="fill_parent"

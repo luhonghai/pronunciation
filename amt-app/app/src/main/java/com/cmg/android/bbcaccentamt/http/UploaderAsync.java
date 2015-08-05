@@ -11,11 +11,7 @@ package com.cmg.android.bbcaccentamt.http;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-
-
-import com.cmg.android.bbcaccentamt.MainActivity;
 import com.cmg.android.bbcaccentamt.http.exception.UploaderException;
-
 import java.io.FileNotFoundException;
 import java.util.Map;
 

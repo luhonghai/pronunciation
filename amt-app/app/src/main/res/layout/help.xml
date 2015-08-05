@@ -1,19 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pagerHelpContent"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help"
+        android:layout_gravity="center"
+        android:textSize="@dimen/help"/>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <Button
-        android:id="@+id/btnSkip"
-        android:layout_width="60dp"
-        android:text="@string/skip"
-        android:background="@color/app_green"
-        android:textColor="@android:color/white"
-        android:layout_margin="10dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"
-        android:layout_height="35dp" />
-</RelativeLayout>
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_help_content">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/recorded"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"
+                android:background="@color/app_default"
+                android:layout_margin="@dimen/margin_help"
+                android:textColor="@color/app_white"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/uploaded"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"
+                android:layout_margin="@dimen/margin_help"
+                android:background="@color/app_orange"
+                android:textColor="@color/app_white"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rejected"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"
+                android:layout_margin="@dimen/margin_help"
+                android:background="@color/app_red"
+                android:textColor="@color/app_white"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/accepted"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"
+                android:layout_margin="@dimen/margin_help"
+                android:background="@color/app_gray"
+                android:textColor="@color/app_white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
