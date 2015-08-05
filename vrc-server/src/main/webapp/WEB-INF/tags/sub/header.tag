@@ -57,7 +57,11 @@
 				%>
 
 				<li>
-					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i> Admin</a>
+					<a href="#"><i class="fa fa-user-secret"></i> Admin</a>
+					<ul>
+						<li><a href="AdminManage.jsp">Manage User</a></li>
+						<li><a href="AdminManageTranscription.jsp">Manage Transcription</a></li>
+					</ul>
 				</li>
 				<%
 					}
