@@ -38,17 +38,17 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label">To</label>
+          <label class="control-label">From</label>
           <div >
-            <input type='text' class="form-control" id='CreateDateTo' placeholder="To"/>
+            <input type='text' class="form-control" id='ModifiedDateFrom' placeholder="To"/>
           </div>
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">From</label>
+          <label class="control-label">To</label>
           <div >
-            <input type='text' class="form-control" id='ModifiedDateFrom' placeholder="From" />
+            <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
           </div>
         </div>
         <div class="form-group">
