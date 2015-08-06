@@ -23,34 +23,46 @@
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Sentence</label>
-          <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 40px;text-align: right;">
+        <div class="form-group" style="margin-top: 40px;text-align: left;">
           <label class="control-label" style="margin-bottom: 0px;">Create Date Sentence</label>
+        </div>
+        <div class="form-group" style="margin-top: 40px;text-align: left;">
+          <label class="control-label" style="margin-bottom: 0px;">Modified Date Sentence</label>
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
           <label class="control-label">From</label>
           <div >
-            <input type='text' class="form-control" id='DateFrom' placeholder="From" />
-
+            <input type='text' class="form-control" id='CreateDateFrom' placeholder="From" />
           </div>
         </div>
-
+        <div class="form-group">
+          <label class="control-label">To</label>
+          <div >
+            <input type='text' class="form-control" id='CreateDateTo' placeholder="To"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">From</label>
+          <div >
+            <input type='text' class="form-control" id='ModifiedDateFrom' placeholder="From" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label">To</label>
+          <div >
+            <input type='text' class="form-control" id='ModifiedDateTo' placeholder="To"/>
+          </div>
+        </div>
 
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='DateTo' placeholder="To"/>
-
-          </div>
+          <label class="control-label">Sentence</label>
+          <input type="text" name="filter-sentence" id="sentence" class="form-control" placeholder="Account">
         </div>
         <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
 
@@ -63,6 +75,7 @@
         <div class="panel-heading">
           <button type="button" id="addUser" name="addCode">Add Sentence</button>
 
+
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -74,6 +87,7 @@
                   <th>Author</th>
                   <th>Sentence</th>
                   <th>CreateDate</th>
+                  <th>ModifiedDate</th>
                   <th></th>
                 </tr>
                 </thead>

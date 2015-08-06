@@ -10,31 +10,39 @@ function listTranscription(){
         "bServerSide": true,
 
         "ajax": {
-            "url": "Admins",
+            "url": "TranscriptionServlet",
             "type": "POST",
             "dataType": "json",
             "data": {
                 list: "list",
-                username: $("#username").val(),
-                firstname: $("#firstname").val(),
-                lastname: $("#lastname").val()
+                sentence: $("#sentence").val(),
+                CreateDateFrom: $("#CreateDateFrom").val(),
+                CreateDateTo: $("#CreateDateTo").val(),
+                ModifiedDateFrom: $("#ModifiedDateFrom").val(),
+                ModifiedDateTo: $("#ModifiedDateTo").val()
+
             }
         },
 
         "columns": [{
-            "sWidth": "25%",
-            "data": "",
+            "sWidth": "20%",
+            "data": "author",
             "sDefaultContent": ""
 
         }, {
-            "sWidth": "20%",
-            "data": "firstName",
+            "sWidth": "35%",
+            "data": "sentence",
             "sDefaultContent": ""
         }, {
-            "sWidth": "20%",
-            "data": "lastName",
+            "sWidth": "15%",
+            "data": "createdDate",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "15%",
+            "data": "modifiedDate",
             "sDefaultContent": ""
         },{
+            "sWidth": "15%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
@@ -64,25 +72,22 @@ function dateTo(){
     });
 }
 
-function adduser(){
+function addsentence(){
     $(document).on("click","#yesadd", function(){
-            var username = $("#addusername").val();
+            var sentence = $("#addsentence").val();
             $.ajax({
-                url: "Admins",
+                url: "TranscriptionServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
                     add: "add",
-                    username: username
+                    sentence: sentence
                 },
                 success: function (data) {
                     if (data == "success") {
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#add").modal('hide');
-                    }
-                    if (data == "error") {
-                        $("#UserNameExitAdd").show();
                     }
                 },
                 error: function () {
@@ -117,12 +122,11 @@ function deletes(){
     });
 }
 
-function deleteuser(){
+function deletesentence(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
-        var ids=$("#ids").val();
             $.ajax({
-                url: "Admins",
+                url: "TranscriptionServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
@@ -131,7 +135,6 @@ function deleteuser(){
                 },
                 success: function (data) {
                     if (data == "success") {
-
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#deletes").modal('hide');
@@ -154,30 +157,26 @@ function edit(){
 
 }
 
-function edituser(){
+function editsentence(){
     $(document).on("click","#yesedit", function(){
 
             var id = $("#idedit").val();
-            var firstname = $("#editfirstname").val();
+            var sentence = $("#editsentence").val();
 
             $.ajax({
-                url: "Admins",
+                url: "TranscriptionServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
                     edit: "edit",
                     id: id,
-                    firstname: firstname
+                    sentence: sentence
                 },
                 success: function (data) {
                     if (data == "success") {
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#edits").modal('hide');
-                    }
-                    if (data == "error") {
-                        $("#UserNameExitUpdate").show();
-
                     }
 
                 },
@@ -195,14 +194,16 @@ function edituser(){
 function searchAdvanted(){
     $(document).on("click","#button-filter", function(){
         myTable.fnSettings().ajax = {
-            "url": "Admins",
+            "url": "TranscriptionServlet",
             "type": "POST",
             "dataType": "json",
             "data": {
                 list: "list",
-                username: $("#username").val(),
-                firstname:$("#firstname").val(),
-                lastname:$("#lastname").val()
+                sentence: $("#sentence").val(),
+                CreateDateFrom: $("#CreateDateFrom").val(),
+                CreateDateTo: $("#CreateDateTo").val(),
+                ModifiedDateFrom: $("#ModifiedDateFrom").val(),
+                ModifiedDateTo: $("#ModifiedDateTo").val()
             }
         };
         $("tbody").html("");
@@ -212,36 +213,17 @@ function searchAdvanted(){
     });
 }
 
-function hideaddmessage(){
-    $(document).on("click","#closeadd", function(){
-        $("#nameadds").hide();
-        $("#nameaddsemail").hide();
-        $("#passadds").hide();
-        $("#roleadds").hide();
-        $("#UserNameExitAdd").hide();
-    });
-
-}
-function hideeditmessage(){
-    $(document).on("click","#closeedit", function(){
-        $("#nameeditsemail").hide();
-
-    });
-
-}
 
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
     dateFrom();
     dateTo();
-    hideaddmessage();
-    hideeditmessage();
     add();
-    adduser();
+    addsentence();
     edit();
-    edituser();
+    editsentence();
     deletes();
-    deleteuser();
+    deletesentence();
     listTranscription();
     searchAdvanted();
 });

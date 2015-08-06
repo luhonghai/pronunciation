@@ -23,6 +23,9 @@ public class TranscriptionJDO implements Mirrorable {
     private String sentence;
 
     @Persistent
+    private int status;
+
+    @Persistent
     private String author;
 
     @Persistent
@@ -69,5 +72,12 @@ public class TranscriptionJDO implements Mirrorable {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

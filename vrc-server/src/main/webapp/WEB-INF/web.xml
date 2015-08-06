@@ -180,10 +180,34 @@
         <servlet-name>Pronunciationss</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.Pronunciationss</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>Pronunciationss</servlet-name>
         <url-pattern>/Pronunciationss</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>TranscriptionServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.TranscriptionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TranscriptionServlet</servlet-name>
+        <url-pattern>/TranscriptionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TranscriptionDropdownlist</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.TranscriptionDropdownlist</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TranscriptionDropdownlist</servlet-name>
+        <url-pattern>/TranscriptionDropdownlist</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>AWSServiceHandler</servlet-name>

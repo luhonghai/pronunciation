@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 
 import java.util.Date;
-
+import org.apache.commons.lang.ArrayUtils;
 /**
  * Created by luhonghai on 5/8/15.
  */
@@ -53,9 +53,24 @@ public class TestDAO {
         AppDetail appDetail=new AppDetail();
         UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
         AdminDAO adminDAO=new AdminDAO();
+        TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
 
 
         try {
+            Object[] a = { "aa", "bb", "aa", "bb", "dd", "cc", "dd", "cc", "cc", "dd"};
+
+            for (int i = 0; i < a.length; i++) {
+                for (int j = i + 1; j < a.length; j++) {
+                    if (a[i].equals(a[j])) {
+                        a=ArrayUtils.remove(a, j);
+                    }
+                }
+            }
+            for(int i=0;i<a.length;i++){
+                System.out.println(a[i]);
+            }
+
+
 
           //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
             //fe.listAll(0,10,"df",0,"asc","ds","fdsf","ds","fdsf",new Date(10/12/2014),new Date(9/8/2015));
@@ -87,6 +102,7 @@ public class TestDAO {
 //            System.out.println(gson.toJson(usageDAO.listAll()));
            // usageDAO.getCountSearch("","anh.nguyen@c-mg.com");
             //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
+           // transcriptionDAO.listAll(0,10,"dfs",0,"dsfs","gfdgd",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
         } catch (Exception e) {
             e.printStackTrace();
         }
