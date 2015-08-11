@@ -1,21 +1,9 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%
-  String role=session.getAttribute("role").toString();
-  String id = session.getAttribute("id").toString();
-%>
-<input type="hidden" name="ids" id="ids" value="<%=id%>">
-<input type="hidden" name="role" id="role" value="<%=role%>">
-<%
-  if (session.getAttribute("role")==null){
-    return;
-  }
-  if(session.getAttribute("role").equals(1)){
-%>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Admin Manage Transcription</h1>
+      <h1 class="page-header">Client Code Manage</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -23,49 +11,25 @@
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Create Date Sentence</label>
-        </div>
-        <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Modified Date Sentence</label>
+        <div class="form-group">
+          <label class="control-label">CompanyName</label>
+          <input type="text" name="filter-companyname" id="companyname" class="form-control" placeholder="CompanyName">
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateFrom' placeholder="From" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='ModifiedDateFrom' placeholder="To"/>
-          </div>
+          <label class="control-label">ContactName</label>
+          <input type="text" name="filter-contactname" id="contactname" class="form-control" placeholder="ContactName">
         </div>
       </div>
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
-          </div>
+          <label class="control-label">Email</label>
+          <input type="text" name="filter-email" id="email" class="form-control" placeholder="Email">
         </div>
-        <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='ModifiedDateTo' placeholder="To"/>
-          </div>
-        </div>
-
       </div>
       <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Sentence</label>
-          <input type="text" name="filter-sentence" id="sentence" class="form-control" placeholder="Sentence">
-        </div>
         <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-
       </div>
     </div>
   </div>
@@ -73,8 +37,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add Sentence</button>
-
+          <button type="button" id="adduser" name="addUser">Add Company</button>
 
         </div>
         <!-- /.panel-heading -->
@@ -84,10 +47,9 @@
               <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Author</th>
-                  <th>Sentence</th>
-                  <th>CreateDate</th>
-                  <th>ModifiedDate</th>
+                  <th>CompanyName</th>
+                  <th>ContactName</th>
+                  <th>Email</th>
                   <th></th>
                 </tr>
                 </thead>
@@ -119,16 +81,34 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-            <h1 align="center">Add Sentence</h1>
+            <h1 align="center">Add User</h1>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
-
-                <label class="col-xs-4  col-sm-3 control-label ">Sentence:</label>
+                <p id="UserNameExitAdd" class="UserNameExitAdd" style="color:red;margin-left:50px;display: none;">Company name exits</p>
+                <label class="col-xs-4  col-sm-3 control-label ">CompanyName:</label>
                 <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addsentence" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                  <input  type="text" id="addcompanyname" name="addcompanyname" class=" form-control" style="padding-left: 0px;">
+                  <p id="addcompanynames" class="addcompanynames" style="color:red; display: none;">Required field to enter data</p>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">ContactName:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input type="text" id="addcontactname" name="addcontactname" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
+                  <p id="addcontactnames" class="addcontactnames" style="color:red; display: none;">Required field to enter data</p>
                 </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">Email:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input type="text" id="addemail" name="addemail" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
+                  <p id="nameadds" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
+                  <p id="nameaddsemail" class="nameaddemail" style="color:red; display: none;">Email format wrong!</p>
+                </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
@@ -155,17 +135,33 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-            <h1 align="center">Edit Sentence</h1>
+            <h1 align="center">Edit User</h1>
             <form name="Edit" class="form-horizontal"
                   style="margin-top: 25px" id="editform">
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">Sentence:</label>
+                <label class="col-xs-4  col-sm-3 control-label">CompanyName:</label>
                 <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editsentence" name="editsentence" class=" form-control" style="padding-left: 0px;">
+                  <input  type="text" id="editcompanyname" name="editcompanyname" class=" form-control" style="padding-left: 0px;" disabled>
                 </div>
 
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">ContactName:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editcontactname" name="editcontactname" class=" form-control" style="padding-left: 0px;">
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">Email:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editemail" name="editemail" class=" form-control" style="padding-left: 0px;">
+                  <p id="nameedits" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
+                  <p id="nameeditsemail" class="nameaddemail" style="color:red; display: none;">Email format wrong!</p>
+
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
@@ -188,7 +184,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Sentence</h1>
+        <h1 class="modal-title" align="center">Delete Item</h1>
       </div>
       <form name="form-delete" >
         <div class="modal-body">
@@ -203,23 +199,6 @@
     </div>
   </div>
 </div>
-<%
-  }
-%>
-<%
-  if (session.getAttribute("role")==null){
-    return;
-  }
-  if(session.getAttribute("role").equals(2)){
-%>
-<div id="page-wrapper">
-  <div class="row">
-    <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
-  </div>
-</div>
-<%
-  }
-%>
 
 
 

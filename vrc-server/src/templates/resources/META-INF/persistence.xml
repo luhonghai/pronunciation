@@ -20,6 +20,7 @@
 		<class>com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO</class>
 		<class>com.cmg.vrc.data.jdo.RecordedSentenceJDO</class>
 		<class>com.cmg.vrc.data.jdo.TranscriptionJDO</class>
+		<class>com.cmg.vrc.data.jdo.ClientCodeJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

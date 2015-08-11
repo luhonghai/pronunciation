@@ -198,13 +198,33 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>TranscriptionDropdownlist</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.TranscriptionDropdownlist</servlet-class>
+        <servlet-name>RecorderServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.RecorderServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>TranscriptionDropdownlist</servlet-name>
-        <url-pattern>/TranscriptionDropdownlist</url-pattern>
+        <servlet-name>RecorderServlet</servlet-name>
+        <url-pattern>/RecorderServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RecorderServletNumber</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.RecorderServletNumber</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RecorderServletNumber</servlet-name>
+        <url-pattern>/RecorderServletNumber</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClientCodeServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ClientCodeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ClientCodeServlet</servlet-name>
+        <url-pattern>/ClientCodeServlet</url-pattern>
     </servlet-mapping>
 
 

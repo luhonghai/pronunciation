@@ -1,8 +1,5 @@
 import com.cmg.vrc.data.dao.impl.*;
-import com.cmg.vrc.data.jdo.AppDetail;
-import com.cmg.vrc.data.jdo.Usage;
-import com.cmg.vrc.data.jdo.User;
-import com.cmg.vrc.data.jdo.UserDevice;
+import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,15 +51,25 @@ public class TestDAO {
         UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
         AdminDAO adminDAO=new AdminDAO();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+        ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
+//        ClientCode clientCode=new ClientCode();
+//        clientCode.setCompanyName("CMG");
+//        clientCode.setContactName("nambui");
+//        clientCode.setEmail("nam.bui@c-mg.com");
+
 
 
         try {
-            Object[] a = { "aa", "bb", "aa", "bb", "dd", "cc", "dd", "cc", "cc", "dd"};
+
+            //clientCodeDAO.put(clientCode);
+
+            Object[] a = { "aa", "bb", "aa", "bb", "dd", "cc", "dd", "dd", "cc", "cc", "dd"};
 
             for (int i = 0; i < a.length; i++) {
                 for (int j = i + 1; j < a.length; j++) {
                     if (a[i].equals(a[j])) {
                         a=ArrayUtils.remove(a, j);
+                        j=j-1;
                     }
                 }
             }
@@ -103,6 +110,8 @@ public class TestDAO {
            // usageDAO.getCountSearch("","anh.nguyen@c-mg.com");
             //lice.listAll(0,10,"ac",0,"acs","","","",new Date(10/12/2014),new Date(9/8/2015));
            // transcriptionDAO.listAll(0,10,"dfs",0,"dsfs","gfdgd",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
+            //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
+           // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
         } catch (Exception e) {
             e.printStackTrace();
         }

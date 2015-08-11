@@ -108,13 +108,31 @@
         </div>
         <form name="form-delete">
           <div class="modal-body">
-            <h4>Do you want to add a new licence code?</h4>
+            <div class="row" style="margin-bottom: 15px;">
+              <div class="col-sm-4">
+              <label class="control-label">Select company</label>
+              </div>
+              <div class="col-sm-8">
+              <select name="company" id="company" class="form-control" required="required">
+
+              </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+              <label class="control-label">Number of licenses</label>
+              </div>
+              <div class="col-sm-8">
+              <input id="numberoflicense" type="number" value="1" min="1" max="100" style="width: 100%;padding: 2px;" />
+              </div>
+
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
-                    class="btn btn-default" >Yes</button>
+                    class="btn btn-default" >Created</button>
 
-            <button type="button" class="btn btn-primary"
+            <button type="button" class="btn btn-primary" id="closeaddcode"
                     data-dismiss="modal">Cancel</button>
           </div>
         </form>
