@@ -515,7 +515,7 @@ public class Preferences extends PreferenceFragment implements
 
     public static UserProfile getCurrentProfile(Context context) {
         String username = getCurrentUsername(context);
-        if (username.length() > 0) {
+        if (username != null && username.length() > 0) {
             AppLog.logString("Current profile username  " + username);
             List<String> data = getUserData(context);
             Gson gson = new Gson();
@@ -570,6 +570,7 @@ public class Preferences extends PreferenceFragment implements
                 }
             }
         }
+        if (CURRENT_USERNAME == null) CURRENT_USERNAME = "";
         return CURRENT_USERNAME;
     }
 
