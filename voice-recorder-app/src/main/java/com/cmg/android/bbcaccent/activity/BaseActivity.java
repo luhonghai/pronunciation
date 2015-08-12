@@ -44,7 +44,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
         if (!ImageLoader.getInstance().isInited()) {
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         }
-        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+       // Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
     }
 
     @Override

@@ -96,7 +96,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         (btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button)).setOnClickListener(this);
         (btnLoginAccent = (ImageButton) findViewById(R.id.btnLoginAccent)).setOnClickListener(this);
         (txtAlternative = (TextView) findViewById(R.id.txtAlternative)).setOnClickListener(this);
-        txtAlternative.setMovementMethod(LinkMovementMethod.getInstance());
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
@@ -1035,7 +1034,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         break;
                 }
                 alternativeStep++;
-                break;
+                return;
         }
     }
 

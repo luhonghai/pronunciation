@@ -82,8 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:autoLink="web"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="@string/alternative_login"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>

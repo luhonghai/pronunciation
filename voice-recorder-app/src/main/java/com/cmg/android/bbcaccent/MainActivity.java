@@ -1121,6 +1121,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             AppLog.logString("Profile is not setup: " + profile.getUsername());
             //openSettings();
             //profile.setHelpStatus(UserProfile.HELP_SKIP);
+            SweetAlertDialog dialogHelp = new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+            dialogHelp.setCustomImage(android.R.drawable.ic_menu_search);
+            dialogHelp.setTitleText(getString(R.string.help_search_icon_title));
+            dialogHelp.setContentText(getString(R.string.help_search_icon));
+            dialogHelp.setConfirmText(getString(R.string.dialog_ok));
+            dialogHelp.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            dialogHelp.show();
             Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
             startActivity(HelpActivity.class);
         } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
