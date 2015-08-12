@@ -65,10 +65,12 @@ import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
 import com.cmg.android.bbcaccentamt.common.FileCommon;
 import com.cmg.android.bbcaccentamt.data.CustomAdapter;
+import com.cmg.android.bbcaccentamt.data.Database;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
 import com.cmg.android.bbcaccentamt.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.SentenceModel;
+import com.cmg.android.bbcaccentamt.data.SentenceUpload;
 import com.cmg.android.bbcaccentamt.data.SphinxResult;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.data.UserVoiceModel;
@@ -1497,6 +1499,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         @Override
         public void onReceive(Context context, Intent intent) {
             DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
+            Database database=new Database(context);
+            SentenceUpload sentenceUpload=new SentenceUpload();
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
 
@@ -1520,6 +1524,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 sentenceModel.setStatus(1);
                 sentenceModel.setIndex(4);
                 databaseHandlerSentence.updateSentence(sentenceModel);
+                sentenceUpload.setSentence(idSentence);
+                database.addSentence(sentenceUpload);
+
                 listAllItem();
                 List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentenceUpload();
                 if(sentenceModels.size()>0) {
