@@ -87,12 +87,12 @@ public class TranscriptionService {
     }
 
     public List<Transcription> listTranscriptionByAccount(String account) throws Exception {
-        List<Transcription> transcriptions = transcriptionDAO.listAll();
-        if (transcriptions != null && transcriptions.size() > 0) {
+        List<Transcription> transcriptions = transcriptionDAO.listAll(3000);
+        Map<String, RecordedSentence> recordedSentenceMap = recordedSentenceDAO.getByAccount(account);
+        if (transcriptions != null && transcriptions.size() > 0 && recordedSentenceMap != null && recordedSentenceMap.size() > 0) {
             for (final Transcription transcription : transcriptions) {
-                RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(transcription.getId(), account);
-                if (recordedSentence != null) {
-                    transcription.setStatus(recordedSentence.getStatus());
+                if (recordedSentenceMap.containsKey(transcription.getId())) {
+                    transcription.setStatus(recordedSentenceMap.get(transcription.getId()).getStatus());
                 }
             }
         }
