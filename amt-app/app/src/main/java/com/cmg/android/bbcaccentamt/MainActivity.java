@@ -78,6 +78,8 @@ import com.cmg.android.bbcaccentamt.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccentamt.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccentamt.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
+import com.cmg.android.bbcaccentamt.http.UploadAllService;
+import com.cmg.android.bbcaccentamt.http.UploaderAllAsync;
 import com.cmg.android.bbcaccentamt.http.UploaderAsync;
 import com.cmg.android.bbcaccentamt.utils.AnalyticHelper;
 import com.cmg.android.bbcaccentamt.utils.AndroidHelper;
@@ -299,7 +301,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }
         });
-
+        registerReceiver(mHanleUploadAll, new IntentFilter(UploaderAllAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
         getWord(getString(R.string.example_word));
@@ -1108,6 +1110,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } catch (Exception e) {
 
         }
+
         stop();
         try {
             dbAdapter.close();
@@ -1233,6 +1236,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.startAnimation(fadeIn);
                 uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
                 uploadSentence.setEnabled(false);
+                uploadAllSentence.setEnabled(false);
+                uploadAllSentence.setImageResource(R.drawable.p_arrow_up_gray);
+
 
                 break;
             case PLAYING:
@@ -1243,6 +1249,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
                 uploadSentence.setEnabled(false);
+                uploadAllSentence.setEnabled(false);
+                uploadAllSentence.setImageResource(R.drawable.p_arrow_up_gray);
+
 
                 break;
             case UPLOAD:
@@ -1253,6 +1262,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 btnAnalyzing.setEnabled(false);
                 btnAudio.setImageResource(R.drawable.p_audio_gray);
                 btnAudio.setEnabled(false);
+                uploadAllSentence.setEnabled(false);
+                uploadAllSentence.setImageResource(R.drawable.p_arrow_up_gray);
+
 
                 break;
             case UPLOADALL:
@@ -1465,6 +1477,21 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     }
 
+    private final BroadcastReceiver mHanleUploadAll = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            if (bundle.containsKey(UploaderAllAsync.UPLOAD_COMPLETE_INTENT)){
+                String data = bundle.getString(UploaderAllAsync.UPLOAD_COMPLETE_INTENT);
+                AppLog.logString("upload status : " + data);
+                listAllItem();
+                switchButtonStage(ButtonState.UPLOADALL1);
+                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+            }
+        }
+    };
+
+
     private final BroadcastReceiver mHandleMessageReader = new BroadcastReceiver() {
 
         @Override
@@ -1494,7 +1521,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 sentenceModel.setIndex(4);
                 databaseHandlerSentence.updateSentence(sentenceModel);
                 listAllItem();
-                switchButtonStage(ButtonState.UPLOAD1);
+                List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentenceUpload();
+                if(sentenceModels.size()>0) {
+                    switchButtonStage(ButtonState.UPLOAD1);
+                }else
+                    switchButtonStage(ButtonState.UPLOADALL1);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
@@ -1582,54 +1613,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void uploadAllRecord() {
         UserProfile profile = Preferences.getCurrentProfile(this);
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        try {
-            AppLog.logString("Start Uploading");
-            analyzingState = AnalyzingState.ANALYZING;
-            uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
-            Map<String, String> params = new HashMap<String, String>();
-            String name=profile.getUsername();
-            List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
-            for(int i=0;i<sentenceModels.size();i++) {
-               if(sentenceModels.get(i).getStatus()==-1) {
-                   String id=sentenceModels.get(i).getID();
-                   String fileName = audioStream.getTmpDir(id, name);
-                   File tmp = new File(fileName);
-                   if (tmp.exists()) {
-
-                       if (profile != null) {
-                           Gson gson = new Gson();
-                           profile.setUuid(new DeviceUuidFactory(this).getDeviceUuid().toString());
-                           UserProfile.UserLocation lc = new UserProfile.UserLocation();
-
-
-                           Location location = AndroidHelper.getLastBestLocation(this);
-                           if (location != null) {
-                               lc.setLongitude(location.getLongitude());
-                               lc.setLatitude(location.getLatitude());
-                               AppLog.logString("Lat: " + lc.getLatitude() + ". Lon: " + lc.getLongitude());
-                               profile.setLocation(lc);
-                           }
-                           profile.setTime(System.currentTimeMillis());
-                           params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
-                           params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
-                           params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
-                           params.put("profile", gson.toJson(profile));
-                           params.put("sentence", idSentence);
-                           uploadTask.execute(params);
-
-
-                       } else {
-                           AppLog.logString("Could not get user profile");
-                       }
-                   }
-               }
-           }
-
-
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not upload recording", e);
-        }
+        Gson gson = new Gson();
+        String jsonProfile = gson.toJson(profile);
+        Intent mIntent = new Intent(this, UploadAllService.class);
+        mIntent.putExtra("jsonProfile",jsonProfile);
+        startService(mIntent);
     }
 
 

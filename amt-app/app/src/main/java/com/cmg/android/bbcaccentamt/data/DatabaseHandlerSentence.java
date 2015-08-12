@@ -73,9 +73,9 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     public SentenceModel getSentence(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_SENTENCE, new String[] { KEY_ID,
+        Cursor cursor = db.query(TABLE_SENTENCE, new String[]{KEY_ID,
                         KEY_NAME, KEY_STATUS, KEY_INDEX}, KEY_ID + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
+                new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -106,6 +106,28 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         return sentenceModelsList;
     }
 
+
+    public List<SentenceModel> getAllSentenceUpload() {
+        List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_SENTENCE, new String[]{KEY_ID,
+                        KEY_NAME, KEY_STATUS, KEY_INDEX}, KEY_STATUS + "=?",
+                new String[]{String.valueOf("-1")}, null, null, null, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                SentenceModel sentenceModel = new SentenceModel();
+                sentenceModel.setID(cursor.getString(0));
+                sentenceModel.setSentence(cursor.getString(1));
+                sentenceModel.setStatus(Integer.parseInt(cursor.getString(2)));
+                sentenceModel.setIndex(Integer.parseInt(cursor.getString(3)));
+                sentenceModelsList.add(sentenceModel);
+            } while (cursor.moveToNext());
+        }
+
+        return sentenceModelsList;
+    }
 
     public int updateSentence(SentenceModel sentenceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
