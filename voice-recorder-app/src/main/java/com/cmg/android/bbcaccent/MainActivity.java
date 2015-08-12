@@ -282,7 +282,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
         String[] words = getResources().getStringArray(R.array.words_list);
         if (words != null && words.length > 0) {
-            getWord(words[RandomHelper.getRandomIndex(words.length)].split("\\|")[0]);
+            getWord(words[RandomHelper.getRandomIndex(words.length)].split("\\|")[0].trim());
         } else {
             getWord(getString(R.string.example_word));
         }

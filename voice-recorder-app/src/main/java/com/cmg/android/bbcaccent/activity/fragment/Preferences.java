@@ -172,8 +172,8 @@ public class Preferences extends PreferenceFragment implements
         userData.add(gson.toJson(profile));
         SharedPreferences.Editor editor = pref.edit();
         editor.putStringSet(PREF_USERNAMES, userData);
-        //editor.apply();
-        editor.commit();
+        editor.apply();
+        // editor.commit();
     }
 
     public static void updateProfile(Context context, final UserProfile profile) {
@@ -204,8 +204,8 @@ public class Preferences extends PreferenceFragment implements
         userData.add(gson.toJson(profile));
         SharedPreferences.Editor editor = pref.edit();
         editor.putStringSet(PREF_USERNAMES, userData);
-        //editor.apply();
-        editor.commit();
+        editor.apply();
+        // editor.commit();
     }
 
 
@@ -234,7 +234,7 @@ public class Preferences extends PreferenceFragment implements
             userData.add(gson.toJson(profile));
             SharedPreferences.Editor editor = pref.edit();
             editor.putStringSet(PREF_USERNAMES, userData);
-            editor.commit();
+            editor.apply();
         }
     }
 
@@ -263,7 +263,8 @@ public class Preferences extends PreferenceFragment implements
             userData.add(gson.toJson(profile));
             SharedPreferences.Editor editor = pref.edit();
             editor.putStringSet(PREF_USERNAMES, userData);
-            editor.commit();
+            //editor.commit();
+            editor.apply();
         }
     }
 
@@ -413,8 +414,8 @@ public class Preferences extends PreferenceFragment implements
                     data.add(gson.toJson(profile));
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putStringSet(PREF_USERNAMES, data);
-                    editor.commit();
-                    //editor.apply();
+                    //editor.commit();
+                    editor.apply();
                 }
                 selectUsername(pref, username);
             }
@@ -448,23 +449,25 @@ public class Preferences extends PreferenceFragment implements
     }
 
     private void updateProfile(final SharedPreferences pref, final UserProfile profile) {
-        synchronized (data) {
-            Log.i(TAG, "Update profile " + profile.getUsername());
-            Iterator<String> iterator = data.iterator();
-            while (iterator.hasNext()) {
-                String raw = iterator.next();
-                UserProfile tmp = gson.fromJson(raw, UserProfile.class);
-                if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
-                    data.remove(raw);
-                    break;
-                }
+        Set<String> data = pref.getStringSet(PREF_USERNAMES, null);
+        if (data == null)
+            data = new HashSet<String>();
+        Log.i(TAG, "Update profile " + profile.getUsername());
+        Iterator<String> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            String raw = iterator.next();
+            UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+            if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
+                data.remove(raw);
+                break;
             }
-            data.add(gson.toJson(profile));
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet(PREF_USERNAMES, data).commit();
-            //editor.apply();
-            editor.commit();
         }
+        data.add(gson.toJson(profile));
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putStringSet(PREF_USERNAMES, data);
+        editor.apply();
+        //editor.commit();
+
     }
 
     private void fillProfile(final UserProfile profile) {
@@ -521,7 +524,7 @@ public class Preferences extends PreferenceFragment implements
     public static void setSelectedUsername(String username, Context context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit()
                 .putString(KEY_USERNAME_LIST, username).commit();
-                //.apply();
+        //.apply();
     }
 
     public static boolean getBoolean(String key, Context context, boolean defaultValue) {
@@ -552,7 +555,7 @@ public class Preferences extends PreferenceFragment implements
     public static UserProfile getCurrentProfile(Context context) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
         String username = pref.getString(KEY_USERNAME_LIST, "");
-        if (username != null && username.length() > 0) {
+        if (username.length() > 0) {
             AppLog.logString("Current profile username  " + username);
             Set<String> data = pref.getStringSet(PREF_USERNAMES, null);
             Gson gson = new Gson();
