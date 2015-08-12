@@ -416,6 +416,7 @@ public class TranscriptionService {
     public void loadTranscription(InputStream is) throws Exception {
         synchronized (lock) {
             try {
+                transcriptionDAO.deleteAll();
                 recycleSentences();
                 List<String> transcriptions = IOUtils.readLines(is);
                 if (transcriptions != null && transcriptions.size() > 0) {
@@ -459,7 +460,7 @@ public class TranscriptionService {
     }
 
     public void loadTranscription() throws Exception {
-        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/default_transcription.txt"));
+        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/voxforge_en_sphinx.transcription"));
     }
 
     private void writeHtmlToResult(String html) throws IOException {
@@ -482,7 +483,7 @@ public class TranscriptionService {
 
     public static void main(String[] args) {
         TranscriptionService service = new TranscriptionService();
-        service.setUseJDO(false);
+        service.setUseJDO(true);
         try {
             service.loadTranscription();
             FileUtils.copyFile(service.getResultHtmlFile(), new File("/Users/cmg/Desktop/transcription-analyzing-result.html"));
