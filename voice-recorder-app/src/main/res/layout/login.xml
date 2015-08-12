@@ -45,16 +45,6 @@
             android:padding="@dimen/login_button_layout_container_padding"
             android:background="@android:color/white">
             <ImageButton
-                android:id="@+id/loginButton"
-                android:background="@null"
-                android:layout_width="@dimen/button_login_width"
-                android:layout_height="@dimen/button_login_height"
-                android:src="@drawable/p_btn_login_facebook"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_margin="@dimen/login_button_margin"
-                android:clickable="false"/>
-            <ImageButton
                 android:id="@+id/sign_in_button"
                 android:background="@null"
                 android:layout_width="@dimen/button_login_width"
@@ -65,7 +55,19 @@
                 android:layout_margin="@dimen/login_button_margin"
                 android:clickable="false"/>
             <ImageButton
+                android:id="@+id/loginButton"
+                android:visibility="invisible"
+                android:background="@null"
+                android:layout_width="@dimen/button_login_width"
+                android:layout_height="@dimen/button_login_height"
+                android:src="@drawable/p_btn_login_facebook"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="@dimen/login_button_margin"
+                android:clickable="false"/>
+            <ImageButton
                 android:id="@+id/btnLoginAccent"
+                android:visibility="invisible"
                 android:background="@null"
                 android:layout_width="@dimen/button_login_width"
                 android:layout_height="@dimen/button_login_height"
@@ -74,16 +76,16 @@
                 android:scaleType="fitCenter"
                 android:layout_margin="@dimen/login_button_margin"
                 android:clickable="false"/>
-            <ImageButton
-                android:id="@+id/btnRegister"
-                android:background="@null"
-                android:layout_width="@dimen/button_login_width"
-                android:layout_height="@dimen/button_login_height"
-                android:src="@drawable/p_btn_register"
-                android:adjustViewBounds="true"
-                android:layout_margin="@dimen/login_button_margin"
-                android:scaleType="fitCenter"
-                android:clickable="false"/>
+
+            <TextView
+                android:id="@+id/txtAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="@string/alternative_login"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

@@ -39,7 +39,8 @@
     <string name="dialog_close">close</string>
 
     <string name="txtTermCondition"><a href="http://www.accenteasy.com/useraccounts/TnC">terms &amp; conditions</a></string>
-    <string name="lostpassword"><a href="#">click here if you have forgotten your password</a></string>
+    <string name="alternative_login"><a href="#">alternative login</a></string>
+    <string name="lostpassword"><a href="#">reset your password</a></string>
 
     <string name="error_message_title">an unexpected error occurred</string>
     <string name="dialog_ok">OK</string>
