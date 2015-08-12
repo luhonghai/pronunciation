@@ -77,6 +77,7 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.daimajia.androidanimations.library.Techniques;
@@ -279,7 +280,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
-        getWord(getString(R.string.example_word));
+        String[] words = getResources().getStringArray(R.array.words_list);
+        if (words != null && words.length > 0) {
+            getWord(words[RandomHelper.getRandomIndex(words.length)].split("\\|")[0]);
+        } else {
+            getWord(getString(R.string.example_word));
+        }
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
     }
