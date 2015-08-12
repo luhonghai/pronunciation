@@ -87,12 +87,12 @@ public class TranscriptionService {
     }
 
     public List<Transcription> listTranscriptionByAccount(String account) throws Exception {
-        List<Transcription> transcriptions = transcriptionDAO.listAll();
-        if (transcriptions != null && transcriptions.size() > 0) {
+        List<Transcription> transcriptions = transcriptionDAO.listAll(3000);
+        Map<String, RecordedSentence> recordedSentenceMap = recordedSentenceDAO.getByAccount(account);
+        if (transcriptions != null && transcriptions.size() > 0 && recordedSentenceMap != null && recordedSentenceMap.size() > 0) {
             for (final Transcription transcription : transcriptions) {
-                RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(transcription.getId(), account);
-                if (recordedSentence != null) {
-                    transcription.setStatus(recordedSentence.getStatus());
+                if (recordedSentenceMap.containsKey(transcription.getId())) {
+                    transcription.setStatus(recordedSentenceMap.get(transcription.getId()).getStatus());
                 }
             }
         }
@@ -416,6 +416,7 @@ public class TranscriptionService {
     public void loadTranscription(InputStream is) throws Exception {
         synchronized (lock) {
             try {
+                transcriptionDAO.deleteAll();
                 recycleSentences();
                 List<String> transcriptions = IOUtils.readLines(is);
                 if (transcriptions != null && transcriptions.size() > 0) {
@@ -459,7 +460,7 @@ public class TranscriptionService {
     }
 
     public void loadTranscription() throws Exception {
-        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/default_transcription.txt"));
+        loadTranscription(this.getClass().getClassLoader().getResourceAsStream("amt/voxforge_en_sphinx.transcription"));
     }
 
     private void writeHtmlToResult(String html) throws IOException {
@@ -482,7 +483,7 @@ public class TranscriptionService {
 
     public static void main(String[] args) {
         TranscriptionService service = new TranscriptionService();
-        service.setUseJDO(false);
+        service.setUseJDO(true);
         try {
             service.loadTranscription();
             FileUtils.copyFile(service.getResultHtmlFile(), new File("/Users/cmg/Desktop/transcription-analyzing-result.html"));
