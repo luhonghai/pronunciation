@@ -13,8 +13,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccentamt.AppLog;
+import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
+import com.cmg.android.bbcaccentamt.data.SentenceModel;
 import com.cmg.android.bbcaccentamt.http.exception.UploaderException;
+import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
+
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,11 +30,11 @@ import java.util.Map;
  * @Creator Hai Lu
  * @Last changed: $LastChangedDate$
  */
-public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> {
-    public static final String UPLOAD_COMPLETE_INTENT = "com.cmg.android.bbcaccent.UploaderAysnc";
+public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void, String> {
+    public static final String UPLOAD_COMPLETE_INTENT = "com.cmg.android.bbcaccent.UploaderAllAysnc";
     private final Context context;
     private final String uploadUrl;
-    public UploaderAsync(Context context, String uploadUrl) {
+    public UploaderAllAsync(Context context, String uploadUrl) {
         this.context = context;
         this.uploadUrl = uploadUrl;
     }
@@ -40,18 +45,25 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
     }
 
     @Override
-    protected String doInBackground(Map<String, String>... params) {
+    protected String doInBackground(List<Map<String, String>>... params) {
         AppLog.logString("do upload");
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
         try {
-            StringBuffer results = new StringBuffer();
+            String idSentence = "";
             if (params != null && params.length > 0) {
-                for (Map<String, String> param : params) {
-                    AppLog.logString("do upload : " + param.get("sentence"));
-                    results.append(FileUploader.upload(param, uploadUrl));
+                for (List<Map<String, String>> param : params) {
+                    for (Map<String, String> p : param) {
+                        AppLog.logString("do upload : " + p.get("sentence"));
+                        String result = FileUploader.upload(p, uploadUrl);
+                        idSentence = p.get("sentence");
+                        SentenceModel sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+                        sentenceModel.setStatus(1);
+                        sentenceModel.setIndex(4);
+                        databaseHandlerSentence.updateSentence(sentenceModel);
+                    }
                 }
-
             }
-            return results.toString();
+            return "upload done";
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UploaderException e) {

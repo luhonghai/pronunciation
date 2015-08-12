@@ -2,21 +2,21 @@
 <resources>
     <string name="app_info">Analyzing your English pronunciation level</string>
     <string name="facebook_app_id">1588042831452923</string>
-    <string name="app_name">BBC accent</string>
+    <string name="app_name">Training models</string>
     <string name="choose_format_title">Choose Audio Format</string>
     <string name="start_recording">Record</string>
     <string name="stop_recording">Stop</string>
     <string name="upload_recording">Upload</string>
     <string name="audio_format">Format</string>
 
-    <string name="upload_url">http://192.168.1.17:8080/recordedsentence</string>
-    <string name="auth_url">http://192.168.1.17:8080/AuthHandler</string>
-    <string name="register_url">http://192.168.1.17:8080/RegisterHandler</string>
-    <string name="activation_url">http://192.168.1.17:8080/activate</string>
-    <string name="feedback_url">http://192.168.1.17:8080/FeedbackHandler</string>
-    <string name="license_url">http://192.168.1.17:8080/LicenseHandler</string>
-    <string name="reset_password_url">http://192.168.1.17:8080/ResetPasswordHandler</string>
-    <string name="transcription_url">http://192.168.1.17:8080/transcription</string>
+    <string name="upload_url">http://192.168.1.50:8080/recordedsentence</string>
+    <string name="auth_url">http://192.168.1.50:8080/AuthHandler</string>
+    <string name="register_url">http://192.168.1.50:8080/RegisterHandler</string>
+    <string name="activation_url">http://192.168.1.50:8080/activate</string>
+    <string name="feedback_url">http://192.168.1.50:8080/FeedbackHandler</string>
+    <string name="license_url">http://192.168.1.50:8080/LicenseHandler</string>
+    <string name="reset_password_url">http://192.168.1.50:8080/ResetPasswordHandler</string>
+    <string name="transcription_url">http://192.168.1.50:8080/transcription</string>
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
     <string name="action_switch_custom">Use CustomView</string>
@@ -135,4 +135,12 @@
     <string name="menu_feedback">feedback</string>
     <string name="menu_logout">logout</string>
     <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
+    <string name="accent">accen</string>
+    <string name="help">Help</string>
+    <string name="help_content">The transcription sentences will be coloured as follows</string>
+    <string name="recorded">Recorded-ready for uploading</string>
+    <string name="uploaded">Uploaded-uploaded to server</string>
+    <string name="rejected">Rejected-server has processed</string>
+    <string name="accepted">Accepted-server accepted</string>
+
 </resources>

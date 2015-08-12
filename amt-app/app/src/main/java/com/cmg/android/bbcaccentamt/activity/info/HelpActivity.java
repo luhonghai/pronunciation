@@ -81,53 +81,7 @@ public class HelpActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.help);
-        findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                HelpActivity.this.finish();
-            }
-        });
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        pagerHelpContent = (ViewPager) findViewById(R.id.pagerHelpContent);
-        pagerHelpContent.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                isScrolling = true;
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                currentItem = position;
-                isScrolling = false;
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (previousState == ViewPager.SCROLL_STATE_DRAGGING
-                        && state == ViewPager.SCROLL_STATE_SETTLING)
-                    userScrollChange = true;
-
-                else if (previousState == ViewPager.SCROLL_STATE_SETTLING
-                        && state == ViewPager.SCROLL_STATE_IDLE)
-                    userScrollChange = false;
-
-                previousState = state;
-            }
-        });
-        imageLoadingListener = new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                isInit = true;
-            }
-        };
-        HelpPageAdapter pageAdapter = new HelpPageAdapter(getSupportFragmentManager(), imageLoadingListener);
-        pagerHelpContent.setAdapter(pageAdapter);
-        handler.postDelayed(runnable, HELP_DISPLAY_TIME);
-
-        UserProfile userProfile = Preferences.getCurrentProfile(this);
-        if (userProfile != null && userProfile.getHelpStatus() == UserProfile.HELP_INIT) {
-            Preferences.setHelpStatusProfile(this, userProfile.getUsername(), UserProfile.HELP_SKIP);
-        }
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
