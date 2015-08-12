@@ -31,7 +31,7 @@ public class RecordedSentenceDAO extends DataAccess<RecordedSentenceJDO, Recorde
         if (list != null && list.size() > 0) {
             Map<String, RecordedSentence> map = new HashMap<String, RecordedSentence>();
             for (RecordedSentence r : list) {
-                map.put(r.getId(), r);
+                map.put(r.getSentenceId(), r);
             }
             return map;
         }
