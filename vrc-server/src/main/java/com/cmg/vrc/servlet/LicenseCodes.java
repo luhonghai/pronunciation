@@ -1,5 +1,7 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
+import com.cmg.vrc.data.jdo.ClientCode;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
@@ -16,12 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Random;
-
-
+import java.util.*;
 
 
 /**
@@ -105,19 +102,42 @@ public class LicenseCodes extends HttpServlet {
             }
         }
 
-        if (request.getParameter("addCode") != null) {
+        if(request.getParameter("listCompany")!=null){
+            ClientCodeDAO clientCodeDAO = new ClientCodeDAO();
+            ClientCode ad = new ClientCode();
             try {
-                String codeRandom = randomString(6);
-                List<com.cmg.vrc.data.jdo.LicenseCode> lists = lis.listAll();
-                for (int i = 0; i < lists.size(); i++) {
-                    if (lists.get(i).getCode().contains(codeRandom)) {
-//                       logger.debug(lists.get(i).getCode());
-                        codeRandom = randomString(6);
-                    }
-                }
+                List<ClientCode> clientCodes=clientCodeDAO.listAll();
+                Gson gson = new Gson();
+                String company = gson.toJson(clientCodes);
+                response.getWriter().write(company);
 
-                lisence.setCode(codeRandom);
-                lis.put(lisence);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+
+        if (request.getParameter("addCode") != null) {
+            String code;
+            String company=request.getParameter("company");
+            String number=request.getParameter("number");
+            int n=Integer.parseInt(number);
+            try {
+                for(int k=1;k<=n;k++) {
+                    lisence = new LicenseCode();
+                    String codeRandom = randomString(6);
+                    code=company.concat(codeRandom);
+                    List<com.cmg.vrc.data.jdo.LicenseCode> lists = lis.listAll();
+                    for (int i = 0; i < lists.size(); i++) {
+                        if (lists.get(i).getCode().equals(code)) {
+                            codeRandom = randomString(6);
+                            code=company.concat(codeRandom);
+                        }
+                    }
+                    lisence.setCode(code);
+                    lis.put(lisence);
+                }
                 response.getWriter().write("success");
 
             } catch (Exception e) {

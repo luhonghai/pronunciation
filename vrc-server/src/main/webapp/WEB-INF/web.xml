@@ -180,10 +180,54 @@
         <servlet-name>Pronunciationss</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.Pronunciationss</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>Pronunciationss</servlet-name>
         <url-pattern>/Pronunciationss</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>TranscriptionServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.TranscriptionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TranscriptionServlet</servlet-name>
+        <url-pattern>/TranscriptionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RecorderServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.RecorderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RecorderServlet</servlet-name>
+        <url-pattern>/RecorderServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RecorderServletNumber</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.RecorderServletNumber</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RecorderServletNumber</servlet-name>
+        <url-pattern>/RecorderServletNumber</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClientCodeServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ClientCodeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ClientCodeServlet</servlet-name>
+        <url-pattern>/ClientCodeServlet</url-pattern>
+    </servlet-mapping>
+
+
 
     <servlet>
         <servlet-name>AWSServiceHandler</servlet-name>

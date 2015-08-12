@@ -115,6 +115,26 @@ function activated(){
 
 function add(){
     $(document).on("click","#addCode",function() {
+        var $selected=$("#company");
+        $('#company option[value!="-1"]').remove();
+        $.ajax({
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data": {
+                listCompany: "listCompany"
+            },
+            success:function(data){
+                var items=data;
+                $(items).each(function(){
+                    var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
+                    $selected.append(newOption);
+                });
+
+
+            }
+
+        });
         $("#addCode1").modal('show');
     });
 }
@@ -154,12 +174,16 @@ function filter(){
 function addCode(){
     $(document).on("click","#Yes",function(){
         var newRow;
+        var company=$("#company").val();
+        var number=$("#numberoflicense").val();
         $.ajax({
             url:"LicenseCodes",
             type:"POST",
             dataType:"text",
             data:{
-                addCode:"addCode"
+                addCode:"addCode",
+                company:company,
+                number:number
             },
             success:function(result){
 
@@ -178,6 +202,7 @@ function addCode(){
 
     });
 }
+
 
 function detailemei(){
     $(document).on("click", "#emei", function () {
@@ -216,7 +241,6 @@ function detailemei(){
 $(document).ready(function(){
     filter();
     detailemei();
-
     add();
     addCode();
     listLicenseCode();

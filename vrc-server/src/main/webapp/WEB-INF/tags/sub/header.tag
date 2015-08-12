@@ -46,6 +46,9 @@
 					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
 				</li>
 				<li>
+					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
+				</li>
+				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
 				</li>
 				<%
@@ -57,7 +60,12 @@
 				%>
 
 				<li>
-					<a href="AdminManage.jsp"><i class="fa fa-user-secret"></i> Admin</a>
+					<a href="#"><i class="fa fa-user-secret"></i> Admin</a>
+					<ul>
+						<li><a href="AdminManage.jsp">Manage User</a></li>
+						<li><a href="AdminManageTranscription.jsp">Manage Transcription</a></li>
+						<li><a href="AdminManageRecorder.jsp">Manage Recorder</a></li>
+					</ul>
 				</li>
 				<%
 					}
