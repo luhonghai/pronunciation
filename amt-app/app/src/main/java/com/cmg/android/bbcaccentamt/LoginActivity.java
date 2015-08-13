@@ -26,6 +26,7 @@ public class LoginActivity extends BaseActivity {
 
     private SweetAlertDialog dialogProgress;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

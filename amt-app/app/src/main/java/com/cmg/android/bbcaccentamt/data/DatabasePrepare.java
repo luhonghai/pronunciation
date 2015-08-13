@@ -97,87 +97,42 @@ public class DatabasePrepare {
                 ResponseData data = gson.fromJson(rawJson, ResponseData.class);
                 SimpleAppLog.info("Status: " + data.isStatus() + ". Message: " + data.getMessage());
                 if (data.transcriptions != null && data.transcriptions.size() >0 ) {
-                    SentenceModel sentenceModel=new SentenceModel();
 
-                    if(databaseHandlerSentence.getAllSentence().size()==0){
-                        for (int i = 0; i < data.transcriptions.size(); i++) {
-                            sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
-                                        sentenceModel.setStatus(0);
+                    databaseHandlerSentence.deleteAllSentence();
+                            for (int i = 0; i < data.transcriptions.size(); i++) {
+                                int n = 0;
+                                SentenceModel sentenceModel=new SentenceModel();
+                                String id=data.transcriptions.get(i).getId();
+                                    String output=audioStream.getTmpDir(id,name);
+                                    File dstFile = new File(output);
+                                    if (dstFile.exists() && data.transcriptions.get(i).getStatus()==0) {
+                                        sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
+                                        sentenceModel.setStatus(-1);
                                         sentenceModel.setID(data.transcriptions.get(i).getId());
-                                        sentenceModel.setIndex(3);
+                                        sentenceModel.setIndex(2);
                                         databaseHandlerSentence.addSentence(sentenceModel);
-                        }
-                    }
-                    if(databaseHandlerSentence.getAllSentence().size()>0){
+                                        n = n + 1;
+                                    }
+                                if (n == 0) {
+                                    if (data.transcriptions.get(i).getStatus()==2){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),1));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==0){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),3));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==1){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),4));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==3){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),5));
+                                    }
+                                    if (data.transcriptions.get(i).getStatus()==4){
+                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),6));
+                                    }
 
-                           for(int i=0;i<data.transcriptions.size();i++){
-                               if(data.transcriptions.get(i).getStatus()==6){
-                                   sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
-                                   sentenceModel.setStatus(0);
-                                   sentenceModel.setID(data.transcriptions.get(i).getId());
-                                   sentenceModel.setIndex(3);
-                               }
-                               for(int j=0;j<database.getAllIdSentence().size();j++){
-                                   if(database.getAllIdSentence().get(j).getSentence().equals(data.transcriptions.get(i).getSentence())){
-                                       sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
-                                       sentenceModel.setStatus(data.transcriptions.get(i).getStatus());
-                                       sentenceModel.setID(data.transcriptions.get(i).getId());
-                                       if(data.transcriptions.get(i).getStatus()==1){
-                                           sentenceModel.setIndex(4);
-                                       }
-                                       if(data.transcriptions.get(i).getStatus()==2){
-                                           sentenceModel.setIndex(1);
-                                       }
-                                       if(data.transcriptions.get(i).getStatus()==3){
-                                           sentenceModel.setIndex(5);
 
-                                       }
-                                       if(data.transcriptions.get(i).getStatus()==4){
-                                           sentenceModel.setIndex(6);
-
-                                       }
-                                       databaseHandlerSentence.addSentence(sentenceModel);
-                                   }
-                           }
-                        }
-                        database.deleteAllIdSentence();
-                    }
-
-                   // databaseHandlerSentence.deleteAllSentence();
-//                            for (int i = 0; i < data.transcriptions.size(); i++) {
-//                                int n = 0;
-//                                SentenceModel sentenceModel=new SentenceModel();
-//                                String id=data.transcriptions.get(i).getId();
-//                                    String output=audioStream.getTmpDir(id,name);
-//                                    File dstFile = new File(output);
-//                                    if (dstFile.exists() && data.transcriptions.get(i).getStatus()==0) {
-//                                        sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
-//                                        sentenceModel.setStatus(-1);
-//                                        sentenceModel.setID(data.transcriptions.get(i).getId());
-//                                        sentenceModel.setIndex(2);
-//                                        databaseHandlerSentence.addSentence(sentenceModel);
-//                                        n = n + 1;
-//                                    }
-//                                if (n == 0) {
-//                                    if (data.transcriptions.get(i).getStatus()==2){
-//                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),1));
-//                                    }
-//                                    if (data.transcriptions.get(i).getStatus()==0){
-//                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),3));
-//                                    }
-//                                    if (data.transcriptions.get(i).getStatus()==1){
-//                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),4));
-//                                    }
-//                                    if (data.transcriptions.get(i).getStatus()==3){
-//                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),5));
-//                                    }
-//                                    if (data.transcriptions.get(i).getStatus()==4){
-//                                        databaseHandlerSentence.addSentence(new SentenceModel(data.transcriptions.get(i).getId(), data.transcriptions.get(i).getSentence(), data.transcriptions.get(i).getStatus(),6));
-//                                    }
-//
-//
-//                                }
-//                                }
+                                }
+                                }
 
                             }
 

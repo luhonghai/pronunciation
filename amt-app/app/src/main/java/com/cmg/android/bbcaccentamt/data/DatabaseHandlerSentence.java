@@ -25,6 +25,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     public static final String KEY_STATUS = "status";
     public static final String KEY_NAME = "sentence";
     public static final String KEY_INDEX = "stt";
+
     private static DatabaseHandlerSentence sInstance;
 
     public static synchronized DatabaseHandlerSentence getInstance(Context context) {
@@ -138,7 +139,6 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         values.put(KEY_STATUS, sentenceModel.getStatus());
         values.put(KEY_INDEX, sentenceModel.getIndex());
 
-
         return db.update(TABLE_SENTENCE, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sentenceModel.getID()) });
     }
@@ -178,7 +178,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                         KEY_ID,
                         KEY_NAME,
                         KEY_STATUS,
-                        KEY_INDEX},
+                        KEY_INDEX,},
                 null,
                 null,
                 null,
@@ -191,7 +191,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                         KEY_ID,
                         KEY_NAME,
                         KEY_STATUS,
-                        KEY_INDEX},
+                        KEY_INDEX,},
                 "sentence LIKE ?",
                 new String[] {s + "%"},
                 null,

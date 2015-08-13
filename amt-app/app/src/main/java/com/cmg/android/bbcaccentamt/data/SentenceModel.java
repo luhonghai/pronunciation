@@ -16,6 +16,7 @@ public class SentenceModel {
         this.sentence = sentence;
         this.status=status;
         this.index=index;
+
     }
     public String getID(){
         return this._id;
@@ -41,4 +42,5 @@ public class SentenceModel {
     public void setIndex(int index){
         this.index =index;
     }
+
 }
