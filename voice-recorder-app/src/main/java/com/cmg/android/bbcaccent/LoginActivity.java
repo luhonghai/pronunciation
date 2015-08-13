@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private ImageButton btnLoginAccent;
 
-    private ImageButton btnRegister;
+    private TextView txtAlternative;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -81,6 +81,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private SweetAlertDialog dialogProgress;
 
+    private int alternativeStep = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,8 +95,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         (btnLoginFB = (ImageButton) findViewById(R.id.loginButton)).setOnClickListener(this);
         (btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button)).setOnClickListener(this);
         (btnLoginAccent = (ImageButton) findViewById(R.id.btnLoginAccent)).setOnClickListener(this);
-        (btnRegister = (ImageButton) findViewById(R.id.btnRegister)).setOnClickListener(this);
-
+        (txtAlternative = (TextView) findViewById(R.id.txtAlternative)).setOnClickListener(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
 
@@ -197,6 +198,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
             }
         });
+        dialogLogin.findViewById(R.id.btnRegister).setOnClickListener(this);
         ((TextView)dialogLogin.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // License dialog
@@ -1019,6 +1021,20 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     dialogRegister.show();
                 }
                 break;
+            case R.id.txtAlternative:
+                switch (alternativeStep) {
+                    case 0:
+                        btnLoginFB.setVisibility(View.VISIBLE);
+                        break;
+                    case 1:
+                        btnLoginAccent.setVisibility(View.VISIBLE);
+                        txtAlternative.setVisibility(View.INVISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+                alternativeStep++;
+                return;
         }
     }
 
@@ -1079,7 +1095,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         }
         btnLoginGGPlus.setEnabled(enable);
         btnLoginFB.setEnabled(enable);
-        btnRegister.setEnabled(enable);
+        txtAlternative.setEnabled(enable);
         btnLoginAccent.setEnabled(enable);
     }
 }

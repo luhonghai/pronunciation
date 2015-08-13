@@ -77,9 +77,9 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
             q.setOrdering("imei desc");
         }
         if (column==4 && order.equals("asc")) {
-            q.setOrdering("serverTime asc");
+            q.setOrdering("time asc");
         }else if(column==4 && order.equals("desc")) {
-            q.setOrdering("serverTime desc");
+            q.setOrdering("time desc");
         }
 
         q.setRange(start, start + length);

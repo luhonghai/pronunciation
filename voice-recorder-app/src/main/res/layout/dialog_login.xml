@@ -57,6 +57,16 @@
             android:textColor="@android:color/white"
             android:background="@color/app_green"
             android:gravity="center_horizontal|center_vertical"/>
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_marginTop="@dimen/dialog_button_margin_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_button_height"
+            android:text="@string/register"
+            android:textSize="@dimen/dialog_button_text_size"
+            android:textColor="@android:color/white"
+            android:background="@color/app_default"
+            android:gravity="center_horizontal|center_vertical"/>
     </LinearLayout>
 
     <TextView

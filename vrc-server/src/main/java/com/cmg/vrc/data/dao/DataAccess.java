@@ -127,7 +127,7 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 		return create(obj);
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
