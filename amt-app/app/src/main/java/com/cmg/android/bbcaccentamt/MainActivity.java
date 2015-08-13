@@ -906,8 +906,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private boolean checkAudioExist() {
-        if (audioStream == null || audioStream.getFilename() == null) return false;
-        return new File(audioStream.getFilename()).exists();
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String name=profile.getUsername();
+        String fileName = audioStream.getTmpDir(idSentence, name);
+        if (audioStream == null || fileName == null) return false;
+        return new File(fileName).exists();
     }
 
     private void play() {
