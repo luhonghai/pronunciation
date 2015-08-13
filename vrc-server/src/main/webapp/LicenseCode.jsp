@@ -12,7 +12,7 @@
     <!-- /.row -->
     <div class="well">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">Account</label>
             <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
@@ -22,26 +22,33 @@
             <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="form-group">
-            <label class="control-label">Date From</label>
-            <div>
-              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
-            </div>
+
+        <div class="col-sm-3">
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
           </div>
           <div class="form-group">
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
-              <option value="All">All</option>c
+              <option value="All">All</option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
 
             </select>
           </div>
         </div>
-        <div class="col-sm-4">
+
+        <div class="col-sm-3">
           <div class="form-group">
-            <label class="control-label">Date To</label>
+            <label class="control-label">From</label>
+            <div>
+              <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label class="control-label">To</label>
             <div >
 
               <input type='text' class="form-control" id="dateTo1" placeholder="To" />
@@ -70,7 +77,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
-                  <th>Activated date for licence code</th>
+                  <th>Activated Date</th>
                   <th>Activation</th>
                 </tr>
                 </thead>
@@ -101,13 +108,31 @@
         </div>
         <form name="form-delete">
           <div class="modal-body">
-            <h4>Do you want to add a new licence code?</h4>
+            <div class="row" style="margin-bottom: 15px;">
+              <div class="col-sm-4">
+              <label class="control-label">Select company</label>
+              </div>
+              <div class="col-sm-8">
+              <select name="company" id="company" class="form-control" required="required">
+
+              </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-4">
+              <label class="control-label">Number of licenses</label>
+              </div>
+              <div class="col-sm-8">
+              <input id="numberoflicense" type="number" value="1" min="1" max="100" style="width: 100%;padding: 2px;" />
+              </div>
+
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
-                    class="btn btn-default" >Yes</button>
+                    class="btn btn-default" >Created</button>
 
-            <button type="button" class="btn btn-primary"
+            <button type="button" class="btn btn-primary" id="closeaddcode"
                     data-dismiss="modal">Cancel</button>
           </div>
         </form>

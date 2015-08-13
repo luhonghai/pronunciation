@@ -18,6 +18,7 @@ public class TestServlet  {
         LicenseCodeDAO lis=new LicenseCodeDAO();
         FeedbackDAO feedbackDAO = new FeedbackDAO();
         UsageDAO usageDAO=new UsageDAO();
+        UserDAO userDAO=new UserDAO();
 //        try {
 //            feedbackDAO.deleteAll();
 //        } catch (Exception e) {
@@ -40,16 +41,22 @@ public class TestServlet  {
 //        }catch (Exception e){
 //            e.getStackTrace();
 //        }
-        Usage usage=new Usage();
-        usage.setAppVersion("323");
-        usage.setLatitude(543.765);
-        usage.setLongitude(423.65);
+//        Usage usage=new Usage();
+//        usage.setAppVersion("323");
+//        usage.setLatitude(543.765);
+//        usage.setLongitude(423.65);
+//
+//        usage.setImei("nam123");
+//        usage.setTime(new Date(2-10-2014));
+//        usage.setUsername("nam bui");
+          User user=new User();
+        user.setActivated(true);
+        user.setCountry("VN");
 
-        usage.setImei("nam123");
-        usage.setTime(new Date(2-10-2014));
-        usage.setUsername("nam bui");
+
         try {
-            usageDAO.put(usage);
+//            usageDAO.put(usage);
+            userDAO.put(user);
 
         }catch (Exception e){
             e.printStackTrace();

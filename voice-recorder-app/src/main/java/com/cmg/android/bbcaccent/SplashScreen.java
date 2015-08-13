@@ -120,8 +120,7 @@ public class SplashScreen extends BaseActivity implements
             }.execute();
             handlerDogAnimation.post(runnableDogAnimation);
             UserProfile profile = Preferences.getCurrentProfile(this);
-            if (profile != null && profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
-                    && profile.isLogin()) {
+            if (profile != null && profile.isLogin()) {
                 isLogin = true;
             }
         }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -71,6 +72,12 @@ public class HelpActivity extends BaseActivity {
 
     private SimpleImageLoadingListener imageLoadingListener;
 
+    private boolean isLastPageSwipe = false;
+
+    private long lastPageSwipeCount = 0;
+
+    private static final int MAX_PAGE_SWIPE_COUNT = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,16 +94,31 @@ public class HelpActivity extends BaseActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 isScrolling = true;
+                SimpleAppLog.debug("onPageScrolled. position: " + position + ". positionOffset: " + positionOffset + ". positionOffsetPixels: " + positionOffsetPixels);
+                if (position == HELP_CONTENT_LENGTH - 1 && positionOffset == 0.0f && positionOffsetPixels == 0) {
+                    lastPageSwipeCount++;
+                    isLastPageSwipe = true;
+                } else {
+                    lastPageSwipeCount = 0;
+                    isLastPageSwipe = false;
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
+                SimpleAppLog.debug("onPageSelected: " + position);
                 currentItem = position;
                 isScrolling = false;
+                if (position == HELP_CONTENT_LENGTH - 1) {
+                    ((TextView)findViewById(R.id.btnSkip)).setText(getString(R.string.dialog_close));
+                } else {
+                    ((TextView)findViewById(R.id.btnSkip)).setText(getString(R.string.skip));
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                SimpleAppLog.debug("onPageScrollStateChanged: " + state);
                 if (previousState == ViewPager.SCROLL_STATE_DRAGGING
                         && state == ViewPager.SCROLL_STATE_SETTLING)
                     userScrollChange = true;
@@ -105,7 +127,21 @@ public class HelpActivity extends BaseActivity {
                         && state == ViewPager.SCROLL_STATE_IDLE)
                     userScrollChange = false;
 
+                if (previousState == ViewPager.SCROLL_STATE_DRAGGING
+                        && state == ViewPager.SCROLL_STATE_IDLE
+                        && isLastPageSwipe
+                        ) {
+                    SimpleAppLog.debug("lastPageSwipeCount: " + lastPageSwipeCount);
+                    if (lastPageSwipeCount >= MAX_PAGE_SWIPE_COUNT) {
+                        HelpActivity.this.finish();
+                    } else {
+                        lastPageSwipeCount = 0;
+                    }
+
+                }
+
                 previousState = state;
+
             }
         });
         imageLoadingListener = new SimpleImageLoadingListener() {

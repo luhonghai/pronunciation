@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label class="control-label">Date From</label>
+                        <label class="control-label">Created Date From</label>
                         <div>
                             <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
                         </div>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label class="control-label">Date To</label>
+                        <label class="control-label">Created Date To</label>
                         <div >
 
                             <input type='text' class="form-control" id="dateTo1" placeholder="To" />
@@ -86,6 +86,7 @@
                                     <th>Login type</th>
                                     <th>Gender</th>
                                     <th>Date Of Birth</th>
+                                    <th>Created Date</th>
                                     <th>Country</th>
                                     <th>Activation code</th>
                                     <th>Activation</th>

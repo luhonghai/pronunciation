@@ -1,7 +1,7 @@
 var myTable;
 function listLicenseCode(){
 
-    myTable=$('#dataTables-example').DataTable({
+    myTable=$('#dataTables-example').dataTable({
                 "retrieve": true,
                 "destroy": true,
                 "responsive": true,
@@ -54,9 +54,9 @@ function listLicenseCode(){
                     "sDefaultContent": "",
                     "mRender": function (data, type, full) {
                         if (data.isActivated == true) {
-                            return '<span type="button" id="detail" style="color:#FF0000" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#FF0000" title="Click to deactivate" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }else if(data.isActivated==false){
-                            return '<span type="button" id="detail" style="color:#00CC00" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                            return '<span type="button" id="detail" style="color:#00CC00" title="Click to activate" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
                         }
                     }
                 }]
@@ -92,11 +92,15 @@ function activated(){
                 if(data=="success"){
                     if(cl=="fa fa-times-circle fa-2x"){
                         $el.attr('class','fa fa-check-circle fa-2x');
+                        $el.attr('name','false');
+                        $el.attr('title','Click to activate');
                         $el.css('color','#00CC00');
 
                     }
                     if(cl=="fa fa-check-circle fa-2x"){
                         $el.attr('class','fa fa-times-circle fa-2x');
+                        $el.attr('title','Click to deactivate');
+                        $el.attr('name','true');
                         $el.css('color','#FF0000');
                     }
                 }
@@ -111,6 +115,26 @@ function activated(){
 
 function add(){
     $(document).on("click","#addCode",function() {
+        var $selected=$("#company");
+        $('#company option[value!="-1"]').remove();
+        $.ajax({
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data": {
+                listCompany: "listCompany"
+            },
+            success:function(data){
+                var items=data;
+                $(items).each(function(){
+                    var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
+                    $selected.append(newOption);
+                });
+
+
+            }
+
+        });
         $("#addCode1").modal('show');
     });
 }
@@ -150,32 +174,25 @@ function filter(){
 function addCode(){
     $(document).on("click","#Yes",function(){
         var newRow;
+        var company=$("#company").val();
+        var number=$("#numberoflicense").val();
         $.ajax({
             url:"LicenseCodes",
             type:"POST",
             dataType:"text",
             data:{
-                addCode:"addCode"
+                addCode:"addCode",
+                company:company,
+                number:number
             },
             success:function(result){
-                newRow= "<tr>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + result.code + "</td>" +
-                    "<td>" + "" + "</td>" +
-                    "<td>" + '<span type="button" id="detail" style="color:#00CC00" name='+result.isActivated+' id-column=' + result.id + ' class="fa fa-check-circle fa-2x" ' + '>' + ' </span>' + "</td>" +"" +
-                    "</tr>";
-              // myTable.row.add($(newRow)).draw();
-                myTable.Rows.InsertAt(newRow, 0);
 
-                $("#addCode1").modal('hide');
+               if(result=="success"){
+                   $("tbody").html("");
+                   myTable.fnDraw();
+                   $("#addCode1").modal('hide');
 
-               //if(result=="success"){
-               //    $("tbody").html("");
-               //    myTable.fnDraw();
-               //    $("#addCode1").modal('hide');
-               //
-               //}
+               }
             },
             error:function(){
                 alert("error");
@@ -185,6 +202,7 @@ function addCode(){
 
     });
 }
+
 
 function detailemei(){
     $(document).on("click", "#emei", function () {
@@ -223,7 +241,6 @@ function detailemei(){
 $(document).ready(function(){
     filter();
     detailemei();
-
     add();
     addCode();
     listLicenseCode();

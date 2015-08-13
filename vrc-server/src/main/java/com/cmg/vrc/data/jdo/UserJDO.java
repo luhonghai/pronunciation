@@ -55,13 +55,13 @@ public class UserJDO implements Mirrorable {
     private String rawJsonData;
 
     @Persistent
+    private boolean activationLocked;
+
+    @Persistent
     private boolean isActivated;
 
     @Persistent
     private String activationCode;
-
-    @Persistent
-    private boolean activationLocked;
 
     @Persistent
     private String resetPasswordCode;
@@ -205,7 +205,6 @@ public class UserJDO implements Mirrorable {
     public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
     }
-
     public boolean isActivationLocked() {
         return activationLocked;
     }
