@@ -36,6 +36,10 @@ import java.util.logging.Logger;
 
 public class AWSHelper {
 
+    private static final String BBC_ACCENT_APPLICATION_NAME = "AccentEasyTomcatServer";
+
+    private static final String BBC_ACCENT_CONFIGURATION_TEMPLATE = "sat_start_from_7am_to_11pm";
+
     private static final boolean ENABLE_AWS = true;
 
     private static final Logger logger= Logger.getLogger(AWSHelper.class.getName());
@@ -176,9 +180,31 @@ public class AWSHelper {
         return generatePresignedUrl(Constant.FOLDER_FEEDBACK + "/" + account+ "/" + fileName);
     }
 
+    public void createEnvironment(String envName) {
+        DescribeApplicationVersionsResult result = beanstalkClient.describeApplicationVersions();
+        String vLabel = "";
+        for (int i = 0; i < result.getApplicationVersions().size(); i++) {
+            ApplicationVersionDescription v = result.getApplicationVersions().get(i);
+            vLabel = v.getVersionLabel();
+
+            System.out.println(vLabel);
+            break;
+
+        }
+        beanstalkClient.createEnvironment(new CreateEnvironmentRequest()
+                .withApplicationName(BBC_ACCENT_APPLICATION_NAME)
+                .withEnvironmentName(envName)
+                .withTemplateName(BBC_ACCENT_CONFIGURATION_TEMPLATE)
+                .withVersionLabel(vLabel)
+                .withCNAMEPrefix(envName.toLowerCase()))
+        ;
+    }
+
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
-        System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
+        //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
+        awsHelper.createEnvironment("accenteasytomcat-SAT");
+        //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
         //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
         //awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
