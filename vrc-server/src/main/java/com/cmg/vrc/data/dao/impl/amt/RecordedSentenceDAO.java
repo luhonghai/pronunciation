@@ -1,10 +1,10 @@
 package com.cmg.vrc.data.dao.impl.amt;
 
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.amt.RecordedSentence;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceJDO;
-import com.cmg.vrc.data.jdo.amt.Transcription;
-import com.cmg.vrc.data.jdo.amt.TranscriptionJDO;
+import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.data.jdo.RecordedSentenceJDO;
+import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.data.jdo.TranscriptionJDO;
 
 import java.util.HashMap;
 import java.util.List;

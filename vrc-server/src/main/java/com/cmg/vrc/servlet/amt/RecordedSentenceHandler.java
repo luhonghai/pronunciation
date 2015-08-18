@@ -3,9 +3,11 @@ package com.cmg.vrc.servlet.amt;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
 import com.cmg.vrc.job.SummaryReportJob;
+import com.cmg.vrc.service.RecorderSentenceService;
 import com.cmg.vrc.service.amt.TranscriptionService;
 import com.cmg.vrc.servlet.ResponseData;
 import com.cmg.vrc.sphinx.PhonemesDetector;
@@ -33,6 +35,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -44,13 +47,16 @@ public class RecordedSentenceHandler extends HttpServlet {
             .getName());
     private static String PARA_PROFILE = "profile";
     private static String PARA_SENTENCE_ID = "sentence";
+    private static String PARA_VERSION = "version";
+    private static String PARA_VERSIONMAX = "versionmax";
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         AWSHelper awsHelper = new AWSHelper();
-        ResponseData<RecordedSentenceHistory> responseData = new ResponseData<RecordedSentenceHistory>();
+        ResponseData<List<RecordedSentence>> responseData = new ResponseData<List<RecordedSentence>>();
+        RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
             //create a new Map<String,String> to store all parameter
@@ -90,37 +96,51 @@ public class RecordedSentenceHandler extends HttpServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
+            String version = storePara.get(PARA_VERSION);
+            String versionmax = storePara.get(PARA_VERSIONMAX);
+            int versions=Integer.parseInt(version);
+            int versionmaxs=Integer.parseInt(versionmax);
+
             logger.info("SentenceID: " + sentenceId);
             logger.info("Profile: " + profile);
             if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
-
-                File target = new File(targetDir, user.getUsername());
-                if (!target.exists() && !target.isDirectory()) {
-                    target.mkdirs();
-                }
                 File tmpFileIn = new File(tmpDir, tmpFile);
-                String uuid = UUIDGenerator.generateUUID();
-                String fileTempName  = PARA_SENTENCE_ID + "_" + uuid + "_raw" + ".wav";
-                File targetRaw = new File(target, fileTempName);
-                //String fileClean = word + "_" + uuid + "_clean" + ".wav";
-                //File targetClean = new File(target, fileClean);
-                FileUtils.moveFile(tmpFileIn, targetRaw);
-                try {
-                    if (tmpFileIn.exists())
-                        FileUtils.forceDelete(tmpFileIn);
-                } catch (Exception e) {}
+
+
+//                File target = new File(targetDir, user.getUsername());
+//                if (!target.exists() && !target.isDirectory()) {
+//                    target.mkdirs();
+//                }
+
+//                String uuid = UUIDGenerator.generateUUID();
+//                String fileTempName  = PARA_SENTENCE_ID + "_" + uuid + "_raw" + ".wav";
+//                File targetRaw = new File(target, fileTempName);
+//                //String fileClean = word + "_" + uuid + "_clean" + ".wav";
+//                //File targetClean = new File(target, fileClean);
+//                FileUtils.moveFile(tmpFileIn, targetRaw);
+//                try {
+//                    if (tmpFileIn.exists())
+//                        FileUtils.forceDelete(tmpFileIn);
+//                } catch (Exception e) {}
 //                awsHelper.uploadInThread("sentences" + "/" + user.getUsername() + "/" + fileTempName,
 //                        targetRaw);
+                File targetRaw = recorderSentenceService.saveRecorderFile(user, tmpFileIn, tmpDir, PARA_SENTENCE_ID);
+                String condition = recorderSentenceService.clientUpdate(user, sentenceId, targetRaw, versions);
+                List<RecordedSentence> result = null;
+                if(condition.equalsIgnoreCase(RecorderSentenceService.RETURN_SUCCESS)){
+                    result = recorderSentenceService.getListByVersionAndUsername(versionmaxs,user.getUsername());
+                }
                 logger.info("Try to save");
-                TranscriptionService transcriptionService = new TranscriptionService();
-                RecordedSentenceHistory result = transcriptionService.handleUploadedSentence(user, sentenceId, targetRaw);
-                logger.info("Save completed");
+//                TranscriptionService transcriptionService = new TranscriptionService();
+//                RecordedSentenceHistory result = transcriptionService.handleUploadedSentence(user, sentenceId, targetRaw);
+               logger.info("Save completed");
                 if (result != null) {
                     responseData.setStatus(true);
                     responseData.setMessage("success");
                     responseData.setData(result);
                 } else {
+
                     responseData.setMessage("Could not upload recorded voice");
                 }
 

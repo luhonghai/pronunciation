@@ -1,8 +1,8 @@
 package com.cmg.vrc.data.dao.impl.amt;
 
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.amt.Transcription;
-import com.cmg.vrc.data.jdo.amt.TranscriptionJDO;
+import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.data.jdo.TranscriptionJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
@@ -26,6 +26,31 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;
+    }
+
+    /**
+     * get max version
+     * @return max version
+     */
+    public int getLatestVersion(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        int version=0;
+        Query q = pm.newQuery("SELECT max(version) FROM " + TranscriptionJDO.class.getCanonicalName());
+        try {
+            tx.begin();
+             version=(int)q.execute();
+            tx.commit();
+            return version;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
     }
 
     public List<Transcription> listAll(int limit) throws Exception {

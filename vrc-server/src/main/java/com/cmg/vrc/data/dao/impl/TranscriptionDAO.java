@@ -34,6 +34,64 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
     }
 
 
+    public List<Transcription> getListByVersion(int ver) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        List<Transcription> list = new ArrayList<Transcription>();
+        Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
+        q.setFilter("version>ver");
+        q.declareParameters("Integer ver");
+        try {
+            tx.begin();
+            List<TranscriptionJDO> tmp = (List<TranscriptionJDO>)q.execute(ver);
+            Iterator<TranscriptionJDO> iter = tmp.iterator();
+            while (iter.hasNext()) {
+                list.add(to(iter.next()));
+            }
+            tx.commit();
+            System.out.println(list.size());
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+
+    }
+
+    /**
+     * get max version
+     * @return max version
+     */
+    public int getLatestVersion(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        int version=0;
+        Query q = pm.newQuery("SELECT max(version) FROM " + TranscriptionJDO.class.getCanonicalName());
+        try {
+            tx.begin();
+            version=(int)q.execute();
+            tx.commit();
+            return version;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
+
+
+
     public List<Transcription> listAll(int start, int length,String search,int column,String order,String senten,Date createDateFrom,Date createDateTo, Date modifiedDateFrom,Date modifiedDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();

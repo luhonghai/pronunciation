@@ -1,7 +1,8 @@
 package com.cmg.vrc.servlet.amt;
 
 import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
-import com.cmg.vrc.data.jdo.amt.Transcription;
+import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.service.TranscriptionActionService;
 import com.cmg.vrc.service.amt.TranscriptionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
@@ -28,18 +29,21 @@ public class TranscriptionHandler extends BaseServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         String data = req.getParameter("data");
+        String versionClient=req.getParameter("version");
+        int version=Integer.parseInt(versionClient);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         ResponseData responseData = new ResponseData();
         responseData.setStatus(false);
         try {
             TranscriptionDAO transcriptionDAO = new TranscriptionDAO();
-            TranscriptionService transcriptionService = new TranscriptionService();
+            //TranscriptionService transcriptionService = new TranscriptionService();
+            TranscriptionActionService transcriptionActionService=new TranscriptionActionService();
             if (StringUtils.isEmpty(action)) {
                 responseData.setMessage("No action found");
             } else if (action.equalsIgnoreCase("list")) {
                 responseData.setStatus(true);
                 responseData.setMessage("success");
-                responseData.transcriptions = transcriptionService.listTranscriptionByAccount(data);
+                responseData.transcriptions = transcriptionActionService.listTranscription(version);
             } else if (action.equalsIgnoreCase("delete")) {
                 if (StringUtils.isEmpty(data)) {
                     responseData.setMessage("No transcription id found");

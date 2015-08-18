@@ -3,6 +3,8 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.service.RecorderSentenceService;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * Created by CMGT400 on 8/5/2015.
  */
-public class RecorderServlet extends HttpServlet {
+public class RecorderServlet extends BaseServlet {
     class admin{
         public int draw;
         public Double recordsTotal;
@@ -27,6 +29,11 @@ public class RecorderServlet extends HttpServlet {
         List<RecordedSentence> data;
     }
 
+    private class ResponseDataRecorded extends com.cmg.vrc.servlet.ResponseData<RecordedSentence> {
+        List<RecordedSentence> RecordedSentences;
+    }
+    private static String LIST_BY_ADMIN = "listbyadmin";
+    private static String LIST_BY_CLIENT = "listbyclient";
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +41,19 @@ public class RecorderServlet extends HttpServlet {
         RecordedSentence ad = new RecordedSentence();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
-        if (request.getParameter("list") != null) {
+        String action = request.getParameter("action");
+        if(action.equalsIgnoreCase(LIST_BY_CLIENT)){
+            String username = request.getParameter("username");
+            int version = Integer.parseInt(request.getParameter("version"));
+            RecorderSentenceService rsService = new RecorderSentenceService();
+            Gson gson = new Gson();
+            ResponseDataRecorded responseData = new ResponseDataRecorded();
+            responseData.setStatus(true);
+            responseData.setMessage("success");
+            responseData.RecordedSentences = rsService.getListByVersionAndUsername(version, username);
+            printMessage(response, gson.toJson(responseData));
+        }
+        else if (action.equalsIgnoreCase(LIST_BY_ADMIN)) {
             RecorderServlet.admin admin = new admin();
             String s = request.getParameter("start");
             String l = request.getParameter("length");
@@ -94,6 +113,8 @@ public class RecorderServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+
 
     }
 

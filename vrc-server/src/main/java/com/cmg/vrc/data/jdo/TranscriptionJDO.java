@@ -34,6 +34,13 @@ public class TranscriptionJDO implements Mirrorable {
     @Persistent
     private Date modifiedDate;
 
+    @Persistent
+    private int version;
+
+    @Persistent
+    private int isDeleted;
+
+
     public String getId() {
         return id;
     }
@@ -79,5 +86,21 @@ public class TranscriptionJDO implements Mirrorable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

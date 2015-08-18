@@ -37,6 +37,11 @@ public class RecordedSentence implements Mirrorable {
 
     private Date modifiedDate;
 
+    private int version;
+
+    private int isDeleted;
+
+
     public String getId() {
         return id;
     }
@@ -99,5 +104,21 @@ public class RecordedSentence implements Mirrorable {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

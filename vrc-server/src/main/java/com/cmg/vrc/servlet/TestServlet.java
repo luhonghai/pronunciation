@@ -19,6 +19,7 @@ public class TestServlet  {
         FeedbackDAO feedbackDAO = new FeedbackDAO();
         UsageDAO usageDAO=new UsageDAO();
         UserDAO userDAO=new UserDAO();
+        RecorderDAO recorderDAO=new RecorderDAO();
 //        try {
 //            feedbackDAO.deleteAll();
 //        } catch (Exception e) {
@@ -50,11 +51,15 @@ public class TestServlet  {
 //        usage.setTime(new Date(2-10-2014));
 //        usage.setUsername("nam bui");
           User user=new User();
-        user.setActivated(true);
-        user.setCountry("VN");
+        RecordedSentence recordedSentence=new RecordedSentence();
+        recordedSentence.setVersion(0);
+        recordedSentence.setSentenceId("NAM.BUI123");
+        recordedSentence.setAccount("nam.bui@c-mg.com");
+        recordedSentence.setIsDeleted(1);
 
 
         try {
+            recorderDAO.put(recordedSentence);
 //            usageDAO.put(usage);
             userDAO.put(user);
 

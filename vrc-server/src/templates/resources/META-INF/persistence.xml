@@ -63,6 +63,7 @@
 			<property name="datanucleus.autoCreateSchema" value="true" />
 			<property name="datanucleus.validateTables" value="false" />
 			<property name="datanucleus.validateConstraints" value="false" />
+			<property name="datanucleus.query.sql.allowAll" value="true" />
 		</properties>
 	</persistence-unit>
 

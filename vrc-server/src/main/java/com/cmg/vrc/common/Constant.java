@@ -12,4 +12,10 @@ public class Constant {
     public static String FOLDER_GRAMMAR = "grammar";
 
     public static String S3_KEY_ACOUSTIC_MODEL = "";
+
+    public static int ISDELETE_FALSE=0;
+
+    public static int ISDELETE_TRUE=1;
+
+
 }

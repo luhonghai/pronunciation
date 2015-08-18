@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.service.TranscriptionActionService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -29,11 +31,14 @@ public class TranscriptionServlet extends HttpServlet {
         List<Transcription> data;
     }
 
+
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TranscriptionDAO adminDAO = new TranscriptionDAO();
+        TranscriptionActionService trService = new TranscriptionActionService();
         Transcription ad = new Transcription();
+
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         if (request.getParameter("list") != null) {
@@ -121,11 +126,14 @@ public class TranscriptionServlet extends HttpServlet {
             ad.setCreatedDate(date);
             ad.setModifiedDate(date);
             ad.setStatus(0);
+            ad.setIsDeleted(Constant.ISDELETE_FALSE);
             try {
-                adminDAO.put(ad);
+                trService.add(ad);
+               // adminDAO.put(ad);
                 response.getWriter().write("success");
             }catch (Exception e){
-            e.printStackTrace();
+                response.getWriter().write("error");
+                e.printStackTrace();
             }
         }
         if(request.getParameter("edit")!=null){
@@ -133,14 +141,15 @@ public class TranscriptionServlet extends HttpServlet {
             String sentence=request.getParameter("sentence");
             String author=request.getSession().getAttribute("username").toString();
             try{
-                Transcription transcription=adminDAO.getByIdSentence(id);
+                Transcription transcription=trService.getById(id);
                 transcription.setSentence(sentence);
                 transcription.setModifiedDate(date);
                 transcription.setAuthor(author);
-                adminDAO.put(transcription);
+                transcription.setIsDeleted(Constant.ISDELETE_FALSE);
+                trService.edit(transcription);
                 response.getWriter().write("success");
-
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
 
@@ -148,14 +157,15 @@ public class TranscriptionServlet extends HttpServlet {
         }
 
         if(request.getParameter("delete")!=null){
-            String id=request.getParameter("id");
+            String id= request.getParameter("id");
             try {
-                adminDAO.delete(id);
+                Transcription transcription=trService.getById(id);
+                transcription.setIsDeleted(Constant.ISDELETE_TRUE);
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
-
         }
 
     }

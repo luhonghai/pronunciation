@@ -4,9 +4,9 @@ import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceDAO;
 import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
-import com.cmg.vrc.data.jdo.amt.RecordedSentence;
+import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
-import com.cmg.vrc.data.jdo.amt.Transcription;
+import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -87,7 +87,7 @@ public class TranscriptionService {
     }
 
     public List<Transcription> listTranscriptionByAccount(String account) throws Exception {
-        List<Transcription> transcriptions = transcriptionDAO.listAll(3000);
+        List<Transcription> transcriptions = transcriptionDAO.listAll(100);
         Map<String, RecordedSentence> recordedSentenceMap = recordedSentenceDAO.getByAccount(account);
         if (transcriptions != null && transcriptions.size() > 0 && recordedSentenceMap != null && recordedSentenceMap.size() > 0) {
             for (final Transcription transcription : transcriptions) {
@@ -98,6 +98,7 @@ public class TranscriptionService {
         }
         return transcriptions;
     }
+
 
     public RecordedSentenceHistory handleUploadedSentence(UserProfile user, String sentenceId, File recordedVoice) throws Exception {
         RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());

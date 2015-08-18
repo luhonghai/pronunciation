@@ -152,6 +152,7 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
+        var sentence = $(this).attr('company');
         $("#idedit").val(idd);
     });
 

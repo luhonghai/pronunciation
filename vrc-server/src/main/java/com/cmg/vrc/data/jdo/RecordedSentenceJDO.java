@@ -37,6 +37,12 @@ public class RecordedSentenceJDO implements Mirrorable {
     @Persistent
     private Date modifiedDate;
 
+    @Persistent
+    private int version;
+
+    @Persistent
+    private int isDeleted;
+
     public String getId() {
         return id;
     }
@@ -99,5 +105,21 @@ public class RecordedSentenceJDO implements Mirrorable {
 
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

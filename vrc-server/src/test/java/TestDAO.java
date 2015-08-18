@@ -51,6 +51,7 @@ public class TestDAO {
         UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
         AdminDAO adminDAO=new AdminDAO();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+        RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");
@@ -63,19 +64,19 @@ public class TestDAO {
 
             //clientCodeDAO.put(clientCode);
 
-            Object[] a = { "aa", "bb", "aa", "bb", "dd", "cc", "dd", "dd", "cc", "cc", "dd"};
-
-            for (int i = 0; i < a.length; i++) {
-                for (int j = i + 1; j < a.length; j++) {
-                    if (a[i].equals(a[j])) {
-                        a=ArrayUtils.remove(a, j);
-                        j=j-1;
-                    }
-                }
-            }
-            for(int i=0;i<a.length;i++){
-                System.out.println(a[i]);
-            }
+//            Object[] a = { "aa", "bb", "aa", "bb", "dd", "cc", "dd", "dd", "cc", "cc", "dd"};
+//
+//            for (int i = 0; i < a.length; i++) {
+//                for (int j = i + 1; j < a.length; j++) {
+//                    if (a[i].equals(a[j])) {
+//                        a=ArrayUtils.remove(a, j);
+//                        j=j-1;
+//                    }
+//                }
+//            }
+//            for(int i=0;i<a.length;i++){
+//                System.out.println(a[i]);
+//            }
 
 
 
@@ -112,6 +113,9 @@ public class TestDAO {
            // transcriptionDAO.listAll(0,10,"dfs",0,"dsfs","gfdgd",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
             //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
            // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
+            //transcriptionDAO.getLatestVersion();
+            recorderDAO.getListByVersion(0,"dfs");
+            //transcriptionDAO.getListByVersion(0);
         } catch (Exception e) {
             e.printStackTrace();
         }

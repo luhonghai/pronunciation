@@ -17,6 +17,13 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
     public RecorderDAO(){
         super(RecordedSentenceJDO.class,RecordedSentence.class);
     }
+    public RecordedSentence getBySentenceIdAndAccount(String sentenceId, String account) throws Exception {
+        List<RecordedSentence> list = list("WHERE sentenceId == :1 && account == :2", sentenceId, account);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+
+    }
 
     public RecordedSentence getUserByEmailPassword(String email, String password) throws Exception{
         List<RecordedSentence> userList = list("WHERE userName == :1 && password == :2", email, password);
@@ -24,12 +31,89 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
             return userList.get(0);
         return null;
     }
+
+    public boolean adminUpdate(String idSentence, boolean isDelete, int statu, int ver){
+        boolean result=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE recordedsentencejdo SET status ="+statu+", version="+ver+", isDeleted="+isDelete+" WHERE sentenceId='"+idSentence+"'");
+        try {
+            tx.begin();
+            q.execute();
+            tx.commit();
+            result=true;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+        return  result;
+    }
+
+    public List<RecordedSentence> getListByVersion(int ver, String acc) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        List<RecordedSentence> list = new ArrayList<RecordedSentence>();
+        Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
+        q.setFilter("account==acc && version>=ver");
+        q.declareParameters("String acc, Integer ver");
+        try {
+            tx.begin();
+            List<RecordedSentenceJDO> tmp = (List<RecordedSentenceJDO>)q.execute(acc,ver);
+            Iterator<RecordedSentenceJDO> iter = tmp.iterator();
+            while (iter.hasNext()) {
+                list.add(to(iter.next()));
+            }
+            tx.commit();
+            System.out.println(list.size());
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+
+    }
+
+
+
     public RecordedSentence getUserByEmail(String email) throws Exception {
         List<RecordedSentence> userList = list("WHERE userName == :1", email);
         if (userList != null && userList.size() > 0)
             return userList.get(0);
         return null;
     }
+
+    public int getLatestVersion(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        int version=0;
+        Query q = pm.newQuery("SELECT max(version) FROM " + RecordedSentenceJDO.class.getCanonicalName());
+        try {
+            tx.begin();
+            version=(int)q.execute();
+            tx.commit();
+            return version;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
 
     public List<RecordedSentence> listAll(int start, int length,String search,int column,String order,String sten,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
 

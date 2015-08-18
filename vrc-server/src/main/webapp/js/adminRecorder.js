@@ -14,7 +14,7 @@ function listTranscriptionRecorder(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "listbyadmin",
                 sentence: $("#sentence").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
@@ -87,7 +87,7 @@ function searchAdvanted(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "listbyadmin",
                 sentence: $("#sentence").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
