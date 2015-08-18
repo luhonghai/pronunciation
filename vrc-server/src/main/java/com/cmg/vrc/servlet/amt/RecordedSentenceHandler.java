@@ -49,13 +49,15 @@ public class RecordedSentenceHandler extends HttpServlet {
     private static String PARA_SENTENCE_ID = "sentence";
     private static String PARA_VERSION = "version";
     private static String PARA_VERSIONMAX = "versionmax";
-
+	public class ResponseDataExt extends ResponseData<RecordedSentence> {
+		public List<RecordedSentence> RecorderSentences;
+	}
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         Gson gson = new Gson();
         AWSHelper awsHelper = new AWSHelper();
-        ResponseData<List<RecordedSentence>> responseData = new ResponseData<List<RecordedSentence>>();
+        ResponseDataExt responseData = new ResponseDataExt();
         RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
@@ -138,7 +140,7 @@ public class RecordedSentenceHandler extends HttpServlet {
                 if (result != null) {
                     responseData.setStatus(true);
                     responseData.setMessage("success");
-                    responseData.setData(result);
+                    responseData.RecorderSentences = result;
                 } else {
 
                     responseData.setMessage("Could not upload recorded voice");
