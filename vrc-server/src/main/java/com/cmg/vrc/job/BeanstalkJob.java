@@ -6,16 +6,22 @@ import com.cmg.vrc.util.AWSHelper;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
  * Created by luhonghai on 10/17/14.
  */
 public class BeanstalkJob {
-    private static final String[] ENVIRONMENTS = new String[] {
-            "accenteasytomcat-PRD"
-    };
+    private static final Map<String, String> ENVIRONMENTS;
+
+    static {
+        ENVIRONMENTS = new HashMap<String, String>();
+        ENVIRONMENTS.put("PROD", "accenteasytomcat-PRD");
+    }
 
     private static final Logger logger = Logger.getLogger(BeanstalkJob.class.getName());
 
@@ -68,7 +74,10 @@ public class BeanstalkJob {
             logger.info("Start StopEnvironmentJob job");
             AWSHelper awsHelper = new AWSHelper();
             List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
-            for (String env : ENVIRONMENTS) {
+            Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
+            while (keys.hasNext()) {
+                String k = keys.next();
+                String env = ENVIRONMENTS.get(k);
                 logger.info("Test environment: " + env);
                 boolean exist = false;
                 if (descriptionList != null && descriptionList.size() > 0) {
@@ -99,7 +108,10 @@ public class BeanstalkJob {
             logger.info("Start StartEnvironmentJob job");
             AWSHelper awsHelper = new AWSHelper();
             List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
-            for (String env : ENVIRONMENTS) {
+            Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
+            while (keys.hasNext()) {
+                String k = keys.next();
+                String env = ENVIRONMENTS.get(k);
                 logger.info("Test environment: " + env);
                 boolean exist = false;
                 if (descriptionList != null && descriptionList.size() > 0) {
@@ -114,7 +126,7 @@ public class BeanstalkJob {
                 }
                 if (!exist) {
                     logger.info(env + " is not exist. Try to create new one");
-                    awsHelper.createEnvironment(env);
+                    awsHelper.createEnvironment(env, k);
                 } else {
                     logger.info( env + " is exist. Skip by default");
                 }

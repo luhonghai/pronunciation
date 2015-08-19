@@ -180,15 +180,16 @@ public class AWSHelper {
         return generatePresignedUrl(Constant.FOLDER_FEEDBACK + "/" + account+ "/" + fileName);
     }
 
-    public void createEnvironment(String envName) {
+    public void createEnvironment(String envName, String envPrefix) {
         DescribeApplicationVersionsResult result = beanstalkClient.describeApplicationVersions();
         String vLabel = "";
         for (int i = 0; i < result.getApplicationVersions().size(); i++) {
             ApplicationVersionDescription v = result.getApplicationVersions().get(i);
             vLabel = v.getVersionLabel();
-
             System.out.println(vLabel);
-            break;
+            if (vLabel.toLowerCase().startsWith(envPrefix.toLowerCase())) {
+                break;
+            }
 
         }
         beanstalkClient.createEnvironment(new CreateEnvironmentRequest()
@@ -203,7 +204,7 @@ public class AWSHelper {
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
         //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
-        awsHelper.createEnvironment("accenteasytomcat-SAT");
+        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
         //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
         //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
