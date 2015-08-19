@@ -9,7 +9,7 @@
 	<description>VRC Server</description>
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-		<beanstalk.versionLabel>v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
+		<beanstalk.versionLabel>${sysenv}-v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
 
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
