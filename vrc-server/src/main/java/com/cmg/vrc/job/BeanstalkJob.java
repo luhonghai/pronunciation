@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class BeanstalkJob {
     private static final String[] ENVIRONMENTS = new String[] {
-            "accenteasytomcat-SAT"
+            "accenteasytomcat-PRD"
     };
 
     private static final Logger logger = Logger.getLogger(BeanstalkJob.class.getName());
@@ -32,7 +32,7 @@ public class BeanstalkJob {
                     .build();
 
             JobDetail jobStop = JobBuilder
-                    .newJob(StartEnvironmentJob.class)
+                    .newJob(StopEnvironmentJob.class)
                     .withIdentity("StopEnvironmentJob", "BeanstalkGroup")
                     .build();
 
@@ -69,17 +69,23 @@ public class BeanstalkJob {
             AWSHelper awsHelper = new AWSHelper();
             List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
             for (String env : ENVIRONMENTS) {
+                logger.info("Test environment: " + env);
                 boolean exist = false;
                 if (descriptionList != null && descriptionList.size() > 0) {
                     for (EnvironmentDescription description : descriptionList) {
+                        logger.info("Found online environment: " + description.getEnvironmentName());
                         if (description.getEnvironmentName().equalsIgnoreCase(env)) {
+                            logger.info("Matched environment!");
                             exist = true;
                             break;
                         }
                     }
                 }
                 if (exist) {
+                    logger.info( env + " is exist. Try to terminate this!");
                     awsHelper.terminateEnvironment(env);
+                } else {
+                    logger.info( env + " is not exist. Skip by default");
                 }
             }
             logger.info("Complete StopEnvironmentJob job");
@@ -94,17 +100,23 @@ public class BeanstalkJob {
             AWSHelper awsHelper = new AWSHelper();
             List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
             for (String env : ENVIRONMENTS) {
+                logger.info("Test environment: " + env);
                 boolean exist = false;
                 if (descriptionList != null && descriptionList.size() > 0) {
                     for (EnvironmentDescription description : descriptionList) {
+                        logger.info("Found online environment: " + description.getEnvironmentName());
                         if (description.getEnvironmentName().equalsIgnoreCase(env)) {
+                            logger.info("Matched environment!");
                             exist = true;
                             break;
                         }
                     }
                 }
-                if (exist) {
+                if (!exist) {
+                    logger.info(env + " is not exist. Try to create new one");
                     awsHelper.createEnvironment(env);
+                } else {
+                    logger.info( env + " is exist. Skip by default");
                 }
             }
             logger.info("Complete StartEnvironmentJob job");
