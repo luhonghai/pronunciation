@@ -42,28 +42,32 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
     @Override
     protected String doInBackground(Map<String, String>... params) {
         AppLog.logString("do upload");
+        String results = new String();
         try {
-            StringBuffer results = new StringBuffer();
+
             if (params != null && params.length > 0) {
                 for (Map<String, String> param : params) {
                     AppLog.logString("do upload : " + param.get("sentence"));
-                    results.append(FileUploader.upload(param, uploadUrl));
+                    results = FileUploader.upload(param, uploadUrl);
                 }
 
             }
-            return results.toString();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UploaderException e) {
             e.printStackTrace();
         }
-        return "";
+
+        return results;
     }
 
     @Override
     protected void onPostExecute(String v) {
+        AppLog.logString("String v : " + v);
         Intent intent = new Intent(UPLOAD_COMPLETE_INTENT);
         intent.putExtra(UPLOAD_COMPLETE_INTENT, v);
+
         context.sendBroadcast(intent);
         super.onPostExecute(v);
     }

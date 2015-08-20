@@ -14,6 +14,7 @@ import com.cmg.android.bbcaccentamt.R;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.common.FileCommon;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
+import com.cmg.android.bbcaccentamt.data.RecorderSentenceModel;
 import com.cmg.android.bbcaccentamt.data.SentenceModel;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
@@ -52,11 +53,10 @@ public class UploadAllService extends Service {
         return userProfile;
     }
 
-    public List<SentenceModel> getListSentence(){
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentenceUpload();
-        Map<String, String> params = new HashMap<String, String>();
-        return sentenceModels;
+    public List<RecorderSentenceModel> getListSentence(String account){
+       DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload(account);
+        return recorderSentenceModels;
     }
     private String getTmpDir() {
         PackageManager m = this.getApplicationContext().getPackageManager();
@@ -81,14 +81,25 @@ public class UploadAllService extends Service {
 
     }
 
+    public int maxVersion(){
+        int maxversion=0;
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        maxversion=databaseHandlerSentence.getLastedVersionRecorder();
+        return maxversion;
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         profile = getUserProfile(intent);
-        List<SentenceModel> sentenceModels=getListSentence();
+        List<RecorderSentenceModel> recorderSentenceModels=getListSentence(profile.getUsername());
         List<Map<String, String> > list = new ArrayList<Map<String, String>>();
-        for(int i=0;i<sentenceModels.size();i++) {
-            if(sentenceModels.get(i).getStatus()==-1) {
-                String id=sentenceModels.get(i).getID();
+        for(int i=0;i<recorderSentenceModels.size();i++) {
+            if(recorderSentenceModels.get(i).getStatus()==-1) {
+                String id=recorderSentenceModels.get(i).getID();
+                int version=recorderSentenceModels.get(i).getVersion();
+                String versions=Integer.toString(version);
+                int maxversion=maxVersion();
+                String maxversions=Integer.toString(maxversion);
                 String fileName = getTmpDir(id, profile.getUsername());
                 File tmp = new File(fileName);
                 if (tmp.exists()) {
@@ -111,6 +122,8 @@ public class UploadAllService extends Service {
                         params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                         params.put("profile", gson.toJson(profile));
                         params.put("sentence", id);
+                        params.put("version", versions);
+                        params.put("versionmax", maxversions);
                         list.add(params);
                     } else {
                         AppLog.logString("Could not get user profile");

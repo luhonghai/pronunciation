@@ -17,6 +17,7 @@
     <string name="license_url">http://192.168.1.50:8080/LicenseHandler</string>
     <string name="reset_password_url">http://192.168.1.50:8080/ResetPasswordHandler</string>
     <string name="transcription_url">http://192.168.1.50:8080/transcription</string>
+    <string name="recorder_url">http://192.168.1.50:8080/RecorderServlet</string>
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
     <string name="action_switch_custom">Use CustomView</string>

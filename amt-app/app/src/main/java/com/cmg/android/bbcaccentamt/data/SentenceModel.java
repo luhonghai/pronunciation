@@ -6,17 +6,19 @@ package com.cmg.android.bbcaccentamt.data;
 public class SentenceModel {
     String _id;
     String sentence;
+    int version;
     int status;
-    int index;
+    int isDeleted;
 
     public SentenceModel(){
     }
-    public SentenceModel(String id, String sentence, int status, int index){
+
+    public SentenceModel(String id, String sentence, int status, int version, int isDeleted){
         this._id = id;
         this.sentence = sentence;
+        this.version=version;
         this.status=status;
-        this.index=index;
-
+        this.isDeleted=isDeleted;
     }
     public String getID(){
         return this._id;
@@ -36,11 +38,22 @@ public class SentenceModel {
     public void setStatus(int status){
         this.status =status;
     }
-    public int getIndex(){
-        return this.index;
+    public int getVersion() {
+        return version;
     }
-    public void setIndex(int index){
-        this.index =index;
+
+    public void setVersion(int version) {
+        this.version = version;
     }
+    public int isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+
+
 
 }

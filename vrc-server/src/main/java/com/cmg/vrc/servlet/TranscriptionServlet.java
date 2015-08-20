@@ -161,6 +161,7 @@ public class TranscriptionServlet extends HttpServlet {
             try {
                 Transcription transcription=trService.getById(id);
                 transcription.setIsDeleted(Constant.ISDELETE_TRUE);
+                trService.edit(transcription);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");

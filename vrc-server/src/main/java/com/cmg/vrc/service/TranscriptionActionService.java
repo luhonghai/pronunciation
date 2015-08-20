@@ -70,6 +70,7 @@ public class TranscriptionActionService {
         List<Transcription> list=null;
         try {
             list=transcriptionDAO.getListByVersion(version);
+
         }catch (Exception e){
             e.printStackTrace();
         }

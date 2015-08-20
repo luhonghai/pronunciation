@@ -19,26 +19,20 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTabHost;
+import android.provider.SyncStateContract;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,28 +47,26 @@ import com.cmg.android.bbcaccentamt.activity.DetailActivity;
 import com.cmg.android.bbcaccentamt.activity.FeedbackActivity;
 import com.cmg.android.bbcaccentamt.activity.SettingsActivity;
 import com.cmg.android.bbcaccentamt.activity.fragment.FragmentTab;
-import com.cmg.android.bbcaccentamt.activity.fragment.GraphFragment;
 import com.cmg.android.bbcaccentamt.activity.fragment.HistoryFragment;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
-import com.cmg.android.bbcaccentamt.activity.fragment.TipFragment;
 import com.cmg.android.bbcaccentamt.activity.info.AboutActivity;
 import com.cmg.android.bbcaccentamt.activity.info.HelpActivity;
 import com.cmg.android.bbcaccentamt.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccentamt.activity.view.RecordingView;
 import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
+import com.cmg.android.bbcaccentamt.common.Common;
 import com.cmg.android.bbcaccentamt.common.FileCommon;
 import com.cmg.android.bbcaccentamt.data.CustomAdapter;
-import com.cmg.android.bbcaccentamt.data.Database;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
+import com.cmg.android.bbcaccentamt.data.DatabasePrepare;
 import com.cmg.android.bbcaccentamt.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccentamt.data.SentenceModel;
-import com.cmg.android.bbcaccentamt.data.SentenceUpload;
+import com.cmg.android.bbcaccentamt.data.RecorderSentenceModel;
 import com.cmg.android.bbcaccentamt.data.SphinxResult;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.data.UserVoiceModel;
-import com.cmg.android.bbcaccentamt.data.WordDBAdapter;
 import com.cmg.android.bbcaccentamt.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccentamt.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccentamt.dictionary.DictionaryWalker;
@@ -85,11 +77,9 @@ import com.cmg.android.bbcaccentamt.http.UploaderAllAsync;
 import com.cmg.android.bbcaccentamt.http.UploaderAsync;
 import com.cmg.android.bbcaccentamt.utils.AnalyticHelper;
 import com.cmg.android.bbcaccentamt.utils.AndroidHelper;
-import com.cmg.android.bbcaccentamt.utils.ColorHelper;
 import com.cmg.android.bbcaccentamt.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccentamt.utils.FileHelper;
 import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
-import com.cmg.android.bbcaccentamt.view.AlwaysMarqueeTextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -99,14 +89,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -114,6 +101,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.AudioEvent;
@@ -216,6 +204,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private boolean isUploading = false;
     private boolean isAutoStop = false;
     private SentenceModel sentenceModel;
+    private RecorderSentenceModel recorderSentenceModel;
 
     private PlayerHelper player;
 
@@ -310,11 +299,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
         textrecord=(TextView)findViewById(R.id.textrecord);
-        List<SentenceModel> sentenceModel=databaseHandlerSentence.getAllSentence();
+      /*  List<SentenceModel> sentenceModel=databaseHandlerSentence.getAllSentence();
         SentenceModel model=sentenceModel.get(0);
         idSentence=model.getID();
         String itemValue=model.getSentence();
-        textrecord.setText(itemValue);
+        textrecord.setText(itemValue);*/
 
         listAllItem();
         uploadSentence();
@@ -327,7 +316,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void listAllItem(){
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        final DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
         audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
         UserProfile profile = Preferences.getCurrentProfile(this);
@@ -335,23 +324,37 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         CustomAdapter customAdapter=null;
         lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
-        List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
-        sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-        status=sentenceModel.getStatus();
-        sort(sentenceModels);
-        customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
-        for(int i=0;i<sentenceModels.size();i++){
-            if(sentenceModels.get(i).getStatus()==-1){
-                numberRecoder=numberRecoder+1;
-                break;
-            }
+        List<SentenceModel> notRecord=databaseHandlerSentence.getAllSentenceWithStatusandAccount(name);
+        List<SentenceModel> upload=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_UPLOADED);
+        List<SentenceModel> reject=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_REJECT);
+        List<SentenceModel> approved=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_APPROVED);
+        List<SentenceModel> locked=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_LOCKED);
+        List<SentenceModel> notUpload=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_BUT_NOT_UPLOAD);
+
+        //List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
+        List<SentenceModel> sentenceModels=new ArrayList<SentenceModel>();
+        sentenceModels.addAll(reject);
+        sentenceModels.addAll(notUpload);
+        sentenceModels.addAll(notRecord);
+        sentenceModels.addAll(upload);
+        sentenceModels.addAll(approved);
+        sentenceModels.addAll(locked);
+
+        //sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+        //get the first sentence that not record in database
+        if(sentenceModels.size() > 0){
+            SentenceModel m = sentenceModels.get(0);
+            status = m.getStatus();
+            String itemValue=m.getSentence();
+            textrecord.setText(itemValue);
         }
-        if(numberRecoder!=0){
+        customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
+       /* List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();*/
+        if(notUpload.size()!=0){
             switchButtonStage(ButtonState.GREEN);
         }
-        if(numberRecoder==0){
+        if(notUpload.size()==0){
            switchButtonStage(ButtonState.UPLOADALL1);
-
         }
         lvItem.setAdapter(customAdapter);
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -360,6 +363,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
                 String itemValue = a.getSentence();
                 idSentence = a.getID();
+                /*RecorderSentenceModel recorderSentenceModel=new RecorderSentenceModel();
+                recorderSentenceModel=databaseHandlerSentence.getRecorderSentence(idSentence);*/
                 status=a.getStatus();
                 textrecord.setText(itemValue);
                 String output=audioStream.getTmpDir(idSentence,name);
@@ -413,22 +418,38 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
     }
 
-    public static void sort(List<SentenceModel> sentenceModels) {
-        for (int i = 0; i < sentenceModels.size(); i++) {
-            int min =sentenceModels.get(i).getIndex();
-            int index = i;
-            for (int j = i + 1; j < sentenceModels.size(); j++) {
-                if(min > sentenceModels.get(j).getIndex()){
-                    min = sentenceModels.get(j).getIndex();
-                    index = j;
-                }
-            }
-            if(index != i){
-                Collections.swap(sentenceModels, i, index);
-            }
-        }
+
+    public String fileName(){
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String id=idSentence;
+        String name=profile.getUsername();
+        String fileName=audioStream.getTmpDir(id, name);
+        return fileName;
+    }
+    public String account(){
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String name=profile.getUsername();
+        return name;
 
     }
+//    public static void sort(List<SentenceModel> sentenceModels) {
+//        for (int i = 0; i < sentenceModels.size(); i++) {
+//            int min =sentenceModels.get(i).getIndex();
+//            int index = i;
+//            for (int j = i + 1; j < sentenceModels.size(); j++) {
+//                if(min > sentenceModels.get(j).getIndex()){
+//                    min = sentenceModels.get(j).getIndex();
+//                    index = j;
+//                }
+//            }
+//            if(index != i){
+//                Collections.swap(sentenceModels, i, index);
+//            }
+//        }
+//
+//    }
     public void uploadAllSentence(){
         uploadAllSentence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -438,22 +459,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
     }
     public void clickUploadAll(){
-        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
-        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
-        List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
-        int n=0;
-        for(int i=0;i<sentenceModels.size();i++){
-            if(sentenceModels.get(i).getStatus()==-1){
-                n=n+1;
-                break;
-            }
-        }
-       if(n!=0){
             switchButtonStage(ButtonState.UPLOADALL);
             uploadAllRecord();
 
-        }
 
     }
 
@@ -906,8 +914,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private boolean checkAudioExist() {
-        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
-        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+
+
         UserProfile profile = Preferences.getCurrentProfile(this);
         String name=profile.getUsername();
         String fileName = audioStream.getTmpDir(idSentence, name);
@@ -1018,6 +1026,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         runOnUiThread(new Runnable() {
                             DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(getApplicationContext());
+
                             @Override
                             public void run() {
 
@@ -1028,11 +1037,26 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 recordingView.drawEmptyCycle();
                                 analyzingState = AnalyzingState.DEFAULT;
                                 switchButtonStage(ButtonState.GREEN);
-                                sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-                                sentenceModel.setStatus(-1);
-                                sentenceModel.setIndex(2);
-                                databaseHandlerSentence.updateSentence(sentenceModel);
+                                //sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+                                recorderSentenceModel = new RecorderSentenceModel();
+                                recorderSentenceModel.setFileName(fileName());
+                                recorderSentenceModel.setID(idSentence);
+                                recorderSentenceModel.setIdSentence(idSentence);
+                                recorderSentenceModel.setStatus(Common.RECORDED_BUT_NOT_UPLOAD);
+                                recorderSentenceModel.setVersion(databaseHandlerSentence.getLastedVersionRecorder());
+                                recorderSentenceModel.setIsDelete(Common.ISDELETED_FALSE);
+                                recorderSentenceModel.setAccount(account());
+                                databaseHandlerSentence.addRecorderSentence(recorderSentenceModel);
+
+
+
+//                                sentenceModel.setStatus(-1);
+//                                sentenceModel.setIndex(2);
+                               // databaseHandlerSentence.updateSentence(sentenceModel);
                                 listAllItem();
+                                String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
+                                textrecord.setText(sentence);
+
                             }
                         });
 
@@ -1504,40 +1528,51 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         @Override
         public void onReceive(Context context, Intent intent) {
             DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
-            Database database=new Database(context);
-            SentenceUpload sentenceUpload=new SentenceUpload();
+
+            RecorderSentenceModel recorderSentenceModel =new RecorderSentenceModel();
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
 
                 String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
+                AppLog.logString("data  : " + data);
                 Gson gson = new Gson();
-                try {
-                    currentModel = gson.fromJson(data, UserVoiceModel.class);
-                } catch (Exception ex) {
-                    //switchButtonStage(ButtonState.RED);
+                DatabasePrepare.ResponseDataRecorded datas = gson.fromJson(data, DatabasePrepare.ResponseDataRecorded.class);
+                if(datas!=null && datas.RecordedSentences!=null && datas.RecordedSentences.size() > 0 ){
+                    for(DatabasePrepare.RecordedSentence model : datas.RecordedSentences){
+                        //call database update version, status, isdeleted with object model.
+                        AppLog.logString("sentence id  : " + model.getSentenceId());
+                        AppLog.logString("id  : " + model.getId());
+                        databaseHandlerSentence.updateRecorder(model.getVersion(), model.getStatus(), model.isDeteted(), model.getSentenceId(), model.getAccount());
+
+                    }
+
                 }
-                try {
-                    saveToDatabase();
-                }catch (Exception e) {
-                    SimpleAppLog.error("Could not save data to database", e);
-                    e.printStackTrace();
-                    currentModel = null;
-                }
+//                try {
+//                    currentModel = gson.fromJson(data, UserVoiceModel.class);
+//                } catch (Exception ex) {
+//                    //switchButtonStage(ButtonState.RED);
+//                }
+//                try {
+//                    saveToDatabase();
+//                }catch (Exception e) {
+//                    SimpleAppLog.error("Could not save data to database", e);
+//                    e.printStackTrace();
+//                    currentModel = null;
+//                }
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
-                sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-                sentenceModel.setStatus(1);
-                sentenceModel.setIndex(4);
-                databaseHandlerSentence.updateSentence(sentenceModel);
-                sentenceUpload.setSentence(idSentence);
-                database.addSentence(sentenceUpload);
+//                sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+////                sentenceModel.setStatus(1);
+////                sentenceModel.setIndex(4);
+//
+//                databaseHandlerSentence.updateSentence(sentenceModel);
 
                 listAllItem();
-                List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentenceUpload();
-                if(sentenceModels.size()>0) {
-                    switchButtonStage(ButtonState.UPLOAD1);
-                }else
-                    switchButtonStage(ButtonState.UPLOADALL1);
+//                List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();
+//                if(recorderSentenceModels.size()>0) {
+//                    switchButtonStage(ButtonState.UPLOAD1);
+//                }else
+//                    switchButtonStage(ButtonState.UPLOADALL1);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
@@ -1581,13 +1616,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void uploadRecord() {
         UserProfile profile = Preferences.getCurrentProfile(this);
-      //  DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         try {
             AppLog.logString("Start Uploading");
             analyzingState = AnalyzingState.ANALYZING;
+            String name=profile.getUsername();
             uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
             Map<String, String> params = new HashMap<String, String>();
-            String name=profile.getUsername();
+            recorderSentenceModel=databaseHandlerSentence.getRecorderSentence(idSentence,name);
+            int version=recorderSentenceModel.getVersion();
+            String versions=Integer.toString(version);
+            int maxversion=databaseHandlerSentence.getLastedVersionRecorder();
+            String maxversions=Integer.toString(maxversion);
             String fileName = audioStream.getTmpDir(idSentence,name);
             File tmp = new File(fileName);
             if (tmp.exists()) {
@@ -1611,6 +1651,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                     params.put("profile", gson.toJson(profile));
                     params.put("sentence", idSentence);
+                    params.put("version", versions);
+                    params.put("versionmax", maxversions);
                     uploadTask.execute(params);
 
                 } else {
@@ -1671,13 +1713,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
         audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
         UserProfile profile = Preferences.getCurrentProfile(this);
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         String name=profile.getUsername();
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
-            status= cursor.getInt(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_STATUS));
+            RecorderSentenceModel recorderSentenceModel=databaseHandlerSentence.getRecorderSentence(idSentence,name);
+            status= recorderSentenceModel.getStatus();
             textrecord.setText(s);
             String output=audioStream.getTmpDir(idSentence,name);
             File dstFile = new File(output);

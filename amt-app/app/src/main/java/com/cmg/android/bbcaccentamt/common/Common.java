@@ -25,6 +25,25 @@ public class Common {
 	public static String FEEDBACK = "feedback";
 	
 	public static String LOG_SESSION = "log session";
+
+	public static int ISDELETED_TRUE=1;
+
+	public static int ISDELETED_FALSE=0;
+
+	public static int RECORDED_UPLOADED=1;
+
+	public static int RECORDED_ADMIN_REJECT=2;
+
+	public static int RECORDED_ADMIN_APPROVED=3;
+
+	public static int RECORDED_ADMIN_LOCKED=4;
+
+	public static int RECORDED_BUT_NOT_UPLOAD=-1;
+
+	public static int NOT_RECORD=0;
+
+
+
 	
 	
 }

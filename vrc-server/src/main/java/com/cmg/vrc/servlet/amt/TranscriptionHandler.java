@@ -30,6 +30,7 @@ public class TranscriptionHandler extends BaseServlet {
         String action = req.getParameter("action");
         String data = req.getParameter("data");
         String versionClient=req.getParameter("version");
+        logger.info("Client version: " + versionClient);
         int version=Integer.parseInt(versionClient);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         ResponseData responseData = new ResponseData();
@@ -43,7 +44,10 @@ public class TranscriptionHandler extends BaseServlet {
             } else if (action.equalsIgnoreCase("list")) {
                 responseData.setStatus(true);
                 responseData.setMessage("success");
+                long start = System.currentTimeMillis();
                 responseData.transcriptions = transcriptionActionService.listTranscription(version);
+                logger.info("Execution time: " + (System.currentTimeMillis() - start));
+                logger.info("Sentence size: " + (responseData.transcriptions == null ? 0 : responseData.transcriptions.size()));
             } else if (action.equalsIgnoreCase("delete")) {
                 if (StringUtils.isEmpty(data)) {
                     responseData.setMessage("No transcription id found");

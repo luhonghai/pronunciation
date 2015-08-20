@@ -13,12 +13,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccentamt.AppLog;
-import com.cmg.android.bbcaccentamt.data.Database;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
+import com.cmg.android.bbcaccentamt.data.DatabasePrepare;
 import com.cmg.android.bbcaccentamt.data.SentenceModel;
-import com.cmg.android.bbcaccentamt.data.SentenceUpload;
+import com.cmg.android.bbcaccentamt.data.RecorderSentenceModel;
 import com.cmg.android.bbcaccentamt.http.exception.UploaderException;
-import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
+import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -50,7 +50,6 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
     protected String doInBackground(List<Map<String, String>>... params) {
         AppLog.logString("do upload");
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
-        Database database=new Database(context);
         try {
             String idSentence = "";
             if (params != null && params.length > 0) {
@@ -58,15 +57,23 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
                     for (Map<String, String> p : param) {
                         AppLog.logString("do upload : " + p.get("sentence"));
                         String result = FileUploader.upload(p, uploadUrl);
-                        idSentence = p.get("sentence");
-                        SentenceModel sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-                        sentenceModel.setStatus(1);
-                        sentenceModel.setIndex(4);
-                        databaseHandlerSentence.updateSentence(sentenceModel);
-                        SentenceUpload sentenceUpload=new SentenceUpload();
-                        sentenceUpload.setSentence(idSentence);
-                        database.addSentence(sentenceUpload);
+                        Gson gson = new Gson();
+                        DatabasePrepare.ResponseDataRecorded datas = gson.fromJson(result, DatabasePrepare.ResponseDataRecorded.class);
+                        if(datas!=null &&datas.RecordedSentences.size() > 0 ){
+                            for(DatabasePrepare.RecordedSentence model : datas.RecordedSentences){
+                                //call database update version, status, isdeleted with object model.
+                                databaseHandlerSentence.updateRecorder(model.getVersion(),model.getStatus(),model.isDeteted(),model.getSentenceId(),model.getAccount());
 
+                            }
+
+                        }
+
+
+//                        idSentence = p.get("sentence");
+//                        SentenceModel sentenceModel=databaseHandlerSentence.getSentence(idSentence);
+//                        sentenceModel.setStatus(1);
+//                        sentenceModel.setIndex(4);
+//                        databaseHandlerSentence.updateSentence(sentenceModel);
                     }
                 }
             }

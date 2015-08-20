@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
 
 import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.ArrayUtils;
 /**
  * Created by luhonghai on 5/8/15.
@@ -114,7 +116,8 @@ public class TestDAO {
             //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
            // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
             //transcriptionDAO.getLatestVersion();
-            recorderDAO.getListByVersion(0,"dfs");
+           List<RecordedSentence> list = recorderDAO.getListByVersion(0, "company@c-mg.com");
+            System.out.println(list.size());
             //transcriptionDAO.getListByVersion(0);
         } catch (Exception e) {
             e.printStackTrace();

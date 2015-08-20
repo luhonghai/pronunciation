@@ -56,7 +56,8 @@ public class RecorderSentenceService {
         RecorderDAO recorderDAO = new RecorderDAO();
         List<RecordedSentence> list= new ArrayList<RecordedSentence>();
         try {
-            list=recorderDAO.getListByVersion(version,username);
+            list= recorderDAO.getListByVersion(version,username);
+            System.out.println("start dao get list : " + list.size());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -81,6 +82,7 @@ public class RecorderSentenceService {
             }
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
+            recordedSentence.setId(sentenceId);
             recordedSentence.setStatus(RecordedSentence.PENDING);
             recordedSentence.setAccount(user.getUsername());
             recordedSentence.setAdmin("System");

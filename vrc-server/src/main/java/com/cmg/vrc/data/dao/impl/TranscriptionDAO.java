@@ -49,7 +49,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
                 list.add(to(iter.next()));
             }
             tx.commit();
-            System.out.println(list.size());
+
             return list;
         } catch (Exception e) {
             throw e;
@@ -115,6 +115,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         if(createDateFrom!=null&&createDateTo!=null){
             string.append("(createdDate >= CreateDateFrom && createdDate <= CreateDateTo) &&");
         }
+        string.append("(isDeleted==0) &&");
 
         if(modifiedDateFrom!=null&&modifiedDateTo==null){
             string.append("(modifiedDate >= modifiedDateFrom) &&");

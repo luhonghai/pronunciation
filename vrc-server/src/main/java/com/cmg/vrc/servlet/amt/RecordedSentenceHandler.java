@@ -51,6 +51,7 @@ public class RecordedSentenceHandler extends HttpServlet {
     private static String PARA_VERSIONMAX = "versionmax";
 	public class ResponseDataExt extends ResponseData<RecordedSentence> {
 		public List<RecordedSentence> RecorderSentences;
+
 	}
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

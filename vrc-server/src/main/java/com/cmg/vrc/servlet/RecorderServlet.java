@@ -43,14 +43,17 @@ public class RecorderServlet extends BaseServlet {
         Date date = new Date();
         String action = request.getParameter("action");
         if(action.equalsIgnoreCase(LIST_BY_CLIENT)){
-            String username = request.getParameter("username");
+            String username = request.getParameter("data");
             int version = Integer.parseInt(request.getParameter("version"));
             RecorderSentenceService rsService = new RecorderSentenceService();
             Gson gson = new Gson();
             ResponseDataRecorded responseData = new ResponseDataRecorded();
             responseData.setStatus(true);
             responseData.setMessage("success");
+            System.out.println("user name " + username);
+            System.out.println("version  : " + version);
             responseData.RecordedSentences = rsService.getListByVersionAndUsername(version, username);
+            System.out.println("list size " + responseData.RecordedSentences.size());
             printMessage(response, gson.toJson(responseData));
         }
         else if (action.equalsIgnoreCase(LIST_BY_ADMIN)) {
