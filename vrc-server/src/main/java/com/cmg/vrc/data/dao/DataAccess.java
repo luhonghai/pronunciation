@@ -122,8 +122,10 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	public boolean put(final E obj) throws Exception {
 		verifyObject(obj);
 		String id = ((Mirrorable) obj).getId();
-		if (checkExistence(id))
+		if (checkExistence(id)){
+			System.out.println("id deleted : " + id);
 			delete(id);
+		}
 		return create(obj);
 	}
 	/**

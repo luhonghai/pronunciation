@@ -164,50 +164,7 @@ public class DatabasePrepare {
     private void loadDatabase() {
         loadTranscription();
         loadRecordSentence();
-      /*  File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
-        try {
-            if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
-            UserProfile profile = Preferences.getCurrentProfile(context);
-            String name=profile.getUsername();
-            String requestUrl = context.getString(R.string.transcription_url)
-                    + "?action=list&data="
-                    + URLEncoder.encode(profile.getUsername(),"UTF-8");
-            long start = System.currentTimeMillis();
-            FileUtils.copyURLToFile(new URL(requestUrl), tmpFile);
-            long end = System.currentTimeMillis();
-            System.out.println("Time"+(end-start));
-            if (tmpFile.exists()) {
-                String rawJson = FileUtils.readFileToString(tmpFile, "UTF-8");
-                SimpleAppLog.info("Transcription json: " + rawJson);
-                Gson gson = new Gson();
-                ResponseData data = gson.fromJson(rawJson, ResponseData.class);
-                SimpleAppLog.info("Status: " + data.isStatus() + ". Message: " + data.getMessage());
-                if (data.transcriptions != null && data.transcriptions.size() >0 ) {
 
-                    databaseHandlerSentence.deleteAllSentence();
-                            for (int i = 0; i < data.transcriptions.size(); i++) {
-                                SentenceModel sentenceModel=new SentenceModel();
-                                String id=data.transcriptions.get(i).getId();
-                                    String output=audioStream.getTmpDir(id,name);
-                                    File dstFile = new File(output);
-                                    if (dstFile.exists() && data.transcriptions.get(i).getStatus()==0) {
-                                        sentenceModel.setSentence(data.transcriptions.get(i).getSentence());
-                                        sentenceModel.setStatus(-1);
-                                        sentenceModel.setID(data.transcriptions.get(i).getId());
-                                        sentenceModel.setIndex(2);
-                                        databaseHandlerSentence.addSentence(sentenceModel);
-                                    }
-
-                            }
-                }
-
-            } else {
-                SimpleAppLog.info("No transcription data found");
-            }
-
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not fetch transcription",e);
-        }*/
     }
 
     public class ResponseData extends com.cmg.android.bbcaccentamt.http.ResponseData<Transcription> {

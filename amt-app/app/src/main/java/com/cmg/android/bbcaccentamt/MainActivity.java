@@ -299,12 +299,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
         textrecord=(TextView)findViewById(R.id.textrecord);
-      /*  List<SentenceModel> sentenceModel=databaseHandlerSentence.getAllSentence();
-        SentenceModel model=sentenceModel.get(0);
-        idSentence=model.getID();
-        String itemValue=model.getSentence();
-        textrecord.setText(itemValue);*/
-
         listAllItem();
         uploadSentence();
         uploadAllSentence();
@@ -1049,10 +1043,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 databaseHandlerSentence.addRecorderSentence(recorderSentenceModel);
 
 
-
-//                                sentenceModel.setStatus(-1);
-//                                sentenceModel.setIndex(2);
-                               // databaseHandlerSentence.updateSentence(sentenceModel);
                                 listAllItem();
                                 String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                                 textrecord.setText(sentence);
@@ -1417,12 +1407,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
         notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
         sendBroadcast(notifyUpdateIntent);
-//        if (!checkAudioExist()) {
-//            btnAudio.setEnabled(false);
-//            btnAudio.setImageResource(R.drawable.p_audio_gray);
-//            uploadSentence.setEnabled(false);
-//            uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
-//        }
         } catch (Exception e) {
             SimpleAppLog.error("Could not update screen state",e);
         }
@@ -1560,21 +1544,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 //                    currentModel = null;
 //                }
                 AppLog.logString("Start score animation");
-                // Waiting for animation complete
-//                sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-////                sentenceModel.setStatus(1);
-////                sentenceModel.setIndex(4);
-//
-//                databaseHandlerSentence.updateSentence(sentenceModel);
 
                 listAllItem();
                 String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                 textrecord.setText(sentence);
-//                List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();
-//                if(recorderSentenceModels.size()>0) {
-//                    switchButtonStage(ButtonState.UPLOAD1);
-//                }else
-//                    switchButtonStage(ButtonState.UPLOADALL1);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
