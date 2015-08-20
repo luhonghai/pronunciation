@@ -34,12 +34,6 @@ public class DatabasePrepare {
     private final Context context;
 
     private final OnPrepraredListener prepraredListener;
-    private AndroidAudioInputStream audioStream;
-    private AudioRecord audioInputStream;
-    private int chanel;
-    private int sampleRate;
-    private int bufferSize;
-
 
     public DatabasePrepare(Context context, OnPrepraredListener prepraredListener) {
         this.context = context;

@@ -1,5 +1,6 @@
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
+import com.cmg.vrc.service.RecorderSentenceService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -116,7 +117,8 @@ public class TestDAO {
             //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
            // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
             //transcriptionDAO.getLatestVersion();
-           List<RecordedSentence> list = recorderDAO.getListByVersion(0, "company@c-mg.com");
+            RecorderSentenceService rcs = new RecorderSentenceService();
+           List<RecordedSentence> list = rcs.getListByVersionAndUsername(6, "company@c-mg.com");
             System.out.println(list.size());
             //transcriptionDAO.getListByVersion(0);
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.service.RecorderSentenceService;
 import com.cmg.vrc.service.amt.TranscriptionService;
+import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
@@ -42,15 +43,15 @@ import java.util.UUID;
 /**
  * Created by luhonghai on 2014-04-22.
  */
-public class RecordedSentenceHandler extends HttpServlet {
+public class RecordedSentenceHandler extends BaseServlet {
     private static final Logger logger = Logger.getLogger(RecordedSentenceHandler.class
             .getName());
     private static String PARA_PROFILE = "profile";
     private static String PARA_SENTENCE_ID = "sentence";
     private static String PARA_VERSION = "version";
     private static String PARA_VERSIONMAX = "versionmax";
-	public class ResponseDataExt extends ResponseData<RecordedSentence> {
-		public List<RecordedSentence> RecorderSentences;
+	private class ResponseDataExt extends ResponseData<RecordedSentence> {
+		public List<RecordedSentence> RecordedSentences;
 
 	}
 
@@ -141,7 +142,7 @@ public class RecordedSentenceHandler extends HttpServlet {
                 if (result != null) {
                     responseData.setStatus(true);
                     responseData.setMessage("success");
-                    responseData.RecorderSentences = result;
+                    responseData.RecordedSentences = result;
                 } else {
 
                     responseData.setMessage("Could not upload recorded voice");
@@ -159,7 +160,8 @@ public class RecordedSentenceHandler extends HttpServlet {
         }
         String responseText = gson.toJson(responseData);
         logger.info("Response: " + responseText);
-        out.print(responseText);
+        System.out.println("json response when upload : " + responseText);
+        printMessage(response, gson.toJson(responseData));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

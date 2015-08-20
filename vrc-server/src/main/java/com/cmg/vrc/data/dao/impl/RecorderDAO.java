@@ -69,7 +69,6 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
                 list.add(to(iter.next()));
             }
             tx.commit();
-            System.out.println(list.size());
             return list;
         } catch (Exception e) {
             throw e;

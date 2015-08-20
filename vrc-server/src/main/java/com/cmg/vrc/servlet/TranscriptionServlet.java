@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
+import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.service.TranscriptionActionService;
 import com.cmg.vrc.util.StringUtil;

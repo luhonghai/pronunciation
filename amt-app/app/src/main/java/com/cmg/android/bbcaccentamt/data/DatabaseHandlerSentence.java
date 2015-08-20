@@ -261,7 +261,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
         try {
-            lastest= Integer.parseInt(cursor.getString(4));
+            lastest= Integer.parseInt(cursor.getString(0));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -321,13 +321,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[]{String.valueOf(idSentence), String.valueOf(account)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
-        String id = cursor.getString(0);
-        String sentenceID = cursor.getString(1);
-        String acc = cursor.getString(2);
-        String filename = cursor.getString(3);
-        String status = cursor.getString(4);
-        String version = cursor.getString(5);
-        String isDele = cursor.getString(6);
+
         RecorderSentenceModel recorderSentenceModel = new RecorderSentenceModel(
                 cursor.getString(0),cursor.getString(1),
                 cursor.getString(2),cursor.getString(3),

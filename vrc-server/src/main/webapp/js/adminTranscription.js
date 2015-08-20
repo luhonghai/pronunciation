@@ -49,7 +49,7 @@ function listTranscription(){
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 $button.attr("id-column", data.id);
-                $button.attr("first", data.firstName);
+                $button.attr("sentence", data.sentence);
                 $button.attr("last", data.lastName);
                 $button.attr("role", data.role);
                 return $("<div/>").append($button).html();
@@ -152,7 +152,8 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var sentence = $(this).attr('company');
+        var sentence = $(this).attr('sentence');
+        $("#editsentence").val(sentence);
         $("#idedit").val(idd);
     });
 

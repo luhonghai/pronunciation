@@ -58,6 +58,10 @@ public class RecorderSentenceService {
         try {
             list= recorderDAO.getListByVersion(version,username);
             System.out.println("start dao get list : " + list.size());
+            for(RecordedSentence rc : list){
+                System.out.println("version : " + rc.getVersion());
+            }
+            System.out.println("start dao get list : " + list.size());
         }catch (Exception e){
             e.printStackTrace();
         }

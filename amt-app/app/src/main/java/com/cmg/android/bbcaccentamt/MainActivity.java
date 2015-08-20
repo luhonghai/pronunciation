@@ -1516,7 +1516,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 String data = bundle.getString(UploaderAllAsync.UPLOAD_COMPLETE_INTENT);
                 AppLog.logString("upload status : " + data);
                 listAllItem();
-                switchButtonStage(ButtonState.UPLOADALL1);
+                switchButtonStage(ButtonState.NORECORDING);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
@@ -1568,6 +1568,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 //                databaseHandlerSentence.updateSentence(sentenceModel);
 
                 listAllItem();
+                String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
+                textrecord.setText(sentence);
 //                List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();
 //                if(recorderSentenceModels.size()>0) {
 //                    switchButtonStage(ButtonState.UPLOAD1);
