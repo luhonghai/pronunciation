@@ -136,6 +136,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         NORECORDING,
         SUCCESS,
         SUCCESS1,
+        UPLOAD2
 
     }
 
@@ -333,6 +334,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         sentenceModels.addAll(upload);
         sentenceModels.addAll(approved);
         sentenceModels.addAll(locked);
+        String output=audioStream.getTmpDir( sentenceModels.get(0).getID(),name);
+        File dstFile = new File(output);
 
         //sentenceModel=databaseHandlerSentence.getSentence(idSentence);
         //get the first sentence that not record in database
@@ -344,13 +347,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
         customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
        /* List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();*/
-        if(notUpload.size()!=0){
+        if(notUpload.size()!=0 && status==-1){
             switchButtonStage(ButtonState.GREEN);
         }
-        if(notUpload.size()==0){
+        if(notUpload.size()!=0 && status!=-1){
+            switchButtonStage(ButtonState.UPLOAD2);
+        }
+
+        if(notUpload.size()==0 && dstFile.exists() ){
            switchButtonStage(ButtonState.UPLOADALL1);
         }
+        if(notUpload.size()==0 && !dstFile.exists() ){
+            switchButtonStage(ButtonState.NORECORDING);
+        }
+
         lvItem.setAdapter(customAdapter);
+
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -790,7 +802,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }).playOn(imgHourGlass);
 
-
             dictionaryItem = null;
             currentModel = null;
             if (getWordAsync != null) {
@@ -873,7 +884,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void stopPlay() {
-        switchButtonStage();
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        final String name=profile.getUsername();
+        List<SentenceModel> notUpload=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_BUT_NOT_UPLOAD);
+        if(notUpload.size()!=0 && status==-1){
+            switchButtonStage(ButtonState.GREEN);
+        }
+        if(notUpload.size()!=0 && status!=-1){
+            switchButtonStage(ButtonState.UPLOAD2);
+        }
         isPlaying = false;
         player.stop();
     }
@@ -1040,6 +1060,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 recorderSentenceModel.setVersion(databaseHandlerSentence.getLastedVersionRecorder());
                                 recorderSentenceModel.setIsDelete(Common.ISDELETED_FALSE);
                                 recorderSentenceModel.setAccount(account());
+                                databaseHandlerSentence.deleteRecorderSentence(recorderSentenceModel);
                                 databaseHandlerSentence.addRecorderSentence(recorderSentenceModel);
 
 
@@ -1278,6 +1299,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             case UPLOAD:
                 uploadSentence.startAnimation(fadeOut);
                 uploadSentence.setImageResource(R.drawable.p_close_red);
+                uploadSentence.setEnabled(false);
                 uploadSentence.startAnimation(fadeIn);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 btnAnalyzing.setEnabled(false);
@@ -1291,6 +1313,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             case UPLOADALL:
                 uploadAllSentence.startAnimation(fadeOut);
                 uploadAllSentence.setImageResource(R.drawable.p_close_red);
+                uploadAllSentence.setEnabled(false);
                 uploadAllSentence.startAnimation(fadeIn);
                 btnAnalyzing.setImageResource(R.drawable.p_record_gray);
                 btnAnalyzing.setEnabled(false);
@@ -1347,6 +1370,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
 
                 break;
+            case UPLOAD2:
+                btnAudio.setEnabled(true);
+                btnAnalyzing.setEnabled(true);
+                btnAudio.setImageResource(R.drawable.p_audio_green);
+                btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                uploadSentence.setEnabled(false);
+                uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+                uploadAllSentence.setEnabled(true);
+                uploadAllSentence.setImageResource(R.drawable.p_arrow_up_green);
+
+                isProcess = false;
+                break;
+
             case GREEN:
                 btnAudio.setEnabled(true);
                 btnAnalyzing.setEnabled(true);
