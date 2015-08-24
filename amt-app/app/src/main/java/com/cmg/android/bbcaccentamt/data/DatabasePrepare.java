@@ -10,11 +10,13 @@ import com.cmg.android.bbcaccentamt.R;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccentamt.http.ResponseData;
+import com.cmg.android.bbcaccentamt.utils.FileHelper;
 import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +68,20 @@ public class DatabasePrepare {
                 + inputVal.substring(1).toLowerCase();
     }
     private void loadTranscription(){
+        File sentenceDbFolder = new File(FileHelper.getApplicationDir(context), "databases");
+        if (!sentenceDbFolder.exists()) {
+            sentenceDbFolder.mkdirs();
+        }
+        File sentenceDb = new File(sentenceDbFolder, "sentencesManager");
+        if (!sentenceDb.exists()) {
+            SimpleAppLog.info("Try to preload sqlite database");
+            try {
+                FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not save database from asset",e);
+            }
+        }
+
         DatabaseHandlerSentence dbHandleStc=new DatabaseHandlerSentence(context);
         File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
         try {
