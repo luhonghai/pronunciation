@@ -22,18 +22,7 @@
   <!-- /.row -->
   <div class="well">
     <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Account</label>
-          <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
-        </div>
-        <div class="form-group">
-          <label class="control-label">Sentence</label>
-          <input type="text" name="filter-sentence" id="sentence" class="form-control" placeholder="Sentence">
-        </div>
-      </div>
-
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <div class="form-group" style="margin-top: 40px;text-align: right;">
           <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
         </div>
@@ -50,15 +39,19 @@
         </div>
       </div>
 
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <div class="form-group">
           <label class="control-label">From</label>
           <div>
             <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
           </div>
         </div>
+        <div class="form-group">
+          <label class="control-label">Account</label>
+          <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
+        </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <div class="form-group">
           <label class="control-label">To</label>
           <div >

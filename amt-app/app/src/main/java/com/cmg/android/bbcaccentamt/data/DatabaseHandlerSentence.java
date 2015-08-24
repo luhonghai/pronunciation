@@ -242,11 +242,8 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                         KEY_STATUS,
                         KEY_VERSION,
                         KEY_ISDELETED},
-                "sentence LIKE ?",
-                new String[]{s + "%"},
-                null,
-                null,
-                null);
+                "sentence LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
+                new String[]{String.valueOf(s), String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
     }
     public DatabaseHandlerSentence open() throws SQLException
     {

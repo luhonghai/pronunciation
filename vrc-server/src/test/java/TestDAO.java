@@ -117,10 +117,12 @@ public class TestDAO {
             //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
            // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
             //transcriptionDAO.getLatestVersion();
-            RecorderSentenceService rcs = new RecorderSentenceService();
-           List<RecordedSentence> list = rcs.getListByVersionAndUsername(6, "company@c-mg.com");
-            System.out.println(list.size());
-            //transcriptionDAO.getListByVersion(0);
+//            RecorderSentenceService rcs = new RecorderSentenceService();
+//           List<RecordedSentence> list = rcs.getListByVersionAndUsername(6, "company@c-mg.com");
+//            System.out.println(list.size());
+            //recorderDAO.get();
+           // transcriptionDAO.getListByVersion(0);
+            recorderDAO.getLatestVersion();
         } catch (Exception e) {
             e.printStackTrace();
         }
