@@ -2,18 +2,19 @@ package com.cmg.vrc.servlet;
 
 
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
+import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.data.jdo.RecorderClient;
 import com.cmg.vrc.service.RecorderSentenceService;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class RecorderServlet extends BaseServlet {
         public Double recordsTotal;
         public Double recordsFiltered;
 
-        List<RecordedSentence> data;
+        List<RecorderClient> data;
     }
 
     private class ResponseDataRecorded extends com.cmg.vrc.servlet.ResponseData<RecordedSentence> {
@@ -39,7 +40,10 @@ public class RecorderServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RecorderDAO adminDAO = new RecorderDAO();
         RecordedSentence ad = new RecordedSentence();
+        TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
         Date date = new Date();
         String action = request.getParameter("action");
         if(action.equalsIgnoreCase(LIST_BY_CLIENT)){
@@ -68,12 +72,16 @@ public class RecorderServlet extends BaseServlet {
             int length = Integer.parseInt(l);
             int col = Integer.parseInt(column);
             int draw = Integer.parseInt(d);
-            String sentence = request.getParameter("sentence");
             String account = request.getParameter("account");
             String dateFrom = request.getParameter("dateFrom");
             String dateTo = request.getParameter("dateTo");
             String status = request.getParameter("status");
-            int sta=Integer.parseInt(status);
+            int sta=0;
+            if(status.equalsIgnoreCase("All")){
+                sta=6;
+            }else {
+                sta=Integer.parseInt(status);
+            }
 
             Date dateFrom1=null;
             Date dateTo1=null;
@@ -98,15 +106,33 @@ public class RecorderServlet extends BaseServlet {
 
             Double count;
             try {
-                if(search.length()>0||sentence.length()>0 || account.length()>0 ||dateFrom1!=null||dateTo1!=null){
-                    count=adminDAO.getCountSearch(search,sentence,account,dateFrom1,dateTo1,sta);
+                if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null){
+                    count=adminDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta);
                 }else {
                     count = adminDAO.getCount();
                 }
+                List<RecorderClient> recorderClients=new ArrayList<RecorderClient>();
+                List<RecordedSentence> recordedSentences = adminDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta);
+                for(int i=0;i<recordedSentences.size();i++){
+                    RecorderClient recorderClient=new RecorderClient();
+                    recorderClient.setId(recordedSentences.get(i).getId());
+                    recorderClient.setIsDeleted(recordedSentences.get(i).isDeleted());
+                    recorderClient.setAccount(recordedSentences.get(i).getAccount());
+                    recorderClient.setStatus(recordedSentences.get(i).getStatus());
+                    recorderClient.setVersion(recordedSentences.get(i).getVersion());
+                    recorderClient.setAdmin(recordedSentences.get(i).getAdmin());
+                    recorderClient.setCreatedDate(recordedSentences.get(i).getCreatedDate());
+                    recorderClient.setModifiedDate(recordedSentences.get(i).getModifiedDate());
+                    recorderClient.setFileName(recordedSentences.get(i).getFileName());
+                    recorderClient.setSentenceId(recordedSentences.get(i).getSentenceId());
+                    recorderClient.setSentence(transcriptionDAO.getById(recordedSentences.get(i).getSentenceId()).getSentence());
+                    recorderClients.add(recorderClient);
+                }
+
                 admin.draw = draw;
                 admin.recordsTotal = count;
                 admin.recordsFiltered = count;
-                admin.data = adminDAO.listAll(start, length, search, col, oder,sentence,account,dateFrom1,dateTo1,sta);
+                admin.data=recorderClients;
                 Gson gson = new Gson();
                 String admins = gson.toJson(admin);
                 response.getWriter().write(admins);

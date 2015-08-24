@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet.amt;
 
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
@@ -60,6 +61,7 @@ public class RecordedSentenceHandler extends BaseServlet {
         Gson gson = new Gson();
         AWSHelper awsHelper = new AWSHelper();
         ResponseDataExt responseData = new ResponseDataExt();
+        RecorderDAO recorderDAO=new RecorderDAO();
         RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
@@ -100,9 +102,12 @@ public class RecordedSentenceHandler extends BaseServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
-            String version = storePara.get(PARA_VERSION);
             String versionmax = storePara.get(PARA_VERSIONMAX);
-            int versions=Integer.parseInt(version);
+            int versions=1;
+            if(recorderDAO.getCount()!=0){
+                int versionmaxserver=recorderDAO.getLatestVersion();
+                versions=versionmaxserver +1;
+            }
             int versionmaxs=Integer.parseInt(versionmax);
 
             logger.info("SentenceID: " + sentenceId);

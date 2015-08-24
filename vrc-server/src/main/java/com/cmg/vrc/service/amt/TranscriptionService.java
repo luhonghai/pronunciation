@@ -419,14 +419,14 @@ public class TranscriptionService {
         synchronized (lock) {
             try {
                // transcriptionDAO.deleteAll();
-               // recycleSentences();
+               recycleSentences();
                 List<String> transcriptions = IOUtils.readLines(is);
                 if (transcriptions != null && transcriptions.size() > 0) {
                     writeHtmlToResult("<table cellspacing=\"3\" cellpadding=\"3\">");
                     int count = 0;
                     for (String t : transcriptions) {
                         count++;
-                        if (count > 1000) {
+                        if (count > 10) {
                             break;
                         }
                         t = t.trim();

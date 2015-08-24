@@ -59,7 +59,7 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         Transaction tx = pm.currentTransaction();
         List<RecordedSentence> list = new ArrayList<RecordedSentence>();
         Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
-        q.setFilter("account==acc && version>=ver");
+        q.setFilter("account==acc && version>ver");
         q.declareParameters("String acc, Integer ver");
         try {
             tx.begin();
@@ -114,27 +114,27 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
 
 
 
-    public List<RecordedSentence> listAll(int start, int length,String search,int column,String order,String sten,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
+    public List<RecordedSentence> listAll(int start, int length,String search,int column,String order,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         List<RecordedSentence> list = new ArrayList<RecordedSentence>();
         Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="((userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="((userName == null || userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName == null || firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName == null || lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
-        if(sten.length()>0){
-            string.append("(userName.toLowerCase().indexOf(user.toLowerCase()) != -1) &&");
-        }
         if(ac.length()>0){
-            string.append("(firstName.toLowerCase().indexOf(fisrt.toLowerCase()) != -1) &&");
+            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
         }
         if(dateFrom!=null&&dateTo==null){
             string.append("(createdDate >= dateFrom) &&");
         }
         if(dateFrom==null&&dateTo!=null){
             string.append("(createdDate <= dateTo) &&");
+        }
+        if(sta!=6) {
+            string.append("(status=sta) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
@@ -147,33 +147,29 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search, String user, String fisrt, String last");
+        q.declareParameters("String search, String ac,Integer sta, java.util.Date dateFrom,java.util.Date dateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
-        params.put("sten", sten);
         params.put("ac", ac);
+        params.put("sta", sta);
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
 
         if (column==0 && order.equals("asc")) {
-            q.setOrdering("userName asc");
+            q.setOrdering("account asc");
         }else if(column==0 && order.equals("desc")) {
-            q.setOrdering("userName desc");
-        }
-        if (column==1 && order.equals("asc")) {
-            q.setOrdering("firstName asc");
-        }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("firstName desc");
-        }
-        if (column==2 && order.equals("asc")) {
-            q.setOrdering("lastName asc");
-        }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("lastName desc");
+            q.setOrdering("account desc");
         }
         if (column==3 && order.equals("asc")) {
-            q.setOrdering("role asc");
+            q.setOrdering("createdDate asc");
         }else if(column==3 && order.equals("desc")) {
-            q.setOrdering("role desc");
+            q.setOrdering("createdDate desc");
+        }
+
+        if (column==4 && order.equals("asc")) {
+            q.setOrdering("status asc");
+        }else if(column==4 && order.equals("desc")) {
+            q.setOrdering("status desc");
         }
 
         q.setRange(start, start + length);
@@ -198,18 +194,15 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         }
     }
 
-    public double getCountSearch(String search,String sten,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
+    public double getCountSearch(String search,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="((userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="((userName == null || userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName == null || firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName == null || lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
-        if(sten.length()>0){
-            string.append("(userName.toLowerCase().indexOf(user.toLowerCase()) != -1) &&");
-        }
         if(ac.length()>0){
             string.append("(firstName.toLowerCase().indexOf(fisrt.toLowerCase()) != -1) &&");
         }
@@ -218,6 +211,9 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         }
         if(dateFrom==null&&dateTo!=null){
             string.append("(createdDate <= dateTo) &&");
+        }
+        if(sta!=6) {
+            string.append("(status=sta) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
@@ -230,11 +226,11 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search, String user, String fisrt, String last");
+        q.declareParameters("String search, String ac,Integer sta, java.util.Date dateFrom,java.util.Date dateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
-        params.put("sten", sten);
         params.put("ac", ac);
+        params.put("sta", sta);
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
         try {
