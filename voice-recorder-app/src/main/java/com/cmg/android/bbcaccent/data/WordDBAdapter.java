@@ -103,8 +103,7 @@ public class WordDBAdapter {
     //---opens the database---
     public WordDBAdapter open() throws SQLException
     {
-        if (db == null)
-            db = DBHelper.getWritableDatabase();
+        db = DBHelper.getWritableDatabase();
         return this;
     }
 

@@ -280,9 +280,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
-        String[] words = getResources().getStringArray(R.array.words_list);
+        String[] words = getResources().getStringArray(R.array.random_words);
         if (words != null && words.length > 0) {
-            getWord(words[RandomHelper.getRandomIndex(words.length)].split("\\|")[0].trim());
+            getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
         } else {
             getWord(getString(R.string.example_word));
         }
@@ -571,7 +571,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void getWord(final String word) {
         if (isRecording) return;
         try {
-            dbAdapter.open();
+           // dbAdapter.open();
             if (!dbAdapter.isBeep(word)) {
                 AnalyticHelper.sendSelectWordNotInBeep(this, word);
                 SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
