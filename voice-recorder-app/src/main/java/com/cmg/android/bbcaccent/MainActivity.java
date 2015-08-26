@@ -571,6 +571,26 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void getWord(final String word) {
         if (isRecording) return;
         try {
+            dbAdapter.open();
+            if (!dbAdapter.isBeep(word)) {
+                AnalyticHelper.sendSelectWordNotInBeep(this, word);
+                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                d.setTitleText(getString(R.string.word_not_in_beep_title));
+                d.setContentText(getString(R.string.word_not_in_beep_message));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+                return;
+            }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not check word " + word + " is beep or not",e);
+        }
+        try {
             if (checkNetwork(false)) {
                 currentModel = null;
                 recordingView.setScore(0.0f);

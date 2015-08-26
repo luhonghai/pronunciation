@@ -132,4 +132,6 @@
     <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
     <string name="help_search_icon_title">Don\'t forget to try new words</string>
     <string name="help_search_icon">searching for them by pressing the magnifying glass</string>
+    <string name="word_not_in_beep_title">Oh gosh!</string>
+    <string name="word_not_in_beep_message">Sorry the word you search could not be found, but we are adding new words all the time to our application, so please do try again soon.</string>
 </resources>
