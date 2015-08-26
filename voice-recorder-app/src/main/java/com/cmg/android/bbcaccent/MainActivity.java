@@ -1014,14 +1014,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 break;
             case R.id.main_recording_view:
-                if (currentModel != null && dictionaryItem != null) {
-                    Gson gson = new Gson();
-                    Intent intent = new Intent(this, DetailActivity.class);
-                    intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
-                    startActivity(intent);
-                }
+                handlerStartDetail.post(runnableStartDetail);
         }
     }
+
+    private Handler handlerStartDetail = new Handler();
+
+    private Runnable runnableStartDetail = new Runnable() {
+        @Override
+        public void run() {
+            if (currentModel != null && dictionaryItem != null) {
+                Gson gson = new Gson();
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
+                startActivity(intent);
+            }
+        }
+    };
 
     private void switchButtonStage() {
         if (lastState == null) lastState = ButtonState.DEFAULT;
@@ -1527,6 +1536,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 phonemeScoreDBAdapter.close();
             }
+            handlerStartDetail.postDelayed(runnableStartDetail, 2000);
         }
     }
 
