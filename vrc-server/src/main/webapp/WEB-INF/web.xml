@@ -251,8 +251,10 @@
 
 
     <servlet>
+        <display-name>AWSServiceHandler</display-name>
         <servlet-name>AWSServiceHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AWSServiceHandler</servlet-class>
+        <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>AWSServiceHandler</servlet-name>

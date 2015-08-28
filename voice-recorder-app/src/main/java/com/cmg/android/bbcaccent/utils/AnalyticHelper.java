@@ -16,6 +16,8 @@ public class AnalyticHelper {
 
     public static final String ACTION_SELECT_WORD = "Select word";
 
+    public static final String ACTION_SELECT_WORD_NOT_IN_BEEP = "Select word not in beep";
+
     public static final String ACTION_ANALYZING_WORD = "Analyzing word";
 
     public static final String CATEGORY_AUTHENTICATION = "Authentication";
@@ -67,6 +69,10 @@ public class AnalyticHelper {
 
     public static synchronized void sendSelectWord(Context context, String word) {
         sendEvent(context, CATEGORY_ANALYZING, ACTION_SELECT_WORD, word);
+    }
+
+    public static synchronized void sendSelectWordNotInBeep(Context context, String word) {
+        sendEvent(context, CATEGORY_ANALYZING, ACTION_SELECT_WORD_NOT_IN_BEEP, word);
     }
 
     public static synchronized void sendAnalyzingWord(Context context, String word, long score) {

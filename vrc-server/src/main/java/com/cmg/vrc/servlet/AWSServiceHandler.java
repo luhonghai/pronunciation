@@ -1,10 +1,13 @@
 package com.cmg.vrc.servlet;
 
 import com.amazonaws.services.elasticbeanstalk.model.EnvironmentDescription;
+import com.cmg.vrc.job.BeanstalkJob;
+import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.quartz.SchedulerException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +29,16 @@ public class AWSServiceHandler extends BaseServlet {
     private static final Logger logger = Logger.getLogger(AuthHandler.class
             .getName());
 
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            BeanstalkJob.startJob();
+        } catch (SchedulerException e) {
+            logger.error("Could not start schedule", e);
+        }
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String role =null;
