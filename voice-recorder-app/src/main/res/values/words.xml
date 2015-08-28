@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string-array name="words_list">
+	<string-array name="old_words_list">
 		<item>aardvark|\ˈɑːdvɑːk</item>
 		<item>aardwolf|\ˈɑːdwʊlf</item>
 		<item>ab|ab</item>

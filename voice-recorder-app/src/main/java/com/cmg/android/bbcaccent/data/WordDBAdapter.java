@@ -22,16 +22,18 @@ import java.util.Map;
 public class WordDBAdapter {
     public static final String KEY_ROWID = "_id";
     public static final String KEY_WORD = "word";
+    public static final String KEY_BEEP = "beep";
     public static final String KEY_PRONUNCIATION = "pronunciation";
     private static final String TAG = "WordDBAdapter";
 
     private static final String DATABASE_NAME = "word";
     private static final String DATABASE_TABLE = "pronunciation";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String DATABASE_CREATE =
             "create table pronunciation (_id integer primary key autoincrement, "
                     + " word text not null, "
+                    + " beep integer, "
                     + "pronunciation text not null);";
 
     private final Context context;
@@ -72,12 +74,14 @@ public class WordDBAdapter {
             String[] words = currentContext.getResources().getStringArray(R.array.words_list);
             for (String word : words) {
                 String[] tmp = word.split("\\|");
-                if (tmp.length == 2) {
-                    String w = tmp[0].trim();
+                if (tmp.length == 3) {
+                    String w = tmp[0].trim().toLowerCase();
                     String p = tmp[1].trim();
+                    boolean b = Boolean.valueOf(tmp[2].trim());
               //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
                     ContentValues initialValues = new ContentValues();
                     initialValues.put(KEY_WORD, w);
+                    initialValues.put(KEY_BEEP, b ? 1 : 0);
                     initialValues.put(KEY_PRONUNCIATION, p);
                     db.insert(DATABASE_TABLE, null, initialValues);
                 }
@@ -110,10 +114,11 @@ public class WordDBAdapter {
     }
 
     //---insert a title into the database---
-    public long insert(String word, String pronunciation)
+    public long insert(String word, String pronunciation, boolean isBeep)
     {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_WORD, word);
+        initialValues.put(KEY_BEEP, isBeep ? 1 : 0);
         initialValues.put(KEY_PRONUNCIATION, pronunciation);
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -130,6 +135,7 @@ public class WordDBAdapter {
         return db.query(DATABASE_TABLE, new String[] {
                         KEY_ROWID,
                         KEY_WORD,
+                        KEY_BEEP,
                         KEY_PRONUNCIATION},
                 "word LIKE ?",
                 new String[] {s + "%"},
@@ -143,6 +149,7 @@ public class WordDBAdapter {
         return db.query(DATABASE_TABLE, new String[] {
                         KEY_ROWID,
                         KEY_WORD,
+                        KEY_BEEP,
                         KEY_PRONUNCIATION},
                 null,
                 null,
@@ -157,6 +164,7 @@ public class WordDBAdapter {
                 db.query(true, DATABASE_TABLE, new String[] {
                                 KEY_ROWID,
                                 KEY_WORD,
+                                KEY_BEEP,
                                 KEY_PRONUNCIATION
                         },
                         KEY_ROWID + "=" + rowId,
@@ -171,12 +179,37 @@ public class WordDBAdapter {
         return mCursor;
     }
 
+    public boolean isBeep(String word) throws SQLException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_ROWID,
+                                KEY_WORD,
+                                KEY_BEEP,
+                                KEY_PRONUNCIATION
+                        },
+                        KEY_WORD + "= ?" ,
+                        new String[] {word.toLowerCase()},
+                        null,
+                        null,
+                        null,
+                        null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            int beep = mCursor.getInt(mCursor.getColumnIndex(KEY_BEEP));
+            mCursor.close();
+            return beep == 1;
+        }
+        return false;
+    }
+
     //---updates a title---
     public boolean update(long rowId, String word,
-                               String pronunciation)
+                               String pronunciation, boolean isBeep)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_WORD, word);
+        args.put(KEY_BEEP, isBeep ? 1 : 0);
         args.put(KEY_PRONUNCIATION, pronunciation);
 
         return db.update(DATABASE_TABLE, args,
