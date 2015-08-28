@@ -1413,7 +1413,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-
+                            handlerStartDetail.postDelayed(runnableStartDetail, 2000);
                         }
 
                         @Override
@@ -1426,8 +1426,20 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         }
                     }).playOn(imgHelpHand);
+
                 } else {
                     switchButtonStage(ButtonState.RED);
+                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
+                    d.setContentText(getString(R.string.could_not_analyze_word_message));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
                 }
                 analyzingState = AnalyzingState.DEFAULT;
             }
@@ -1448,6 +1460,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (currentModel != null) {
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                     recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
+                } else if (isRecording) {
+                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
+                    d.setContentText(getString(R.string.could_not_analyze_word_message));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
+                    switchButtonStage(ButtonState.RED);
+                    recordingView.drawEmptyCycle();
+                    analyzingState = AnalyzingState.DEFAULT;
+                    isRecording = false;
                 } else {
                     YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
                         @Override
@@ -1536,7 +1564,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 phonemeScoreDBAdapter.close();
             }
-            handlerStartDetail.postDelayed(runnableStartDetail, 2000);
+
         }
     }
 

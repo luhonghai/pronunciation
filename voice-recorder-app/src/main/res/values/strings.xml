@@ -134,4 +134,6 @@
     <string name="help_search_icon">searching for them by pressing the magnifying glass</string>
     <string name="word_not_in_beep_title">Oh gosh!</string>
     <string name="word_not_in_beep_message">Sorry the word you search could not be found, but we are adding new words all the time to our application, so please do try again soon.</string>
+    <string name="could_not_analyze_word_title">could not calculate score</string>
+    <string name="could_not_analyze_word_message">please try again or contact support@accenteasy.com</string>
 </resources>
