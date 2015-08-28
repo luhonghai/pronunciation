@@ -894,7 +894,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        handlerStartDetail.removeCallbacks(runnableStartDetail);
         try {
             unregisterReceiver(mHandleMessageReader);
         } catch (Exception e) {
@@ -1252,9 +1252,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                willMoveToDetail = true;
             }
         }
     };
+
+    private boolean willMoveToDetail = false;
 
     private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
         @Override
@@ -1413,7 +1416,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            handlerStartDetail.postDelayed(runnableStartDetail, 2000);
+                            if (willMoveToDetail) {
+                                willMoveToDetail = false;
+                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
+                            }
                         }
 
                         @Override
