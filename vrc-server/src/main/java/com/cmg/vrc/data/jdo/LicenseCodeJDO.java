@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by luhonghai on 5/18/15.
  */
-@PersistenceCapable(table = "license_code")
+@PersistenceCapable(table = "LICENSE_CODE")
 public class LicenseCodeJDO implements Mirrorable {
 
     @PrimaryKey

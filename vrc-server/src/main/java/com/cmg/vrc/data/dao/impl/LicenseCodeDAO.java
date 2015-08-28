@@ -11,6 +11,7 @@ import org.apache.poi.util.SystemOutLogger;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.*;
 
 /**
@@ -147,7 +148,11 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         Transaction tx = pm.currentTransaction();
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         StringBuffer query=new StringBuffer();
-        String firstQuery = "select code.* from license_code code join license_code_company mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
+        TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeJDO.class.getCanonicalName());
+        TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompanyJDO.class.getCanonicalName());
+        String firstQuery = "select code.* from " +  metaLicenseCode.getTable()
+                + " code join "  + metaLicenseCodeCompany.getTable()
+                + " mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
         query.append(firstQuery);
         if(ac.length()>0){
             query.append(" and code.account LIKE '%" + ac + "%'");

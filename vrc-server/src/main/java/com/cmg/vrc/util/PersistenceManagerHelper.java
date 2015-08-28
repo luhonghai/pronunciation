@@ -12,7 +12,7 @@ public class PersistenceManagerHelper {
 		return getDefaultPersistenceManagerFactory().getPersistenceManager();
 	}
 
-	protected static PersistenceManagerFactory getDefaultPersistenceManagerFactory() {
+	public static PersistenceManagerFactory getDefaultPersistenceManagerFactory() {
 		if (pmf == null) {
 			pmf = JDOHelper.getPersistenceManagerFactory(PERSISTENCE_UNIT);
 		}

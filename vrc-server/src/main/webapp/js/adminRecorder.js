@@ -24,7 +24,7 @@ function listTranscriptionRecorder(){
         },
 
         "columns": [{
-            "sWidth": "15%",
+            "sWidth": "12%",
             "data": "account",
             "sDefaultContent": ""
 
@@ -34,7 +34,7 @@ function listTranscriptionRecorder(){
             "bSortable": false,
             "sDefaultContent": ""
         },{
-            "sWidth": "5%",
+            "sWidth": "3%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -46,11 +46,11 @@ function listTranscriptionRecorder(){
             "data": "modifiedDate",
             "sDefaultContent": ""
         }, {
-            "sWidth": "15%",
+            "sWidth": "5%",
             "data": "status",
             "sDefaultContent": ""
         },{
-            "sWidth": "15%",
+            "sWidth": "30%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
@@ -114,6 +114,7 @@ function loadNumber(){
         },
         success:function(data){
             var items=data.recordedSentences;
+            $selected.prepend("<option value=''></option>").val('');
             $(items).each(function(){
                 var newOption = '<option value="' + this.account + '">' + this.account + '</option>';
                 $selected.append(newOption);
@@ -160,9 +161,89 @@ function selected(){
 
 }
 
+function reject(){
+    $(document).on("click","#rejects", function(){
+        var id=$(this).attr('id-column');
+        $.ajax({
+            "url": "ChangeStatusRecorder",
+            "type": "POST",
+            "dataType": "text",
+            "data": {
+                reject: "reject",
+                id:id
+
+            },
+            success:function(data) {
+                if (data == "success") {
+                    $("tbody").html("");
+                    myTable.fnDraw();
+                }
+
+            }
+        });
+
+
+
+    });
+}
+function approved(){
+    $(document).on("click","#approveds", function(){
+        var id=$(this).attr('id-column');
+       $.ajax({
+            "url": "ChangeStatusRecorder",
+            "type": "POST",
+            "dataType": "text",
+            "data": {
+                approved: "approved",
+                id:id
+
+            },
+            success:function(data){
+                if (data == "success") {
+                    $("tbody").html("");
+                    myTable.fnDraw();
+                }
+
+            }
+        });
+
+
+
+    });
+}
+function locked(){
+    $(document).on("click","#lockeds", function(){
+        var id=$(this).attr('id-column');
+        $.ajax({
+            "url": "ChangeStatusRecorder",
+            "type": "POST",
+            "dataType": "text",
+            "data": {
+                locked: "locked",
+                id:id
+
+            },
+            success:function(data){
+                if (data == "success") {
+                    $("tbody").html("");
+                    myTable.fnDraw();
+                }
+
+            }
+        });
+
+
+    });
+}
+
+
+
 
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
+    reject();
+    approved();
+    locked();
     dateFrom();
     dateTo();
     selected();

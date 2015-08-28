@@ -8,6 +8,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.*;
 
 /**
@@ -25,6 +26,10 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
 
     }
 
+    public List<RecordedSentence> listByIdSentence(String id) throws Exception {
+        return list("WHERE sentenceId == :1", id);
+    }
+
     public RecordedSentence getUserByEmailPassword(String email, String password) throws Exception{
         List<RecordedSentence> userList = list("WHERE userName == :1 && password == :2", email, password);
         if (userList != null && userList.size() > 0)
@@ -36,7 +41,8 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         boolean result=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE recordedsentencejdo SET status ="+statu+", version="+ver+", isDeleted="+isDelete+" WHERE sentenceId='"+idSentence+"'");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentenceJDO.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence+ " SET status ="+statu+", version="+ver+", isDeleted="+isDelete+" WHERE sentenceId='"+idSentence+"'");
         try {
             tx.begin();
             q.execute();
@@ -133,6 +139,7 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         if(dateFrom==null&&dateTo!=null){
             string.append("(createdDate <= dateTo) &&");
         }
+
         if(sta!=6) {
             string.append("(status=sta) &&");
         }

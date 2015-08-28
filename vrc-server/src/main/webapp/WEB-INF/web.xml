@@ -237,6 +237,16 @@
         <url-pattern>/ListCompanyServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ChangeStatusRecorder</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ChangeStatusRecorder</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ChangeStatusRecorder</servlet-name>
+        <url-pattern>/ChangeStatusRecorder</url-pattern>
+    </servlet-mapping>
+
 
 
 

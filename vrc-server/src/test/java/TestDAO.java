@@ -126,10 +126,10 @@ public class TestDAO {
            // transcriptionDAO.getListByVersion(0);
             //recorderDAO.getCountSearch("fdsd", "fdsfs", new Date(10/12/2014),new Date(9/8/2015),3);
            // recorderDAO.listAll();
-            //lice.listAllByCompany(1,2,"","","","",null,null,"cmg");
+            lice.listAllByCompany(1,2,"","","","",null,null,"CMG2");
            // lice.getCountSearchByCompany("dsada","dsad","dsad","fdsfs",new Date(10/12/2014),new Date(9/8/2015),"dsada");
             //licenseCodeCompanyDAO.listAll();
-            clientCodeDAO.getCount();
+           // clientCodeDAO.getCount();
         } catch (Exception e) {
             e.printStackTrace();
         }

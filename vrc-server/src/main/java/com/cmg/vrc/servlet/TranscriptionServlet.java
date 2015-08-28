@@ -1,6 +1,8 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.dao.impl.RecorderDAO;
+import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.Transcription;
@@ -39,6 +41,7 @@ public class TranscriptionServlet extends HttpServlet {
         TranscriptionDAO adminDAO = new TranscriptionDAO();
         TranscriptionActionService trService = new TranscriptionActionService();
         Transcription ad = new Transcription();
+        RecorderDAO recorderDAO=new RecorderDAO();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
@@ -142,12 +145,19 @@ public class TranscriptionServlet extends HttpServlet {
             String sentence=request.getParameter("sentence");
             String author=request.getSession().getAttribute("username").toString();
             try{
+                List<RecordedSentence> recordedSentences=recorderDAO.listByIdSentence(id);
+                int version=recorderDAO.getLatestVersion();
                 Transcription transcription=trService.getById(id);
                 transcription.setSentence(sentence);
                 transcription.setModifiedDate(date);
                 transcription.setAuthor(author);
                 transcription.setIsDeleted(Constant.ISDELETE_FALSE);
                 trService.edit(transcription);
+                for(RecordedSentence recordedSentence:recordedSentences){
+                    recordedSentence.setStatus(0);
+                    recordedSentence.setVersion(version + 1);
+                    recorderDAO.put(recordedSentence);
+                }
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
@@ -163,6 +173,14 @@ public class TranscriptionServlet extends HttpServlet {
                 Transcription transcription=trService.getById(id);
                 transcription.setIsDeleted(Constant.ISDELETE_TRUE);
                 trService.edit(transcription);
+                List<RecordedSentence> recordedSentences=recorderDAO.listByIdSentence(id);
+                int version=recorderDAO.getLatestVersion();
+                for(RecordedSentence recordedSentence:recordedSentences){
+                    recordedSentence.setStatus(0);
+                    recordedSentence.setVersion(version + 1);
+                    recordedSentence.setIsDeleted(Constant.ISDELETE_TRUE);
+                    recorderDAO.put(recordedSentence);
+                }
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
