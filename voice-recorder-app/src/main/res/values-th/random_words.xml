@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="random_items">
+    <array name="random_words">
         <item>picnic</item>
         <item>knife</item>
         <item>large</item>
