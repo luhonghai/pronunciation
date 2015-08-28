@@ -56,6 +56,8 @@ public class TestDAO {
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
         RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
+        LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");
 //        clientCode.setContactName("nambui");
@@ -122,7 +124,12 @@ public class TestDAO {
 //            System.out.println(list.size());
             //recorderDAO.get();
            // transcriptionDAO.getListByVersion(0);
-            recorderDAO.getLatestVersion();
+            //recorderDAO.getCountSearch("fdsd", "fdsfs", new Date(10/12/2014),new Date(9/8/2015),3);
+           // recorderDAO.listAll();
+            //lice.listAllByCompany(1,2,"","","","",null,null,"cmg");
+           // lice.getCountSearchByCompany("dsada","dsad","dsad","fdsfs",new Date(10/12/2014),new Date(9/8/2015),"dsada");
+            //licenseCodeCompanyDAO.listAll();
+            clientCodeDAO.getCount();
         } catch (Exception e) {
             e.printStackTrace();
         }

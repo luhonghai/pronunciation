@@ -81,7 +81,7 @@ function dateTo(){
 }
 
 function searchAdvanted(){
-    $(document).on("click","#button-filter", function(){
+    $(document).on("click","#buttonFilter", function(){
         myTable.fnSettings().ajax = {
             "url": "RecorderServlet",
             "type": "POST",

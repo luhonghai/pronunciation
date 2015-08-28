@@ -147,20 +147,25 @@ function deletes(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
         var idd=$(this).attr('id-column');
+        var company=$(this).attr('company');
         $("#iddelete").val(idd);
+        $("#companys").val(company);
+
     });
 }
 
 function deleteuser(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
+        var company= $("#companys").val();
             $.ajax({
                 url: "ClientCodeServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
                     delete: "delete",
-                    id: id
+                    id: id,
+                    company:company
                 },
                 success: function (data) {
                     if (data == "success") {

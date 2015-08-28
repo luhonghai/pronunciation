@@ -38,7 +38,7 @@ public class RecorderServlet extends BaseServlet {
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RecorderDAO adminDAO = new RecorderDAO();
+        RecorderDAO recorderDAO = new RecorderDAO();
         RecordedSentence ad = new RecordedSentence();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
 
@@ -107,12 +107,12 @@ public class RecorderServlet extends BaseServlet {
             Double count;
             try {
                 if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null){
-                    count=adminDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta);
+                    count=recorderDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta);
                 }else {
-                    count = adminDAO.getCount();
+                    count = recorderDAO.getCount();
                 }
                 List<RecorderClient> recorderClients=new ArrayList<RecorderClient>();
-                List<RecordedSentence> recordedSentences = adminDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta);
+                List<RecordedSentence> recordedSentences = recorderDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta);
                 for(int i=0;i<recordedSentences.size();i++){
                     RecorderClient recorderClient=new RecorderClient();
                     recorderClient.setId(recordedSentences.get(i).getId());
@@ -125,7 +125,9 @@ public class RecorderServlet extends BaseServlet {
                     recorderClient.setModifiedDate(recordedSentences.get(i).getModifiedDate());
                     recorderClient.setFileName(recordedSentences.get(i).getFileName());
                     recorderClient.setSentenceId(recordedSentences.get(i).getSentenceId());
-                    recorderClient.setSentence(transcriptionDAO.getById(recordedSentences.get(i).getSentenceId()).getSentence());
+                    String idSentence=recordedSentences.get(i).getSentenceId();
+                    String sentence=transcriptionDAO.getById(idSentence).getSentence();
+                    recorderClient.setSentence(sentence);
                     recorderClients.add(recorderClient);
                 }
 

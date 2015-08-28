@@ -23,6 +23,9 @@ public class ClientCodeJDO implements Mirrorable {
 
     @Persistent
     private String email;
+
+    @Persistent
+    private boolean isDeleted;
     @Override
     public String getId() {
         return id;
@@ -49,6 +52,14 @@ public class ClientCodeJDO implements Mirrorable {
     }
     public void setEmail(String email){
         this.email=email;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 }

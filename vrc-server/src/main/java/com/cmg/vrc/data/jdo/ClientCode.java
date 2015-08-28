@@ -9,6 +9,7 @@ public class ClientCode implements Mirrorable{
     private String companyName;
     private String contactName;
     private String email;
+    private boolean isDeleted;
     @Override
     public String getId() {
         return id;
@@ -35,6 +36,13 @@ public class ClientCode implements Mirrorable{
     }
     public void setEmail(String email){
         this.email=email;
+    }
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
 

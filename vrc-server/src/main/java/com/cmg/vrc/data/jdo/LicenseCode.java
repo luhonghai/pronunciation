@@ -21,6 +21,8 @@ public class LicenseCode implements Mirrorable {
 
     private String imei;
 
+    private boolean isDeleted;
+
     @Override
     public String getId() {
         return id;
@@ -71,5 +73,13 @@ public class LicenseCode implements Mirrorable {
 
     public void setImei(String imei) {
         this.imei = imei;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

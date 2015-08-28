@@ -480,7 +480,7 @@
 				<logging.file>/Volumes/DATA/Development/test-zone/data/log/log.log</logging.file>
 				<project.dir>/Volumes/DATA/Development/test-zone/data/projects</project.dir>
 				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+				<javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 
@@ -508,7 +508,7 @@
                 <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
                 <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-                <javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+                <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
                 <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
                 <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 

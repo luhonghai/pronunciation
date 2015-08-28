@@ -426,7 +426,7 @@ public class TranscriptionService {
                     int count = 0;
                     for (String t : transcriptions) {
                         count++;
-                        if (count > 10) {
+                        if (count > 5) {
                             break;
                         }
                         t = t.trim();

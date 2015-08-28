@@ -21,6 +21,7 @@
 		<class>com.cmg.vrc.data.jdo.RecordedSentenceJDO</class>
 		<class>com.cmg.vrc.data.jdo.TranscriptionJDO</class>
 		<class>com.cmg.vrc.data.jdo.ClientCodeJDO</class>
+		<class>com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

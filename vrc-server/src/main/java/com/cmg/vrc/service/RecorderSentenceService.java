@@ -81,12 +81,15 @@ public class RecorderSentenceService {
         RecordedSentenceHistoryDAO recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         try {
             RecordedSentence recordedSentence = recorderDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
+            System.out.println("UserName client update " + user.getUsername());
+
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();
             }
+            String uuid = UUIDGenerator.generateUUID();
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
-            recordedSentence.setId(sentenceId);
+            recordedSentence.setId(uuid);
             recordedSentence.setStatus(RecordedSentence.PENDING);
             recordedSentence.setAccount(user.getUsername());
             recordedSentence.setAdmin("System");

@@ -13,6 +13,7 @@ function listLicenseCode(){
                     "dataType":"json",
                     "data":{
                         list:"list",
+                        company:$("#companys").val(),
                         account:$("#account1").val() ,
                         code:$("#code1").val() ,
                         Acti:$("#Acti").val() ,
@@ -158,6 +159,7 @@ function filter(){
             "dataType":"json",
             "data":{
                 list:"list",
+                company:$("#companys").val(),
                 account:$("#account1").val() ,
                 code:$("#code1").val() ,
                 Acti:$("#Acti").val() ,
@@ -189,6 +191,8 @@ function addCode(){
 
                if(result=="success"){
                    $("tbody").html("");
+                   $("#companys").empty();
+                   listCompany();
                    myTable.fnDraw();
                    $("#addCode1").modal('hide');
 
@@ -236,9 +240,58 @@ function detailemei(){
     });
 }
 
+function selected(){
+    $(document).on("change","#companys", function(){
+        myTable.fnSettings().ajax = {
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                list:"list",
+                company:$("#companys").val(),
+                account:$("#account1").val() ,
+                code:$("#code1").val() ,
+                Acti:$("#Acti").val() ,
+                dateFrom:$("#dateFrom1").val(),
+                dateTo: $("#dateTo1").val()
+            }
+        };
+        $("tbody").html("");
+        myTable.fnDraw();
+    });
+
+}
+
+function listCompany(){
+        var $selected=$("#companys");
+        //$('#companys option[value!="-1"]').remove();
+        $.ajax({
+            "url": "ListCompanyServlet",
+            "type": "POST",
+            "dataType":"json",
+            "data": {
+                listCompany: "listCompany"
+            },
+            success:function(data){
+                var items=data;
+                $selected.prepend("<option value=''></option>").val('');
+                $(items).each(function(){
+                    var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
+                    $selected.append(newOption);
+                });
+
+
+            }
+
+        });
+
+}
+
 
 
 $(document).ready(function(){
+    listCompany();
+    selected();
     filter();
     detailemei();
     add();

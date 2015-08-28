@@ -101,7 +101,7 @@ public class RecorderServletNumber extends HttpServlet {
             for (int i = 0; i < recordedSentences.size(); i++) {
                 for (int j = i + 1; j < recordedSentences.size(); j++) {
                     if (recordedSentences.get(i).getAccount().equals(recordedSentences.get(j).getAccount())){
-                        recordedSentences.remove(i);
+                        recordedSentences.remove(j);
                         j=j-1;
                     }
                 }

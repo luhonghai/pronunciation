@@ -121,8 +121,8 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         List<RecordedSentence> list = new ArrayList<RecordedSentence>();
         Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(ac.length()>0){
             string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
@@ -194,17 +194,16 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         }
     }
 
-    public double getCountSearch(String search,String ac,Date dateFrom, Date dateTo, int sta) throws Exception {
+    public double getCountSearch(String search, String ac,Date dateFrom,Date dateTo, int sta) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-
+        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(ac.length()>0){
-            string.append("(firstName.toLowerCase().indexOf(fisrt.toLowerCase()) != -1) &&");
+            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
         }
         if(dateFrom!=null&&dateTo==null){
             string.append("(createdDate >= dateFrom) &&");

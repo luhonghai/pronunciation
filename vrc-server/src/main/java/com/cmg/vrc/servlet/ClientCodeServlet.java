@@ -1,7 +1,11 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
+import com.cmg.vrc.data.dao.impl.LicenseCodeCompanyDAO;
+import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
 import com.cmg.vrc.data.jdo.ClientCode;
+import com.cmg.vrc.data.jdo.LicenseCode;
+import com.cmg.vrc.data.jdo.LicenseCodeCompany;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +31,8 @@ public class ClientCodeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClientCodeDAO clientCodeDAO = new ClientCodeDAO();
         ClientCode ad = new ClientCode();
+        LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+        LicenseCodeDAO licenseCodeDAO=new LicenseCodeDAO();
         if (request.getParameter("list") != null) {
             ClientCodeServlet.client client = new client();
             String s = request.getParameter("start");
@@ -76,6 +83,7 @@ public class ClientCodeServlet extends HttpServlet {
                     ad.setCompanyName(company);
                     ad.setContactName(contact);
                     ad.setEmail(email);
+                    ad.setIsDeleted(false);
                     clientCodeDAO.put(ad);
                     response.getWriter().write("success");
 
@@ -108,8 +116,21 @@ public class ClientCodeServlet extends HttpServlet {
 
         if(request.getParameter("delete")!=null){
             String id=request.getParameter("id");
+            String company=request.getParameter("company");
             try {
-            clientCodeDAO.delete(id);
+            List<LicenseCodeCompany> licenseCodeCompanies=licenseCodeCompanyDAO.listByCompany(company);
+            for(int i=0;i<licenseCodeCompanies.size();i++){
+                LicenseCodeCompany licenseCodeCompany=licenseCodeCompanyDAO.getById(licenseCodeCompanies.get(i).getId());
+                licenseCodeCompany.setIsDeleted(true);
+                licenseCodeCompanyDAO.put(licenseCodeCompany);
+                LicenseCode licenseCode=licenseCodeDAO.getByCode(licenseCodeCompanies.get(i).getCode());
+               licenseCode.setIsDeleted(true);
+                licenseCodeDAO.put(licenseCode);
+            }
+
+                ad=clientCodeDAO.getById(id);
+                ad.setIsDeleted(true);
+                clientCodeDAO.put(ad);
                 response.getWriter().write("success");
             }catch (Exception e){
                 e.printStackTrace();

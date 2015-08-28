@@ -20,6 +20,8 @@ public class TestServlet  {
         UsageDAO usageDAO=new UsageDAO();
         UserDAO userDAO=new UserDAO();
         RecorderDAO recorderDAO=new RecorderDAO();
+        ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
+        LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
 //        try {
 //            feedbackDAO.deleteAll();
 //        } catch (Exception e) {
@@ -50,18 +52,34 @@ public class TestServlet  {
 //        usage.setImei("nam123");
 //        usage.setTime(new Date(2-10-2014));
 //        usage.setUsername("nam bui");
-          User user=new User();
-        RecordedSentence recordedSentence=new RecordedSentence();
-        recordedSentence.setVersion(0);
-        recordedSentence.setSentenceId("NAM.BUI123");
-        recordedSentence.setAccount("nam.bui@c-mg.com");
-        recordedSentence.setIsDeleted(1);
+//          User user=new User();
+//        RecordedSentence recordedSentence=new RecordedSentence();
+//        recordedSentence.setVersion(0);
+//        recordedSentence.setSentenceId("NAM.BUI123");
+//        recordedSentence.setAccount("nam.bui@c-mg.com");
+//        recordedSentence.setIsDeleted(1);
+          LicenseCodeCompany licenseCodeCompany=new LicenseCodeCompany();
+          licenseCodeCompany.setCompany("cmg");
+         licenseCodeCompany.setCode("kdjs54");
+        licenseCodeCompany.setIsDeleted(false);
+        ClientCode clientCode=new ClientCode();
+        clientCode.setEmail("nam.bui@c-mg.com");
+        clientCode.setIsDeleted(false);
+        clientCode.setCompanyName("cmg");
+        LicenseCode licenseCode=new LicenseCode();
+        licenseCode.setCode("sdfsd2");
+        licenseCode.setIsDeleted(false);
+        licenseCode.setImei("fdsfsdf");
 
 
         try {
-            recorderDAO.put(recordedSentence);
-//            usageDAO.put(usage);
-            userDAO.put(user);
+           // licenseCodeCompanyDAO.put(licenseCodeCompany);
+            //lis.put(licenseCode);
+            clientCodeDAO.put(clientCode);
+
+//            recorderDAO.put(recordedSentence);
+////            usageDAO.put(usage);
+//            userDAO.put(user);
 
         }catch (Exception e){
             e.printStackTrace();

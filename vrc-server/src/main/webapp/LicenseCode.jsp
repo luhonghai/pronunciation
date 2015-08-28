@@ -64,9 +64,21 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button type="button" id="addCode" name="addCode">Add Code</button>
+            <div class="row" style="margin-bottom: 15px;">
+              <div class="col-sm-2">
+                 <button type="button" id="addCode" name="addCode">Add Code</button>
+              </div>
+              <div class="col-sm-2 col-sm-offset-4" style="margin-top: 15px;text-align: right;">
+                <label class="control-label">Select company</label>
+              </div>
+              <div class="col-sm-4 pull-right">
+                <select name="company" id="companys" class="form-control" required="required">
 
-             </div>
+                </select>
+              </div>
+            </div>
+
+          </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
             <div class="dataTable_wrapper">
