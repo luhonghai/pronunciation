@@ -1023,6 +1023,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private Runnable runnableStartDetail = new Runnable() {
         @Override
         public void run() {
+            willMoveToDetail = false;
             if (currentModel != null && dictionaryItem != null) {
                 Gson gson = new Gson();
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
@@ -1417,7 +1418,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             if (willMoveToDetail) {
-                                willMoveToDetail = false;
                                 handlerStartDetail.postDelayed(runnableStartDetail, 2000);
                             }
                         }
