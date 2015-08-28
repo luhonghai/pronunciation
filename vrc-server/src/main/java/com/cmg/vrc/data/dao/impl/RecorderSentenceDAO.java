@@ -36,6 +36,7 @@ public class RecorderSentenceDAO  extends DataAccess<RecordedSentenceJDO, Record
     }
 
 
+
     public double getCount() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();

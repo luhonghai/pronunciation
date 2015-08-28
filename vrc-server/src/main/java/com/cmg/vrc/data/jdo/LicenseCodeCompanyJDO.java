@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by CMGT400 on 8/25/2015.
  */
-@PersistenceCapable(table = "license_code_company")
+@PersistenceCapable(table = "LICENSE_CODE_COMPANY")
 public class LicenseCodeCompanyJDO implements Mirrorable {
 
     @PrimaryKey

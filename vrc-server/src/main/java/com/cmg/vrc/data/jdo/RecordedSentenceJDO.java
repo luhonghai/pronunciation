@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by cmg on 03/07/15.
  */
-@PersistenceCapable
+@PersistenceCapable(table = "RECORDEDSENTENCEJDO")
 public class RecordedSentenceJDO implements Mirrorable {
 
     @PrimaryKey
