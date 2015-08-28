@@ -153,11 +153,11 @@ public class TranscriptionServlet extends HttpServlet {
                 transcription.setAuthor(author);
                 transcription.setIsDeleted(Constant.ISDELETE_FALSE);
                 trService.edit(transcription);
-                for(RecordedSentence recordedSentence:recordedSentences){
-                    recordedSentence.setStatus(0);
-                    recordedSentence.setVersion(version + 1);
-                    recorderDAO.put(recordedSentence);
-                }
+//                for(RecordedSentence recordedSentence:recordedSentences){
+//                    recordedSentence.setStatus(0);
+//                    recordedSentence.setVersion(version + 1);
+//                    recorderDAO.put(recordedSentence);
+//                }
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
@@ -173,14 +173,14 @@ public class TranscriptionServlet extends HttpServlet {
                 Transcription transcription=trService.getById(id);
                 transcription.setIsDeleted(Constant.ISDELETE_TRUE);
                 trService.edit(transcription);
-                List<RecordedSentence> recordedSentences=recorderDAO.listByIdSentence(id);
-                int version=recorderDAO.getLatestVersion();
-                for(RecordedSentence recordedSentence:recordedSentences){
-                    recordedSentence.setStatus(0);
-                    recordedSentence.setVersion(version + 1);
-                    recordedSentence.setIsDeleted(Constant.ISDELETE_TRUE);
-                    recorderDAO.put(recordedSentence);
-                }
+                //List<RecordedSentence> recordedSentences=recorderDAO.listByIdSentence(id);
+//                int version=recorderDAO.getLatestVersion();
+//                for(RecordedSentence recordedSentence:recordedSentences){
+//                    recordedSentence.setStatus(0);
+//                    recordedSentence.setVersion(version + 1);
+//                    recordedSentence.setIsDeleted(Constant.ISDELETE_TRUE);
+//                    recorderDAO.put(recordedSentence);
+//                }
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
