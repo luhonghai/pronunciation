@@ -9,7 +9,7 @@
         <item>yes</item>
         <item>left</item>
         <item>right</item>
-        <item>british</item>
+        <!--<item>british</item>-->
         <item>refrigerator</item>
         <item>eighth</item>
         <item>jewellery</item>
@@ -32,13 +32,13 @@
         <item>demure</item>
         <item>barbiturate</item>
         <item>electoral</item>
-        <item>February</item>
+        <!--<item>February</item>-->
         <item>necessarily</item>
         <item>rural</item>
         <item>squirrel</item>
         <item>future</item>
-        <item>British</item>
+        <!--<item>British</item>-->
         <item>hydrogen</item>
-        <item>affidavits</item>
+        <!--<item>affidavits</item>-->
     </array>
 </resources>
