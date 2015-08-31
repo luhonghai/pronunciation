@@ -53,7 +53,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
 
 
-    public List<LicenseCode> listAll(int start, int length,String search,int column,String order,String ac,String co, String acti,Date dateFrom,Date dateTo) throws Exception {
+    public List<LicenseCode> listAll(int start, int length,String search,int column,String order,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
@@ -65,9 +65,6 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
         if(ac.length()>0){
             string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
-        }
-        if(co.length()>0){
-            string.append("(code.toLowerCase().indexOf(co.toLowerCase()) != -1) &&");
         }
         string.append("(isDeleted==false) &&");
         if(acti.equals("Yes")){
@@ -87,6 +84,17 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             string.append("(activatedDate >= dateFrom && activatedDate <= dateTo) &&");
         }
 
+        if(dateFrom2!=null&&dateTo2==null){
+            string.append("(createdDate >= dateFrom2) &&");
+        }
+        if(dateFrom2==null&&dateTo2!=null){
+            string.append("(createdDate <= dateTo2) &&");
+        }
+
+        if(dateFrom2!=null&&dateTo2!=null){
+            string.append("(createdDate >= dateFrom2 && createdDate <= dateTo2) &&");
+        }
+
 
         if(search.length()>0){
             string.append(a);
@@ -95,27 +103,28 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search, String ac, String co,java.util.Date dateFrom,java.util.Date dateTo");
+        q.declareParameters("String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2");
         Map<String, Object> params = new HashMap<String, Object>();
             params.put("search", search);
             params.put("ac", ac);
-            params.put("co", co);
             params.put("dateFrom", dateFrom);
             params.put("dateTo", dateTo);
+            params.put("dateFrom2", dateFrom2);
+            params.put("dateTo2", dateTo2);
 
         if (column==0 && order.equals("asc")) {
             q.setOrdering("account asc");
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("account desc");
         }
-        if (column==1 && order.equals("asc")) {
-            q.setOrdering("code asc");
-        }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("code desc");
+        if (column==3 && order.equals("asc")) {
+            q.setOrdering("createdDate asc");
+        }else if(column==3 && order.equals("desc")) {
+            q.setOrdering("createdDate desc");
         }
-        if (column==2 && order.equals("asc")) {
+        if (column==4 && order.equals("asc")) {
             q.setOrdering("activatedDate asc");
-        }else if(column==2 && order.equals("desc")) {
+        }else if(column==4 && order.equals("desc")) {
             q.setOrdering("activatedDate desc");
         }
 
@@ -142,7 +151,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     }
 
 
-    public List<LicenseCode> listAllByCompany(int start, int length,String search,String ac,String co, String acti,Date dateFrom,Date dateTo,String com) throws Exception {
+    public List<LicenseCode> listAllByCompany(int start, int length,String search,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2,String com) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
@@ -156,9 +165,6 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         query.append(firstQuery);
         if(ac.length()>0){
             query.append(" and code.account LIKE '%" + ac + "%'");
-        }
-        if (co.length()>0){
-            query.append(" and code.code LIKE '%" + co + "%'");
         }
         query.append(" and code.isDeleted=false");
         if (acti.equals("Yes")){
@@ -176,6 +182,16 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
         if(dateFrom!=null&&dateTo!=null){
             query.append(" and code.activatedDate >= '" + dateFrom + "' and code.activatedDate <= '" + dateTo + "'");
+        }
+        if(dateFrom2!=null&&dateTo2==null){
+            query.append(" and code.createdDate >= '" + dateFrom2 + "'");
+        }
+        if(dateFrom2==null&&dateTo2!=null){
+            query.append(" and code.createdDate <= '" + dateTo2 + "'");
+        }
+
+        if(dateFrom2!=null&&dateTo2!=null){
+            query.append(" and code.createdDate >= '" + dateFrom2 + "' and code.createdDate <= '" + dateTo2 + "'");
         }
 
         if(search.length()>0){
@@ -232,9 +248,15 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
                     licenseCode.setImei(null);
                 }
                 if(array[6]!=null) {
-                    licenseCode.setIsDeleted((boolean)array[6]);
+                    licenseCode.setIsDeleted((boolean) array[6]);
                 }else {
                     licenseCode.setIsDeleted(false);
+                }
+                if(array[7]!=null) {
+                    licenseCode.setCreatedDate((Date) array[7]);
+                }
+                else {
+                    licenseCode.setCreatedDate(null);
                 }
 
 
@@ -273,7 +295,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     public List<LicenseCode> listByEmail(String email) throws Exception {
         return list("WHERE account == :1", email);
     }
-    public double getCountSearch(String search, String ac,String co, String acti,Date dateFrom,Date dateTo) throws Exception {
+    public double getCountSearch(String search, String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         Long count;
@@ -284,9 +306,6 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
         if(ac.length()>0){
             string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
-        }
-        if(co.length()>0){
-            string.append("(code.toLowerCase().indexOf(co.toLowerCase()) != -1) &&");
         }
         string.append("(isDeleted==false) &&");
         if(acti.equals("Yes")){
@@ -302,10 +321,22 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             string.append("(activatedDate <= dateTo) &&");
         }
 
-
         if(dateFrom!=null&&dateTo!=null){
             string.append("(activatedDate >= dateFrom && activatedDate <= dateTo) &&");
         }
+
+        if(dateFrom2!=null&&dateTo2==null){
+            string.append("(createdDate >= dateFrom2) &&");
+        }
+        if(dateFrom2==null&&dateTo2!=null){
+            string.append("(createdDate <= dateTo2) &&");
+        }
+
+        if(dateFrom2!=null&&dateTo2!=null){
+            string.append("(createdDate >= dateFrom2 && createdDate <= dateTo2) &&");
+        }
+
+
         if(search.length()>0){
             string.append(a);
         }
@@ -313,13 +344,14 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search, String ac, String co,java.util.Date dateFrom,java.util.Date dateTo");
+        q.declareParameters("String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
         params.put("ac", ac);
-        params.put("co", co);
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
+        params.put("dateFrom2", dateFrom2);
+        params.put("dateTo2", dateTo2);
         try {
             tx.begin();
             count = (Long) q.executeWithMap(params);

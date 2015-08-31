@@ -203,6 +203,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         if(createDateFrom==null&&createDateTo!=null){
             string.append("(createdDate <= CreateDateTo) &&");
         }
+        string.append("(isDeleted==0) &&");
 
         if(createDateFrom!=null&&createDateTo!=null){
             string.append("(createdDate >= CreateDateFrom && createdDate <= CreateDateTo) &&");
@@ -237,6 +238,28 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         try {
             tx.begin();
             count = (Long) q.executeWithMap(params);
+            tx.commit();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    public double getCount() throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + TranscriptionJDO.class.getCanonicalName());
+        q.setFilter(" isDeleted==0");
+        try {
+            tx.begin();
+            count = (Long) q.execute();
             tx.commit();
             return count.doubleValue();
         } catch (Exception e) {

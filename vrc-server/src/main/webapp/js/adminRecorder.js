@@ -239,6 +239,8 @@ function locked(){
 
 
 
+
+
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
     reject();

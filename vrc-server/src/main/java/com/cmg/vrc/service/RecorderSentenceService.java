@@ -25,8 +25,12 @@ public class RecorderSentenceService {
     public static String RETURN_ERROR="error";
     public int version(){
         RecorderDAO recorderDAO=new RecorderDAO();
-        int version=recorderDAO.getLatestVersion()+1;
-        return version;
+        try {
+            int version = recorderDAO.getLatestVersion() + 1;
+            return version;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     /**

@@ -61,13 +61,17 @@ public class LicenseCodes extends HttpServlet {
             int col = Integer.parseInt(column);
             int draw = Integer.parseInt(d);
             String ac = request.getParameter("account");
-            String co = request.getParameter("code");
             String activated = request.getParameter("Acti");
             String dateFrom = request.getParameter("dateFrom");
             String dateTo = request.getParameter("dateTo");
+            String dateFrom2 = request.getParameter("dateFrom2");
+            String dateTo2 = request.getParameter("dateTo2");
             String company=request.getParameter("company");
             Date dateFrom1=null;
             Date dateTo1=null;
+            Date dateFrom3=null;
+            Date dateTo3=null;
+
             Double count;
             if(dateFrom.length()>0){
                 try {
@@ -84,11 +88,26 @@ public class LicenseCodes extends HttpServlet {
                 }
 
             }
-            try {
-                List<LicenseCode> licenseCodes=lis.listAllByCompany(start, length, search,ac,co,activated,dateFrom1,dateTo1,company);
+            if(dateFrom2.length()>0){
+                try {
+                    dateFrom3=df.parse(dateFrom2);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
+            }
+            if(dateTo2.length()>0){
+                try {
+                    dateTo3=df.parse(dateTo2);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
 
-                if(search.length()>0||ac.length()>0||co.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null && company.length()==0){
-                    count=lis.getCountSearch(search,ac,co,activated,dateFrom1,dateTo1);
+            }
+            try {
+                List<LicenseCode> licenseCodes=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
+
+                if(search.length()>0||ac.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null ||dateFrom3!=null||dateTo3!=null && company.length()==0){
+                    count=lis.getCountSearch(search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3);
                 }else {
                      count = lis.getCount();
                 }
@@ -99,10 +118,10 @@ public class LicenseCodes extends HttpServlet {
                 licen.recordsTotal = count;
                 licen.recordsFiltered = count;
                 if(company.length()>0){
-                    licen.data=lis.listAllByCompany(start, length, search,ac,co,activated,dateFrom1,dateTo1,company);
+                    licen.data=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
                 }
                 else {
-                    licen.data = lis.listAll(start, length, search, col, oder, ac, co, activated, dateFrom1, dateTo1);
+                    licen.data = lis.listAll(start, length, search, col, oder, ac, activated, dateFrom1, dateTo1,dateFrom3,dateTo3);
                 }
 //                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
                 Gson gson = new Gson();
@@ -153,6 +172,7 @@ public class LicenseCodes extends HttpServlet {
                     licenseCodeCompanyDAO.put(licenseCodeCompany);
 
                     lisence.setCode(codeRandom);
+                    lisence.setCreatedDate(new Date());
                     lisence.setActivated(true);
                     lisence.setIsDeleted(false);
                     lis.put(lisence);

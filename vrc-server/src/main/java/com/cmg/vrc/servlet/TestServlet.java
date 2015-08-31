@@ -74,8 +74,8 @@ public class TestServlet  {
 
         try {
            // licenseCodeCompanyDAO.put(licenseCodeCompany);
-            //lis.put(licenseCode);
-            clientCodeDAO.put(clientCode);
+            lis.put(licenseCode);
+            //clientCodeDAO.put(clientCode);
 
 //            recorderDAO.put(recordedSentence);
 ////            usageDAO.put(usage);

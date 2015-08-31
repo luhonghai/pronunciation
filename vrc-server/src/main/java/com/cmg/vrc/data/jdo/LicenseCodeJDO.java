@@ -34,6 +34,9 @@ public class LicenseCodeJDO implements Mirrorable {
     @Persistent
     private boolean isDeleted;
 
+    @Persistent
+    private Date createdDate;
+
     @Override
     public String getId() {
         return id;
@@ -92,5 +95,13 @@ public class LicenseCodeJDO implements Mirrorable {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

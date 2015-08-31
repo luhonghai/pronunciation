@@ -18,16 +18,6 @@
             <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
           </div>
           <div class="form-group">
-            <label class="control-label">Code</label>
-            <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <div class="form-group" style="margin-top: 40px;text-align: right;">
-            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
-          </div>
-          <div class="form-group">
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
               <option value="All">All</option>
@@ -39,10 +29,26 @@
         </div>
 
         <div class="col-sm-3">
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
+          </div>
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
+          </div>
+
+        </div>
+
+        <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">From</label>
             <div>
               <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">From</label>
+            <div>
+              <input type='text' class="form-control" id="dateFrom2" placeholder="From"/>
             </div>
           </div>
         </div>
@@ -52,6 +58,14 @@
             <div >
 
               <input type='text' class="form-control" id="dateTo1" placeholder="To" />
+
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">To</label>
+            <div >
+
+              <input type='text' class="form-control" id="dateTo2" placeholder="To" />
 
             </div>
           </div>
@@ -89,6 +103,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
+                  <th>Created Date</th>
                   <th>Activated Date</th>
                   <th>Activation</th>
                 </tr>

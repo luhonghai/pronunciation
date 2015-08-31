@@ -42,7 +42,7 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentenceJDO.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence+ " SET status ="+statu+", version="+ver+", isDeleted="+isDelete+" WHERE sentenceId='"+idSentence+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence.getTable()+ " SET status ="+statu+", version="+ver+", isDeleted="+isDelete+" WHERE sentenceId='"+idSentence+"'");
         try {
             tx.begin();
             q.execute();
@@ -104,7 +104,8 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         Query q = pm.newQuery("SELECT max(version) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         try {
             tx.begin();
-            version=(int)q.execute();
+            if (q != null)
+                version=(int)q.execute();
             tx.commit();
             return version;
         } catch (Exception e) {

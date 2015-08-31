@@ -23,6 +23,8 @@ public class LicenseCode implements Mirrorable {
 
     private boolean isDeleted;
 
+    private Date createdDate;
+
     @Override
     public String getId() {
         return id;
@@ -81,5 +83,12 @@ public class LicenseCode implements Mirrorable {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

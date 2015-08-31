@@ -15,10 +15,11 @@ function listLicenseCode(){
                         list:"list",
                         company:$("#companys").val(),
                         account:$("#account1").val() ,
-                        code:$("#code1").val() ,
                         Acti:$("#Acti").val() ,
                         dateFrom:$("#dateFrom1").val(),
-                        dateTo: $("#dateTo1").val()
+                        dateTo: $("#dateTo1").val(),
+                        dateFrom2:$("#dateFrom2").val(),
+                        dateTo2: $("#dateTo2").val()
                     }
                 },
                 "columns": [{
@@ -27,7 +28,7 @@ function listLicenseCode(){
                     "sDefaultContent":""
 
                 }, {
-                    "sWidth": "25%",
+                    "sWidth": "20%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
@@ -37,13 +38,17 @@ function listLicenseCode(){
                         }
                     }
                 },{
-                    "sWidth": "25%",
+                    "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
                     "mRender": function (data, type, full) {
                             return '<p style="font-family:tahoma">'+data.code+'</p>';
                     }
+                }, {
+                    "sWidth": "20%",
+                    "data": "createdDate",
+                    "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
                     "data": "activatedDate",
@@ -151,6 +156,17 @@ function dateTo(){
     });
 }
 
+function dateFrom1(){
+    $('#dateFrom2').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+function dateTo1(){
+    $('#dateTo2').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+
 function filter(){
     $(document).on("click","#buttonFilter",function(){
         myTable.fnSettings().ajax = {
@@ -161,10 +177,11 @@ function filter(){
                 list:"list",
                 company:$("#companys").val(),
                 account:$("#account1").val() ,
-                code:$("#code1").val() ,
                 Acti:$("#Acti").val() ,
                 dateFrom:$("#dateFrom1").val(),
-                dateTo: $("#dateTo1").val()
+                dateTo: $("#dateTo1").val(),
+                dateFrom2:$("#dateFrom2").val(),
+                dateTo2: $("#dateTo2").val()
             }
         };
         $("tbody").html("");
@@ -250,10 +267,11 @@ function selected(){
                 list:"list",
                 company:$("#companys").val(),
                 account:$("#account1").val() ,
-                code:$("#code1").val() ,
                 Acti:$("#Acti").val() ,
                 dateFrom:$("#dateFrom1").val(),
-                dateTo: $("#dateTo1").val()
+                dateTo: $("#dateTo1").val(),
+                dateFrom2:$("#dateFrom2").val(),
+                dateTo2: $("#dateTo2").val()
             }
         };
         $("tbody").html("");
@@ -300,4 +318,6 @@ $(document).ready(function(){
     activated();
     dateFrom();
     dateTo();
+    dateFrom1();
+    dateTo1();
 });
