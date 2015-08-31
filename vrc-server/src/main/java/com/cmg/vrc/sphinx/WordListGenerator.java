@@ -67,7 +67,7 @@ public class WordListGenerator {
 
     public static void main(String[] args) {
         WordListGenerator generator = new WordListGenerator();
-        generator.generate(new File("/Users/cmg/git/pronunciation/voice-recorder-app/src/main/res/values/random_words.xml"),
+        generator.generate(new File("/Users/cmg/git/pronunciation/voice-recorder-app/src/main/res/values-vi/random_words.xml"),
                 null, true);
     }
 }
