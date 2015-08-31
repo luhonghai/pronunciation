@@ -130,8 +130,10 @@
     <string name="menu_feedback">feedback</string>
     <string name="menu_logout">logout</string>
     <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
-    <string name="help_search_icon_title">Don\'t forget to try new words</string>
+    <string name="help_search_icon_title">don\'t forget to try new words</string>
     <string name="help_search_icon">searching for them by pressing the magnifying glass</string>
-    <string name="word_not_in_beep_title">Oh gosh!</string>
-    <string name="word_not_in_beep_message">Sorry the word you search could not be found, but we are adding new words all the time to our application, so please do try again soon.</string>
+    <string name="word_not_in_beep_title">oh gosh!</string>
+    <string name="word_not_in_beep_message">sorry the word you searched for could not be found, but we are adding new words all the time to our application, so please do try again soon.</string>
+    <string name="could_not_analyze_word_title">could not calculate score</string>
+    <string name="could_not_analyze_word_message">please try again or contact support@accenteasy.com</string>
 </resources>

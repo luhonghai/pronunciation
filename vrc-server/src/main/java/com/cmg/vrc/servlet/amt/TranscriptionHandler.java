@@ -8,6 +8,7 @@ import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
@@ -30,15 +31,21 @@ public class TranscriptionHandler extends BaseServlet {
         String action = req.getParameter("action");
         String data = req.getParameter("data");
         String versionClient=req.getParameter("version");
+        boolean isRawHtml = false;
         logger.info("Client version: " + versionClient);
-        int version=Integer.parseInt(versionClient);
+        int version= 0;
+        try {
+            version = Integer.parseInt(versionClient);
+        } catch (Exception e) {
+
+        }
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         ResponseData responseData = new ResponseData();
         responseData.setStatus(false);
         try {
             TranscriptionDAO transcriptionDAO = new TranscriptionDAO();
             //TranscriptionService transcriptionService = new TranscriptionService();
-            TranscriptionActionService transcriptionActionService=new TranscriptionActionService();
+            TranscriptionActionService transcriptionActionService = new TranscriptionActionService();
             if (StringUtils.isEmpty(action)) {
                 responseData.setMessage("No action found");
             } else if (action.equalsIgnoreCase("list")) {
@@ -68,13 +75,24 @@ public class TranscriptionHandler extends BaseServlet {
                 } else {
                     responseData.setMessage("Could not save transcription");
                 }
+            } else if (action.equalsIgnoreCase("load")) {
+                TranscriptionService transcriptionService = new TranscriptionService();
+                transcriptionService.setUseJDO(true);
+                transcriptionService.loadTranscription();
+                responseData.setStatus(true);
+                responseData.setMessage(FileUtils.readFileToString(transcriptionService.getResultHtmlFile(), "UTF-8"));
+                isRawHtml = true;
             } else {
                 responseData.setMessage("Invalid action");
             }
         } catch (Exception e) {
             responseData.setMessage("Error: " + e.getMessage());
         }
-        printMessage(resp, gson.toJson(responseData));
+        if (isRawHtml) {
+            printMessage(resp, responseData.getMessage());
+        } else {
+            printMessage(resp, gson.toJson(responseData));
+        }
     }
 
     @Override

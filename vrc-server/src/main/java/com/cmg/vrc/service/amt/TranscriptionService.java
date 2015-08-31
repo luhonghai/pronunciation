@@ -70,11 +70,13 @@ public class TranscriptionService {
     private LoadTranscriptionResult transcriptionResult;
 
     public TranscriptionService() {
+        logger.info("Init start");
         transcriptionDAO = new TranscriptionDAO();
         recordedSentenceDAO = new RecordedSentenceDAO();
         recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         dictionaryHelper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
         gson = new GsonBuilder().setPrettyPrinting().create();
+        logger.info("Init completed!");
     }
 
     public TranscriptionService(String author) {
@@ -213,10 +215,15 @@ public class TranscriptionService {
                 }
             }
             if (isCorrected) {
+                logger.info("CORRECTED");
                 transcriptionResult.correctedSentenceCount++;
+            } else {
+                logger.error("INCORRECT " + output);
+                output = "";
             }
             transcriptionResult.loadedCount++;
         } else {
+            logger.info("EXISTED");
             output = "";
         }
         return output;
@@ -261,12 +268,13 @@ public class TranscriptionService {
     private boolean saveSentence(String sentence) throws Exception {
         try {
             if (useJDO) {
+                logger.info("Save: " + sentence);
                 Transcription transcription = new Transcription();
                 transcription.setAuthor(author);
                 transcription.setCreatedDate(new Date(System.currentTimeMillis()));
                 transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                 transcription.setSentence(sentence);
-                transcription.setVersion(2000);
+                transcription.setVersion(1);
                 return transcriptionDAO.put(transcription);
             } else {
                 SENTENCES.add(sentence);
@@ -284,7 +292,7 @@ public class TranscriptionService {
         resultHtmlFile = new File(FileUtils.getTempDirectory(), "transcription-result-" + UUIDGenerator.generateUUID() + ".html");
         transcriptionResult = new LoadTranscriptionResult();
         if (useJDO) {
-            transcriptionDAO.deleteAll();
+            //transcriptionDAO.deleteAll();
         } else {
             SENTENCES.clear();
         }
@@ -419,16 +427,23 @@ public class TranscriptionService {
         synchronized (lock) {
             try {
                // transcriptionDAO.deleteAll();
+                logger.info("Try to recycle sentences");
                recycleSentences();
+                logger.info("Read all transcriptions");
                 List<String> transcriptions = IOUtils.readLines(is);
+                logger.info("Read all Dom's transcriptions");
+                List<String> domTranscriptions =IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream("amt/dominic.transcription"));
                 if (transcriptions != null && transcriptions.size() > 0) {
+                    logger.info("Merge all");
+                    transcriptions.addAll(domTranscriptions);
                     writeHtmlToResult("<table cellspacing=\"3\" cellpadding=\"3\">");
                     int count = 0;
                     for (String t : transcriptions) {
+                        logger.info("Analyze: " + t);
                         count++;
-                        if (count > 5) {
-                            break;
-                        }
+//                        if (count > 5) {
+//                            break;
+//                        }
                         t = t.trim();
                         if (t.length() > 0) {
                             String sentence;
@@ -441,6 +456,7 @@ public class TranscriptionService {
                                 sentence = sentence.substring("<s>".length(), sentence.length());
                             if (sentence.endsWith("</s>"))
                                 sentence = sentence.substring(0, sentence.length() - "</s>".length());
+                            sentence = sentence.toUpperCase();
                             sentence = verifySentence(sentence.trim());
                             if (sentence.length() > 0)
                                 saveSentence(sentence);
@@ -493,7 +509,7 @@ public class TranscriptionService {
         service.setUseJDO(true);
         try {
             service.loadTranscription();
-            //FileUtils.copyFile(service.getResultHtmlFile(), new File("/Users/cmg/Desktop/transcription-analyzing-result.html"));
+            FileUtils.copyFile(service.getResultHtmlFile(), new File("/Users/cmg/Desktop/transcription-analyzing-result-28-08-2015.html"));
         } catch (Exception e) {
             e.printStackTrace();
         }

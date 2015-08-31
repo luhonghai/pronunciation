@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="random_words">
+        <item>picnic</item>
+        <item>knife</item>
+        <item>large</item>
+        <item>book</item>
+        <item>computer</item>
+        <item>cart</item>
+        <item>deed</item>
+        <item>five</item>
+        <item>fix</item>
+        <item>student</item>
+        <item>spade</item>
+        <item>park</item>
+        <item>watch</item>
+        <item>tail</item>
+        <item>hate</item>
+        <item>wrong</item>
+        <item>strawberry</item>
+        <item>grass</item>
+        <item>think</item>
+        <item>thin</item>
+        <item>feather</item>
+        <item>five</item>
+        <item>stove</item>
+        <item>buzz</item>
+        <item>vase</item>
+        <item>scissors</item>
+        <item>television</item>
+        <item>vision</item>
+        <item>cacophony</item>
+        <item>pleasure</item>
+        <item>barbiturate</item>
+        <item>electoral</item>
+        <!--<item>February</item>-->
+        <item>necessarily</item>
+        <item>rural</item>
+        <item>squirrel</item>
+        <item>future</item>
+        <!--<item>British</item>-->
+        <item>hydrogen</item>
+        <!--<item>affidavits</item>-->
+    </array>
+</resources>
