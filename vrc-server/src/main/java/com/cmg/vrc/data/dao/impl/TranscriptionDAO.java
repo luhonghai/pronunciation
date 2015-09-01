@@ -2,21 +2,22 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Transcription;
-import com.cmg.vrc.data.jdo.TranscriptionJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cmg on 03/07/15.
  */
-public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription> {
+public class TranscriptionDAO extends DataAccess<Transcription> {
 
     public TranscriptionDAO() {
-        super(TranscriptionJDO.class, Transcription.class);
+        super(Transcription.class);
     }
 
     public Transcription getBySentence(String sentence) throws Exception {
@@ -36,27 +37,16 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public List<Transcription> getListByVersion(int ver) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<Transcription> list = new ArrayList<Transcription>();
-        Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + Transcription.class.getCanonicalName());
         q.setFilter("version>ver");
         q.declareParameters("Integer ver");
         try {
-            tx.begin();
-            List<TranscriptionJDO> tmp = (List<TranscriptionJDO>)q.execute(ver);
-            Iterator<TranscriptionJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-
-            return list;
+            List<Transcription> tmp = (List<Transcription>)q.execute(ver);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -69,21 +59,17 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
      */
     public int getLatestVersion(){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         int version=0;
-        Query q = pm.newQuery("SELECT max(version) FROM " + TranscriptionJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT max(version) FROM " + Transcription.class.getCanonicalName());
         try {
-            tx.begin();
-            version=(int)q.execute();
-            tx.commit();
+            if (q != null)
+                version=(int)q.execute();
             return version;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
+            if (q!= null)
+                q.closeAll();
             pm.close();
         }
     }
@@ -95,9 +81,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
     public List<Transcription> listAll(int start, int length,String search,int column,String order,String senten,Date createDateFrom,Date createDateTo, Date modifiedDateFrom,Date modifiedDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<Transcription> list = new ArrayList<Transcription>();
-        Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + Transcription.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1)";
@@ -166,20 +150,12 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
-            List<TranscriptionJDO> tmp = (List<TranscriptionJDO>)q.executeWithMap(params);
-            Iterator<TranscriptionJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            List<Transcription> tmp = (List<Transcription>)q.executeWithMap(params);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -187,9 +163,8 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public double getCountSearch(String search,String senten,Date createDateFrom,Date createDateTo, Date modifiedDateFrom,Date modifiedDateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + TranscriptionJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Transcription.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1)";
@@ -236,16 +211,11 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         params.put("modifiedDateTo", modifiedDateTo);
 
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -253,21 +223,15 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public double getCount() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + TranscriptionJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Transcription.class.getCanonicalName());
         q.setFilter(" isDeleted==0");
         try {
-            tx.begin();
             count = (Long) q.execute();
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

@@ -2,22 +2,22 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.User;
-import com.cmg.vrc.data.jdo.UserJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luhonghai on 4/13/15.
  */
-public class UserDAO extends DataAccess<UserJDO, User> {
+public class UserDAO extends DataAccess<User> {
 
     public UserDAO() {
-        super(UserJDO.class, User.class);
+        super(User.class);
     }
 
     public User getUserByResetPasswordCode(String code) throws Exception {
@@ -50,9 +50,7 @@ public class UserDAO extends DataAccess<UserJDO, User> {
 
     public List<User> listAll(int start, int length,String search,int column,String order,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<User> list = new ArrayList<User>();
-        Query q = pm.newQuery("SELECT FROM " + UserJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + User.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
@@ -150,20 +148,12 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
-            List<UserJDO> tmp = (List<UserJDO>)q.executeWithMap(params);
-            Iterator<UserJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            List<User> tmp = (List<User>)q.executeWithMap(params);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -172,9 +162,8 @@ public class UserDAO extends DataAccess<UserJDO, User> {
 
     public double getCountSearch(String search,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo ) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + UserJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + User.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
@@ -228,16 +217,11 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

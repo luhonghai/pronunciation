@@ -2,20 +2,38 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
  */
+@PersistenceCapable(table = "USER_DEVICE")
 public class UserDevice implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String model;
+
+    @Persistent
     private String osVersion;
+
+    @Persistent
     private String osApiLevel;
+
+    @Persistent
     private String deviceName;
+
+    @Persistent
+    @Column(name = "emei")
     private String imei;
+
+    @Persistent
     private Date attachedDate;
 
     public String getModel() {

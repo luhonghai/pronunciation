@@ -2,27 +2,26 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Feedback;
-import com.cmg.vrc.data.jdo.FeedbackJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luhonghai on 5/8/15.
  */
-public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
+public class FeedbackDAO extends DataAccess<Feedback> {
 
     public FeedbackDAO() {
-        super(FeedbackJDO.class, Feedback.class);
+        super(Feedback.class);
     }
     public List<Feedback> listAll(int start, int length,String search,int column,String order,String ac,String app, String os,String imei,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<Feedback> list = new ArrayList<Feedback>();
-        Query q = pm.newQuery("SELECT FROM " + FeedbackJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + Feedback.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion == null || osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei == null || imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -91,32 +90,22 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
             q.setOrdering("createdDate desc");
         }
 
-
         q.setRange(start, start + length);
         try {
-            tx.begin();
-            List<FeedbackJDO> tmp = (List<FeedbackJDO>)q.executeWithMap(params);
-            Iterator<FeedbackJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            List<Feedback> tmp = (List<Feedback>)q.executeWithMap(params);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
     }
     public double getCountSearch(String search, String ac,String app, String os,String imei,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + FeedbackJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Feedback.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(appVersion == null || appVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(osVersion == null || osVersion.toLowerCase().indexOf(search.toLowerCase()) != -1)||(imei == null || imei.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -161,16 +150,11 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
         params.put("dateTo", dateTo);
 
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

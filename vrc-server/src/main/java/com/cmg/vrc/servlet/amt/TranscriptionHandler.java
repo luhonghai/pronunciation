@@ -1,6 +1,6 @@
 package com.cmg.vrc.servlet.amt;
 
-import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
+import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.service.TranscriptionActionService;
 import com.cmg.vrc.service.amt.TranscriptionService;

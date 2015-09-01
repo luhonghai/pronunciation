@@ -2,25 +2,36 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
  */
+@PersistenceCapable(table = "SECURITY")
 public class Security implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String username;
 
+    @Persistent
     private String password;
 
+    @Persistent
     private String loginType;
 
+    @Persistent
     private Date firstAccess;
 
+    @Persistent
     private String appVersion;
 
+    @Persistent
     private String noAccessMessage;
 
     @Override

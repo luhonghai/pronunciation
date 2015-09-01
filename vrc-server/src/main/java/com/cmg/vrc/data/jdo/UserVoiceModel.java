@@ -1,39 +1,69 @@
 package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
-import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 
+import javax.jdo.annotations.*;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 9/30/14.
  */
+@PersistenceCapable(table = "USERVOICEMODELJDO")
 public class UserVoiceModel implements Mirrorable {
-
+    @PrimaryKey
     private String id;
+    @Persistent
     private String username;
-    private boolean nativeEnglish = true;
-    private boolean gender = true;
+    @Persistent
+    private boolean nativeEnglish;
+    @Persistent
+    private boolean gender;
+    @Persistent
     private String dob;
+    @Persistent
     private String country;
-    private int englishProficiency = 5;
+    @Persistent
+    private int englishProficiency;
+    @Persistent
     private long time;
+    @Persistent
     private long serverTime;
-    private Date serverDate;
+    @Persistent
     private long duration;
+    @Persistent
     private float score;
+    @Persistent
     private double latitude;
+    @Persistent
     private double longitude;
+    @Persistent
     private String uuid;
+    @Persistent
     private String word;
+    @Persistent
     private String recordFile;
+    @Persistent
     private String cleanRecordFile;
+    @Persistent
     private String phonemes;
+    @Persistent
     private String hypothesis;
+
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawSphinxResult;
-    private SphinxResult result;
+
+    @Persistent
+    @Column(defaultValue = "1")
     private int version;
+
+    @NotPersistent
+    private SphinxResult result;
+
+    @NotPersistent
+    private Date serverDate;
+
     public String getUsername() {
         if (username != null) username = username.toLowerCase();
         return username;
@@ -182,7 +212,6 @@ public class UserVoiceModel implements Mirrorable {
         this.hypothesis = hypothesis;
     }
 
-
     public float getScore() {
         return score;
     }
@@ -198,7 +227,6 @@ public class UserVoiceModel implements Mirrorable {
     public void setResult(SphinxResult result) {
         this.result = result;
     }
-
     public String getRawSphinxResult() {
         return rawSphinxResult;
     }
@@ -219,4 +247,5 @@ public class UserVoiceModel implements Mirrorable {
     public int getVersion() {return version;}
 
     public void setVersion(int version) {this.version = version;}
+
 }

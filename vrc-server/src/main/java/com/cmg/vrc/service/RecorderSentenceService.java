@@ -2,12 +2,9 @@ package com.cmg.vrc.service;
 
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
-import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
-import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceHistoryDAO;
+import com.cmg.vrc.data.dao.impl.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.Transcription;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
-import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.data.jdo.RecordedSentenceHistory;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.commons.io.FileUtils;
 

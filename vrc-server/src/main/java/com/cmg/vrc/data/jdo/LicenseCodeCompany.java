@@ -2,16 +2,26 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 /**
  * Created by CMGT400 on 8/25/2015.
  */
+@PersistenceCapable(table = "LICENSE_CODE_COMPANY")
 public class LicenseCodeCompany implements Mirrorable {
+
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String company;
 
+    @Persistent
     private String code;
 
+    @Persistent
     private boolean isDeleted;
 
     @Override
@@ -22,7 +32,6 @@ public class LicenseCodeCompany implements Mirrorable {
     public void setId(String id) {
         this.id = id;
     }
-
     public String getCompany() {
         return company;
     }
@@ -34,6 +43,7 @@ public class LicenseCodeCompany implements Mirrorable {
     public String getCode() {
         return code;
     }
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -45,6 +55,5 @@ public class LicenseCodeCompany implements Mirrorable {
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
-
 
 }

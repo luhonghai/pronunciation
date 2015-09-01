@@ -1,64 +1,28 @@
 package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
+import com.cmg.vrc.data.jdo.LicenseCodeCompany;
 import com.cmg.vrc.data.jdo.LicenseCode;
-import com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO;
-import com.cmg.vrc.data.jdo.LicenseCodeJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
-import com.google.gson.Gson;
-import org.apache.poi.util.SystemOutLogger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
 import javax.jdo.metadata.TypeMetadata;
 import java.util.*;
 
 /**
  * Created by cmg on 5/18/15.
  */
-public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
+public class LicenseCodeDAO extends DataAccess<LicenseCode> {
 
     public LicenseCodeDAO() {
-        super(LicenseCodeJDO.class, LicenseCode.class);
+        super(LicenseCode.class);
     }
-
-    public void update(String id, boolean acti) throws Exception {
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-
-        Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
-
-
-
-        try {
-            tx.begin();
-            List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>) q.execute();
-            Iterator<LicenseCodeJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-
-            }
-            tx.commit();
-
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
-            pm.close();
-        }
-    }
-
-
 
     public List<LicenseCode> listAll(int start, int length,String search,int column,String order,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<LicenseCode> list = new ArrayList<LicenseCode>();
-        Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName() );
+        Query q = pm.newQuery("SELECT FROM " + LicenseCode.class.getCanonicalName() );
         StringBuffer string=new StringBuffer();
         String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -131,20 +95,12 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
-            List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>)q.executeWithMap(params);
-            Iterator<LicenseCodeJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            List<LicenseCode> tmp = (List<LicenseCode>)q.executeWithMap(params);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -154,11 +110,9 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     public List<LicenseCode> listAllByCompany(int start, int length,String search,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2,String com) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<LicenseCode> list = new ArrayList<LicenseCode>();
         StringBuffer query=new StringBuffer();
-        TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeJDO.class.getCanonicalName());
-        TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompanyJDO.class.getCanonicalName());
+        TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
+        TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompany.class.getCanonicalName());
         String firstQuery = "select code.* from " +  metaLicenseCode.getTable()
                 + " code join "  + metaLicenseCodeCompany.getTable()
                 + " mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
@@ -197,23 +151,15 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if(search.length()>0){
             query.append(" and code.account LIKE '%" + search + "%' and code.code LIKE '%" + search + "%' and code.imei LIKE '%" + search + "%'");
         }
-        System.out.println(query);
-
-
 
         Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
         q.setRange(start, start + length);
-
-
+        List<LicenseCode> list = new ArrayList<LicenseCode>();
         try {
-            tx.begin();
             List<Object> tmp = (List<Object>)q.execute();
-
             for(Object obj : tmp){
                 LicenseCode licenseCode=new LicenseCode();
                 Object[] array =(Object[]) obj;
-               System.out.println(array[6]);
-               // array.get(1);
                 if(array[0].toString().length()>0) {
                     licenseCode.setId(array[0].toString());
                 }
@@ -264,14 +210,11 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
             }
 
-            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+
             q.closeAll();
             pm.close();
         }
@@ -297,9 +240,8 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     }
     public double getCountSearch(String search, String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + LicenseCodeJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + LicenseCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -353,16 +295,11 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         params.put("dateFrom2", dateFrom2);
         params.put("dateTo2", dateTo2);
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

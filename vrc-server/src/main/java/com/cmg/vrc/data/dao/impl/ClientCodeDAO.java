@@ -2,20 +2,21 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.ClientCode;
-import com.cmg.vrc.data.jdo.ClientCodeJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CMGT400 on 8/7/2015.
  */
-public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
+public class ClientCodeDAO  extends DataAccess<ClientCode> {
     public ClientCodeDAO(){
-        super(ClientCodeJDO.class,ClientCode.class);
+        super(ClientCode.class);
     }
 
     public ClientCode getUserByEmailPassword(String email, String password) throws Exception{
@@ -34,9 +35,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
     public List<ClientCode> listAll(int start, int length,String search,int column,String order,String company,String contact,String emails) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<ClientCode> list = new ArrayList<ClientCode>();
-        Query q = pm.newQuery("SELECT FROM " + ClientCodeJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + ClientCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((companyName == null || companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName == null || contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email == null || email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -84,20 +83,12 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
-            List<ClientCodeJDO> tmp = (List<ClientCodeJDO>)q.executeWithMap(params);
-            Iterator<ClientCodeJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            List<ClientCode> tmp = (List<ClientCode>)q.executeWithMap(params);
+            pm.detachCopyAll(tmp);
+            return tmp;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -107,7 +98,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCodeJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((companyName == null || companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName == null || contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email == null || email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -152,54 +143,12 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
     }
 
     public List<ClientCode> listAll() throws Exception {
-
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<ClientCode> list = new ArrayList<ClientCode>();
-        Query q = pm.newQuery("SELECT FROM " + ClientCodeJDO.class.getCanonicalName());
-        q.setFilter("isDeleted==false");
-        try {
-            tx.begin();
-            List<ClientCodeJDO> tmp = (List<ClientCodeJDO>)q.execute();
-            Iterator<ClientCodeJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
-            pm.close();
-        }
+        return list("WHERE isDeleted == false");
     }
 
     public double getCount() throws Exception {
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCodeJDO.class.getCanonicalName());
-        q.setFilter("isDeleted==false");
-        try {
-            tx.begin();
-            count = (Long) q.execute();
-            tx.commit();
-            return count.doubleValue();
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
-            pm.close();
-        }
+        return getCount("WHERE isDeleted == false");
     }
-
 
 }
 
