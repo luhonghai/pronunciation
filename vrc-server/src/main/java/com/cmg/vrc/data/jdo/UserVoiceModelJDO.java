@@ -52,6 +52,10 @@ public class UserVoiceModelJDO implements Mirrorable {
     private String hypothesis;
 
     @Persistent
+    @Column(defaultValue = "1")
+    private int version;
+
+    @Persistent
     @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawSphinxResult;
 
@@ -218,4 +222,7 @@ public class UserVoiceModelJDO implements Mirrorable {
     public void setScore(float score) {
         this.score = score;
     }
+    public int getVersion() {return version;}
+
+    public void setVersion(int version) {this.version = version;}
 }

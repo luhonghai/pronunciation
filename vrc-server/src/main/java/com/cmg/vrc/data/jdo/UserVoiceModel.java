@@ -32,9 +32,8 @@ public class UserVoiceModel implements Mirrorable {
     private String phonemes;
     private String hypothesis;
     private String rawSphinxResult;
-
     private SphinxResult result;
-
+    private int version;
     public String getUsername() {
         if (username != null) username = username.toLowerCase();
         return username;
@@ -217,4 +216,7 @@ public class UserVoiceModel implements Mirrorable {
     public void setServerDate(Date serverDate) {
         this.serverDate = serverDate;
     }
+    public int getVersion() {return version;}
+
+    public void setVersion(int version) {this.version = version;}
 }
