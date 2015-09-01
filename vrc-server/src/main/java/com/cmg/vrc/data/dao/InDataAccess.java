@@ -20,33 +20,33 @@ import java.util.List;
  * @Last changed: $LastChangedDate$
  */
 
-public interface InDataAccess<T, E> {
+public interface InDataAccess<T> {
 	
 	public boolean deleteAll() throws Exception;
 	
-	public boolean put(E obj) throws Exception;
+	public boolean put(T obj) throws Exception;
 	
-	public boolean create(E obj) throws Exception;
+	public boolean create(T obj) throws Exception;
 	
-	public boolean delete(E obj) throws Exception;
+	public boolean delete(T obj) throws Exception;
 	
 	public boolean delete(String id) throws Exception;
 	
-	public boolean update(E obj) throws Exception;
+	public boolean update(T obj) throws Exception;
 	
-	public E getById(String id) throws Exception;
+	public T getById(String id) throws Exception;
 	
-	public List<E> listAll() throws Exception;
+	public List<T> listAll() throws Exception;
 	
-	public List<E> list(String query, Object parameter) throws Exception;
+	public List<T> list(String query, Object parameter) throws Exception;
 	
-	public List<E> list(String query, Object para1, Object para2) throws Exception;
+	public List<T> list(String query, Object para1, Object para2) throws Exception;
 	
-	public List<E> list(String query, Object para1, Object para2, Object para3) throws Exception;
+	public List<T> list(String query, Object para1, Object para2, Object para3) throws Exception;
 	
-	public List<E> list(String query, Object... parameters) throws Exception;
+	public List<T> list(String query, Object... parameters) throws Exception;
 	
-	public List<E> list(String query) throws Exception;
+	public List<T> list(String query) throws Exception;
 	
 	public boolean checkExistence(String id) throws Exception;
 

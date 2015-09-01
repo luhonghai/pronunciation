@@ -122,8 +122,8 @@ public class AuthHandler extends HttpServlet {
                                     }
                                     UserProfile.UserLocation location = user.getLocation();
                                     if (location != null) {
-                                        usage.setLatitude(location.getLatitude());
-                                        usage.setLongitude(location.getLongitude());
+                                        usage.setLatitude((long)location.getLatitude());
+                                        usage.setLongitude((long)location.getLongitude());
                                     }
                                     usage.setTime(new Date(System.currentTimeMillis()));
                                     usageDAO.put(usage);

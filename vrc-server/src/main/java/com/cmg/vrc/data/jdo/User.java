@@ -5,49 +5,65 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
  */
+@PersistenceCapable(table = "USER")
 public class User implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String username;
 
-    private String name;
-
+    @Persistent
     private String firstName;
 
+    @Persistent
     private String lastName;
 
+    @Persistent
+    private String name;
+
+    @Persistent
     private String loginType;
 
+    @Persistent
     private String profileImage;
 
+    @Persistent
     private String password;
 
-    private Date createdDate;
-
+    @Persistent
     private boolean nativeEnglish = true;
 
+    @Persistent
     private boolean gender = true;
 
+    @Persistent
     private String dob = "01/01/1900";
 
+    @Persistent
     private String country = "GB";
 
+    @Persistent
     private int englishProficiency = 5;
 
+    @Persistent
     private String rawJsonData;
 
-    private boolean isActivated;
-
-    private String activationCode;
-
+    @Persistent
     private boolean activationLocked;
 
+    @Persistent
+    private boolean isActivated;
+
+    @Persistent
+    private String activationCode;
+
+    @Persistent
     private String resetPasswordCode;
 
     @Override
@@ -182,13 +198,6 @@ public class User implements Mirrorable {
         this.lastName = lastName;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
     public String getResetPasswordCode() {
         return resetPasswordCode;
     }
@@ -196,7 +205,6 @@ public class User implements Mirrorable {
     public void setResetPasswordCode(String resetPasswordCode) {
         this.resetPasswordCode = resetPasswordCode;
     }
-
     public boolean isActivationLocked() {
         return activationLocked;
     }

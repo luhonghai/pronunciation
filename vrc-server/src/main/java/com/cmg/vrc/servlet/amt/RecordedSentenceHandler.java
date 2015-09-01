@@ -1,19 +1,11 @@
 package com.cmg.vrc.servlet.amt;
 
-import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
-import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
-import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.service.RecorderSentenceService;
-import com.cmg.vrc.service.amt.TranscriptionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
-import com.cmg.vrc.sphinx.PhonemesDetector;
-import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -25,10 +17,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.quartz.SchedulerException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
