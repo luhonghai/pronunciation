@@ -212,19 +212,12 @@ public class DataAccess<T> implements InDataAccess<T> {
 	
 	public List<T> listAll() throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
 		Query q = pm.newQuery(clazzT);
 		try {
-			tx.begin();
-			List<T> tmp = (List<T>) q.execute();
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList (pm, q.execute());
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
 			q.closeAll();
 			pm.close();
 		}
