@@ -76,6 +76,8 @@ public class RecorderServlet extends BaseServlet {
             String dateFrom = request.getParameter("dateFrom");
             String dateTo = request.getParameter("dateTo");
             String status = request.getParameter("status");
+            String accounts = request.getParameter("accounts");
+
             int sta=0;
             if(status.equalsIgnoreCase("All")){
                 sta=6;
@@ -106,13 +108,13 @@ public class RecorderServlet extends BaseServlet {
 
             Double count;
             try {
-                if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null){
-                    count=recorderDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta);
+                if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null || accounts.length()>0){
+                    count=recorderDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta,accounts);
                 }else {
                     count = recorderDAO.getCount();
                 }
                 List<RecorderClient> recorderClients=new ArrayList<RecorderClient>();
-                List<RecordedSentence> recordedSentences = recorderDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta);
+                List<RecordedSentence> recordedSentences = recorderDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta,accounts);
                 for(int i=0;i<recordedSentences.size();i++){
                     RecorderClient recorderClient=new RecorderClient();
                     recorderClient.setId(recordedSentences.get(i).getId());

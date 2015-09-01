@@ -15,6 +15,7 @@ function listTranscriptionRecorder(){
             "dataType": "json",
             "data": {
                 action: "listbyadmin",
+                accounts:$("#listaccount").val(),
                 sentence: $("#sentence").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
@@ -29,7 +30,7 @@ function listTranscriptionRecorder(){
             "sDefaultContent": ""
 
         }, {
-            "sWidth": "30%",
+            "sWidth": "28%",
             "data": "sentence",
             "bSortable": false,
             "sDefaultContent": ""
@@ -46,7 +47,7 @@ function listTranscriptionRecorder(){
             "data": "modifiedDate",
             "sDefaultContent": ""
         }, {
-            "sWidth": "5%",
+            "sWidth": "7%",
             "data": "status",
             "sDefaultContent": ""
         },{
@@ -55,12 +56,14 @@ function listTranscriptionRecorder(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="rejects" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Reject' + '</button>' + '<button type="button" id="approveds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Approved' + '</button>' + '<button type="button" id="lockeds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Locked' + '</button>');
-                $button.attr("id-column", data.id);
-                $button.attr("account", data.account);
-                $button.attr("last", data.lastName);
-                $button.attr("role", data.role);
-                return $("<div/>").append($button).html();
+                if (data.status == 1) {
+                    $button = $('<button type="button" style="margin-right:10px" id="rejects" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Reject' + '</button>' + '<button type="button" id="approveds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Approved' + '</button>' + '<button type="button" id="lockeds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Locked' + '</button>');
+                    $button.attr("id-column", data.id);
+                    $button.attr("account", data.account);
+                    $button.attr("last", data.lastName);
+                    $button.attr("role", data.role);
+                    return $("<div/>").append($button).html();
+                }
             }
         }]
 
@@ -88,6 +91,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 action: "listbyadmin",
+                accounts:$("#listaccount").val(),
                 sentence: $("#sentence").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
@@ -157,7 +161,25 @@ function selected(){
             }
         });
 
+        myTable.fnSettings().ajax = {
+            "url": "RecorderServlet",
+            "type": "POST",
+            "dataType": "json",
+            "data": {
+                action: "listbyadmin",
+                accounts:$("#listaccount").val(),
+                sentence: $("#sentence").val(),
+                account:$("#account").val(),
+                dateFrom:$("#dateFrom").val(),
+                dateTo:$("#dateTo").val(),
+                status:$("#status").val()
+            }
+        };
+        $("tbody").html("");
+        myTable.fnDraw();
+
     });
+
 
 }
 

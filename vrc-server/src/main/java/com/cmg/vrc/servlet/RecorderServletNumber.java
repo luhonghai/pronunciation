@@ -48,7 +48,7 @@ public class RecorderServletNumber extends HttpServlet {
                    Gson gson = new Gson();
                    String numbers = gson.toJson(number);
                    response.getWriter().write(numbers);
-                   
+
 
                }catch (Exception e){
                    e.printStackTrace();
@@ -112,5 +112,7 @@ public class RecorderServletNumber extends HttpServlet {
         }
         return list;
     }
+
+
 
 }
