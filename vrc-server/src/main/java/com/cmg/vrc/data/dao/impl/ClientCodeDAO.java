@@ -83,9 +83,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCode> {
         q.setRange(start, start + length);
 
         try {
-            List<ClientCode> tmp = (List<ClientCode>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
@@ -96,7 +94,6 @@ public class ClientCodeDAO  extends DataAccess<ClientCode> {
 
     public double getCountSearch(String search,String company,String contact,String emails) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -127,16 +124,11 @@ public class ClientCodeDAO  extends DataAccess<ClientCode> {
         params.put("contact", contact);
         params.put("emails", emails);
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

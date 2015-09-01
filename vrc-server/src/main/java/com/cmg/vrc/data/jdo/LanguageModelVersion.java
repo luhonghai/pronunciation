@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by cmg on 06/07/15.
  */
-@PersistenceCapable(table = "LANGUAGE_MODEL_VERSION")
+@PersistenceCapable(table = "LANGUAGE_MODEL_VERSION", detachable = "true")
 public class LanguageModelVersion implements Mirrorable {
 
     @PrimaryKey

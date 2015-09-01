@@ -2,12 +2,12 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
-import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
+
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
-import com.cmg.vrc.data.jdo.RecordedSentence;
+
 import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.service.TranscriptionActionService;
-import com.cmg.vrc.util.StringUtil;
+
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

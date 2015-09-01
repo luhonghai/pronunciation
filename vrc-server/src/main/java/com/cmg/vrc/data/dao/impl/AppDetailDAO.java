@@ -22,9 +22,7 @@ public class AppDetailDAO extends DataAccess<AppDetail> {
         Query q = pm.newQuery("SELECT FROM " + AppDetail.class.getCanonicalName());
 
         try {
-            List<AppDetail> tmp = (List<AppDetail>) q.execute();
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.execute());
         } catch (Exception e) {
             throw e;
         } finally {

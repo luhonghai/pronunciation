@@ -36,7 +36,7 @@ public class RecorderSentenceService {
      * @param isDeleted
      * @return
      */
-    public String adminUpdate(String idSentence, boolean isDeleted){
+    public String adminUpdate(String idSentence, int isDeleted){
         int version=version();
         String result = RETURN_ERROR;
         RecorderDAO recorderDAO=new RecorderDAO();
@@ -61,6 +61,8 @@ public class RecorderSentenceService {
             System.out.println("start dao get list : " + list.size());
             for(RecordedSentence rc : list){
                 System.out.println("version : " + rc.getVersion());
+                System.out.println("status : " + rc.getStatus());
+
             }
             System.out.println("start dao get list : " + list.size());
         }catch (Exception e){
@@ -82,7 +84,6 @@ public class RecorderSentenceService {
         RecordedSentenceHistoryDAO recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         try {
             RecordedSentence recordedSentence = recorderDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
-            System.out.println("UserName client update " + user.getUsername());
 
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();

@@ -41,9 +41,7 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
         q.setFilter("version>ver");
         q.declareParameters("Integer ver");
         try {
-            List<Transcription> tmp = (List<Transcription>)q.execute(ver);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.execute(ver));
         } catch (Exception e) {
             throw e;
         } finally {
@@ -150,9 +148,7 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
         q.setRange(start, start + length);
 
         try {
-            List<Transcription> tmp = (List<Transcription>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {

@@ -128,6 +128,7 @@ public class RecordedSentenceHandler extends BaseServlet {
                 String condition = recorderSentenceService.clientUpdate(user, sentenceId, targetRaw, versions);
                 List<RecordedSentence> result = null;
                 if(condition.equalsIgnoreCase(RecorderSentenceService.RETURN_SUCCESS)){
+                    System.out.println("versionmaxs : " + versionmaxs);
                     result = recorderSentenceService.getListByVersionAndUsername(versionmaxs,user.getUsername());
                 }
                 logger.info("Try to save");

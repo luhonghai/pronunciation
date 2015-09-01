@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by cmg on 06/07/15.
  */
-@PersistenceCapable(table = "RECORDEDSENTENCEHISTORY")
+@PersistenceCapable(table = "RECORDEDSENTENCEHISTORYJDO", detachable = "true")
 public class RecordedSentenceHistory implements Mirrorable {
 
     public static final int ACTOR_TYPE_ADMIN = 0;

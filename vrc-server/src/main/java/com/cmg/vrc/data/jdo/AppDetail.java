@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by luhonghai on 4/13/15.
  */
-@PersistenceCapable(table = "APP_DETAIL")
+@PersistenceCapable(table = "APP_DETAIL", detachable = "true")
 public class AppDetail implements Mirrorable {
 
     @PrimaryKey

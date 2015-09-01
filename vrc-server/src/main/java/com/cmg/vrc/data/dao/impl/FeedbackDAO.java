@@ -92,9 +92,7 @@ public class FeedbackDAO extends DataAccess<Feedback> {
 
         q.setRange(start, start + length);
         try {
-            List<Feedback> tmp = (List<Feedback>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {

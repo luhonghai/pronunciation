@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by cmg on 06/07/15.
  */
-@PersistenceCapable(table = "DICTIONARY_VERSION")
+@PersistenceCapable(table = "DICTIONARY_VERSION", detachable = "true")
 public class DictionaryVersion implements Mirrorable {
 
     @PrimaryKey

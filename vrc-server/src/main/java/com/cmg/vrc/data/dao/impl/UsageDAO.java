@@ -51,9 +51,7 @@ public class UsageDAO extends DataAccess<Usage> {
         }
 
         try {
-            List<Usage> tmp = (List<Usage>)q.execute(name,search);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.execute(name,search));
         } catch (Exception e) {
             throw e;
         } finally {
