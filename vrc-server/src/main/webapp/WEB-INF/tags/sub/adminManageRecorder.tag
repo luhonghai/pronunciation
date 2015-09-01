@@ -43,7 +43,7 @@
         <div class="form-group">
           <label class="control-label">From</label>
           <div>
-            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
+            <input type='text' class="form-control" id="dateFrom" placeholder="From" style="background-color: "/>
           </div>
         </div>
         <div class="form-group">

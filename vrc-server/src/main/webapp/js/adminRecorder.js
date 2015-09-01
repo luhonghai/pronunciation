@@ -73,12 +73,12 @@ function listTranscriptionRecorder(){
 }
 
 function dateFrom(){
-    $('#DateFrom').datetimepicker({
+    $('#dateFrom').datetimepicker({
         format: 'DD/MM/YYYY'
     });
 }
 function dateTo(){
-    $('#DateTo').datetimepicker({
+    $('#dateTo').datetimepicker({
         format: 'DD/MM/YYYY'
     });
 }

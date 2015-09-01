@@ -119,12 +119,12 @@
 				<artifactId>datanucleus-maven-plugin</artifactId>
                 <version>4.0.1</version>
 				<configuration>
-        			<mappingIncludes>com/cmg/vrc/data/jdo/*.class</mappingIncludes>
+					<fork>false</fork>
 					<api>JDO</api>
 					<!-- <props>${basedir}/datanucleus.properties</props> -->
 					<log4jConfiguration>${basedir}/src/main/resources/log4j.properties</log4jConfiguration>
 					<verbose>true</verbose>
-					<persistenceUnit>VRC</persistenceUnit>
+					<persistenceUnitName>VRC</persistenceUnitName>
 				</configuration>
 				<executions>
 					<execution>
