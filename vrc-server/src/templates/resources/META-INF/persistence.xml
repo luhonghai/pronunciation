@@ -60,7 +60,7 @@
 
 			<!-- ENABLE THESE FOR NEO4J -->
 			<!--property name="javax.jdo.option.ConnectionURL" value="neo4j:testDB"/ -->
-
+			<property name="datanucleus.IgnoreCache" value="true" />
 			<property name="datanucleus.autoCreateSchema" value="true" />
 			<property name="datanucleus.validateTables" value="false" />
 			<property name="datanucleus.validateConstraints" value="false" />

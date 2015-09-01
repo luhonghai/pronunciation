@@ -21,7 +21,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
     public List<UserVoiceModel> listAll(int start, int length,String search,int column,String order,String username1,String word1,String uuid1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<UserVoiceModel> list = new ArrayList<UserVoiceModel>();
         Query q = pm.newQuery("SELECT FROM " + UserVoiceModelJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -85,20 +85,20 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+//            tx.begin();
             List<UserVoiceModelJDO> tmp = (List<UserVoiceModelJDO>)q.executeWithMap(params);
             Iterator<UserVoiceModelJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -107,7 +107,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
     public List<UserVoiceModel> listAllScore(String search,String username1,String word1,String uuid1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<UserVoiceModel> list = new ArrayList<UserVoiceModel>();
         Query q = pm.newQuery("SELECT FROM " + UserVoiceModelJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -145,20 +145,20 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
 
 
         try {
-            tx.begin();
+//            tx.begin();
             List<UserVoiceModelJDO> tmp = (List<UserVoiceModelJDO>)q.executeWithMap(params);
             Iterator<UserVoiceModelJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -168,26 +168,26 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
     public List<UserVoiceModel> listAllScore() throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<UserVoiceModel> list = new ArrayList<UserVoiceModel>();
         Query q = pm.newQuery("SELECT FROM " + UserVoiceModelJDO.class.getCanonicalName());
         q.setRange(0, 10000);
         q.setOrdering("serverTime asc");
         try {
-            tx.begin();
+//            tx.begin();
             List<UserVoiceModelJDO> tmp = (List<UserVoiceModelJDO>)q.execute();
             Iterator<UserVoiceModelJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -197,7 +197,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
 
     public double getCountSearch(String search,String username1,String word1,String uuid1) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + UserVoiceModelJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -232,16 +232,16 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModelJDO, UserVoiceMo
         params.put("word1", word1);
         params.put("uuid1", uuid1);
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

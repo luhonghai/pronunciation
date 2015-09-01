@@ -50,7 +50,7 @@ public class UserDAO extends DataAccess<UserJDO, User> {
 
     public List<User> listAll(int start, int length,String search,int column,String order,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<User> list = new ArrayList<User>();
         Query q = pm.newQuery("SELECT FROM " + UserJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -150,20 +150,20 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+//            tx.begin();
             List<UserJDO> tmp = (List<UserJDO>)q.executeWithMap(params);
             Iterator<UserJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -172,7 +172,7 @@ public class UserDAO extends DataAccess<UserJDO, User> {
 
     public double getCountSearch(String search,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo ) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + UserJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -228,16 +228,16 @@ public class UserDAO extends DataAccess<UserJDO, User> {
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

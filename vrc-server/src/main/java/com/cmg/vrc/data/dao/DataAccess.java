@@ -334,24 +334,24 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public List<E> list(String query, Object... parameters) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
+		//	tx.begin();
 			List<T> tmp = (List<T>) q.execute(parameters);
 			Iterator<T> iter = tmp.iterator();
 			while (iter.hasNext()) {
 				list.add(to(iter.next()));				
 			}
-			tx.commit();
+			//tx.commit();
 			return list;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -364,24 +364,24 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public List<E> list(String query, Object parameter) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
+			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(parameter);
 			Iterator<T> iter = tmp.iterator();
 			while (iter.hasNext()) {
 				list.add(to(iter.next()));				
 			}
-			tx.commit();
+			//tx.commit();
 			return list;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -394,24 +394,24 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public List<E> list(String query, Object para1, Object para2) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
+			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(para1, para2);
 			Iterator<T> iter = tmp.iterator();
 			while (iter.hasNext()) {
 				list.add(to(iter.next()));				
 			}
-			tx.commit();
+			//tx.commit();
 			return list;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -424,24 +424,24 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public List<E> list(String query, Object para1, Object para2, Object para3) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
+			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(para1, para2, para3);
 			Iterator<T> iter = tmp.iterator();
 			while (iter.hasNext()) {
 				list.add(to(iter.next()));				
 			}
-			tx.commit();
+			//tx.commit();
 			return list;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -454,24 +454,24 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public List<E> list(String query) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
+			//tx.begin();
 			List<T> tmp = (List<T>) q.execute();
 			Iterator<T> iter = tmp.iterator();
 			while (iter.hasNext()) {
 				list.add(to(iter.next()));				
 			}
-			tx.commit();
+			//tx.commit();
 			return list;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
+//			if (tx.isActive()) {
+//				tx.rollback();
+//			}
 			q.closeAll();
 			pm.close();
 		}

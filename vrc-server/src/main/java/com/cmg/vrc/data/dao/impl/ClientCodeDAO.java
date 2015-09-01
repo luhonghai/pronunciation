@@ -34,7 +34,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
     public List<ClientCode> listAll(int start, int length,String search,int column,String order,String company,String contact,String emails) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<ClientCode> list = new ArrayList<ClientCode>();
         Query q = pm.newQuery("SELECT FROM " + ClientCodeJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -84,20 +84,20 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+            //tx.begin();
             List<ClientCodeJDO> tmp = (List<ClientCodeJDO>)q.executeWithMap(params);
             Iterator<ClientCodeJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+            //tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

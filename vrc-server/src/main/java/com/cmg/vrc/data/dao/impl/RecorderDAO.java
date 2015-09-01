@@ -62,26 +62,26 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
 
     public List<RecordedSentence> getListByVersion(int ver, String acc) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<RecordedSentence> list = new ArrayList<RecordedSentence>();
         Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
         q.setFilter("account==acc && version>ver");
         q.declareParameters("String acc, Integer ver");
         try {
-            tx.begin();
+//            tx.begin();
             List<RecordedSentenceJDO> tmp = (List<RecordedSentenceJDO>)q.execute(acc,ver);
             Iterator<RecordedSentenceJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -99,22 +99,23 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
 
     public int getLatestVersion(){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         int version=0;
         Query q = pm.newQuery("SELECT max(version) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         try {
-            tx.begin();
+//            tx.begin();
             if (q != null)
                 version=(int)q.execute();
-            tx.commit();
+//            tx.commit();
             return version;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
+            if (q != null)
+                q.closeAll();
             pm.close();
         }
     }
@@ -124,7 +125,7 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
     public List<RecordedSentence> listAll(int start, int length,String search,int column,String order,String ac,Date dateFrom, Date dateTo, int sta, String acs) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<RecordedSentence> list = new ArrayList<RecordedSentence>();
         Query q = pm.newQuery("SELECT FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -187,20 +188,20 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+//            tx.begin();
             List<RecordedSentenceJDO> tmp = (List<RecordedSentenceJDO>)q.executeWithMap(params);
             Iterator<RecordedSentenceJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -208,7 +209,7 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
 
     public double getCountSearch(String search, String ac,Date dateFrom,Date dateTo, int sta, String acs) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -249,16 +250,16 @@ public class RecorderDAO extends DataAccess<RecordedSentenceJDO,RecordedSentence
         params.put("dateFrom", dateFrom);
         params.put("dateTo", dateTo);
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

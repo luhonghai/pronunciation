@@ -36,27 +36,27 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public List<Transcription> getListByVersion(int ver) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<Transcription> list = new ArrayList<Transcription>();
         Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
         q.setFilter("version>ver");
         q.declareParameters("Integer ver");
         try {
-            tx.begin();
+//            tx.begin();
             List<TranscriptionJDO> tmp = (List<TranscriptionJDO>)q.execute(ver);
             Iterator<TranscriptionJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
 
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -69,21 +69,23 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
      */
     public int getLatestVersion(){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         int version=0;
         Query q = pm.newQuery("SELECT max(version) FROM " + TranscriptionJDO.class.getCanonicalName());
         try {
-            tx.begin();
-            version=(int)q.execute();
-            tx.commit();
+//            tx.begin();
+            if (q != null)
+                version=(int)q.execute();
+//            tx.commit();
             return version;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            q.closeAll();
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
+            if (q!= null)
+                q.closeAll();
             pm.close();
         }
     }
@@ -95,7 +97,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
     public List<Transcription> listAll(int start, int length,String search,int column,String order,String senten,Date createDateFrom,Date createDateTo, Date modifiedDateFrom,Date modifiedDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<Transcription> list = new ArrayList<Transcription>();
         Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -166,20 +168,20 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+//            tx.begin();
             List<TranscriptionJDO> tmp = (List<TranscriptionJDO>)q.executeWithMap(params);
             Iterator<TranscriptionJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -187,7 +189,7 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public double getCountSearch(String search,String senten,Date createDateFrom,Date createDateTo, Date modifiedDateFrom,Date modifiedDateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + TranscriptionJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -236,16 +238,16 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
         params.put("modifiedDateTo", modifiedDateTo);
 
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -253,21 +255,21 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public double getCount() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + TranscriptionJDO.class.getCanonicalName());
         q.setFilter(" isDeleted==0");
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.execute();
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

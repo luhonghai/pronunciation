@@ -34,20 +34,20 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
      */
     public int getLatestVersion(){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         int version=0;
         Query q = pm.newQuery("SELECT max(version) FROM " + TranscriptionJDO.class.getCanonicalName());
         try {
-            tx.begin();
+          //  tx.begin();
              version=(int)q.execute();
-            tx.commit();
+          //  tx.commit();
             return version;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -55,25 +55,25 @@ public class TranscriptionDAO extends DataAccess<TranscriptionJDO, Transcription
 
     public List<Transcription> listAll(int limit) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<Transcription> list = new ArrayList<Transcription>();
         Query q = pm.newQuery("SELECT FROM " + TranscriptionJDO.class.getCanonicalName());
         q.setRange(0, limit);
         try {
-            tx.begin();
+            //tx.begin();
             List<TranscriptionJDO> tmp = (List<TranscriptionJDO>) q.execute();
             Iterator<TranscriptionJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+            //tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
