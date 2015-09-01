@@ -1,16 +1,17 @@
 package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
-import com.cmg.vrc.sphinx.SphinxResult;
 
-import javax.jdo.annotations.*;
-import java.util.Date;
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 /**
  * Created by luhonghai on 9/30/14.
  */
-@PersistenceCapable(table = "USERVOICEMODELJDO", detachable = "true")
-public class UserVoiceModel implements Mirrorable {
+@PersistenceCapable
+public class UserVoiceModelJDO implements Mirrorable {
     @PrimaryKey
     private String id;
     @Persistent
@@ -51,18 +52,12 @@ public class UserVoiceModel implements Mirrorable {
     private String hypothesis;
 
     @Persistent
-    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
-    private String rawSphinxResult;
-
-    @Persistent
     @Column(defaultValue = "1")
     private int version;
 
-    @NotPersistent
-    private SphinxResult result;
-
-    @NotPersistent
-    private Date serverDate;
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
+    private String rawSphinxResult;
 
     public String getUsername() {
         if (username != null) username = username.toLowerCase();
@@ -212,21 +207,6 @@ public class UserVoiceModel implements Mirrorable {
         this.hypothesis = hypothesis;
     }
 
-    public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public SphinxResult getResult() {
-        return result;
-    }
-
-    public void setResult(SphinxResult result) {
-        this.result = result;
-    }
     public String getRawSphinxResult() {
         return rawSphinxResult;
     }
@@ -235,17 +215,14 @@ public class UserVoiceModel implements Mirrorable {
         this.rawSphinxResult = rawSphinxResult;
     }
 
-    public Date getServerDate() {
-        if (serverTime == 0)
-            return null;
-        return new Date(serverTime);
+    public float getScore() {
+        return score;
     }
 
-    public void setServerDate(Date serverDate) {
-        this.serverDate = serverDate;
+    public void setScore(float score) {
+        this.score = score;
     }
     public int getVersion() {return version;}
 
     public void setVersion(int version) {this.version = version;}
-
 }
