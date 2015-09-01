@@ -2,27 +2,39 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 5/18/15.
  */
+@PersistenceCapable(table = "LICENSE_CODE")
 public class LicenseCode implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String account;
 
+    @Persistent
     private String code;
 
+    @Persistent
     private Date activatedDate;
 
+    @Persistent
     private boolean isActivated;
 
+    @Persistent
     private String imei;
 
+    @Persistent
     private boolean isDeleted;
 
+    @Persistent
     private Date createdDate;
 
     @Override
@@ -84,6 +96,7 @@ public class LicenseCode implements Mirrorable {
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
+
     public Date getCreatedDate() {
         return createdDate;
     }

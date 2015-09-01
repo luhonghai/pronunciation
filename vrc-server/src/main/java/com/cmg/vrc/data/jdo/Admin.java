@@ -2,16 +2,34 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 /**
  * Created by CMGT400 on 6/8/2015.
  */
+@PersistenceCapable(table = "ADMIN")
 public class Admin implements Mirrorable {
+    @PrimaryKey
     private String id;
+
+    @Persistent
     private String userName;
-    private String firstName;
-    private String lastName;
+
+    @Persistent
     private String password;
+
+    @Persistent
     private int role;
+
+    @Persistent
+    private String firstName;
+
+    @Persistent
+    private String lastName;
+
+
 
     @Override
     public String getId() {
@@ -22,11 +40,11 @@ public class Admin implements Mirrorable {
     public void setId(String id) {
         this.id=id;
     }
-   public String getUserName(){
-       if (userName != null) userName = userName.toLowerCase();
-       return userName;
-   }
-    public void setUserName(String userName){
+    public String getUserName(){
+        if (userName != null) userName = userName.toLowerCase();
+        return userName;
+    }
+    public  void setUserName(String userName){
         if (userName != null) userName = userName.toLowerCase();
         this.userName=userName;
     }
@@ -49,7 +67,7 @@ public class Admin implements Mirrorable {
         return lastName;
     }
     public void setLastName(String lastName){
-        if (lastName==null){
+        if(lastName==null){
             this.lastName="";
         }
         this.lastName =lastName;
@@ -60,4 +78,5 @@ public class Admin implements Mirrorable {
     public  void setRole(int role){
         this.role=role;
     }
+
 }

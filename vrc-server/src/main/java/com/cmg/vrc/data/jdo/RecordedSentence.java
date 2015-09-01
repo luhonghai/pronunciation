@@ -2,11 +2,15 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by cmg on 03/07/15.
  */
+@PersistenceCapable(table = "RECORDEDSENTENCEJDO")
 public class RecordedSentence implements Mirrorable {
 
     public static final int AWAITING = 0;
@@ -21,26 +25,35 @@ public class RecordedSentence implements Mirrorable {
 
     public static final int TESTING = 5;
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String account;
 
+    @Persistent
     private String admin;
 
+    @Persistent
     private int status;
 
+    @Persistent
     private String sentenceId;
-    
+
+    @Persistent
     private String fileName;
 
+    @Persistent
     private Date createdDate;
 
+    @Persistent
     private Date modifiedDate;
 
+    @Persistent
     private int version;
 
+    @Persistent
     private int isDeleted;
-
 
     public String getId() {
         return id;

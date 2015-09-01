@@ -3,7 +3,7 @@ package com.cmg.vrc.data.jdo;
 import java.util.Date;
 
 /**
- * Created by CMGT400 on 8/21/2015.
+ * Created by cmg on 01/09/15.
  */
 public class RecorderClient {
     private String id;

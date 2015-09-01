@@ -48,17 +48,14 @@ import com.cmg.vrc.util.UUIDGenerator;
  * @version $Revision$
  * @Last changed: $LastChangedDate$
  */
-public class DataAccess<T, E> implements InDataAccess<T, E> {
+public class DataAccess<T> implements InDataAccess<T> {
 	private final Class<T> clazzT;
-	private final Class<E> clazzE;
 
 	/**
 	 *  @param clazzT
-	 * @param clazzE
      */
-	public DataAccess(Class<T> clazzT, Class<E> clazzE) {
+	public DataAccess(Class<T> clazzT) {
 		this.clazzT = clazzT;
-		this.clazzE = clazzE;
 	}
 	/**
 	 * 
@@ -70,16 +67,10 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @throws IOException
 	 * @throws DataAccessException
 	 */
-	protected T from(final E obj) throws JsonParseException,
-			JsonMappingException, JsonGenerationException, IOException,
+	protected T from(final T obj) throws IOException,
 			DataAccessException {
 		verifyObject(obj);
-		ObjectMapper om = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		om.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		T out = om.readValue(om.writeValueAsString(obj), clazzT);
-		verifyObject(out);
-		
-		return out;
+		return obj;
 	}
 	/**
 	 * 
@@ -91,12 +82,8 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @throws IOException
 	 * @throws DataAccessException
 	 */
-	protected E to(final T obj) throws JsonParseException, JsonMappingException,
-			JsonGenerationException, IOException, DataAccessException {
-		//verifyObject(obj);
-		ObjectMapper om = new ObjectMapper().setVisibility(JsonMethod.FIELD, Visibility.ANY);
-		om.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		return om.readValue(om.writeValueAsString(obj), clazzE);
+	protected T to(final T obj) throws IOException, DataAccessException {
+		return obj;
 	}
 	/**
 	 * 
@@ -119,7 +106,7 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean put(final E obj) throws Exception {
+	public boolean put(final T obj) throws Exception {
 		verifyObject(obj);
 		String id = ((Mirrorable) obj).getId();
 		if (checkExistence(id)){
@@ -134,15 +121,13 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean create(E obj) throws Exception {
+	public boolean create(T obj) throws Exception {
 		verifyObject(obj);
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			T jdo = from(obj);
-			verifyObject(jdo);
-			pm.makePersistent(jdo);
+			pm.makePersistent(from(obj));
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -160,7 +145,7 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean delete(E obj) throws Exception {
+	public boolean delete(T obj) throws Exception {
 		verifyObject(obj);
 		return delete(((Mirrorable) obj).getId());
 	}
@@ -198,15 +183,12 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean update(E obj) throws Exception {
-		verifyObject(obj);
+	public boolean update(T obj) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			T jdo = from(obj);
-			verifyObject(jdo);
-			pm.makePersistent(jdo);
+			pm.makePersistent(obj);
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -224,25 +206,19 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @return
 	 * @throws Exception
 	 */
-	public E getById(String id) throws Exception {
-		T tmp = getJDOById(id);		
-		return to(tmp);
+	public T getById(String id) throws Exception {
+		return getJDOById(id);
 	}
 	
-	public List<E> listAll() throws Exception {
+	public List<T> listAll() throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery(clazzT);
 		try {
 			tx.begin();
 			List<T> tmp = (List<T>) q.execute();
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -293,25 +269,15 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 */
 	private T getJDOById(String id) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
 		try {
-			//tx.begin();
 			try {
 				T tmp = pm.getObjectById(clazzT, id);
-
-				if (tmp != null) {
-					verifyObject(tmp);
-					return tmp;
-				}
+				return tmp;
 			} catch (JDOObjectNotFoundException jex) {
 			}
-			//tx.commit();
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			pm.close();
 		}
 		return null;
@@ -332,26 +298,16 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
 	 */
 	@Override
-	public List<E> list(String query, Object... parameters) throws Exception {
+	public List<T> list(String query, Object... parameters) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		//Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-		//	tx.begin();
 			List<T> tmp = (List<T>) q.execute(parameters);
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			//tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -362,26 +318,16 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
 	 */
 	@Override
-	public List<E> list(String query, Object parameter) throws Exception {
+	public List<T> list(String query, Object parameter) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		//Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(parameter);
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			//tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -392,26 +338,16 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
 	 */
 	@Override
-	public List<E> list(String query, Object para1, Object para2) throws Exception {
+	public List<T> list(String query, Object para1, Object para2) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		//Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(para1, para2);
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			//tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -422,26 +358,16 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
 	 */
 	@Override
-	public List<E> list(String query, Object para1, Object para2, Object para3) throws Exception {
+	public List<T> list(String query, Object para1, Object para2, Object para3) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		//Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			//tx.begin();
 			List<T> tmp = (List<T>) q.execute(para1, para2, para3);
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			//tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -452,26 +378,17 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
 	 */
 	@Override
-	public List<E> list(String query) throws Exception {
+	public List<T> list(String query) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		//Transaction tx = pm.currentTransaction();
-		List<E> list = new ArrayList<E>();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
 			//tx.begin();
 			List<T> tmp = (List<T>) q.execute();
-			Iterator<T> iter = tmp.iterator();
-			while (iter.hasNext()) {
-				list.add(to(iter.next()));				
-			}
-			//tx.commit();
-			return list;
+			pm.detachCopyAll(tmp);
+			return tmp;
 		} catch (Exception e) {
 			throw e;
 		} finally {
-//			if (tx.isActive()) {
-//				tx.rollback();
-//			}
 			q.closeAll();
 			pm.close();
 		}
@@ -485,20 +402,14 @@ public class DataAccess<T, E> implements InDataAccess<T, E> {
 	@Override
 	public double getCount(String query, Object... parameters) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
 		Long count;
 		Query q = pm.newQuery("SELECT COUNT(id) FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			tx.begin();
 			count = (Long) q.execute(parameters);
-			tx.commit();
 			return count.doubleValue();
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
 			q.closeAll();
 			pm.close();
 		}
