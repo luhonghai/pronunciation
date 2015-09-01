@@ -62,12 +62,23 @@ function listTranscription(){
 }
 
 function dateFrom(){
-    $('#DateFrom').datetimepicker({
+    $('#CreateDateFrom').datetimepicker({
         format: 'DD/MM/YYYY'
     });
 }
 function dateTo(){
-    $('#DateTo').datetimepicker({
+    $('#CreateDateTo').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+
+function dateFrom1(){
+    $('#ModifiedDateFrom').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+function dateTo1(){
+    $('#ModifiedDateTo').datetimepicker({
         format: 'DD/MM/YYYY'
     });
 }
@@ -220,6 +231,8 @@ $(document).ready(function(){
     var roleAdmin=$("#role").val();
     dateFrom();
     dateTo();
+    dateFrom1();
+    dateTo1();
     add();
     addsentence();
     edit();

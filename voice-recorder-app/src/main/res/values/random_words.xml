@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="random_words">
+        <item>hello</item>
+        <item>goodbye</item>
+        <item>welcome</item>
+        <item>please</item>
+        <item>no</item>
+        <item>yes</item>
+        <item>left</item>
+        <item>right</item>
+        <!--<item>british</item>-->
+        <item>refrigerator</item>
+        <item>eighth</item>
+        <item>jewellery</item>
+        <item>bath</item>
+        <item>drawer</item>
+        <item>hungry</item>
+        <item>finance</item>
+        <item>router</item>
+        <item>university</item>
+        <item>credit</item>
+        <item>pronunciation</item>
+        <item>business</item>
+        <item>colonel</item>
+        <item>penguin</item>
+        <item>sixth</item>
+        <item>anemone</item>
+        <item>choir</item>
+        <item>candidate</item>
+        <item>cacophony</item>
+        <item>demure</item>
+        <item>barbiturate</item>
+        <item>electoral</item>
+        <!--<item>February</item>-->
+        <item>necessarily</item>
+        <item>rural</item>
+        <item>squirrel</item>
+        <item>future</item>
+        <!--<item>British</item>-->
+        <item>hydrogen</item>
+        <!--<item>affidavits</item>-->
+    </array>
+</resources>

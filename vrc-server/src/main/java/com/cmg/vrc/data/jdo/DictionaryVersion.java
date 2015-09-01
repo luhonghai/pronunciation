@@ -2,25 +2,36 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by cmg on 06/07/15.
  */
+@PersistenceCapable(table = "DICTIONARY_VERSION", detachable = "true")
 public class DictionaryVersion implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private int version;
 
+    @Persistent
     private boolean selected;
 
+    @Persistent
     private String fileName;
 
+    @Persistent
     private String admin;
 
+    @Persistent
     private Date createdDate;
 
+    @Persistent
     private Date selectedDate;
 
     public String getId() {

@@ -2,15 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>2.1.000</version>
+	<version>2.1.004</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
 	<description>VRC Server</description>
 	<properties>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-		<beanstalk.versionLabel>v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
-
+		<beanstalk.versionLabel>${sysenv}-v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
 	</properties>
@@ -27,139 +26,6 @@
             </snapshots>
         </repository>
     </repositories>
-	<dependencyManagement>
-		<dependencies>
-			<!--
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15</artifactId>
-			<version>1.46</version>
-		</dependency>
-			-->
-		<dependency>
-			<groupId>javapns</groupId>
-			<artifactId>javapns</artifactId>
-			<version>2.2</version>
-		</dependency>
-	
-	    <dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.android.gcm</groupId>
-			<artifactId>com.android.gcm.server</artifactId>
-			<version>1.0</version>
-		</dependency>
-
-			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>2.2.4</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.0.1</version>
-				<scope>provided</scope>
-			</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.25</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.jdo</groupId>
-			<artifactId>jdo-api</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datanucleus</groupId>
-			<artifactId>datanucleus-core</artifactId>
-			<version>4.1.0-m4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datanucleus</groupId>
-			<artifactId>datanucleus-api-jdo</artifactId>
-			<version>4.1.0-m4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.datanucleus</groupId>
-			<artifactId>datanucleus-rdbms</artifactId>
-			<version>4.1.0-m4</version>
-		</dependency>
-		<dependency>
-		<groupId>org.datanucleus</groupId>
-				<artifactId>datanucleus-maven-plugin</artifactId>
-				<version>4.0.0-release</version>
-			</dependency>
-		<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.17</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.7.5</version>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.5</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
-				<version>1.9.4</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-				<version>1.9.4</version>
-			</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.0</version>
-			<scope>test</scope>
-		</dependency>
-            <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>mail</artifactId>
-                <version>1.4</version>
-            </dependency>
-            <dependency>
-                <groupId>be.tarsos.dsp</groupId>
-                <artifactId>jvm</artifactId>
-                <version>2.0</version>
-            </dependency>
-			<dependency>
-				<groupId>net.lingala.zip4j</groupId>
-				<artifactId>zip4j</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk</artifactId>
-				<version>1.9.36</version>
-			</dependency>
-		</dependencies>
-
-	</dependencyManagement>
 	<build>
 		<finalName>bbc-accent-server-${sysenv}-v${project.version}</finalName>
 		<plugins>
@@ -251,15 +117,14 @@
 			<plugin>
 				<groupId>org.datanucleus</groupId>
 				<artifactId>datanucleus-maven-plugin</artifactId>
-                <version>4.0.0-release</version>
+                <version>4.0.1</version>
 				<configuration>
-				    <fork>false</fork>
-        			<mappingIncludes>com/cmg/vrc/data/jdo/*.class</mappingIncludes>
+					<fork>false</fork>
 					<api>JDO</api>
 					<!-- <props>${basedir}/datanucleus.properties</props> -->
 					<log4jConfiguration>${basedir}/src/main/resources/log4j.properties</log4jConfiguration>
 					<verbose>true</verbose>
-					<persistenceUnit>VRC</persistenceUnit>
+					<persistenceUnitName>VRC</persistenceUnitName>
 				</configuration>
 				<executions>
 					<execution>
@@ -322,89 +187,119 @@
 		</pluginManagement>
 	</build>
 	<dependencies>
-        <dependency>
-            <groupId>be.tarsos.dsp</groupId>
-            <artifactId>jvm</artifactId>
-        </dependency>
 		<dependency>
 			<groupId>javapns</groupId>
 			<artifactId>javapns</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-        </dependency>
-	    <dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.googlecode.json-simple</groupId>
-			<artifactId>json-simple</artifactId>
+			<version>2.2</version>
 		</dependency>
 
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.android.gcm</groupId>
 			<artifactId>com.android.gcm.server</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.jdo</groupId>
-			<artifactId>jdo-api</artifactId>
+			<version>5.1.36</version>
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>
+			<artifactId>javax.jdo</artifactId>
+			<version>3.2.0-m2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-core</artifactId>
+			<version>4.1.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-api-jdo</artifactId>
+			<version>4.2.0-m2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.datanucleus</groupId>
 			<artifactId>datanucleus-rdbms</artifactId>
+			<version>4.1.3</version>
 		</dependency>
 		<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-core-asl</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jackson</groupId>
-				<artifactId>jackson-mapper-asl</artifactId>
-			</dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.4</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>be.tarsos.dsp</groupId>
+			<artifactId>jvm</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.lingala.zip4j</groupId>
+			<artifactId>zip4j</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
         <dependency>
             <groupId>edu.cmu.sphinx</groupId>
             <artifactId>sphinx4-core</artifactId>
@@ -445,11 +340,6 @@
             <artifactId>quartz-jobs</artifactId>
             <version>2.2.1</version>
         </dependency>
-		<dependency>
-			<groupId>net.lingala.zip4j</groupId>
-			<artifactId>zip4j</artifactId>
-			<version>1.3.2</version>
-		</dependency>
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
@@ -475,19 +365,19 @@
 			<id>env-dev</id>			
 			<properties>
                 <sysenv>DEV</sysenv>
-			     <project.root.folder.dir>/Volumes/DATA/Development/test-zone/data/root</project.root.folder.dir>
-			    <project.temp.folder.dir>/Volumes/DATA/Development/test-zone/data/feedback</project.temp.folder.dir>
-				<logging.file>/Volumes/DATA/Development/test-zone/data/log/log.log</logging.file>
-				<project.dir>/Volumes/DATA/Development/test-zone/data/projects</project.dir>
+			     <project.root.folder.dir>${basedir}/data/root</project.root.folder.dir>
+			    <project.temp.folder.dir>${basedir}/data/feedback</project.temp.folder.dir>
+				<logging.file>${basedir}/log/log.log</logging.file>
+				<project.dir>${basedir}/data/projects</project.dir>
 				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+				<javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 
                 <contact.us.email>website@c-mg.com</contact.us.email>
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
-                <voice.record.dir>/Volumes/DATA/Development/test-zone/data/VoiceRecords</voice.record.dir>
+                <voice.record.dir>${basedir}/data/VoiceRecords</voice.record.dir>
 				<model.fst.ser>/Volumes/DATA/CMG/git/pronunciation/sphinx-data/en_us_nostress/model.fst.ser</model.fst.ser>
                 <acousticModelPath>file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us</acousticModelPath>
                 <dictionaryPath>file:///Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict</dictionaryPath>
@@ -508,7 +398,7 @@
                 <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
                 <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-                <javax.jdo.option.ConnectionURL>jdbc:mysql://192.168.1.111:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+                <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
                 <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
                 <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 
@@ -553,8 +443,11 @@
                 <analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
                 <recipients>hai.lu@c-mg.com,anh.nguyen@c-mg.com,my.vu@c-mg.com,lan.ta@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
-				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
+				<url.active.account>http://accenteasytomcat-sat.elasticbeanstalk.com/activate</url.active.account>
+				<url.reset.password>http://accenteasytomcat-sat.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-sat</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-sat.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-sat</beanstalk.cnamePrefix>
 			</properties>
 		</profile>
 		<profile>

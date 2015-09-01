@@ -2,35 +2,55 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 5/8/15.
  */
+@PersistenceCapable(table = "FEEDBACK", detachable = "true")
 public class Feedback implements Mirrorable {
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String account;
 
+    @Persistent
     private String screenshoot;
 
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String description;
 
+    @Persistent
     private String imei;
 
+    @Persistent
     private String appVersion;
 
+    @Persistent
     private String osVersion;
 
+    @Persistent
     private String osApiLevel;
 
+    @Persistent
     private String deviceName;
 
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String stackTrace;
 
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawUserProfile;
 
+    @Persistent
     private Date createdDate;
 
     @Override
@@ -44,12 +64,10 @@ public class Feedback implements Mirrorable {
     }
 
     public String getAccount() {
-        if (account != null) account = account.toLowerCase();
         return account;
     }
 
     public void setAccount(String account) {
-        if (account != null) account = account.toLowerCase();
         this.account = account;
     }
 

@@ -1,18 +1,11 @@
 package com.cmg.vrc.servlet.amt;
 
-import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
-import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
-import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.service.RecorderSentenceService;
-import com.cmg.vrc.service.amt.TranscriptionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
-import com.cmg.vrc.sphinx.PhonemesDetector;
-import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -24,10 +17,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.quartz.SchedulerException;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -60,6 +51,7 @@ public class RecordedSentenceHandler extends BaseServlet {
         Gson gson = new Gson();
         AWSHelper awsHelper = new AWSHelper();
         ResponseDataExt responseData = new ResponseDataExt();
+        RecorderDAO recorderDAO=new RecorderDAO();
         RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
@@ -100,9 +92,12 @@ public class RecordedSentenceHandler extends BaseServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
-            String version = storePara.get(PARA_VERSION);
             String versionmax = storePara.get(PARA_VERSIONMAX);
-            int versions=Integer.parseInt(version);
+            int versions=1;
+            if(recorderDAO.getCount()!=0){
+                int versionmaxserver=recorderDAO.getLatestVersion();
+                versions=versionmaxserver +1;
+            }
             int versionmaxs=Integer.parseInt(versionmax);
 
             logger.info("SentenceID: " + sentenceId);
@@ -133,6 +128,7 @@ public class RecordedSentenceHandler extends BaseServlet {
                 String condition = recorderSentenceService.clientUpdate(user, sentenceId, targetRaw, versions);
                 List<RecordedSentence> result = null;
                 if(condition.equalsIgnoreCase(RecorderSentenceService.RETURN_SUCCESS)){
+                    System.out.println("versionmaxs : " + versionmaxs);
                     result = recorderSentenceService.getListByVersionAndUsername(versionmaxs,user.getUsername());
                 }
                 logger.info("Try to save");

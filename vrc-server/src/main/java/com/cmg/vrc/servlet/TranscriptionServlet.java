@@ -1,11 +1,13 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.dao.impl.RecorderDAO;
+
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
-import com.cmg.vrc.data.jdo.RecordedSentence;
+
 import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.service.TranscriptionActionService;
-import com.cmg.vrc.util.StringUtil;
+
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -15,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,7 @@ public class TranscriptionServlet extends HttpServlet {
         TranscriptionDAO adminDAO = new TranscriptionDAO();
         TranscriptionActionService trService = new TranscriptionActionService();
         Transcription ad = new Transcription();
+        RecorderDAO recorderDAO=new RecorderDAO();
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
@@ -142,6 +145,7 @@ public class TranscriptionServlet extends HttpServlet {
             String sentence=request.getParameter("sentence");
             String author=request.getSession().getAttribute("username").toString();
             try{
+
                 Transcription transcription=trService.getById(id);
                 transcription.setSentence(sentence);
                 transcription.setModifiedDate(date);

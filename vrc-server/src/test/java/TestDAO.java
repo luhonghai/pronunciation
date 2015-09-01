@@ -56,6 +56,8 @@ public class TestDAO {
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
         RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
+        LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");
 //        clientCode.setContactName("nambui");
@@ -117,10 +119,19 @@ public class TestDAO {
             //clientCodeDAO.listAll(0,10,"dsaa",0,"fsd","fds","fdgd","fds");
            // clientCodeDAO.getCountSearch("afdsf","gfdgd","fdsfs","sada");
             //transcriptionDAO.getLatestVersion();
-            RecorderSentenceService rcs = new RecorderSentenceService();
-           List<RecordedSentence> list = rcs.getListByVersionAndUsername(6, "company@c-mg.com");
-            System.out.println(list.size());
-            //transcriptionDAO.getListByVersion(0);
+//            RecorderSentenceService rcs = new RecorderSentenceService();
+//           List<RecordedSentence> list = rcs.getListByVersionAndUsername(6, "company@c-mg.com");
+//            System.out.println(list.size());
+            //recorderDAO.get();
+           // transcriptionDAO.getListByVersion(0);
+            //recorderDAO.getCountSearch("fdsd", "fdsfs", new Date(10/12/2014),new Date(9/8/2015),3);
+           // recorderDAO.listAll();
+            lice.listAllByCompany(1,2,"","","",null,null,null,null,"CMG2");
+           // lice.getCountSearchByCompany("dsada","dsad","dsad","fdsfs",new Date(10/12/2014),new Date(9/8/2015),"dsada");
+            //licenseCodeCompanyDAO.listAll();
+           // clientCodeDAO.getCount();
+            //lice.listAll(0,1,"com",1,"asb","nam","as",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
+            //lice.getCountSearch("ads","fdf","dsa",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
         } catch (Exception e) {
             e.printStackTrace();
         }

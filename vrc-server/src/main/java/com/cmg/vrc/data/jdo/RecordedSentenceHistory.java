@@ -2,31 +2,43 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by cmg on 06/07/15.
  */
+@PersistenceCapable(table = "RECORDEDSENTENCEHISTORYJDO", detachable = "true")
 public class RecordedSentenceHistory implements Mirrorable {
 
     public static final int ACTOR_TYPE_ADMIN = 0;
 
     public static final int ACTOR_TYPE_USER = 1;
 
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String recordedSentenceId;
 
+    @Persistent
     private int previousStatus;
 
+    @Persistent
     private int newStatus;
 
+    @Persistent
     private String actor;
 
+    @Persistent
     private int actorType;
 
+    @Persistent
     private String message;
 
+    @Persistent
     private Date timestamp;
 
     public String getId() {

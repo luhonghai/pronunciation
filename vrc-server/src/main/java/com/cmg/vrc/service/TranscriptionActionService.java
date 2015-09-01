@@ -11,6 +11,9 @@ import java.util.List;
 public class TranscriptionActionService {
     private String RETURN_SUCCESS = "success";
     private String RETURN_ERROR="error";
+    private int TRUE=1;
+    private int FALSE=0;
+
 
     public int version(){
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
@@ -46,7 +49,7 @@ public class TranscriptionActionService {
         String condition = add(transcription);
         if(condition.equalsIgnoreCase(RETURN_SUCCESS)){
             RecorderSentenceService rsServices = new RecorderSentenceService();
-            condition = rsServices.adminUpdate(transcription.getId(),false);
+            condition = rsServices.adminUpdate(transcription.getId(),FALSE);
             if(condition.equalsIgnoreCase(RETURN_SUCCESS)){
                 condition = RETURN_SUCCESS;
             }
@@ -58,7 +61,7 @@ public class TranscriptionActionService {
         String condition = add(transcription);
         if(condition.equalsIgnoreCase(RETURN_SUCCESS)){
             RecorderSentenceService rsServices = new RecorderSentenceService();
-            condition = rsServices.adminUpdate(transcription.getId(),true);
+            condition = rsServices.adminUpdate(transcription.getId(),TRUE);
             if(condition.equalsIgnoreCase(RETURN_SUCCESS)){
                 condition = RETURN_SUCCESS;
             }

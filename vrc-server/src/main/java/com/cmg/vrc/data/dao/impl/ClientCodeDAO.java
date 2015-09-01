@@ -2,20 +2,21 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.ClientCode;
-import com.cmg.vrc.data.jdo.ClientCodeJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CMGT400 on 8/7/2015.
  */
-public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
+public class ClientCodeDAO  extends DataAccess<ClientCode> {
     public ClientCodeDAO(){
-        super(ClientCodeJDO.class,ClientCode.class);
+        super(ClientCode.class);
     }
 
     public ClientCode getUserByEmailPassword(String email, String password) throws Exception{
@@ -34,9 +35,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
     public List<ClientCode> listAll(int start, int length,String search,int column,String order,String company,String contact,String emails) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<ClientCode> list = new ArrayList<ClientCode>();
-        Query q = pm.newQuery("SELECT FROM " + ClientCodeJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + ClientCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((companyName == null || companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName == null || contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email == null || email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -47,9 +46,11 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         if(contact.length()>0){
             string.append("(contactName.toLowerCase().indexOf(contact.toLowerCase()) != -1) &&");
         }
+        string.append("(isDeleted==false) &&");
         if(emails.length()>0){
             string.append("(email.toLowerCase().indexOf(emails.toLowerCase()) != -1) &&");
         }
+
         if(search.length()>0){
             string.append(a);
         }
@@ -82,20 +83,10 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
-            List<ClientCodeJDO> tmp = (List<ClientCodeJDO>)q.executeWithMap(params);
-            Iterator<ClientCodeJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -103,9 +94,8 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
 
     public double getCountSearch(String search,String company,String contact,String emails) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCodeJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClientCode.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((companyName == null || companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName == null || contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email == null || email.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -116,6 +106,7 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         if(contact.length()>0){
             string.append("(contactName.toLowerCase().indexOf(contact.toLowerCase()) != -1) &&");
         }
+        string.append("(isDeleted==false) &&");
         if(emails.length()>0){
             string.append("(email.toLowerCase().indexOf(emails.toLowerCase()) != -1) &&");
         }
@@ -133,21 +124,23 @@ public class ClientCodeDAO  extends DataAccess<ClientCodeJDO,ClientCode> {
         params.put("contact", contact);
         params.put("emails", emails);
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
     }
 
+    public List<ClientCode> listAll() throws Exception {
+        return list("WHERE isDeleted == false");
+    }
+
+    public double getCount() throws Exception {
+        return getCount("WHERE isDeleted == false");
+    }
 
 }
 

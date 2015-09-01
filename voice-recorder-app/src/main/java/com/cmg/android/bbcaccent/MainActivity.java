@@ -280,9 +280,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
         registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
-        String[] words = getResources().getStringArray(R.array.words_list);
+        String[] words = getResources().getStringArray(R.array.random_words);
         if (words != null && words.length > 0) {
-            getWord(words[RandomHelper.getRandomIndex(words.length)].split("\\|")[0].trim());
+            getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
         } else {
             getWord(getString(R.string.example_word));
         }
@@ -570,6 +570,26 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void getWord(final String word) {
         if (isRecording) return;
+        try {
+           // dbAdapter.open();
+            if (!dbAdapter.isBeep(word)) {
+                AnalyticHelper.sendSelectWordNotInBeep(this, word);
+                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                d.setTitleText(getString(R.string.word_not_in_beep_title));
+                d.setContentText(getString(R.string.word_not_in_beep_message));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+                return;
+            }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not check word " + word + " is beep or not",e);
+        }
         try {
             if (checkNetwork(false)) {
                 currentModel = null;
@@ -874,7 +894,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        handlerStartDetail.removeCallbacks(runnableStartDetail);
         try {
             unregisterReceiver(mHandleMessageReader);
         } catch (Exception e) {
@@ -994,14 +1014,24 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 break;
             case R.id.main_recording_view:
-                if (currentModel != null && dictionaryItem != null) {
-                    Gson gson = new Gson();
-                    Intent intent = new Intent(this, DetailActivity.class);
-                    intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
-                    startActivity(intent);
-                }
+                handlerStartDetail.post(runnableStartDetail);
         }
     }
+
+    private Handler handlerStartDetail = new Handler();
+
+    private Runnable runnableStartDetail = new Runnable() {
+        @Override
+        public void run() {
+            willMoveToDetail = false;
+            if (currentModel != null && dictionaryItem != null) {
+                Gson gson = new Gson();
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
+                startActivity(intent);
+            }
+        }
+    };
 
     private void switchButtonStage() {
         if (lastState == null) lastState = ButtonState.DEFAULT;
@@ -1223,9 +1253,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 AppLog.logString("Start score animation");
                 // Waiting for animation complete
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                willMoveToDetail = true;
             }
         }
     };
+
+    private boolean willMoveToDetail = false;
 
     private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
         @Override
@@ -1384,7 +1417,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-
+                            if (willMoveToDetail) {
+                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
+                            }
                         }
 
                         @Override
@@ -1397,8 +1432,20 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                         }
                     }).playOn(imgHelpHand);
+
                 } else {
                     switchButtonStage(ButtonState.RED);
+                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
+                    d.setContentText(getString(R.string.could_not_analyze_word_message));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
                 }
                 analyzingState = AnalyzingState.DEFAULT;
             }
@@ -1419,6 +1466,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (currentModel != null) {
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                     recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
+                } else if (isRecording) {
+                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
+                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
+                    d.setContentText(getString(R.string.could_not_analyze_word_message));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
+                    switchButtonStage(ButtonState.RED);
+                    recordingView.drawEmptyCycle();
+                    analyzingState = AnalyzingState.DEFAULT;
+                    isRecording = false;
                 } else {
                     YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
                         @Override
@@ -1507,6 +1570,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 phonemeScoreDBAdapter.close();
             }
+
         }
     }
 

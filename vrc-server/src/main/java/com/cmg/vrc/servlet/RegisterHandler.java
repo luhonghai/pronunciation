@@ -7,23 +7,15 @@ import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.util.Streams;
 import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**

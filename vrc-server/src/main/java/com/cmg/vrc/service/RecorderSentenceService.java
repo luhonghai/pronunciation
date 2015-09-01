@@ -2,12 +2,9 @@ package com.cmg.vrc.service;
 
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
-import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
-import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceHistoryDAO;
+import com.cmg.vrc.data.dao.impl.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.Transcription;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
-import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.data.jdo.RecordedSentenceHistory;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.commons.io.FileUtils;
 
@@ -25,8 +22,12 @@ public class RecorderSentenceService {
     public static String RETURN_ERROR="error";
     public int version(){
         RecorderDAO recorderDAO=new RecorderDAO();
-        int version=recorderDAO.getLatestVersion()+1;
-        return version;
+        try {
+            int version = recorderDAO.getLatestVersion() + 1;
+            return version;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     /**
@@ -35,7 +36,7 @@ public class RecorderSentenceService {
      * @param isDeleted
      * @return
      */
-    public String adminUpdate(String idSentence, boolean isDeleted){
+    public String adminUpdate(String idSentence, int isDeleted){
         int version=version();
         String result = RETURN_ERROR;
         RecorderDAO recorderDAO=new RecorderDAO();
@@ -60,6 +61,8 @@ public class RecorderSentenceService {
             System.out.println("start dao get list : " + list.size());
             for(RecordedSentence rc : list){
                 System.out.println("version : " + rc.getVersion());
+                System.out.println("status : " + rc.getStatus());
+
             }
             System.out.println("start dao get list : " + list.size());
         }catch (Exception e){
@@ -81,12 +84,14 @@ public class RecorderSentenceService {
         RecordedSentenceHistoryDAO recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         try {
             RecordedSentence recordedSentence = recorderDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
+
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();
             }
+            String uuid = UUIDGenerator.generateUUID();
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
-            recordedSentence.setId(sentenceId);
+            recordedSentence.setId(uuid);
             recordedSentence.setStatus(RecordedSentence.PENDING);
             recordedSentence.setAccount(user.getUsername());
             recordedSentence.setAdmin("System");

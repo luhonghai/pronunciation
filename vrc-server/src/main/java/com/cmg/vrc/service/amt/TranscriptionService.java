@@ -1,14 +1,13 @@
 package com.cmg.vrc.service.amt;
 
 import com.cmg.vrc.data.UserProfile;
-import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceDAO;
-import com.cmg.vrc.data.dao.impl.amt.RecordedSentenceHistoryDAO;
-import com.cmg.vrc.data.dao.impl.amt.TranscriptionDAO;
+import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
+import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
+import com.cmg.vrc.data.dao.impl.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.data.jdo.amt.RecordedSentenceHistory;
 import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.data.jdo.RecordedSentenceHistory;
 import com.cmg.vrc.sphinx.DictionaryHelper;
-import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,7 +37,7 @@ public class TranscriptionService {
 
     private TranscriptionDAO transcriptionDAO;
 
-    private RecordedSentenceDAO recordedSentenceDAO;
+    private RecorderSentenceDAO recordedSentenceDAO;
 
     private RecordedSentenceHistoryDAO recordedSentenceHistoryDAO;
 
@@ -71,7 +70,7 @@ public class TranscriptionService {
 
     public TranscriptionService() {
         transcriptionDAO = new TranscriptionDAO();
-        recordedSentenceDAO = new RecordedSentenceDAO();
+        recordedSentenceDAO = new RecorderSentenceDAO();
         recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         dictionaryHelper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -85,20 +84,6 @@ public class TranscriptionService {
     public void setUseJDO(boolean useJDO) {
         this.useJDO = useJDO;
     }
-
-    public List<Transcription> listTranscriptionByAccount(String account) throws Exception {
-        List<Transcription> transcriptions = transcriptionDAO.listAll(100);
-        Map<String, RecordedSentence> recordedSentenceMap = recordedSentenceDAO.getByAccount(account);
-        if (transcriptions != null && transcriptions.size() > 0 && recordedSentenceMap != null && recordedSentenceMap.size() > 0) {
-            for (final Transcription transcription : transcriptions) {
-                if (recordedSentenceMap.containsKey(transcription.getId())) {
-                    transcription.setStatus(recordedSentenceMap.get(transcription.getId()).getStatus());
-                }
-            }
-        }
-        return transcriptions;
-    }
-
 
     public RecordedSentenceHistory handleUploadedSentence(UserProfile user, String sentenceId, File recordedVoice) throws Exception {
         RecordedSentence recordedSentence = recordedSentenceDAO.getBySentenceIdAndAccount(sentenceId, user.getUsername());
@@ -419,14 +404,14 @@ public class TranscriptionService {
         synchronized (lock) {
             try {
                // transcriptionDAO.deleteAll();
-               // recycleSentences();
+               recycleSentences();
                 List<String> transcriptions = IOUtils.readLines(is);
                 if (transcriptions != null && transcriptions.size() > 0) {
                     writeHtmlToResult("<table cellspacing=\"3\" cellpadding=\"3\">");
                     int count = 0;
                     for (String t : transcriptions) {
                         count++;
-                        if (count > 1000) {
+                        if (count > 5) {
                             break;
                         }
                         t = t.trim();

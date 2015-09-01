@@ -6,21 +6,22 @@
 
 	<!-- Persistence "unit" -->
 	<persistence-unit name="VRC">
-        <class>com.cmg.vrc.data.jdo.UserVoiceModelJDO</class>
-        <class>com.cmg.vrc.data.jdo.UserDeviceJDO</class>
-        <class>com.cmg.vrc.data.jdo.UserJDO</class>
-        <class>com.cmg.vrc.data.jdo.SecurityJDO</class>
-        <class>com.cmg.vrc.data.jdo.UsageJDO</class>
-        <class>com.cmg.vrc.data.jdo.AppDetailJDO</class>
-		<class>com.cmg.vrc.data.jdo.FeedbackJDO</class>
-		<class>com.cmg.vrc.data.jdo.LicenseCodeJDO</class>
-		<class>com.cmg.vrc.data.jdo.AdminJDO</class>
-		<class>com.cmg.vrc.data.jdo.LanguageModelVersionJDO</class>
-		<class>com.cmg.vrc.data.jdo.DictionaryVersionJDO</class>
-		<class>com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO</class>
-		<class>com.cmg.vrc.data.jdo.RecordedSentenceJDO</class>
-		<class>com.cmg.vrc.data.jdo.TranscriptionJDO</class>
-		<class>com.cmg.vrc.data.jdo.ClientCodeJDO</class>
+        <class>com.cmg.vrc.data.jdo.UserVoiceModel</class>
+        <class>com.cmg.vrc.data.jdo.UserDevice</class>
+        <class>com.cmg.vrc.data.jdo.User</class>
+        <class>com.cmg.vrc.data.jdo.Security</class>
+        <class>com.cmg.vrc.data.jdo.Usage</class>
+        <class>com.cmg.vrc.data.jdo.AppDetail</class>
+		<class>com.cmg.vrc.data.jdo.Feedback</class>
+		<class>com.cmg.vrc.data.jdo.LicenseCode</class>
+		<class>com.cmg.vrc.data.jdo.Admin</class>
+		<class>com.cmg.vrc.data.jdo.LanguageModelVersion</class>
+		<class>com.cmg.vrc.data.jdo.DictionaryVersion</class>
+		<class>com.cmg.vrc.data.jdo.RecordedSentenceHistory</class>
+		<class>com.cmg.vrc.data.jdo.RecordedSentence</class>
+		<class>com.cmg.vrc.data.jdo.Transcription</class>
+		<class>com.cmg.vrc.data.jdo.ClientCode</class>
+		<class>com.cmg.vrc.data.jdo.LicenseCodeCompany</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->
@@ -59,7 +60,7 @@
 
 			<!-- ENABLE THESE FOR NEO4J -->
 			<!--property name="javax.jdo.option.ConnectionURL" value="neo4j:testDB"/ -->
-
+			<property name="datanucleus.IgnoreCache" value="true" />
 			<property name="datanucleus.autoCreateSchema" value="true" />
 			<property name="datanucleus.validateTables" value="false" />
 			<property name="datanucleus.validateConstraints" value="false" />

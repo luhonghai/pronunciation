@@ -2,20 +2,20 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Admin;
-import com.cmg.vrc.data.jdo.AdminJDO;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by CMGT400 on 6/8/2015.
  */
-public class AdminDAO extends DataAccess<AdminJDO,Admin> {
+public class AdminDAO extends DataAccess<Admin> {
     public AdminDAO(){
-        super(AdminJDO.class,Admin.class);
+        super(Admin.class);
     }
 
     public Admin getUserByEmailPassword(String email, String password) throws Exception{
@@ -34,9 +34,7 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
-        List<Admin> list = new ArrayList<Admin>();
-        Query q = pm.newQuery("SELECT FROM " + AdminJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + Admin.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((userName == null || userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName == null || firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName == null || lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -86,22 +84,11 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
         }
 
         q.setRange(start, start + length);
-
         try {
-            tx.begin();
-            List<AdminJDO> tmp = (List<AdminJDO>)q.executeWithMap(params);
-            Iterator<AdminJDO> iter = tmp.iterator();
-            while (iter.hasNext()) {
-                list.add(to(iter.next()));
-            }
-            tx.commit();
-            return list;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }
@@ -109,9 +96,8 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
 
     public double getCountSearch(String search,String user,String fisrt,String last) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + AdminJDO.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Admin.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((userName == null || userName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(firstName == null || firstName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(lastName == null || lastName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -139,16 +125,11 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
         params.put("fisrt", fisrt);
         params.put("last", last);
         try {
-            tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
             q.closeAll();
             pm.close();
         }

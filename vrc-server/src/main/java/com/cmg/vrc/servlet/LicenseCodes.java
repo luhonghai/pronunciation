@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
+import com.cmg.vrc.data.dao.impl.LicenseCodeCompanyDAO;
 import com.cmg.vrc.data.jdo.ClientCode;
+import com.cmg.vrc.data.jdo.LicenseCodeCompany;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
@@ -42,11 +44,12 @@ public class LicenseCodes extends HttpServlet {
         LicenseCode lisence = new LicenseCode();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
+        LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+        LicenseCodeCompany licenseCodeCompany=new LicenseCodeCompany();
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 
         if (request.getParameter("list") != null) {
             LicenseCodes.license licen = new license();
-
             String s = request.getParameter("start");
             String l = request.getParameter("length");
             String d = request.getParameter("draw");
@@ -58,12 +61,17 @@ public class LicenseCodes extends HttpServlet {
             int col = Integer.parseInt(column);
             int draw = Integer.parseInt(d);
             String ac = request.getParameter("account");
-            String co = request.getParameter("code");
             String activated = request.getParameter("Acti");
             String dateFrom = request.getParameter("dateFrom");
             String dateTo = request.getParameter("dateTo");
+            String dateFrom2 = request.getParameter("dateFrom2");
+            String dateTo2 = request.getParameter("dateTo2");
+            String company=request.getParameter("company");
             Date dateFrom1=null;
             Date dateTo1=null;
+            Date dateFrom3=null;
+            Date dateTo3=null;
+
             Double count;
             if(dateFrom.length()>0){
                 try {
@@ -80,17 +88,41 @@ public class LicenseCodes extends HttpServlet {
                 }
 
             }
+            if(dateFrom2.length()>0){
+                try {
+                    dateFrom3=df.parse(dateFrom2);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
+            }
+            if(dateTo2.length()>0){
+                try {
+                    dateTo3=df.parse(dateTo2);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
+
+            }
             try {
-                if(search.length()>0||ac.length()>0||co.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null){
-                    count=lis.getCountSearch(search,ac,co,activated,dateFrom1,dateTo1);
+                List<LicenseCode> licenseCodes=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
+
+                if(search.length()>0||ac.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null ||dateFrom3!=null||dateTo3!=null && company.length()==0){
+                    count=lis.getCountSearch(search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3);
                 }else {
                      count = lis.getCount();
+                }
+                if(company.length()>0){
+                    count=(double)licenseCodes.size();
                 }
                 licen.draw = draw;
                 licen.recordsTotal = count;
                 licen.recordsFiltered = count;
-                licen.data = lis.listAll(start, length, search, col, oder,ac,co,activated,dateFrom1,dateTo1);
-
+                if(company.length()>0){
+                    licen.data=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
+                }
+                else {
+                    licen.data = lis.listAll(start, length, search, col, oder, ac, activated, dateFrom1, dateTo1,dateFrom3,dateTo3);
+                }
 //                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
                 Gson gson = new Gson();
                 String licenseCode = gson.toJson(licen);
@@ -119,23 +151,30 @@ public class LicenseCodes extends HttpServlet {
         }
 
         if (request.getParameter("addCode") != null) {
-            String code;
+
             String company=request.getParameter("company");
             String number=request.getParameter("number");
             int n=Integer.parseInt(number);
             try {
                 for(int k=1;k<=n;k++) {
                     lisence = new LicenseCode();
+                    licenseCodeCompany=new LicenseCodeCompany();
                     String codeRandom = randomString(6);
-                    code=company.concat(codeRandom);
                     List<com.cmg.vrc.data.jdo.LicenseCode> lists = lis.listAll();
                     for (int i = 0; i < lists.size(); i++) {
-                        if (lists.get(i).getCode().equals(code)) {
+                        if (lists.get(i).getCode().equals(codeRandom)) {
                             codeRandom = randomString(6);
-                            code=company.concat(codeRandom);
                         }
                     }
-                    lisence.setCode(code);
+                    licenseCodeCompany.setCode(codeRandom);
+                    licenseCodeCompany.setCompany(company);
+                    licenseCodeCompany.setIsDeleted(false);
+                    licenseCodeCompanyDAO.put(licenseCodeCompany);
+
+                    lisence.setCode(codeRandom);
+                    lisence.setCreatedDate(new Date());
+                    lisence.setActivated(true);
+                    lisence.setIsDeleted(false);
                     lis.put(lisence);
                 }
                 response.getWriter().write("success");
@@ -172,8 +211,6 @@ public class LicenseCodes extends HttpServlet {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-
         }
 
     }

@@ -13,11 +13,13 @@ function listLicenseCode(){
                     "dataType":"json",
                     "data":{
                         list:"list",
+                        company:$("#companys").val(),
                         account:$("#account1").val() ,
-                        code:$("#code1").val() ,
                         Acti:$("#Acti").val() ,
                         dateFrom:$("#dateFrom1").val(),
-                        dateTo: $("#dateTo1").val()
+                        dateTo: $("#dateTo1").val(),
+                        dateFrom2:$("#dateFrom2").val(),
+                        dateTo2: $("#dateTo2").val()
                     }
                 },
                 "columns": [{
@@ -26,7 +28,7 @@ function listLicenseCode(){
                     "sDefaultContent":""
 
                 }, {
-                    "sWidth": "25%",
+                    "sWidth": "20%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
@@ -36,13 +38,17 @@ function listLicenseCode(){
                         }
                     }
                 },{
-                    "sWidth": "25%",
+                    "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
                     "mRender": function (data, type, full) {
                             return '<p style="font-family:tahoma">'+data.code+'</p>';
                     }
+                }, {
+                    "sWidth": "20%",
+                    "data": "createdDate",
+                    "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
                     "data": "activatedDate",
@@ -150,6 +156,17 @@ function dateTo(){
     });
 }
 
+function dateFrom1(){
+    $('#dateFrom2').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+function dateTo1(){
+    $('#dateTo2').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+
 function filter(){
     $(document).on("click","#buttonFilter",function(){
         myTable.fnSettings().ajax = {
@@ -158,11 +175,13 @@ function filter(){
             "dataType":"json",
             "data":{
                 list:"list",
+                company:$("#companys").val(),
                 account:$("#account1").val() ,
-                code:$("#code1").val() ,
                 Acti:$("#Acti").val() ,
                 dateFrom:$("#dateFrom1").val(),
-                dateTo: $("#dateTo1").val()
+                dateTo: $("#dateTo1").val(),
+                dateFrom2:$("#dateFrom2").val(),
+                dateTo2: $("#dateTo2").val()
             }
         };
         $("tbody").html("");
@@ -189,6 +208,8 @@ function addCode(){
 
                if(result=="success"){
                    $("tbody").html("");
+                   $("#companys").empty();
+                   listCompany();
                    myTable.fnDraw();
                    $("#addCode1").modal('hide');
 
@@ -236,9 +257,59 @@ function detailemei(){
     });
 }
 
+function selected(){
+    $(document).on("change","#companys", function(){
+        myTable.fnSettings().ajax = {
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                list:"list",
+                company:$("#companys").val(),
+                account:$("#account1").val() ,
+                Acti:$("#Acti").val() ,
+                dateFrom:$("#dateFrom1").val(),
+                dateTo: $("#dateTo1").val(),
+                dateFrom2:$("#dateFrom2").val(),
+                dateTo2: $("#dateTo2").val()
+            }
+        };
+        $("tbody").html("");
+        myTable.fnDraw();
+    });
+
+}
+
+function listCompany(){
+        var $selected=$("#companys");
+        //$('#companys option[value!="-1"]').remove();
+        $.ajax({
+            "url": "ListCompanyServlet",
+            "type": "POST",
+            "dataType":"json",
+            "data": {
+                listCompany: "listCompany"
+            },
+            success:function(data){
+                var items=data;
+                $selected.prepend("<option value=''></option>").val('');
+                $(items).each(function(){
+                    var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
+                    $selected.append(newOption);
+                });
+
+
+            }
+
+        });
+
+}
+
 
 
 $(document).ready(function(){
+    listCompany();
+    selected();
     filter();
     detailemei();
     add();
@@ -247,4 +318,6 @@ $(document).ready(function(){
     activated();
     dateFrom();
     dateTo();
+    dateFrom1();
+    dateTo1();
 });

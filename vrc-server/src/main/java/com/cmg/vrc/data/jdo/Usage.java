@@ -2,25 +2,38 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
  */
+@PersistenceCapable(table = "`USAGE`", detachable = "true")
 public class Usage implements Mirrorable {
-    
+
+    @PrimaryKey
     private String id;
 
+    @Persistent
     private String username;
 
+    @Persistent
+    @Column(name = "emei")
     private String imei;
 
+    @Persistent
     private double latitude;
 
+    @Persistent
     private double longitude;
 
+    @Persistent
     private Date time;
 
+    @Persistent
     private String appVersion;
 
     @Override
@@ -45,7 +58,7 @@ public class Usage implements Mirrorable {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(long latitude) {
         this.latitude = latitude;
     }
 
@@ -53,7 +66,7 @@ public class Usage implements Mirrorable {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(long longitude) {
         this.longitude = longitude;
     }
 

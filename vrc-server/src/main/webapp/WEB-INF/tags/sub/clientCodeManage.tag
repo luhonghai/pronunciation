@@ -189,6 +189,7 @@
       <form name="form-delete" >
         <div class="modal-body">
           <input type="hidden" id="iddelete" name="iddelete">
+          <input type="hidden" id="companys" name="companys">
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">

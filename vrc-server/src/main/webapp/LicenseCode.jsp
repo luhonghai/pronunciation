@@ -18,16 +18,6 @@
             <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
           </div>
           <div class="form-group">
-            <label class="control-label">Code</label>
-            <input type="text" name="filter-code" id="code1" class="form-control" placeholder="Code">
-          </div>
-        </div>
-
-        <div class="col-sm-3">
-          <div class="form-group" style="margin-top: 40px;text-align: right;">
-            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
-          </div>
-          <div class="form-group">
             <label class="control-label">Activated</label>
             <select name="Acti" id="Acti" class="form-control" required="required">
               <option value="All">All</option>
@@ -39,10 +29,26 @@
         </div>
 
         <div class="col-sm-3">
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
+          </div>
+          <div class="form-group" style="margin-top: 40px;text-align: right;">
+            <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
+          </div>
+
+        </div>
+
+        <div class="col-sm-3">
           <div class="form-group">
             <label class="control-label">From</label>
             <div>
               <input type='text' class="form-control" id="dateFrom1" placeholder="From"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">From</label>
+            <div>
+              <input type='text' class="form-control" id="dateFrom2" placeholder="From"/>
             </div>
           </div>
         </div>
@@ -55,6 +61,14 @@
 
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label">To</label>
+            <div >
+
+              <input type='text' class="form-control" id="dateTo2" placeholder="To" />
+
+            </div>
+          </div>
           <button type="button" id="buttonFilter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
         </div>
 
@@ -64,9 +78,21 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <button type="button" id="addCode" name="addCode">Add Code</button>
+            <div class="row" style="margin-bottom: 15px;">
+              <div class="col-sm-2">
+                 <button type="button" id="addCode" name="addCode">Add Code</button>
+              </div>
+              <div class="col-sm-2 col-sm-offset-4" style="margin-top: 15px;text-align: right;">
+                <label class="control-label">Select company</label>
+              </div>
+              <div class="col-sm-4 pull-right">
+                <select name="company" id="companys" class="form-control" required="required">
 
-             </div>
+                </select>
+              </div>
+            </div>
+
+          </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
             <div class="dataTable_wrapper">
@@ -77,6 +103,7 @@
                   <th>Account</th>
                   <th>IMEI</th>
                   <th>Code</th>
+                  <th>Created Date</th>
                   <th>Activated Date</th>
                   <th>Activation</th>
                 </tr>
