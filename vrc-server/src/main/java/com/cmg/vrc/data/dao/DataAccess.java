@@ -139,6 +139,33 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
+
+	/**
+	 *
+	 * @param objs
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean create(List<T> objs) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			for (T obj : objs) {
+				verifyObject(obj);
+				pm.makePersistent(obj);
+			}
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
 	/**
 	 * 
 	 * @param obj

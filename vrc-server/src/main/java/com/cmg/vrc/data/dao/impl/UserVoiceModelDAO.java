@@ -208,7 +208,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
     /**
      *
      * @param username
-     * @return max version for table user voice jdo with filter username
+     * @return max version for table UserVoiceModel with filter username
      */
     public int getMaxVersion(String username){
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -225,5 +225,26 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
             pm.close();
         }
         return maxVersion;
+    }
+
+    /**
+     *
+     * @param username
+     * @param version
+     * @return list UserVoiceModel filter by username and version
+     */
+    public List<UserVoiceModel> getByUsernameAndVersion(String username, int version){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + UserVoiceModel.class.getCanonicalName());
+        q.setFilter("username==paramUsername && version > paramVersion");
+        q.declareParameters("String paramUsername, int paramVersion");
+        try {
+            return detachCopyAllList(pm, q.execute(username,version));
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
     }
 }
