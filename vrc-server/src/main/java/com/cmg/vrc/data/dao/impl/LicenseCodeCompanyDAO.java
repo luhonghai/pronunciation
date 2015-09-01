@@ -27,25 +27,25 @@ public class LicenseCodeCompanyDAO extends DataAccess<LicenseCodeCompanyJDO, Lic
     public List<LicenseCodeCompany> listAll() throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<LicenseCodeCompany> list = new ArrayList<LicenseCodeCompany>();
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeCompanyJDO.class.getCanonicalName());
         q.setFilter("isDeleted==false");
         try {
-            tx.begin();
+          //  tx.begin();
             List<LicenseCodeCompanyJDO> tmp = (List<LicenseCodeCompanyJDO>)q.execute();
             Iterator<LicenseCodeCompanyJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

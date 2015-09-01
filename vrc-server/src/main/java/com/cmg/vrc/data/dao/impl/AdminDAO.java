@@ -34,7 +34,7 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<Admin> list = new ArrayList<Admin>();
         Query q = pm.newQuery("SELECT FROM " + AdminJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -88,20 +88,20 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+            //tx.begin();
             List<AdminJDO> tmp = (List<AdminJDO>)q.executeWithMap(params);
             Iterator<AdminJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -109,7 +109,7 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
 
     public double getCountSearch(String search,String user,String fisrt,String last) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + AdminJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -139,16 +139,16 @@ public class AdminDAO extends DataAccess<AdminJDO,Admin> {
         params.put("fisrt", fisrt);
         params.put("last", last);
         try {
-            tx.begin();
+            //tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+            //tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

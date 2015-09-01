@@ -23,27 +23,27 @@ public class AppDetailDAO extends DataAccess<AppDetailJDO, AppDetail> {
 
     public List<AppDetail> listAll() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<AppDetail> list = new ArrayList<AppDetail>();
         Query q = pm.newQuery("SELECT FROM " + AppDetailJDO.class.getCanonicalName());
 
         try {
-            tx.begin();
+            //tx.begin();
             List<AppDetailJDO> tmp = (List<AppDetailJDO>) q.execute();
             Iterator<AppDetailJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+            //tx.commit();
 
             return list;
 
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

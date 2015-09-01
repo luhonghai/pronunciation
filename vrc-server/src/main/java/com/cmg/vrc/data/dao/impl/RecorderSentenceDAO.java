@@ -39,21 +39,21 @@ public class RecorderSentenceDAO  extends DataAccess<RecordedSentenceJDO, Record
 
     public double getCount() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
 
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.execute();
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -61,22 +61,22 @@ public class RecorderSentenceDAO  extends DataAccess<RecordedSentenceJDO, Record
 
     public double getCount(String ac, int sta) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         q.setFilter("account==ac && status==sta");
         q.declareParameters("String ac, int sta");
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.execute(ac,sta);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -84,22 +84,22 @@ public class RecorderSentenceDAO  extends DataAccess<RecordedSentenceJDO, Record
 
     public double getCount(int sta) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentenceJDO.class.getCanonicalName());
         q.setFilter("status==sta");
         q.declareParameters("int sta");
         try {
-            tx.begin();
+//            tx.begin();
             count = (Long) q.execute(sta);
-            tx.commit();
+//            tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

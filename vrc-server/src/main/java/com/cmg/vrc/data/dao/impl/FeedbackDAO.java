@@ -20,7 +20,7 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
     }
     public List<Feedback> listAll(int start, int length,String search,int column,String order,String ac,String app, String os,String imei,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         List<Feedback> list = new ArrayList<Feedback>();
         Query q = pm.newQuery("SELECT FROM " + FeedbackJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -94,27 +94,27 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
 
         q.setRange(start, start + length);
         try {
-            tx.begin();
+            //tx.begin();
             List<FeedbackJDO> tmp = (List<FeedbackJDO>)q.executeWithMap(params);
             Iterator<FeedbackJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+            //tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
     }
     public double getCountSearch(String search, String ac,String app, String os,String imei,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + FeedbackJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
@@ -161,16 +161,16 @@ public class FeedbackDAO extends DataAccess<FeedbackJDO, Feedback> {
         params.put("dateTo", dateTo);
 
         try {
-            tx.begin();
+            //tx.begin();
             count = (Long) q.executeWithMap(params);
-            tx.commit();
+            //tx.commit();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }

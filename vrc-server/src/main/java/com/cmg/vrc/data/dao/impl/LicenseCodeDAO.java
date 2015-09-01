@@ -25,27 +25,27 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
     public void update(String id, boolean acti) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+        //Transaction tx = pm.currentTransaction();
 
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName());
 
 
 
         try {
-            tx.begin();
+//            tx.begin();
             List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>) q.execute();
             Iterator<LicenseCodeJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
 
             }
-            tx.commit();
+//            tx.commit();
 
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -56,7 +56,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     public List<LicenseCode> listAll(int start, int length,String search,int column,String order,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         Query q = pm.newQuery("SELECT FROM " + LicenseCodeJDO.class.getCanonicalName() );
         StringBuffer string=new StringBuffer();
@@ -131,20 +131,20 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         q.setRange(start, start + length);
 
         try {
-            tx.begin();
+//            tx.begin();
             List<LicenseCodeJDO> tmp = (List<LicenseCodeJDO>)q.executeWithMap(params);
             Iterator<LicenseCodeJDO> iter = tmp.iterator();
             while (iter.hasNext()) {
                 list.add(to(iter.next()));
             }
-            tx.commit();
+//            tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
@@ -154,7 +154,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
     public List<LicenseCode> listAllByCompany(int start, int length,String search,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2,String com) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
+//        Transaction tx = pm.currentTransaction();
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         StringBuffer query=new StringBuffer();
         TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeJDO.class.getCanonicalName());
@@ -206,7 +206,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
 
         try {
-            tx.begin();
+            //tx.begin();
             List<Object> tmp = (List<Object>)q.execute();
 
             for(Object obj : tmp){
@@ -264,14 +264,14 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
 
             }
 
-            tx.commit();
+            //tx.commit();
             return list;
         } catch (Exception e) {
             throw e;
         } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
+//            if (tx.isActive()) {
+//                tx.rollback();
+//            }
             q.closeAll();
             pm.close();
         }
