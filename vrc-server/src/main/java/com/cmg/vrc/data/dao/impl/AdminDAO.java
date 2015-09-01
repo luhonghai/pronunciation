@@ -85,9 +85,7 @@ public class AdminDAO extends DataAccess<Admin> {
 
         q.setRange(start, start + length);
         try {
-            List<Admin> tmp = (List<Admin>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {

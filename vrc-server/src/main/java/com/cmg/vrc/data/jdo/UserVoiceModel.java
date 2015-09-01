@@ -8,7 +8,7 @@ import javax.jdo.annotations.*;
 /**
  * Created by luhonghai on 9/30/14.
  */
-@PersistenceCapable(table = "USERVOICEMODELJDO")
+@PersistenceCapable(table = "USERVOICEMODELJDO", detachable = "true")
 public class UserVoiceModel implements Mirrorable {
     @PrimaryKey
     private String id;

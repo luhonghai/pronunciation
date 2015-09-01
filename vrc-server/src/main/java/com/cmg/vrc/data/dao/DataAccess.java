@@ -272,7 +272,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		try {
 			try {
 				T tmp = pm.getObjectById(clazzT, id);
-				return tmp;
+				return (T) pm.detachCopy(tmp);
 			} catch (JDOObjectNotFoundException jex) {
 			}
 		} catch (Exception e) {
@@ -302,9 +302,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			List<T> tmp = (List<T>) q.execute(parameters);
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList(pm,  q.execute(parameters));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -322,9 +320,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			List<T> tmp = (List<T>) q.execute(parameter);
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList(pm,  q.execute(parameter));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -342,9 +338,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			List<T> tmp = (List<T>) q.execute(para1, para2);
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList(pm, q.execute(para1, para2));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -362,9 +356,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
-			List<T> tmp = (List<T>) q.execute(para1, para2, para3);
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList(pm, q.execute(para1, para2, para3));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -383,9 +375,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
 		try {
 			//tx.begin();
-			List<T> tmp = (List<T>) q.execute();
-			pm.detachCopyAll(tmp);
-			return tmp;
+			return detachCopyAllList(pm,  q.execute());
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -415,4 +405,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 
+	public List<T> detachCopyAllList(PersistenceManager pm, Object obj) {
+		return (List<T>) pm.detachCopyAll((List<T>) obj);
+	}
 }

@@ -83,9 +83,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
         q.setRange(start, start + length);
 
         try {
-            List<UserVoiceModel> tmp = (List<UserVoiceModel>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
@@ -133,9 +131,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
 
 
         try {
-            List<UserVoiceModel> tmp = (List<UserVoiceModel>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
@@ -152,9 +148,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
         q.setRange(0, 10000);
         q.setOrdering("serverTime asc");
         try {
-            List<UserVoiceModel> tmp = (List<UserVoiceModel>)q.execute();
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.execute());
         } catch (Exception e) {
             throw e;
         } finally {

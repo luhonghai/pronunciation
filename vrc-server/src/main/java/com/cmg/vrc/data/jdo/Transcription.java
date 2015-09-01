@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by cmg on 03/07/15.
  */
-@PersistenceCapable(table = "TRANSCRIPTION")
+@PersistenceCapable(table = "TRANSCRIPTIONJDO", detachable = "true")
 public class Transcription implements Mirrorable {
 
     private static final int MAX_VARCHAR_LENGTH =10000;

@@ -148,9 +148,7 @@ public class UserDAO extends DataAccess<User> {
         q.setRange(start, start + length);
 
         try {
-            List<User> tmp = (List<User>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {

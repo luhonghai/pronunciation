@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by luhonghai on 5/8/15.
  */
-@PersistenceCapable(table = "FEEDBACK")
+@PersistenceCapable(table = "FEEDBACK", detachable = "true")
 public class Feedback implements Mirrorable {
 
     @PrimaryKey

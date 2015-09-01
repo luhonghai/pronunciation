@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by luhonghai on 4/13/15.
  */
-@PersistenceCapable(table = "USER_DEVICE")
+@PersistenceCapable(table = "USER_DEVICE", detachable = "true")
 public class UserDevice implements Mirrorable {
 
     @PrimaryKey

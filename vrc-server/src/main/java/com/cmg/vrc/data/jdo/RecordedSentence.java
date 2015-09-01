@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by cmg on 03/07/15.
  */
-@PersistenceCapable(table = "RECORDEDSENTENCEJDO")
+@PersistenceCapable(table = "RECORDEDSENTENCEJDO", detachable = "true")
 public class RecordedSentence implements Mirrorable {
 
     public static final int AWAITING = 0;

@@ -65,9 +65,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         q.setFilter("account==acc && version>ver");
         q.declareParameters("String acc, Integer ver");
         try {
-            List<RecordedSentence> tmp = (List<RecordedSentence>)q.execute(acc,ver);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.execute(acc,ver));
         } catch (Exception e) {
             throw e;
         } finally {
@@ -169,9 +167,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         q.setRange(start, start + length);
 
         try {
-            List<RecordedSentence> tmp = (List<RecordedSentence>)q.executeWithMap(params);
-            pm.detachCopyAll(tmp);
-            return tmp;
+            return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {
             throw e;
         } finally {
