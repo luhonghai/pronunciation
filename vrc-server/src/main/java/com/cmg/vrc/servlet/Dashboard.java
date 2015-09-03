@@ -30,10 +30,26 @@ public class Dashboard extends HttpServlet {
         Dashboard.getcouse getcouse=new getcouse();
         if(request.getParameter("list")!=null){
             try {
-                getcouse.x=feedbackDAO.getCount();
-                getcouse.y=userDAO.getCount();
-                getcouse.z=userVoiceModelDAO.getCount();
-                getcouse.t=licenseCodeDAO.getCount();
+                if(feedbackDAO.getCount()>0) {
+                    getcouse.x = feedbackDAO.getCount();
+                }else{
+                    getcouse.x=0;
+                }
+                if(userDAO.getCount()>0) {
+                    getcouse.y = userDAO.getCount();
+                }else{
+                    getcouse.y=0;
+                }
+                if(userVoiceModelDAO.getCount()>0) {
+                    getcouse.z = userVoiceModelDAO.getCount();
+                }else {
+                    getcouse.z=0;
+                }
+                if(licenseCodeDAO.getCount()>0) {
+                    getcouse.t = licenseCodeDAO.getCount();
+                }else{
+                    getcouse.t=0;
+                }
                 Gson gson = new Gson();
                 String couse = gson.toJson(getcouse);
                 response.getWriter().write(couse);

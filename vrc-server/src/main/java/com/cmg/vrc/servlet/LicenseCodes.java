@@ -112,7 +112,7 @@ public class LicenseCodes extends HttpServlet {
                      count = lis.getCount();
                 }
                 if(company.length()>0){
-                    count=(double)licenseCodes.size();
+                    count=(double)lis.listAllByCompanySearch( search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company).size();
                 }
                 licen.draw = draw;
                 licen.recordsTotal = count;

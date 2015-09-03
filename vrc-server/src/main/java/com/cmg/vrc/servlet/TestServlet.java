@@ -27,15 +27,15 @@ public class TestServlet  {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        Feedback feedback = new Feedback();
-//        feedback.setAccount("nambui");
-//        feedback.setImei("nam123");
-//        feedback.setAppVersion("2.5");
-//        try {
-//            feedbackDAO.put(feedback);
-//        }catch (Exception e){
-//            e.getStackTrace();
-//        }
+        Feedback feedback = new Feedback();
+        feedback.setAccount("nambui");
+        feedback.setImei("nam123");
+        feedback.setAppVersion("2.5");
+        try {
+            feedbackDAO.put(feedback);
+        }catch (Exception e){
+            e.getStackTrace();
+        }
 
 //        LicenseCode license=new LicenseCode();
 //        license.setCode("dsadfd");
@@ -74,7 +74,7 @@ public class TestServlet  {
 
         try {
            // licenseCodeCompanyDAO.put(licenseCodeCompany);
-            lis.put(licenseCode);
+          //  lis.put(licenseCode);
             //clientCodeDAO.put(clientCode);
 
 //            recorderDAO.put(recordedSentence);

@@ -395,10 +395,10 @@
                 <sysenv>CMG</sysenv>
                 <project.root.folder.dir>/cmg/data/root</project.root.folder.dir>
                 <project.temp.folder.dir>/cmg/data/feedback</project.temp.folder.dir>
-                <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
+                <logging.file>H:\Apps\Tomcat8\logs\vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
                 <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-                <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
+                <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/dev?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
                 <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
                 <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 
@@ -414,8 +414,8 @@
 				<grammarPath>/cmg/grammar</grammarPath>
                 <recipients>hai.lu@c-mg.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://db7uw33kg4m0i.cloudfront.net/activate</url.active.account>
-				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
+				<url.active.account>http://c-mg.vn/vrc/activate</url.active.account>
+				<url.reset.password>http://c-mg.vn/vrc/reset-password.jsp</url.reset.password>
             </properties>
         </profile>
 		<profile>

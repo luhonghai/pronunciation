@@ -111,10 +111,11 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
         StringBuffer query=new StringBuffer();
         TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
         TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompany.class.getCanonicalName());
-        String firstQuery = "select code.* from " +  metaLicenseCode.getTable()
+        String firstQuery = "select code.* from  " +  metaLicenseCode.getTable()
                 + " code join "  + metaLicenseCodeCompany.getTable()
                 + " mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
         query.append(firstQuery);
+
         if(ac.length()>0){
             query.append(" and code.account LIKE '%" + ac + "%'");
         }
@@ -149,9 +150,9 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
         if(search.length()>0){
             query.append(" and code.account LIKE '%" + search + "%' and code.code LIKE '%" + search + "%' and code.imei LIKE '%" + search + "%'");
         }
-
+        query.append(" limit " + start + "," + length);
         Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
-        q.setRange(start, start + length);
+       // q.setRange(start, start + length);
         List<LicenseCode> list = new ArrayList<LicenseCode>();
         try {
             List<Object> tmp = (List<Object>)q.execute();
@@ -298,6 +299,118 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
         } catch (Exception e) {
             throw e;
         } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    public List<LicenseCode> listAllByCompanySearch(String search,String ac, String acti,Date dateFrom,Date dateTo, Date dateFrom2,Date dateTo2,String com) throws Exception {
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        StringBuffer query=new StringBuffer();
+        TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
+        TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompany.class.getCanonicalName());
+        String firstQuery = "select code.* from " +  metaLicenseCode.getTable()
+                + " code join "  + metaLicenseCodeCompany.getTable()
+                + " mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
+        query.append(firstQuery);
+        if(ac.length()>0){
+            query.append(" and code.account LIKE '%" + ac + "%'");
+        }
+        query.append(" and code.isDeleted=false");
+        if (acti.equals("Yes")){
+            query.append(" and code.isActivated=true");
+        }
+        if(acti.equals("No")){
+            query.append(" and code.isActivated=false");
+        }
+        if(dateFrom!=null&&dateTo==null){
+            query.append(" and code.activatedDate >= '" + dateFrom + "'");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            query.append(" and code.activatedDate <= '" + dateTo + "'");
+        }
+
+        if(dateFrom!=null&&dateTo!=null){
+            query.append(" and code.activatedDate >= '" + dateFrom + "' and code.activatedDate <= '" + dateTo + "'");
+        }
+        if(dateFrom2!=null&&dateTo2==null){
+            query.append(" and code.createdDate >= '" + dateFrom2 + "'");
+        }
+        if(dateFrom2==null&&dateTo2!=null){
+            query.append(" and code.createdDate <= '" + dateTo2 + "'");
+        }
+
+        if(dateFrom2!=null&&dateTo2!=null){
+            query.append(" and code.createdDate >= '" + dateFrom2 + "' and code.createdDate <= '" + dateTo2 + "'");
+        }
+
+        if(search.length()>0){
+            query.append(" and code.account LIKE '%" + search + "%' and code.code LIKE '%" + search + "%' and code.imei LIKE '%" + search + "%'");
+        }
+
+        Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
+        List<LicenseCode> list = new ArrayList<LicenseCode>();
+        try {
+            List<Object> tmp = (List<Object>)q.execute();
+            for(Object obj : tmp){
+                LicenseCode licenseCode=new LicenseCode();
+                Object[] array =(Object[]) obj;
+                if(array[0].toString().length()>0) {
+                    licenseCode.setId(array[0].toString());
+                }
+                else{
+                    licenseCode.setId(null);
+                }
+                if(array[1]!=null) {
+                    licenseCode.setAccount(array[1].toString());
+                }
+                else{
+                    licenseCode.setAccount(null);
+                }
+                if(array[2]!=null) {
+                    licenseCode.setActivatedDate((Date) array[2]);
+                }
+                else {
+                    licenseCode.setActivatedDate(null);
+                }
+                if(array[3]!=null) {
+                    licenseCode.setCode(array[3].toString());
+                }else{
+                    licenseCode.setCode(null);
+                }
+                if(array[5]!=null) {
+                    licenseCode.setActivated((boolean) array[5]);
+                }else{
+                    licenseCode.setActivated(false);
+                }
+                if(array[4]!=null) {
+                    licenseCode.setImei(array[4].toString());
+                }else {
+                    licenseCode.setImei(null);
+                }
+                if(array[6]!=null) {
+                    licenseCode.setIsDeleted((boolean) array[6]);
+                }else {
+                    licenseCode.setIsDeleted(false);
+                }
+                if(array[7]!=null) {
+                    licenseCode.setCreatedDate((Date) array[7]);
+                }
+                else {
+                    licenseCode.setCreatedDate(null);
+                }
+
+
+                list.add(licenseCode);
+
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+
             q.closeAll();
             pm.close();
         }
