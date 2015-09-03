@@ -373,7 +373,8 @@ public class DataAccess<T> implements InDataAccess<T> {
 			count = (Long) q.execute(parameters);
 			return count.doubleValue();
 		} catch (Exception e) {
-			throw e;
+			//throw e;
+			return 0;
 		} finally {
 			q.closeAll();
 			pm.close();

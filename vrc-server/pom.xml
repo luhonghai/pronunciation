@@ -395,7 +395,7 @@
                 <sysenv>CMG</sysenv>
                 <project.root.folder.dir>/cmg/data/root</project.root.folder.dir>
                 <project.temp.folder.dir>/cmg/data/feedback</project.temp.folder.dir>
-                <logging.file>/cmg/data/log/vrc-loging.log</logging.file>
+                <logging.file>H:\Apps\Tomcat8\logs\vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
                 <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
                 <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/dev?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>

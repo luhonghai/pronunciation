@@ -51,6 +51,7 @@ function listFeedback(){
                     "data": "createdDate",
                     "sDefaultContent":""
                 }, {
+                    "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent": "",
