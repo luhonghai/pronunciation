@@ -109,11 +109,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	public boolean put(final T obj) throws Exception {
 		verifyObject(obj);
 		String id = ((Mirrorable) obj).getId();
-		if (checkExistence(id)){
-			System.out.println("id deleted : " + id);
-			delete(id);
-		}
-		return create(obj);
+		return update(obj);
 	}
 	/**
 	 *
@@ -127,7 +123,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			pm.makePersistent(from(obj));
+			pm.makePersistent(obj);
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -184,21 +180,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	 * @throws Exception
 	 */
 	public boolean update(T obj) throws Exception {
-		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			pm.makePersistent(obj);
-			tx.commit();
-			return true;
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
+		return create(obj);
 	}
 	/**
 	 * 
