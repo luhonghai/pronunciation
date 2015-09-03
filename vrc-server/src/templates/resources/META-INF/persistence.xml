@@ -22,6 +22,7 @@
 		<class>com.cmg.vrc.data.jdo.Transcription</class>
 		<class>com.cmg.vrc.data.jdo.ClientCode</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeCompany</class>
+		<class>com.cmg.vrc.data.jdo.PhonemeScoreDB</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->
