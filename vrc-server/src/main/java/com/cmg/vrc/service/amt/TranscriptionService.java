@@ -411,7 +411,7 @@ public class TranscriptionService {
                     int count = 0;
                     for (String t : transcriptions) {
                         count++;
-                        if (count > 5) {
+                        if (count > 2000) {
                             break;
                         }
                         t = t.trim();
