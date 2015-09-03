@@ -56,7 +56,7 @@ public class DatabasePrepare {
         PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context.getApplicationContext());
         try {
             scoreDBAdapter.open();
-            scoreDBAdapter.getAll();
+            scoreDBAdapter.getAll("");
             phonemeScoreDBAdapter.open();
             phonemeScoreDBAdapter.getAll();
             wordDBAdapter.open();

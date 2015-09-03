@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
@@ -204,14 +205,15 @@ public class HistoryFragment extends FragmentTab {
 
     private void loadScore() {
         Collection<ScoreDBAdapter.PronunciationScore> scores = null;
+        UserProfile profile = Preferences.getCurrentProfile(getActivity());
         boolean isDetail = false;
         try {
             dbAdapter.open();
             if (word == null || word.length() == 0) {
-                scores = dbAdapter.toCollection(dbAdapter.getAll());
+                scores = dbAdapter.toCollection(dbAdapter.getAll(profile.getUsername()));
             } else {
                 isDetail = true;
-                scores = dbAdapter.toCollection(dbAdapter.getByWord(word));
+                scores = dbAdapter.toCollection(dbAdapter.getByWord(word,profile.getUsername()));
             }
         } catch (SQLException e) {
             e.printStackTrace();

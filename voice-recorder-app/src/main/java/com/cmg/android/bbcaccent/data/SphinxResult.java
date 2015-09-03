@@ -78,8 +78,30 @@ public class SphinxResult {
         private int index;
         private String name;
         private float totalScore;
+        private String username;
+        private int version;
         private List<PhonemeScoreUnit> phonemes;
+        private long time;
+        public long getTime() {
+            return time;
+        }
+        public void setTime(long time) {
+            this.time = time;
+        }
+        public int getVersion() {
+            return version;
+        }
 
+        public void setVersion(int version) {
+            this.version = version;
+        }
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
         public int getIndex() {
             return index;
         }

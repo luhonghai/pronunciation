@@ -23,6 +23,9 @@ public class PhonemeScoreDBAdapter {
     public static final String KEY_PHONEME = "phoneme";
     public static final String KEY_SCORE = "score";
 
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_VERSION = "version";
+
     public static final String KEY_TIMESTAMP = "timestamp";
     private static final String TAG = "PhonemeScoreDBAdapter";
 
@@ -34,6 +37,8 @@ public class PhonemeScoreDBAdapter {
             "create table score (_id integer primary key autoincrement, "
                     + " phoneme text not null, "
                     + " timestamp date not null, "
+                    + " username text not null, "
+                    + " version integer not null, "
                     + "score integer not null);";
 
     private final Context context;
@@ -84,19 +89,29 @@ public class PhonemeScoreDBAdapter {
         return this;
     }
 
+    public SQLiteDatabase getDB(){
+        return db;
+    }
+
     //---closes the database---
     public void close()
     {
         DBHelper.close();
     }
 
-    public long insert(SphinxResult.PhonemeScore score)
+    public long insert(SphinxResult.PhonemeScore score, String username, int version)
     {
 
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_USERNAME, username);
+        initialValues.put(KEY_VERSION, version);
         initialValues.put(KEY_PHONEME, score.getName());
         initialValues.put(KEY_SCORE, score.getTotalScore());
-        initialValues.put(KEY_TIMESTAMP, dateFormat.format(new Date(System.currentTimeMillis())));
+        if(score.getTime() == 0){
+            initialValues.put(KEY_TIMESTAMP, dateFormat.format(new Date(System.currentTimeMillis())));
+        }else{
+            initialValues.put(KEY_TIMESTAMP, dateFormat.format(score.getTime()));
+        }
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -185,5 +200,18 @@ public class PhonemeScoreDBAdapter {
             cursor.moveToNext();
         }
         return list;
+    }
+
+    public int getLastedVersion(String username) {
+        int version=0;
+        Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + DATABASE_TABLE + " where username='"+username+"'", null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        try {
+            version= Integer.parseInt(cursor.getString(0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return version;
     }
 }
