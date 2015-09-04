@@ -553,6 +553,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
+        if (model != null) {
+            File audio = new File(model.getAudioFile());
+            if (!audio.exists()) {
+                btnAudio.setEnabled(false);
+                btnAudio.setImageResource(R.drawable.p_audio_gray);
+            }
+        }
     }
 
     private void playAudio() {
@@ -561,6 +568,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void playFile(File file) {
+        if (!file.exists()) return;
         isPlaying = true;
         try {
             if (player != null) {
@@ -588,6 +596,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             player.play();
         } catch (Exception e) {
             e.printStackTrace();
+            isPlaying = false;
         }
     }
 

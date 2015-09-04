@@ -107,7 +107,7 @@ public class ScoreDBAdapter {
                 scoreDBAdapter.open();
                 PronunciationScore tempScore = scoreDBAdapter.getByDataID(dataId);
                 scoreDBAdapter.close();
-
+                model.setAudioFile(new File(FileHelper.getPronunciationScoreDir(context), dataId + FileHelper.WAV_EXTENSION).getAbsolutePath());
                 model.setScore(tempScore.getScore());
                 model.setWord(tempScore.getWord());
                 SphinxResult result = new SphinxResult();
@@ -227,7 +227,7 @@ public class ScoreDBAdapter {
 
     public Cursor getAllTime()
     {
-        return db.query(DATABASE_TABLE, new String[] {
+        return db.query(DATABASE_TABLE, new String[]{
                         KEY_ROWID,
                         KEY_WORD,
                         KEY_DATA_ID,

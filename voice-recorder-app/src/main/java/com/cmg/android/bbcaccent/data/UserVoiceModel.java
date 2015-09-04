@@ -206,6 +206,7 @@ public class UserVoiceModel {
     }
 
     public String getAudioFile() {
+        if (audioFile == null) return "";
         return audioFile;
     }
 
