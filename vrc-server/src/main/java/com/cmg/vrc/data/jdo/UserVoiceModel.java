@@ -64,6 +64,18 @@ public class UserVoiceModel implements Mirrorable {
     @NotPersistent
     private Date serverDate;
 
+    @NotPersistent
+    private int versionPhoneme;
+
+
+    public int getVersionPhoneme() {
+        return versionPhoneme;
+    }
+
+    public void setVersionPhoneme(int versionPhoneme) {
+        this.versionPhoneme = versionPhoneme;
+    }
+
     public String getUsername() {
         if (username != null) username = username.toLowerCase();
         return username;

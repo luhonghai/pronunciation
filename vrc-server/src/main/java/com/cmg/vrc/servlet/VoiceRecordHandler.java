@@ -5,6 +5,8 @@ import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.job.SummaryReportJob;
+import com.cmg.vrc.service.PhonemeScoreService;
+import com.cmg.vrc.service.UserVoiceModelService;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
@@ -55,6 +57,9 @@ public class VoiceRecordHandler extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         AWSHelper awsHelper = new AWSHelper();
+        //DENP-238 : call service
+        UserVoiceModelService uVoiceService = new UserVoiceModelService();
+        PhonemeScoreService pScoreService = new PhonemeScoreService();
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
@@ -93,6 +98,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
+            logger.info("word : " + word);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -120,6 +126,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
                 UserVoiceModel model = new UserVoiceModel();
                 //model.setCleanRecordFile(fileClean);
+                logger.info("username : " + user.getUsername());
                 model.setUsername(user.getUsername());
                 model.setCountry(user.getCountry());
                 model.setDob(user.getDob());
@@ -132,6 +139,8 @@ public class VoiceRecordHandler extends HttpServlet {
                 model.setWord(word);
                 model.setNativeEnglish(user.isNativeEnglish());
                 model.setUuid(user.getUuid());
+                //DENP-238 : set version for user voice model
+                model.setVersion(uVoiceService.getMaxVersion(user.getUsername()));
                 UserProfile.UserLocation location = user.getLocation();
                 if (location != null) {
                     model.setLatitude(location.getLatitude());
@@ -144,14 +153,19 @@ public class VoiceRecordHandler extends HttpServlet {
                 } catch (Exception ex) {
                     logger.error("Could not analyze word", ex);
                 }
+                logger.info("json from server to client before go to create : " + gson.toJson(model));
+                UserVoiceModelDAO dao = new UserVoiceModelDAO();
+                model = dao.createObj(model);
                 if (result != null) {
                     model.setResult(result);
                     model.setScore(result.getScore());
+                    //DENP-238 : save phoneme score to database
+                    int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
+                    model.setVersionPhoneme(maxVersionPhoneme);
+                    pScoreService.addPhonemeScore(result,user.getUsername(),maxVersionPhoneme,System.currentTimeMillis(),model.getId());
                 }
-
-                UserVoiceModelDAO dao = new UserVoiceModelDAO();
-                dao.create(model);
                 String output = gson.toJson(model);
+                logger.info("json from server to client : " + output);
                 File jsonModel = new File(target, word + "_" + uuid + ".json");
                 FileUtils.writeStringToFile(jsonModel, output);
                 awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + word + "_" + uuid + ".json",

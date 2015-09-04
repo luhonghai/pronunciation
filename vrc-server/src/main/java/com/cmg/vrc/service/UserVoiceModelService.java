@@ -13,6 +13,30 @@ public class UserVoiceModelService {
     private static final Logger logger = Logger.getLogger(UserVoiceModelService.class
             .getName());
 
+
+    /**
+     *
+     * @param username
+     * @return max version
+     */
+    public int getMaxVersion(String username){
+        UserVoiceModelDAO dao = new UserVoiceModelDAO();
+        int max = 0;
+        try {
+            max = dao.getMaxVersion(username);
+        }catch (Exception e){
+            logger.warn("can not get version in table user voice model of username : " + username +" because : " + e.getMessage());
+        }
+        max = max +1;
+        return max;
+    }
+
+    /**
+     *
+     * @param username
+     * @param version
+     * @return list user voice model filter by username and version
+     */
     public List<UserVoiceModel> getListByUsernameAndVersion(String username, int version){
         UserVoiceModelDAO dao = new UserVoiceModelDAO();
         List<UserVoiceModel> temp = null;

@@ -34,6 +34,11 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> {
     }
 
     @Override
+    public int getCount() {
+        return scores == null ? 0 : scores.length;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflator = LayoutInflater.from(getContext());
         SphinxResult.PhonemeScore score = scores[position];
