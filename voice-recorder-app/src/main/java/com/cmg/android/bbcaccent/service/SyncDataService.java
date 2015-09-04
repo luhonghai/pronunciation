@@ -10,6 +10,7 @@ import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.http.PhonemeScoreAsync;
 import com.cmg.android.bbcaccent.http.UserVoiceModelAsync;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class SyncDataService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         UserProfile profile = getUserProfile(intent);
         String username = profile.getUsername();
+        SimpleAppLog.info("start sync data with " + username);
         syncUserVoiceModel(username);
         syncPhonemeScore(username);
         return Service.START_NOT_STICKY;
@@ -56,6 +58,7 @@ public class SyncDataService extends Service {
             scoreDBAdapter.open();
             int version = scoreDBAdapter.getLastedVersion(username);
             scoreDBAdapter.close();
+            SimpleAppLog.info("start sync user voice model with " + username + " and current max version : " + version);
             Map<String, String> params = new HashMap<String, String>();
             params.put(PARA_USERNAME,username);
             params.put(PARA_VERSION,String.valueOf(version));

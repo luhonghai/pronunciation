@@ -98,6 +98,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
+            logger.info("word : " + word);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -125,6 +126,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
                 UserVoiceModel model = new UserVoiceModel();
                 //model.setCleanRecordFile(fileClean);
+                logger.info("username : " + user.getUsername());
                 model.setUsername(user.getUsername());
                 model.setCountry(user.getCountry());
                 model.setDob(user.getDob());
@@ -151,17 +153,19 @@ public class VoiceRecordHandler extends HttpServlet {
                 } catch (Exception ex) {
                     logger.error("Could not analyze word", ex);
                 }
+                logger.info("json from server to client before go to create : " + gson.toJson(model));
+                UserVoiceModelDAO dao = new UserVoiceModelDAO();
+                model = dao.createObj(model);
                 if (result != null) {
                     model.setResult(result);
                     model.setScore(result.getScore());
                     //DENP-238 : save phoneme score to database
-                    model.setVersionPhoneme(pScoreService.getMaxVersion(user.getUsername()));
-                    pScoreService.addPhonemeScore(result,user.getUsername(),pScoreService.getMaxVersion(user.getUsername()),System.currentTimeMillis());
+                    int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
+                    model.setVersionPhoneme(maxVersionPhoneme);
+                    pScoreService.addPhonemeScore(result,user.getUsername(),maxVersionPhoneme,System.currentTimeMillis(),model.getId());
                 }
-
-                UserVoiceModelDAO dao = new UserVoiceModelDAO();
-                dao.create(model);
                 String output = gson.toJson(model);
+                logger.info("json from server to client : " + output);
                 File jsonModel = new File(target, word + "_" + uuid + ".json");
                 FileUtils.writeStringToFile(jsonModel, output);
                 awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + word + "_" + uuid + ".json",

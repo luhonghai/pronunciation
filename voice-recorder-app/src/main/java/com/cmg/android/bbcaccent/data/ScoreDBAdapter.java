@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
 
@@ -19,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by luhonghai on 12/23/14.
@@ -93,13 +96,33 @@ public class ScoreDBAdapter {
             this.timestamp = timestamp;
         }
 
-        public String getUserVoiceModel(Context context) throws IOException {
+        public String getUserVoiceModel(Context context) throws Exception {
             if (dataId == null || dataId.length() == 0) return null;
             File modelSource = new File(FileHelper.getPronunciationScoreDir(context), dataId + FileHelper.JSON_EXTENSION);
             if (modelSource.exists()) {
                 return FileUtils.readFileToString(modelSource, "UTF-8");
+            } else {
+                UserVoiceModel model = new UserVoiceModel();
+                ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context);
+                scoreDBAdapter.open();
+                PronunciationScore tempScore = scoreDBAdapter.getByDataID(dataId);
+                scoreDBAdapter.close();
+
+                model.setScore(tempScore.getScore());
+                model.setWord(tempScore.getWord());
+                SphinxResult result = new SphinxResult();
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context);
+                phonemeScoreDBAdapter.open();
+                List<SphinxResult.PhonemeScore> scoreList = phonemeScoreDBAdapter.getByDataID(dataId);
+                phonemeScoreDBAdapter.close();
+                result.setPhonemeScores(scoreList);
+                model.setResult(result);
+                Gson gson = new Gson();
+                String json = gson.toJson(model);
+                SimpleAppLog.info("json file get from database : " + json);
+                return json;
             }
-            return null;
+            //return null;
         }
     }
 
@@ -228,7 +251,7 @@ public class ScoreDBAdapter {
                         KEY_DATA_ID,
                         KEY_SCORE,
                         KEY_TIMESTAMP},
-                KEY_USERNAME + "=" + username,
+                KEY_USERNAME + "='" + username+"'",
                 null,
                 null,
                 null,
@@ -321,6 +344,39 @@ public class ScoreDBAdapter {
             cursor.moveToNext();
         }
         return list;
+    }
+
+    public PronunciationScore getByDataID(String dataID) throws SQLException,ParseException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_ROWID,
+                                KEY_USERNAME,
+                                KEY_VERSION,
+                                KEY_WORD,
+                                KEY_DATA_ID,
+                                KEY_SCORE,
+                                KEY_TIMESTAMP},
+                        KEY_DATA_ID + "=?",
+                        new String[]{dataID},
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            PronunciationScore score = new PronunciationScore();
+            score.setVersion(mCursor.getInt(mCursor.getColumnIndex(KEY_VERSION)));
+            score.setUsername(mCursor.getString(mCursor.getColumnIndex(KEY_USERNAME)));
+            score.setDataId(mCursor.getString(mCursor.getColumnIndex(KEY_DATA_ID)));
+            score.setScore(mCursor.getFloat(mCursor.getColumnIndex(KEY_SCORE)));
+            score.setWord(mCursor.getString(mCursor.getColumnIndex(KEY_WORD)));
+            score.setId(mCursor.getInt(mCursor.getColumnIndex(KEY_ROWID)));
+            score.setTimestamp(dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(KEY_TIMESTAMP))));
+            return score;
+        }
+        return null;
     }
 
     public int getLastedVersion(String username) {

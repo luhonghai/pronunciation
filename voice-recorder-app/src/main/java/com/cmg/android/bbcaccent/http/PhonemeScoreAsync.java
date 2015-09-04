@@ -8,6 +8,7 @@ import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.SphinxResult;
 import com.cmg.android.bbcaccent.data.UserVoiceModel;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
@@ -43,14 +44,14 @@ public class PhonemeScoreAsync extends AsyncTask<Map<String, String>, Void, Stri
         try {
             if (params != null && params.length > 0) {
                 for (Map<String, String> param : params) {
-                    results.append(FileUploader.upload(param, uploadUrl));
+                    SimpleAppLog.info("uploadUrl : " + uploadUrl);
+                    HttpContacter cn = new HttpContacter(this.context);
+                    results.append(cn.post(param, uploadUrl));
                 }
             }
             String json = results.toString();
             updateDb(json);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UploaderException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

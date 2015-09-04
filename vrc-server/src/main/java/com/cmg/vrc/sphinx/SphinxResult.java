@@ -79,6 +79,7 @@ public class SphinxResult {
         private long time;
         private String username;
         private int version;
+        private String userVoiceId;
         private List<PhonemeScoreUnit> phonemes;
         public int getVersion() {
             return version;
@@ -132,6 +133,14 @@ public class SphinxResult {
         public void setPhonemes(List<PhonemeScoreUnit> phonemes) {
             this.phonemes = phonemes;
         }
+        public String getUserVoiceId() {
+            return userVoiceId;
+        }
+
+        public void setUserVoiceId(String userVoiceId) {
+            this.userVoiceId = userVoiceId;
+        }
+
     }
 
     private float score;

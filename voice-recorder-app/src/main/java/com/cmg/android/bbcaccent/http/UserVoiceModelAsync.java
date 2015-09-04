@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.UserVoiceModel;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import java.io.FileNotFoundException;
@@ -42,14 +43,16 @@ public class UserVoiceModelAsync extends AsyncTask<Map<String, String>, Void, St
         try {
             if (params != null && params.length > 0) {
                 for (Map<String, String> param : params) {
-                    results.append(FileUploader.upload(param, uploadUrl));
+                    SimpleAppLog.info("uploadUrl : " + uploadUrl);
+                    HttpContacter cn = new HttpContacter(this.context);
+                    results.append(cn.post(param, uploadUrl));
+                    SimpleAppLog.info("result : " + results.toString());
                 }
             }
             String json = results.toString();
+            SimpleAppLog.info("clone  user voice model from server " + json);
             updateDb(json);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UploaderException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -59,6 +62,7 @@ public class UserVoiceModelAsync extends AsyncTask<Map<String, String>, Void, St
         try {
             Gson gson = new Gson();
             UserVoiceModelAsync.ResponseDataUserVoice data = gson.fromJson(json,UserVoiceModelAsync.ResponseDataUserVoice.class);
+            SimpleAppLog.info("clone  responsedata from server " + data.userVoiceModelList.size());
             if(data!=null && data.userVoiceModelList!=null && data.userVoiceModelList.size() > 0 ){
                 ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context);
                 scoreDBAdapter.open();

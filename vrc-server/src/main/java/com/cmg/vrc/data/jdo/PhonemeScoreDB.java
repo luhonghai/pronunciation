@@ -16,6 +16,9 @@ public class PhonemeScoreDB implements Mirrorable{
     private String id;
 
     @Persistent
+    private String userVoiceId;
+
+    @Persistent
     private String username;
 
     @Persistent
@@ -80,6 +83,10 @@ public class PhonemeScoreDB implements Mirrorable{
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getUserVoiceId() { return userVoiceId;}
+
+    public void setUserVoiceId(String userVoiceId) {this.userVoiceId = userVoiceId; }
 
 }
 

@@ -72,6 +72,7 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
+import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -231,6 +232,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private TextView txtUserEmail;
     private boolean isInitTabHost = false;
 
+
+    public void syncService(){
+        Gson gson = new Gson();
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String jsonProfile = gson.toJson(profile);
+        Intent mIntent = new Intent(this, SyncDataService.class);
+        mIntent.putExtra("jsonProfile", jsonProfile);
+        startService(mIntent);
+    }
     /**
      * @param savedInstanceState
      */
@@ -238,6 +248,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        syncService();
         accountManager = new AccountManager(this);
         setContentView(R.layout.main);
         initListMenu();
@@ -1567,6 +1578,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
                     for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
                         phonemeScore.setTime(System.currentTimeMillis());
+                        phonemeScore.setUserVoiceId(dataId);
                         phonemeScoreDBAdapter.insert(phonemeScore, currentModel.getUsername(),currentModel.getVersionPhoneme());
                     }
                 }

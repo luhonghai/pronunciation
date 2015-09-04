@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.dictionary;
 
+import android.os.AsyncTask;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -89,7 +91,7 @@ public abstract class DictionaryWalker {
     protected void onError(DictionaryItem item, String message, Exception ex) {
        // logger.log(Level.SEVERE, message ,ex);
         if (listener != null) {
-            listener.onError(item ,ex);
+            listener.onError(item, ex);
         }
     }
 
@@ -99,7 +101,6 @@ public abstract class DictionaryWalker {
             listener.onWordNotFound(item, ex);
         }
     }
-
     public abstract void execute(String word);
 
     public File getTargetDir() {

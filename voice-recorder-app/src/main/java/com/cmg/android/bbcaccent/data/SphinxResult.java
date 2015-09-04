@@ -82,9 +82,18 @@ public class SphinxResult {
         private int version;
         private List<PhonemeScoreUnit> phonemes;
         private long time;
+        private String userVoiceId;
+        public String getUserVoiceId() {
+            return userVoiceId;
+        }
+
+        public void setUserVoiceId(String userVoiceId) {
+            this.userVoiceId = userVoiceId;
+        }
         public long getTime() {
             return time;
         }
+
         public void setTime(long time) {
             this.time = time;
         }

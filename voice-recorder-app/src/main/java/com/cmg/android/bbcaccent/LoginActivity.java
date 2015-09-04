@@ -587,11 +587,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 });
                 Preferences.updateProfile(LoginActivity.this, profile);
                 //call services sync data here DENP-238
-                Gson gson = new Gson();
-                String jsonProfile = gson.toJson(profile);
-                Intent mIntent = new Intent(LoginActivity.this, SyncDataService.class);
-                mIntent.putExtra("jsonProfile",jsonProfile);
-                startService(mIntent);
                 startMainActivity();
             }
         });

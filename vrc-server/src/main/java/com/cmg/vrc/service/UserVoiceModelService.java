@@ -24,10 +24,10 @@ public class UserVoiceModelService {
         int max = 0;
         try {
             max = dao.getMaxVersion(username);
-            max = max +1;
         }catch (Exception e){
             logger.warn("can not get version in table user voice model of username : " + username +" because : " + e.getMessage());
         }
+        max = max +1;
         return max;
     }
 

@@ -48,27 +48,14 @@ public class DataSynchronizationServlet extends BaseServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("========start sync data from client====");
         try {
-            Map<String, String> storePara = new HashMap<String, String>();
             Gson gson = new Gson();
-            ServletFileUpload upload = new ServletFileUpload();
-            FileItemIterator iter = null;
-            iter = upload.getItemIterator(request);
-            while (iter.hasNext()) {
-                FileItemStream item = iter.next();
-                String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    logger.info(name);
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                }
-            }
-            String action = storePara.get(PARA_ACTION);
-            logger.info("action sync : " + action);
+            String action = request.getParameter(PARA_ACTION);
+            logger.info("=========action sync : " + action);
             if(action.equalsIgnoreCase(LIST_USER_VOICE_MODEL)){
-                String username =  storePara.get(PARA_USERNAME);
-                int version = Integer.parseInt(storePara.get(PARA_VERSION));
+                String username =  request.getParameter(PARA_USERNAME);
+                int version = Integer.parseInt(request.getParameter(PARA_VERSION));
                 logger.info("username : " +username);
                 logger.info("version : " +version);
                 ResponseDataUserVoice responseData = new ResponseDataUserVoice();
@@ -77,8 +64,8 @@ public class DataSynchronizationServlet extends BaseServlet {
                 responseData.userVoiceModelList = serviceVoice.getListByUsernameAndVersion(username,version);
                 printMessage(response,gson.toJson(responseData));
             }else if(action.equalsIgnoreCase(LIST_PHONEME_SCORE)){
-                String username =  storePara.get(PARA_USERNAME);
-                int version = Integer.parseInt( storePara.get(PARA_VERSION));
+                String username =  request.getParameter(PARA_USERNAME);
+                int version = Integer.parseInt( request.getParameter(PARA_VERSION));
                 logger.info("username : " +username);
                 logger.info("version : " +version);
                 ResponseDataPhoneme responseDataPhoneme = new ResponseDataPhoneme();

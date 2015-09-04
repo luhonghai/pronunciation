@@ -21,11 +21,11 @@ public class PhonemeScoreService {
         int max = 0;
         try {
             max = dao.getMaxVersionByUsername(username);
-            max = max + 1;
+
         }catch (Exception e){
             logger.warn("can not get version in table phoneme score of username : " + username +" because : " + e.getMessage());
-            e.printStackTrace();
         }
+        max = max + 1;
         return max;
     }
 
@@ -36,7 +36,7 @@ public class PhonemeScoreService {
      * @param username
      * @param version
      */
-    public void addPhonemeScore(SphinxResult result, String username, int version,long time){
+    public void addPhonemeScore(SphinxResult result, String username, int version,long time, String dataID){
         PhonemeScoreDAO dao = new PhonemeScoreDAO();
         List<PhonemeScoreDB> temp = null;
         List<SphinxResult.PhonemeScore> list = result.getPhonemeScores();
@@ -49,6 +49,7 @@ public class PhonemeScoreService {
                 score.setPhonemeWord(ps.getName());
                 score.setTotalScore(ps.getTotalScore());
                 score.setTime(time);
+                score.setUserVoiceId(dataID);
                 temp.add(score);
             }
             try {
@@ -89,6 +90,7 @@ public class PhonemeScoreService {
                 score.setTotalScore(db.getTotalScore());
                 score.setUsername(db.getUsername());
                 score.setVersion(db.getVersion());
+                score.setUserVoiceId(db.getUserVoiceId());
                 list.add(score);
             }
         }
