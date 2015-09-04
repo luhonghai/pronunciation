@@ -155,10 +155,10 @@ public class VoiceRecordHandler extends HttpServlet {
                 }
                 logger.info("json from server to client before go to create : " + gson.toJson(model));
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
+                model.setScore(result.getScore());
                 model = dao.createObj(model);
                 if (result != null) {
                     model.setResult(result);
-                    model.setScore(result.getScore());
                     //DENP-238 : save phoneme score to database
                     int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
                     model.setVersionPhoneme(maxVersionPhoneme);
