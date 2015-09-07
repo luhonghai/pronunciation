@@ -2,71 +2,71 @@ var myTable;
 function listLicenseCode(){
 
     myTable=$('#dataTables-example').dataTable({
-                "retrieve": true,
-                "destroy": true,
-                "responsive": true,
-                "bProcessing": true,
-                "bServerSide": true,
-                "ajax": {
-                    "url": "LicenseCodes",
-                    "type": "POST",
-                    "dataType":"json",
-                    "data":{
-                        list:"list",
-                        company:$("#companys").val(),
-                        account:$("#account1").val() ,
-                        Acti:$("#Acti").val() ,
-                        dateFrom:$("#dateFrom1").val(),
-                        dateTo: $("#dateTo1").val(),
-                        dateFrom2:$("#dateFrom2").val(),
-                        dateTo2: $("#dateTo2").val()
-                    }
-                },
-                "columns": [{
-                    "sWidth": "30%",
-                    "data": "account",
-                    "sDefaultContent":""
+        "retrieve": true,
+        "destroy": true,
+        "responsive": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "ajax": {
+            "url": "LicenseCodes",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                list:"list",
+                company:$("#companys").val(),
+                account:$("#account1").val() ,
+                Acti:$("#Acti").val() ,
+                dateFrom:$("#dateFrom1").val(),
+                dateTo: $("#dateTo1").val(),
+                dateFrom2:$("#dateFrom2").val(),
+                dateTo2: $("#dateTo2").val()
+            }
+        },
+        "columns": [{
+            "sWidth": "30%",
+            "data": "account",
+            "sDefaultContent":""
 
-                }, {
-                    "sWidth": "20%",
-                    "data": null,
-                    "bSortable": false,
-                    "sDefaultContent":"",
-                    "mRender": function (data, type, full) {
-                        if(data.imei!=null) {
-                            return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
-                        }
-                    }
-                },{
-                    "sWidth": "5%",
-                    "data": null,
-                    "bSortable": false,
-                    "sDefaultContent":"",
-                    "mRender": function (data, type, full) {
-                            return '<p style="font-family:tahoma">'+data.code+'</p>';
-                    }
-                }, {
-                    "sWidth": "20%",
-                    "data": "createdDate",
-                    "sDefaultContent":""
-                }, {
-                    "sWidth": "20%",
-                    "data": "activatedDate",
-                    "sDefaultContent":""
-                }, {
-                    "sWidth": "5%",
-                    "data": null,
-                    "bSortable": false,
-                    "sDefaultContent": "",
-                    "mRender": function (data, type, full) {
-                        if (data.isActivated == true) {
-                            return '<span type="button" id="detail" style="color:#FF0000" title="Click to deactivate" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
-                        }else if(data.isActivated==false){
-                            return '<span type="button" id="detail" style="color:#00CC00" title="Click to activate" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
-                        }
-                    }
-                }]
-            });
+        }, {
+            "sWidth": "20%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent":"",
+            "mRender": function (data, type, full) {
+                if(data.imei!=null) {
+                    return '<i type="button" emeis='+data.imei+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.imei;
+                }
+            }
+        },{
+            "sWidth": "5%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent":"",
+            "mRender": function (data, type, full) {
+                return '<p style="font-family:tahoma">'+data.code+'</p>';
+            }
+        }, {
+            "sWidth": "20%",
+            "data": "createdDate",
+            "sDefaultContent":""
+        }, {
+            "sWidth": "20%",
+            "data": "activatedDate",
+            "sDefaultContent":""
+        }, {
+            "sWidth": "5%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                if (data.isActivated == true) {
+                    return '<span type="button" id="detail" style="color:#FF0000" title="Click to deactivate" name='+data.isActivated+'  id-column=' + data.id + ' class="fa fa-times-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                }else if(data.isActivated==false){
+                    return '<span type="button" id="detail" style="color:#00CC00" title="Click to activate" name='+data.isActivated+' id-column=' + data.id + ' class="fa fa-check-circle fa-2x" ' + full[0] + '>' + ' </span>';
+                }
+            }
+        }]
+    });
 
 }
 
@@ -136,6 +136,10 @@ function add(){
                     var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
                     $selected.append(newOption);
                 });
+                $("#company").append($("#company option").remove().sort(function(a, b) {
+                    var at = $(a).text(), bt = $(b).text();
+                    return (at > bt)?1:((at < bt)?-1:0);
+                }));
 
 
             }
@@ -206,14 +210,14 @@ function addCode(){
             },
             success:function(result){
 
-               if(result=="success"){
-                   $("tbody").html("");
-                   $("#companys").empty();
-                   listCompany();
-                   myTable.fnDraw();
-                   $("#addCode1").modal('hide');
+                if(result=="success"){
+                    $("tbody").html("");
+                    $("#companys").empty();
+                    listCompany();
+                    myTable.fnDraw();
+                    $("#addCode1").modal('hide');
 
-               }
+                }
             },
             error:function(){
                 alert("error");
@@ -281,27 +285,32 @@ function selected(){
 }
 
 function listCompany(){
-        var $selected=$("#companys");
-        //$('#companys option[value!="-1"]').remove();
-        $.ajax({
-            "url": "ListCompanyServlet",
-            "type": "POST",
-            "dataType":"json",
-            "data": {
-                listCompany: "listCompany"
-            },
-            success:function(data){
-                var items=data;
-                $selected.prepend("<option value=''></option>").val('');
-                $(items).each(function(){
-                    var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
-                    $selected.append(newOption);
-                });
+    var $selected=$("#companys");
+    //$('#companys option[value!="-1"]').remove();
+    $.ajax({
+        "url": "ListCompanyServlet",
+        "type": "POST",
+        "dataType":"json",
+        "data": {
+            listCompany: "listCompany"
+        },
+        success:function(data){
+            var items=data;
+            $selected.prepend("<option value=''></option>").val('');
+            $(items).each(function(){
+                var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
+                $selected.append(newOption);
+            });
+            $("#companys").append($("#companys option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));
+            $selected.prepend("<option value=''></option>").val('');
 
 
-            }
+        }
 
-        });
+    });
 
 }
 

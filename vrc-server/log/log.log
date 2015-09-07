@@ -1,0 +1,1262 @@
+2015-08-31 16:54:18 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:00:55 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:02:08 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:06:36 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:09:55 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:12:30 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-08-31 17:12:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-08-31 17:12:32 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1446 ms, enhance=515 ms, total=1961 ms. Consult the log for full details
+2015-08-31 17:13:39 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-08-31 17:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-08-31 17:13:40 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1358 ms, enhance=226 ms, total=1584 ms. Consult the log for full details
+2015-08-31 17:14:46 INFO  MLog:80 - MLog clients using log4j logging.
+2015-08-31 17:14:46 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-08-31 17:14:47 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@56fe9fec [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@3ddfbc01 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10f1f2h8415vc|4f3b4060, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@42c7fa91 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f1f2h8415vc|15e48a6a, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f1f2h8415vc|3aff8743, numHelperThreads -> 3 ]
+2015-08-31 17:14:48 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-08-31 17:14:50 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@40b882b1 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@370ef944 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10f1f2h8415vc|3f0c5a4, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@2c68347e [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f1f2h8415vc|461c0457, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f1f2h8415vc|65b09d4c, numHelperThreads -> 3 ]
+2015-08-31 17:14:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-08-31 17:14:50 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.UserVoiceModelDAO.listAllScore(UserVoiceModelDAO.java:178)
+	at com.cmg.vrc.servlet.Pronunciationss.doPost(Pronunciationss.java:91)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:16:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country == null || country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode == null || activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String user,String fullname,String country,java.util.Date dateFrom,java.util.Date dateTo" since the connection used is closing/committing
+2015-08-31 17:16:05 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)||(country == null || country.toLowerCase().indexOf(search.toLowerCase()) != -1)||(activationCode == null || activationCode.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String user,String fullname,String country,java.util.Date dateFrom,java.util.Date dateTo ORDER BY username asc RANGE 0,10" since the connection used is closing/committing
+2015-08-31 17:16:05 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithMap(Query.java:1751)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:369)
+	at org.datanucleus.api.jdo.JDOQuery.executeWithMap(JDOQuery.java:276)
+	at com.cmg.vrc.data.dao.impl.UserDAO.listAll(UserDAO.java:154)
+	at com.cmg.vrc.servlet.Users.doPost(Users.java:82)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:16:13 WARN  Query:106 - Query for candidates of com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO and subclasses resulted in no possible candidates
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+org.datanucleus.exceptions.NucleusDataStoreException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:459)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.LicenseCodeCompanyDAO.listAll(LicenseCodeCompanyDAO.java:36)
+	at com.cmg.vrc.servlet.ListCompanyServlet.licenseCodeCompanyList(ListCompanyServlet.java:47)
+	at com.cmg.vrc.servlet.ListCompanyServlet.doPost(ListCompanyServlet.java:27)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	... 40 more
+Nested Throwables StackTrace:
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.LicenseCodeCompanyDAO.listAll(LicenseCodeCompanyDAO.java:36)
+	at com.cmg.vrc.servlet.ListCompanyServlet.licenseCodeCompanyList(ListCompanyServlet.java:47)
+	at com.cmg.vrc.servlet.ListCompanyServlet.doPost(ListCompanyServlet.java:27)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:17:45 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-08-31 17:17:46 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-08-31 17:17:46 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1290 ms, enhance=248 ms, total=1538 ms. Consult the log for full details
+2015-08-31 17:18:15 INFO  MLog:80 - MLog clients using log4j logging.
+2015-08-31 17:18:15 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-08-31 17:18:15 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@b4b3b170 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@2be2aab5 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10f5vschn9xfc|3978a3af, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@c31c45a3 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f5vschn9xfc|78671c62, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f5vschn9xfc|1f4253a3, numHelperThreads -> 3 ]
+2015-08-31 17:18:16 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-08-31 17:18:18 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@129a406e [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@48ae58d9 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10f5vschn9xfc|3d6b8489, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@bfdbba6d [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f5vschn9xfc|fa40be8, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10f5vschn9xfc|3e88d623, numHelperThreads -> 3 ]
+2015-08-31 17:18:18 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-08-31 17:18:19 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.UserVoiceModelDAO.listAllScore(UserVoiceModelDAO.java:178)
+	at com.cmg.vrc.servlet.Pronunciationss.doPost(Pronunciationss.java:91)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:20:54 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-08-31 17:20:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-08-31 17:20:55 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1190 ms, enhance=228 ms, total=1418 ms. Consult the log for full details
+2015-08-31 17:21:52 INFO  MLog:80 - MLog clients using log4j logging.
+2015-08-31 17:21:52 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-08-31 17:21:53 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@a593e174 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@7471e05f [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10fajptjhga5a|6da0e758, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a899e0e [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fajptjhga5a|c8ad106, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fajptjhga5a|5eb47aa2, numHelperThreads -> 3 ]
+2015-08-31 17:21:54 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-08-31 17:21:56 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-08-31 17:21:56 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@a10f99d [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@dd84ded2 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10fajptjhga5a|265f9b34, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@5c5e8c79 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fajptjhga5a|6f151d4e, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fajptjhga5a|1fddc12c, numHelperThreads -> 3 ]
+2015-08-31 17:21:56 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.UserVoiceModelDAO.listAllScore(UserVoiceModelDAO.java:178)
+	at com.cmg.vrc.servlet.Pronunciationss.doPost(Pronunciationss.java:91)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:23:23 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-08-31 17:23:46 WARN  Query:106 - Query for candidates of com.cmg.vrc.data.jdo.ClientCodeJDO and subclasses resulted in no possible candidates
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+org.datanucleus.exceptions.NucleusDataStoreException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:459)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.ClientCodeDAO.getCount(ClientCodeDAO.java:189)
+	at com.cmg.vrc.servlet.ClientCodeServlet.doPost(ClientCodeServlet.java:57)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	... 39 more
+Nested Throwables StackTrace:
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.ClientCodeDAO.getCount(ClientCodeDAO.java:189)
+	at com.cmg.vrc.servlet.ClientCodeServlet.doPost(ClientCodeServlet.java:57)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:24:43 WARN  Query:106 - Query for candidates of com.cmg.vrc.data.jdo.AppDetailJDO and subclasses resulted in no possible candidates
+You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+org.datanucleus.exceptions.NucleusDataStoreException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:459)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.AppDetailDAO.listAll(AppDetailDAO.java:32)
+	at com.cmg.vrc.servlet.AppDetails.doPost(AppDetails.java:28)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	... 39 more
+Nested Throwables StackTrace:
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.StatementImpl.executeSimpleNonQuery(StatementImpl.java:1561)
+	at com.mysql.jdbc.StatementImpl.executeQuery(StatementImpl.java:1458)
+	at com.mysql.jdbc.ConnectionImpl.getTransactionIsolation(ConnectionImpl.java:3132)
+	at com.mchange.v2.c3p0.impl.NewProxyConnection.getTransactionIsolation(NewProxyConnection.java:1037)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.getConnection(ConnectionFactoryImpl.java:427)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.getCurrentConnection(AbstractSchemaTransaction.java:87)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3362)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2875)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1608)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:671)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:896)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:344)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1805)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.AppDetailDAO.listAll(AppDetailDAO.java:32)
+	at com.cmg.vrc.servlet.AppDetails.doPost(AppDetails.java:28)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:25:42 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-08-31 17:25:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-08-31 17:25:44 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1359 ms, enhance=215 ms, total=1574 ms. Consult the log for full details
+2015-08-31 17:27:34 INFO  MLog:80 - MLog clients using log4j logging.
+2015-08-31 17:27:34 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-08-31 17:27:34 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@af3e0df3 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@bdaf2916 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10fhvg71ukv6lz|27080fae, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@4f446894 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fhvg71ukv6lz|3ad7b280, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fhvg71ukv6lz|23d7c87, numHelperThreads -> 3 ]
+2015-08-31 17:27:35 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-08-31 17:27:37 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@41530ec2 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@8696cd7c [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b10fhvg71ukv6lz|316c561f, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@525e0cb0 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fhvg71ukv6lz|2913aedd, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b10fhvg71ukv6lz|669c9f59, numHelperThreads -> 3 ]
+2015-08-31 17:27:37 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-08-31 17:27:38 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.UserVoiceModelDAO.listAllScore(UserVoiceModelDAO.java:178)
+	at com.cmg.vrc.servlet.Pronunciationss.doPost(Pronunciationss.java:91)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-08-31 17:28:07 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-09-01 08:48:37 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AdminJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetailJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCodeJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersionJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.FeedbackJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersionJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.SecurityJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.TranscriptionJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UsageJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDeviceJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModelJDO" is already enhanced.
+2015-09-01 08:48:38 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-09-01 08:48:38 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1444 ms, enhance=81 ms, total=1525 ms. Consult the log for full details
+2015-09-01 08:50:48 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-01 08:50:48 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-01 08:50:49 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@f421b318 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@e11ae11e [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11ch5tr1r15a0p|7adc252c, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@9e1a297a [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ch5tr1r15a0p|35b4f377, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ch5tr1r15a0p|b0caab8, numHelperThreads -> 3 ]
+2015-09-01 08:51:06 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-01 08:51:09 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@934c7207 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@34d14e19 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11ch5tr1r15a0p|16cb1351, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@39a97715 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ch5tr1r15a0p|7a0f926c, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ch5tr1r15a0p|6f52d3a9, numHelperThreads -> 3 ]
+2015-09-01 08:51:09 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-01 08:51:09 WARN  NewProxyPreparedStatement:1815 - Exception on close of inner statement.
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=DEFAULT' at line 1
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:409)
+	at com.mysql.jdbc.Util.getInstance(Util.java:384)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3566)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3498)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1959)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2113)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2562)
+	at com.mysql.jdbc.ConnectionImpl.unsetMaxRows(ConnectionImpl.java:5392)
+	at com.mysql.jdbc.StatementImpl.realClose(StatementImpl.java:2396)
+	at com.mysql.jdbc.PreparedStatement.realClose(PreparedStatement.java:3073)
+	at com.mysql.jdbc.PreparedStatement.close(PreparedStatement.java:1158)
+	at com.mchange.v2.c3p0.impl.NewProxyPreparedStatement.close(NewProxyPreparedStatement.java:1811)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.closeResults(AbstractRDBMSQueryResult.java:290)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closeResults(ForwardQueryResult.java:243)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.nextResultSetElement(ForwardQueryResult.java:226)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult$QueryResultIterator.next(ForwardQueryResult.java:400)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.processNumberOfResults(ForwardQueryResult.java:143)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.advanceToEndOfResultSet(ForwardQueryResult.java:164)
+	at org.datanucleus.store.rdbms.query.ForwardQueryResult.closingConnection(ForwardQueryResult.java:282)
+	at org.datanucleus.store.query.AbstractQueryResult.disconnect(AbstractQueryResult.java:105)
+	at org.datanucleus.store.rdbms.query.AbstractRDBMSQueryResult.disconnect(AbstractRDBMSQueryResult.java:247)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery$2.managedConnectionPreClose(JDOQLQuery.java:718)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.close(ConnectionFactoryImpl.java:514)
+	at org.datanucleus.store.connection.AbstractManagedConnection.release(AbstractManagedConnection.java:77)
+	at org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl.release(ConnectionFactoryImpl.java:348)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.performExecute(JDOQLQuery.java:827)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1844)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1733)
+	at org.datanucleus.store.query.Query.execute(Query.java:1715)
+	at org.datanucleus.api.jdo.JDOQuery.executeInternal(JDOQuery.java:371)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:213)
+	at com.cmg.vrc.data.dao.impl.UserVoiceModelDAO.listAllScore(UserVoiceModelDAO.java:178)
+	at com.cmg.vrc.servlet.Pronunciationss.doPost(Pronunciationss.java:91)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:617)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:668)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1521)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1478)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-09-01 08:57:09 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-09-01 08:57:10 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-09-01 08:57:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-09-01 08:57:11 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-09-01 08:57:11 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1323 ms, enhance=604 ms, total=1927 ms. Consult the log for full details
+2015-09-01 08:58:34 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AdminJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersionJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersionJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetailJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCodeJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersionJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/FeedbackJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersionJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompanyJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/SecurityJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/TranscriptionJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UsageJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDeviceJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModelJDO.class" with enhanced definition
+2015-09-01 08:58:36 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-09-01 08:58:36 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1237 ms, enhance=242 ms, total=1479 ms. Consult the log for full details
+2015-09-01 08:59:02 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-01 08:59:02 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-01 08:59:02 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@ac24ca5d [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@3de904d1 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11crqxk19xwgxz|2ee6b5d6, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@859af84c [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11crqxk19xwgxz|2b4d855, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11crqxk19xwgxz|2cac0ca8, numHelperThreads -> 3 ]
+2015-09-01 08:59:04 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-01 08:59:05 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@9b2e584e [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@79d095a1 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11crqxk19xwgxz|4184c0d7, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@c2adb378 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11crqxk19xwgxz|7d237c08, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11crqxk19xwgxz|589fc24a, numHelperThreads -> 3 ]
+2015-09-01 08:59:05 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-01 08:59:12 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-09-01 08:59:13 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 08:59:22 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-01 08:59:22 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 08:59:46 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-01 08:59:46 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 10:17:35 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Admin.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/DictionaryVersion.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersion
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/amt/LanguageModelVersion.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersion
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetail.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCode.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersion.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Feedback.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersion.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCode.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompany.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentence.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistory.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Security.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Transcription.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Usage.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/User.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDevice.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-01 10:17:37 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModel.class" with enhanced definition
+2015-09-01 10:17:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-01 10:17:37 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 18 classes. Timings : input=1710 ms, enhance=243 ms, total=1953 ms. Consult the log for full details
+2015-09-01 10:22:29 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-01 10:22:29 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-01 10:22:29 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@40c75ba7 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@8f788829 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11fr2371agri16|1e251c04, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@707ae88b [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11fr2371agri16|28483b2d, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11fr2371agri16|16525a12, numHelperThreads -> 3 ]
+2015-09-01 10:22:33 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-01 10:22:41 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@3393ed63 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@d159d461 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11fr2371agri16|349b66f1, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@1f4a6d3f [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11fr2371agri16|57b78fe7, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11fr2371agri16|793b48fd, numHelperThreads -> 3 ]
+2015-09-01 10:22:42 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-01 10:22:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-09-01 10:22:51 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 10:23:52 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Admin.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetail.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCode.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersion.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Feedback.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersion.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-01 10:23:53 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-01 10:23:53 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-01 10:23:53 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistory.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Security.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Transcription.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Usage.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/User.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDevice.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-01 10:23:53 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModel.class" with enhanced definition
+2015-09-01 10:23:53 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-01 10:23:53 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 16 classes. Timings : input=1534 ms, enhance=252 ms, total=1786 ms. Consult the log for full details
+2015-09-01 10:24:31 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-01 10:24:31 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-01 10:24:32 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@e53c38fa [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@32fb65a5 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11ftoln1k1poph|4ba4771c, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@3966771c [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ftoln1k1poph|43256374, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ftoln1k1poph|1a87f610, numHelperThreads -> 3 ]
+2015-09-01 10:24:33 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-01 10:24:35 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@91c4e809 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@d72afe3b [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11ftoln1k1poph|401e313b, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@fdd55eb [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ftoln1k1poph|55dc85c4, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11ftoln1k1poph|754fe44d, numHelperThreads -> 3 ]
+2015-09-01 10:24:35 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-01 10:24:43 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-09-01 10:24:43 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 10:24:45 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AppDetailJDO" since the connection used is closing/committing
+2015-09-01 10:24:48 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-01 10:24:48 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 11:34:08 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)||(uuid == null || uuid.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String username1,String word1,String uuid1 ORDER BY serverTime asc" since the connection used is closing/committing
+2015-09-01 11:34:08 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)||(uuid == null || uuid.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String username1,String word1,String uuid1 ORDER BY username asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:13:40 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCode.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Security.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Feedback.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCode.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetail.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Admin.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersion.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/User.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDevice.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Usage.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModel.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-01 14:13:40 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompany.class" with enhanced definition
+2015-09-01 14:13:40 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-01 14:13:41 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Transcription.class" with enhanced definition
+2015-09-01 14:13:41 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-01 14:13:41 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentence.class" with enhanced definition
+2015-09-01 14:13:41 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-01 14:13:41 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistory.class" with enhanced definition
+2015-09-01 14:13:41 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-01 14:13:41 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersion.class" with enhanced definition
+2015-09-01 14:13:41 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-01 14:13:41 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 16 classes. Timings : input=330 ms, enhance=244 ms, total=574 ms. Consult the log for full details
+2015-09-01 14:14:22 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-01 14:14:23 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-01 14:14:23 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@6913bf7b [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@fa839c5f [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11o19yo18t2bhr|36ed4769, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@38eeafe8 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11o19yo18t2bhr|3b490517, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11o19yo18t2bhr|13eb5aab, numHelperThreads -> 3 ]
+2015-09-01 14:14:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AdminJDO WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-01 14:14:27 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@cf472f91 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@5132260c [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9b11o19yo18t2bhr|5aa9a8aa, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@395a3f14 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11o19yo18t2bhr|5c18f11d, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9b11o19yo18t2bhr|16bf5e96, numHelperThreads -> 3 ]
+2015-09-01 14:14:27 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-01 14:15:56 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)||(uuid == null || uuid.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String username1,String word1,String uuid1 ORDER BY serverTime asc" since the connection used is closing/committing
+2015-09-01 14:15:56 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO WHERE ((username == null || username.toLowerCase().indexOf(search.toLowerCase()) != -1)||(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)||(uuid == null || uuid.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String username1,String word1,String uuid1 ORDER BY username asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:15:59 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserDeviceJDO WHERE imei == :c" since the connection used is closing/committing
+2015-09-01 14:16:04 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO WHERE isDeleted==false" since the connection used is closing/committing
+2015-09-01 14:16:04 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:13 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&isActivated==true &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:17 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:22 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY account asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY activatedDate asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY activatedDate desc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:25 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY createdDate asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:26 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY createdDate desc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:27 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY createdDate asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:29 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LicenseCodeJDO WHERE (isDeleted==false) &&((account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)||(code == null || code.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String ac, java.util.Date dateFrom, java.util.Date dateTo, java.util.Date dateFrom2, java.util.Date dateTo2 ORDER BY createdDate desc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:33 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.ClientCodeJDO WHERE (isDeleted==false) &&((companyName == null || companyName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(contactName == null || contactName.toLowerCase().indexOf(search.toLowerCase()) != -1)||(email == null || email.toLowerCase().indexOf(search.toLowerCase()) != -1)) PARAMETERS String search, String company, String contact, String emails ORDER BY companyName asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:36 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.AppDetailJDO" since the connection used is closing/committing
+2015-09-01 14:16:39 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-01 14:16:39 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-01 14:16:42 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
