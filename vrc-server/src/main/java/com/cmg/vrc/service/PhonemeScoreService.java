@@ -15,13 +15,28 @@ public class PhonemeScoreService {
     private static final Logger logger = Logger.getLogger(PhonemeScoreService.class
             .getName());
 
+
+    public int getMaxVersion(String username){
+        PhonemeScoreDAO dao = new PhonemeScoreDAO();
+        int max = 0;
+        try {
+            max = dao.getMaxVersionByUsername(username);
+
+        }catch (Exception e){
+            logger.warn("can not get version in table phoneme score of username : " + username +" because : " + e.getMessage());
+        }
+        max = max + 1;
+        return max;
+    }
+
+
     /**
      * function add phoneme score
      * @param result
      * @param username
      * @param version
      */
-    public void addPhonemeScore(SphinxResult result, String username, int version){
+    public void addPhonemeScore(SphinxResult result, String username, int version,long time, String dataID){
         PhonemeScoreDAO dao = new PhonemeScoreDAO();
         List<PhonemeScoreDB> temp = null;
         List<SphinxResult.PhonemeScore> list = result.getPhonemeScores();
@@ -33,18 +48,26 @@ public class PhonemeScoreService {
                 score.setVersion(version);
                 score.setPhonemeWord(ps.getName());
                 score.setTotalScore(ps.getTotalScore());
+                score.setTime(time);
+                score.setUserVoiceId(dataID);
                 temp.add(score);
             }
             try {
                 dao.create(temp);
             }catch (Exception e){
                 logger.warn("Can not insert list phonemeScore of username : " + username +" because exception : " + e.getMessage());
+                e.printStackTrace();
             }
 
         }
     }
 
-
+    /**
+     *
+     * @param username
+     * @param version
+     * @return list phoneme score filter by username and version
+     */
     public List<PhonemeScoreDB> listByUsernameAndVersion(String username, int version){
         PhonemeScoreDAO dao = new PhonemeScoreDAO();
         List<PhonemeScoreDB> temp = null;
@@ -52,9 +75,26 @@ public class PhonemeScoreService {
             temp = dao.getByUsernameAndVersion(username,version);
         }catch (Exception e){
             logger.warn("Can not get list phonemeScore of username : " + username + " with version : " + version + " because exception : " + e.getMessage());
+            e.printStackTrace();
         }
         return temp;
     }
 
+
+    public List<SphinxResult.PhonemeScore> swap(List<PhonemeScoreDB> temp){
+        List<SphinxResult.PhonemeScore> list = new ArrayList<SphinxResult.PhonemeScore>();
+        if(temp.size() > 0){
+            for(PhonemeScoreDB db : temp){
+                SphinxResult.PhonemeScore score = new SphinxResult.PhonemeScore();
+                score.setName(db.getPhonemeWord());
+                score.setTotalScore(db.getTotalScore());
+                score.setUsername(db.getUsername());
+                score.setVersion(db.getVersion());
+                score.setUserVoiceId(db.getUserVoiceId());
+                list.add(score);
+            }
+        }
+        return list;
+    }
 
 }

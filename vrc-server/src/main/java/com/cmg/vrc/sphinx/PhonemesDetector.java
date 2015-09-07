@@ -60,7 +60,7 @@ public class PhonemesDetector {
                 awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", sphinx4DataTmpDir);
             }
             if (tmpAcousticModelDir.exists()) {
-                conf.setAcousticModelPath(tmpAcousticModelDir.getAbsolutePath());
+                conf.setAcousticModelPath(tmpAcousticModelDir.toURI().toString());
             } else {
                 conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
             }
@@ -69,7 +69,7 @@ public class PhonemesDetector {
                 awsHelper.download("sphinx-data/dict/cmuphonemedict", tmpPhonemesDictFile);
             }
             if (tmpPhonemesDictFile.exists()) {
-                conf.setDictionaryPath(tmpPhonemesDictFile.getAbsolutePath());
+                conf.setDictionaryPath(tmpPhonemesDictFile.toURI().toString());
             } else {
                 conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
             }
@@ -124,7 +124,7 @@ public class PhonemesDetector {
                 e.printStackTrace();
             }
         }
-        return grammarDir.getAbsolutePath();
+        return grammarDir.toURI().toString();
     }
 
     private void initNeighbourPhonemes() {

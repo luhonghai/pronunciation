@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
 
@@ -19,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by luhonghai on 12/23/14.
@@ -31,6 +34,26 @@ public class ScoreDBAdapter {
         private float score;
         private String dataId;
         private Date timestamp;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        private String username;
+
+        public int getVersion() {
+            return version;
+        }
+
+        public void setVersion(int version) {
+            this.version = version;
+        }
+
+        private int version;
 
         public int getId() {
             return id;
@@ -73,13 +96,33 @@ public class ScoreDBAdapter {
             this.timestamp = timestamp;
         }
 
-        public String getUserVoiceModel(Context context) throws IOException {
+        public String getUserVoiceModel(Context context) throws Exception {
             if (dataId == null || dataId.length() == 0) return null;
             File modelSource = new File(FileHelper.getPronunciationScoreDir(context), dataId + FileHelper.JSON_EXTENSION);
             if (modelSource.exists()) {
                 return FileUtils.readFileToString(modelSource, "UTF-8");
+            } else {
+                UserVoiceModel model = new UserVoiceModel();
+                ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context);
+                scoreDBAdapter.open();
+                PronunciationScore tempScore = scoreDBAdapter.getByDataID(dataId);
+                scoreDBAdapter.close();
+                model.setAudioFile(new File(FileHelper.getPronunciationScoreDir(context), dataId + FileHelper.WAV_EXTENSION).getAbsolutePath());
+                model.setScore(tempScore.getScore());
+                model.setWord(tempScore.getWord());
+                SphinxResult result = new SphinxResult();
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context);
+                phonemeScoreDBAdapter.open();
+                List<SphinxResult.PhonemeScore> scoreList = phonemeScoreDBAdapter.getByDataID(dataId);
+                phonemeScoreDBAdapter.close();
+                result.setPhonemeScores(scoreList);
+                model.setResult(result);
+                Gson gson = new Gson();
+                String json = gson.toJson(model);
+                SimpleAppLog.info("json file get from database : " + json);
+                return json;
             }
-            return null;
+            //return null;
         }
     }
 
@@ -88,6 +131,8 @@ public class ScoreDBAdapter {
     public static final String KEY_SCORE = "score";
     public static final String KEY_DATA_ID = "data_id";
     public static final String KEY_TIMESTAMP = "timestamp";
+    public static final String KEY_USERNAME ="username";
+    public static final String KEY_VERSION ="version";
     private static final String TAG = "ScoreDBAdapter";
 
     private static final String DATABASE_NAME = "score";
@@ -99,6 +144,8 @@ public class ScoreDBAdapter {
                     + " word text not null, "
                     + " data_id text not null, "
                     + " timestamp date not null, "
+                    + " username text not null, "
+                    + " version integer not null, "
                     + "score integer not null);";
 
     private final Context context;
@@ -149,6 +196,10 @@ public class ScoreDBAdapter {
         return this;
     }
 
+    public SQLiteDatabase getDB(){
+        return db;
+    }
+
     //---closes the database---
     public void close()
     {
@@ -158,6 +209,8 @@ public class ScoreDBAdapter {
     public long insert(PronunciationScore score)
     {
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_USERNAME, score.getUsername());
+        initialValues.put(KEY_VERSION, score.getVersion());
         initialValues.put(KEY_WORD, score.getWord());
         initialValues.put(KEY_DATA_ID, score.getDataId());
         initialValues.put(KEY_SCORE, score.getScore());
@@ -174,7 +227,7 @@ public class ScoreDBAdapter {
 
     public Cursor getAllTime()
     {
-        return db.query(DATABASE_TABLE, new String[] {
+        return db.query(DATABASE_TABLE, new String[]{
                         KEY_ROWID,
                         KEY_WORD,
                         KEY_DATA_ID,
@@ -188,15 +241,17 @@ public class ScoreDBAdapter {
                 null);
     }
 
-    public Cursor getAll()
+    public Cursor getAll(String username)
     {
         return db.query(DATABASE_TABLE, new String[] {
                         KEY_ROWID,
                         KEY_WORD,
+                        KEY_USERNAME,
+                        KEY_VERSION,
                         KEY_DATA_ID,
                         KEY_SCORE,
                         KEY_TIMESTAMP},
-                null,
+                KEY_USERNAME + "='" + username+"'",
                 null,
                 null,
                 null,
@@ -226,16 +281,18 @@ public class ScoreDBAdapter {
         return mCursor;
     }
 
-    public Cursor getByWord(String word) throws SQLException
+    public Cursor getByWord(String word, String username) throws SQLException
     {
         return db.query(true, DATABASE_TABLE, new String[] {
                                 KEY_ROWID,
+                                KEY_USERNAME,
+                                KEY_VERSION,
                                 KEY_WORD,
                                 KEY_DATA_ID,
                                 KEY_SCORE,
                                 KEY_TIMESTAMP},
-                        KEY_WORD + "=?",
-                        new String[]{word},
+                        KEY_WORD + "=?" + " and " + KEY_USERNAME + "=?",
+                        new String[]{word,username},
                         null,
                         null,
                 KEY_TIMESTAMP + " DESC",
@@ -276,6 +333,8 @@ public class ScoreDBAdapter {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             PronunciationScore score = new PronunciationScore();
+            score.setVersion(cursor.getInt(cursor.getColumnIndex(KEY_VERSION)));
+            score.setUsername(cursor.getString(cursor.getColumnIndex(KEY_USERNAME)));
             score.setDataId(cursor.getString(cursor.getColumnIndex(KEY_DATA_ID)));
             score.setScore(cursor.getFloat(cursor.getColumnIndex(KEY_SCORE)));
             score.setWord(cursor.getString(cursor.getColumnIndex(KEY_WORD)));
@@ -285,5 +344,51 @@ public class ScoreDBAdapter {
             cursor.moveToNext();
         }
         return list;
+    }
+
+    public PronunciationScore getByDataID(String dataID) throws SQLException,ParseException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_ROWID,
+                                KEY_USERNAME,
+                                KEY_VERSION,
+                                KEY_WORD,
+                                KEY_DATA_ID,
+                                KEY_SCORE,
+                                KEY_TIMESTAMP},
+                        KEY_DATA_ID + "=?",
+                        new String[]{dataID},
+                        null,
+                        null,
+                        null,
+                        null);
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            PronunciationScore score = new PronunciationScore();
+            score.setVersion(mCursor.getInt(mCursor.getColumnIndex(KEY_VERSION)));
+            score.setUsername(mCursor.getString(mCursor.getColumnIndex(KEY_USERNAME)));
+            score.setDataId(mCursor.getString(mCursor.getColumnIndex(KEY_DATA_ID)));
+            score.setScore(mCursor.getFloat(mCursor.getColumnIndex(KEY_SCORE)));
+            score.setWord(mCursor.getString(mCursor.getColumnIndex(KEY_WORD)));
+            score.setId(mCursor.getInt(mCursor.getColumnIndex(KEY_ROWID)));
+            score.setTimestamp(dateFormat.parse(mCursor.getString(mCursor.getColumnIndex(KEY_TIMESTAMP))));
+            return score;
+        }
+        return null;
+    }
+
+    public int getLastedVersion(String username) {
+        int version=0;
+        Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + DATABASE_TABLE + " where username='"+username+"'", null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        try {
+            version= Integer.parseInt(cursor.getString(0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return version;
     }
 }

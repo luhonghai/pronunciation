@@ -10,10 +10,13 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-09-01.
  */
-@PersistenceCapable(table = "PhonemeScore", detachable = "true")
+@PersistenceCapable(table = "PHONEMESCORE", detachable = "true")
 public class PhonemeScoreDB implements Mirrorable{
     @PrimaryKey
     private String id;
+
+    @Persistent
+    private String userVoiceId;
 
     @Persistent
     private String username;
@@ -23,6 +26,17 @@ public class PhonemeScoreDB implements Mirrorable{
 
     @Persistent
     private float totalScore;
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    @Persistent
+    private long time;
 
     @Persistent
     @Column(defaultValue="1")
@@ -69,6 +83,10 @@ public class PhonemeScoreDB implements Mirrorable{
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getUserVoiceId() { return userVoiceId;}
+
+    public void setUserVoiceId(String userVoiceId) {this.userVoiceId = userVoiceId; }
 
 }
 

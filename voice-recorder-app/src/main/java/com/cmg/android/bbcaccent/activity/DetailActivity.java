@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
@@ -38,10 +39,13 @@ import com.cmg.android.bbcaccent.data.SphinxResult;
 import com.cmg.android.bbcaccent.data.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
+import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
+import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.PopoverView;
 import com.google.gson.Gson;
@@ -49,7 +53,9 @@ import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -88,8 +94,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private RelativeLayout rlVoiceExample;
 
-    private DictionaryItem dictionaryItem;
-
     private UserVoiceModel model;
 
     private PlayerHelper player;
@@ -115,19 +119,26 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         initCustomActionBar();
         initTabHost();
         initDetailView();
-        showData(model, false);
+        try {
+            showData(model, false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         registerReceiver(mHandleUpdate, new IntentFilter(FragmentTab.ON_UPDATE_DATA));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
     }
 
-    private void showData(UserVoiceModel userVoiceModel, boolean showScore) {
+    private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws SQLException {
         model = userVoiceModel;
-        dictionaryItem = OxfordDictionaryWalker.getExistingDictionary(this, model.getWord());
+        WordDBAdapter dbAdapter = WordDBAdapter.getInstance(this);
+        dbAdapter.open();
+        String pronunciation = dbAdapter.getPronunciation(model.getWord());
+        dbAdapter.close();
         recordingView.setScore(model.getScore());
-        txtPhonemes.setText(dictionaryItem.getPronunciation());
-        txtWord.setText(dictionaryItem.getWord());
-        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
-        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtPhonemes, dictionaryItem.getPronunciation()));
+        txtPhonemes.setText(pronunciation);
+        txtWord.setText(model.getWord());
+        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, model.getWord()));
+        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtPhonemes, pronunciation));
         if (model.getScore() >= 80.0) {
             lastState = ButtonState.GREEN;
         } else if (model.getScore() >= 45.0) {
@@ -149,25 +160,19 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
     private void showPhonemesListView() {
         if (model == null || model.getResult() == null) return;
-        List<String> phonemes = model.getResult().getCorrectPhonemes();
-        int size = model.getResult().getCorrectPhonemes().size();
+        //List<String> phonemes = model.getResult().getCorrectPhonemes();
+        //int size = model.getResult().getCorrectPhonemes().size();
         List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
-
-        SphinxResult.PhonemeScore[] scores = new SphinxResult.PhonemeScore[size];
+        SphinxResult.PhonemeScore[] scores = null;
         if (phonemeScores == null || phonemeScores.size() == 0) {
-            for (int i = 0; i < size; i++) {
-                SphinxResult.PhonemeScore score = new SphinxResult.PhonemeScore();
-                score.setIndex(0);
-                score.setName(phonemes.get(i));
-                score.setTotalScore(0);
-                scores[i] = score;
-            }
+            //TODO validate if not contain any scores
         } else {
+            scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
             phonemeScores.toArray(scores);
+            PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores, this);
+            hListView.setAdapter(scoreAdapter);
+            scoreAdapter.notifyDataSetChanged();
         }
-        PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(this, scores, this);
-        hListView.setAdapter(scoreAdapter);
-        scoreAdapter.notifyDataSetChanged();
     }
 
     private void initDetailView() {
@@ -288,7 +293,35 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             case R.id.rlVoiceExample:
             //case R.id.txtPhoneme:
             //case R.id.txtWord:
-                play(dictionaryItem.getAudioFile());
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(DetailActivity.this.getApplicationContext()));
+                        walker.setListener(new DictionaryListener() {
+                            @Override
+                            public void onDetectWord(final DictionaryItem dItem) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        play(dItem.getAudioFile());
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onWordNotFound(DictionaryItem dItem, final FileNotFoundException ex) {
+
+                            }
+
+                            @Override
+                            public void onError(DictionaryItem dItem, final Exception ex) {
+
+                            }
+                        });
+                        walker.execute(model.getWord());
+                        return null;
+                    }
+                }.execute();
                 break;
             case R.id.btnAudio:
                 if (isPlaying) {
@@ -520,6 +553,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
+        if (model != null) {
+            File audio = new File(model.getAudioFile());
+            if (!audio.exists()) {
+                btnAudio.setEnabled(false);
+                btnAudio.setImageResource(R.drawable.p_audio_gray);
+            }
+        }
     }
 
     private void playAudio() {
@@ -528,6 +568,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void playFile(File file) {
+        if (!file.exists()) return;
         isPlaying = true;
         try {
             if (player != null) {
@@ -555,6 +596,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             player.play();
         } catch (Exception e) {
             e.printStackTrace();
+            isPlaying = false;
         }
     }
 
@@ -654,7 +696,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        showData(model, true);
+                                        try {
+                                            showData(model, true);
+                                        } catch (SQLException e) {
+                                            SimpleAppLog.error("Could not show data",e);
+                                        }
                                     }
                                 });
                                 break;
