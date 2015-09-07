@@ -16,5 +16,3 @@ temp/**
 **.iml
 .project
 .checkstyle
-/log/**
-/data/**

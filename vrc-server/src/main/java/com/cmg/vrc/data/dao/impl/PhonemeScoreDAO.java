@@ -61,6 +61,29 @@ public class PhonemeScoreDAO extends DataAccess<PhonemeScoreDB> {
         }
     }
 
+    /**
+     *
+     * @param uvID
+     * @return check user voice id is existed or not
+     */
+    public boolean userVoiceIDExisted(String uvID){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + PhonemeScoreDB.class.getCanonicalName());
+        q.setFilter("userVoiceId==paraID");
+        q.declareParameters("String paraID");
+        try {
+            List<PhonemeScoreDB> list = detachCopyAllList(pm,q.execute(uvID));
+            if(list!=null && list.size()>0){
+                return true;
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
+
 
 }
-
