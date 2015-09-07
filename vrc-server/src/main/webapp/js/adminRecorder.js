@@ -66,8 +66,22 @@ function listTranscriptionRecorder(){
             "sDefaultContent": ""
         }, {
             "sWidth": "7%",
-            "data": "status",
-            "sDefaultContent": ""
+            "data": "null",
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                if (data.status == 1) {
+                    return '<span style="background-color: orange;color: white' + '>'+waiting+'</span>';
+                }
+                if (data.status == 2) {
+                    return '<span style="background-color: red;color: white' + '>'+reject+'</span>';
+                }
+                if (data.status == 3) {
+                    return '<span style="background-color: green;color: white' + '>'+approved+'</span>';
+                }
+                if (data.status == 4) {
+                    return '<span style="background-color: darkgray;color: white' + '>'+locked+'</span>';
+                }
+            }
         },{
             "sWidth": "30%",
             "data": null,
