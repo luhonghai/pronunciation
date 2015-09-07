@@ -212,8 +212,8 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
      */
     public int getMaxVersion(String username){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        int maxVersion = 1;
-        Query q = pm.newQuery("SELECT Max(version) FROM " + UserVoiceModel.class.getCanonicalName());
+        int maxVersion = 0;
+        Query q = pm.newQuery("SELECT MAX(version) FROM " + UserVoiceModel.class.getCanonicalName());
         q.setFilter("username==paramUsername");
         q.declareParameters("String paramUsername");
         try {

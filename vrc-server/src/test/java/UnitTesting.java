@@ -1,3 +1,4 @@
+import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.service.amt.TranscriptionService;
 
 /**
@@ -6,9 +7,10 @@ import com.cmg.vrc.service.amt.TranscriptionService;
 public class UnitTesting {
 
     public static void main(String[] args) {
-        TranscriptionService transcriptionService = new TranscriptionService();
+        UserVoiceModelDAO dao = new UserVoiceModelDAO();
         try {
-            transcriptionService.loadTranscription();
+            int i = dao.getMaxVersion("company@c-mg.com");
+            System.out.println(i);
         } catch (Exception e) {
             e.printStackTrace();
         }
