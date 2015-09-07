@@ -253,7 +253,7 @@ public class TranscriptionService {
                 transcription.setCreatedDate(new Date(System.currentTimeMillis()));
                 transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                 transcription.setSentence(sentence);
-                transcription.setVersion(2000);
+                transcription.setVersion(20);
                 return transcriptionDAO.put(transcription);
             } else {
                 SENTENCES.add(sentence);

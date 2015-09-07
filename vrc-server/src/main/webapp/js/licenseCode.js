@@ -136,6 +136,10 @@ function add(){
                     var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
                     $selected.append(newOption);
                 });
+                $("#company").append($("#company option").remove().sort(function(a, b) {
+                    var at = $(a).text(), bt = $(b).text();
+                    return (at > bt)?1:((at < bt)?-1:0);
+                }));
 
 
             }
@@ -292,11 +296,15 @@ function listCompany(){
             },
             success:function(data){
                 var items=data;
-                $selected.prepend("<option value=''></option>").val('');
                 $(items).each(function(){
                     var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
                     $selected.append(newOption);
                 });
+                $("#companys").append($("#companys option").remove().sort(function(a, b) {
+                    var at = $(a).text(), bt = $(b).text();
+                    return (at > bt)?1:((at < bt)?-1:0);
+                }));
+                $selected.prepend("<option value=''></option>").val('');
 
 
             }
