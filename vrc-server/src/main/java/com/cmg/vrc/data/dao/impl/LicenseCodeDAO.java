@@ -197,12 +197,10 @@ public class LicenseCodeDAO extends DataAccess<LicenseCodeJDO, LicenseCode> {
         if(search.length()>0){
             query.append(" and code.account LIKE '%" + search + "%' and code.code LIKE '%" + search + "%' and code.imei LIKE '%" + search + "%'");
         }
-        System.out.println(query);
-
 
 
         Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
-        q.setRange(start, start + length);
+
 
 
         try {
