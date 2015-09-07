@@ -4,6 +4,7 @@ import com.cmg.vrc.data.Mirrorable;
 import com.cmg.vrc.sphinx.SphinxResult;
 
 import javax.jdo.annotations.*;
+import java.util.Date;
 
 /**
  * Created by luhonghai on 9/30/14.
@@ -53,8 +54,15 @@ public class UserVoiceModel implements Mirrorable {
     @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String rawSphinxResult;
 
+    @Persistent
+    @Column(defaultValue = "1")
+    private int version;
+
     @NotPersistent
     private SphinxResult result;
+
+    @NotPersistent
+    private Date serverDate;
 
     public String getUsername() {
         if (username != null) username = username.toLowerCase();
@@ -204,14 +212,6 @@ public class UserVoiceModel implements Mirrorable {
         this.hypothesis = hypothesis;
     }
 
-    public String getRawSphinxResult() {
-        return rawSphinxResult;
-    }
-
-    public void setRawSphinxResult(String rawSphinxResult) {
-        this.rawSphinxResult = rawSphinxResult;
-    }
-
     public float getScore() {
         return score;
     }
@@ -227,4 +227,25 @@ public class UserVoiceModel implements Mirrorable {
     public void setResult(SphinxResult result) {
         this.result = result;
     }
+    public String getRawSphinxResult() {
+        return rawSphinxResult;
+    }
+
+    public void setRawSphinxResult(String rawSphinxResult) {
+        this.rawSphinxResult = rawSphinxResult;
+    }
+
+    public Date getServerDate() {
+        if (serverTime == 0)
+            return null;
+        return new Date(serverTime);
+    }
+
+    public void setServerDate(Date serverDate) {
+        this.serverDate = serverDate;
+    }
+    public int getVersion() {return version;}
+
+    public void setVersion(int version) {this.version = version;}
+
 }
