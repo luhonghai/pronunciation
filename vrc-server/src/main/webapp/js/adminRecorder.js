@@ -40,7 +40,25 @@ function listTranscriptionRecorder(){
             "bSortable": false,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                return '<i class="fa fa-file-audio-o fa-2x"></i>';
+                $divs=$('<div id="'+data.id+'" class="cp-jplayer">' + '</div>' +
+                '<div class="prototype-wrapper"> ' +
+                    '<div id="'+data.id+"s"+'" class="cp-container">' +
+                        '<div class="cp-buffer-holder"> ' +
+                            '<div class="cp-buffer-1">' + '</div>' +
+                            '<div class="cp-buffer-2">' + '</div>' +
+                     '</div>' +
+                     '<div class="cp-progress-holder">' +
+                             '<div class="cp-progress-1">' + '</div>' +
+                             '<div class="cp-progress-2">' + '</div>' +
+                      '</div>' +
+                      '<div class="cp-circle-control">' + '</div>' +
+                      '<ul class="cp-controls" account=' + data.account + ' id="loadAudioRecorderSentence" id-column=' + data.sentenceId + '>' +
+                            '<li>'+'<a class="cp-play" tabindex="1">' + 'play' + '</a>' + '</li>' +
+                            '<li>'+'<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
+                       '</ul>' +
+                    '</div>');
+                return $("<div/>").append($divs).html();
+                //return '<i class="fa fa-file-audio-o fa-2x"></i>';
             }
         }, {
             "sWidth": "20%",
@@ -118,11 +136,16 @@ function loadNumber(){
         },
         success:function(data){
             var items=data.recordedSentences;
-            $selected.prepend("<option value=''></option>").val('');
+
             $(items).each(function(){
                 var newOption = '<option value="' + this.account + '">' + this.account + '</option>';
                 $selected.append(newOption);
             });
+            $("#listaccount").append($("#listaccount option").remove().sort(function(a, b) {
+                var at = $(a).text(), bt = $(b).text();
+                return (at > bt)?1:((at < bt)?-1:0);
+            }));
+            $selected.prepend("<option value=''></option>").val('');
 
             $("#awaiting").text(data.waiting);
             $("#pending").text(data.pending);
@@ -258,6 +281,36 @@ function locked(){
     });
 }
 
+function loadAudio(){
+    $(document).on("click","#loadAudioRecorderSentence", function(){
+        var id=$(this).attr('id-column');
+        var account=$(this).attr('account');
+        $.ajax({
+            "url": "RecorderServletNumber",
+            "type": "POST",
+            "dataType": "text",
+            "data": {
+                loadAudio: "loadAudio",
+                id:id,
+                account:account
+
+            },
+            success:function(data){
+                var myCirclePlayer = new CirclePlayer("#"+id+"",
+                    {
+                        wav: data
+                    }, {
+                        cssSelectorAncestor: "#"+id+'s'+""
+                    });
+
+            }
+        });
+
+
+    });
+}
+
+
 
 
 
@@ -266,6 +319,7 @@ function locked(){
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
     reject();
+    loadAudio()
     approved();
     locked();
     dateFrom();

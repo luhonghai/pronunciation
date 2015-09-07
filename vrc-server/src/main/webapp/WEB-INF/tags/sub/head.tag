@@ -28,6 +28,10 @@
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/dist/css/sb-admin-2.css" rel="stylesheet">
 
+        <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/css/not.the.skin.css" rel="stylesheet">
+
+        <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/circle.skin/circle.player.css" rel="stylesheet">
+
         <!-- Custom Fonts -->
         <link href="<%=request.getContextPath()%>/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">

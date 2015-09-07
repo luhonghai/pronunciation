@@ -36,6 +36,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         return null;
     }
 
+
     public boolean adminUpdate(String idSentence, int isDelete, int statu, int ver){
         boolean result=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -125,7 +126,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
 
         if(sta!=6) {
-            string.append("(status=sta) &&");
+            string.append("(status==sta && status!=0) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
@@ -196,7 +197,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             string.append("(createdDate <= dateTo) &&");
         }
         if(sta!=6) {
-            string.append("(status=sta) &&");
+            string.append("(status==sta && status!=0) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
