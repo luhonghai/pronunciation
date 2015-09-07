@@ -104,15 +104,13 @@ public class LicenseCodes extends HttpServlet {
 
             }
             try {
-                List<LicenseCode> licenseCodes=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
-
                 if(search.length()>0||ac.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null ||dateFrom3!=null||dateTo3!=null && company.length()==0){
                     count=lis.getCountSearch(search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3);
                 }else {
                      count = lis.getCount();
                 }
                 if(company.length()>0){
-                    count=(double)licenseCodes.size();
+                    count=(double)lis.listAllByCompanySearch(search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company).size();
                 }
                 licen.draw = draw;
                 licen.recordsTotal = count;

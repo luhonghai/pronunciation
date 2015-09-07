@@ -1260,3 +1260,457 @@ com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: You have an error in 
 2015-09-01 14:16:39 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE isDeleted==0" since the connection used is closing/committing
 2015-09-01 14:16:39 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.TranscriptionJDO WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
 2015-09-01 14:16:42 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModelJDO ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-07 16:10:36 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.0.m4) for API "JDO"
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AdminJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AdminJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\amt\DictionaryVersionJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.DictionaryVersionJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\amt\LanguageModelVersionJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.LanguageModelVersionJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\amt\RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.amt.RecordedSentenceHistoryJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AppDetailJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetailJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\ClientCodeJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCodeJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\DictionaryVersionJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersionJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\FeedbackJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.FeedbackJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersionJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersionJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeCompanyJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompanyJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceHistoryJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistoryJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\SecurityJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.SecurityJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\TranscriptionJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.TranscriptionJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UsageJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UsageJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserDeviceJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDeviceJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserVoiceModelJDO.class" with enhanced definition
+2015-09-07 16:10:37 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModelJDO
+2015-09-07 16:10:37 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 19 classes. Timings : input=1292 ms, enhance=412 ms, total=1704 ms. Consult the log for full details
+2015-09-07 16:15:17 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-07 16:15:17 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-07 16:15:18 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@8450517d [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@fd226198 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1aczvkpm6s52k|6be420a6, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@80aa8ef6 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1aczvkpm6s52k|7d361de2, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1aczvkpm6s52k|4e1ba9a0, numHelperThreads -> 3 ]
+2015-09-07 16:15:21 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:21 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:21 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:21 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:21 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:21 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@d6b2b074 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@b8ed7cae [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1aczvkpm6s52k|18a6f59f, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@b842d47a [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1aczvkpm6s52k|13eb5aab, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1aczvkpm6s52k|3530c402, numHelperThreads -> 3 ]
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 ERROR Datastore:115 - Error thrown executing CREATE TABLE `FEEDBACK`
+(
+    `ID` VARCHAR(255) BINARY NOT NULL,
+    `ACCOUNT` VARCHAR(255) BINARY NULL,
+    `APPVERSION` VARCHAR(255) BINARY NULL,
+    `CREATEDDATE` TIMESTAMP NULL,
+    `DESCRIPTION` VARCHAR(10000) BINARY NULL,
+    `DEVICENAME` VARCHAR(255) BINARY NULL,
+    `IMEI` VARCHAR(255) BINARY NULL,
+    `OSAPILEVEL` VARCHAR(255) BINARY NULL,
+    `OSVERSION` VARCHAR(255) BINARY NULL,
+    `RAWUSERPROFILE` VARCHAR(10000) BINARY NULL,
+    `SCREENSHOOT` VARCHAR(255) BINARY NULL,
+    `STACKTRACE` VARCHAR(10000) BINARY NULL,
+    CONSTRAINT `FEEDBACK_PK` PRIMARY KEY (`ID`)
+) ENGINE=INNODB : Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+2015-09-07 16:15:29 ERROR Schema:115 - An exception was thrown while adding/validating class(es) : Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+2015-09-07 16:15:29 WARN  Query:106 - Query for candidates of com.cmg.vrc.data.jdo.FeedbackJDO and subclasses resulted in no possible candidates
+An exception was thrown while adding/validating class(es) : Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+org.datanucleus.exceptions.NucleusDataStoreException: An exception was thrown while adding/validating class(es) : Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2923)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	... 35 more
+Nested Throwables StackTrace:
+com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Row size too large. The maximum row size for the used table type, not counting BLOBs, is 65535. This includes storage overhead, check the manual. You have to change some columns to TEXT or BLOBs
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+	at com.mysql.jdbc.Util.handleNewInstance(Util.java:411)
+	at com.mysql.jdbc.Util.getInstance(Util.java:386)
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1054)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4187)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:4119)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:2570)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2731)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2809)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2758)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:894)
+	at com.mysql.jdbc.StatementImpl.execute(StatementImpl.java:732)
+	at com.mchange.v2.c3p0.impl.NewProxyStatement.execute(NewProxyStatement.java:1006)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatement(AbstractTable.java:864)
+	at org.datanucleus.store.rdbms.table.AbstractTable.executeDdlStatementList(AbstractTable.java:815)
+	at org.datanucleus.store.rdbms.table.AbstractTable.create(AbstractTable.java:531)
+	at org.datanucleus.store.rdbms.table.AbstractTable.exists(AbstractTable.java:594)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.performTablesValidation(RDBMSStoreManager.java:3364)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager$ClassAdder.run(RDBMSStoreManager.java:2880)
+	at org.datanucleus.store.rdbms.AbstractSchemaTransaction.execute(AbstractSchemaTransaction.java:119)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.manageClasses(RDBMSStoreManager.java:1613)
+	at org.datanucleus.store.rdbms.RDBMSStoreManager.getDatastoreClass(RDBMSStoreManager.java:678)
+	at org.datanucleus.store.rdbms.query.RDBMSQueryUtils.getStatementForCandidates(RDBMSQueryUtils.java:425)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileQueryFull(JDOQLQuery.java:893)
+	at org.datanucleus.store.rdbms.query.JDOQLQuery.compileInternal(JDOQLQuery.java:341)
+	at org.datanucleus.store.query.Query.executeQuery(Query.java:1801)
+	at org.datanucleus.store.query.Query.executeWithArray(Query.java:1729)
+	at org.datanucleus.api.jdo.JDOQuery.execute(JDOQuery.java:255)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:493)
+	at com.cmg.vrc.data.dao.DataAccess.getCount(DataAccess.java:482)
+	at com.cmg.vrc.servlet.Dashboard.doPost(Dashboard.java:33)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:291)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:239)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:206)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:219)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:142)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:616)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:518)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1091)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:673)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.doRun(AprEndpoint.java:2503)
+	at org.apache.tomcat.util.net.AprEndpoint$SocketProcessor.run(AprEndpoint.java:2492)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:29 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:15:38 WARN  Schema:96 - Attempt to find JDBC driver 'typeInfo' for jdbc-type=VARCHAR but sql-type=VARCHAR is not found. Using default sql-type for this jdbc-type.
+2015-09-07 16:16:41 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4295e396" since the connection used is closing/committing

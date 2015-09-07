@@ -296,7 +296,6 @@ function listCompany(){
         },
         success:function(data){
             var items=data;
-            $selected.prepend("<option value=''></option>").val('');
             $(items).each(function(){
                 var newOption = '<option value="' + this.company + '">' + this.company + '</option>';
                 $selected.append(newOption);
