@@ -111,7 +111,7 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
         StringBuffer query=new StringBuffer();
         TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
         TypeMetadata metaLicenseCodeCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCodeCompany.class.getCanonicalName());
-        String firstQuery = "select code.* from " +  metaLicenseCode.getTable()
+        String firstQuery = "select code.id, code.account , code.activatedDate, code.code, code.imei, code.isActivated, code.isDeleted, code.createdDate from " +  metaLicenseCode.getTable()
                 + " code join "  + metaLicenseCodeCompany.getTable()
                 + " mapping on mapping.CODE=code.CODE where mapping.COMPANY='"+com+"'";
         query.append(firstQuery);
