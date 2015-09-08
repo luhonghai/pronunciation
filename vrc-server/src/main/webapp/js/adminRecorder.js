@@ -66,20 +66,22 @@ function listTranscriptionRecorder(){
             "sDefaultContent": ""
         }, {
             "sWidth": "7%",
-            "data": "null",
+            "data": null,
+            "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
+                console.log(data);
                 if (data.status == 1) {
-                    return '<span style="background-color: orange;color: white>'+waiting+'</span>';
+                    return '<span style="background-color: orange;color: white;">'+"Waiting"+'</span>';
                 }
                 if (data.status == 2) {
-                    return '<span style="background-color: red;color: white>'+reject+'</span>';
+                    return '<span style="background-color: red;color: white;">'+"Reject"+'</span>';
                 }
                 if (data.status == 3) {
-                    return '<span style="background-color: green;color: white>'+approved+'</span>';
+                    return '<span style="background-color: green;color: white;">'+"Approved"+'</span>';
                 }
                 if (data.status == 4) {
-                    return '<span style="background-color: darkgray;color: white>'+locked+'</span>';
+                    return '<span style="background-color: darkgray;color: white;">'+"Locked"+'</span>';
                 }
             }
         },{
@@ -302,7 +304,7 @@ function loadAudio(){
         $.ajax({
             "url": "RecorderServletNumber",
             "type": "POST",
-            "dataType": "text",
+            "dataType": "json",
             "data": {
                 loadAudio: "loadAudio",
                 id:id,
