@@ -78,7 +78,7 @@ public class WordDBAdapter {
                     String w = tmp[0].trim().toLowerCase();
                     String p = tmp[1].trim();
                     boolean b = Boolean.valueOf(tmp[2].trim());
-              //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
+                    //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
                     ContentValues initialValues = new ContentValues();
                     initialValues.put(KEY_WORD, w);
                     initialValues.put(KEY_BEEP, b ? 1 : 0);
@@ -226,7 +226,7 @@ public class WordDBAdapter {
 
     //---updates a title---
     public boolean update(long rowId, String word,
-                               String pronunciation, boolean isBeep)
+                          String pronunciation, boolean isBeep)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_WORD, word);

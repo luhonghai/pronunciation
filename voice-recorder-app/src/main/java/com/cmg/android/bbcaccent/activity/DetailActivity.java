@@ -291,8 +291,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlVoiceExample:
-            //case R.id.txtPhoneme:
-            //case R.id.txtWord:
+                //case R.id.txtPhoneme:
+                //case R.id.txtWord:
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {

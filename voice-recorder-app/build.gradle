@@ -126,5 +126,4 @@ copyFiles {
     into 'src/main/res/values'
     include('**/*')
 }
-
 preBuild.dependsOn copyFiles

@@ -97,7 +97,3 @@ public class PhonemeScoreDB implements Mirrorable{
     public void setUserVoiceId(String userVoiceId) {this.userVoiceId = userVoiceId; }
 
 }
-
-
-
-

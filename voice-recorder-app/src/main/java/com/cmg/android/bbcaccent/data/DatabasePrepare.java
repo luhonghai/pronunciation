@@ -30,7 +30,7 @@ public class DatabasePrepare {
             protected Void doInBackground(Void... params) {
                 loadDatabase();
                 loadTips();
-              //  loadHelpContent();
+                //  loadHelpContent();
                 prepraredListener.onComplete();
                 return null;
             }

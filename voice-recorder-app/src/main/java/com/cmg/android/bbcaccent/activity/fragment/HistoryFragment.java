@@ -102,7 +102,7 @@ public class HistoryFragment extends FragmentTab {
                     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         AndroidHelper.updateMarqueeTextView((TextView)v, !AndroidHelper.isCorrectWidth((TextView) v, score.getWord()));
                         v.setSelected(true);
-                       // v.requestFocus();
+                        // v.requestFocus();
                     }
                 });
 
@@ -148,8 +148,8 @@ public class HistoryFragment extends FragmentTab {
                     }
                     break;
                 case R.id.rlHistoryItem:
-                //case R.id.txtWordItem:
-                //case R.id.txtWordScore:
+                    //case R.id.txtWordItem:
+                    //case R.id.txtWordScore:
                     try {
                         sendAction(score, CLICK_LIST_ITEM);
                     } catch (Exception e) {

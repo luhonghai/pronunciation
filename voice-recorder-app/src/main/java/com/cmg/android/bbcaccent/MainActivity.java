@@ -582,7 +582,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void getWord(final String word) {
         if (isRecording) return;
         try {
-           // dbAdapter.open();
+            // dbAdapter.open();
             if (!dbAdapter.isBeep(word)) {
                 AnalyticHelper.sendSelectWordNotInBeep(this, word);
                 SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);

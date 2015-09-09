@@ -89,14 +89,14 @@ public abstract class DictionaryWalker {
     }
 
     protected void onError(DictionaryItem item, String message, Exception ex) {
-       // logger.log(Level.SEVERE, message ,ex);
+        // logger.log(Level.SEVERE, message ,ex);
         if (listener != null) {
             listener.onError(item, ex);
         }
     }
 
     protected void onWordNotFound(DictionaryItem item, FileNotFoundException ex) {
-       // logger.log(Level.SEVERE, "Could not found word: " + item.getWord() ,ex);
+        // logger.log(Level.SEVERE, "Could not found word: " + item.getWord() ,ex);
         if (listener != null) {
             listener.onWordNotFound(item, ex);
         }
