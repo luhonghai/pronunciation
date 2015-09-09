@@ -179,27 +179,6 @@ public class WordDBAdapter {
         return mCursor;
     }
 
-    public String getPronunciation(String word) throws SQLException
-    {
-        Cursor mCursor =
-                db.query(true, DATABASE_TABLE, new String[] {
-                                KEY_PRONUNCIATION
-                        },
-                        KEY_WORD + "= ?",
-                        new String[] {word},
-                        null,
-                        null,
-                        null,
-                        null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-            String p = mCursor.getString(mCursor.getColumnIndex(KEY_PRONUNCIATION));
-            mCursor.close();
-            return p;
-        }
-        return "";
-    }
-
     public boolean isBeep(String word) throws SQLException
     {
         Cursor mCursor =

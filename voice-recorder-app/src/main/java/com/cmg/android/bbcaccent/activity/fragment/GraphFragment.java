@@ -15,7 +15,6 @@ import com.cmg.android.bbcaccent.activity.view.CustomGraphView;
 import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.jjoe64.graphview.GridLabelRenderer;
@@ -172,13 +171,12 @@ public class GraphFragment extends FragmentTab {
 
     private void loadWordScore() {
         Collection<ScoreDBAdapter.PronunciationScore> scores = null;
-        UserProfile profile = Preferences.getCurrentProfile(getActivity());
         try {
             dbAdapter.open();
             if (word == null || word.length() == 0) {
-                scores = dbAdapter.toCollection(dbAdapter.getAll(profile.getUsername()));
+                scores = dbAdapter.toCollection(dbAdapter.getAll());
             } else {
-                scores = dbAdapter.toCollection(dbAdapter.getByWord(word,profile.getUsername()));
+                scores = dbAdapter.toCollection(dbAdapter.getByWord(word));
             }
         } catch (SQLException e) {
             e.printStackTrace();

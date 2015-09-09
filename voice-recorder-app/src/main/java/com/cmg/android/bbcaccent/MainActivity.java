@@ -72,7 +72,6 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
-import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -232,15 +231,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private TextView txtUserEmail;
     private boolean isInitTabHost = false;
 
-
-    public void syncService(){
-        Gson gson = new Gson();
-        UserProfile profile = Preferences.getCurrentProfile(this);
-        String jsonProfile = gson.toJson(profile);
-        Intent mIntent = new Intent(this, SyncDataService.class);
-        mIntent.putExtra("jsonProfile", jsonProfile);
-        startService(mIntent);
-    }
     /**
      * @param savedInstanceState
      */
@@ -248,7 +238,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        syncService();
         accountManager = new AccountManager(this);
         setContentView(R.layout.main);
         initListMenu();
@@ -1557,10 +1546,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             score.setDataId(dataId);
             score.setScore(currentModel.getScore());
             score.setWord(currentModel.getWord());
+
             score.setTimestamp(new Date(System.currentTimeMillis()));
-            //DENP-238
-            score.setUsername(currentModel.getUsername());
-            score.setVersion(currentModel.getVersion());
+
             // Save recorded file
             File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
             FileUtils.copyFile(recordedFile, savedFile);
@@ -1577,9 +1565,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
                 if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
                     for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                        phonemeScore.setTime(System.currentTimeMillis());
-                        phonemeScore.setUserVoiceId(dataId);
-                        phonemeScoreDBAdapter.insert(phonemeScore, currentModel.getUsername(),currentModel.getVersionPhoneme());
+                        phonemeScoreDBAdapter.insert(phonemeScore);
                     }
                 }
                 phonemeScoreDBAdapter.close();

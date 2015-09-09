@@ -25,24 +25,9 @@ public class UserVoiceModel {
     private String phonemes;
     private String hypothesis;
 
-    private int version;
-
-
-
-    private int versionPhoneme;
-
     private String audioFile;
 
     private SphinxResult result;
-
-
-    public int getVersionPhoneme() {
-        return versionPhoneme;
-    }
-
-    public void setVersionPhoneme(int versionPhoneme) {
-        this.versionPhoneme = versionPhoneme;
-    }
 
     public String getUsername() {
         return username;
@@ -206,14 +191,10 @@ public class UserVoiceModel {
     }
 
     public String getAudioFile() {
-        if (audioFile == null) return "";
         return audioFile;
     }
 
     public void setAudioFile(String audioFile) {
         this.audioFile = audioFile;
     }
-
-    public int getVersion() {return version;}
-    public void setVersion(int version) {this.version = version;}
 }

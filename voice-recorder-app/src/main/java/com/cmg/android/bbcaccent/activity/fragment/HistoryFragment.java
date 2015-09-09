@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
@@ -136,14 +135,14 @@ public class HistoryFragment extends FragmentTab {
                 case R.id.btnPlayItem:
                     try {
                         sendAction(score, CLICK_PLAY_BUTTON);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
                 case R.id.btnRecordItem:
                     try {
                         sendAction(score, CLICK_RECORD_BUTTON);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -152,7 +151,7 @@ public class HistoryFragment extends FragmentTab {
                 //case R.id.txtWordScore:
                     try {
                         sendAction(score, CLICK_LIST_ITEM);
-                    } catch (Exception e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     break;
@@ -205,15 +204,14 @@ public class HistoryFragment extends FragmentTab {
 
     private void loadScore() {
         Collection<ScoreDBAdapter.PronunciationScore> scores = null;
-        UserProfile profile = Preferences.getCurrentProfile(getActivity());
         boolean isDetail = false;
         try {
             dbAdapter.open();
             if (word == null || word.length() == 0) {
-                scores = dbAdapter.toCollection(dbAdapter.getAll(profile.getUsername()));
+                scores = dbAdapter.toCollection(dbAdapter.getAll());
             } else {
                 isDetail = true;
-                scores = dbAdapter.toCollection(dbAdapter.getByWord(word,profile.getUsername()));
+                scores = dbAdapter.toCollection(dbAdapter.getByWord(word));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -236,7 +234,7 @@ public class HistoryFragment extends FragmentTab {
         }
     }
 
-    private void sendAction(ScoreDBAdapter.PronunciationScore score, int type) throws Exception {
+    private void sendAction(ScoreDBAdapter.PronunciationScore score, int type) throws IOException {
         String modelSource = score.getUserVoiceModel(getActivity());
         Intent intent = new Intent(ON_HISTORY_LIST_CLICK);
         intent.putExtra(BaseActivity.USER_VOICE_MODEL, modelSource);
