@@ -157,7 +157,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" name="Yes" id="Yes"
-                    class="btn btn-default" >Created</button>
+                    class="btn btn-default" >Create</button>
 
             <button type="button" class="btn btn-primary" id="closeaddcode"
                     data-dismiss="modal">Cancel</button>

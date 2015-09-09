@@ -4,6 +4,7 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -22,6 +23,8 @@ public class RecorderServletNumber extends HttpServlet {
         public List<RecordedSentence> recordedSentences;
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        RecorderDAO recorderDAO=new RecorderDAO();
            if(request.getParameter("loadNumber")!=null){
                RecorderServletNumber.number number=new number();
                try{
@@ -59,6 +62,30 @@ public class RecorderServletNumber extends HttpServlet {
 
 
            }
+
+        if(request.getParameter("loadAudio")!=null){
+            String acount=request.getParameter("account");
+            String id=request.getParameter("id");
+            try{
+                RecordedSentence recordedSentence=recorderDAO.getBySentenceIdAndAccount(id,acount);
+                String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
+                String fileName=recordedSentence.getFileName();
+                String path=tmpDir+'\\'+acount+'\\'+fileName;
+                Gson gson = new Gson();
+                String paths = gson.toJson(path);
+                response.getWriter().write(paths);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+
+
+
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

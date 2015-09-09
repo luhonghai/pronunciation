@@ -34,6 +34,14 @@
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/raphael/raphael-min.js"></script>
 
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.transform2d.js"></script>
+
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.grab.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.jplayer.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/mod.csstransforms.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/circle.player.js"></script>
+
+
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>

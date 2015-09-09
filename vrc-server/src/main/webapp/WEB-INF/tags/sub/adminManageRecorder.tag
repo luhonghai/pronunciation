@@ -15,7 +15,7 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Admin Manage Transcription</h1>
+      <h1 class="page-header">Manage Recording</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -24,7 +24,7 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="form-group" style="margin-top: 40px;text-align: right;">
-          <label class="control-label" style="margin-bottom: 0px;">Activated Date</label>
+          <label class="control-label" style="margin-bottom: 0px;">Recorded Date</label>
         </div>
         <div class="form-group">
           <label class="control-label">Status</label>
@@ -43,7 +43,7 @@
         <div class="form-group">
           <label class="control-label">From</label>
           <div>
-            <input type='text' class="form-control" id="dateFrom" placeholder="From" style="background-color: "/>
+            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
           </div>
         </div>
         <div class="form-group">
@@ -98,7 +98,7 @@
                   <th>Account</th>
                   <th>Sentence</th>
                   <th>Audio</th>
-                  <th>Recorder Date</th>
+                  <th>Recorded Date</th>
                   <th>Status</th>
                   <th></th>
                 </tr>

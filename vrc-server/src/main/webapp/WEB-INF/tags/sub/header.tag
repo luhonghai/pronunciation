@@ -64,7 +64,7 @@
 					<ul>
 						<li><a href="AdminManage.jsp">Manage User</a></li>
 						<li><a href="AdminManageTranscription.jsp">Manage Transcription</a></li>
-						<li><a href="AdminManageRecorder.jsp">Manage Recorder</a></li>
+						<li><a href="AdminManageRecorder.jsp">Manage Recording</a></li>
 					</ul>
 				</li>
 				<%
