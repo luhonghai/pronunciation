@@ -2,10 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 
 /**
  * Created by lantb on 2015-09-01.
@@ -27,6 +24,9 @@ public class PhonemeScoreDB implements Mirrorable{
     @Persistent
     private float totalScore;
 
+    @Persistent
+    private int index;
+
     public long getTime() {
         return time;
     }
@@ -42,6 +42,14 @@ public class PhonemeScoreDB implements Mirrorable{
     @Column(defaultValue="1")
     private int version;
 
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
     public int getVersion() {
         return version;
     }

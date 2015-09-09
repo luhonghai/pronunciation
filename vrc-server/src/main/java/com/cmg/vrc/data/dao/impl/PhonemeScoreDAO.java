@@ -51,6 +51,7 @@ public class PhonemeScoreDAO extends DataAccess<PhonemeScoreDB> {
         Query q = pm.newQuery("SELECT FROM " + PhonemeScoreDB.class.getCanonicalName());
         q.setFilter("username==paramUsername && version > paramVersion");
         q.declareParameters("String paramUsername, int paramVersion");
+
         try {
             return detachCopyAllList(pm, q.execute(username,version));
         } catch (Exception e) {

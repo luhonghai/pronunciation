@@ -26,6 +26,7 @@ public class PhonemeScoreDBAdapter {
     public static final String KEY_DATA_ID = "data_id";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_VERSION = "version";
+    public static final String KEY_INDEX = "index_phoneme";
 
     public static final String KEY_TIMESTAMP = "timestamp";
     private static final String TAG = "PhonemeScoreDBAdapter";
@@ -41,6 +42,7 @@ public class PhonemeScoreDBAdapter {
                     + " timestamp date not null, "
                     + " username text not null, "
                     + " version integer not null, "
+                    + "index_phoneme integer not null, "
                     + "score integer not null);";
 
     private final Context context;
@@ -110,6 +112,7 @@ public class PhonemeScoreDBAdapter {
         initialValues.put(KEY_PHONEME, score.getName());
         initialValues.put(KEY_SCORE, score.getTotalScore());
         initialValues.put(KEY_DATA_ID, score.getUserVoiceId());
+        initialValues.put(KEY_INDEX, score.getIndex());
         if(score.getTime() == 0){
             initialValues.put(KEY_TIMESTAMP, dateFormat.format(new Date(System.currentTimeMillis())));
         }else{
@@ -132,6 +135,7 @@ public class PhonemeScoreDBAdapter {
                         KEY_DATA_ID,
                         KEY_PHONEME,
                         KEY_SCORE,
+                        KEY_INDEX,
                         KEY_TIMESTAMP},
                 null,
                 null,
@@ -149,13 +153,14 @@ public class PhonemeScoreDBAdapter {
                                 KEY_DATA_ID,
                                 KEY_PHONEME,
                                 KEY_SCORE,
+                                KEY_INDEX,
                                 KEY_TIMESTAMP},
                         KEY_ROWID + "=" + rowId,
                         null,
                         null,
                         null,
-                        null,
-                        null);
+                        KEY_INDEX + " ASC",
+                        "30");
 
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -171,13 +176,15 @@ public class PhonemeScoreDBAdapter {
                                 KEY_DATA_ID,
                                 KEY_PHONEME,
                                 KEY_SCORE,
+                                KEY_INDEX,
                                 KEY_TIMESTAMP},
                         KEY_DATA_ID + "=?",
                         new String[]{dataID},
                         null,
                         null,
-                        null,
-                        null);
+                        KEY_INDEX + " ASC",
+                        "30");
+
 
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -201,6 +208,7 @@ public class PhonemeScoreDBAdapter {
                                 KEY_ROWID,
                                 KEY_PHONEME,
                                 KEY_DATA_ID,
+                                KEY_INDEX,
                                 KEY_SCORE,
                                 KEY_TIMESTAMP},
                    KEY_PHONEME + "=?",
@@ -217,6 +225,7 @@ public class PhonemeScoreDBAdapter {
                         KEY_ROWID,
                         KEY_PHONEME,
                         KEY_SCORE,
+                        KEY_INDEX,
                         KEY_DATA_ID,
                         KEY_TIMESTAMP},
                 KEY_PHONEME + "=?",
