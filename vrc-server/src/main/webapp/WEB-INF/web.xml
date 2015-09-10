@@ -308,6 +308,15 @@
         <url-pattern>/recordedsentence</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LanguageModelHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <url-pattern>/languagemodel</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by luhonghai on 12/23/14.
@@ -22,6 +23,10 @@ public class PhonemeScoreDBAdapter {
     public static final String KEY_ROWID = "_id";
     public static final String KEY_PHONEME = "phoneme";
     public static final String KEY_SCORE = "score";
+    public static final String KEY_DATA_ID = "data_id";
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_VERSION = "version";
+    public static final String KEY_INDEX = "index_phoneme";
 
     public static final String KEY_TIMESTAMP = "timestamp";
     private static final String TAG = "PhonemeScoreDBAdapter";
@@ -33,7 +38,11 @@ public class PhonemeScoreDBAdapter {
     private static final String DATABASE_CREATE =
             "create table score (_id integer primary key autoincrement, "
                     + " phoneme text not null, "
+                    + " data_id text not null, "
                     + " timestamp date not null, "
+                    + " username text not null, "
+                    + " version integer not null, "
+                    + "index_phoneme integer not null, "
                     + "score integer not null);";
 
     private final Context context;
@@ -84,19 +93,31 @@ public class PhonemeScoreDBAdapter {
         return this;
     }
 
+    public SQLiteDatabase getDB(){
+        return db;
+    }
+
     //---closes the database---
     public void close()
     {
         DBHelper.close();
     }
 
-    public long insert(SphinxResult.PhonemeScore score)
+    public long insert(SphinxResult.PhonemeScore score, String username, int version)
     {
 
         ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_USERNAME, username);
+        initialValues.put(KEY_VERSION, version);
         initialValues.put(KEY_PHONEME, score.getName());
         initialValues.put(KEY_SCORE, score.getTotalScore());
-        initialValues.put(KEY_TIMESTAMP, dateFormat.format(new Date(System.currentTimeMillis())));
+        initialValues.put(KEY_DATA_ID, score.getUserVoiceId());
+        initialValues.put(KEY_INDEX, score.getIndex());
+        if(score.getTime() == 0){
+            initialValues.put(KEY_TIMESTAMP, dateFormat.format(new Date(System.currentTimeMillis())));
+        }else{
+            initialValues.put(KEY_TIMESTAMP, dateFormat.format(score.getTime()));
+        }
         return db.insert(DATABASE_TABLE, null, initialValues);
     }
 
@@ -111,8 +132,10 @@ public class PhonemeScoreDBAdapter {
     {
         return db.query(DATABASE_TABLE, new String[] {
                         KEY_ROWID,
+                        KEY_DATA_ID,
                         KEY_PHONEME,
                         KEY_SCORE,
+                        KEY_INDEX,
                         KEY_TIMESTAMP},
                 null,
                 null,
@@ -127,15 +150,17 @@ public class PhonemeScoreDBAdapter {
         Cursor mCursor =
                 db.query(true, DATABASE_TABLE, new String[] {
                                 KEY_ROWID,
+                                KEY_DATA_ID,
                                 KEY_PHONEME,
                                 KEY_SCORE,
+                                KEY_INDEX,
                                 KEY_TIMESTAMP},
                         KEY_ROWID + "=" + rowId,
                         null,
                         null,
                         null,
-                        null,
-                        null);
+                        KEY_INDEX + " ASC",
+                        "30");
 
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -143,17 +168,53 @@ public class PhonemeScoreDBAdapter {
         return mCursor;
     }
 
+    public List<SphinxResult.PhonemeScore> getByDataID(String dataID) throws SQLException,ParseException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_ROWID,
+                                KEY_DATA_ID,
+                                KEY_PHONEME,
+                                KEY_SCORE,
+                                KEY_INDEX,
+                                KEY_TIMESTAMP},
+                        KEY_DATA_ID + "=?",
+                        new String[]{dataID},
+                        null,
+                        null,
+                        KEY_INDEX + " ASC",
+                        "30");
+
+
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+            List<SphinxResult.PhonemeScore> list = new ArrayList<SphinxResult.PhonemeScore>();
+            while (!mCursor.isAfterLast()) {
+                SphinxResult.PhonemeScore score = new SphinxResult.PhonemeScore();
+                score.setTotalScore(mCursor.getFloat(mCursor.getColumnIndex(KEY_SCORE)));
+                score.setName(mCursor.getString(mCursor.getColumnIndex(KEY_PHONEME)));
+                score.setUserVoiceId(mCursor.getString(mCursor.getColumnIndex(KEY_DATA_ID)));
+                list.add(score);
+                mCursor.moveToNext();
+            }
+            return list;
+        }
+        return null;
+    }
+
     public Cursor getByPhoneme(String phoneme) throws SQLException
     {
         return db.query(true, DATABASE_TABLE, new String[] {
-                                KEY_ROWID,
-                            KEY_PHONEME,
-                                KEY_SCORE,
-                                KEY_TIMESTAMP},
-                   KEY_PHONEME + "=?",
-                        new String[]{phoneme},
-                        null,
-                        null,
+                        KEY_ROWID,
+                        KEY_PHONEME,
+                        KEY_DATA_ID,
+                        KEY_INDEX,
+                        KEY_SCORE,
+                        KEY_TIMESTAMP},
+                KEY_PHONEME + "=?",
+                new String[]{phoneme},
+                null,
+                null,
                 KEY_TIMESTAMP + " DESC",
                 "30");
     }
@@ -164,6 +225,8 @@ public class PhonemeScoreDBAdapter {
                         KEY_ROWID,
                         KEY_PHONEME,
                         KEY_SCORE,
+                        KEY_INDEX,
+                        KEY_DATA_ID,
                         KEY_TIMESTAMP},
                 KEY_PHONEME + "=?",
                 new String[]{phoneme},
@@ -175,15 +238,28 @@ public class PhonemeScoreDBAdapter {
 
     public Collection<SphinxResult.PhonemeScore> toCollection(final Cursor cursor) throws ParseException {
         Collection<SphinxResult.PhonemeScore> list = new ArrayList<SphinxResult.PhonemeScore>();
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             SphinxResult.PhonemeScore score = new SphinxResult.PhonemeScore();
             score.setTotalScore(cursor.getFloat(cursor.getColumnIndex(KEY_SCORE)));
             score.setName(cursor.getString(cursor.getColumnIndex(KEY_PHONEME)));
+            score.setUserVoiceId(cursor.getString(cursor.getColumnIndex(KEY_DATA_ID)));
             list.add(score);
             cursor.moveToNext();
         }
         return list;
+    }
+
+    public int getLastedVersion(String username) {
+        int version=0;
+        Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + DATABASE_TABLE + " where username='"+username+"'", null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        try {
+            version= Integer.parseInt(cursor.getString(0));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return version;
     }
 }

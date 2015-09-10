@@ -33,16 +33,16 @@ import com.cmg.vrc.util.UUIDGenerator;
 
 /**
  *  T is JDO class E is mirror class
- *  
+ *
  *  Query with format
-        [WHERE <filter>]
-        [VARIABLES <variable declarations>]
-        [PARAMETERS <parameter declarations>]
-        [<import declarations>]
-        [GROUP BY <grouping>]
-        [ORDER BY <ordering>]
-        [RANGE <start>, <end>]
- * 
+ [WHERE <filter>]
+ [VARIABLES <variable declarations>]
+ [PARAMETERS <parameter declarations>]
+ [<import declarations>]
+ [GROUP BY <grouping>]
+ [ORDER BY <ordering>]
+ [RANGE <start>, <end>]
+ *
  * @Creator Hai Lu
  * @author $Author$
  * @version $Revision$
@@ -53,12 +53,12 @@ public class DataAccess<T> implements InDataAccess<T> {
 
 	/**
 	 *  @param clazzT
-     */
+	 */
 	public DataAccess(Class<T> clazzT) {
 		this.clazzT = clazzT;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws JsonParseException
@@ -73,7 +73,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return obj;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws JsonParseException
@@ -86,22 +86,22 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return obj;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @throws DataAccessException
 	 */
 	protected void verifyObject(final Object obj) throws DataAccessException {
 		if (obj instanceof Mirrorable) {
-			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0) 
-				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());			
+			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0)
+				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());
 		} else {
 			throw new DataAccessException(
 					"The object must implement interface Mirrorable");
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
@@ -189,7 +189,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
@@ -227,7 +227,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
@@ -236,7 +236,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return create(obj);
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -244,7 +244,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	public T getById(String id) throws Exception {
 		return getJDOById(id);
 	}
-	
+
 	public List<T> listAll() throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery(clazzT);
@@ -258,7 +258,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -290,7 +290,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -311,7 +311,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return null;
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -320,7 +320,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		T obj = getJDOById(id);
 		return obj != null;
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -338,7 +338,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -356,7 +356,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -374,7 +374,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -392,7 +392,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)

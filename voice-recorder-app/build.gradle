@@ -121,10 +121,9 @@ copyFiles {
     if (project.hasProperty('env')) {
         from "src/main/resources/env-values/${env}"
     } else {
-        from "src/main/resources/env-values/prod"
+        from "src/main/resources/env-values/dev"
     }
     into 'src/main/res/values'
     include('**/*')
 }
-
 preBuild.dependsOn copyFiles

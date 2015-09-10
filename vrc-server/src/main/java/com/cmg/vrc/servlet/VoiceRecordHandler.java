@@ -153,7 +153,6 @@ public class VoiceRecordHandler extends HttpServlet {
                 } catch (Exception ex) {
                     logger.error("Could not analyze word", ex);
                 }
-                logger.info("json from server to client before go to create : " + gson.toJson(model));
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
                 model.setScore(result.getScore());
                 model = dao.createObj(model);
@@ -162,7 +161,7 @@ public class VoiceRecordHandler extends HttpServlet {
                     //DENP-238 : save phoneme score to database
                     int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
                     model.setVersionPhoneme(maxVersionPhoneme);
-                    pScoreService.addPhonemeScore(result,user.getUsername(),maxVersionPhoneme,System.currentTimeMillis(),model.getId());
+                    pScoreService.addPhonemeScore(model);
                 }
                 String output = gson.toJson(model);
                 logger.info("json from server to client : " + output);

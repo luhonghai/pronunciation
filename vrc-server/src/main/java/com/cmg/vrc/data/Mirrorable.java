@@ -23,7 +23,7 @@ package com.cmg.vrc.data;
  */
 public interface Mirrorable {
 
-	public static final int MAX_VARCHAR_LENGTH = 10000;
+	public static final int MAX_VARCHAR_LENGTH = 5000;
 	/**
 	 *  Get ID of object
 	 * @return

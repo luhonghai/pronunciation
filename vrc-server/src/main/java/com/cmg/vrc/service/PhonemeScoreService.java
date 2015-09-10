@@ -10,7 +10,6 @@ import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,8 +63,10 @@ public class PhonemeScoreService {
                         score.setTotalScore(ps.getTotalScore());
                         score.setTime(model.getServerTime());
                         score.setUserVoiceId(idUserVoice);
+                        score.setIndex(ps.getIndex());
                         temp.add(score);
                     }
+                    temp = sortList(temp);
                     dao.create(temp);
                     check = true;
                 }
@@ -80,7 +81,7 @@ public class PhonemeScoreService {
 
 
     /**
-     * function add phoneme score
+     * function add phoneme score ,not use
      * @param result
      * @param username
      * @param version
@@ -99,10 +100,16 @@ public class PhonemeScoreService {
                 score.setTotalScore(ps.getTotalScore());
                 score.setTime(time);
                 score.setUserVoiceId(dataID);
+                score.setIndex(ps.getIndex());
                 temp.add(score);
             }
             try {
-                dao.create(temp);
+                temp = sortList(temp);
+                for(PhonemeScoreDB psDB : temp){
+                    logger.info("add phoneword : " + psDB.getPhonemeWord() + " with index : " + psDB.getIndex());
+                    dao.create(psDB);
+                }
+
             }catch (Exception e){
                 logger.warn("Can not insert list phonemeScore of username : " + username +" because exception : " + e.getMessage());
                 e.printStackTrace();
@@ -110,6 +117,30 @@ public class PhonemeScoreService {
 
         }
     }
+
+
+    /**
+     *
+     * @param list
+     * @return sort this list
+     */
+    public List<PhonemeScoreDB> sortList(List<PhonemeScoreDB> list){
+        PhonemeScoreDB temp;
+        for (int x=0; x<list.size(); x++)
+        {
+            for (int i=0; i < list.size()-x-1; i++) {
+                if (list.get(i).getIndex() > list.get(i+1).getIndex())
+                {
+                    temp = list.get(i);
+                    list.set(i,list.get(i+1));
+                    list.set(i+1, temp);
+                }
+            }
+        }
+        return list;
+
+    }
+
 
     /**
      *
@@ -143,6 +174,7 @@ public class PhonemeScoreService {
                 score.setTotalScore(db.getTotalScore());
                 score.setUsername(db.getUsername());
                 score.setVersion(db.getVersion());
+                score.setIndex(db.getIndex());
                 score.setUserVoiceId(db.getUserVoiceId());
                 list.add(score);
             }
