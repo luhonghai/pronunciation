@@ -205,16 +205,16 @@ public class PhonemeScoreDBAdapter {
     public Cursor getByPhoneme(String phoneme) throws SQLException
     {
         return db.query(true, DATABASE_TABLE, new String[] {
-                                KEY_ROWID,
-                                KEY_PHONEME,
-                                KEY_DATA_ID,
-                                KEY_INDEX,
-                                KEY_SCORE,
-                                KEY_TIMESTAMP},
-                   KEY_PHONEME + "=?",
-                        new String[]{phoneme},
-                        null,
-                        null,
+                        KEY_ROWID,
+                        KEY_PHONEME,
+                        KEY_DATA_ID,
+                        KEY_INDEX,
+                        KEY_SCORE,
+                        KEY_TIMESTAMP},
+                KEY_PHONEME + "=?",
+                new String[]{phoneme},
+                null,
+                null,
                 KEY_TIMESTAMP + " DESC",
                 "30");
     }

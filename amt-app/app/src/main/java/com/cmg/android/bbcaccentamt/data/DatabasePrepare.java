@@ -103,7 +103,7 @@ public class DatabasePrepare {
         if (!sentenceDb.exists()) {
             SimpleAppLog.info("Try to preload sqlite database");
             try {
-                FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+                //FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not save database from asset",e);
             }
@@ -215,7 +215,7 @@ public class DatabasePrepare {
     }
 
     public class ResponseData extends com.cmg.android.bbcaccentamt.http.ResponseData<Transcription> {
-       public List<Transcription> transcriptions;
+        public List<Transcription> transcriptions;
     }
     public class ResponseDataRecorded extends com.cmg.android.bbcaccentamt.http.ResponseData<RecordedSentence> {
         public List<RecordedSentence> RecordedSentences;
@@ -407,4 +407,4 @@ public class DatabasePrepare {
         }
 
     }
-    }
+}

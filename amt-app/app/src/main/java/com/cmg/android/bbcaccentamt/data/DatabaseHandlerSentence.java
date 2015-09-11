@@ -340,7 +340,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         values.put(KEY_ISDELETED, isdeleted);
         values.put(KEY_STATUS, status);
 
-       int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
+        int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
                 new String[]{String.valueOf(idSentence), String.valueOf(account)});
         db.close();
         return i;

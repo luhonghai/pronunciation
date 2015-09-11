@@ -1,3 +1,4 @@
 /build
 **.iml
-**/values/env_*.xml
+main/res/values/env_*.xml
+local.properties

@@ -284,17 +284,17 @@ public class ScoreDBAdapter {
     public Cursor getByWord(String word, String username) throws SQLException
     {
         return db.query(true, DATABASE_TABLE, new String[] {
-                                KEY_ROWID,
-                                KEY_USERNAME,
-                                KEY_VERSION,
-                                KEY_WORD,
-                                KEY_DATA_ID,
-                                KEY_SCORE,
-                                KEY_TIMESTAMP},
-                        KEY_WORD + "=?" + " and " + KEY_USERNAME + "=?",
-                        new String[]{word,username},
-                        null,
-                        null,
+                        KEY_ROWID,
+                        KEY_USERNAME,
+                        KEY_VERSION,
+                        KEY_WORD,
+                        KEY_DATA_ID,
+                        KEY_SCORE,
+                        KEY_TIMESTAMP},
+                KEY_WORD + "=?" + " and " + KEY_USERNAME + "=?",
+                new String[]{word,username},
+                null,
+                null,
                 KEY_TIMESTAMP + " DESC",
                 "30");
     }

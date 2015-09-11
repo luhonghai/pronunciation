@@ -55,6 +55,7 @@ public class DataSynchronizationServlet extends BaseServlet {
             logger.info("=========action sync : " + action);
             if(action.equalsIgnoreCase(LIST_USER_VOICE_MODEL)){
                 String username =  request.getParameter(PARA_USERNAME);
+				username = username.toLowerCase();
                 int version = Integer.parseInt(request.getParameter(PARA_VERSION));
                 logger.info("username : " +username);
                 logger.info("version : " +version);
@@ -65,6 +66,7 @@ public class DataSynchronizationServlet extends BaseServlet {
                 printMessage(response,gson.toJson(responseData));
             }else if(action.equalsIgnoreCase(LIST_PHONEME_SCORE)){
                 String username =  request.getParameter(PARA_USERNAME);
+				username = username.toLowerCase();
                 int version = Integer.parseInt( request.getParameter(PARA_VERSION));
                 logger.info("username : " +username);
                 logger.info("version : " +version);

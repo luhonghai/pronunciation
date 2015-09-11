@@ -1,14 +1,13 @@
 package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.LanguageModelVersion;
+import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +15,15 @@ import java.util.Map;
 /**
  * Created by cmg on 10/09/15.
  */
-public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
+public class DictionaryVersionDAO extends DataAccess<DictionaryVersion> {
 
-    public LanguageModelVersionDAO() {
-        super(LanguageModelVersion.class);
+    public DictionaryVersionDAO() {
+        super(DictionaryVersion.class);
     }
 
-    public List<LanguageModelVersion> listAll(int start, int length,String search,int column,String order) {
+    public List<DictionaryVersion> listAll(int start, int length,String search,int column,String order) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + DictionaryVersion.class.getCanonicalName());
         if(search.length()>0){
             q.setFilter("(admin.toLowerCase().indexOf(search.toLowerCase()) != -1) || (fileName.toLowerCase().indexOf(search.toLowerCase()) != -1)");
         } else {
@@ -66,7 +65,7 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
 
     public int getCountSearch(String search) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + DictionaryVersion.class.getCanonicalName());
         if(search.length()>0){
             q.setFilter("(admin.toLowerCase().indexOf(search.toLowerCase()) != -1) || (fileName.toLowerCase().indexOf(search.toLowerCase()) != -1)");
         } else {
@@ -88,7 +87,7 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
 
     public int getMaxVersion() {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT MAX(version) FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT MAX(version) FROM " + DictionaryVersion.class.getCanonicalName());
         try {
             if (q != null)
                 return (Integer) q.execute();
@@ -106,8 +105,9 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
     public void removeSelected() {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LanguageModelVersion.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence.getTable()+ " SET selected=0");
+        TypeMetadata meta = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(
+                DictionaryVersion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +meta.getTable()+ " SET selected=0");
         try {
             tx.begin();
             q.execute();

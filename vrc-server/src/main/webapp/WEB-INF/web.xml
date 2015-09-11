@@ -308,6 +308,33 @@
         <url-pattern>/recordedsentence</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LanguageModelHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <url-pattern>/languagemodel</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DictionaryDataHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DictionaryDataHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DictionaryDataHandler</servlet-name>
+        <url-pattern>/dictionary</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DictionaryUploadHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DictionaryUploadHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DictionaryUploadHandler</servlet-name>
+        <url-pattern>/dictionary_upload</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>

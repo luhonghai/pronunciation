@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -71,8 +74,9 @@ public class RecorderServletNumber extends HttpServlet {
                 String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
                 String fileName=recordedSentence.getFileName();
                 String path=tmpDir+'\\'+acount+'\\'+fileName;
+                byte[] audio=audio(path);
                 Gson gson = new Gson();
-                String paths = gson.toJson(path);
+                String paths = gson.toJson(audio);
                 response.getWriter().write(paths);
 
             }catch (Exception e){
@@ -162,7 +166,23 @@ public class RecorderServletNumber extends HttpServlet {
 
     }
 
+    public byte[] audio(String WAV_FILE){
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            BufferedInputStream in = new BufferedInputStream(new FileInputStream(WAV_FILE));
 
+            int read;
+            byte[] buff = new byte[1024];
+            while ((read = in.read(buff)) > 0) {
+                out.write(buff, 0, read);
+            }
+            out.flush();
+            byte[] audioBytes = out.toByteArray();
+            return audioBytes;
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 
 }
