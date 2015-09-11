@@ -56,6 +56,7 @@
 <!-- Custom Theme JavaScript -->
 
 <script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.6/jquery.uploadfile.min.js"></script>
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
 

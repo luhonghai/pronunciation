@@ -9,7 +9,7 @@ function drawTable(){
         "bServerSide": true,
 
         "ajax": {
-            "url": CONTEXT_PATH + "languagemodel",
+            "url": CONTEXT_PATH + "dictionary",
             "type": "POST",
             "dataType": "json",
             "data": {
@@ -85,16 +85,16 @@ $(document).ready(function(){
         $("#popupGenerate").modal("show");
     });
     $("#btnGenerate").click(function() {
-        var $popup = $("#btnPopup");
-        $popup.attr("disabled","disabled");
-        $("#popupGenerate").modal("hide");
-        var $log = $("#generate-log");
-        $log.html("Generating. Please wait...");
-        $log.load(CONTEXT_PATH + "languagemodel?action=load",function(){
-            $("#btnPopup").prop("disabled", false);
+
+    });
+    $("#fileuploader").uploadFile({
+        url:CONTEXT_PATH + "dictionary_upload",
+        fileName:"dictionary",
+        onSuccess:function(files,data,xhr,pd)
+        {
             myTable.fnDraw();
-            $("#generate-log").animate({ scrollTop: $('#generate-log')[0].scrollHeight}, 3000);
-        });
+            $("#popupGenerate").modal("hide");
+        }
     });
     $(document).click(function(e) {
         var $target = $(e.target);
@@ -103,7 +103,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "languagemodel",
+                "url": CONTEXT_PATH + "dictionary",
                 type: "GET",
                 dataType: "text",
                 data: {
@@ -132,7 +132,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "languagemodel",
+                "url": CONTEXT_PATH + "dictionary",
                 type: "POST",
                 dataType: "text",
                 data: {
