@@ -9,7 +9,7 @@ function drawTable(){
         "bServerSide": true,
 
         "ajax": {
-            "url": CONTEXT_PATH + "dictionary",
+            "url": CONTEXT_PATH + "/dictionary",
             "type": "POST",
             "dataType": "json",
             "data": {
@@ -103,7 +103,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "dictionary",
+                "url": CONTEXT_PATH + "/dictionary",
                 type: "GET",
                 dataType: "text",
                 data: {
@@ -132,7 +132,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "dictionary",
+                "url": CONTEXT_PATH + "/dictionary",
                 type: "POST",
                 dataType: "text",
                 data: {

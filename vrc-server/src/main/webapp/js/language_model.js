@@ -9,7 +9,7 @@ function drawTable(){
         "bServerSide": true,
 
         "ajax": {
-            "url": CONTEXT_PATH + "languagemodel",
+            "url": CONTEXT_PATH + "/languagemodel",
             "type": "POST",
             "dataType": "json",
             "data": {
@@ -90,7 +90,7 @@ $(document).ready(function(){
         $("#popupGenerate").modal("hide");
         var $log = $("#generate-log");
         $log.html("Generating. Please wait...");
-        $log.load(CONTEXT_PATH + "languagemodel?action=load",function(){
+        $log.load(CONTEXT_PATH + "/languagemodel?action=load",function(){
             $("#btnPopup").prop("disabled", false);
             myTable.fnDraw();
             $("#generate-log").animate({ scrollTop: $('#generate-log')[0].scrollHeight}, 3000);
@@ -103,7 +103,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "languagemodel",
+                "url": CONTEXT_PATH + "/languagemodel",
                 type: "GET",
                 dataType: "text",
                 data: {
@@ -132,7 +132,7 @@ $(document).ready(function(){
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
             $.ajax({
-                "url": CONTEXT_PATH + "languagemodel",
+                "url": CONTEXT_PATH + "/languagemodel",
                 type: "POST",
                 dataType: "text",
                 data: {
