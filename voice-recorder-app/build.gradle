@@ -30,8 +30,8 @@ android {
     buildToolsVersion "19.1.0"
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
-        versionCode 201004
-        versionName "2.1.004"
+        versionCode 300000
+        versionName "3.0.000"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"

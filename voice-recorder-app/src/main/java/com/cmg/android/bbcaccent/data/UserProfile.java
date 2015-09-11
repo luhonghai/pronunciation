@@ -222,7 +222,7 @@ public class UserProfile {
 
 
     public String getUsername() {
-        return username;
+        return (username ==null ?  "" : username.toLowerCase());
     }
 
     public void setUsername(String username) {
