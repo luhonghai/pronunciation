@@ -191,8 +191,7 @@ public class WordDBAdapter {
                         null,
                         null,
                         null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
+        if (mCursor != null && mCursor.moveToFirst()) {
             String p = mCursor.getString(mCursor.getColumnIndex(KEY_PRONUNCIATION));
             mCursor.close();
             return p;
@@ -215,8 +214,7 @@ public class WordDBAdapter {
                         null,
                         null,
                         null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
+        if (mCursor != null && mCursor.moveToFirst()) {
             int beep = mCursor.getInt(mCursor.getColumnIndex(KEY_BEEP));
             mCursor.close();
             return beep == 1;
