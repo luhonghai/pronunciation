@@ -94,6 +94,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
             SentenceModel sentenceModel = new SentenceModel(cursor.getString(0), cursor.getString(1), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
+            cursor.close();
             return sentenceModel;
         }
         return null;
@@ -119,6 +120,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return sentenceModelsList;
     }
@@ -127,7 +129,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     public List<SentenceModel> getAllSentenceWithStatusandAccount(String account) {
         List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + " WHERE " + KEY_ID + " NOT IN " + "(" + " SELECT " + KEY_ID_SENTENCE + " FROM " + TABLE_RECORDERSENTENCE + " WHERE " + KEY_ACCOUNT +"='"+account+"'"+") and " +KEY_ISDELETED +"="+Common.ISDELETED_FALSE;
+        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + " WHERE " + KEY_ID + " NOT IN " + "(" + " SELECT " + KEY_ID_SENTENCE + " FROM " + TABLE_RECORDERSENTENCE + " WHERE " + KEY_ACCOUNT +"='"+account+"' and " + KEY_STATUS +"!='"+Common.NOT_RECORD+"'"+") and " +KEY_ISDELETED +"="+Common.ISDELETED_FALSE;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -144,6 +146,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return sentenceModelsList;
     }
@@ -168,6 +171,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModelList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return sentenceModelList;
     }
@@ -262,6 +266,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         }catch (Exception e){
             e.printStackTrace();
         }
+        cursor.close();
         return lastest;
 
     }
@@ -288,6 +293,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 recorderSentenceModels.add(recorderSentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return recorderSentenceModels;
     }
@@ -334,7 +340,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         values.put(KEY_ISDELETED, isdeleted);
         values.put(KEY_STATUS, status);
 
-       int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
+        int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
                 new String[]{String.valueOf(idSentence), String.valueOf(account)});
         db.close();
         return i;
@@ -377,6 +383,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         }catch (Exception e){
             e.printStackTrace();
         }
+        cursor.close();
         return lastest;
 
 
