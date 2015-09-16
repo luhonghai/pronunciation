@@ -1,11 +1,16 @@
 package com.cmg.vrc.service;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
+import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.PhonemeScoreDB;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.sphinx.SphinxResult;
+import com.cmg.vrc.util.AWSHelper;
+import com.google.gson.Gson;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +51,9 @@ public class PhonemeScoreService {
         try {
             if(!dao.userVoiceIDExisted(idUserVoice)){
                 int version = getMaxVersion(username);
+                if (model.getResult() == null) return false;
                 List<SphinxResult.PhonemeScore> list = model.getResult().getPhonemeScores();
-                if(list.size() > 0){
+                if(list != null && list.size() > 0){
                     List<PhonemeScoreDB> temp = new ArrayList<PhonemeScoreDB>();
                     for(SphinxResult.PhonemeScore ps : list){
                         PhonemeScoreDB score = new PhonemeScoreDB();
@@ -57,8 +63,10 @@ public class PhonemeScoreService {
                         score.setTotalScore(ps.getTotalScore());
                         score.setTime(model.getServerTime());
                         score.setUserVoiceId(idUserVoice);
+                        score.setIndex(ps.getIndex());
                         temp.add(score);
                     }
+                    temp = sortList(temp);
                     dao.create(temp);
                     check = true;
                 }
@@ -73,7 +81,7 @@ public class PhonemeScoreService {
 
 
     /**
-     * function add phoneme score
+     * function add phoneme score ,not use
      * @param result
      * @param username
      * @param version
@@ -92,10 +100,16 @@ public class PhonemeScoreService {
                 score.setTotalScore(ps.getTotalScore());
                 score.setTime(time);
                 score.setUserVoiceId(dataID);
+                score.setIndex(ps.getIndex());
                 temp.add(score);
             }
             try {
-                dao.create(temp);
+                temp = sortList(temp);
+                for(PhonemeScoreDB psDB : temp){
+                    logger.info("add phoneword : " + psDB.getPhonemeWord() + " with index : " + psDB.getIndex());
+                    dao.create(psDB);
+                }
+
             }catch (Exception e){
                 logger.warn("Can not insert list phonemeScore of username : " + username +" because exception : " + e.getMessage());
                 e.printStackTrace();
@@ -103,6 +117,30 @@ public class PhonemeScoreService {
 
         }
     }
+
+
+    /**
+     *
+     * @param list
+     * @return sort this list
+     */
+    public List<PhonemeScoreDB> sortList(List<PhonemeScoreDB> list){
+        PhonemeScoreDB temp;
+        for (int x=0; x<list.size(); x++)
+        {
+            for (int i=0; i < list.size()-x-1; i++) {
+                if (list.get(i).getIndex() > list.get(i+1).getIndex())
+                {
+                    temp = list.get(i);
+                    list.set(i,list.get(i+1));
+                    list.set(i+1, temp);
+                }
+            }
+        }
+        return list;
+
+    }
+
 
     /**
      *
@@ -136,6 +174,7 @@ public class PhonemeScoreService {
                 score.setTotalScore(db.getTotalScore());
                 score.setUsername(db.getUsername());
                 score.setVersion(db.getVersion());
+                score.setIndex(db.getIndex());
                 score.setUserVoiceId(db.getUserVoiceId());
                 list.add(score);
             }
@@ -143,7 +182,46 @@ public class PhonemeScoreService {
         return list;
     }
 
-
-
-
+    public static void main(String[] args) {
+        UserVoiceModelDAO dao = new UserVoiceModelDAO();
+        PhonemeScoreService phonemeScoreService = new PhonemeScoreService();
+        try {
+            List<UserVoiceModel> userVoiceModels = dao.listAll();
+            AWSHelper awsHelper = new AWSHelper();
+            Gson gson = new Gson();
+            File tmpRootDir = new File(FileUtils.getTempDirectory(), Constant.FOLDER_RECORDED_VOICES);
+            if (!tmpRootDir.exists())
+                tmpRootDir.mkdirs();
+            if (userVoiceModels != null && userVoiceModels.size() > 0) {
+                for (UserVoiceModel model : userVoiceModels) {
+                    model.setVersion(1);
+                    System.out.println("=====================================================");
+                    System.out.println(gson.toJson(model));
+                    File tmpDir = new File(tmpRootDir, model.getUsername());
+                    if (!tmpDir.exists())
+                        tmpDir.mkdirs();
+                    String fileName = model.getRecordFile().substring(0, model.getRecordFile().length() - "_raw.wav".length());
+                    System.out.println("Check file name: " + fileName);
+                    File tmpFile = new File(tmpDir, fileName + ".json");
+                    if (!tmpFile.exists()) {
+                        awsHelper.download(Constant.FOLDER_RECORDED_VOICES + "/" + model.getUsername() + "/" + fileName + ".json", tmpFile);
+                    }
+                    if (tmpFile.exists()) {
+                        String data = FileUtils.readFileToString(tmpFile, "UTF-8");
+                        System.out.println("Found json data: " + data);
+                        UserVoiceModel jsonModel = gson.fromJson(data, UserVoiceModel.class);
+                        System.out.println("Try to add all phoneme score to database");
+                        phonemeScoreService.addPhonemeScore(jsonModel);
+                        dao.update(model);
+                    } else {
+                        System.out.println("No file found!");
+                    }
+                }
+            } else {
+                System.out.println("No user voice model found");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

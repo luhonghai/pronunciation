@@ -16,6 +16,8 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -136,7 +138,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         NORECORDING,
         SUCCESS,
         SUCCESS1,
-        UPLOAD2
+        UPLOAD2,
+        UPLOADALL2,
+        SUCCESS2,
+        SUCCESS3
 
     }
 
@@ -205,6 +210,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private boolean isAutoStop = false;
     private SentenceModel sentenceModel;
     private RecorderSentenceModel recorderSentenceModel;
+    private List<SentenceModel> notRecord=null;
+    private List<SentenceModel> upload=null;
+    private List<SentenceModel> reject=null;
+    private List<SentenceModel> approved=null;
+    private List<SentenceModel> locked=null;
+    private List<SentenceModel> notUpload=null;
+    private List<SentenceModel> sentenceModels=null;
 
     private PlayerHelper player;
 
@@ -301,6 +313,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         scoreDBAdapter = new ScoreDBAdapter(this);
         checkProfile();
         textrecord=(TextView)findViewById(R.id.textrecord);
+        idSentence();
         listAllItem();
         uploadSentence();
         uploadAllSentence();
@@ -310,6 +323,32 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void openSettings() {
         startActivity(SettingsActivity.class);
     }
+    private String idSentence(){
+        idSentence=null;
+        List<SentenceModel> sentenceModels=sentenceModels();
+        SentenceModel m = sentenceModels.get(0);
+        idSentence=m.getID();
+        return idSentence;
+    }
+    private List<SentenceModel> sentenceModels(){
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        String name=profile.getUsername();
+        notRecord=databaseHandlerSentence.getAllSentenceWithStatusandAccount(name);
+        upload=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_UPLOADED);
+        reject=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_ADMIN_REJECT);
+        approved=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_ADMIN_APPROVED);
+        locked=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_ADMIN_LOCKED);
+        notUpload=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_BUT_NOT_UPLOAD);
+        sentenceModels=new ArrayList<SentenceModel>();
+        sentenceModels.addAll(reject);
+        sentenceModels.addAll(notUpload);
+        sentenceModels.addAll(notRecord);
+        sentenceModels.addAll(upload);
+        sentenceModels.addAll(approved);
+        sentenceModels.addAll(locked);
+        return  sentenceModels;
+    }
 
     private void listAllItem(){
         final DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
@@ -318,23 +357,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         UserProfile profile = Preferences.getCurrentProfile(this);
         final String name=profile.getUsername();
         CustomAdapter customAdapter=null;
-        lvItem=(ListView)findViewById(R.id.lvItem);
         textrecord=(TextView)findViewById(R.id.textrecord);
-        List<SentenceModel> notRecord=databaseHandlerSentence.getAllSentenceWithStatusandAccount(name);
-        List<SentenceModel> upload=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_UPLOADED);
-        List<SentenceModel> reject=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_REJECT);
-        List<SentenceModel> approved=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_APPROVED);
-        List<SentenceModel> locked=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_ADMIN_LOCKED);
-        List<SentenceModel> notUpload=databaseHandlerSentence.getSentenceWithAccountandStatus(name,Common.RECORDED_BUT_NOT_UPLOAD);
 
         //List<SentenceModel> sentenceModels=databaseHandlerSentence.getAllSentence();
-        List<SentenceModel> sentenceModels=new ArrayList<SentenceModel>();
-        sentenceModels.addAll(reject);
-        sentenceModels.addAll(notUpload);
-        sentenceModels.addAll(notRecord);
-        sentenceModels.addAll(upload);
-        sentenceModels.addAll(approved);
-        sentenceModels.addAll(locked);
+        sentenceModels=sentenceModels();
         String output=audioStream.getTmpDir( sentenceModels.get(0).getID(),name);
         File dstFile = new File(output);
         numberRecoder=notUpload.size();
@@ -344,8 +370,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if(sentenceModels.size() > 0){
             SentenceModel m = sentenceModels.get(0);
             status = m.getStatus();
+//            idSentence=m.getID();
             String itemValue=m.getSentence();
             textrecord.setText(itemValue);
+
         }
         customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
        /* List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();*/
@@ -382,33 +410,56 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         switchButtonStage(ButtonState.GREEN);
                         break;
                     case 0:
-                        switchButtonStage(ButtonState.NORECORDING);
+                        if(notUpload.size()!=0) {
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        }else{
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
                         break;
                     case 1:
-                        if(dstFile.exists()){
+                        if(notUpload.size()!=0 && dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        }else if(notUpload.size()==0 && dstFile.exists()){
                             switchButtonStage(ButtonState.UPLOAD1);
-                        }
-                        else {
+                        }else if(notUpload.size()!=0 && !dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        }else if(notUpload.size()==0 && !dstFile.exists()){
                             switchButtonStage(ButtonState.NORECORDING);
                         }
                         break;
                     case 2:
-                        if(dstFile.exists()){
+                        if(notUpload.size()!=0 && dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        }else if(notUpload.size()==0 && dstFile.exists()){
                             switchButtonStage(ButtonState.UPLOAD1);
-                        }
-                        else {
+                        }else if(notUpload.size()!=0 && !dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        }else if(notUpload.size()==0 && !dstFile.exists()){
                             switchButtonStage(ButtonState.NORECORDING);
                         }
                         break;
                     case 3:
-                        if(dstFile.exists()){
+                        if(notUpload.size()!=0 && dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        }else if(notUpload.size()==0 && dstFile.exists()){
                             switchButtonStage(ButtonState.UPLOAD1);
-                        }
-                        else {
+                        }else if(notUpload.size()!=0 && !dstFile.exists()){
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        }else if(notUpload.size()==0 && !dstFile.exists()){
                             switchButtonStage(ButtonState.NORECORDING);
                         }
                         break;
                     case 4:
+                        if(notUpload.size()!=0 && dstFile.exists()){
+                            switchButtonStage(ButtonState.SUCCESS2);
+                        }else if(notUpload.size()==0 && dstFile.exists()){
+                            switchButtonStage(ButtonState.SUCCESS);
+                        }else if(notUpload.size()!=0 && !dstFile.exists()){
+                            switchButtonStage(ButtonState.SUCCESS3);
+                        }else if(notUpload.size()==0 && !dstFile.exists()){
+                            switchButtonStage(ButtonState.SUCCESS1);
+                        }
+
                         if(dstFile.exists()){
                             switchButtonStage(ButtonState.SUCCESS);
                         }
@@ -462,22 +513,24 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         uploadAllSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickUploadAll();
+                if(checkNetwork(false)) {
+                    clickUploadAll();
+                }
             }
         });
     }
     public void clickUploadAll(){
-        switchButtonStage(ButtonState.UPLOADALL);
-        uploadAllRecord();
-
-
+            switchButtonStage(ButtonState.UPLOADALL);
+            uploadAllRecord();
     }
 
     public void uploadSentence(){
         uploadSentence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickUpload();
+                if (checkNetwork(false)) {
+                    clickUpload();
+                }
             }
         });
 
@@ -599,6 +652,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void initRecordingView() {
+        lvItem=(ListView)findViewById(R.id.lvItem);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
@@ -871,15 +925,70 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
         return false;
     }
-    private void stopPlay(int a) {
-        if(a==-1){
-            switchButtonStage(ButtonState.GREEN);
-        }
-        if(a==0 || a==1 || a==2 || a==3){
-            switchButtonStage(ButtonState.UPLOAD1);
-        }
-        if(a==4) {
-            switchButtonStage(ButtonState.SUCCESS);
+    private void stopPlay(int ad) {
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        final String name=profile.getUsername();
+        String output=audioStream.getTmpDir(idSentence, name);
+        File dstFile = new File(output);
+        switch (ad){
+            case -1:
+                switchButtonStage(ButtonState.GREEN);
+                break;
+            case 1:
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD1);
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.NORECORDING);
+                }
+                break;
+            case 2:
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD1);
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.NORECORDING);
+                }
+                break;
+            case 3:
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD1);
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.NORECORDING);
+                }
+                break;
+            case 4:
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS);
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS3);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS1);
+                }
+
+                if(dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS);
+                }
+                else {
+                    switchButtonStage(ButtonState.SUCCESS1);
+                }
+                break;
+            default:
+                switchButtonStage(ButtonState.NORECORDING);
+                break;
+
         }
         isPlaying = false;
         player.stop();
@@ -897,30 +1006,49 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 switchButtonStage(ButtonState.GREEN);
                 break;
             case 1:
-                if(dstFile.exists()){
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
                     switchButtonStage(ButtonState.UPLOAD1);
-                }
-                else {
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
                     switchButtonStage(ButtonState.NORECORDING);
                 }
                 break;
             case 2:
-                if(dstFile.exists()){
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
                     switchButtonStage(ButtonState.UPLOAD1);
-                }
-                else {
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
                     switchButtonStage(ButtonState.NORECORDING);
                 }
                 break;
             case 3:
-                if(dstFile.exists()){
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOAD2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
                     switchButtonStage(ButtonState.UPLOAD1);
-                }
-                else {
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.UPLOADALL2);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
                     switchButtonStage(ButtonState.NORECORDING);
                 }
                 break;
             case 4:
+                if(notUpload.size()!=0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS2);
+                }else if(notUpload.size()==0 && dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS);
+                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS3);
+                }else if(notUpload.size()==0 && !dstFile.exists()){
+                    switchButtonStage(ButtonState.SUCCESS1);
+                }
+
                 if(dstFile.exists()){
                     switchButtonStage(ButtonState.SUCCESS);
                 }
@@ -1013,6 +1141,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             });
             start = System.currentTimeMillis();
             player.play();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1278,38 +1407,56 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 switchButtonStage(ButtonState.GREEN);
                                 break;
                             case 0:
-                                if(dstFile.exists()){
-                                    switchButtonStage(ButtonState.NORECORDING);
-                                }
-                                else {
+                                if(notUpload.size()!=0) {
+                                    switchButtonStage(ButtonState.UPLOADALL2);
+                                }else{
                                     switchButtonStage(ButtonState.NORECORDING);
                                 }
                                 break;
                             case 1:
-                                if(dstFile.exists()){
+                                if(notUpload.size()!=0 && dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOAD2);
+                                }else if(notUpload.size()==0 && dstFile.exists()){
                                     switchButtonStage(ButtonState.UPLOAD1);
-                                }
-                                else {
+                                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOADALL2);
+                                }else if(notUpload.size()==0 && !dstFile.exists()){
                                     switchButtonStage(ButtonState.NORECORDING);
                                 }
                                 break;
                             case 2:
-                                if(dstFile.exists()){
+                                if(notUpload.size()!=0 && dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOAD2);
+                                }else if(notUpload.size()==0 && dstFile.exists()){
                                     switchButtonStage(ButtonState.UPLOAD1);
-                                }
-                                else {
+                                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOADALL2);
+                                }else if(notUpload.size()==0 && !dstFile.exists()){
                                     switchButtonStage(ButtonState.NORECORDING);
                                 }
                                 break;
                             case 3:
-                                if(dstFile.exists()){
+                                if(notUpload.size()!=0 && dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOAD2);
+                                }else if(notUpload.size()==0 && dstFile.exists()){
                                     switchButtonStage(ButtonState.UPLOAD1);
-                                }
-                                else {
+                                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                                    switchButtonStage(ButtonState.UPLOADALL2);
+                                }else if(notUpload.size()==0 && !dstFile.exists()){
                                     switchButtonStage(ButtonState.NORECORDING);
                                 }
                                 break;
                             case 4:
+                                if(notUpload.size()!=0 && dstFile.exists()){
+                                    switchButtonStage(ButtonState.SUCCESS2);
+                                }else if(notUpload.size()==0 && dstFile.exists()){
+                                    switchButtonStage(ButtonState.SUCCESS);
+                                }else if(notUpload.size()!=0 && !dstFile.exists()){
+                                    switchButtonStage(ButtonState.SUCCESS3);
+                                }else if(notUpload.size()==0 && !dstFile.exists()){
+                                    switchButtonStage(ButtonState.SUCCESS1);
+                                }
+
                                 if(dstFile.exists()){
                                     switchButtonStage(ButtonState.SUCCESS);
                                 }
@@ -1465,10 +1612,47 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
 
                     break;
+                case SUCCESS2:
+                    btnAudio.setEnabled(true);
+                    btnAnalyzing.setEnabled(false);
+                    btnAudio.setImageResource(R.drawable.p_audio_green);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                    uploadSentence.setEnabled(false);
+                    uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+                    uploadAllSentence.setEnabled(true);
+                    uploadAllSentence.setImageResource(R.drawable.p_arrow_up_multi_green);
+
+                    break;
+                case SUCCESS3:
+                    btnAudio.setEnabled(false);
+                    btnAnalyzing.setEnabled(false);
+                    btnAudio.setImageResource(R.drawable.p_audio_gray);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                    uploadSentence.setEnabled(false);
+                    uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+                    uploadAllSentence.setEnabled(true);
+                    uploadAllSentence.setImageResource(R.drawable.p_arrow_up_multi_green);
+
+
+                    break;
+
+
                 case UPLOAD2:
                     btnAudio.setEnabled(true);
                     btnAnalyzing.setEnabled(true);
                     btnAudio.setImageResource(R.drawable.p_audio_green);
+                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
+                    uploadSentence.setEnabled(false);
+                    uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
+                    uploadAllSentence.setEnabled(true);
+                    uploadAllSentence.setImageResource(R.drawable.p_arrow_up_multi_green);
+
+                    isProcess = false;
+                    break;
+                case UPLOADALL2:
+                    btnAudio.setEnabled(false);
+                    btnAnalyzing.setEnabled(true);
+                    btnAudio.setImageResource(R.drawable.p_audio_gray);
                     btnAnalyzing.setImageResource(R.drawable.p_record_green);
                     uploadSentence.setEnabled(false);
                     uploadSentence.setImageResource(R.drawable.p_arrow_up_gray);
@@ -1631,6 +1815,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 String data = bundle.getString(UploaderAllAsync.UPLOAD_COMPLETE_INTENT);
                 AppLog.logString("upload status : " + data);
                 listAllItem();
+                position1();
                 switchButtonStage(ButtonState.NORECORDING);
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
@@ -1643,53 +1828,74 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         @Override
         public void onReceive(Context context, Intent intent) {
             DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
+            UserProfile profile = Preferences.getCurrentProfile(context);
 
             RecorderSentenceModel recorderSentenceModel =new RecorderSentenceModel();
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
 
                 String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
+
                 AppLog.logString("data  : " + data);
                 Gson gson = new Gson();
                 DatabasePrepare.ResponseDataRecorded datas = gson.fromJson(data, DatabasePrepare.ResponseDataRecorded.class);
-                if(datas!=null && datas.RecordedSentences!=null && datas.RecordedSentences.size() > 0 ){
-                    for(DatabasePrepare.RecordedSentence model : datas.RecordedSentences){
+                if (datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()!=false) {
+                    for (DatabasePrepare.RecordedSentence model : datas.RecordedSentences) {
                         //call database update version, status, isdeleted with object model.
                         AppLog.logString("sentence id  : " + model.getSentenceId());
                         AppLog.logString("id  : " + model.getId());
                         databaseHandlerSentence.updateRecorder(model.getVersion(), model.getStatus(), model.isDeteted(), model.getSentenceId(), model.getAccount());
 
                     }
-
+                    AppLog.logString("Start score animation");
+                    listAllItem();
+                    position();
+                    if (numberRecoder > 0) {
+                        switchButtonStage(ButtonState.UPLOAD2);
+                    } else {
+                        switchButtonStage(ButtonState.UPLOADALL1);
+                    }
+                    status=1;
+                    String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
+                    textrecord.setText(sentence);
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                } else {
+                    databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(), Common.NOT_RECORD, Common.ISDELETED_FALSE, idSentence, profile.getUsername());
+                    listAllItem();
+                    if (numberRecoder > 0) {
+                        switchButtonStage(ButtonState.UPLOADALL2);
+                    } else {
+                        switchButtonStage(ButtonState.NORECORDING);
+                    }
+                    String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
+                    textrecord.setText(sentence);
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                    Toast.makeText(MainActivity.this,"Your uploaded Sentence change. Please logout and login again to get the change.",Toast.LENGTH_LONG).show();
                 }
-//                try {
-//                    currentModel = gson.fromJson(data, UserVoiceModel.class);
-//                } catch (Exception ex) {
-//                    //switchButtonStage(ButtonState.RED);
-//                }
-//                try {
-//                    saveToDatabase();
-//                }catch (Exception e) {
-//                    SimpleAppLog.error("Could not save data to database", e);
-//                    e.printStackTrace();
-//                    currentModel = null;
-//                }
-                AppLog.logString("Start score animation");
-
-                listAllItem();
-                if(numberRecoder>0){
-                    switchButtonStage(ButtonState.UPLOAD2);
-                }
-                else{
-                    switchButtonStage(ButtonState.UPLOADALL1);
-                }
-
-                String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
-                textrecord.setText(sentence);
-                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
             }
         }
     };
+    private int getIndex(){
+        int index=0;
+        for(int i=0;i<upload.size();i++){
+            if(upload.get(i).getID().equals(idSentence)){
+                index=i;
+            }
+        }
+        return index;
+    }
+    private void position(){
+        int position=0;
+        position=reject.size()+notUpload.size() +notRecord.size() + getIndex();
+
+        lvItem.setSelection(position);
+    }
+    private void position1(){
+        int position=0;
+        position=reject.size()+notUpload.size() +notRecord.size() + upload.size() - 2;
+
+        lvItem.setSelection(position);
+    }
 
     private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
         @Override
@@ -1738,6 +1944,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Map<String, String> params = new HashMap<String, String>();
             recorderSentenceModel=databaseHandlerSentence.getRecorderSentence(idSentence,name);
             int version=recorderSentenceModel.getVersion();
+            String sentence=databaseHandlerSentence.getSentence(idSentence).getSentence();
             String versions=Integer.toString(version);
             int maxversion=databaseHandlerSentence.getLastedVersionRecorder();
             String maxversions=Integer.toString(maxversion);
@@ -1765,6 +1972,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     params.put("profile", gson.toJson(profile));
                     params.put("sentence", idSentence);
                     params.put("version", versions);
+                    params.put("contentSentence",sentence);
                     params.put("versionmax", maxversions);
                     uploadTask.execute(params);
 
@@ -1833,8 +2041,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
-            RecorderSentenceModel recorderSentenceModel=databaseHandlerSentence.getRecorderSentence(idSentence,name);
-            status= recorderSentenceModel.getStatus();
+            status= databaseHandlerSentence.getStatus(idSentence,name);
             textrecord.setText(s);
             String output=audioStream.getTmpDir(idSentence,name);
             File dstFile = new File(output);
@@ -1843,33 +2050,56 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     switchButtonStage(ButtonState.GREEN);
                     break;
                 case 0:
-                    switchButtonStage(ButtonState.NORECORDING);
+                    if(notUpload.size()!=0) {
+                        switchButtonStage(ButtonState.UPLOADALL2);
+                    }else{
+                        switchButtonStage(ButtonState.NORECORDING);
+                    }
                     break;
                 case 1:
-                    if(dstFile.exists()){
+                    if(notUpload.size()!=0 && dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOAD2);
+                    }else if(notUpload.size()==0 && dstFile.exists()){
                         switchButtonStage(ButtonState.UPLOAD1);
-                    }
-                    else {
+                    }else if(notUpload.size()!=0 && !dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOADALL2);
+                    }else if(notUpload.size()==0 && !dstFile.exists()){
                         switchButtonStage(ButtonState.NORECORDING);
                     }
                     break;
                 case 2:
-                    if(dstFile.exists()){
+                    if(notUpload.size()!=0 && dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOAD2);
+                    }else if(notUpload.size()==0 && dstFile.exists()){
                         switchButtonStage(ButtonState.UPLOAD1);
-                    }
-                    else {
+                    }else if(notUpload.size()!=0 && !dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOADALL2);
+                    }else if(notUpload.size()==0 && !dstFile.exists()){
                         switchButtonStage(ButtonState.NORECORDING);
                     }
                     break;
                 case 3:
-                    if(dstFile.exists()){
+                    if(notUpload.size()!=0 && dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOAD2);
+                    }else if(notUpload.size()==0 && dstFile.exists()){
                         switchButtonStage(ButtonState.UPLOAD1);
-                    }
-                    else {
+                    }else if(notUpload.size()!=0 && !dstFile.exists()){
+                        switchButtonStage(ButtonState.UPLOADALL2);
+                    }else if(notUpload.size()==0 && !dstFile.exists()){
                         switchButtonStage(ButtonState.NORECORDING);
                     }
                     break;
                 case 4:
+                    if(notUpload.size()!=0 && dstFile.exists()){
+                        switchButtonStage(ButtonState.SUCCESS2);
+                    }else if(notUpload.size()==0 && dstFile.exists()){
+                        switchButtonStage(ButtonState.SUCCESS);
+                    }else if(notUpload.size()!=0 && !dstFile.exists()){
+                        switchButtonStage(ButtonState.SUCCESS3);
+                    }else if(notUpload.size()==0 && !dstFile.exists()){
+                        switchButtonStage(ButtonState.SUCCESS1);
+                    }
+
                     if(dstFile.exists()){
                         switchButtonStage(ButtonState.SUCCESS);
                     }

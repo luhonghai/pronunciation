@@ -17,29 +17,35 @@ public class UnitTesting {
     public static void main(String[] args) {
 
         try {
-            PhonemeScoreService sr = new PhonemeScoreService();
-            List<PhonemeScoreDB> list = sr.listByUsernameAndVersion("company@c-mg.com", 0);
+            //PhonemeScoreService sr = new PhonemeScoreService();
+          /*  List<PhonemeScoreDB> list = sr.listByUsernameAndVersion("company@c-mg.com", 0);
             for(PhonemeScoreDB m : list){
                 System.out.println(m.getPhonemeWord() + "=" + m.getVersion());
 
             }
-            System.out.println(sr.getMaxVersion("company@c-mg.com"));
-            /*PhonemeScoreService sr = new PhonemeScoreService();
+            System.out.println(sr.getMaxVersion("company@c-mg.com"));*/
+            PhonemeScoreService sr = new PhonemeScoreService();
             PhonemeScoreDB s1 = new PhonemeScoreDB();
             s1.setTotalScore(8);
             s1.setPhonemeWord("H");
             s1.setUsername("company@c-mg.com");
             s1.setVersion(1);
+            s1.setIndex(3);
             PhonemeScoreDB s2 = new PhonemeScoreDB();
             s2.setTotalScore(8);
-            s2.setPhonemeWord("H");
+            s2.setPhonemeWord("A");
             s2.setUsername("company@c-mg.com");
             s2.setVersion(1);
+            s2.setIndex(1);
             List<PhonemeScoreDB> list = new ArrayList<PhonemeScoreDB>();
             list.add(s1);
             list.add(s2);
-            PhonemeScoreDAO dao = new PhonemeScoreDAO();
-            dao.create(list);*/
+            list = sr.sortList(list);
+            for(PhonemeScoreDB m : list){
+                System.out.println(m.getPhonemeWord() + "=" + m.getIndex());
+
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

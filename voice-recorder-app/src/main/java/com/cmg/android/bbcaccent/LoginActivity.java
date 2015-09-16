@@ -23,6 +23,7 @@ import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.facebook.CallbackManager;
@@ -39,6 +40,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -584,6 +586,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     }
                 });
                 Preferences.updateProfile(LoginActivity.this, profile);
+                //call services sync data here DENP-238
                 startMainActivity();
             }
         });
@@ -599,69 +602,69 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         String p2 = ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).getText().toString();
         if (isValidEmail(profile.getUsername())) {
             if (p1.length() >= 6 && p2.length() >= 6) {
-                    if (p1.equals(p2)) {
-                        profile.setPassword(p1);
-                        profile.setLoginType(UserProfile.TYPE_EASYACCENT);
-                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
-                        showProcessDialog();
-                        accountManager.register(profile, new AccountManager.AuthListener() {
-                            @Override
-                            public void onError(final String message, Throwable e) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        dialogProgress.dismissWithAnimation();
-                                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                if (p1.equals(p2)) {
+                    profile.setPassword(p1);
+                    profile.setLoginType(UserProfile.TYPE_EASYACCENT);
+                    dialogRegister.findViewById(R.id.btnRegister).setEnabled(false);
+                    showProcessDialog();
+                    accountManager.register(profile, new AccountManager.AuthListener() {
+                        @Override
+                        public void onError(final String message, Throwable e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dialogProgress.dismissWithAnimation();
+                                    dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
 
-                                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                        d.setTitleText(getString(R.string.could_not_register));
-                                        d.setContentText(message);
-                                        d.setConfirmText(getString(R.string.dialog_ok));
-                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                sweetAlertDialog.dismissWithAnimation();
-                                            }
-                                        });
-                                        d.show();
+                                    SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                    d.setTitleText(getString(R.string.could_not_register));
+                                    d.setContentText(message);
+                                    d.setConfirmText(getString(R.string.dialog_ok));
+                                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+                                        }
+                                    });
+                                    d.show();
 
-                                    }
-                                });
-                            }
+                                }
+                            });
+                        }
 
-                            @Override
-                            public void onSuccess() {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Preferences.addProfile(LoginActivity.this, profile);
-                                        Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
-                                        dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
-                                        dialogRegister.cancel();
-                                        dialogProgress.dismissWithAnimation();
-                                        ((TextView) dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
-                                        dialogValidation.show();
-                                    }
-                                });
+                        @Override
+                        public void onSuccess() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Preferences.addProfile(LoginActivity.this, profile);
+                                    Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
+                                    dialogRegister.findViewById(R.id.btnRegister).setEnabled(true);
+                                    dialogRegister.cancel();
+                                    dialogProgress.dismissWithAnimation();
+                                    ((TextView) dialogValidation.findViewById(R.id.txtCode)).setHint(profile.getUsername());
+                                    dialogValidation.show();
+                                }
+                            });
 
-                            }
-                        });
-                    } else {
-                        SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
-                        d.setTitleText(getString(R.string.invalid_password));
-                        d.setContentText(getString(R.string.both_passwords_must_match));
-                        d.setConfirmText(getString(R.string.dialog_ok));
-                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
-                                ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
-                                sweetAlertDialog.dismissWithAnimation();
-                            }
-                        });
-                        d.show();
+                        }
+                    });
+                } else {
+                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                    d.setTitleText(getString(R.string.invalid_password));
+                    d.setContentText(getString(R.string.both_passwords_must_match));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            ((TextView) dialogRegister.findViewById(R.id.txtPassword)).setText("");
+                            ((TextView) dialogRegister.findViewById(R.id.txtCPassword)).setText("");
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
 
-                    }
+                }
             } else {
                 SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
                 d.setTitleText(getString(R.string.invalid_password));
@@ -826,7 +829,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                 @Override
                                 public void run() {
                                     enableForm(true);
-                                   // showProcessDialog();
+                                    // showProcessDialog();
                                 }
                             });
                             doAuth(profile);
@@ -841,7 +844,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             });
                         }
                     }
-        });
+                });
         Bundle parameters = new Bundle();
         parameters.putString("fields","id,name,email,gender,birthday");
         request.setParameters(parameters);
@@ -860,7 +863,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         enableForm(true);
         hideProcessDialog();
         //Toast.makeText(this, "Could not login to Facebook", Toast.LENGTH_LONG).show();
-       showErrorNetworkMessage(null);
+        showErrorNetworkMessage(null);
     }
 
     private void doAuth(final UserProfile profile) {
@@ -1083,8 +1086,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     }
 
     private void hideProcessDialog() {
-            if (dialogProgress != null && dialogProgress.isShowing())
-                dialogProgress.dismissWithAnimation();
+        if (dialogProgress != null && dialogProgress.isShowing())
+            dialogProgress.dismissWithAnimation();
     }
 
     private void enableForm(boolean enable) {

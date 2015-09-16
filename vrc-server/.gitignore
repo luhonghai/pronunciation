@@ -16,3 +16,4 @@ temp/**
 **.iml
 .project
 .checkstyle
+log/**
