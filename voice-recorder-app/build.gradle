@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
         versionCode 300001
-        versionName "3.0.001"
+        versionName "3.0.000"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
