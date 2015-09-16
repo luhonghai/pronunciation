@@ -11,9 +11,16 @@
     <include:head pageTitle="<%=pageTitle%>">
     </include:head>
 <body>
+<%
+
+    if (session.getAttribute("username") == null || session.getAttribute("password") == null){
+        response.sendRedirect("login.jsp");
+    } else {
+
+%>
 	<include:header index="<%=index %>"></include:header>
 	<jsp:doBody/>
     <include:footer></include:footer>
 </body>
 </html>
-
+<%}%>

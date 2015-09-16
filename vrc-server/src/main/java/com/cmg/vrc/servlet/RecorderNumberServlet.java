@@ -4,32 +4,31 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
-import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
  * Created by CMGT400 on 8/6/2015.
  */
-public class RecorderServletNumber extends HttpServlet {
+public class RecorderNumberServlet extends HttpServlet {
+//    private int BUFFER_LENGTH=1024;
+//    private double startTime;
+//    private double endTime;
+//    private File sourceFile;
     class number{
         public double waiting,pending,reject,approved,locke,allsentence;
         public List<RecordedSentence> recordedSentences;
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        RecorderDAO recorderDAO=new RecorderDAO();
            if(request.getParameter("loadNumber")!=null){
-               RecorderServletNumber.number number=new number();
+               RecorderNumberServlet.number number=new number();
                try{
                    number=getNumber();
                    Gson gson = new Gson();
@@ -46,7 +45,7 @@ public class RecorderServletNumber extends HttpServlet {
 
 
            if(request.getParameter("loadNumberAccount")!=null){
-               RecorderServletNumber.number number=new number();
+               RecorderNumberServlet.number number=new number();
                String acount=request.getParameter("account");
                try{
                    if(acount.length()>0){
@@ -65,31 +64,6 @@ public class RecorderServletNumber extends HttpServlet {
 
 
            }
-
-        if(request.getParameter("loadAudio")!=null){
-            String acount=request.getParameter("account");
-            String id=request.getParameter("id");
-            try{
-                RecordedSentence recordedSentence=recorderDAO.getBySentenceIdAndAccount(id,acount);
-                String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
-                String fileName=recordedSentence.getFileName();
-                String path=tmpDir+'\\'+acount+'\\'+fileName;
-                byte[] audio=audio(path);
-                Gson gson = new Gson();
-                String paths = gson.toJson(audio);
-                response.getWriter().write(paths);
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
-        }
-
-
-
-
-
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
@@ -117,7 +91,7 @@ public class RecorderServletNumber extends HttpServlet {
     public number getNumber(){
         RecorderSentenceDAO recorderSentenceDAO=new RecorderSentenceDAO();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
-        RecorderServletNumber.number number=new number();
+        RecorderNumberServlet.number number=new number();
         try {
             int numberAccout=recordedSentenceList().size();
             double pending=recorderSentenceDAO.getCount(1);
@@ -142,7 +116,7 @@ public class RecorderServletNumber extends HttpServlet {
     public number getNumberWithAccountandStatus(String acount){
         RecorderSentenceDAO recorderSentenceDAO=new RecorderSentenceDAO();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
-        RecorderServletNumber.number number=new number();
+        RecorderNumberServlet.number number=new number();
         try{
 
             double pending=recorderSentenceDAO.getCount(acount,1);
@@ -166,23 +140,25 @@ public class RecorderServletNumber extends HttpServlet {
 
     }
 
-    public byte[] audio(String WAV_FILE){
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(WAV_FILE));
+//    public byte[] audio(String WAV_FILE){
+//        try {
+//            ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            BufferedInputStream in = new BufferedInputStream(new FileInputStream(WAV_FILE));
+//
+//            int read;
+//            byte[] buff = new byte[1024];
+//            while ((read = in.read(buff)) > 0) {
+//                out.write(buff, 0, read);
+//            }
+//            out.flush();
+//            byte[] audioBytes = out.toByteArray();
+//            return audioBytes;
+//        }catch (Exception e){
+//            return null;
+//        }
+//    }
 
-            int read;
-            byte[] buff = new byte[1024];
-            while ((read = in.read(buff)) > 0) {
-                out.write(buff, 0, read);
-            }
-            out.flush();
-            byte[] audioBytes = out.toByteArray();
-            return audioBytes;
-        }catch (Exception e){
-            return null;
-        }
-    }
+
 
 
 }

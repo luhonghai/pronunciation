@@ -80,6 +80,7 @@ public class RecorderSentenceService {
      * @throws Exception
      */
     public String clientUpdate(UserProfile user, String sentenceId, File recordedVoice, int clientVersion) throws Exception {
+        String uuid=null;
         RecorderDAO recorderDAO=new RecorderDAO();
         RecordedSentenceHistoryDAO recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         try {
@@ -87,8 +88,9 @@ public class RecorderSentenceService {
 
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();
+                uuid = UUIDGenerator.generateUUID();
             }
-            String uuid = UUIDGenerator.generateUUID();
+            uuid=recordedSentence.getId();
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
             recordedSentence.setId(uuid);

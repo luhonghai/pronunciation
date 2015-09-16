@@ -126,7 +126,10 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
 
         if(sta!=6) {
-            string.append("(status==sta && status!=0) &&");
+            string.append("(status==sta) &&");
+        }
+        if(sta==6){
+            string.append("(status!=0) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
@@ -197,7 +200,10 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             string.append("(createdDate <= dateTo) &&");
         }
         if(sta!=6) {
-            string.append("(status==sta && status!=0) &&");
+            string.append("(status==sta) &&");
+        }
+        if(sta==6){
+            string.append("(status!=0) &&");
         }
 
         if(dateFrom!=null&&dateTo!=null){
@@ -228,6 +234,23 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             pm.close();
         }
     }
+    public double getCount() throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentence.class.getCanonicalName());
+        q.setFilter(" status!=0");
+        try {
+            count = (Long) q.execute();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
 
 
 
