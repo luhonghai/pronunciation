@@ -252,13 +252,15 @@ public class PhonemeScoreDBAdapter {
 
     public int getLastedVersion(String username) {
         int version=0;
-        Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + DATABASE_TABLE + " where username='"+username+"'", null);
-        if (cursor != null)
-            cursor.moveToFirst();
-        try {
-            version= Integer.parseInt(cursor.getString(0));
-        }catch (Exception e){
-            e.printStackTrace();
+        Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + DATABASE_TABLE + " where username=?", new String[] {username});
+        if (cursor != null && cursor.moveToFirst()) {
+            try {
+                version= Integer.parseInt(cursor.getString(0));
+            }catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                cursor.close();
+            }
         }
         return version;
     }
