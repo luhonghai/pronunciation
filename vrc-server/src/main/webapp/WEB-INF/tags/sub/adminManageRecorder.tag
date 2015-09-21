@@ -70,21 +70,22 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row">
-            <label>AWaiting:</label>
-            <label id="awaiting"></label>
-            <label>Pending:</label>
-            <label id="pending"></label>
-            <label>Reject:</label>
-            <label id="reject"></label>
-            <label>Approved:</label>
-            <label id="approved"></label>
-            <label>Locked:</label>
-            <label id="locked"></label>
-            <label>All sentence:</label>
+            <label style="background-color: white;color: black;">AWaiting:</label>
+            <label id="awaiting" style="padding-right: 10px;"></label>
+            <label style="background-color: orange;color: white; padding-left: 5px;">Pending:</label>
+            <label id="pending" style="padding-right: 10px;"></label>
+            <label style="background-color: red;color: white; padding-left: 5px;">Reject:</label>
+            <label id="reject" style="padding-right: 10px;"></label>
+            <label style="background-color: green;color: white; padding-left: 5px;">Approved:</label>
+            <label id="approved" style="padding-right: 10px;"></label>
+            <label style="background-color: darkgray;color: white; padding-left: 5px;">Locked:</label>
+            <label id="locked" style="padding-right: 10px;"></label>
+            <label style="background-color: white;color: black; padding-left: 5px;">All sentence:</label>
             <label id="all"></label>
-            <label>Select user:</label>
-            <select name="listaccount" id="listaccount" class="form-control" required="required">
-
+          </div>
+          <div class="row" style="padding-top: 10px;">
+            <label class="col-sm-3" style="padding-left: 0px;">Select user:</label>
+            <select name="listaccount" id="listaccount" class="form-control, col-sm-9" required="required">
             </select>
           </div>
         </div>

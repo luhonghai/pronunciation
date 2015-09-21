@@ -156,4 +156,13 @@ public class RecorderServlet extends BaseServlet {
         doPost(request,response);
     }
 
+    public void test () {
+        int a = 1;
+        int b = 2;
+        if (a == b) {
+            return;
+        }
+        a++;
+
+    }
 }

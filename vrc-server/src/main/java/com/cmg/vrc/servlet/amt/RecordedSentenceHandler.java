@@ -2,7 +2,9 @@ package com.cmg.vrc.servlet.amt;
 
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
+import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.service.RecorderSentenceService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
@@ -39,19 +41,22 @@ public class RecordedSentenceHandler extends BaseServlet {
             .getName());
     private static String PARA_PROFILE = "profile";
     private static String PARA_SENTENCE_ID = "sentence";
-    private static String PARA_VERSION = "version";
+    //private static String PARA_VERSION = "version";
     private static String PARA_VERSIONMAX = "versionmax";
+    private static String PARA_CONTENT_SENTENCE = "contentSentence";
 	private class ResponseDataExt extends ResponseData<RecordedSentence> {
 		public List<RecordedSentence> RecordedSentences;
 
 	}
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
+        //PrintWriter out = response.getWriter();
         Gson gson = new Gson();
-        AWSHelper awsHelper = new AWSHelper();
+       // AWSHelper awsHelper = new AWSHelper();
         ResponseDataExt responseData = new ResponseDataExt();
         RecorderDAO recorderDAO=new RecorderDAO();
+        TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+        Transcription transcription=new Transcription();
         RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
@@ -62,13 +67,13 @@ public class RecordedSentenceHandler extends BaseServlet {
             // Parse the request
             FileItemIterator iter = null;
             iter = upload.getItemIterator(request);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "sentences");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
                 voiceRecordDir.mkdirs();
             }
             //String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
-            String targetDir = voiceRecordDir.getAbsolutePath();
+           // String targetDir = voiceRecordDir.getAbsolutePath();
             String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
             String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             while (iter.hasNext()) {
@@ -93,6 +98,8 @@ public class RecordedSentenceHandler extends BaseServlet {
             String profile = storePara.get(PARA_PROFILE);
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
             String versionmax = storePara.get(PARA_VERSIONMAX);
+            String contentSentence=storePara.get(PARA_CONTENT_SENTENCE);
+            String sentence=transcriptionDAO.getByIdSentence(sentenceId).getSentence();
             int versions=1;
             if(recorderDAO.getCount()!=0){
                 int versionmaxserver=recorderDAO.getLatestVersion();
@@ -102,7 +109,7 @@ public class RecordedSentenceHandler extends BaseServlet {
 
             logger.info("SentenceID: " + sentenceId);
             logger.info("Profile: " + profile);
-            if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0) {
+            if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0 && sentence.equalsIgnoreCase(contentSentence)) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 File tmpFileIn = new File(tmpDir, tmpFile);
 

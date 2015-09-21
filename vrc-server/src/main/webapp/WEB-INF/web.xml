@@ -114,6 +114,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>LoadAudioRecorder</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LoadAudioRecorder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoadAudioRecorder</servlet-name>
+        <url-pattern>/LoadAudioRecorder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>LicenseHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.LicenseHandler</servlet-class>
     </servlet>
@@ -220,7 +229,7 @@
 
     <servlet>
         <servlet-name>RecorderServletNumber</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.RecorderServletNumber</servlet-class>
+        <servlet-class>com.cmg.vrc.servlet.RecorderNumberServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

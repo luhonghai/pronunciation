@@ -54,7 +54,7 @@
                 </form>
             </div>
             <div class="modal-footer" style="text-align: center; font-size: 10px;color: grey">
-                Version <%=Configuration.getValue(Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
+                 Version <%=Configuration.getValue(Configuration.PROJECT_VERSION)%> &copy; 2015 Claybourne McGregor Consulting Ltd (C-MG)
             </div>
         </div>
     </div>

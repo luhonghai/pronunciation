@@ -13,6 +13,7 @@ import com.cmg.android.bbcaccentamt.auth.AccountManager;
 import com.cmg.android.bbcaccentamt.data.DatabasePrepare;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.utils.AnalyticHelper;
+import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -30,35 +31,41 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        accountManager = new AccountManager(this);
         setContentView(R.layout.dialog_login);
+        UserProfile currentProfile = Preferences.getCurrentProfile(this);
+        accountManager = new AccountManager(this);
+        if(currentProfile!=null && currentProfile.isLogin()){
+            SimpleAppLog.debug(currentProfile.getUsername());
+            startMainActivity();
+        }else {
 
-        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserProfile profile = new UserProfile();
-                profile.setLoginType(UserProfile.TYPE_EASYACCENT);
-                profile.setUsername(((TextView) findViewById(R.id.txtEmail)).getText().toString());
-                profile.setPassword(((TextView) findViewById(R.id.txtPassword)).getText().toString());
-                if (profile.getUsername().length() > 0 && profile.getPassword().length() > 0) {
-                    findViewById(R.id.btnLogin).setEnabled(false);
-                    showProcessDialog();
-                    doAuth(profile);
-                } else {
-                    SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
-                    d.setTitleText(getString(R.string.missing_data));
-                    d.setContentText(getString(R.string.please_enter_email_and_password));
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-                    d.show();
+            findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserProfile profile = new UserProfile();
+                    profile.setLoginType(UserProfile.TYPE_EASYACCENT);
+                    profile.setUsername(((TextView) findViewById(R.id.txtEmail)).getText().toString());
+                    profile.setPassword(((TextView) findViewById(R.id.txtPassword)).getText().toString());
+                    if (profile.getUsername().length() > 0 && profile.getPassword().length() > 0) {
+                        findViewById(R.id.btnLogin).setEnabled(false);
+                        showProcessDialog();
+                        doAuth(profile);
+                    } else {
+                        SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
+                        d.setTitleText(getString(R.string.missing_data));
+                        d.setContentText(getString(R.string.please_enter_email_and_password));
+                        d.setConfirmText(getString(R.string.dialog_ok));
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+                        d.show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void showProcessDialog() {

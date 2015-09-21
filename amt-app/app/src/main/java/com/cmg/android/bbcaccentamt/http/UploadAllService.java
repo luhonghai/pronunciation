@@ -90,6 +90,7 @@ public class UploadAllService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         profile = getUserProfile(intent);
         List<RecorderSentenceModel> recorderSentenceModels=getListSentence(profile.getUsername());
         List<Map<String, String> > list = new ArrayList<Map<String, String>>();
@@ -98,6 +99,7 @@ public class UploadAllService extends Service {
                 String id=recorderSentenceModels.get(i).getID();
                 int version=recorderSentenceModels.get(i).getVersion();
                 String versions=Integer.toString(version);
+                String sentence=databaseHandlerSentence.getSentence(id).getSentence();
                 int maxversion=maxVersion();
                 String maxversions=Integer.toString(maxversion);
                 String fileName = getTmpDir(id, profile.getUsername());
@@ -123,6 +125,7 @@ public class UploadAllService extends Service {
                         params.put("profile", gson.toJson(profile));
                         params.put("sentence", id);
                         params.put("version", versions);
+                        params.put("contentSentence",sentence);
                         params.put("versionmax", maxversions);
                         list.add(params);
                     } else {

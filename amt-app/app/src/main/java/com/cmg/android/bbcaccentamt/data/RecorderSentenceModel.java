@@ -12,7 +12,7 @@ public class RecorderSentenceModel {
     int version;
     int isDelete;
 
-    public RecorderSentenceModel(String _id,String idSentence, String account,String fileName,int status,int version,int isDeleted ){
+    public RecorderSentenceModel(String _id, String idSentence, String account,String fileName,int status,int version,int isDeleted ){
         this._id=_id;
         this.idSentence = idSentence;
         this.account=account;

@@ -57,15 +57,6 @@
                         /*margin: 0 auto;*/
                 /*}*/
         </style>
-
-        <%
-
-                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
-                        response.sendRedirect("login.jsp");
-                }
-
-        %>
-
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";
         </script>
