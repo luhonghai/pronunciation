@@ -9,25 +9,25 @@
     <string name="upload_recording">Upload</string>
     <string name="audio_format">Format</string>
 
-    <!--<string name="upload_url">http://192.168.1.45:8080/recordedsentence</string>-->
-    <!--<string name="auth_url">http://192.168.1.45:8080/AuthHandler</string>-->
-    <!--<string name="register_url">http://192.168.1.45:8080/RegisterHandler</string>-->
-    <!--<string name="activation_url">http://192.168.1.45:8080/activate</string>-->
-    <!--<string name="feedback_url">http://192.168.1.45:8080/FeedbackHandler</string>-->
-    <!--<string name="license_url">http://192.168.1.45:8080/LicenseHandler</string>-->
-    <!--<string name="reset_password_url">http://192.168.1.45:8080/ResetPasswordHandler</string>-->
-    <!--<string name="transcription_url">http://192.168.1.45:8080/transcription</string>-->
-    <!--<string name="recorder_url">http://192.168.1.45:8080/RecorderServlet</string>-->
+    <string name="upload_url">http://192.168.1.45:8080/recordedsentence</string>
+    <string name="auth_url">http://192.168.1.45:8080/AuthHandler</string>
+    <string name="register_url">http://192.168.1.45:8080/RegisterHandler</string>
+    <string name="activation_url">http://192.168.1.45:8080/activate</string>
+    <string name="feedback_url">http://192.168.1.45:8080/FeedbackHandler</string>
+    <string name="license_url">http://192.168.1.45:8080/LicenseHandler</string>
+    <string name="reset_password_url">http://192.168.1.45:8080/ResetPasswordHandler</string>
+    <string name="transcription_url">http://192.168.1.45:8080/transcription</string>
+    <string name="recorder_url">http://192.168.1.45:8080/RecorderServlet</string>
 
-    <string name="upload_url">http://c-mg.vn/vrc/recordedsentence</string>
-    <string name="auth_url">http://c-mg.vn/vrc/AuthHandler</string>
-    <string name="register_url">http://c-mg.vn/vrc/RegisterHandler</string>
-    <string name="activation_url">http://c-mg.vn/vrc/activate</string>
-    <string name="feedback_url">http://c-mg.vn/vrc/FeedbackHandler</string>
-    <string name="license_url">http://c-mg.vn/vrc/LicenseHandler</string>
-    <string name="reset_password_url">http://c-mg.vn/vrc/ResetPasswordHandler</string>
-    <string name="transcription_url">http://c-mg.vn/vrc/transcription</string>
-    <string name="recorder_url">http://c-mg.vn/vrc/RecorderServlet</string>
+    <!--<string name="upload_url">http://c-mg.vn/vrc/recordedsentence</string>-->
+    <!--<string name="auth_url">http://c-mg.vn/vrc/AuthHandler</string>-->
+    <!--<string name="register_url">http://c-mg.vn/vrc/RegisterHandler</string>-->
+    <!--<string name="activation_url">http://c-mg.vn/vrc/activate</string>-->
+    <!--<string name="feedback_url">http://c-mg.vn/vrc/FeedbackHandler</string>-->
+    <!--<string name="license_url">http://c-mg.vn/vrc/LicenseHandler</string>-->
+    <!--<string name="reset_password_url">http://c-mg.vn/vrc/ResetPasswordHandler</string>-->
+    <!--<string name="transcription_url">http://c-mg.vn/vrc/transcription</string>-->
+    <!--<string name="recorder_url">http://c-mg.vn/vrc/RecorderServlet</string>-->
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
     <string name="action_switch_custom">Use CustomView</string>
@@ -151,7 +151,10 @@
     <string name="help_content">The transcription sentences will be coloured as follows</string>
     <string name="recorded">Recorded-ready for uploading</string>
     <string name="uploaded">Uploaded-uploaded to server</string>
-    <string name="rejected">Rejected-server has processed</string>
+    <string name="rejected">Rejected-server has rejected</string>
     <string name="accepted">Accepted-server accepted</string>
+    <string name="locked">Locked-sever has locked</string>
+    <string name="closeHelp">Close</string>
+
 
 </resources>

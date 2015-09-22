@@ -19,7 +19,7 @@ function listTranscriptionRecorder(){
             "data": {
                 action: "listbyadmin",
                 accounts:$("#listaccount").val(),
-                sentence: $("#sentence").val(),
+                sentence: $("#sentences").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
                 dateTo:$("#dateTo").val(),
@@ -77,16 +77,16 @@ function listTranscriptionRecorder(){
             "mRender": function (data, type, full) {
                 console.log(data);
                 if (data.status == 1) {
-                    return '<span style="background-color: orange;color: white; padding:5px;">'+"Pending"+'</span>';
+                    return '<span class="btn btn-sm" style="background-color: orange;color: white; padding:5px; cursor: default;">'+"Pending"+'</span>';
                 }
                 if (data.status == 2) {
-                    return '<span style="background-color: red;color: white; padding:5px;">'+"Reject"+'</span>';
+                    return '<span class="btn btn-sm" style="background-color: red;color: white; padding:5px; cursor: default;">'+"Rejected"+'</span>';
                 }
                 if (data.status == 3) {
-                    return '<span style="background-color: green;color: white; padding:5px;">'+"Approved"+'</span>';
+                    return '<span class="btn btn-sm" style="background-color: green;color: white; padding:5px; cursor: default;">'+"Approved"+'</span>';
                 }
                 if (data.status == 4) {
-                    return '<span style="background-color: darkgray;color: white; padding:5px;">'+"Locked"+'</span>';
+                    return '<span class="btn btn-sm" style="background-color: darkgray;color: white; padding:5px; cursor: default;">'+"Locked"+'</span>';
                 }
             }
         },{
@@ -99,25 +99,25 @@ function listTranscriptionRecorder(){
                     $button = $('<button type="button" style="margin-right:10px;background-color: red;color: white;" id="rejects" class="btn btn-sm" ' + full[0] + '>' + ' Reject' + '</button>' + '<button type="button" style="margin-right:10px;background-color: green;color: white;" id="approveds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Approve' + '</button>' + '<button type="button" id="lockeds" style="background-color: darkgray;color: white;" class="btn btn-sm" ' + full[0] + '>' + ' Lock' + '</button>');
                     $button.attr("id-column", data.id);
                     $button.attr("account", data.account);
+                    $button.attr("idSentence", data.sentenceId);
                     return $("<div/>").append($button).html();
                 }
                 if (data.status == 2) {
                     $button = $('<button type="button" style="margin-right:10px;background-color: green;color: white;" id="approveds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Approve' + '</button>' + '<button type="button" id="lockeds" style="background-color: darkgray;color: white;" class="btn btn-sm" ' + full[0] + '>' + ' Lock' + '</button>');
                     $button.attr("id-column", data.id);
                     $button.attr("account", data.account);
+                    $button.attr("idSentence", data.sentenceId);
                     return $("<div/>").append($button).html();
                 }
                 if (data.status == 3) {
                     $button = $('<button type="button" style="margin-right:10px;background-color: red;color: white;" id="rejects" class="btn btn-sm" ' + full[0] + '>' + ' Reject' + '<button type="button" id="lockeds" style="background-color: darkgray;color: white;" class="btn btn-sm" ' + full[0] + '>' + ' Lock' + '</button>');
                     $button.attr("id-column", data.id);
                     $button.attr("account", data.account);
+                    $button.attr("idSentence", data.sentenceId);
                     return $("<div/>").append($button).html();
                 }
                 if (data.status == 4) {
-                    $button = $('<button type="button" style="margin-right:10px;background-color: red;color: white;" id="rejects" class="btn btn-sm" ' + full[0] + '>' + ' Reject' + '</button>' + '<button type="button" style="margin-right:10px;background-color: green;color: white;" id="approveds" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Approve' + '</button>');
-                    $button.attr("id-column", data.id);
-                    $button.attr("account", data.account);
-                    return $("<div/>").append($button).html();
+                    return ;
                 }
             }
         }]
@@ -147,7 +147,7 @@ function searchAdvanted(){
             "data": {
                 action: "listbyadmin",
                 accounts:$("#listaccount").val(),
-                sentence: $("#sentence").val(),
+                sentence: $("#sentences").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
                 dateTo:$("#dateTo").val(),
@@ -201,8 +201,26 @@ function loadNumber(){
 function selected(){
     $(document).on("change","#listaccount", function(){
         var account=$("#listaccount").val();
-        loadNumber();
+        $.ajax({
+            "url":"RecorderServletNumber",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                account:account,
+                loadNumberAccount:"load"
+            },
+            success:function(data){
+                $("#awaiting").text(data.waiting);
+                $("#pending").text(data.pending);
+                $("#reject").text(data.reject);
+                $("#approved").text(data.approved);
+                $("#locked").text(data.locke);
+                $("#all").text(data.allsentence);
 
+
+
+            }
+        });
         myTable.fnSettings().ajax = {
             "url": "RecorderServlet",
             "type": "POST",
@@ -210,7 +228,7 @@ function selected(){
             "data": {
                 action: "listbyadmin",
                 accounts:$("#listaccount").val(),
-                sentence: $("#sentence").val(),
+                sentence: $("#sentences").val(),
                 account:$("#account").val(),
                 dateFrom:$("#dateFrom").val(),
                 dateTo:$("#dateTo").val(),
@@ -227,12 +245,15 @@ function selected(){
 
 function reject(){
     $(document).on("click","#rejects", function(){
+        var $row = $(this).closest("tr");
         var id=$(this).attr('id-column');
         var accounts=$(this).attr('account');
+        var idSentence=$(this).attr('idSentence');
+        var sentence=$row.find('td:eq(1)').text();
         var $button=$('<button type="button" style="margin-right:10px;background-color: green;color: white;" id="approveds" class="btn btn-info btn-sm">' + ' Approve' + '</button>' + '<button type="button" id="lockeds" style="background-color: darkgray;color: white;" class="btn btn-sm">' + ' Lock' + '</button>');
         $button.attr("id-column", id);
         $button.attr("account", accounts);
-        var $row = $(this).closest("tr");
+        $button.attr("idSentence", idSentence);
         var account=$("#listaccount").val();
         $.ajax({
             "url": "ChangeStatusRecorder",
@@ -240,7 +261,9 @@ function reject(){
             "dataType": "text",
             "data": {
                 reject: "reject",
-                id:id
+                id:id,
+                idSentence:idSentence,
+                sentence:sentence
 
             },
             success:function(data) {
@@ -248,8 +271,12 @@ function reject(){
                     //$el.hide();
                     $row.find('td:eq(5)').html("")
                     $row.find('td:eq(5)').html($button);
-                    $row.find('td:eq(4)').html("<span>Reject</span>");
-                    $row.find('td:eq(4) span').css({"background-color": "red","color": "white", "padding": "5px"});
+                    $row.find('td:eq(4)').html("<span class='btn btn-sm'>Rejected</span>");
+                    $row.find('td:eq(4) span').css({"background-color": "red","color": "white", "padding": "5px", "cursor": "default"});
+                }
+                if(data=="change"){
+                    $row.html("");
+                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
                 }
 
             }
@@ -282,12 +309,16 @@ function reject(){
 }
 function approved(){
     $(document).on("click","#approveds", function(){
+        var $row = $(this).closest("tr");
         var id=$(this).attr('id-column');
         var accounts=$(this).attr('account');
+        var idSentence=$(this).attr('idSentence');
+        var sentence=$row.find('td:eq(1)').text();
         var $button=$('<button type="button" style="margin-right:10px;background-color: red;color: white;" id="rejects" class="btn btn-sm">' + ' Reject' + '<button type="button" id="lockeds" style="background-color: darkgray;color: white;" class="btn btn-sm">' + ' Lock' + '</button>');
         $button.attr("id-column", id);
         $button.attr("account", accounts);
-        var $row = $(this).closest("tr");
+        $button.attr("idSentence", idSentence);
+
         var account=$("#listaccount").val();
        $.ajax({
             "url": "ChangeStatusRecorder",
@@ -295,15 +326,22 @@ function approved(){
             "dataType": "text",
             "data": {
                 approved: "approved",
-                id:id
+                id:id,
+                idSentence:idSentence,
+                sentence:sentence
+
 
             },
             success:function(data){
                 if (data == "success") {
                     $row.find('td:eq(5)').html("")
                     $row.find('td:eq(5)').html($button);
-                    $row.find('td:eq(4)').html("<span>Approved</span>");
-                    $row.find('td:eq(4) span').css({"background-color": "green","color": "white", "padding": "5px"})
+                    $row.find('td:eq(4)').html("<span class='btn btn-sm'>Approved</span>");
+                    $row.find('td:eq(4) span').css({"background-color": "green","color": "white", "padding": "5px", "cursor": "default"})
+                }
+                if(data=="change"){
+                    $row.html("");
+                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
                 }
 
             }
@@ -340,13 +378,17 @@ function locked(){
         var $row = $(this).closest("tr");
         var id=$(this).attr('id-column');
         var account=$("#listaccount").val();
+        var sentence=$row.find('td:eq(1)').text();
+        var idSentence=$(this).attr('idSentence');
         $.ajax({
             "url": "ChangeStatusRecorder",
             "type": "POST",
             "dataType": "text",
             "data": {
                 locked: "locked",
-                id:id
+                id:id,
+                idSentence:idSentence,
+                sentence:sentence
 
             },
             success:function(data){
@@ -354,6 +396,10 @@ function locked(){
                     $row.find('td:eq(4)').html("<span>Locked</span>");
                     $row.find('td:eq(4) span').css({"background-color": "darkgray","color": "white", "padding": "5px"});
                     $row.find('td:eq(5)').html("")
+                }
+                if(data=="change"){
+                    $row.html("");
+                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
                 }
 
             }
@@ -373,9 +419,6 @@ function locked(){
                 $("#approved").text(data.approved);
                 $("#locked").text(data.locke);
                 $("#all").text(data.allsentence);
-
-
-
             }
         });
 
@@ -384,17 +427,19 @@ function locked(){
 }
 
 function loadAudio(){
-    $('.cp-jplayer').each(function() {
-        var id = $(this).attr('id');
-        var audioUrl = $(this).attr('audioUrl');
-        new CirclePlayer("#" + id,
-            {
-                m4a: audioUrl
-            }, {
-                cssSelectorAncestor: '#' + id + 's'
-            });
+        $('.cp-jplayer').each(function() {
+            var id = $(this).attr('id');
+            var audioUrl = $(this).attr('audioUrl');
+            new CirclePlayer("#" + id,
+                {
+                    mp3: audioUrl + "&type=mp3",
+                    wav: audioUrl + "&type=wav"
+                }, {
+                    cssSelectorAncestor: '#' + id + 's'
+                });
 
-    });
+        });
+
 }
 $(document).ready(function(){
 

@@ -3,9 +3,6 @@
 
 <!-- Header -->
 
-<!--[if lt IE 7]>
-<!-- Navigation -->
-
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div style="height:50px;">
 	<div class="navbar-header">

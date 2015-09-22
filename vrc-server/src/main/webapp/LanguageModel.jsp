@@ -5,4 +5,3 @@
   <x:language_model pageTitle="Language model"></x:language_model>
 
 </t:main>
-<script src="<%=request.getContextPath() %>/js/language_model.js"></script>

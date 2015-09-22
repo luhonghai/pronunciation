@@ -68,8 +68,29 @@
                 android:textSize="@dimen/font_help_status"
                 android:padding="@dimen/padding_help"
                 android:layout_margin="@dimen/margin_help"
+                android:background="@color/app_green"
+                android:textColor="@color/app_white"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/locked"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="@dimen/font_help_status"
+                android:padding="@dimen/padding_help"
+                android:layout_margin="@dimen/margin_help"
                 android:background="@color/app_gray"
                 android:textColor="@color/app_white"/>
+            <Button
+                android:id="@+id/btnCloseHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/closeHelp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </ScrollView>

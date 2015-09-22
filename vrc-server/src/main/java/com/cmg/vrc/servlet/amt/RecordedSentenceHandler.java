@@ -99,7 +99,7 @@ public class RecordedSentenceHandler extends BaseServlet {
             String sentenceId = storePara.get(PARA_SENTENCE_ID);
             String versionmax = storePara.get(PARA_VERSIONMAX);
             String contentSentence=storePara.get(PARA_CONTENT_SENTENCE);
-            String sentence=transcriptionDAO.getByIdSentence(sentenceId).getSentence();
+            String sentence=transcriptionDAO.getByIdSentence(sentenceId, 1).getSentence();
             int versions=1;
             if(recorderDAO.getCount()!=0){
                 int versionmaxserver=recorderDAO.getLatestVersion();
@@ -109,7 +109,7 @@ public class RecordedSentenceHandler extends BaseServlet {
 
             logger.info("SentenceID: " + sentenceId);
             logger.info("Profile: " + profile);
-            if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0 && sentence.equalsIgnoreCase(contentSentence)) {
+            if (profile != null && profile.length() > 0 && sentenceId != null && sentenceId.length() > 0 && contentSentence.equalsIgnoreCase(sentence)) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 File tmpFileIn = new File(tmpDir, tmpFile);
 

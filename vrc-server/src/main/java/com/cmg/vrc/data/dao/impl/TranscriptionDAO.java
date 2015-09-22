@@ -26,9 +26,15 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
             return list.get(0);
         return null;
     }
-
-    public Transcription getByIdSentence(String id) throws Exception {
+    public Transcription getById(String id) throws Exception {
         List<Transcription> list = list("WHERE id == :1", id);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
+    public Transcription getByIdSentence(String id, int isDelete) throws Exception {
+        List<Transcription> list = list("WHERE id == :1 && isDeleted != :2", id, isDelete);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;

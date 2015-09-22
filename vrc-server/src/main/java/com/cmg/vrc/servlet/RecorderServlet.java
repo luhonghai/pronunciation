@@ -77,13 +77,11 @@ public class RecorderServlet extends BaseServlet {
             String dateTo = request.getParameter("dateTo");
             String status = request.getParameter("status");
             String accounts = request.getParameter("accounts");
-
+            String senten = request.getParameter("sentence");
+            String sentence=senten.toUpperCase();
             int sta=0;
-            if(status.equalsIgnoreCase("All")){
-                sta=6;
-            }else {
-                sta=Integer.parseInt(status);
-            }
+            sta=Integer.parseInt(status);
+
 
             Date dateFrom1=null;
             Date dateTo1=null;
@@ -109,30 +107,12 @@ public class RecorderServlet extends BaseServlet {
             Double count;
             try {
                 if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null || accounts.length()>0){
-                    count=recorderDAO.getCountSearch(search,account,dateFrom1,dateTo1,sta,accounts);
+                    List<RecorderClient> recorderClients=recorderDAO.listRecoderCount(search, col, oder,account,dateFrom1,dateTo1,sta,accounts,sentence);
+                    count=(double)recorderClients.size();
                 }else {
                     count = recorderDAO.getCount();
                 }
-                List<RecorderClient> recorderClients=new ArrayList<RecorderClient>();
-                List<RecordedSentence> recordedSentences = recorderDAO.listAll(start, length, search, col, oder,account,dateFrom1,dateTo1,sta,accounts);
-                for(int i=0;i<recordedSentences.size();i++){
-                    RecorderClient recorderClient=new RecorderClient();
-                    recorderClient.setId(recordedSentences.get(i).getId());
-                    recorderClient.setIsDeleted(recordedSentences.get(i).isDeleted());
-                    recorderClient.setAccount(recordedSentences.get(i).getAccount());
-                    recorderClient.setStatus(recordedSentences.get(i).getStatus());
-                    recorderClient.setVersion(recordedSentences.get(i).getVersion());
-                    recorderClient.setAdmin(recordedSentences.get(i).getAdmin());
-                    recorderClient.setCreatedDate(recordedSentences.get(i).getCreatedDate());
-                    recorderClient.setModifiedDate(recordedSentences.get(i).getModifiedDate());
-                    recorderClient.setFileName(recordedSentences.get(i).getFileName());
-                    recorderClient.setSentenceId(recordedSentences.get(i).getSentenceId());
-                    String idSentence=recordedSentences.get(i).getSentenceId();
-                    String sentence=transcriptionDAO.getById(idSentence).getSentence();
-                    recorderClient.setSentence(sentence);
-                    recorderClients.add(recorderClient);
-                }
-
+                List<RecorderClient> recorderClients=recorderDAO.listRecoder(start, length, search, col, oder,account,dateFrom1,dateTo1,sta,accounts,sentence);
                 admin.draw = draw;
                 admin.recordsTotal = count;
                 admin.recordsFiltered = count;
@@ -154,15 +134,5 @@ public class RecorderServlet extends BaseServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
-    }
-
-    public void test () {
-        int a = 1;
-        int b = 2;
-        if (a == b) {
-            return;
-        }
-        a++;
-
     }
 }

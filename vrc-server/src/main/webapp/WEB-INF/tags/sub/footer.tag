@@ -14,8 +14,7 @@
 
         <!-- Javascripts -->
 <!-- jQuery -->
-<script src="<%=request.getContextPath() %>/bower_components/jquery/dist/jquery.min.js"></script>
-<%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>--%>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.0.1/sweetalert.min.js"></script>

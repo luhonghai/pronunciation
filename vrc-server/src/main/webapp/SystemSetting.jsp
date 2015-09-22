@@ -40,3 +40,4 @@
         </div>
 </t:main>
 <script src="<%=request.getContextPath() %>/js/appDetail.js"></script>
+

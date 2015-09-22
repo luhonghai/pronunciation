@@ -24,7 +24,7 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Create Date</label>
+          <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
         </div>
         <div class="form-group" style="margin-top: 40px;text-align: left;">
           <label class="control-label" style="margin-bottom: 0px;">Modified Date</label>
@@ -221,6 +221,7 @@
   }
 %>
 
+<script src="<%=request.getContextPath() %>/js/adminTranscription.js"></script>
 
 
 
