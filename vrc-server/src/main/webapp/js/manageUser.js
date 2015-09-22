@@ -22,9 +22,6 @@ function user(){
             "sDefaultContent":""
 
         },{
-            //"sWidth": "25%",
-            //"data": "emei",
-            //"sDefaultContent":""
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",

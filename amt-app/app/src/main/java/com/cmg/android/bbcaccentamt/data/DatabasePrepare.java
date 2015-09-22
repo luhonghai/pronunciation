@@ -104,7 +104,7 @@ public class DatabasePrepare {
         if (!sentenceDb.exists()) {
             SimpleAppLog.info("Try to preload sqlite database");
             try {
-               // FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+                FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not save database from asset",e);
             }
