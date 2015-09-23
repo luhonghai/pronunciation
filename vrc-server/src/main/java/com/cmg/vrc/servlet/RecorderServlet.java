@@ -83,36 +83,36 @@ public class RecorderServlet extends BaseServlet {
             sta=Integer.parseInt(status);
 
 
-            Date dateFrom1=null;
-            Date dateTo1=null;
-
-
-
-            if(dateFrom.length()>0){
-                try {
-                    dateFrom1=df.parse(dateFrom);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            if(dateTo.length()>0){
-                try {
-                    dateTo1=df.parse(dateTo);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
+//            Date dateFrom1=null;
+//            Date dateTo1=null;
+//
+//
+//
+//            if(dateFrom.length()>0){
+//                try {
+//                    dateFrom1=df.parse(dateFrom);
+//                }catch (Exception e){
+//                    e.getStackTrace();
+//                }
+//            }
+//            if(dateTo.length()>0){
+//                try {
+//                    dateTo1=df.parse(dateTo);
+//                }catch (Exception e){
+//                    e.getStackTrace();
+//                }
+//            }
 
 
             Double count;
             try {
-                if(search.length()>0|| account.length()>0 ||dateFrom1!=null||dateTo1!=null || accounts.length()>0){
-                    List<RecorderClient> recorderClients=recorderDAO.listRecoderCount(search, col, oder,account,dateFrom1,dateTo1,sta,accounts,sentence);
+                if(search.length()>0|| account.length()>0 ||dateFrom.length()>0 ||dateTo.length()>0 || accounts.length()>0 || sta!=0){
+                    List<RecorderClient> recorderClients=recorderDAO.listRecoderCount(search, col, oder,account,dateFrom,dateTo,sta,accounts,sentence);
                     count=(double)recorderClients.size();
                 }else {
                     count = recorderDAO.getCount();
                 }
-                List<RecorderClient> recorderClients=recorderDAO.listRecoder(start, length, search, col, oder,account,dateFrom1,dateTo1,sta,accounts,sentence);
+                List<RecorderClient> recorderClients=recorderDAO.listRecoder(start, length, search, col, oder,account,dateFrom,dateTo,sta,accounts,sentence);
                 admin.draw = draw;
                 admin.recordsTotal = count;
                 admin.recordsFiltered = count;

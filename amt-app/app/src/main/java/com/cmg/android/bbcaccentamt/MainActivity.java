@@ -1911,7 +1911,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     position1();
                     switchButtonStage(ButtonState.NORECORDING);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(context,"Your uploaded Sentences has been deleted or edited, please logout and login again to get their latest update",Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update",Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -1965,7 +1965,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(MainActivity.this,"Your uploaded Sentence has been change, please logout and login again to get their latest update.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update.",Toast.LENGTH_LONG).show();
                 }
             }
         }

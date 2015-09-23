@@ -35,7 +35,6 @@ function listTranscriptionRecorder(){
         }, {
             "sWidth": "25%",
             "data": "sentence",
-            "bSortable": false,
             "sDefaultContent": ""
         },{
             "sWidth": "3%",
@@ -67,7 +66,7 @@ function listTranscriptionRecorder(){
             }
         }, {
             "sWidth": "17%",
-            "data": "modifiedDate",
+            "data": "createdDate",
             "sDefaultContent": ""
         }, {
             "sWidth": "5%",

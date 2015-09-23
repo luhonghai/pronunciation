@@ -123,7 +123,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
 
 
 
-    public List<RecorderClient> listRecoder(int start, int length,String search,int column,String order,String ac,Date dateFrom, Date dateTo, int sta, String acs, String sentence) throws Exception {
+    public List<RecorderClient> listRecoder(int start, int length,String search,int column,String order,String ac,String dateFrom, String dateTo, int sta, String acs, String sentence) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query=new StringBuffer();
@@ -133,7 +133,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
                 + " as R INNER join "  + metaTranscription.getTable()
                 + " as T on R.SENTENCEID = T.ID WHERE ";
         query.append(firstQuery);
-        query.append(" R.account LIKE '%" + search + "%' and T.sentence LIKE '%" + search + "%'");
+        query.append(" (R.account LIKE '%" + search + "%' or T.sentence LIKE '%" + search.toUpperCase() + "%')");
         if(ac.length()>0){
             query.append(" and R.account LIKE '%" + ac + "%'");
         }
@@ -144,19 +144,19 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" and T.sentence LIKE '%" + sentence + "%'");
         }
         if(sta!=6) {
-            query.append(" and R.status=sta");
+            query.append(" and R.status='" + sta + "'");
         }
         if(sta==6){
             query.append(" and R.status!=0");
         }
-        if(dateFrom!=null&&dateTo==null){
+        if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
             query.append(" and R.createdDate >= '" + dateFrom + "'");
         }
-        if(dateFrom==null&&dateTo!=null){
+        if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
             query.append(" and R.createdDate <= '" + dateTo + "'");
         }
 
-        if(dateFrom!=null&&dateTo!=null){
+        if(dateFrom.length()>0 && dateTo.length()>0){
             query.append(" and R.createdDate >= '" + dateFrom + "' and R.createdDate <= '" + dateTo + "'");
         }
         if (column==0 && order.equals("asc")) {
@@ -265,7 +265,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
     }
 
-    public List<RecorderClient> listRecoderCount(String search,int column,String order,String ac,Date dateFrom, Date dateTo, int sta, String acs, String sentence) throws Exception {
+    public List<RecorderClient> listRecoderCount(String search,int column,String order,String ac,String dateFrom, String dateTo, int sta, String acs, String sentence) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query=new StringBuffer();
@@ -275,7 +275,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
                 + " as R INNER join "  + metaTranscription.getTable()
                 + " as T on R.SENTENCEID = T.ID WHERE ";
         query.append(firstQuery);
-        query.append(" R.account LIKE '%" + search + "%' and T.sentence LIKE '%" + search + "%'");
+        query.append(" (R.account LIKE '%" + search + "%' or T.sentence LIKE '%" + search.toUpperCase() + "%')");
         if(ac.length()>0){
             query.append(" and R.account LIKE '%" + ac + "%'");
         }
@@ -286,19 +286,19 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" and T.sentence LIKE '%" + sentence + "%'");
         }
         if(sta!=6) {
-            query.append(" and R.status=sta");
+            query.append(" and R.status='" + sta + "'");
         }
         if(sta==6){
             query.append(" and R.status!=0");
         }
-        if(dateFrom!=null&&dateTo==null){
+        if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
             query.append(" and R.createdDate >= '" + dateFrom + "'");
         }
-        if(dateFrom==null&&dateTo!=null){
+        if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
             query.append(" and R.createdDate <= '" + dateTo + "'");
         }
 
-        if(dateFrom!=null&&dateTo!=null){
+        if(dateFrom.length()>0 && dateTo.length()>0){
             query.append(" and R.createdDate >= '" + dateFrom + "' and R.createdDate <= '" + dateTo + "'");
         }
         if (column==0 && order.equals("asc")) {
