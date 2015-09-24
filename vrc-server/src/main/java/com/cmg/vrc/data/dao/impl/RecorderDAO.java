@@ -150,14 +150,14 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" and R.status!=0");
         }
         if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
-            query.append(" and R.createdDate >= '" + dateFrom + "'");
+            query.append(" and R.modifiedDate >= '" + dateFrom + "'");
         }
         if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
-            query.append(" and R.createdDate <= '" + dateTo + "'");
+            query.append(" and R.modifiedDate <= '" + dateTo + "'");
         }
 
         if(dateFrom.length()>0 && dateTo.length()>0){
-            query.append(" and R.createdDate >= '" + dateFrom + "' and R.createdDate <= '" + dateTo + "'");
+            query.append(" and R.modifiedDate >= '" + dateFrom + "' and R.modifiedDate <= '" + dateTo + "'");
         }
         if (column==0 && order.equals("asc")) {
             query.append(" ORDER BY R.account ASC");
@@ -170,9 +170,9 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" ORDER BY T.sentence DESC");
         }
         if (column==3 && order.equals("asc")) {
-            query.append(" ORDER BY R.createdDate ASC");
+            query.append(" ORDER BY R.modifiedDate ASC");
         }else if(column==3 && order.equals("desc")) {
-            query.append(" ORDER BY R.createdDate DESC");
+            query.append(" ORDER BY R.modifiedDate DESC");
         }
         if (column==4 && order.equals("asc")) {
             query.append(" ORDER BY R.status ASC");
@@ -292,14 +292,14 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" and R.status!=0");
         }
         if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
-            query.append(" and R.createdDate >= '" + dateFrom + "'");
+            query.append(" and R.modifiedDate >= '" + dateFrom + "'");
         }
         if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
-            query.append(" and R.createdDate <= '" + dateTo + "'");
+            query.append(" and R.modifiedDate <= '" + dateTo + "'");
         }
 
         if(dateFrom.length()>0 && dateTo.length()>0){
-            query.append(" and R.createdDate >= '" + dateFrom + "' and R.createdDate <= '" + dateTo + "'");
+            query.append(" and R.modifiedDate >= '" + dateFrom + "' and R.modifiedDate <= '" + dateTo + "'");
         }
         if (column==0 && order.equals("asc")) {
             query.append(" ORDER BY R.account ASC");
@@ -312,9 +312,9 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             query.append(" ORDER BY T.sentence DESC");
         }
         if (column==3 && order.equals("asc")) {
-            query.append(" ORDER BY R.createdDate ASC");
+            query.append(" ORDER BY R.modifiedDate ASC");
         }else if(column==3 && order.equals("desc")) {
-            query.append(" ORDER BY R.createdDate DESC");
+            query.append(" ORDER BY R.modifiedDate DESC");
         }
         if (column==4 && order.equals("asc")) {
             query.append(" ORDER BY R.status ASC");

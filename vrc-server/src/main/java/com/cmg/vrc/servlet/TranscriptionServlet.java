@@ -79,7 +79,7 @@ public class TranscriptionServlet extends HttpServlet {
             }
             if(createDateTo.length()>0){
                 try {
-                    modifiedDateFrom1=df.parse(createDateTo);
+                    createDateTo1=df.parse(createDateTo);
                 }catch (Exception e){
                     e.getStackTrace();
                 }

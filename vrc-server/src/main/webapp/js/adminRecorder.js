@@ -66,7 +66,7 @@ function listTranscriptionRecorder(){
             }
         }, {
             "sWidth": "17%",
-            "data": "createdDate",
+            "data": "modifiedDate",
             "sDefaultContent": ""
         }, {
             "sWidth": "5%",
@@ -128,12 +128,12 @@ function listTranscriptionRecorder(){
 
 function dateFrom(){
     $('#dateFrom').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 function dateTo(){
     $('#dateTo').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 

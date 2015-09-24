@@ -13,10 +13,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by CMGT400 on 8/5/2015.
@@ -41,10 +43,10 @@ public class RecorderServlet extends BaseServlet {
         RecorderDAO recorderDAO = new RecorderDAO();
         RecordedSentence ad = new RecordedSentence();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+//
+//        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-        Date date = new Date();
         String action = request.getParameter("action");
         if(action.equalsIgnoreCase(LIST_BY_CLIENT)){
             String username = request.getParameter("data");
@@ -82,7 +84,6 @@ public class RecorderServlet extends BaseServlet {
             int sta=0;
             sta=Integer.parseInt(status);
 
-
 //            Date dateFrom1=null;
 //            Date dateTo1=null;
 //
@@ -102,6 +103,8 @@ public class RecorderServlet extends BaseServlet {
 //                    e.getStackTrace();
 //                }
 //            }
+//            dateFrom=df.format(dateFrom1).toString();
+//            dateTo=df.format(dateTo1).toString();
 
 
             Double count;
