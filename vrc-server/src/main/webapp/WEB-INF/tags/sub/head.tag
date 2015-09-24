@@ -2,7 +2,7 @@
 <%@attribute name="pageTitle" required="true" %>
 <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -38,7 +38,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.0.1/sweetalert.min.css">
 
         <link href="http://hayageek.github.io/jQuery-Upload-File/4.0.6/uploadfile.css" rel="stylesheet">
-
+        <script src="<%=request.getContextPath() %>/bower_components/jquery/dist/jquery.min.js"></script>
+        <%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>--%>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>

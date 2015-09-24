@@ -11,8 +11,10 @@ package com.cmg.android.bbcaccentamt.http;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.cmg.android.bbcaccentamt.AppLog;
+import com.cmg.android.bbcaccentamt.MainActivity;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.common.Common;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
@@ -54,6 +56,7 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
         AppLog.logString("do upload");
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
         UserProfile profile = Preferences.getCurrentProfile(context);
+        int n=0;
         try {
             if (params != null && params.length > 0) {
                 for (List<Map<String, String>> param : params) {
@@ -71,13 +74,17 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
 
                         }else {
                             databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(), Common.NOT_RECORD, Common.ISDELETED_FALSE,p.get("sentence"), profile.getUsername());
+                            n=n+1;
                         }
 
                     }
-
                 }
             }
-            return "upload done";
+            if(n!=0){
+                return "has been change";
+            }else {
+                return "upload done";
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UploaderException e) {

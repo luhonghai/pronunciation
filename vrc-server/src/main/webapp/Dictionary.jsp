@@ -5,4 +5,3 @@
   <x:dictionary pageTitle="Dictionary management"></x:dictionary>
 
 </t:main>
-<script src="<%=request.getContextPath() %>/js/dictionary.js"></script>

@@ -100,16 +100,16 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         return null;
     }
     //not use
-    public List<SentenceModel> getAllSentence() {
+    public List<SentenceModel> getListSentence(String sentence) {
+        SQLiteDatabase db = this.getReadableDatabase();
         List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
 
-        String selectQuery = "SELECT "+ KEY_ID +"," + KEY_NAME +"," + KEY_STATUS +"," + KEY_VERSION +","+KEY_ISDELETED+ " FROM " + TABLE_SENTENCE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.query(TABLE_SENTENCE, new String[]{KEY_ID,
+                        KEY_NAME, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_NAME + " LIKE ?",
+                new String[]{sentence}, null, null, null, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursor!=null && cursor.getCount()>0 && cursor.moveToFirst()) {
             do {
                 SentenceModel sentenceModel = new SentenceModel();
                 sentenceModel.setID(cursor.getString(0));
@@ -119,10 +119,11 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModel.setIsDeleted(Integer.parseInt(cursor.getString(4)));
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
-        }
-        cursor.close();
+            cursor.close();
 
-        return sentenceModelsList;
+            return sentenceModelsList;
+        }
+      return null;
     }
 
 
@@ -264,6 +265,17 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                         KEY_ISDELETED},
                 KEY_NAME + " LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
                 new String[]{"%"+ s +"%", String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
+    }
+    public Cursor searchKeyboard(String s) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.query(TABLE_SENTENCE, new String[]{
+                        KEY_ID,
+                        KEY_NAME,
+                        KEY_STATUS,
+                        KEY_VERSION,
+                        KEY_ISDELETED},
+                KEY_NAME + " LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
+                new String[]{ s, String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
     }
     public DatabaseHandlerSentence open() throws SQLException
     {

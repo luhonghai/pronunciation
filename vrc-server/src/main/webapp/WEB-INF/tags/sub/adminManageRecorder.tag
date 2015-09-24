@@ -22,36 +22,42 @@
   <!-- /.row -->
   <div class="well">
     <div class="row">
-      <div class="col-sm-4">
-        <div class="form-group" style="margin-top: 40px;text-align: right;">
-          <label class="control-label" style="margin-bottom: 0px;">Recorded Date</label>
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Sentence</label>
+          <input type="text" name="filter-sentence" id="sentences" class="form-control" placeholder="Sentence">
         </div>
         <div class="form-group">
           <label class="control-label">Status</label>
           <select name="status" id="status" class="form-control" required="required">
-            <option value="All">All</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <option value="6">All</option>
+            <option value="1">pending</option>
+            <option value="2">rejected</option>
+            <option value="3">approved</option>
+            <option value="4">locked</option>
 
           </select>
         </div>
       </div>
 
-      <div class="col-sm-4">
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div>
-            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
-          </div>
+      <div class="col-sm-3">
+        <div class="form-group" style="margin-top: 40px;text-align: right;">
+          <label class="control-label" style="margin-bottom: 0px;">Recorded Date</label>
         </div>
         <div class="form-group">
           <label class="control-label">Account</label>
           <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
         </div>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">From</label>
+          <div>
+            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
         <div class="form-group">
           <label class="control-label">To</label>
           <div >
@@ -74,7 +80,7 @@
             <label id="awaiting" style="padding-right: 10px;"></label>
             <label style="background-color: orange;color: white; padding-left: 5px;">Pending:</label>
             <label id="pending" style="padding-right: 10px;"></label>
-            <label style="background-color: red;color: white; padding-left: 5px;">Reject:</label>
+            <label style="background-color: red;color: white; padding-left: 5px;">Rejected:</label>
             <label id="reject" style="padding-right: 10px;"></label>
             <label style="background-color: green;color: white; padding-left: 5px;">Approved:</label>
             <label id="approved" style="padding-right: 10px;"></label>
@@ -85,8 +91,11 @@
           </div>
           <div class="row" style="padding-top: 10px;">
             <label class="col-sm-3" style="padding-left: 0px;">Select user:</label>
-            <select name="listaccount" id="listaccount" class="form-control, col-sm-9" required="required">
-            </select>
+            <div class="col-sm-6 pull-right">
+              <select name="listaccount" id="listaccount" class="form-control" required="required">
+
+              </select>
+            </div>
           </div>
         </div>
         <!-- /.panel-heading -->
@@ -142,6 +151,7 @@
   }
 %>
 
+<script src="<%=request.getContextPath() %>/js/adminRecorder.js"></script>
 
 
 

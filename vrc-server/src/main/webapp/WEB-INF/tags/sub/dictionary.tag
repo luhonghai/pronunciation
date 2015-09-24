@@ -110,4 +110,4 @@
 
 
 
-
+<script src="<%=request.getContextPath() %>/js/dictionary.js"></script>

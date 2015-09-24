@@ -874,16 +874,98 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextSubmit(final String s) {
-        if (s.length() > 0) {
-            hideSoftKeyboard();
-            View v = getCurrentFocus();
-            if (v != null)
-                v.clearFocus();
-            getWord(s);
+        DatabaseHandlerSentence databaseHandlerSentence = new DatabaseHandlerSentence(this);
+        TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
+        audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
+        UserProfile profile = Preferences.getCurrentProfile(this);
+        List<SentenceModel> sentenceModels=databaseHandlerSentence.getListSentence(s);
+        String name = profile.getUsername();
+        if (sentenceModels != null) {
+            try {
+                sentenceModel=sentenceModels.get(0);
+                String sentence = sentenceModel.getSentence();
+                idSentence = sentenceModel.getID();
+                status = databaseHandlerSentence.getStatus(idSentence, name);
+                textrecord.setText(sentence);
+                searchView.setQuery(sentence, false);
+                positionSelect();
+                String output = audioStream.getTmpDir(idSentence, name);
+                File dstFile = new File(output);
+                switch (status) {
+                    case -1:
+                        switchButtonStage(ButtonState.GREEN);
+                        break;
+                    case 0:
+                        if (notUpload.size() != 0) {
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        } else {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 1:
+                        if (notUpload.size() != 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        } else if (notUpload.size() == 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD1);
+                        } else if (notUpload.size() != 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        } else if (notUpload.size() == 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 2:
+                        if (notUpload.size() != 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        } else if (notUpload.size() == 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD1);
+                        } else if (notUpload.size() != 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        } else if (notUpload.size() == 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 3:
+                        if (notUpload.size() != 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD2);
+                        } else if (notUpload.size() == 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOAD1);
+                        } else if (notUpload.size() != 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.UPLOADALL2);
+                        } else if (notUpload.size() == 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.NORECORDING);
+                        }
+                        break;
+                    case 4:
+                        if (notUpload.size() != 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.SUCCESS2);
+                        } else if (notUpload.size() == 0 && dstFile.exists()) {
+                            switchButtonStage(ButtonState.SUCCESS);
+                        } else if (notUpload.size() != 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.SUCCESS3);
+                        } else if (notUpload.size() == 0 && !dstFile.exists()) {
+                            switchButtonStage(ButtonState.SUCCESS1);
+                        }
+
+                        if (dstFile.exists()) {
+                            switchButtonStage(ButtonState.SUCCESS);
+                        } else {
+                            switchButtonStage(ButtonState.SUCCESS1);
+                        }
+                        break;
+                    default:
+                        switchButtonStage(ButtonState.NORECORDING);
+                        break;
+
+                }
+
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not select suggestion word", e);
+            }
+        }else{
+            Toast.makeText(this,"Sorry, your sentence could not be found!",Toast.LENGTH_SHORT).show();
         }
         return false;
     }
-
     private Runnable updateQueryRunnable = new Runnable() {
         @Override
         public void run() {
@@ -907,6 +989,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     //searchView.getSuggestionsAdapter().notifyDataSetChanged();
                 }
             });
+        }
+        else {
+            searchView.getSuggestionsAdapter().changeCursor(null);
+            Toast.makeText(this,"Sorry, your sentence could not be found!",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1814,10 +1900,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             if (bundle.containsKey(UploaderAllAsync.UPLOAD_COMPLETE_INTENT)){
                 String data = bundle.getString(UploaderAllAsync.UPLOAD_COMPLETE_INTENT);
                 AppLog.logString("upload status : " + data);
-                listAllItem();
-                position1();
-                switchButtonStage(ButtonState.NORECORDING);
-                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                if(data.equals("upload done")) {
+                    listAllItem();
+                    position1();
+                    switchButtonStage(ButtonState.NORECORDING);
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                }
+                if(data.equals("has been change")) {
+                    listAllItem();
+                    position1();
+                    switchButtonStage(ButtonState.NORECORDING);
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                    Toast.makeText(context,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update",Toast.LENGTH_LONG).show();
+                }
             }
         }
     };
@@ -1870,7 +1965,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(MainActivity.this,"Your uploaded Sentence change. Please logout and login again to get the change.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update.",Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -2029,6 +2124,73 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         selectSuggestionWord(i);
         return true;
     }
+    private int getIndexWithStatus(int status){
+        int index=0;
+        List<SentenceModel> sentenceModels=null;
+        switch (status) {
+            case -1:
+                sentenceModels=notUpload;
+                break;
+            case 0:
+                sentenceModels=notRecord;
+                break;
+            case 1:
+                sentenceModels=upload;
+                break;
+            case 2:
+                sentenceModels=reject;
+                break;
+            case 3:
+                sentenceModels=approved;
+                break;
+            case 4:
+                sentenceModels=locked;
+                break;
+            default:
+                sentenceModels=notRecord;
+                break;
+        }
+        for(int i=0;i<sentenceModels.size();i++){
+            if(sentenceModels.get(i).getID().equals(idSentence)){
+                index=i;
+            }
+        }
+        return index;
+    }
+    private int getIndexSelected(){
+        int index=0;
+        switch (status) {
+            case -1:
+                index=reject.size()+getIndexWithStatus(-1);
+                break;
+            case 0:
+                index=reject.size()+notUpload.size()+getIndexWithStatus(0);
+                break;
+            case 1:
+                index=reject.size()+notUpload.size()+notRecord.size()+getIndexWithStatus(1);
+                break;
+            case 2:
+                index=getIndexWithStatus(2);
+                break;
+            case 3:
+                index=reject.size()+notUpload.size()+notRecord.size()+upload.size()+getIndexWithStatus(3);
+                break;
+            case 4:
+                index=reject.size()+notUpload.size()+notRecord.size()+upload.size()+approved.size()+getIndexWithStatus(4);
+                break;
+            default:
+                index=notRecord.size();
+                break;
+        }
+
+        return index;
+
+    }
+    private void positionSelect(){
+        int position=0;
+        position=getIndexSelected();
+        lvItem.setSelection(position);
+    }
 
     private void selectSuggestionWord(int index) {
         TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
@@ -2043,6 +2205,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
             status= databaseHandlerSentence.getStatus(idSentence,name);
             textrecord.setText(s);
+            searchView.setQuery(s,false);
+            positionSelect();
             String output=audioStream.getTmpDir(idSentence,name);
             File dstFile = new File(output);
             switch (status){

@@ -34,9 +34,9 @@ var CirclePlayer = function(jPlayerSelector, media, options) {
 
 		defaults = {
 			// solution: "flash, html", // For testing Flash with CSS3
-			supplied: "m4a, oga",
+			supplied: "mp3,wav,m4a",
 			// Android 2.3 corrupts media element if preload:"none" is used.
-			// preload: "none", // No point preloading metadata since no times are displayed. It helps keep the buffer state correct too.
+			 //preload: "none", // No point preloading metadata since no times are displayed. It helps keep the buffer state correct too.
 			cssSelectorAncestor: "#cp_container_1",
 			cssSelector: {
 				play: ".cp-play",

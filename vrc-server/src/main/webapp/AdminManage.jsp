@@ -6,4 +6,3 @@
   <x:admins pageTitle="admins"></x:admins>
 
 </t:main>
-<script src="<%=request.getContextPath() %>/js/admin.js"></script>

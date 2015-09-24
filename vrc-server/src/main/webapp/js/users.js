@@ -7,9 +7,7 @@ function listUsers(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-       // "sScrollX": "100%",
         "bScrollCollapse": true,
-       // "sScrollXInner": "140%",
         "ajax": {
             "url": "Users",
             "type": "POST",
