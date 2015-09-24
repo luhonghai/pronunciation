@@ -11,6 +11,8 @@ public class Constant {
 
     public static String FOLDER_RECORDED_VOICES = "voices";
 
+    public static String FOLDER_REOCORDED_VOICES_AMT = "amt_voices";
+
     public static String FOLDER_FEEDBACK = "feedback";
 
     public static String FOLDER_GRAMMAR = "grammar";

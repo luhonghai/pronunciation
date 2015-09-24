@@ -1295,3 +1295,563 @@
 2015-09-24 09:31:32 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersion.class" with enhanced definition
 2015-09-24 09:31:32 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
 2015-09-24 09:31:32 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=255 ms, enhance=350 ms, total=605 ms. Consult the log for full details
+2015-09-24 11:11:28 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\ClientCode.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Security.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Feedback.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCode.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AppDetail.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Admin.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\DictionaryVersion.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\User.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserDevice.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Usage.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserVoiceModel.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeCompany.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\PhonemeScoreDB.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Transcription.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentence.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceHistory.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:11:29 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersion.class" with enhanced definition
+2015-09-24 11:11:29 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:11:29 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=485 ms, enhance=331 ms, total=816 ms. Consult the log for full details
+2015-09-24 11:14:09 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\ClientCode.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Security.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Feedback.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCode.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AppDetail.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Admin.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\DictionaryVersion.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\User.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserDevice.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:14:09 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Usage.class" with enhanced definition
+2015-09-24 11:14:09 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserVoiceModel.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeCompany.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\PhonemeScoreDB.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Transcription.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentence.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceHistory.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:14:10 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersion.class" with enhanced definition
+2015-09-24 11:14:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:14:10 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=327 ms, enhance=238 ms, total=565 ms. Consult the log for full details
+2015-09-24 11:16:30 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:16:30 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 11:16:30 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:16:30 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=268 ms, enhance=86 ms, total=354 ms. Consult the log for full details
+2015-09-24 11:16:58 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:16:58 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 11:16:58 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:16:58 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=296 ms, enhance=90 ms, total=386 ms. Consult the log for full details
+2015-09-24 11:17:41 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-24 11:17:41 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-24 11:17:41 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@86908777 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@80ad55bb [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1ycumsr1rm7ejl|65b09d4c, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@810863d5 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ycumsr1rm7ejl|15f47ae6, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ycumsr1rm7ejl|2e271cbc, numHelperThreads -> 3 ]
+2015-09-24 11:17:43 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 11:17:47 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 11:17:47 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 11:17:49 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:17:49 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:17:50 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:17:51 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:17:51 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:17:51 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:17:51 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 11:17:51 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:20:01 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:22:10 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:22:10 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 11:22:10 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:22:10 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=291 ms, enhance=85 ms, total=376 ms. Consult the log for full details
+2015-09-24 11:22:58 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-24 11:22:58 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-24 11:22:59 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@acbf7634 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@3c487d6c [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1yd1fza1j0k5uw|12945396, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@6cfbf46d [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yd1fza1j0k5uw|617814a8, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yd1fza1j0k5uw|47fba661, numHelperThreads -> 3 ]
+2015-09-24 11:23:00 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 11:23:04 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 11:23:04 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:23:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:23:11 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 11:23:11 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 11:23:11 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:23:11 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:23:12 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:23:12 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:23:12 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:23:12 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 11:23:12 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:24:48 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:24:48 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 11:24:48 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:24:48 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=320 ms, enhance=107 ms, total=427 ms. Consult the log for full details
+2015-09-24 11:25:35 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-24 11:25:35 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-24 11:25:35 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@c4d163cb [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@56cb3f72 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1yd4sw8qbdo6t|542ba20b, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a1f612a6 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yd4sw8qbdo6t|1a87f610, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yd4sw8qbdo6t|7c9bab58, numHelperThreads -> 3 ]
+2015-09-24 11:25:37 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 11:25:41 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 11:25:41 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 11:25:41 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:25:41 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:25:42 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:25:42 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:25:43 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:25:44 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:25:44 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:25:44 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 11:25:44 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:33:20 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 11:33:20 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 11:33:20 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 11:33:20 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=267 ms, enhance=85 ms, total=352 ms. Consult the log for full details
+2015-09-24 11:34:17 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-24 11:34:18 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-24 11:34:18 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@32731a28 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@e885e784 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1ydg01d15snitd|84f171a, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@63a4777f [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ydg01d15snitd|5a706271, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ydg01d15snitd|75b039, numHelperThreads -> 3 ]
+2015-09-24 11:34:21 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 11:34:24 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 11:34:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:34:26 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 11:34:31 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 11:34:31 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 11:34:32 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:34:32 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:34:32 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:34:32 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:34:32 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:34:33 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 11:34:33 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:35:16 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:35:16 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:35:16 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 11:35:16 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 11:35:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:35:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:35:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 11:35:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 11:35:17 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 11:59:35 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 11:59:36 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE version>ver PARAMETERS Integer ver" since the connection used is closing/committing
+2015-09-24 11:59:38 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - contentSentence
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - sentence
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - PARA_FILE_PATH
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - versionmax
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - version
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:84 - profile
+2015-09-24 12:01:21 INFO  RecordedSentenceHandler:89 - getname = :company@c-mg.comdcc46016-817b-4454-aa9a-61033f818a93.wav
+2015-09-24 12:01:21 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE id == :1 && isDeleted != :2" since the connection used is closing/committing
+2015-09-24 12:01:22 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status!=0" since the connection used is closing/committing
+2015-09-24 12:01:22 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:01:22 INFO  RecordedSentenceHandler:110 - SentenceID: dcc46016-817b-4454-aa9a-61033f818a93
+2015-09-24 12:01:22 INFO  RecordedSentenceHandler:111 - Profile: {"country":"GB","dob":"01/01/1900","uuid":"d3543c52-37b4-3145-a80e-9379a509927a","username":"company@c-mg.com","password":"12345","loginType":"easyaccent","isSetup":true,"duration":0,"time":1443070876337,"helpStatus":1,"gender":true,"nativeEnglish":true,"englishProficiency":5,"isLogin":true}
+2015-09-24 12:01:30 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@9b856261 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@9ad3be9a [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1ydg01d15snitd|1c63a156, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@1da241c3 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ydg01d15snitd|74b6585, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1ydg01d15snitd|5e07e73c, numHelperThreads -> 3 ]
+2015-09-24 12:01:31 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:01:31 INFO  RecordedSentenceHandler:141 - Try to save
+2015-09-24 12:01:31 INFO  RecordedSentenceHandler:144 - Save completed
+2015-09-24 12:01:31 INFO  RecordedSentenceHandler:165 - Response: {"RecordedSentences":[{"id":"0d75b6f7-6358-4227-a5a0-c5a014ede2d8","account":"company@c-mg.com","admin":"System","status":0,"sentenceId":"2b6fb34b-a9c1-4cb7-af64-d0151bbda811","fileName":"sentence_11fa728c-d560-4fa5-a7a8-e4747d8ae0c8_raw.wav","createdDate":"Sep 23, 2015 4:36:46 PM","modifiedDate":"Sep 18, 2015 4:36:46 PM","version":12,"isDeleted":1,"dnDetachedState":[{"key":"0d75b6f7-6358-4227-a5a0-c5a014ede2d8","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":1481163952},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"2a549739-c9f5-4e5f-bb1b-a460bdbc56fc","account":"company@c-mg.com","admin":"System","status":0,"sentenceId":"0373ed86-5e0c-4a85-9532-07483cb3e823","fileName":"sentence_806590cc-ce73-49bc-8ac8-498db5e1dbed_raw.wav","createdDate":"Sep 24, 2015 4:36:30 PM","modifiedDate":"Sep 18, 2015 4:36:30 PM","version":13,"isDeleted":1,"dnDetachedState":[{"key":"2a549739-c9f5-4e5f-bb1b-a460bdbc56fc","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":-1489645497},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"6b500e6e-c7ff-4308-9849-3498065b33b5","account":"company@c-mg.com","admin":"System","status":0,"sentenceId":"04ac280d-5119-4f61-a8f1-a3dd3eaff615","fileName":"sentence_4e04dd61-ae1b-4220-b479-4094315df96d_raw.wav","createdDate":"Sep 18, 2015 4:36:31 PM","modifiedDate":"Sep 18, 2015 4:36:31 PM","version":14,"isDeleted":1,"dnDetachedState":[{"key":"6b500e6e-c7ff-4308-9849-3498065b33b5","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":-908226517},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"891d5496-23bd-477b-b2a8-f59b2686f504","account":"company@c-mg.com","admin":"System","status":0,"sentenceId":"150d9bfc-ad9c-4a1a-b83c-13e839ea5b4c","fileName":"sentence_907b1987-fe05-4018-91e2-f26fd464aec0_raw.wav","createdDate":"Sep 18, 2015 4:36:32 PM","modifiedDate":"Sep 18, 2015 4:36:32 PM","version":15,"isDeleted":1,"dnDetachedState":[{"key":"891d5496-23bd-477b-b2a8-f59b2686f504","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":-463866934},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"90ce16cc-7c6f-4031-b90f-8a1c1f3a89fa","account":"company@c-mg.com","admin":"System","status":4,"sentenceId":"2aed1c2a-dc4e-45aa-be36-75668582086b","fileName":"sentence_ec512f56-841c-4a66-8153-76d5d8605378_raw.wav","createdDate":"Sep 18, 2015 4:36:47 PM","modifiedDate":"Sep 18, 2015 4:36:47 PM","version":17,"isDeleted":0,"dnDetachedState":[{"key":"90ce16cc-7c6f-4031-b90f-8a1c1f3a89fa","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":1514967106},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"97bf4e7d-c1a2-4d3d-8a37-f2324da9709b","account":"company@c-mg.com","admin":"System","status":1,"sentenceId":"dcc46016-817b-4454-aa9a-61033f818a93","fileName":"sentence_2879aa45-d715-4e1e-98e6-b3f324f03750_raw.wav","createdDate":"Sep 24, 2015 12:01:22 PM","modifiedDate":"Sep 24, 2015 12:01:22 PM","version":18,"isDeleted":0,"dnDetachedState":[{"key":"97bf4e7d-c1a2-4d3d-8a37-f2324da9709b","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":-2128683999},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"c2a9e4f0-1dbd-4cde-8523-c00bfc3f0aa3","account":"company@c-mg.com","admin":"System","status":1,"sentenceId":"03f124f0-03fe-45a1-ab45-9e155b39b8ca","fileName":"sentence_f3296dfc-79c6-4c6e-ba0c-ca5bcd2a1804_raw.wav","createdDate":"Sep 18, 2015 4:36:31 PM","modifiedDate":"Sep 18, 2015 4:36:31 PM","version":2,"isDeleted":0,"dnDetachedState":[{"key":"c2a9e4f0-1dbd-4cde-8523-c00bfc3f0aa3","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":1998568548},null,[1,1,1,1,1,1,1,1,1,1],[]]},{"id":"df853c5f-434b-4b99-8048-1eca5cd4bf97","account":"company@c-mg.com","admin":"System","status":1,"sentenceId":"0f7cd644-633d-4799-9e91-ae1924dd27b3","fileName":"sentence_d6094e38-5844-4aec-8dc3-13986233d992_raw.wav","createdDate":"Sep 18, 2015 4:36:31 PM","modifiedDate":"Sep 18, 2015 4:36:31 PM","version":4,"isDeleted":0,"dnDetachedState":[{"key":"df853c5f-434b-4b99-8048-1eca5cd4bf97","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":898041308},null,[1,1,1,1,1,1,1,1,1,1],[]]}],"status":true,"message":"success"}
+2015-09-24 12:02:05 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Feedback" since the connection used is closing/committing
+2015-09-24 12:02:05 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.UserVoiceModel ORDER BY serverTime asc RANGE 0,10000" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.User" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.UserVoiceModel" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 12:02:06 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.LicenseCode" since the connection used is closing/committing
+2015-09-24 12:02:18 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 12:02:19 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 12:05:41 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 12:05:41 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE version>ver PARAMETERS Integer ver" since the connection used is closing/committing
+2015-09-24 12:05:48 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:08:57 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-24 12:08:59 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-09-24 12:08:59 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-24 12:09:00 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-09-24 12:09:00 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-24 12:09:00 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=1286 ms, enhance=1383 ms, total=2669 ms. Consult the log for full details
+2015-09-24 12:09:07 INFO  MLog:80 - MLog clients using log4j logging.
+2015-09-24 12:09:08 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-09-24 12:09:09 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@53c34fff [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@da8e56ba [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1yeosmo8zp0zf|47581385, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@e208a4a9 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yeosmo8zp0zf|343dd4b6, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yeosmo8zp0zf|48e6ecc0, numHelperThreads -> 3 ]
+2015-09-24 12:09:11 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@c9fe21e [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@bc10d93d [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> 1hge14d9b1yeosmo8zp0zf|4c98dda5, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@fb1f0b0 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yeosmo8zp0zf|4652d334, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> 1hge14d9b1yeosmo8zp0zf|1fbdbbf0, numHelperThreads -> 3 ]
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: HIS SLIM HANDS GRIPPED THE EDGES OF THE TABLE
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: PHILIP DROPPED BACK INTO HIS CHAIR
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: IF I WAS OUT OF THE GAME IT WOULD BE EASILY MADE
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: MACDOUGALL MY ENGINEER BELIEVES IT
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: IT IS GROWING EVERY DAY EVERY HOUR
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: NOW YOU UNDERSTAND
+2015-09-24 12:09:28 INFO  TranscriptionService:263 - Save transcription: YOU HAVE ASSOCIATED WITH SOME OF THESE MEN
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: IT SEEMED NEARER TO HIM SINCE HE HAD SEEN AND TALKED WITH GREGSON
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: HER OWN BETRAYAL OF HERSELF WAS LIKE TONIC TO PHILIP
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: HE MOVED AWAY AS QUIETLY AS HE HAD COME
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: THE GIRL FACED HIM HER EYES SHINING WITH SUDDEN FEAR
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: HE LOOKED AT THE HANDKERCHIEF MORE CLOSELY
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: IN SPITE OF THEIR ABSURDITY THE WORDS AFFECTED PHILIP CURIOUSLY
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: THE LACE WAS OF A DELICATE IVORY COLOUR FAINTLY TINTED WITH YELLOW
+2015-09-24 12:09:29 INFO  TranscriptionService:263 - Save transcription: IT WAS A CURIOUS COINCIDENCE
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: I FORGOT HOW EASILY I HAD TAUGHT MYSELF FROM THE PRINTED PAGE
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: ANY AVERAGE YOUNG FELLOW CAN TEACH HIMSELF IN A WEEK
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: PLEASE DO NOT THINK THAT I ALREADY KNOW IT ALL
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: YOU SEE WE WERE TEACHING OURSELVES
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: AND NOW BEHOLD THE PERVERSITY OF THINGS
+2015-09-24 12:09:30 INFO  TranscriptionService:263 - Save transcription: YIELD YOURSELF TO THE WATERS THAT ARE RIPPING AND TEARING AT YOU
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: UNLIKE JOSHUA HE STOOD IN NO NEED OF DIVINE ASSISTANCE
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: TO SAY THE LEAST CAPTAIN COOK WAS A RATHER THOROUGH GOING EMPIRICIST
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: MAN COULD NOT CONQUER THEM
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: AN ALTRUISTIC ACT IS AN ACT PERFORMED FOR THE WELFARE OF OTHERS
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: KNOWING HIM I REVIEW THE OLD SCANDINAVIAN MYTHS WITH CLEARER UNDERSTANDING
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: YES AND NO SIR WAS THE SLOW REPLY
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: AND EACH YEAR SOMETHING HAPPENED AND I DID NOT GO
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: HOW IN HELL DID HE KNOW IT WAS YOU IN THE DARK
+2015-09-24 12:09:31 INFO  TranscriptionService:263 - Save transcription: OF COURSE MUCH GRUMBLING WENT ON AND LITTLE OUTBURSTS WERE CONTINUALLY OCCURRING
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: YOU HAVE ALL THE ADVANTAGE
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: THE DIRK MENTIONED BY WOLF LARSEN RESTED IN ITS SHEATH ON MY HIP
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: HAVE YOU EVER EARNED A DOLLAR BY YOUR OWN LABOUR
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: HE GAVE NO REASON BUT HIS MOTIVE WAS OBVIOUS ENOUGH
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: BUT EVER HIS GAZE RETURNED TO THAT CROUCHED VENUS ON THE PIANO
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: WOULD YOU BE SATISFIED WITH THAT ONE HUNDREDTH PART OF ME
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: IN SUCH A TUMBLING OF VALUES WAS NO TIME TO SELL
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: STAND OFF BUTCHER AND BAKER AND ALL THE REST
+2015-09-24 12:09:32 INFO  TranscriptionService:263 - Save transcription: NOW JUST WHAT DO YOU WANT TO KNOW
+2015-09-24 12:09:33 INFO  TranscriptionService:263 - Save transcription: I WANT TO KNOW HOW ALL THIS IS POSSIBLE
+2015-09-24 12:09:33 INFO  TranscriptionService:263 - Save transcription: THERE WAS PROPER DIVISION OF LABOUR IN THE WORK THEY INDIVIDUALLY PERFORMED
+2015-09-24 12:09:33 INFO  TranscriptionService:263 - Save transcription: THE DISCOVERY SEEMED TO HAVE BEEN MADE ON THE SPUR OF THE MOMENT
+2015-09-24 12:09:33 INFO  TranscriptionService:263 - Save transcription: NOW GO AHEAD AND TELL ME IN A STRAIGHTFORWARD WAY WHAT HAS HAPPENED
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: AND AFTER THE BATH A SHAVE WOULD NOT BE BAD
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: NOW PLEASE GIVE A PLAIN STATEMENT OF WHAT OCCURRED
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: YOU CAN TAKE A VACATION ON PAY
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: THEY ARE BIG TREES AND REQUIRE PLENTY OF ROOM
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: SURELY I WILL EXCUSE YOU SHE CRIED
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: IN A FLASH PHILIP FOLLOWED ITS DIRECTION
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: IT WAS HIS INTENTION TO RETURN TO EILEEN AND HER FATHER
+2015-09-24 12:09:34 INFO  TranscriptionService:263 - Save transcription: HE WOULD FIRST HUNT UP GREGSON AND BEGIN HIS WORK THERE
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: THE QUESTIONS MAY HAVE COME VAGUELY IN HIS MIND
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: LIKE A FLASH HE LAUNCHED HIMSELF INTO THE FEATHERED MASS OF THE OWL
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: AHEAD OF THEM THEY SAW A GLIMMER OF SUNSHINE
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: TWO GIGANTIC OWLS WERE TEARING AT THE CARCASS
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: NEXT TO THEM THE CANADA JAYS WERE MOST PERSISTENT
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: FOR A TIME THE EXCITING THRILL OF HIS ADVENTURE WAS GONE
+2015-09-24 12:09:35 INFO  TranscriptionService:263 - Save transcription: HE DID NOT RUSH IN
+2015-09-24 12:09:36 INFO  TranscriptionService:263 - Save transcription: IT WAS EDGED WITH ICE
+2015-09-24 12:12:28 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 12:12:29 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE version>ver PARAMETERS Integer ver" since the connection used is closing/committing
+2015-09-24 12:13:16 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:13:16 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-24 12:13:24 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo" since the connection used is closing/committing
+2015-09-24 12:13:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-24 12:13:24 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo" since the connection used is closing/committing
+2015-09-24 12:13:24 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-24 12:13:28 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo" since the connection used is closing/committing
+2015-09-24 12:13:28 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-24 12:13:29 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:13:29 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 0,10" since the connection used is closing/committing
+2015-09-24 12:13:38 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:13:38 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE (isDeleted==0) &&(sentence == null || sentence.toLowerCase().indexOf(search.toLowerCase()) != -1) PARAMETERS String search, String senten, java.util.Date createDateFrom,java.util.Date createDateTo, java.util.Date modifiedDateFrom,java.util.Date modifiedDateTo ORDER BY author asc RANGE 50,60" since the connection used is closing/committing
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - contentSentence
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - sentence
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - PARA_FILE_PATH
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - versionmax
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - version
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:84 - profile
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:89 - getname = :company@c-mg.com01fa76db-a04f-48f2-bd7d-17a63cacba19.wav
+2015-09-24 12:13:49 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE id == :1 && isDeleted != :2" since the connection used is closing/committing
+2015-09-24 12:13:49 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status!=0" since the connection used is closing/committing
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:110 - SentenceID: 01fa76db-a04f-48f2-bd7d-17a63cacba19
+2015-09-24 12:13:49 INFO  RecordedSentenceHandler:111 - Profile: {"country":"GB","dob":"01/01/1900","uuid":"d3543c52-37b4-3145-a80e-9379a509927a","username":"company@c-mg.com","password":"12345","loginType":"easyaccent","isSetup":true,"duration":0,"time":1443071624441,"helpStatus":1,"gender":true,"nativeEnglish":true,"englishProficiency":5,"isLogin":true}
+2015-09-24 12:13:55 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:13:55 INFO  RecordedSentenceHandler:141 - Try to save
+2015-09-24 12:13:55 INFO  RecordedSentenceHandler:144 - Save completed
+2015-09-24 12:13:55 INFO  RecordedSentenceHandler:165 - Response: {"RecordedSentences":[{"id":"a1348970-e8d7-4850-8ed8-b10f7b2ac221","account":"company@c-mg.com","admin":"System","status":1,"sentenceId":"01fa76db-a04f-48f2-bd7d-17a63cacba19","fileName":"sentence_c0971fef-5c0c-4e45-8bcf-37c333e80385_raw.wav","createdDate":"Sep 24, 2015 12:13:50 PM","modifiedDate":"Sep 24, 2015 12:13:50 PM","version":1,"isDeleted":0,"dnDetachedState":[{"key":"a1348970-e8d7-4850-8ed8-b10f7b2ac221","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":701488475},null,[1,1,1,1,1,1,1,1,1,1],[]]}],"status":true,"message":"success"}
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - contentSentence
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - sentence
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - PARA_FILE_PATH
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - versionmax
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - version
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:84 - profile
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:89 - getname = :company@c-mg.com0418b44c-51cd-4a8e-9e5d-b0e626c81102.wav
+2015-09-24 12:14:04 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE id == :1 && isDeleted != :2" since the connection used is closing/committing
+2015-09-24 12:14:04 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status!=0" since the connection used is closing/committing
+2015-09-24 12:14:04 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:110 - SentenceID: 0418b44c-51cd-4a8e-9e5d-b0e626c81102
+2015-09-24 12:14:04 INFO  RecordedSentenceHandler:111 - Profile: {"country":"GB","dob":"01/01/1900","uuid":"d3543c52-37b4-3145-a80e-9379a509927a","username":"company@c-mg.com","password":"12345","loginType":"easyaccent","isSetup":true,"duration":0,"time":1443071638937,"helpStatus":1,"gender":true,"nativeEnglish":true,"englishProficiency":5,"isLogin":true}
+2015-09-24 12:14:08 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:14:08 INFO  RecordedSentenceHandler:141 - Try to save
+2015-09-24 12:14:08 INFO  RecordedSentenceHandler:144 - Save completed
+2015-09-24 12:14:08 INFO  RecordedSentenceHandler:165 - Response: {"RecordedSentences":[{"id":"d28d64ca-ec86-4604-896d-25644fab6531","account":"company@c-mg.com","admin":"System","status":1,"sentenceId":"0418b44c-51cd-4a8e-9e5d-b0e626c81102","fileName":"sentence_f0470183-71a8-49e0-a4fe-14346f3092eb_raw.wav","createdDate":"Sep 24, 2015 12:14:04 PM","modifiedDate":"Sep 24, 2015 12:14:04 PM","version":2,"isDeleted":0,"dnDetachedState":[{"key":"d28d64ca-ec86-4604-896d-25644fab6531","targetClassName":"com.cmg.vrc.data.jdo.RecordedSentence","hashCode":1618333097},null,[1,1,1,1,1,1,1,1,1,1],[]]}],"status":true,"message":"success"}
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@8dfb34b8" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "org.datanucleus.store.rdbms.query.SQLQuery@4528bec8" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:14:14 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE id == :1" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE status==sta PARAMETERS int sta" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT COUNT(id) FROM com.cmg.vrc.data.jdo.Transcription WHERE isDeleted==0" since the connection used is closing/committing
+2015-09-24 12:14:17 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence" since the connection used is closing/committing
+2015-09-24 12:14:39 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 12:14:39 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-24 12:17:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
+2015-09-24 12:17:51 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE version>ver PARAMETERS Integer ver" since the connection used is closing/committing
+2015-09-24 12:17:53 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing

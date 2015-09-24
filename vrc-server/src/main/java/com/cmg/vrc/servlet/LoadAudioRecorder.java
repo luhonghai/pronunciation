@@ -1,22 +1,24 @@
 package com.cmg.vrc.servlet;
 
+import com.amazonaws.services.s3.model.S3Object;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.EncodingAttributes;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * Created by CMGT400 on 9/8/2015.
@@ -26,57 +28,72 @@ public class LoadAudioRecorder extends HttpServlet {
         RecorderDAO recorderDAO=new RecorderDAO();
         OutputStream out = response.getOutputStream();
 
-
         response.setHeader("Pragma", "private");
         response.setHeader("Cache-Control", "private, must-revalidate");
         response.setHeader("Accept-Ranges", "bytes");
         String id=request.getParameter("id");
         String type = request.getParameter("type");
         try{
-
+            AWSHelper awsHelper = new AWSHelper();
             RecordedSentence recordedSentence=recorderDAO.getById(id);
-            String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             String fileName=recordedSentence.getFileName();
             String acount=recordedSentence.getAccount();
-            String path= tmpDir + File.separator + acount + File.separator + fileName;
-            File audioFile = new File(path);
-            File target = audioFile;
+
+            String audioKey = Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + acount + "/" + fileName;
+            String targetAudio = audioKey;
+            String audioMp3Key = audioKey + ".mp3";
         //    log("Audio path: " + audioFile);
         //    parseWave(audioFile);
             if (!StringUtils.isEmpty(type) && type.equalsIgnoreCase("mp3")) {
-                File mp3Audio = new File(path + ".mp3");
-                if (!mp3Audio.exists()) {
-                    AudioAttributes audio = new AudioAttributes();
-                    audio.setCodec("libmp3lame");
-                    audio.setBitRate(new Integer(128000));
-                    audio.setChannels(new Integer(2));
-                    audio.setSamplingRate(new Integer(44100));
-                    EncodingAttributes attrs = new EncodingAttributes();
-                    attrs.setFormat("mp3");
-                    attrs.setAudioAttributes(audio);
-                    Encoder encoder = new Encoder();
-                    encoder.encode(audioFile, mp3Audio, attrs);
+                if (awsHelper.getS3Object(audioMp3Key) == null) {
+                    File audioFile = new File(FileHelper.getTmpSphinx4DataDir(), acount + File.separator + fileName);
+                    if (!audioFile.exists()) {
+                        awsHelper.download(audioKey, audioFile);
+                    } else {
+                        if (awsHelper.getS3Object(audioKey) == null)
+                            awsHelper.upload(audioKey, audioFile);
+                    }
+                    File mp3Audio = new File(FileHelper.getTmpSphinx4DataDir(), acount + File.separator + fileName + ".mp3");
+                    if (!mp3Audio.exists()) {
+                        AudioAttributes audio = new AudioAttributes();
+                        audio.setCodec("libmp3lame");
+                        audio.setBitRate(new Integer(128000));
+                        audio.setChannels(new Integer(2));
+                        audio.setSamplingRate(new Integer(44100));
+                        EncodingAttributes attrs = new EncodingAttributes();
+                        attrs.setFormat("mp3");
+                        attrs.setAudioAttributes(audio);
+                        Encoder encoder = new Encoder();
+                        encoder.encode(audioFile, mp3Audio, attrs);
+                    }
+                    if (mp3Audio.exists()) {
+                        awsHelper.upload(audioMp3Key, mp3Audio);
+                        try {
+                            FileUtils.forceDelete(mp3Audio);
+                            FileUtils.forceDelete(audioFile);
+                        } catch (Exception e) {
+
+                        }
+                    }
                 }
-                target = mp3Audio;
+                targetAudio = audioMp3Key;
                 response.setContentType("audio/mpeg");
             } else {
                 response.setContentType("audio/wav");
             }
-            FileInputStream in = new FileInputStream(target);
-            response.setContentLength((int) target.length());
-            byte[] buffer = new byte[4096];
+            log("Stream audio from S3: " + targetAudio);
+            S3Object s3Object =  awsHelper.getS3Object(targetAudio);
+            InputStream in = s3Object.getObjectContent();
+            response.setContentLength((int) s3Object.getObjectMetadata().getContentLength());
+            byte[] buffer = new byte[1024];
             int length;
             while ((length = in.read(buffer)) != -1){
                 out.write(buffer, 0, length);
-                out.flush();
             }
             in.close();
-            out.flush();
-
         }catch (Exception e){
             e.printStackTrace();
         }
-
 
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
