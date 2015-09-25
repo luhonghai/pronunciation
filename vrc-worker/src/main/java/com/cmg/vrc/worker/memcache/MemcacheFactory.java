@@ -30,4 +30,9 @@ public class MemcacheFactory {
         }
         return POOL.get(address);
     }
+
+    public static void main(String[] args) {
+        int t  = 23 >> 31;
+        System.out.println(~t & 128);
+    }
 }
