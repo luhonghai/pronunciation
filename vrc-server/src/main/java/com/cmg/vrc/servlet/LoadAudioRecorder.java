@@ -59,9 +59,9 @@ public class LoadAudioRecorder extends HttpServlet {
                     if (!mp3Audio.exists()) {
                         AudioAttributes audio = new AudioAttributes();
                         audio.setCodec("libmp3lame");
-                        audio.setBitRate(new Integer(128000));
-                        audio.setChannels(new Integer(2));
-                        audio.setSamplingRate(new Integer(44100));
+                       // audio.setBitRate(new Integer(128000));
+                      //  audio.setChannels(new Integer(2));
+                       // audio.setSamplingRate(new Integer(44100));
                         EncodingAttributes attrs = new EncodingAttributes();
                         attrs.setFormat("mp3");
                         attrs.setAudioAttributes(audio);
@@ -110,61 +110,61 @@ public class LoadAudioRecorder extends HttpServlet {
         doPost(request,response);
     }
 
-    void parseWave(File file)
-            throws IOException {
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(file);
-            byte[] bytes = new byte[4];
-
-            // read first 4 bytes
-            // should be RIFF descriptor
-            if(in.read(bytes) < 0) {
-                return;
-            }
-
-            printDescriptor(bytes);
-
-            // first subchunk will always be at byte 12
-            // there is no other dependable constant
-            in.skip(8);
-
-            for(;;) {
-                // read each chunk descriptor
-                if(in.read(bytes) < 0) {
-                    break;
-                }
-
-                printDescriptor(bytes);
-
-                // read chunk length
-                if(in.read(bytes) < 0) {
-                    break;
-                }
-
-                // skip the length of this chunk
-                // next bytes should be another descriptor or EOF
-                in.skip(
-                        (bytes[0] & 0xFF)
-                                | (bytes[1] & 0xFF) << 8
-                                | (bytes[2] & 0xFF) << 16
-                                | (bytes[3] & 0xFF) << 24
-                );
-            }
-
-            log("end of file");
-
-        } finally {
-            if(in != null) {
-                in.close();
-            }
-        }
-    }
-
-    void printDescriptor(byte[] bytes)
-            throws IOException {
-        log(
-                "found '" + new String(bytes, "US-ASCII") + "' descriptor"
-        );
-    }
+//    void parseWave(File file)
+//            throws IOException {
+//        FileInputStream in = null;
+//        try {
+//            in = new FileInputStream(file);
+//            byte[] bytes = new byte[4];
+//
+//            // read first 4 bytes
+//            // should be RIFF descriptor
+//            if(in.read(bytes) < 0) {
+//                return;
+//            }
+//
+//            printDescriptor(bytes);
+//
+//            // first subchunk will always be at byte 12
+//            // there is no other dependable constant
+//            in.skip(8);
+//
+//            for(;;) {
+//                // read each chunk descriptor
+//                if(in.read(bytes) < 0) {
+//                    break;
+//                }
+//
+//                printDescriptor(bytes);
+//
+//                // read chunk length
+//                if(in.read(bytes) < 0) {
+//                    break;
+//                }
+//
+//                // skip the length of this chunk
+//                // next bytes should be another descriptor or EOF
+//                in.skip(
+//                        (bytes[0] & 0xFF)
+//                                | (bytes[1] & 0xFF) << 8
+//                                | (bytes[2] & 0xFF) << 16
+//                                | (bytes[3] & 0xFF) << 24
+//                );
+//            }
+//
+//            log("end of file");
+//
+//        } finally {
+//            if(in != null) {
+//                in.close();
+//            }
+//        }
+//    }
+//
+//    void printDescriptor(byte[] bytes)
+//            throws IOException {
+//        log(
+//                "found '" + new String(bytes, "US-ASCII") + "' descriptor"
+//        );
+//    }
 }

@@ -239,6 +239,9 @@ public class DatabasePrepare {
         public boolean status(){
             return isStatus();
         }
+        public String message(){
+            return getMessage();
+        }
     }
     public class Transcription  {
 
