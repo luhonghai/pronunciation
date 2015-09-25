@@ -1855,3 +1855,75 @@
 2015-09-24 12:17:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Admin WHERE userName == :1 && password == :2" since the connection used is closing/committing
 2015-09-24 12:17:51 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.Transcription WHERE version>ver PARAMETERS Integer ver" since the connection used is closing/committing
 2015-09-24 12:17:53 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.RecordedSentence WHERE account==acc && version>ver PARAMETERS String acc, Integer ver" since the connection used is closing/committing
+2015-09-25 08:50:15 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\ClientCode.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Security.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Feedback.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCode.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AppDetail.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Admin.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\DictionaryVersion.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\User.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserDevice.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Usage.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserVoiceModel.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeCompany.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\PhonemeScoreDB.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Transcription.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentence.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceHistory.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-25 08:50:16 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersion.class" with enhanced definition
+2015-09-25 08:50:16 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-25 08:50:16 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=368 ms, enhance=634 ms, total=1002 ms. Consult the log for full details
+2015-09-25 08:55:12 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\ClientCode.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Security.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Feedback.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCode.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\AppDetail.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Admin.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\DictionaryVersion.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\User.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserDevice.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Usage.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\UserVoiceModel.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LicenseCodeCompany.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-09-25 08:55:12 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\PhonemeScoreDB.class" with enhanced definition
+2015-09-25 08:55:12 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-09-25 08:55:13 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\Transcription.class" with enhanced definition
+2015-09-25 08:55:13 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-09-25 08:55:13 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentence.class" with enhanced definition
+2015-09-25 08:55:13 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-09-25 08:55:13 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\RecordedSentenceHistory.class" with enhanced definition
+2015-09-25 08:55:13 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-09-25 08:55:13 INFO  Enhancer:77 - Writing class file "E:\pronunciation\vrc-server\target\classes\com\cmg\vrc\data\jdo\LanguageModelVersion.class" with enhanced definition
+2015-09-25 08:55:13 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-09-25 08:55:13 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=637 ms, enhance=1078 ms, total=1715 ms. Consult the log for full details

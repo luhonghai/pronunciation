@@ -6,6 +6,8 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.RecordedSentenceHistory;
+import com.cmg.vrc.processor.CustomFFMPEGLocator;
+import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -127,7 +129,15 @@ public class RecorderSentenceService {
                 EncodingAttributes attrs = new EncodingAttributes();
                 attrs.setFormat("mp3");
                 attrs.setAudioAttributes(audio);
-                Encoder encoder = new Encoder();
+                String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                Encoder encoder;
+                if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                        || env.equalsIgnoreCase("int")
+                        || env.equalsIgnoreCase("aws")) {
+                    encoder = new Encoder(new CustomFFMPEGLocator());
+                } else {
+                   encoder =new Encoder();
+                }
                 encoder.encode(recordedVoice, mp3Audio, attrs);
                 awsHelper.upload(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + user.getUsername() + "/" + recordedSentence.getFileName() + ".mp3", mp3Audio);
                 if (mp3Audio.exists()) {

@@ -1925,6 +1925,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
             UserProfile profile = Preferences.getCurrentProfile(context);
 
+
             RecorderSentenceModel recorderSentenceModel =new RecorderSentenceModel();
             Bundle bundle = intent.getExtras();
             if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {

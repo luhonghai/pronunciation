@@ -60,7 +60,7 @@ public class RecordedSentenceHandler extends BaseServlet {
         RecorderSentenceService recorderSentenceService=new RecorderSentenceService();
         responseData.setStatus(false);
         try {
-            //create a new Map<String,String> to store all parameter
+            //create a new Map<String,String> to store all parametermv
             Map<String, String> storePara = new HashMap<String, String>();
             // Create a new file upload handler
             ServletFileUpload upload = new ServletFileUpload();
@@ -147,7 +147,6 @@ public class RecordedSentenceHandler extends BaseServlet {
                     responseData.setMessage("success");
                     responseData.RecordedSentences = result;
                 } else {
-
                     responseData.setMessage("Could not upload recorded voice");
                 }
 

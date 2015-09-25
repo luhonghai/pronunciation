@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.processor.CustomFFMPEGLocator;
+import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -63,7 +65,15 @@ public class LoadAudioRecorder extends HttpServlet {
                         EncodingAttributes attrs = new EncodingAttributes();
                         attrs.setFormat("mp3");
                         attrs.setAudioAttributes(audio);
-                        Encoder encoder = new Encoder();
+                        String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                        Encoder encoder;
+                        if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                                || env.equalsIgnoreCase("int")
+                                || env.equalsIgnoreCase("aws")) {
+                            encoder = new Encoder(new CustomFFMPEGLocator());
+                        } else {
+                            encoder =new Encoder();
+                        }
                         encoder.encode(audioFile, mp3Audio, attrs);
                     }
                     if (mp3Audio.exists()) {
