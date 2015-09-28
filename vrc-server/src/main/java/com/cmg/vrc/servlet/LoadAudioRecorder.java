@@ -12,6 +12,7 @@ import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncoderException;
 import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -57,24 +58,28 @@ public class LoadAudioRecorder extends HttpServlet {
                     }
                     File mp3Audio = new File(FileHelper.getTmpSphinx4DataDir(), acount + File.separator + fileName + ".mp3");
                     if (!mp3Audio.exists()) {
-                        AudioAttributes audio = new AudioAttributes();
-                        audio.setCodec("libmp3lame");
-                       // audio.setBitRate(new Integer(128000));
-                      //  audio.setChannels(new Integer(2));
-                       // audio.setSamplingRate(new Integer(44100));
-                        EncodingAttributes attrs = new EncodingAttributes();
-                        attrs.setFormat("mp3");
-                        attrs.setAudioAttributes(audio);
-                        String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-                        Encoder encoder;
-                        if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
-                                || env.equalsIgnoreCase("int")
-                                || env.equalsIgnoreCase("aws")) {
-                            encoder = new Encoder(new CustomFFMPEGLocator());
-                        } else {
-                            encoder =new Encoder();
+                        try {
+                            AudioAttributes audio = new AudioAttributes();
+                            audio.setCodec("libmp3lame");
+                            audio.setBitRate(new Integer(128000));
+                            audio.setChannels(new Integer(2));
+                            audio.setSamplingRate(new Integer(44100));
+                            EncodingAttributes attrs = new EncodingAttributes();
+                            attrs.setFormat("mp3");
+                            attrs.setAudioAttributes(audio);
+                            String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                            Encoder encoder;
+                            if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                                    || env.equalsIgnoreCase("int")
+                                    || env.equalsIgnoreCase("aws")) {
+                                encoder = new Encoder(new CustomFFMPEGLocator());
+                            } else {
+                                encoder = new Encoder();
+                            }
+                            encoder.encode(audioFile, mp3Audio, attrs);
+                        } catch (EncoderException e) {
+                            log("error when code",e);
                         }
-                        encoder.encode(audioFile, mp3Audio, attrs);
                     }
                     if (mp3Audio.exists()) {
                         awsHelper.upload(audioMp3Key, mp3Audio);

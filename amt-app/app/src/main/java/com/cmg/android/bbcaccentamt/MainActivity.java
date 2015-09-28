@@ -1933,7 +1933,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 AppLog.logString("data  : " + data);
                 Gson gson = new Gson();
                 DatabasePrepare.ResponseDataRecorded datas = gson.fromJson(data, DatabasePrepare.ResponseDataRecorded.class);
-                if (datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()!=false && datas.message().equalsIgnoreCase("success")) {
+                if (datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()!=false) {
                     for (DatabasePrepare.RecordedSentence model : datas.RecordedSentences) {
                         //call database update version, status, isdeleted with object model.
                         AppLog.logString("sentence id  : " + model.getSentenceId());
@@ -1953,16 +1953,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                }
-                if (datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()==false && datas.message().equalsIgnoreCase("Could not upload recorded voice")) {
-                    listAllItem();
-                    String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
-                    textrecord.setText(sentence);
-                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(MainActivity.this,"Server error.",Toast.LENGTH_LONG).show();
-
-                }
-                if (datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()==false && datas.message().equalsIgnoreCase("No parameter found")) {
+                } else {
                     databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(), Common.NOT_RECORD, Common.ISDELETED_FALSE, idSentence, profile.getUsername());
                     listAllItem();
                     if (numberRecoder > 0) {

@@ -13,9 +13,10 @@ import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncoderException;
 import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.io.FileUtils;
-
+import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,9 @@ import java.util.List;
  * Created by CMGT400 on 8/13/2015.
  */
 public class RecorderSentenceService {
+    private static final Logger logger = Logger.getLogger(RecorderSentenceService.class
+            .getName());
+
     private static int STATUS_NOT_RECORD = 0;
     public static String RETURN_SUCCESS = "success";
     public static String RETURN_ERROR="error";
@@ -121,11 +125,12 @@ public class RecorderSentenceService {
 
             File mp3Audio = new File(FileHelper.getTmpSphinx4DataDir(), user.getUsername() + File.separator + recordedSentence.getFileName() + ".mp3");
             if (!mp3Audio.exists()) {
+                try {
                 AudioAttributes audio = new AudioAttributes();
                 audio.setCodec("libmp3lame");
-                //audio.setBitRate(new Integer(128000));
-                //audio.setChannels(new Integer(2));
-               // audio.setSamplingRate(new Integer(44100));
+                audio.setBitRate(new Integer(128000));
+                audio.setChannels(new Integer(2));
+                audio.setSamplingRate(new Integer(44100));
                 EncodingAttributes attrs = new EncodingAttributes();
                 attrs.setFormat("mp3");
                 attrs.setAudioAttributes(audio);
@@ -139,9 +144,12 @@ public class RecorderSentenceService {
                    encoder =new Encoder();
                 }
                 encoder.encode(recordedVoice, mp3Audio, attrs);
-                awsHelper.upload(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + user.getUsername() + "/" + recordedSentence.getFileName() + ".mp3", mp3Audio);
                 if (mp3Audio.exists()) {
+                    awsHelper.upload(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + user.getUsername() + "/" + recordedSentence.getFileName() + ".mp3", mp3Audio);
                     FileUtils.forceDelete(mp3Audio);
+                }
+                } catch (EncoderException e) {
+                    logger.error("error when code. Message:: " + e.getMessage(),e);
                 }
             }
 
