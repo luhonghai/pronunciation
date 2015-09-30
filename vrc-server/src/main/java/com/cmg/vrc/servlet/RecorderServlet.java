@@ -84,27 +84,7 @@ public class RecorderServlet extends BaseServlet {
             int sta=0;
             sta=Integer.parseInt(status);
 
-//            Date dateFrom1=null;
-//            Date dateTo1=null;
-//
-//
-//
-//            if(dateFrom.length()>0){
-//                try {
-//                    dateFrom1=df.parse(dateFrom);
-//                }catch (Exception e){
-//                    e.getStackTrace();
-//                }
-//            }
-//            if(dateTo.length()>0){
-//                try {
-//                    dateTo1=df.parse(dateTo);
-//                }catch (Exception e){
-//                    e.getStackTrace();
-//                }
-//            }
-//            dateFrom=df.format(dateFrom1).toString();
-//            dateTo=df.format(dateTo1).toString();
+
 
 
             Double count;

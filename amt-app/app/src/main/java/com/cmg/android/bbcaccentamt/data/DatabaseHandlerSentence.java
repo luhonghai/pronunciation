@@ -421,10 +421,10 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[] { String.valueOf(recorderSentenceModel.getID()) });
     }
 
-    public int getLastedVersionRecorder() {
+    public int getLastedVersionRecorder(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         int lastest=0;
-        Cursor cursor= db.rawQuery("SELECT MAX("+KEY_VERSION+") FROM " + TABLE_RECORDERSENTENCE,null);
+        Cursor cursor= db.rawQuery("SELECT MAX("+KEY_VERSION+") FROM " + TABLE_RECORDERSENTENCE + " WHERE " +KEY_ACCOUNT+  " LIKE '"+username+"'" ,null);
         if (cursor != null && cursor.getCount()>0)
             cursor.moveToFirst();
         try {
@@ -444,5 +444,15 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[]{String.valueOf(recorderSentenceModel.getIdSentence()),String.valueOf(recorderSentenceModel.getAccount())});
         db.close();
     }
+    public int getContactsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_RECORDERSENTENCE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+
+        return cursor.getCount();
+    }
+
 
 }

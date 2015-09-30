@@ -184,7 +184,7 @@ function loadNumber(){
             }));
             $selected.prepend("<option value=''></option>").val('');
 
-            $("#awaiting").text(data.waiting);
+            $("#numberAccount").text(data.numberAccount);
             $("#pending").text(data.pending);
             $("#reject").text(data.reject);
             $("#approved").text(data.approved);
@@ -209,7 +209,7 @@ function selected(){
                 loadNumberAccount:"load"
             },
             success:function(data){
-                $("#awaiting").text(data.waiting);
+                $("#numberAccount").text(data.numberAccount);
                 $("#pending").text(data.pending);
                 $("#reject").text(data.reject);
                 $("#approved").text(data.approved);
@@ -290,7 +290,7 @@ function reject(){
                 loadNumberAccount:"load"
             },
             success:function(data){
-                $("#awaiting").text(data.waiting);
+                $("#numberAccount").text(data.numberAccount);
                 $("#pending").text(data.pending);
                 $("#reject").text(data.reject);
                 $("#approved").text(data.approved);
@@ -355,7 +355,7 @@ function approved(){
                 loadNumberAccount:"load"
             },
             success:function(data){
-                $("#awaiting").text(data.waiting);
+                $("#numberAccount").text(data.numberAccount);
                 $("#pending").text(data.pending);
                 $("#reject").text(data.reject);
                 $("#approved").text(data.approved);
@@ -412,7 +412,7 @@ function locked(){
                 loadNumberAccount:"load"
             },
             success:function(data){
-                $("#awaiting").text(data.waiting);
+                $("#numberAccount").text(data.numberAccount);
                 $("#pending").text(data.pending);
                 $("#reject").text(data.reject);
                 $("#approved").text(data.approved);

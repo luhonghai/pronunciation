@@ -185,7 +185,7 @@ public class DatabasePrepare {
             if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
             UserProfile profile = Preferences.getCurrentProfile(context);
             String name= profile.getUsername();
-            int version = dbHandleStc.getLastedVersionRecorder();
+            int version = dbHandleStc.getLastedVersionRecorder(name);
             String requestUrl = context.getString(R.string.recorder_url)
                     + "?action=listbyclient&data="
                     + URLEncoder.encode(name,"UTF-8")
@@ -213,12 +213,15 @@ public class DatabasePrepare {
                         recorderSentence.setFileName(fileName);
                         if(temp.isDeteted()==1 || temp.getStatus()==0 ){
                             File file = new File(getTmpDir(temp.getSentenceId(),name));
-                            FileUtils.forceDelete(file);
+                            if(file.exists()) {
+                                FileUtils.forceDelete(file);
+                            }
                         }
                         dbHandleStc.deleteRecorderSentence(recorderSentence);
                         dbHandleStc.addRecorderSentence(recorderSentence);
                     }
                 }
+                SimpleAppLog.info("Size Recorder: " + dbHandleStc.getContactsCount());
             }
         }catch (Exception e){
             e.printStackTrace();

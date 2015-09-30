@@ -962,7 +962,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 SimpleAppLog.error("Could not select suggestion word", e);
             }
         }else{
-            Toast.makeText(this,"Sorry, your sentence could not be found!",Toast.LENGTH_SHORT).show();
+            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+            d.setTitleText(getString(R.string.missing_data));
+            d.setContentText(getString(R.string.notdata));
+            d.setConfirmText(getString(R.string.dialog_ok));
+            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+            d.show();
         }
         return false;
     }
@@ -990,10 +1000,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             });
         }
-        else {
-            searchView.getSuggestionsAdapter().changeCursor(null);
-            Toast.makeText(this,"Sorry, your sentence could not be found!",Toast.LENGTH_SHORT).show();
-        }
+//        else {
+//            searchView.getSuggestionsAdapter().changeCursor(null);
+//            Toast.makeText(this,"Sorry, your sentence could not be found!",Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private Handler updateQueryHandler = new Handler();
@@ -1248,6 +1258,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void analyze() {
         try {
             // Clear old data
+            final  UserProfile profile = Preferences.getCurrentProfile(this);
             currentModel = null;
             analyzingState = AnalyzingState.RECORDING;
             switchButtonStage(ButtonState.RECORDING);
@@ -1310,7 +1321,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 recorderSentenceModel.setID(idSentence);
                                 recorderSentenceModel.setIdSentence(idSentence);
                                 recorderSentenceModel.setStatus(Common.RECORDED_BUT_NOT_UPLOAD);
-                                recorderSentenceModel.setVersion(databaseHandlerSentence.getLastedVersionRecorder());
+                                recorderSentenceModel.setVersion(databaseHandlerSentence.getLastedVersionRecorder(profile.getUsername()));
                                 recorderSentenceModel.setIsDelete(Common.ISDELETED_FALSE);
                                 recorderSentenceModel.setAccount(account());
                                 databaseHandlerSentence.deleteRecorderSentence(recorderSentenceModel);
@@ -1321,6 +1332,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 switchButtonStage(ButtonState.GREEN);
                                 String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                                 textrecord.setText(sentence);
+                                status=-1;
 
                             }
                         });
@@ -1911,7 +1923,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     position1();
                     switchButtonStage(ButtonState.NORECORDING);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(context,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update",Toast.LENGTH_LONG).show();
+                    SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    d.setTitleText(getString(R.string.missing_data));
+                    d.setContentText(getString(R.string.sentenceDeleteOrEdit));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
                 }
             }
         }
@@ -1954,7 +1976,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
                 } else {
-                    databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(), Common.NOT_RECORD, Common.ISDELETED_FALSE, idSentence, profile.getUsername());
+                    databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(profile.getUsername()), Common.NOT_RECORD, Common.ISDELETED_FALSE, idSentence, profile.getUsername());
                     listAllItem();
                     if (numberRecoder > 0) {
                         switchButtonStage(ButtonState.UPLOADALL2);
@@ -1964,7 +1986,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                    Toast.makeText(MainActivity.this,"Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update.",Toast.LENGTH_LONG).show();
+                    SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                    d.setTitleText(getString(R.string.missing_data));
+                    d.setContentText(getString(R.string.sentenceDeleteOrEdit));
+                    d.setConfirmText(getString(R.string.dialog_ok));
+                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                    d.show();
                 }
             }
         }
@@ -2040,7 +2072,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             int version=recorderSentenceModel.getVersion();
             String sentence=databaseHandlerSentence.getSentence(idSentence).getSentence();
             String versions=Integer.toString(version);
-            int maxversion=databaseHandlerSentence.getLastedVersionRecorder();
+            int maxversion=databaseHandlerSentence.getLastedVersionRecorder(profile.getUsername());
             String maxversions=Integer.toString(maxversion);
             String fileName = audioStream.getTmpDir(idSentence,name);
             File tmp = new File(fileName);

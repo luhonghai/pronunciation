@@ -73,7 +73,7 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
                             }
 
                         }else {
-                            databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(), Common.NOT_RECORD, Common.ISDELETED_FALSE,p.get("sentence"), profile.getUsername());
+                            databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(p.get("username")), Common.NOT_RECORD, Common.ISDELETED_FALSE,p.get("sentence"), profile.getUsername());
                             n=n+1;
                         }
 

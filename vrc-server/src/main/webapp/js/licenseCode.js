@@ -23,12 +23,12 @@ function listLicenseCode(){
                     }
                 },
                 "columns": [{
-                    "sWidth": "30%",
+                    "sWidth": "15%",
                     "data": "account",
                     "sDefaultContent":""
 
                 }, {
-                    "sWidth": "20%",
+                    "sWidth": "15%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent":"",
@@ -45,6 +45,10 @@ function listLicenseCode(){
                     "mRender": function (data, type, full) {
                             return '<p style="font-family:tahoma">'+data.code+'</p>';
                     }
+                },{
+                    "sWidth": "15%",
+                    "data": "company",
+                    "sDefaultContent":""
                 }, {
                     "sWidth": "20%",
                     "data": "createdDate",
@@ -151,23 +155,23 @@ function add(){
 
 function dateFrom(){
     $('#dateFrom1').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 function dateTo(){
     $('#dateTo1').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 
 function dateFrom1(){
     $('#dateFrom2').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 function dateTo1(){
     $('#dateTo2').datetimepicker({
-        format: 'DD/MM/YYYY'
+        format: 'YYYY/MM/DD'
     });
 }
 

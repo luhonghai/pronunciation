@@ -121,6 +121,19 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
     }
 
+    public List<RecordedSentence> list(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + RecordedSentence.class.getCanonicalName()+ " WHERE status!=0 ORDER BY account");
+        try {
+            return detachCopyAllList(pm, q.execute());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
 
     public List<RecorderClient> listRecoder(int start, int length,String search,int column,String order,String ac,String dateFrom, String dateTo, int sta, String acs, String sentence) throws Exception {
