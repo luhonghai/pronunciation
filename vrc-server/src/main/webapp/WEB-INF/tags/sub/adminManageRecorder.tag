@@ -76,8 +76,6 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row">
-            <label style="background-color: white;color: black;">AWaiting:</label>
-            <label id="awaiting" style="padding-right: 10px;"></label>
             <label style="background-color: orange;color: white; padding-left: 5px;">Pending:</label>
             <label id="pending" style="padding-right: 10px;"></label>
             <label style="background-color: red;color: white; padding-left: 5px;">Rejected:</label>
@@ -86,8 +84,12 @@
             <label id="approved" style="padding-right: 10px;"></label>
             <label style="background-color: darkgray;color: white; padding-left: 5px;">Locked:</label>
             <label id="locked" style="padding-right: 10px;"></label>
-            <label style="background-color: white;color: black; padding-left: 5px;">All sentence:</label>
+            <div class="pull-right" style="margin-right: 20px">
+            <label style="background-color: white;color: black; padding-left: 5px;">Number Account:</label>
+            <label id="numberAccount"></label>
+            <label style="background-color: white;color: black; padding-left: 5px;">Sentence:</label>
             <label id="all"></label>
+            </div>
           </div>
           <div class="row" style="padding-top: 10px;">
             <label class="col-sm-3" style="padding-left: 0px;">Select user:</label>

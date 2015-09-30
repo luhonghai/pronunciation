@@ -14,8 +14,8 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">Account</label>
-          <input type="text" name="filter-account" id="account1" class="form-control" placeholder="Account">
+          <label class="control-label">UserName</label>
+          <input type="text" name="filter-account" id="account1" class="form-control" placeholder="UserName">
         </div>
         <div class="form-group">
           <label class="control-label">Activated</label>
@@ -100,9 +100,10 @@
               <table class="table table-striped table-bordered table-hover dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Account</th>
+                  <th>UserName</th>
                   <th>IMEI</th>
                   <th>Code</th>
+                  <th>Company</th>
                   <th>Created Date</th>
                   <th>Activated Date</th>
                   <th>Activation</th>

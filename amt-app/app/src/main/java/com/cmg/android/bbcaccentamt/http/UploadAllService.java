@@ -81,10 +81,10 @@ public class UploadAllService extends Service {
 
     }
 
-    public int maxVersion(){
+    public int maxVersion(String username){
         int maxversion=0;
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        maxversion=databaseHandlerSentence.getLastedVersionRecorder();
+        maxversion=databaseHandlerSentence.getLastedVersionRecorder(username);
         return maxversion;
     }
 
@@ -100,7 +100,7 @@ public class UploadAllService extends Service {
                 int version=recorderSentenceModels.get(i).getVersion();
                 String versions=Integer.toString(version);
                 String sentence=databaseHandlerSentence.getSentence(id).getSentence();
-                int maxversion=maxVersion();
+                int maxversion=maxVersion(profile.getUsername());
                 String maxversions=Integer.toString(maxversion);
                 String fileName = getTmpDir(id, profile.getUsername());
                 File tmp = new File(fileName);
@@ -123,6 +123,7 @@ public class UploadAllService extends Service {
                         params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                         params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                         params.put("profile", gson.toJson(profile));
+                        params.put("username", gson.toJson(profile.getUsername()));
                         params.put("sentence", id);
                         params.put("version", versions);
                         params.put("contentSentence",sentence);

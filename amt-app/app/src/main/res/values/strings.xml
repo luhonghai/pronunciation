@@ -169,6 +169,8 @@
     <string name="accepted">Accepted-server accepted</string>
     <string name="locked">Locked-sever has locked</string>
     <string name="closeHelp">Close</string>
+    <string name="notdata">Sorry, your sentence could not be found!</string>
+    <string name="sentenceDeleteOrEdit">Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update</string>
 
 
 </resources>

@@ -17,12 +17,8 @@ import java.util.List;
  * Created by CMGT400 on 8/6/2015.
  */
 public class RecorderNumberServlet extends HttpServlet {
-//    private int BUFFER_LENGTH=1024;
-//    private double startTime;
-//    private double endTime;
-//    private File sourceFile;
     class number{
-        public double waiting,pending,reject,approved,locke,allsentence;
+        public double numberAccount,pending,reject,approved,locke,allsentence;
         public List<RecordedSentence> recordedSentences;
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,14 +67,16 @@ public class RecorderNumberServlet extends HttpServlet {
     public List<RecordedSentence> recordedSentenceList(){
         List<RecordedSentence> list=null;
         RecorderDAO recorderDAO=new RecorderDAO();
-        int number=0;
         try {
-            List<RecordedSentence> recordedSentences = recorderDAO.listAll();
+            List<RecordedSentence> recordedSentences = recorderDAO.list();
             for (int i = 0; i < recordedSentences.size(); i++) {
                 for (int j = i + 1; j < recordedSentences.size(); j++) {
                     if (recordedSentences.get(i).getAccount().equals(recordedSentences.get(j).getAccount())){
                         recordedSentences.remove(j);
                         j=j-1;
+                    }
+                    else{
+                        break;
                     }
                 }
             }
@@ -88,25 +86,27 @@ public class RecorderNumberServlet extends HttpServlet {
         }
         return list;
     }
+    public int numberAccount(){
+        int number=0;
+        number=recordedSentenceList().size();
+        return number;
+    }
     public number getNumber(){
         RecorderSentenceDAO recorderSentenceDAO=new RecorderSentenceDAO();
-        TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+        RecorderDAO recorderDAO=new RecorderDAO();
         RecorderNumberServlet.number number=new number();
         try {
-            int numberAccout=recordedSentenceList().size();
             double pending=recorderSentenceDAO.getCount(1);
             double reject=recorderSentenceDAO.getCount(2);
             double approved=recorderSentenceDAO.getCount(3);
             double locked=recorderSentenceDAO.getCount(4);
-            double allsentence=transcriptionDAO.getCount();
-            double allsentences=allsentence * numberAccout;
-            double waiting=allsentences-pending-reject-approved-locked;
-            number.waiting=waiting;
+            double allsentence=recorderDAO.getCount();
+            number.numberAccount=numberAccount();
             number.pending=pending;
             number.reject=reject;
             number.approved=approved;
             number.locke=locked;
-            number.allsentence=allsentences;
+            number.allsentence=allsentence;
             number.recordedSentences=recordedSentenceList();
             return number;
         }catch (Exception e){
@@ -115,17 +115,15 @@ public class RecorderNumberServlet extends HttpServlet {
     }
     public number getNumberWithAccountandStatus(String acount){
         RecorderSentenceDAO recorderSentenceDAO=new RecorderSentenceDAO();
-        TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
+        RecorderDAO recorderDAO=new RecorderDAO();
         RecorderNumberServlet.number number=new number();
         try{
-
             double pending=recorderSentenceDAO.getCount(acount,1);
             double reject=recorderSentenceDAO.getCount(acount,2);
             double approved=recorderSentenceDAO.getCount(acount,3);
             double locked=recorderSentenceDAO.getCount(acount,4);
-            double allsentence=transcriptionDAO.getCount();
-            double waiting=allsentence-pending-reject-approved-locked;
-            number.waiting=waiting;
+            double allsentence=recorderDAO.getCount();
+            number.numberAccount=numberAccount();
             number.pending=pending;
             number.reject=reject;
             number.approved=approved;
