@@ -27,7 +27,7 @@ import java.util.Map;
  * @Last changed: $LastChangedDate$
  */
 public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> {
-    public static final String UPLOAD_COMPLETE_INTENT = "com.cmg.android.bbcaccent.UploaderAysnc";
+    public static final String UPLOAD_COMPLETE_INTENT = "com.cmg.android.bbcaccent.UploaderAysncT";
     private final Context context;
     private final String uploadUrl;
     public UploaderAsync(Context context, String uploadUrl) {
