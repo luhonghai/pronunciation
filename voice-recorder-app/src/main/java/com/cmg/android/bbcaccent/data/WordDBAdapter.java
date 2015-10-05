@@ -78,7 +78,7 @@ public class WordDBAdapter {
                     String w = tmp[0].trim().toLowerCase();
                     String p = tmp[1].trim();
                     boolean b = Boolean.valueOf(tmp[2].trim());
-              //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
+                    //      AppLog.logString("INSERT-> " + word + " | w: " + w + " p: " + p);
                     ContentValues initialValues = new ContentValues();
                     initialValues.put(KEY_WORD, w);
                     initialValues.put(KEY_BEEP, b ? 1 : 0);
@@ -179,6 +179,26 @@ public class WordDBAdapter {
         return mCursor;
     }
 
+    public String getPronunciation(String word) throws SQLException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_PRONUNCIATION
+                        },
+                        KEY_WORD + "= ?",
+                        new String[] {word},
+                        null,
+                        null,
+                        null,
+                        null);
+        if (mCursor != null && mCursor.moveToFirst()) {
+            String p = mCursor.getString(mCursor.getColumnIndex(KEY_PRONUNCIATION));
+            mCursor.close();
+            return p;
+        }
+        return "";
+    }
+
     public boolean isBeep(String word) throws SQLException
     {
         Cursor mCursor =
@@ -194,8 +214,7 @@ public class WordDBAdapter {
                         null,
                         null,
                         null);
-        if (mCursor != null) {
-            mCursor.moveToFirst();
+        if (mCursor != null && mCursor.moveToFirst()) {
             int beep = mCursor.getInt(mCursor.getColumnIndex(KEY_BEEP));
             mCursor.close();
             return beep == 1;
@@ -205,7 +224,7 @@ public class WordDBAdapter {
 
     //---updates a title---
     public boolean update(long rowId, String word,
-                               String pronunciation, boolean isBeep)
+                          String pronunciation, boolean isBeep)
     {
         ContentValues args = new ContentValues();
         args.put(KEY_WORD, word);

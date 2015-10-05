@@ -2,14 +2,11 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 import com.cmg.vrc.data.dao.impl.LicenseCodeCompanyDAO;
-import com.cmg.vrc.data.jdo.ClientCode;
-import com.cmg.vrc.data.jdo.LicenseCodeCompany;
+import com.cmg.vrc.data.jdo.*;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
-import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
-import com.cmg.vrc.data.jdo.LicenseCode;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -32,7 +29,7 @@ public class LicenseCodes extends HttpServlet {
         public Double recordsTotal;
         public Double recordsFiltered;
 
-        List<LicenseCode> data;
+        List<LicenseCodess> data;
     }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
@@ -67,63 +64,18 @@ public class LicenseCodes extends HttpServlet {
             String dateFrom2 = request.getParameter("dateFrom2");
             String dateTo2 = request.getParameter("dateTo2");
             String company=request.getParameter("company");
-            Date dateFrom1=null;
-            Date dateTo1=null;
-            Date dateFrom3=null;
-            Date dateTo3=null;
-
             Double count;
-            if(dateFrom.length()>0){
-                try {
-                    dateFrom1=df.parse(dateFrom);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            if(dateTo.length()>0){
-                try {
-                    dateTo1=df.parse(dateTo);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-
-            }
-            if(dateFrom2.length()>0){
-                try {
-                    dateFrom3=df.parse(dateFrom2);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            if(dateTo2.length()>0){
-                try {
-                    dateTo3=df.parse(dateTo2);
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-
-            }
             try {
-                List<LicenseCode> licenseCodes=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
-
-                if(search.length()>0||ac.length()>0||activated.length()>0||dateFrom1!=null||dateTo1!=null ||dateFrom3!=null||dateTo3!=null && company.length()==0){
-                    count=lis.getCountSearch(search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3);
+                if(search.length()>0||ac.length()>0||activated.length()>0||dateFrom!=null||dateTo!=null ||dateFrom2!=null||dateTo2!=null && company.length()>0){
+                   List<LicenseCodess> licenseCodesses=lis.listAllByCompanySearch(search, col, oder ,ac,activated,dateFrom,dateTo,dateFrom2,dateTo2,company);
+                    count=(double)licenseCodesses.size();
                 }else {
                      count = lis.getCount();
-                }
-                if(company.length()>0){
-                    count=(double)licenseCodes.size();
                 }
                 licen.draw = draw;
                 licen.recordsTotal = count;
                 licen.recordsFiltered = count;
-                if(company.length()>0){
-                    licen.data=lis.listAllByCompany(start, length, search,ac,activated,dateFrom1,dateTo1,dateFrom3,dateTo3,company);
-                }
-                else {
-                    licen.data = lis.listAll(start, length, search, col, oder, ac, activated, dateFrom1, dateTo1,dateFrom3,dateTo3);
-                }
-//                List<com.cmg.vrc.data.jdo.LicenseCode> list=lis.listAll(start,length);
+                licen.data=lis.listAllByCompany(start, length, search, col, oder ,ac,activated,dateFrom,dateTo,dateFrom2,dateTo2,company);
                 Gson gson = new Gson();
                 String licenseCode = gson.toJson(licen);
                 response.getWriter().write(licenseCode);

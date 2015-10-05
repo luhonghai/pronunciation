@@ -2,7 +2,7 @@
 <%@attribute name="pageTitle" required="true" %>
 <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -28,11 +28,18 @@
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/dist/css/sb-admin-2.css" rel="stylesheet">
 
+        <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/css/not.the.skin.css" rel="stylesheet">
+
+        <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/circle.skin/circle.player.css" rel="stylesheet">
+
         <!-- Custom Fonts -->
         <link href="<%=request.getContextPath()%>/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.0.1/sweetalert.min.css">
 
+        <link href="http://hayageek.github.io/jQuery-Upload-File/4.0.6/uploadfile.css" rel="stylesheet">
+        <script src="<%=request.getContextPath() %>/bower_components/jquery/dist/jquery.min.js"></script>
+        <%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>--%>
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -51,15 +58,6 @@
                         /*margin: 0 auto;*/
                 /*}*/
         </style>
-
-        <%
-
-                if (session.getAttribute("username") == null || session.getAttribute("password") == null){
-                        response.sendRedirect("login.jsp");
-                }
-
-        %>
-
         <script>
                 var CONTEXT_PATH = "<%=request.getContextPath()%>";
         </script>

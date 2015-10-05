@@ -26,9 +26,15 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
             return list.get(0);
         return null;
     }
-
-    public Transcription getByIdSentence(String id) throws Exception {
+    public Transcription getById(String id) throws Exception {
         List<Transcription> list = list("WHERE id == :1", id);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
+    public Transcription getByIdSentence(String id, int isDelete) throws Exception {
+        List<Transcription> list = list("WHERE id == :1 && isDeleted != :2", id, isDelete);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;
@@ -72,6 +78,19 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
         }
     }
 
+    public List<Transcription> listAll(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + Transcription.class.getCanonicalName());
+        try {
+            return detachCopyAllList(pm, q.execute());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
 
 
@@ -88,26 +107,24 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
             string.append("(sentence.toLowerCase().indexOf(senten.toLowerCase()) != -1) &&");
         }
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= CreateDateFrom) &&");
+            string.append("(createdDate >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= CreateDateTo) &&");
+            string.append("(createdDate <= createDateTo) &&");
         }
-
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= CreateDateFrom && createdDate <= CreateDateTo) &&");
+            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
-
-        if(modifiedDateFrom!=null&&modifiedDateTo==null){
+        if(modifiedDateFrom!=null && modifiedDateTo==null){
             string.append("(modifiedDate >= modifiedDateFrom) &&");
         }
-        if(modifiedDateFrom==null&&modifiedDateTo!=null){
+        if(modifiedDateFrom==null && modifiedDateTo!=null){
             string.append("(modifiedDate <= modifiedDateTo) &&");
         }
-        if(modifiedDateFrom!=null&&modifiedDateTo!=null){
+        if(modifiedDateFrom!=null && modifiedDateTo!=null){
             string.append("(modifiedDate >= modifiedDateFrom && modifiedDate <= modifiedDateTo) &&");
         }
+        string.append("(isDeleted==0) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -169,26 +186,26 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
         }
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= CreateDateFrom) &&");
+            string.append("(createdDate >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= CreateDateTo) &&");
+            string.append("(createdDate <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
 
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= CreateDateFrom && createdDate <= CreateDateTo) &&");
+            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
         }
-
-        if(modifiedDateFrom!=null&&modifiedDateTo==null){
+        if(modifiedDateFrom!=null && modifiedDateTo==null){
             string.append("(modifiedDate >= modifiedDateFrom) &&");
         }
-        if(modifiedDateFrom==null&&modifiedDateTo!=null){
+        if(modifiedDateFrom==null && modifiedDateTo!=null){
             string.append("(modifiedDate <= modifiedDateTo) &&");
         }
-        if(modifiedDateFrom!=null&&modifiedDateTo!=null){
+
+        if(modifiedDateFrom!=null && modifiedDateTo!=null){
             string.append("(modifiedDate >= modifiedDateFrom && modifiedDate <= modifiedDateTo) &&");
         }
+        string.append("(isDeleted==0) &&");
 
         if(search.length()>0){
             string.append(a);

@@ -1,13 +1,22 @@
 package com.cmg.vrc.service;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.RecordedSentenceHistoryDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.RecordedSentenceHistory;
+import com.cmg.vrc.processor.CustomFFMPEGLocator;
+import com.cmg.vrc.properties.Configuration;
+import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
+import it.sauronsoftware.jave.AudioAttributes;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncoderException;
+import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.io.FileUtils;
-
+import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +26,18 @@ import java.util.List;
  * Created by CMGT400 on 8/13/2015.
  */
 public class RecorderSentenceService {
+    private static final Logger logger = Logger.getLogger(RecorderSentenceService.class
+            .getName());
+
     private static int STATUS_NOT_RECORD = 0;
     public static String RETURN_SUCCESS = "success";
     public static String RETURN_ERROR="error";
+
+    private final AWSHelper awsHelper;
+
+    public RecorderSentenceService() {
+        awsHelper = new AWSHelper();
+    }
     public int version(){
         RecorderDAO recorderDAO=new RecorderDAO();
         try {
@@ -80,6 +98,7 @@ public class RecorderSentenceService {
      * @throws Exception
      */
     public String clientUpdate(UserProfile user, String sentenceId, File recordedVoice, int clientVersion) throws Exception {
+        String uuid=null;
         RecorderDAO recorderDAO=new RecorderDAO();
         RecordedSentenceHistoryDAO recordedSentenceHistoryDAO = new RecordedSentenceHistoryDAO();
         try {
@@ -87,8 +106,9 @@ public class RecorderSentenceService {
 
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();
+                uuid = UUIDGenerator.generateUUID();
             }
-            String uuid = UUIDGenerator.generateUUID();
+            uuid=recordedSentence.getId();
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
             recordedSentence.setId(uuid);
@@ -101,7 +121,41 @@ public class RecorderSentenceService {
             recordedSentence.setModifiedDate(now);
             recordedSentence.setFileName(recordedVoice.getName());
             recordedSentence.setSentenceId(sentenceId);
+            awsHelper.upload(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + user.getUsername() + "/" + recordedSentence.getFileName(), recordedVoice);
 
+            File mp3Audio = new File(FileHelper.getTmpSphinx4DataDir(), user.getUsername() + File.separator + recordedSentence.getFileName() + ".mp3");
+            if (!mp3Audio.exists()) {
+                try {
+                AudioAttributes audio = new AudioAttributes();
+                audio.setCodec("libmp3lame");
+                audio.setBitRate(new Integer(128000));
+                audio.setChannels(new Integer(2));
+                audio.setSamplingRate(new Integer(44100));
+                EncodingAttributes attrs = new EncodingAttributes();
+                attrs.setFormat("mp3");
+                attrs.setAudioAttributes(audio);
+                String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                Encoder encoder;
+                if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                        || env.equalsIgnoreCase("int")
+                        || env.equalsIgnoreCase("aws")) {
+                    encoder = new Encoder(new CustomFFMPEGLocator());
+                } else {
+                   encoder =new Encoder();
+                }
+                encoder.encode(recordedVoice, mp3Audio, attrs);
+                if (mp3Audio.exists()) {
+                    awsHelper.upload(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + user.getUsername() + "/" + recordedSentence.getFileName() + ".mp3", mp3Audio);
+                    FileUtils.forceDelete(mp3Audio);
+                }
+                } catch (EncoderException e) {
+                    logger.error("error when code. Message:: " + e.getMessage(),e);
+                }
+            }
+
+            if (recordedVoice.exists()) {
+                FileUtils.forceDelete(recordedVoice);
+            }
             if (recorderDAO.put(recordedSentence)) {
                 RecordedSentenceHistory recordedSentenceHistory = new RecordedSentenceHistory();
                 recordedSentenceHistory.setActor(user.getUsername());

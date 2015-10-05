@@ -3,9 +3,6 @@
 
 <!-- Header -->
 
-<!--[if lt IE 7]>
-<!-- Navigation -->
-
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div style="height:50px;">
 	<div class="navbar-header">
@@ -28,29 +25,6 @@
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 
-				<li>
-					<a href="dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
-				</li>
-				<li>
-					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
-
-					<!-- /.nav-second-level -->
-				</li>
-				<li>
-					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
-				</li>
-				<li>
-					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
-				</li>
-				<li>
-					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
-				</li>
-				<li>
-					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
-				</li>
-				<li>
-					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
-				</li>
 				<%
 
 					if (session.getAttribute("role")==null){
@@ -64,12 +38,51 @@
 					<ul>
 						<li><a href="AdminManage.jsp">Manage User</a></li>
 						<li><a href="AdminManageTranscription.jsp">Manage Transcription</a></li>
-						<li><a href="AdminManageRecorder.jsp">Manage Recorder</a></li>
+						<li><a href="AdminManageRecorder.jsp">Manage Recording</a></li>
+						<li><a href="LanguageModel.jsp">Language model</a></li>
+						<li><a href="Dictionary.jsp">Dictionary management</a></li>
 					</ul>
 				</li>
 				<%
 					}
 				%>
+
+				<li>
+					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
+				</li>
+
+				<li>
+					<a href="dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+				</li>
+
+				<li>
+					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
+				</li>
+				<li>
+					<a href="ManagementWord.jsp" ><i class="glyphicon glyphicon-comment"></i> Management Word </a>
+				</li>
+
+
+
+				<li>
+					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
+				</li>
+
+
+				<li>
+					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
+				</li>
+
+				<li>
+					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
+
+					<!-- /.nav-second-level -->
+				</li>
+
+				<li>
+					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+				</li>
+
 				<li>
 					<a href="logout.jsp" style="color: red"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 				</li>

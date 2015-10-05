@@ -24,10 +24,10 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Create Date Sentence</label>
+          <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
         </div>
         <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Modified Date Sentence</label>
+          <label class="control-label" style="margin-bottom: 0px;">Modified Date</label>
         </div>
       </div>
       <div class="col-sm-3">
@@ -73,7 +73,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add Sentence</button>
+          <button type="button" id="addUser" name="addCode">Add New Sentence</button>
 
 
         </div>
@@ -86,8 +86,8 @@
                 <tr>
                   <th>Author</th>
                   <th>Sentence</th>
-                  <th>CreateDate</th>
-                  <th>ModifiedDate</th>
+                  <th>Created date</th>
+                  <th>Modified date</th>
                   <th></th>
                 </tr>
                 </thead>
@@ -221,6 +221,7 @@
   }
 %>
 
+<script src="<%=request.getContextPath() %>/js/adminTranscription.js"></script>
 
 
 

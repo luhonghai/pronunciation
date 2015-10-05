@@ -17,20 +17,28 @@ import android.util.Log;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
-import com.cmg.android.bbcaccentamt.AppLog;
 import com.cmg.android.bbcaccentamt.R;
+import com.cmg.android.bbcaccentamt.auth.AccountManager;
 import com.cmg.android.bbcaccentamt.data.UserProfile;
+import com.cmg.android.bbcaccentamt.preferences.DatePreference;
 import com.cmg.android.bbcaccentamt.preferences.YesNoPreference;
 import com.cmg.android.bbcaccentamt.utils.AndroidHelper;
 import com.cmg.android.bbcaccentamt.utils.DeviceUuidFactory;
+import com.cmg.android.bbcaccentamt.utils.FileHelper;
+import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
-import com.cmg.android.bbcaccentamt.preferences.DatePreference;
+import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,7 +82,7 @@ public class Preferences extends PreferenceFragment implements
     private Preference prefVersion;
     private Gson gson = new Gson();
 
-    private Set<String> data;
+    private boolean isChanged = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,26 +98,6 @@ public class Preferences extends PreferenceFragment implements
                 prefVersion.setSummary("Unknown");
             }
         }
-    }
-
-    private Set<String> getUserProfiles(final SharedPreferences pref) {
-        if (data == null) {
-            data = pref.getStringSet(PREF_USERNAMES, null);
-            if (data == null) {
-                data = new HashSet<String>();
-//                UserProfile anonymous = UserProfile.getAnonymouse();
-//                anonymous.setCountry(pref.getString(KEY_COUNTRY_OF_BIRTH, ""));
-//                anonymous.setDob(pref.getString(KEY_USER_DOB, ""));
-//                anonymous.setGender(pref.getBoolean(KEY_GENDER_MALE, true));
-//                anonymous.setNativeEnglish(pref.getBoolean(KEY_NATIVE_ENGLISH, true));
-//                anonymous.setEnglishProficiency(Integer.parseInt(pref.getString(KEY_ENGLISH_PROFICIENCY, "5")));
-//                data.add(gson.toJson(anonymous));
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.putStringSet(PREF_USERNAMES, data);
-//                editor.apply();
-            }
-        }
-        return data;
     }
 
     public static void updateAdditionalProfile(final Context context, final UserProfile profile) {
@@ -132,11 +120,9 @@ public class Preferences extends PreferenceFragment implements
     }
 
     public static void addProfile(Context context, final UserProfile profile) {
-
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
+        List<String> userData = getUserData(context);
         if (userData == null) {
-            userData = new HashSet<String>();
+            userData = new ArrayList<String>();
         }
         Gson gson = new Gson();
         Log.i(TAG, "Add profile " + profile.getUsername());
@@ -166,18 +152,42 @@ public class Preferences extends PreferenceFragment implements
             profile.setHelpStatus(oldProfile.getHelpStatus());
         }
         userData.add(gson.toJson(profile));
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putStringSet(PREF_USERNAMES, userData);
-        //editor.apply();
-        editor.commit();
+        setUserData(context, userData);
+    }
+
+    public static void updateProfile(Context context, final UserProfile profile) {
+
+        List<String> userData = getUserData(context);
+        if (userData == null) {
+            userData = new ArrayList<String>();
+        }
+        Gson gson = new Gson();
+        Log.i(TAG, "Update profile " + profile.getUsername());
+        Iterator<String> iterator = userData.iterator();
+        UserProfile oldProfile = null;
+        while (iterator.hasNext()) {
+            String raw = iterator.next();
+            UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+            if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
+                oldProfile = tmp;
+                userData.remove(raw);
+                break;
+            }
+        }
+        if (oldProfile != null) {
+            profile.setIsLogin(oldProfile.isLogin());
+            profile.setIsSetup(oldProfile.isSetup());
+            profile.setHelpStatus(oldProfile.getHelpStatus());
+        }
+        userData.add(gson.toJson(profile));
+        setUserData(context, userData);
     }
 
 
     public static void setHelpStatusProfile(Context context, String username, int status) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
+        List<String> userData = getUserData(context);
         if (userData == null) {
-            userData = new HashSet<String>();
+            userData = new ArrayList<String>();
         }
         Gson gson = new Gson();
         Iterator<String> iterator = userData.iterator();
@@ -194,19 +204,16 @@ public class Preferences extends PreferenceFragment implements
 
         if (profile != null) {
             profile.setHelpStatus(status);
-            AppLog.logString("Set help status to " + status + " username: " + username);
+            SimpleAppLog.debug("Set help status to " + status + " username: " + username);
             userData.add(gson.toJson(profile));
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet(PREF_USERNAMES, userData);
-            editor.commit();
+            setUserData(context, userData);
         }
     }
 
     public static void setIsSetupProfile(Context context, String username) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> userData = pref.getStringSet(PREF_USERNAMES, null);
+        List<String> userData = getUserData(context);
         if (userData == null) {
-            userData = new HashSet<String>();
+            userData = new ArrayList<String>();
         }
         Gson gson = new Gson();
         Iterator<String> iterator = userData.iterator();
@@ -223,17 +230,15 @@ public class Preferences extends PreferenceFragment implements
 
         if (profile != null) {
             profile.setIsSetup(true);
-            AppLog.logString("Set is setup profile " + username);
+            SimpleAppLog.debug("Set is setup profile " + username);
             userData.add(gson.toJson(profile));
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet(PREF_USERNAMES, userData);
-            editor.commit();
+            setUserData(context, userData);
         }
     }
 
     private void initUsername() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        Set<String> userList = getUserProfiles(pref);
+        List<String> userList = getUserData(getActivity());
         String username = getSelectedUsername(this.getActivity());
         if ((username == null || username.length() == 0) && userList.size() == 1) {
             username = gson.fromJson(userList.iterator().next(), UserProfile.class).getUsername();
@@ -242,7 +247,7 @@ public class Preferences extends PreferenceFragment implements
     }
 
     private void selectUsername(SharedPreferences pref, String username) {
-        ArrayList<String> userList = new ArrayList<String>(data);
+        List<String> userList = getUserData(getActivity());
         Collections.sort(userList);
         CharSequence[] usernames = new CharSequence[userList.size()];
         Iterator<String> iterator = userList.iterator();
@@ -323,6 +328,7 @@ public class Preferences extends PreferenceFragment implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        isChanged = true;
         initPreferences();
         if (key.equalsIgnoreCase(KEY_ADD_USERNAME))
             addUsername(sharedPreferences);
@@ -355,6 +361,7 @@ public class Preferences extends PreferenceFragment implements
     private void addUsername(final SharedPreferences pref) {
         String username = txtUsername.getText();
         if (username != null && username.length() > 0) {
+            final List<String> data = getUserData(getActivity());
             synchronized (data) {
                 Log.i(TAG, "Add new profile " + username);
                 boolean existed = false;
@@ -374,10 +381,7 @@ public class Preferences extends PreferenceFragment implements
                     profile.setUsername(username);
                     //fillProfile(profile);
                     data.add(gson.toJson(profile));
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putStringSet(PREF_USERNAMES, data);
-                    editor.commit();
-                    //editor.apply();
+                    setUserData(getActivity(), data);
                 }
                 selectUsername(pref, username);
             }
@@ -386,6 +390,7 @@ public class Preferences extends PreferenceFragment implements
 
     public void deleteCurrentProfile(final SharedPreferences pref) {
         String username = listUsername.getValue();
+        List<String> data = getUserData(getActivity());
         if (data.size() <= 1) {
             Toast.makeText(this.getActivity(), "You must keep at least one profile!", Toast.LENGTH_LONG).show();
             return;
@@ -403,31 +408,28 @@ public class Preferences extends PreferenceFragment implements
                 }
             }
             firstUsername = gson.fromJson(data.iterator().next(), UserProfile.class).getUsername();
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet(PREF_USERNAMES, data);
-            editor.apply();
+            setUserData(getActivity(), data);
             selectUsername(pref, firstUsername);
         }
     }
 
     private void updateProfile(final SharedPreferences pref, final UserProfile profile) {
-        synchronized (data) {
-            Log.i(TAG, "Update profile " + profile.getUsername());
-            Iterator<String> iterator = data.iterator();
-            while (iterator.hasNext()) {
-                String raw = iterator.next();
-                UserProfile tmp = gson.fromJson(raw, UserProfile.class);
-                if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
-                    data.remove(raw);
-                    break;
-                }
+        List<String> data = getUserData(getActivity());
+        if (data == null)
+            data = new ArrayList<String>();
+        Log.i(TAG, "Update profile " + profile.getUsername());
+        Iterator<String> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            String raw = iterator.next();
+            UserProfile tmp = gson.fromJson(raw, UserProfile.class);
+            if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
+                data.remove(raw);
+                break;
             }
-            data.add(gson.toJson(profile));
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putStringSet(PREF_USERNAMES, data).commit();
-            //editor.apply();
-            editor.commit();
         }
+        data.add(gson.toJson(profile));
+        setUserData(getActivity(), data);
+
     }
 
     private void fillProfile(final UserProfile profile) {
@@ -437,6 +439,15 @@ public class Preferences extends PreferenceFragment implements
             profile.setNativeEnglish(cbxNativeEnglish.isChecked());
         profile.setGender(cbxMale.isChecked());
         profile.setDob(DatePreference.formatter().format(dateDob.getDate().getTime()));
+    }
+
+    @Override
+    public void onDestroy() {
+        if (isChanged) {
+
+        }
+        super.onDestroy();
+
     }
 
     @Override
@@ -458,13 +469,11 @@ public class Preferences extends PreferenceFragment implements
     }
 
     public static String getSelectedUsername(Context context) {
-        return getString(KEY_USERNAME_LIST, context, "");
+        return getCurrentUsername(context);
     }
 
     public static void setSelectedUsername(String username, Context context) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit()
-                .putString(KEY_USERNAME_LIST, username).commit();
-                //.apply();
+        setCurrentUsername(context, username);
     }
 
     public static boolean getBoolean(String key, Context context, boolean defaultValue) {
@@ -485,7 +494,7 @@ public class Preferences extends PreferenceFragment implements
     }
 
     public static String getString(String key, Context context) {
-        return getString(key,context, "");
+        return getString(key, context, "");
     }
 
     public static String getString(String key, Context context, String defaultValue) {
@@ -493,11 +502,10 @@ public class Preferences extends PreferenceFragment implements
     }
 
     public static UserProfile getCurrentProfile(Context context) {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        String username = pref.getString(KEY_USERNAME_LIST, "");
+        String username = getCurrentUsername(context);
         if (username != null && username.length() > 0) {
-            AppLog.logString("Current profile username  " + username);
-            Set<String> data = pref.getStringSet(PREF_USERNAMES, null);
+            SimpleAppLog.debug("Current profile username  " + username);
+            List<String> data = getUserData(context);
             Gson gson = new Gson();
             if (data != null && data.size() > 0) {
                 Iterator<String> iterator = data.iterator();
@@ -511,5 +519,85 @@ public class Preferences extends PreferenceFragment implements
             }
         }
         return null;
+    }
+
+    private static final Object lock = new Object();
+
+    private static String CURRENT_USERNAME;
+
+    private static List<String> USER_DATA;
+
+    private static void setCurrentUsername(Context context, String username) {
+        synchronized (lock) {
+            CURRENT_USERNAME = username;
+            File f = new File(FileHelper.getApplicationDir(context), KEY_USERNAME_LIST);
+            try {
+                FileUtils.writeStringToFile(f, username, "UTF-8");
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not save username",e);
+            }
+        }
+    }
+
+    private static String getCurrentUsername(Context context) {
+        if (CURRENT_USERNAME == null || CURRENT_USERNAME.length() == 0) {
+            synchronized (lock) {
+
+                File f = new File(FileHelper.getApplicationDir(context), KEY_USERNAME_LIST);
+                try {
+                    if (f.exists() && !f.isDirectory())
+                        CURRENT_USERNAME = FileUtils.readFileToString(f, "UTF-8");
+                } catch (IOException e) {
+                    SimpleAppLog.error("Could not load username", e);
+                }
+                if (CURRENT_USERNAME == null || CURRENT_USERNAME.length() == 0) {
+                    String oldUsername = getString(KEY_USERNAME_LIST, context, "");
+                    if (oldUsername.length() > 0) {
+                        setCurrentUsername(context, oldUsername);
+                    }
+                }
+            }
+        }
+        if (CURRENT_USERNAME == null) CURRENT_USERNAME = "";
+        return CURRENT_USERNAME;
+    }
+
+    private static List<String> getUserData(Context context) {
+        if (USER_DATA == null || USER_DATA.size() == 0) {
+            synchronized (lock) {
+                File f = new File(FileHelper.getApplicationDir(context), PREF_USERNAMES);
+                if (f.exists()) {
+                    Gson gson = new Gson();
+                    try {
+                        USER_DATA = gson.fromJson(FileUtils.readFileToString(f, "UTF-8"), new TypeToken<List<String>>() {
+                        }.getType());
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not read user data", e);
+                    }
+                }
+                if (USER_DATA == null || USER_DATA.size() ==0) {
+                    Set<String> oldUserdata = PreferenceManager.getDefaultSharedPreferences(context).getStringSet(PREF_USERNAMES, null);
+                    if (oldUserdata != null && oldUserdata.size() > 0) {
+                        setUserData(context, new ArrayList<String>(oldUserdata));
+                    }
+                }
+            }
+        }
+        if (USER_DATA == null)
+            USER_DATA = new ArrayList<String>();
+        return USER_DATA;
+    }
+
+    private static void setUserData(Context context, List<String> data) {
+        synchronized (lock) {
+            USER_DATA = data;
+            File f = new File(FileHelper.getApplicationDir(context), PREF_USERNAMES);
+            Gson gson = new Gson();
+            try {
+                FileUtils.write(f, gson.toJson(data),"UTF-8");
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not save user data", e);
+            }
+        }
     }
 }

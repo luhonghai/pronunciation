@@ -5,7 +5,13 @@ package com.cmg.vrc.common;
  */
 public class Constant {
 
+    public static String FOLDER_DICTIONARY = "dictionary_data";
+
+    public static String FOLDER_LANGUAGE_MODEL = "language_model";
+
     public static String FOLDER_RECORDED_VOICES = "voices";
+
+    public static String FOLDER_REOCORDED_VOICES_AMT = "amt_voices";
 
     public static String FOLDER_FEEDBACK = "feedback";
 
