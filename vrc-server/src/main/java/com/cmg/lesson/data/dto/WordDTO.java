@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class WordDTO {
     private String id;
+    private String word;
     private String pronunciation;
     private String definition;
     private String mp3Path;
@@ -50,6 +51,13 @@ public class WordDTO {
 
     public void setPhonemes(List<String> phonemes) {
         this.phonemes = phonemes;
+    }
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 
 }

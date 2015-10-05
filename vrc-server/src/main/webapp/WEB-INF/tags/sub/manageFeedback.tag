@@ -12,8 +12,8 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">Account</label>
-          <input type="text" name="filter-account" id="account" class="form-control" placeholder="Account">
+          <label class="control-label">UserName</label>
+          <input type="text" name="filter-account" id="account" class="form-control" placeholder="UserName">
         </div>
         <div class="form-group">
           <label class="control-label">IMEI</label>
@@ -69,7 +69,7 @@
               <table class="table table-striped table-bordered table-hover dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Account</th>
+                  <th>UserName</th>
                   <th>IMEI</th>
                   <th>App Version</th>
                   <th>OS Version</th>
