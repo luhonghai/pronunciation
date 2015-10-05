@@ -205,7 +205,7 @@ public class PhonemesDetector {
                 recognizer.startRecognition(stream);
                 SpeechResult result;
                 List<SphinxResult.Phoneme> bestTokenPhonemes = new ArrayList<SphinxResult.Phoneme>();
-                if ((result = recognizer.getResult()) != null) {
+                while ((result = recognizer.getResult()) != null) {
                     edu.cmu.sphinx.result.Result rs = result.getResult();
                     List<Token> bestTokens = rs.getBestTokens();
                     if (bestTokens != null && bestTokens.size() > 0) {
@@ -442,14 +442,33 @@ public class PhonemesDetector {
         String buttomUk = "/Volumes/DATA/Development/voice-sample/bottom/bottom-uk.wav";
         String buttomUs = "/Volumes/DATA/Development/voice-sample/bottom/bottom-us.wav";
 
-
-        PhonemesDetector detector = new PhonemesDetector(new File(buttomUk), "bottom".toLowerCase());
-        try {
-            SphinxResult rs = detector.analyze();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(gson.toJson(rs));
-        } catch (IOException e) {
-            e.printStackTrace();
+        Map<String, String> testData = new HashMap<String, String>();
+        testData.put("/Users/cmg/Desktop/voice_example/credit_1e80b112-0f75-489b-9b94-f6e12df88ca9_raw.wav", "credit");
+        testData.put("/Users/cmg/Desktop/voice_example/bullfinch_affef66a-155f-4578-802e-2d776b792d31_raw.wav", "bullfinch");
+        testData.put("/Users/cmg/Desktop/voice_example/finance_3d329c5d-38ab-4cbf-9ac2-f22f4684aa00_raw.wav", "finance");
+        testData.put("/Users/cmg/Desktop/voice_example/rabbit_5866cf48-12a4-48dd-87ee-5a5a432e792a_raw.wav", "rabbit");
+        testData.put("/Users/cmg/Desktop/voice_example/welcome_b709aadc-6445-4702-8879-73294aa66c17_raw.wav", "welcome");
+        Iterator<String> keys = testData.keySet().iterator();
+        while (keys.hasNext()) {
+            long start = System.currentTimeMillis();
+            System.out.println("===========================================");
+            String filePath = keys.next();
+            String word = testData.get(filePath);
+            PhonemesDetector detector = new PhonemesDetector(new File(
+                    filePath)
+                    , word.toLowerCase());
+            SphinxResult rs = null;
+            try {
+                rs = detector.analyze();
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                System.out.println(gson.toJson(rs));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println("### Analyze word " + word + ". File path: " + filePath
+               + ". Execution time: " + (System.currentTimeMillis() - start) + "ms"
+                + ". Score: " + ((rs == null) ? -1 : rs.getScore()));
         }
+
     }
 }
