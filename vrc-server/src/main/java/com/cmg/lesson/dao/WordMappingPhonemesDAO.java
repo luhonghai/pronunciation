@@ -47,7 +47,7 @@ public class WordMappingPhonemesDAO extends DataAccess<WordMappingPhonemes> {
      * @return true if idWord is existed
      */
     public boolean checkExisted(String idWord)throws Exception{
-        List<WordMappingPhonemes> list = list("WHERE idWord == :1", idWord);
+        List<WordMappingPhonemes> list = list("WHERE wordID == :1", idWord);
         if (list != null && list.size() > 0)
             return true;
         return false;

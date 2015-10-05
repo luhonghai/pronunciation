@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lantb on 2015-10-01.
@@ -107,7 +108,7 @@ public class WordCollectionService {
      * @param isDeleted
      * @return list contains all words with filter column isDeleted
      */
-    public ArrayList<WordCollection> listAll(boolean isDeleted){
+    public List<WordCollection> listAll(boolean isDeleted){
         WordCollectionDAO dao = new WordCollectionDAO();
         try {
             return dao.listAll(isDeleted);
@@ -117,6 +118,16 @@ public class WordCollectionService {
         return null;
     }
 
+
+    public ArrayList<WordCollection> searchWord(String word){
+        WordCollectionDAO dao = new WordCollectionDAO();
+        try {
+
+        }catch (Exception e){
+            logger.error("can not get word in database like : " + word + " because : " + e.getMessage());
+        }
+        return null;
+    }
 
 
 

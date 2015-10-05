@@ -1,15 +1,12 @@
 package com.cmg.lesson.services;
 
-import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.dao.WordMappingPhonemesDAO;
-import com.cmg.lesson.data.dto.PhonemeDTO;
 import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,13 +101,16 @@ public class WordMappingPhonemesService {
         WordCollectionService wcSer = new WordCollectionService();
         String word = null;
         try {
-            ArrayList<WordCollection> list = wcSer.listAll(false);
+            List<WordCollection> list = wcSer.listAll(false);
+
             if(list == null || list.size() == 0){
+                System.out.println("list equal null");
                 return;
             }
             DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
             for(WordCollection wc : list){
                 word = wc.getWord();
+                System.out.println("check word : " + word);
                 List<String> phonemes = helper.getCorrectPhonemes(wc.getWord());
                 if (phonemes != null && phonemes.size() > 0) {
                     if(checkExist(wc.getId())){

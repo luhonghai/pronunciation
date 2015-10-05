@@ -1,3 +1,4 @@
+import com.cmg.lesson.services.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.PhonemeScoreDB;
@@ -37,8 +38,11 @@ public class UnitTesting {
             } else {
                 System.out.println("No phonemes found");
             }*/
-            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
-            walker.generateDictionary();
+        /*    OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
+            walker.generateDictionary();*/
+
+            WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updateDatabase();
         } catch (Exception e) {
             e.printStackTrace();
         }

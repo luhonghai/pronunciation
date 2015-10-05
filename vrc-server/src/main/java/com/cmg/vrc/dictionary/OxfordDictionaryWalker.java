@@ -42,6 +42,10 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         }
         gson = new Gson();
     }
+    public OxfordDictionaryWalker(File targetDir, boolean isFetchAudio) {
+        this(targetDir);
+        setFetchAudio(isFetchAudio);
+    }
 
     public static DictionaryItem getExistingDictionary(String word) {
         Gson gson = new Gson();
@@ -59,14 +63,14 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
     @Override
     public void execute(String word) {
         File wordData = new File(getTargetDir(), word +".json");
-        if (wordData.exists()) {
+        /*if (wordData.exists()) {
             try {
                 onDetectWord(gson.fromJson(FileUtils.readFileToString(wordData, "UTF-8"), DictionaryItem.class));
                 return;
             } catch (Exception ex) {
 
             }
-        }
+        }*/
 
         DictionaryItem item = new DictionaryItem(word);
         String url = "";
@@ -108,15 +112,17 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                     String definition = doc.select(".definition").first().text();
                     item.setDefinition(definition);
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
                 if (isFetchAudio()) {
+                    System.out.println("start audio parse");
                     // Find line breaks
                     //item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
                     // Find audio sound url. Type mp3
                     try {
                         String audioUrl = doc.select(".audio_play_button").first().attr("data-src-mp3");
                         if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
+                            System.out.println("audioURL : " + audioUrl);
                             item.setAudioUrl(audioUrl);
                             if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
                                 getTargetDir().mkdirs();
@@ -166,7 +172,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
     public static void generateDictionary() throws IOException, MessagingException {
         File targetDir = new File(FileHelper.getTmpSphinx4DataDir(), "dictionary");
         DictionaryWalker walker = new OxfordDictionaryWalker(targetDir);
-        walker.setFetchAudio(false);
+       // walker.setFetchAudio(false);
         final File wordXml = new File(targetDir,"words.xml");
         if (wordXml.exists()) {
             FileUtils.forceDelete(wordXml);
@@ -181,7 +187,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 System.out.println("Write word " + item.getWord() + " to list");
                 try {
                     WordCollectionService service = new WordCollectionService();
-                    service.addWord(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),true);
+                    service.addWord(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),false);
                     FileUtils.writeStringToFile(wordXml, "\n\t\t<item>" + item.getWord() + "|" + item.getPronunciation() + "</item>", true);
                 } catch (IOException e) {
                     e.printStackTrace();

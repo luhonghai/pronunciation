@@ -9,6 +9,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,19 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
 
     /**
      *
+     * @param id
+     * @return word filter by id
+     * @throws Exception
+     */
+    public WordCollection getByID(String id) throws Exception{
+        List<WordCollection> list = list("WHERE id == :1", id);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
+    /**
+     *
      * @param word
      * @return return true if word exist in database
      * @throws Exception
@@ -75,8 +89,8 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @return list contains words filter by column isDeleted
      * @throws Exception
      */
-    public ArrayList<WordCollection> listAll(boolean isDeleted) throws Exception{
-        ArrayList<WordCollection> list = (ArrayList<WordCollection>) list("WHERE isDeleted == :1", isDeleted);
+    public List<WordCollection> listAll(boolean isDeleted) throws Exception{
+        List<WordCollection> list =  list("WHERE isDeleted == :1", isDeleted);
         if (list != null && list.size() > 0){
             return list;
         }
