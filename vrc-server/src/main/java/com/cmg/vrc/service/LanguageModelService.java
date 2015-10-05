@@ -63,6 +63,7 @@ public class LanguageModelService {
                     }
                 }
                 listener.onMessage("Sentences saved successfully!");
+                FileUtils.write(fileScript, "LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n", "UTF-8", true);
                 String command = "text2wfreq < " + fileSentences.getAbsolutePath() + " | wfreq2vocab > " + fileVocab.getAbsolutePath();
                 listener.onMessage("Append command: " + command);
                 FileUtils.write(fileScript, command + "\n", "UTF-8", true);
