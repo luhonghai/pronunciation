@@ -47,6 +47,19 @@ public class WordMappingPhonemesDAO extends DataAccess<WordMappingPhonemes> {
     /**
      *
      * @param idWord
+     * @return
+     * @throws Exception
+     */
+    public List<WordMappingPhonemes> getByWordID(String idWord) throws Exception{
+        List<WordMappingPhonemes> list = list("WHERE wordID == :1 and isDeleted == :2", idWord, false);
+        if (list != null && list.size() > 0)
+            return list;
+        return null;
+    }
+
+    /**
+     *
+     * @param idWord
      * @return true if idWord is existed
      */
     public boolean checkExisted(String idWord)throws Exception{
