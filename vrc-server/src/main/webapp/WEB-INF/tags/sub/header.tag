@@ -58,10 +58,16 @@
 				<li>
 					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
+				<li>
+					<a href="ManagementWord.jsp" ><i class="glyphicon glyphicon-comment"></i> Management Word </a>
+				</li>
+
+
 
 				<li>
 					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
 				</li>
+
 
 				<li>
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>

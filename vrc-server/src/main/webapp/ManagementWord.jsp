@@ -1,16 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: CMGT400
-  Date: 10/5/2015
-  Time: 2:38 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="x" tagdir="/WEB-INF/tags/sub"%>
+<t:main pageTitle="Wholesale delivery system" index="0">
+  <%--<x:admin pageTitle="admin"></x:admin>--%>
+  <x:managementWord pageTitle="managementWord"></x:managementWord>
 
-</body>
-</html>
+</t:main>

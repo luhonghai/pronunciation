@@ -1,65 +1,19 @@
+<%@tag description="appDetail" pageEncoding="UTF-8" %>
+<%@attribute name="pageTitle" required="true" %>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Admin Manage Transcription</h1>
+      <h1 class="page-header">Management Word</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
   <!-- /.row -->
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
-        </div>
-        <div class="form-group" style="margin-top: 40px;text-align: left;">
-          <label class="control-label" style="margin-bottom: 0px;">Modified Date</label>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateFrom' placeholder="From" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='ModifiedDateFrom' placeholder="To"/>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='ModifiedDateTo' placeholder="To"/>
-          </div>
-        </div>
 
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Sentence</label>
-          <input type="text" name="filter-sentence" id="sentence" class="form-control" placeholder="Sentence">
-        </div>
-        <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-
-      </div>
-    </div>
-  </div>
   <div class="row">
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add New Sentence</button>
+          <button type="button" id="addUser" name="addCode">Add New Word</button>
 
 
         </div>
@@ -70,10 +24,10 @@
               <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                 <thead>
                 <tr>
-                  <th>Author</th>
-                  <th>Sentence</th>
-                  <th>Created date</th>
-                  <th>Modified date</th>
+                  <th>Word</th>
+                  <th>Definition</th>
+                  <th>Pronunciation</th>
+                  <th>Audio</th>
                   <th></th>
                 </tr>
                 </thead>
@@ -105,15 +59,27 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-            <h1 align="center">Add Sentence</h1>
+            <h1 align="center">Add Word</h1>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
 
-                <label class="col-xs-4  col-sm-3 control-label ">Sentence:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Wrod:</label>
                 <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addsentence" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                  <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="addpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="addDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
               </div>
               <div class="modal-footer">
@@ -141,15 +107,27 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-            <h1 align="center">Edit Sentence</h1>
+            <h1 align="center">Edit Word</h1>
             <form name="Edit" class="form-horizontal"
                   style="margin-top: 25px" id="editform">
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">Sentence:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Wrod:</label>
                 <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editsentence" name="editsentence" class=" form-control" style="padding-left: 0px;">
+                  <input  type="text" id="editWord" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
 
               </div>
@@ -174,7 +152,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Sentence</h1>
+        <h1 class="modal-title" align="center">Delete Word</h1>
       </div>
       <form name="form-delete" >
         <div class="modal-body">
