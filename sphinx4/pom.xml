@@ -15,8 +15,6 @@
 
   <modules>
     <module>sphinx4-core</module>
-    <module>sphinx4-data</module>
-    <module>sphinx4-samples</module>
   </modules>
 
   <dependencies>
