@@ -90,7 +90,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @throws Exception
      */
     public List<WordCollection> listAll(boolean isDeleted) throws Exception{
-        List<WordCollection> list =  list("WHERE isDeleted == :1", isDeleted);
+        List<WordCollection> list =  list(" WHERE isDeleted == :1", isDeleted);
         if (list != null && list.size() > 0){
             return list;
         }

@@ -35,6 +35,21 @@ public class WordMappingPhonemesService {
 
     /**
      *
+     * @param idWord
+     * @return
+     */
+    public List<WordMappingPhonemes> getByWordID(String idWord){
+        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        try {
+            return dao.getByWordID(idWord);
+        }catch (Exception e){
+            logger.error("get by word id did not work cause : " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param wordID
      * @param phonemes
      * @param version
@@ -46,6 +61,7 @@ public class WordMappingPhonemesService {
         if(checkExist(wordID)){
             updateDeleted(wordID,true);
         }
+        System.out.println("word id : " + wordID);
         WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
         ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
         try {
@@ -113,9 +129,6 @@ public class WordMappingPhonemesService {
                 System.out.println("check word : " + word);
                 List<String> phonemes = helper.getCorrectPhonemes(wc.getWord());
                 if (phonemes != null && phonemes.size() > 0) {
-                    if(checkExist(wc.getId())){
-                        updateDeleted(wc.getId(),true);
-                    }
                     int version = getMaxVersion();
                     logger.info("add mapping word " + wc.getWord());
                     addMapping(wc.getId(), phonemes, version, false);
