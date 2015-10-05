@@ -25,29 +25,6 @@
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 
-				<li>
-					<a href="dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
-				</li>
-				<li>
-					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
-
-					<!-- /.nav-second-level -->
-				</li>
-				<li>
-					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
-				</li>
-				<li>
-					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
-				</li>
-				<li>
-					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
-				</li>
-				<li>
-					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
-				</li>
-				<li>
-					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
-				</li>
 				<%
 
 					if (session.getAttribute("role")==null){
@@ -69,6 +46,37 @@
 				<%
 					}
 				%>
+
+				<li>
+					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
+				</li>
+
+				<li>
+					<a href="dashboard.jsp"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+				</li>
+
+				<li>
+					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
+				</li>
+
+				<li>
+					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
+				</li>
+
+				<li>
+					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
+				</li>
+
+				<li>
+					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
+
+					<!-- /.nav-second-level -->
+				</li>
+
+				<li>
+					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+				</li>
+
 				<li>
 					<a href="logout.jsp" style="color: red"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
 				</li>

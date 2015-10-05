@@ -78,6 +78,19 @@ public class TranscriptionDAO extends DataAccess<Transcription> {
         }
     }
 
+    public List<Transcription> listAll(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + Transcription.class.getCanonicalName());
+        try {
+            return detachCopyAllList(pm, q.execute());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
 
 
