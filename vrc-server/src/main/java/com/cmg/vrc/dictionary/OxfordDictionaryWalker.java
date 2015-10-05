@@ -1,6 +1,7 @@
 package com.cmg.vrc.dictionary;
 
 
+import com.cmg.lesson.services.WordCollectionService;
 import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
@@ -23,6 +24,8 @@ import java.util.regex.Pattern;
  * Created by luhonghai on 9/19/14.
  */
 public class OxfordDictionaryWalker extends DictionaryWalker {
+
+    private static final int TIMEOUT = 3 * 60 * 1000;
 
     private static final String ENCODE = "UTF-8";
 
@@ -77,7 +80,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         try {
            // logger.log(Level.INFO, "Fetch word: " + word + ". URL: " + url);
 
-            FileUtils.copyURLToFile(new URL(url), tmpSource);
+            FileUtils.copyURLToFile(new URL(url), tmpSource, TIMEOUT, TIMEOUT);
             Document doc = Jsoup.parse(tmpSource, ENCODE);
             Element title = doc.select(".pageTitle").first();
             String mTitle = "";
@@ -99,6 +102,12 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                         item.setPronunciation(tp);
                     }
                 } catch (Exception e) {
+
+                }
+                try {
+                    String definition = doc.select(".definition").first().text();
+                    item.setDefinition(definition);
+                }catch (Exception e){
 
                 }
                 if (isFetchAudio()) {
@@ -168,8 +177,11 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         walker.setListener(new DictionaryListener() {
             @Override
             public void onDetectWord(DictionaryItem item) {
+
                 System.out.println("Write word " + item.getWord() + " to list");
                 try {
+                    WordCollectionService service = new WordCollectionService();
+                    service.addWord(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),true);
                     FileUtils.writeStringToFile(wordXml, "\n\t\t<item>" + item.getWord() + "|" + item.getPronunciation() + "</item>", true);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -204,5 +216,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 wordXml.getAbsolutePath()
         });
     }
+
+
 
 }
