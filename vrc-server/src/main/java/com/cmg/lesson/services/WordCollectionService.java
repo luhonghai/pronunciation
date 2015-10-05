@@ -97,7 +97,8 @@ public class WordCollectionService {
      */
     public void loadWordToDataBase(File fileWords){
         try {
-            OxfordDictionaryWalker.generateDictionary();
+            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(fileWords);
+            walker.generateDictionary();
         }catch (Exception e){
             logger.error("can not load data to database : " + e.getMessage());
         }
@@ -119,15 +120,7 @@ public class WordCollectionService {
     }
 
 
-    public ArrayList<WordCollection> searchWord(String word){
-        WordCollectionDAO dao = new WordCollectionDAO();
-        try {
 
-        }catch (Exception e){
-            logger.error("can not get word in database like : " + word + " because : " + e.getMessage());
-        }
-        return null;
-    }
 
 
 

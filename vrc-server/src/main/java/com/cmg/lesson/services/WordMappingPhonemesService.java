@@ -138,7 +138,6 @@ public class WordMappingPhonemesService {
         }catch (Exception e){
             logger.error("can not check word :"+word+ " in beep cause : " + e.getMessage());
         }
-
     }
 
 }
