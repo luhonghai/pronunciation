@@ -1,11 +1,15 @@
+import com.cmg.lesson.services.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.PhonemeScoreDB;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import com.cmg.vrc.service.PhonemeScoreService;
 import com.cmg.vrc.service.UserVoiceModelService;
 import com.cmg.vrc.service.amt.TranscriptionService;
+import com.cmg.vrc.sphinx.DictionaryHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,29 +28,21 @@ public class UnitTesting {
 
             }
             System.out.println(sr.getMaxVersion("company@c-mg.com"));*/
-            PhonemeScoreService sr = new PhonemeScoreService();
-            PhonemeScoreDB s1 = new PhonemeScoreDB();
-            s1.setTotalScore(8);
-            s1.setPhonemeWord("H");
-            s1.setUsername("company@c-mg.com");
-            s1.setVersion(1);
-            s1.setIndex(3);
-            PhonemeScoreDB s2 = new PhonemeScoreDB();
-            s2.setTotalScore(8);
-            s2.setPhonemeWord("A");
-            s2.setUsername("company@c-mg.com");
-            s2.setVersion(1);
-            s2.setIndex(1);
-            List<PhonemeScoreDB> list = new ArrayList<PhonemeScoreDB>();
-            list.add(s1);
-            list.add(s2);
-            list = sr.sortList(list);
-            for(PhonemeScoreDB m : list){
-                System.out.println(m.getPhonemeWord() + "=" + m.getIndex());
+          /*  DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
+            List<String> phonemes = helper.getCorrectPhonemes("bottom");
+            if (phonemes != null && phonemes.size() > 0) {
+                System.out.println("Found phonemes:");
+                for (String s : phonemes) {
+                    System.out.println(s);
+                }
+            } else {
+                System.out.println("No phonemes found");
+            }*/
+        /*    OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
+            walker.generateDictionary();*/
 
-            }
-
-
+            WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updateDatabase();
         } catch (Exception e) {
             e.printStackTrace();
         }

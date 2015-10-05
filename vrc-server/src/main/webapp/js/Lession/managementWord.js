@@ -13,7 +13,7 @@ function listTranscription(){
         "bServerSide": true,
 
         "ajax": {
-            "url": "TranscriptionServlet",
+            "url": "ManagementWordServlet",
             "type": "POST",
             "dataType": "json",
             "data": {
@@ -24,21 +24,45 @@ function listTranscription(){
 
         "columns": [{
             "sWidth": "20%",
-            "data": "author",
+            "data": "word",
             "sDefaultContent": ""
 
         }, {
             "sWidth": "35%",
-            "data": "sentence",
+            "data": "definition",
             "sDefaultContent": ""
         }, {
             "sWidth": "15%",
-            "data": "createdDate",
+            "data": "pronunciation",
             "sDefaultContent": ""
-        }, {
-            "sWidth": "15%",
-            "data": "modifiedDate",
-            "sDefaultContent": ""
+        },{
+            "sWidth": "3%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent":"",
+            "mRender": function (data, type, full) {
+                var audioUrl =data.mp3Path
+                $divs=$('<div id="'+data.id+'" class="cp-jplayer">' + '</div>' +
+                '<div class="prototype-wrapper"> ' +
+                '<div id="'+data.id+"s"+'" class="cp-container">' +
+                '<div class="cp-buffer-holder"> ' +
+                '<div class="cp-buffer-1">' + '</div>' +
+                '<div class="cp-buffer-2">' + '</div>' +
+                '</div>' +
+                '<div class="cp-progress-holder">' +
+                '<div class="cp-progress-1">' + '</div>' +
+                '<div class="cp-progress-2">' + '</div>' +
+                '</div>' +
+                '<div class="cp-circle-control">' + '</div>' +
+                '<ul class="cp-controls">' +
+                '<li>'+'<a class="cp-play" tabindex="1">' + 'play' + '</a>' + '</li>' +
+                '<li>'+'<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
+                '</ul>' +
+                '</div>');
+                $divs.attr("audioUrl", audioUrl);
+                return $("<div/>").append($divs).html();
+                //return '<i class="fa fa-file-audio-o fa-2x"></i>';
+            }
         },{
             "sWidth": "15%",
             "data": null,
@@ -47,9 +71,10 @@ function listTranscription(){
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 $button.attr("id-column", data.id);
-                $button.attr("sentence", data.sentence);
-                $button.attr("last", data.lastName);
-                $button.attr("role", data.role);
+                $button.attr("word", data.word);
+                $button.attr("pronunciation", data.pronunciation);
+                $button.attr("definition", data.definition);
+                $button.attr("mp3Path", data.mp3Path);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -60,16 +85,23 @@ function listTranscription(){
 }
 
 
-function addsentence(){
+function addWord(){
     $(document).on("click","#yesadd", function(){
-        var sentence = $("#addsentence").val();
+        var word = $("#addWord").val();
+        var definition = $("#addDifinition").val();
+        var pronunciation = $("#addpronunciation").val();
+        var mp3Url = $("#addPath").val();
+
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementWordServlet",
             type: "POST",
             dataType: "text",
             data: {
                 add: "add",
-                sentence: sentence
+                word: word,
+                definition:definition,
+                pronunciation:pronunciation,
+                mp3Url:mp3Url
             },
             success: function (data) {
                 if (data == "success") {
@@ -96,7 +128,12 @@ function addsentence(){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
-        $("#addusername").val("");
+        $("#addWord").val("");
+        $("#addpronunciation").val("");
+        $("#addDifinition").val("");
+        $("#addPath").val("");
+
+
     });
 }
 
@@ -110,11 +147,11 @@ function deletes(){
     });
 }
 
-function deletesentence(){
+function deleteWord(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementWordServlet",
             type: "POST",
             dataType: "text",
             data: {
@@ -140,27 +177,40 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var sentence = $(this).attr('sentence');
-        $("#editsentence").val(sentence);
+        var word = $(this).attr('word');
+        var pronunciation = $(this).attr('pronunciation');
+        var definition = $(this).attr('definition');
+        var mp3Path = $(this).attr('mp3Path');
+
+        $("#editWord").val(word);
         $("#idedit").val(idd);
+        $("#editpronunciation").val(pronunciation);
+        $("#editDifinition").val(definition);
+        $("#editPath").val(mp3Path);
     });
 
 }
 
-function editsentence(){
+function editWord(){
     $(document).on("click","#yesedit", function(){
 
         var id = $("#idedit").val();
-        var sentence = $("#editsentence").val();
+        var word = $("#editWord").val();
+        var pronunciation = $("#editpronunciation").val();
+        var definition = $("#editDifinition").val();
+        var mp3Path = $("#editPath").val();
 
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementWordServlet",
             type: "POST",
             dataType: "text",
             data: {
                 edit: "edit",
                 id: id,
-                sentence: sentence
+                word: word,
+                pronunciation:pronunciation,
+                definition:definition,
+                mp3Path:mp3Path
             },
             success: function (data) {
                 if (data == "success") {
@@ -185,16 +235,12 @@ function editsentence(){
 
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
-    dateFrom();
-    dateTo();
-    dateFrom1();
-    dateTo1();
     add();
-    addsentence();
+    addWord();
     edit();
-    editsentence();
+    editWord();
     deletes();
-    deletesentence();
+    deleteWord();
     listTranscription();
 });
 

@@ -15,6 +15,17 @@ public class DictionaryItem {
 
     private String audioFile;
 
+    public String getDefinition() {
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
+    }
+
+    private String definition;
+
+
     public DictionaryItem() {
 
     }
