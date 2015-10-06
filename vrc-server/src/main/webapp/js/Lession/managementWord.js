@@ -2,6 +2,7 @@
  * Created by CMGT400 on 10/5/2015.
  */
 var myTable;
+var iphonemes=0;
 
 function listTranscription(){
 
@@ -46,27 +47,29 @@ function listTranscription(){
             "bSortable": false,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                var audioUrl =data.mp3Path
-                $divs=$('<div id="'+data.id+'" class="cp-jplayer">' + '</div>' +
-                '<div class="prototype-wrapper"> ' +
-                '<div id="'+data.id+"s"+'" class="cp-container">' +
-                '<div class="cp-buffer-holder"> ' +
-                '<div class="cp-buffer-1">' + '</div>' +
-                '<div class="cp-buffer-2">' + '</div>' +
-                '</div>' +
-                '<div class="cp-progress-holder">' +
-                '<div class="cp-progress-1">' + '</div>' +
-                '<div class="cp-progress-2">' + '</div>' +
-                '</div>' +
-                '<div class="cp-circle-control">' + '</div>' +
-                '<ul class="cp-controls">' +
-                '<li>'+'<a class="cp-play" tabindex="1">' + 'play' + '</a>' + '</li>' +
-                '<li>'+'<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
-                '</ul>' +
-                '</div>');
-                $divs.attr("audioUrl", audioUrl);
-                return $("<div/>").append($divs).html();
-                //return '<i class="fa fa-file-audio-o fa-2x"></i>';
+                if (data.mp3Path!=null) {
+                    var audioUrl = data.mp3Path;
+                    $divs = $('<div id="' + data.id + '" class="cp-jplayer">' + '</div>' +
+                    '<div class="prototype-wrapper"> ' +
+                    '<div id="' + data.id + "s" + '" class="cp-container">' +
+                    '<div class="cp-buffer-holder"> ' +
+                    '<div class="cp-buffer-1">' + '</div>' +
+                    '<div class="cp-buffer-2">' + '</div>' +
+                    '</div>' +
+                    '<div class="cp-progress-holder">' +
+                    '<div class="cp-progress-1">' + '</div>' +
+                    '<div class="cp-progress-2">' + '</div>' +
+                    '</div>' +
+                    '<div class="cp-circle-control">' + '</div>' +
+                    '<ul class="cp-controls">' +
+                    '<li>' + '<a class="cp-play" tabindex="1">' + 'play' + '</a>' + '</li>' +
+                    '<li>' + '<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
+                    '</ul>' +
+                    '</div>');
+                    $divs.attr("audioUrl", audioUrl);
+                    return $("<div/>").append($divs).html();
+                    //return '<i class="fa fa-file-audio-o fa-2x"></i>';
+                }
             }
         },{
             "sWidth": "15%",
@@ -93,6 +96,7 @@ function listTranscription(){
 
 function addWord(){
     $(document).on("click","#yesadd", function(){
+        var i;
         var word = {
             word: $("#addWord").val(),
             definition: $("#addDifinition").val(),
@@ -100,8 +104,9 @@ function addWord(){
             mp3Path : $("#addPath").val(),
             phonemes : []
         };
+        for(i=0;i<iphonemes;i++){
             word.phonemes.push($("#").val());
-
+        }
         $.ajax({
             url: "ManagementWordServlet",
             type: "POST",
@@ -135,6 +140,8 @@ function addWord(){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
+        $("#addphoneme").html("");
+        iphonemes=0;
         $("#addWord").val("");
         $("#addpronunciation").val("");
         $("#addDifinition").val("");
@@ -199,7 +206,7 @@ function edit(){
                 if(data!=null) {
                     var i;
                     for (i = 0; i < data.size; i++) {
-                        $("#listPhonemes").html("'" + i + "': <input type='text' id=" + i + " class='form-control' value='" + data.phonemes + "'>");
+                        $("#listPhonemes").append("'" + i + "': <input type='text' id=" + i + " class='form-control' value='" + data.phonemes + "'>");
                     }
                 }else{
                     $("#listPhonemes").html("null");
@@ -271,8 +278,10 @@ function loadAudio(){
 }
 function addPhonemes(){
     $(document).on("click","#addPhonemes", function(){
+        $("#addphoneme").append("<input type='text' id='"+iphonemes+"' class='form-control col-sm-9 col-sm-offset-3'>");
+        $("#"+iphonemes+"").css();
+        iphonemes=iphonemes+1;
 
-        $("#addphoneme").html("<input type='text' id='' class='form-control'>");
     });
 }
 
@@ -287,6 +296,7 @@ $(document).ready(function(){
     editWord();
     deletes();
     deleteWord();
+    addPhonemes();
     listTranscription();
 });
 
