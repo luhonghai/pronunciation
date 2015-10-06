@@ -1,5 +1,7 @@
 import com.cmg.lesson.dao.WordCollectionDAO;
+import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.services.WordCollectionService;
 import com.cmg.lesson.services.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
@@ -45,9 +47,21 @@ public class UnitTesting {
 
             /*WordMappingPhonemesService service = new WordMappingPhonemesService();
             service.updateDatabase();*/
-
+/*
             WordCollectionDAO dao = new WordCollectionDAO();
-           dao.updateWordInformation("000e7c11-3800-4c81-a8cf-ba1538edda08","The state or experience of being alienated","http://www.oxforddictionaries.com/media/english/uk_pron/a/ali/alien/alienation__gb_1_8.mp3");
+            List<WordCollection> list = dao.search("ac","desc",10,10);
+            if(list!=null && list.size() > 0){
+                for(WordCollection word : list){
+                    System.out.println(word.getWord());
+                }
+            }*/
+
+            WordCollectionService sc = new WordCollectionService();
+           ListWord list =  sc.searchWord("", "asc", 0, 10, 1);
+            List<WordCollection> collection = list.getData();
+            for(WordCollection w : collection){
+                System.out.println(w.getWord() + " - " + w.getMp3Path());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
