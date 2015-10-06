@@ -89,8 +89,9 @@ public class ManagementWordServlet extends HttpServlet {
         if(request.getParameter("delete")!=null){
             String id= request.getParameter("id");
             try {
-
-                response.getWriter().write("success");
+                WordDTO dto = wordCollectionService.deleteWord(id);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
             }catch (Exception e){
                 response.getWriter().write("error");
                 e.printStackTrace();
