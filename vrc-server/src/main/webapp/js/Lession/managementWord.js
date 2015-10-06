@@ -31,12 +31,14 @@ function listTranscription(){
             "sDefaultContent": ""
 
         }, {
-            "sWidth": "35%",
-            "data": "definition",
-            "sDefaultContent": ""
-        }, {
             "sWidth": "15%",
             "data": "pronunciation",
+            "bSortable": false,
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "35%",
+            "data": "definition",
+            "bSortable": false,
             "sDefaultContent": ""
         },{
             "sWidth": "3%",
@@ -136,8 +138,6 @@ function add(){
         $("#addpronunciation").val("");
         $("#addDifinition").val("");
         $("#addPath").val("");
-
-
     });
 }
 
@@ -181,13 +181,9 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var word = $(this).attr('word');
-        var pronunciation = $(this).attr('pronunciation');
         var definition = $(this).attr('definition');
         var mp3Path = $(this).attr('mp3Path');
-        $("#editWord").val(word);
         $("#idedit").val(idd);
-        $("#editpronunciation").val(pronunciation);
         $("#editDifinition").val(definition);
         $("#editPath").val(mp3Path);
         $.ajax({
@@ -199,8 +195,14 @@ function edit(){
                 id: idd
             },
             success: function (data) {
-                $("#listPhonemes").html("");
-
+                if(data!=null) {
+                    var i;
+                    for (i = 0; i < data.size; i++) {
+                        $("#listPhonemes").html("'" + i + "': <input type='text' id=" + i + " class='form-control>' value='" + data.phonemes + "'");
+                    }
+                }else{
+                    $("#listPhonemes").html("null");
+                }
             },
             error: function () {
                 alert("error");
@@ -214,12 +216,17 @@ function edit(){
 
 function editWord(){
     $(document).on("click","#yesedit", function(){
-
-        var id = $("#idedit").val();
-        var word = $("#editWord").val();
-        var pronunciation = $("#editpronunciation").val();
-        var definition = $("#editDifinition").val();
-        var mp3Path = $("#editPath").val();
+        var phonemes = $(this).attr('phonemes');
+        var word = {
+            id : $("#idedit").val(),
+            definition: $("#editDifinition").val(),
+            mp3Path : $("#editPath").val(),
+            phonemes : []
+        };
+        var i;
+        for(i=0;i<phonemes.size();i++){
+            word.phonemes.push($("#"+i+"").val());
+        }
 
         $.ajax({
             url: "ManagementWordServlet",
@@ -227,11 +234,7 @@ function editWord(){
             dataType: "text",
             data: {
                 edit: "edit",
-                id: id,
-                word: word,
-                pronunciation:pronunciation,
-                definition:definition,
-                mp3Path:mp3Path
+                word: JSON.stringify(word)// to json word,
             },
             success: function (data) {
                 if (data == "success") {

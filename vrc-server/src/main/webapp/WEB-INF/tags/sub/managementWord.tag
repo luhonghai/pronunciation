@@ -25,8 +25,8 @@
                 <thead>
                 <tr>
                   <th>Word</th>
-                  <th>Definition</th>
                   <th>Pronunciation</th>
+                  <th>Definition</th>
                   <th>Audio</th>
                   <th></th>
                 </tr>
@@ -113,14 +113,6 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editWord" name="addsentence" class=" form-control" style="padding-left: 0px;">
-                </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;">
-                </div>
                 <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
