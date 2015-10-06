@@ -77,7 +77,7 @@
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="addDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
+                <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Submit</button>
                 <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
 
               </div>
@@ -124,7 +124,7 @@
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>

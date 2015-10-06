@@ -105,7 +105,10 @@ function addWord(){
             phonemes : []
         };
         for(i=0;i<iphonemes;i++){
-            word.phonemes.push($("#").val());
+            word.phonemes.push({
+                index: i,
+                phoneme: $("#"+i+"").val()
+            });
         }
         $.ajax({
             url: "ManagementWordServlet",
@@ -113,7 +116,7 @@ function addWord(){
             dataType: "text",
             data: {
                 add: "add",
-                word: JSON.parse(word)
+                word: JSON.stringify(word)
             },
             success: function (data) {
                 if (data == "success") {
@@ -278,8 +281,8 @@ function loadAudio(){
 }
 function addPhonemes(){
     $(document).on("click","#addPhonemes", function(){
-        $("#addphoneme").append("<input type='text' id='"+iphonemes+"' class='form-control col-sm-9 col-sm-offset-3'>");
-        $("#"+iphonemes+"").css();
+        $("#addphoneme").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemes+"' class='form-control'></div>");
+        $("#"+iphonemes+"").css("padding-left: 0px;");
         iphonemes=iphonemes+1;
 
     });
