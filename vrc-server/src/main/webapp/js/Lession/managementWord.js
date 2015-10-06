@@ -271,6 +271,7 @@ function loadAudio(){
 }
 function addPhonemes(){
     $(document).on("click","#addPhonemes", function(){
+
         $("#addphoneme").html("<input type='text' id='' class='form-control'>");
     });
 }

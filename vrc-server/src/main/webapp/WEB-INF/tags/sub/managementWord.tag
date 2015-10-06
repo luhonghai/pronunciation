@@ -170,3 +170,4 @@
     </div>
   </div>
 </div>
+<script src="<%=request.getContextPath() %>/js/Lession/managementWord.js"></script>

@@ -25,13 +25,19 @@ public class ManagementWordServlet extends HttpServlet {
         WordDTO wordDTO=new WordDTO();
         Gson gson = new Gson();
         if(request.getParameter("list")!=null){
-            int start = (Integer)StringUtil.isNull(request.getParameter("start"),0);
-            int length = (Integer)StringUtil.isNull(request.getParameter("length"),0);
-            int draw = (Integer)StringUtil.isNull(request.getParameter("draw"), 0);
+            int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
+            int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
+            int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
             String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
             ListWord list = wordCollectionService.searchWord(search,order,start,length,draw);
-            String json = gson.toJson(list);
+            try {
+                String json = gson.toJson(list);
+                response.getWriter().write(json);
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
         }
         if(request.getParameter("add")!=null){
             String wordAdd=request.getParameter("word");
@@ -88,6 +94,6 @@ public class ManagementWordServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }
