@@ -4,6 +4,7 @@ import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.dto.WordDTO;
 import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -212,6 +213,28 @@ public class WordCollectionService {
     }
 
     /**
+     *
+     * @param word
+     * @param pronunciation
+     * @param definition
+     * @param mp3Path
+     * @param phonemes
+     * @return
+     */
+    public WordDTO addWordPhonemes(String word , String pronunciation, String definition,String mp3Path,List<WordMappingPhonemes> phonemes){
+        WordDTO dto = new WordDTO();
+        String message = addWordToDb(word, pronunciation, definition, mp3Path, false);
+        if(message.startsWith(SUCCESS)) {
+            String id = message.split(":")[1];
+            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+            int version = wpService.getMaxVersion();
+            message = wpService.addMappingPhonemes(id, phonemes, version, false);
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
      *  use for update information of word
      * @param wordID
      * @param definition
@@ -250,7 +273,27 @@ public class WordCollectionService {
         if(message.startsWith(SUCCESS)){
             WordMappingPhonemesService wpService = new WordMappingPhonemesService();
             int version = wpService.getMaxVersion();
-            message = wpService.addMapping(wordID,phonemes,version,false);
+            message = wpService.addMapping(wordID, phonemes, version, false);
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
+     * @param wordID
+     * @param definition
+     * @param mp3Path
+     * @param phonemes
+     * @return
+     */
+    public WordDTO updateWordPhonemes(String wordID , String definition,String mp3Path,List<WordMappingPhonemes> phonemes){
+        WordDTO dto = new WordDTO();
+        String message = updateWordInformation(wordID,definition,mp3Path);
+        if(message.startsWith(SUCCESS)){
+            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+            int version = wpService.getMaxVersion();
+            message = wpService.addMappingPhonemes(wordID,phonemes,version,false);
         }
         dto.setMessage(message);
         return dto;
