@@ -2,6 +2,7 @@ package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.WordDTO;
 import com.cmg.lesson.services.WordCollectionService;
+import com.cmg.vrc.util.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,27 +17,19 @@ import java.util.List;
  */
 @WebServlet(name = "ManagementWordServlet")
 public class ManagementWordServlet extends HttpServlet {
-    class admin{
-        public int draw;
-        public Double recordsTotal;
-        public Double recordsFiltered;
-
-        List<WordDTO> data;
-    }
-
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WordCollectionService wordCollectionService=new WordCollectionService();
         if(request.getParameter("list")!=null){
-            String s = request.getParameter("start");
-            String l = request.getParameter("length");
-            String d = request.getParameter("draw");
-            String search = request.getParameter("search[value]");
+            String s = (String)StringUtil.isNull(request.getParameter("start"),"");
+            String l = (String)StringUtil.isNull(request.getParameter("length"),"");
+            String d = (String)StringUtil.isNull(request.getParameter("draw"), "");
+            String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
 
         }
         if(request.getParameter("add")!=null){
-            String sentence=request.getParameter("sentence");
-            String author=request.getSession().getAttribute("username").toString();
+            String word= (String)StringUtil.isNull(request.getParameter("sentence"),"");
+            String author=(String)StringUtil.isNull( request.getSession().getAttribute("username").toString(),"");
             try {
 
 
