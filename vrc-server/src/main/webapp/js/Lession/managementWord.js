@@ -234,7 +234,7 @@ function editWord(){
             dataType: "text",
             data: {
                 edit: "edit",
-                word: JSON.stringify(word)// to json word,
+                word: JSON.parse(word)// to json word,
             },
             success: function (data) {
                 if (data == "success") {
