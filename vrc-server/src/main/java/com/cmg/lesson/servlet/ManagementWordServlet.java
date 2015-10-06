@@ -60,6 +60,19 @@ public class ManagementWordServlet extends HttpServlet {
 
 
         }
+        if(request.getParameter("listPhonemes")!=null){
+            String id=request.getParameter("id");
+            try{
+
+                response.getWriter().write("success");
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+
+
+        }
+
 
         if(request.getParameter("delete")!=null){
             String id= request.getParameter("id");
