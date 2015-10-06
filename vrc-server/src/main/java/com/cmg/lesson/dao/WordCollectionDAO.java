@@ -206,15 +206,38 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
     public boolean updateWordInformation(String idWord,String definition,String mp3Path){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Transaction tx = pm.currentTransaction();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence.getTable()+ " SET definition='"+definition+"',mp3Path='"+mp3Path+"' WHERE wordID='"+idWord+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET definition= ?, mp3Path=? WHERE id='" + idWord + "'");
         try {
-            tx.begin();
-            q.execute();
-            tx.commit();
+            q.execute(definition,mp3Path);
             check=true;
         } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return check;
+    }
+
+
+    /**
+     *
+     * @param idWord
+     * @return use for deleted word
+     */
+    public boolean deleteWord(String idWord){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id='" + idWord + "'");
+        try {
+            q.execute(true);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         } finally {
             if (q!= null)

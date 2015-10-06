@@ -47,12 +47,7 @@ public class UnitTesting {
             service.updateDatabase();*/
 
             WordCollectionDAO dao = new WordCollectionDAO();
-            List<WordCollection> list = dao.search("ac","desc",10,10);
-            if(list!=null && list.size() > 0){
-                for(WordCollection word : list){
-                    System.out.println(word.getWord());
-                }
-            }
+           dao.updateWordInformation("000e7c11-3800-4c81-a8cf-ba1538edda08","The state or experience of being alienated","http://www.oxforddictionaries.com/media/english/uk_pron/a/ali/alien/alienation__gb_1_8.mp3");
         } catch (Exception e) {
             e.printStackTrace();
         }
