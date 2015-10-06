@@ -164,7 +164,7 @@ public class WordCollectionService {
                 count = dao.getCount();
             }
         }catch (Exception e){
-            logger.error("can not get count search : " + search + " because  : " + e.getMessage());
+            logger.error("can not get count search : " + search + " because  : " + e.getMessage(),e);
         }
         return count;
     }

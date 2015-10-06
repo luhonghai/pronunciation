@@ -81,6 +81,13 @@
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <button type="button" name="yesadd" id="addPhonemes" class="btn btn-default" value="yes" >Add Phonemes</button>
+                </div>
+                <div id="addphoneme">
+
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
@@ -163,3 +170,4 @@
     </div>
   </div>
 </div>
+<script src="<%=request.getContextPath() %>/js/Lession/managementWord.js"></script>
