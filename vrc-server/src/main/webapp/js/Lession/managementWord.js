@@ -11,6 +11,9 @@ function listTranscription(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
+        "fnDrawCallback": function( oSettings ) {
+            loadAudio();
+        },
 
         "ajax": {
             "url": "ManagementWordServlet",
@@ -193,9 +196,10 @@ function edit(){
             dataType: "json",
             data: {
                 listPhonemes: "listPhonemes",
-                id: id
+                id: idd
             },
             success: function (data) {
+                $("#listPhonemes").html("");
 
             },
             error: function () {
@@ -245,6 +249,21 @@ function editWord(){
 
 
     });
+}
+function loadAudio(){
+    $('.cp-jplayer').each(function() {
+        var id = $(this).attr('id');
+        var audioUrl = $(this).attr('audioUrl');
+        new CirclePlayer("#" + id,
+            {
+                mp3: audioUrl + "&type=mp3",
+                wav: audioUrl + "&type=wav"
+            }, {
+                cssSelectorAncestor: '#' + id + 's'
+            });
+
+    });
+
 }
 
 
