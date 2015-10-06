@@ -11,7 +11,9 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lantb on 2015-10-01.
@@ -95,6 +97,38 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
             return list;
         }
         return null;
+    }
+
+    /**
+     *
+     * @param search
+     * @return
+     */
+    public List<WordCollection> search(String search, int length, int start){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        StringBuffer filter = new StringBuffer();
+        Query q = pm.newQuery("SELECT FROM " + WordCollection.class.getCanonicalName());
+        String a ="(word.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b ="(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(search.length() == 0){
+            filter.append(b);
+        }else if(search.length() > 0){
+            filter.append(a);
+        }
+        q.setRange(start, start + length);
+        q.setFilter(filter.toString());
+        q.declareParameters("String search");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        try {
+            return detachCopyAllList(pm, q.executeWithMap(params));
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+
     }
 
 
