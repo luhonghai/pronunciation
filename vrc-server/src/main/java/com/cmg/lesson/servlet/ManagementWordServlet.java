@@ -1,5 +1,6 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.dto.WordDTO;
 import com.cmg.lesson.services.WordCollectionService;
 import com.cmg.vrc.util.StringUtil;
@@ -24,20 +25,17 @@ public class ManagementWordServlet extends HttpServlet {
         WordDTO wordDTO=new WordDTO();
         Gson gson = new Gson();
         if(request.getParameter("list")!=null){
-            String s = (String)StringUtil.isNull(request.getParameter("start"),"");
-            String l = (String)StringUtil.isNull(request.getParameter("length"),"");
-            String d = (String)StringUtil.isNull(request.getParameter("draw"), "");
+            int start = (Integer)StringUtil.isNull(request.getParameter("start"),0);
+            int length = (Integer)StringUtil.isNull(request.getParameter("length"),0);
+            int draw = (Integer)StringUtil.isNull(request.getParameter("draw"), 0);
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
-            String oder = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
-
+            String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
+            ListWord list = wordCollectionService.searchWord(search,order,start,length,draw);
+            String json = gson.toJson(list);
         }
         if(request.getParameter("add")!=null){
-            String word= (String)StringUtil.isNull(request.getParameter("word"), "");
-            String definition= (String)StringUtil.isNull(request.getParameter("definition"), "");
-            String pronunciation= (String)StringUtil.isNull(request.getParameter("pronunciation"), "");
-            String mp3Url= (String)StringUtil.isNull(request.getParameter("mp3Url"), "");
-
-
+            String wordAdd=request.getParameter("word");
+            WordDTO word=gson.fromJson(wordAdd, WordDTO.class);
 
             try {
 

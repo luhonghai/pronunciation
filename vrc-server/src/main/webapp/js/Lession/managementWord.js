@@ -93,10 +93,14 @@ function listTranscription(){
 
 function addWord(){
     $(document).on("click","#yesadd", function(){
-        var word = $("#addWord").val();
-        var definition = $("#addDifinition").val();
-        var pronunciation = $("#addpronunciation").val();
-        var mp3Url = $("#addPath").val();
+        var word = {
+            word: $("#addWord").val(),
+            definition: $("#addDifinition").val(),
+            pronunciation: $("#addpronunciation").val(),
+            mp3Path : $("#addPath").val(),
+            phonemes : []
+        };
+            word.phonemes.push($("#").val());
 
         $.ajax({
             url: "ManagementWordServlet",
@@ -104,10 +108,7 @@ function addWord(){
             dataType: "text",
             data: {
                 add: "add",
-                word: word,
-                definition:definition,
-                pronunciation:pronunciation,
-                mp3Url:mp3Url
+                word: JSON.parse(word)
             },
             success: function (data) {
                 if (data == "success") {
@@ -198,7 +199,7 @@ function edit(){
                 if(data!=null) {
                     var i;
                     for (i = 0; i < data.size; i++) {
-                        $("#listPhonemes").html("'" + i + "': <input type='text' id=" + i + " class='form-control>' value='" + data.phonemes + "'");
+                        $("#listPhonemes").html("'" + i + "': <input type='text' id=" + i + " class='form-control' value='" + data.phonemes + "'>");
                     }
                 }else{
                     $("#listPhonemes").html("null");
@@ -267,6 +268,11 @@ function loadAudio(){
 
     });
 
+}
+function addPhonemes(){
+    $(document).on("click","#addPhonemes", function(){
+        $("#addphoneme").html("<input type='text' id='' class='form-control'>");
+    });
 }
 
 
