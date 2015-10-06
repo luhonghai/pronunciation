@@ -110,7 +110,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + WordCollection.class.getCanonicalName());
-        q.setFilter(" isDeleted==false");
+        q.setFilter("isDeleted==false");
         try {
             count = (Long) q.execute();
             return count.doubleValue();
