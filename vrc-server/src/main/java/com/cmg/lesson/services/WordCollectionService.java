@@ -155,7 +155,7 @@ public class WordCollectionService {
      * @return count base on search
      */
     public double countSearch(int start, int length ,String search, String order){
-        Double count = null;
+        Double count = 0.0;
         WordCollectionDAO dao = new WordCollectionDAO();
         try {
             if(search!=null && search.trim().length() > 0){
