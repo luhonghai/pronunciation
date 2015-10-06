@@ -21,6 +21,7 @@ import java.util.List;
 public class ManagementWordServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         WordCollectionService wordCollectionService=new WordCollectionService();
         WordDTO wordDTO=new WordDTO();
         Gson gson = new Gson();
