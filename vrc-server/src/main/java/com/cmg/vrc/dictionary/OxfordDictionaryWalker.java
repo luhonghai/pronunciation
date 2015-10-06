@@ -187,7 +187,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 System.out.println("Write word " + item.getWord() + " to list");
                 try {
                     WordCollectionService service = new WordCollectionService();
-                    service.addWord(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),false);
+                    service.addWordToDb(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),false);
                     FileUtils.writeStringToFile(wordXml, "\n\t\t<item>" + item.getWord() + "|" + item.getPronunciation() + "</item>", true);
                 } catch (IOException e) {
                     e.printStackTrace();

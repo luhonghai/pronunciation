@@ -256,5 +256,43 @@ public class WordCollectionService {
         return dto;
     }
 
+    /**
+     * use for update deleted in table word
+     * @param wordID
+     * @return success if delete word database ok
+     */
+    public String deleteWordDB(String wordID){
+        WordCollectionDAO dao = new WordCollectionDAO();
+        String messageError = "";
+        try {
+            dao.deleteWord(wordID);
+            return SUCCESS;
+        }catch (Exception e){
+            logger.error("delete word id : " + wordID + " false because : "+ e.getMessage());
+            messageError = e.getMessage();
+        }
+        return ERROR + messageError;
+    }
+
+    /**
+     * use for deleted word
+     * @param wordID
+     * @return dto object with message to client
+     */
+    public WordDTO deleteWord(String wordID){
+        String message = "";
+        WordDTO dto = new WordDTO();
+        message = deleteWordDB(wordID);
+        if(message.startsWith(SUCCESS)){
+            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+            message = wpService.updateDeleted(wordID,true);
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+
+
+
 
 }

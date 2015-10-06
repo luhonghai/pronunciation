@@ -104,13 +104,17 @@ public class WordMappingPhonemesService {
      * @param wordID
      * @param isDeleted
      */
-    public void updateDeleted(String wordID, boolean isDeleted){
+    public String updateDeleted(String wordID, boolean isDeleted){
         WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        String messageError;
         try {
-             dao.updateDeleted(wordID,isDeleted);
+            dao.updateDeleted(wordID,isDeleted);
+            return SUCCESS;
         }catch (Exception e){
             logger.warn("check exist warning : " + e.getMessage());
+            messageError = e.getMessage();
         }
+        return ERROR + messageError;
     }
 
     /**
