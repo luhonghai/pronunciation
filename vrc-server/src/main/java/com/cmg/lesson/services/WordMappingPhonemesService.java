@@ -17,6 +17,9 @@ public class WordMappingPhonemesService {
     private static final Logger logger = Logger.getLogger(WordMappingPhonemesService.class
             .getName());
 
+
+    private String SUCCESS = "success";
+    private String ERROR = "error mapping phonemes:";
     /**
      *
      * @return max version
@@ -56,12 +59,11 @@ public class WordMappingPhonemesService {
      * @param isDeleted
      * @return
      */
-    public boolean addMapping(String wordID, List<String> phonemes,int version,boolean isDeleted){
-        boolean check = false;
+    public String addMapping(String wordID, List<String> phonemes,int version,boolean isDeleted){
+        String messageError = "";
         if(checkExist(wordID)){
             updateDeleted(wordID,true);
         }
-        System.out.println("word id : " + wordID);
         WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
         ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
         try {
@@ -72,12 +74,13 @@ public class WordMappingPhonemesService {
             }
             if(list.size() > 0){
                 dao.create(list);
-                check = true;
+                return SUCCESS;
             }
         }catch(Exception e ){
             logger.error("error when add mapping word with phoneme because : " + e.getMessage());
+            messageError = e.getMessage();
         }
-        return check;
+        return ERROR+messageError;
     }
 
     /**

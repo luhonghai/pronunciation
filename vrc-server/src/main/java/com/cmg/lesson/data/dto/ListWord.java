@@ -1,5 +1,7 @@
 package com.cmg.lesson.data.dto;
 
+import com.cmg.lesson.data.jdo.WordCollection;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,25 @@ public class ListWord {
     public int draw;
     public Double recordsTotal;
     public Double recordsFiltered;
-    List<WordDTO> data;
+    public String message;
+    public String error;
+    List<WordCollection> data;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public int getDraw() {
         return draw;
@@ -35,11 +55,11 @@ public class ListWord {
         this.recordsFiltered = recordsFiltered;
     }
 
-    public List<WordDTO> getData() {
+    public List<WordCollection> getData() {
         return data;
     }
 
-    public void setData(List<WordDTO> data) {
+    public void setData(List<WordCollection> data) {
         this.data = data;
     }
 }

@@ -47,7 +47,7 @@ public class UnitTesting {
             service.updateDatabase();*/
 
             WordCollectionDAO dao = new WordCollectionDAO();
-            List<WordCollection> list = dao.search("ac",10,10);
+            List<WordCollection> list = dao.search("ac","desc",10,10);
             if(list!=null && list.size() > 0){
                 for(WordCollection word : list){
                     System.out.println(word.getWord());

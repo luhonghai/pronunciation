@@ -1,5 +1,7 @@
 package com.cmg.lesson.data.dto;
 
+import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+
 import java.util.List;
 
 /**
@@ -11,8 +13,8 @@ public class WordDTO {
     private String pronunciation;
     private String definition;
     private String mp3Path;
-    private List<String> phonemes;
-
+    private List<WordMappingPhonemes> phonemes;
+    private String message;
     public String getId() {
         return id;
     }
@@ -45,11 +47,11 @@ public class WordDTO {
         this.mp3Path = mp3Path;
     }
 
-    public List<String> getPhonemes() {
+    public List<WordMappingPhonemes> getPhonemes() {
         return phonemes;
     }
 
-    public void setPhonemes(List<String> phonemes) {
+    public void setPhonemes(List<WordMappingPhonemes> phonemes) {
         this.phonemes = phonemes;
     }
     public String getWord() {
@@ -59,5 +61,11 @@ public class WordDTO {
     public void setWord(String word) {
         this.word = word;
     }
+    public String getMessage() {
+        return message;
+    }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
