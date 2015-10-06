@@ -21,6 +21,7 @@ public class ManagementWordServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WordCollectionService wordCollectionService=new WordCollectionService();
+        WordDTO wordDTO=new WordDTO();
         Gson gson = new Gson();
         if(request.getParameter("list")!=null){
             String s = (String)StringUtil.isNull(request.getParameter("start"),"");
@@ -49,7 +50,9 @@ public class ManagementWordServlet extends HttpServlet {
         }
         if(request.getParameter("edit")!=null){
             String phonemes=request.getParameter("word");
-            Object word=gson.toJson(phonemes);
+            WordDTO word=gson.fromJson(phonemes, WordDTO.class);
+            wordDTO.setId(word.getId());
+
             try{
 
                 response.getWriter().write("success");
