@@ -86,6 +86,38 @@ public class WordMappingPhonemesService {
     /**
      *
      * @param wordID
+     * @param phonemes
+     * @param version
+     * @param isDeleted
+     * @return
+     */
+    public String addMappingPhonemes(String wordID, List<WordMappingPhonemes> phonemes,int version,boolean isDeleted){
+        String messageError = "";
+        if(checkExist(wordID)){
+            updateDeleted(wordID,true);
+        }
+        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
+        try {
+            for(int i = 0 ; i < phonemes.size(); i++){
+                WordMappingPhonemes wp = new WordMappingPhonemes(wordID,phonemes.get(i).getPhoneme(),phonemes.get(i).getIndex(),isDeleted,version);
+                logger.info("add mapping phonemes " + wp.getPhoneme());
+                list.add(wp);
+            }
+            if(list.size() > 0){
+                dao.create(list);
+                return SUCCESS;
+            }
+        }catch(Exception e ){
+            logger.error("error when add mapping word with phoneme because : " + e.getMessage());
+            messageError = e.getMessage();
+        }
+        return ERROR+messageError;
+    }
+
+    /**
+     *
+     * @param wordID
      * @return check existed
      */
     public boolean checkExist(String wordID){
