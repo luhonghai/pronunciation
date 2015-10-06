@@ -11,6 +11,9 @@ function listTranscription(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
+        "fnDrawCallback": function( oSettings ) {
+            loadAudio();
+        },
 
         "ajax": {
             "url": "ManagementWordServlet",
@@ -75,6 +78,7 @@ function listTranscription(){
                 $button.attr("pronunciation", data.pronunciation);
                 $button.attr("definition", data.definition);
                 $button.attr("mp3Path", data.mp3Path);
+                $button.attr("phonemes", data.phonemes);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -181,12 +185,29 @@ function edit(){
         var pronunciation = $(this).attr('pronunciation');
         var definition = $(this).attr('definition');
         var mp3Path = $(this).attr('mp3Path');
-
         $("#editWord").val(word);
         $("#idedit").val(idd);
         $("#editpronunciation").val(pronunciation);
         $("#editDifinition").val(definition);
         $("#editPath").val(mp3Path);
+        $.ajax({
+            url: "ManagementWordServlet",
+            type: "POST",
+            dataType: "json",
+            data: {
+                listPhonemes: "listPhonemes",
+                id: idd
+            },
+            success: function (data) {
+                $("#listPhonemes").html("");
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        });
+
     });
 
 }
@@ -228,6 +249,21 @@ function editWord(){
 
 
     });
+}
+function loadAudio(){
+    $('.cp-jplayer').each(function() {
+        var id = $(this).attr('id');
+        var audioUrl = $(this).attr('audioUrl');
+        new CirclePlayer("#" + id,
+            {
+                mp3: audioUrl + "&type=mp3",
+                wav: audioUrl + "&type=wav"
+            }, {
+                cssSelectorAncestor: '#' + id + 's'
+            });
+
+    });
+
 }
 
 

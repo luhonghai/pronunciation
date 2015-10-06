@@ -25,11 +25,18 @@ public class ManagementWordServlet extends HttpServlet {
             String l = (String)StringUtil.isNull(request.getParameter("length"),"");
             String d = (String)StringUtil.isNull(request.getParameter("draw"), "");
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
+            String column = request.getParameter("order[0][column]");
+            String oder = request.getParameter("order[0][dir]");
 
         }
         if(request.getParameter("add")!=null){
-            String word= (String)StringUtil.isNull(request.getParameter("sentence"),"");
-            String author=(String)StringUtil.isNull( request.getSession().getAttribute("username").toString(),"");
+            String word= (String)StringUtil.isNull(request.getParameter("word"), "");
+            String definition= (String)StringUtil.isNull(request.getParameter("definition"), "");
+            String pronunciation= (String)StringUtil.isNull(request.getParameter("pronunciation"), "");
+            String mp3Url= (String)StringUtil.isNull(request.getParameter("mp3Url"), "");
+
+
+
             try {
 
 
@@ -53,6 +60,19 @@ public class ManagementWordServlet extends HttpServlet {
 
 
         }
+        if(request.getParameter("listPhonemes")!=null){
+            String id= (String)StringUtil.isNull(request.getParameter("id"), "");
+            try{
+
+                response.getWriter().write("success");
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+
+
+        }
+
 
         if(request.getParameter("delete")!=null){
             String id= request.getParameter("id");

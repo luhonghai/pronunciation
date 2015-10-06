@@ -113,7 +113,7 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label ">Wrod:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editWord" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
@@ -128,6 +128,10 @@
                 <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                <div class="col-xs-8  col-sm-9" id="listPhonemes">
+
                 </div>
 
               </div>
