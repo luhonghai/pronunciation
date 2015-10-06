@@ -273,7 +273,27 @@ public class WordCollectionService {
         if(message.startsWith(SUCCESS)){
             WordMappingPhonemesService wpService = new WordMappingPhonemesService();
             int version = wpService.getMaxVersion();
-            message = wpService.addMapping(wordID,phonemes,version,false);
+            message = wpService.addMapping(wordID, phonemes, version, false);
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
+     * @param wordID
+     * @param definition
+     * @param mp3Path
+     * @param phonemes
+     * @return
+     */
+    public WordDTO updateWordPhonemes(String wordID , String definition,String mp3Path,List<WordMappingPhonemes> phonemes){
+        WordDTO dto = new WordDTO();
+        String message = updateWordInformation(wordID,definition,mp3Path);
+        if(message.startsWith(SUCCESS)){
+            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+            int version = wpService.getMaxVersion();
+            message = wpService.addMappingPhonemes(wordID,phonemes,version,false);
         }
         dto.setMessage(message);
         return dto;

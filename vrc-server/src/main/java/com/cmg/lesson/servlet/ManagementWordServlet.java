@@ -44,8 +44,8 @@ public class ManagementWordServlet extends HttpServlet {
             }
         }
         if(request.getParameter("add")!=null){
-            String wordAdd=request.getParameter("word");
-            WordDTO word=gson.fromJson(wordAdd, WordDTO.class);
+            String wordAdd = request.getParameter("word");
+            WordDTO word = gson.fromJson(wordAdd, WordDTO.class);
             try {
                 WordDTO dto =  wordCollectionService.addWordPhonemes(word.getWord(), word.getPronunciation(),
                         word.getDefinition(), word.getMp3Path(), word.getPhonemes());
@@ -59,9 +59,12 @@ public class ManagementWordServlet extends HttpServlet {
         if(request.getParameter("edit")!=null){
             String phonemes = request.getParameter("word");
             WordDTO word = gson.fromJson(phonemes, WordDTO.class);
-            List<WordMappingPhonemes> list = word.getPhonemes();
-            try{
 
+            try{
+                WordDTO dto =  wordCollectionService.updateWordPhonemes(word.getPronunciation(),
+                        word.getDefinition(), word.getMp3Path(), word.getPhonemes());
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
