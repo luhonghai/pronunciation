@@ -1,6 +1,7 @@
 package com.cmg.lesson.services;
 
 import com.cmg.lesson.dao.WordCollectionDAO;
+import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import org.apache.log4j.Logger;
@@ -116,6 +117,22 @@ public class WordCollectionService {
         }catch (Exception e){
             logger.error("can not get all word filter with column isDeleted value : " + isDeleted + " cause : " + e.getMessage());
         }
+        return null;
+    }
+
+
+    /**
+     * filter by data table param
+     * @return
+     */
+    public List<ListWord> searchWord(int start, int length, int draw,String search){
+        WordCollectionDAO dao = new WordCollectionDAO();
+        try {
+
+        }catch (Exception e){
+
+        }
+
         return null;
     }
 

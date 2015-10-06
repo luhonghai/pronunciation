@@ -1,3 +1,5 @@
+import com.cmg.lesson.dao.WordCollectionDAO;
+import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.services.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
@@ -41,8 +43,16 @@ public class UnitTesting {
         /*    OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
             walker.generateDictionary();*/
 
-            WordMappingPhonemesService service = new WordMappingPhonemesService();
-            service.updateDatabase();
+            /*WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updateDatabase();*/
+
+            WordCollectionDAO dao = new WordCollectionDAO();
+            List<WordCollection> list = dao.search("ac",10,10);
+            if(list!=null && list.size() > 0){
+                for(WordCollection word : list){
+                    System.out.println(word.getWord());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
