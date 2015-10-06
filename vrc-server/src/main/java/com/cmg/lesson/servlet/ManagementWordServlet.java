@@ -3,6 +3,7 @@ package com.cmg.lesson.servlet;
 import com.cmg.lesson.data.dto.WordDTO;
 import com.cmg.lesson.services.WordCollectionService;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,13 +21,13 @@ public class ManagementWordServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         WordCollectionService wordCollectionService=new WordCollectionService();
+        Gson gson = new Gson();
         if(request.getParameter("list")!=null){
             String s = (String)StringUtil.isNull(request.getParameter("start"),"");
             String l = (String)StringUtil.isNull(request.getParameter("length"),"");
             String d = (String)StringUtil.isNull(request.getParameter("draw"), "");
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
-            String column = request.getParameter("order[0][column]");
-            String oder = request.getParameter("order[0][dir]");
+            String oder = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
 
         }
         if(request.getParameter("add")!=null){
@@ -47,9 +48,8 @@ public class ManagementWordServlet extends HttpServlet {
             }
         }
         if(request.getParameter("edit")!=null){
-            String id=request.getParameter("id");
-            String sentence=request.getParameter("sentence");
-            String author=request.getSession().getAttribute("username").toString();
+            String phonemes=request.getParameter("word");
+            Object word=gson.toJson(phonemes);
             try{
 
                 response.getWriter().write("success");
