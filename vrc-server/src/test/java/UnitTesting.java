@@ -1,3 +1,4 @@
+import com.cmg.lesson.dao.QuestionDAO;
 import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.jdo.WordCollection;
@@ -62,6 +63,7 @@ public class UnitTesting {
             for(WordCollection w : collection){
                 System.out.println(w.getWord() + " - " + w.getMp3Path());
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
