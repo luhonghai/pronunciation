@@ -225,7 +225,8 @@ function edit(){
                 if(typeof listPhoneme!="undefined") {
                     var i;
                     for (i = 0; i < listPhoneme.phonemes.length; i++) {
-                        $("#listPhonemes").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'> </div>");
+                        $("#listPhonemes").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
+                        $("#"+listPhoneme.phonemes[i].index+"").css("padding-left: 0px;");
                     }
                 }
             },
@@ -242,7 +243,7 @@ function edit(){
 function addPhonemesEdit(){
     $(document).on("click","#addPhonemesEdit", function(){
         if(listPhoneme!=null){
-            var size=listPhoneme.length +1 ;
+            var size=listPhoneme.phonemes.length;
             iphonemess=size;
         }
         $("#addphonemeEdit").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemess+"' class='form-control'></div>");
@@ -262,21 +263,11 @@ function editWord(){
             phonemes : []
         };
         var i;
-        if(listPhoneme!=null) {
-            for (i = 0; i < listPhoneme.length; i++) {
-                word.phonemes.push({
-                    index: listPhoneme.index,
-                    phoneme: $("#" + listPhoneme.index + "").val()
-                });
-            }
-        }else{
-            for(i=0;i<iphonemess;i++){
-                word.phonemes.push({
-                    index: i,
-                    phoneme: $("#"+i+"").val()
-                });
-            }
-
+        for(i=0;i<iphonemess;i++){
+            word.phonemes.push({
+                index: i,
+                phoneme: $("#"+i+"").val()
+            });
         }
 
         $.ajax({
@@ -285,7 +276,7 @@ function editWord(){
             dataType: "text",
             data: {
                 edit: "edit",
-                word: JSON.parse(word)// to json word,
+                word: JSON.stringify(word)// to json word,
             },
             success: function (data) {
                 if (data == "success") {
