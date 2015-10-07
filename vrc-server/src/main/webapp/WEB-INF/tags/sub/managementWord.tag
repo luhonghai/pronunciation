@@ -77,7 +77,7 @@
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="addDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
+                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
@@ -120,6 +120,14 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editWord" name="addsentence" class=" form-control" disabled style="padding-left: 0px;">
+                </div>
+                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editPronunciation" name="addsentence" class=" form-control" disabled style="padding-left: 0px;">
+                </div>
                 <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
@@ -129,7 +137,13 @@
                   <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
                 </div>
                 <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <button type="button" name="yesadd" id="addPhonemesEdit" class="btn btn-default" value="yes" >Add Phonemes</button>
+                </div>
                 <div class="col-xs-8  col-sm-9" id="listPhonemes">
+
+                </div>
+                <div id="addphonemeEdit">
 
                 </div>
 

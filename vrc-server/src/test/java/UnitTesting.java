@@ -1,5 +1,10 @@
+
+import com.cmg.lesson.dao.QuestionDAO;
+import com.cmg.lesson.dao.WordCollectionDAO;
+import com.cmg.lesson.dao.WordMappingPhonemesDAO;
 import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.lesson.services.WordCollectionService;
 
 import java.util.List;
@@ -43,12 +48,20 @@ public class UnitTesting {
                 }
             }*/
 
-            WordCollectionService sc = new WordCollectionService();
+           /* WordCollectionService sc = new WordCollectionService();
            ListWord list =  sc.searchWord("", "asc", 0, 10, 1);
             List<WordCollection> collection = list.getData();
             for(WordCollection w : collection){
                 System.out.println(w.getWord() + " - " + w.getMp3Path());
+            }*/
+            WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+            List<WordMappingPhonemes> list = dao.getByWordID("ab9b9e31-49c5-4cfb-9b1d-cfb334fb7f82");
+            if(list !=null && list.size() > 0){
+                for(WordMappingPhonemes wmp : list){
+                    System.out.println(wmp.getIndex() + " - "  + wmp.getPhoneme());
+                }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

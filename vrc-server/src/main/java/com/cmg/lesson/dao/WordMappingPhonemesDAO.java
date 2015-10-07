@@ -51,11 +51,12 @@ public class WordMappingPhonemesDAO extends DataAccess<WordMappingPhonemes> {
      * @throws Exception
      */
     public List<WordMappingPhonemes> getByWordID(String idWord) throws Exception{
-        List<WordMappingPhonemes> list = list("WHERE wordID == :1 and isDeleted == :2", idWord, false);
+        List<WordMappingPhonemes> list = list("WHERE wordID == :1 && isDeleted == :2", idWord, false, "index asc");
         if (list != null && list.size() > 0)
             return list;
         return null;
     }
+
 
     /**
      *

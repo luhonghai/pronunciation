@@ -225,10 +225,12 @@ public class WordCollectionService {
         WordDTO dto = new WordDTO();
         String message = addWordToDb(word, pronunciation, definition, mp3Path, false);
         if(message.startsWith(SUCCESS)) {
-            String id = message.split(":")[1];
-            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
-            int version = wpService.getMaxVersion();
-            message = wpService.addMappingPhonemes(id, phonemes, version, false);
+            if(phonemes!=null && phonemes.size() > 0){
+                String id = message.split(":")[1];
+                WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+                int version = wpService.getMaxVersion();
+                message = wpService.addMappingPhonemes(id, phonemes, version, false);
+            }
         }
         dto.setMessage(message);
         return dto;
@@ -291,9 +293,11 @@ public class WordCollectionService {
         WordDTO dto = new WordDTO();
         String message = updateWordInformation(wordID,definition,mp3Path);
         if(message.startsWith(SUCCESS)){
-            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
-            int version = wpService.getMaxVersion();
-            message = wpService.addMappingPhonemes(wordID,phonemes,version,false);
+            if(phonemes!=null && phonemes.size() > 0) {
+                WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+                int version = wpService.getMaxVersion();
+                message = wpService.addMappingPhonemes(wordID, phonemes, version, false);
+            }
         }
         dto.setMessage(message);
         return dto;
