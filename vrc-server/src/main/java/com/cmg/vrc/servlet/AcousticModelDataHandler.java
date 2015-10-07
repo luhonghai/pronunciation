@@ -1,9 +1,11 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
-import com.cmg.vrc.data.dao.impl.LanguageModelVersionDAO;
-import com.cmg.vrc.data.jdo.LanguageModelVersion;
-import com.cmg.vrc.service.LanguageModelService;
+import com.cmg.vrc.data.dao.impl.AcousticModelVersionDAO;
+import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
+import com.cmg.vrc.data.jdo.AcousticModelVersion;
+import com.cmg.vrc.data.jdo.DictionaryVersion;
+import com.cmg.vrc.service.AcousticModelTrainingService;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -13,16 +15,16 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cmg on 10/09/15.
  */
-public class LanguageModelHandler extends BaseServlet {
+public class AcousticModelDataHandler extends BaseServlet {
 
     class ResponseData {
 
@@ -32,7 +34,22 @@ public class LanguageModelHandler extends BaseServlet {
 
         public Double recordsFiltered;
 
-        List<LanguageModelVersion> data;
+        List<AcousticModelVersion> data;
+    }
+
+    class ResponseStatus {
+        boolean running;
+        String latestLog;
+        int draw;
+        int lines;
+    }
+
+    class TrainingRequest {
+
+        boolean extra;
+
+        Map<String, String> configuration;
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -47,65 +64,36 @@ public class LanguageModelHandler extends BaseServlet {
         }
         try {
             if (!StringUtils.isEmpty(action)) {
-                final LanguageModelVersionDAO dao = new LanguageModelVersionDAO();
+                final AcousticModelVersionDAO dao = new AcousticModelVersionDAO();
                 final AWSHelper awsHelper = new AWSHelper();
-                if (action.equalsIgnoreCase("load")) {
-                    response.setContentType("text/html; charset=utf-8");
-                    long start = System.currentTimeMillis();
-                    LanguageModelService languageModelService = new LanguageModelService(new LanguageModelService.TrainingListener() {
-                        @Override
-                        public void onMessage(String message) {
-                            out.write(StringEscapeUtils.escapeHtml(message) + "<br/>");
-                            out.flush();
-                        }
-
-                        @Override
-                        public void onError(String message, Throwable e) {
-                            printException(out, message, e);
-                            out.flush();
-                        }
-
-                        @Override
-                        public void onSuccess(File languageModel) {
-                            try {
-                                int version = dao.getMaxVersion();
-                                version++;
-                                String fileName = "version-" +version +".lm";
-                                out.write("Upload " + languageModel + " to AWS S3 " + fileName + "<br/>");
-                                awsHelper.upload(Constant.FOLDER_LANGUAGE_MODEL
-                                        + "/" + fileName, languageModel);
-                                Date now = new Date(System.currentTimeMillis());
-                                LanguageModelVersion languageModelVersion = new LanguageModelVersion();
-                                languageModelVersion.setVersion(version);
-                                languageModelVersion.setAdmin(admin);
-                                languageModelVersion.setCreatedDate(now);
-                                languageModelVersion.setFileName(fileName);
-                                languageModelVersion.setSelected(true);
-                                languageModelVersion.setSelectedDate(now);
-                                out.write("Insert information to database<br/>");
-                                dao.removeSelected();
-                                dao.createObj(languageModelVersion);
-                                out.write("Successfully!<br/>");
-                            } catch (Exception e) {
-                                printException(out, "Could not insert information to database", e);
-                            }
-                            out.flush();
-                        }
-                    });
-                    //languageModelService.setExtraDir(new File("/Users/cmg/Documents/training/ext-training"));
-                    languageModelService.training();
-                    out.write("Execution time: " + (System.currentTimeMillis() - start) + "ms");
-                    out.flush();
+                if (action.equalsIgnoreCase("status")) {
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+                    int lines = Integer.parseInt(request.getParameter("lines"));
+                    ResponseStatus status = new ResponseStatus();
+                    status.running = AcousticModelTrainingService.getInstance().isRunning();
+                    status.latestLog = AcousticModelTrainingService.getInstance().getCurrentLog(lines);
+                    status.draw = draw;
+                    status.lines = lines;
+                    out.write(new Gson().toJson(status));
+                } else if (action.equalsIgnoreCase("stop")){
+                    AcousticModelTrainingService.getInstance().forceStop();
+                    out.write("done");
+                } else if (action.equalsIgnoreCase("train")){
+                    String data = request.getParameter("data");
+                    Gson gson = new Gson();
+                    TrainingRequest trainingRequest = gson.fromJson(data, TrainingRequest.class);
+                    AcousticModelTrainingService.getInstance().train(admin,
+                            trainingRequest.extra,
+                            trainingRequest.configuration);
+                    out.write("done");
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {
-                        LanguageModelVersion languageModelVersion = dao.getById(id);
-                        if (languageModelVersion != null) {
-                            out.write(awsHelper.generatePresignedUrl(Constant.FOLDER_LANGUAGE_MODEL
-                                    + "/"
-                                    + languageModelVersion.getFileName()));
+                        String key = Constant.FOLDER_ACOUSTIC_MODEL + "/" + id;
+                        if (awsHelper.getS3Object(key) != null) {
+                            out.write(awsHelper.generatePresignedUrl(key));
                         } else {
-                            out.write("No language model found with id " + id);
+                            out.write("No file found with key " + id);
                         }
                     } else {
                         out.write("No parameter id found");
@@ -113,15 +101,15 @@ public class LanguageModelHandler extends BaseServlet {
                 } else if (action.equalsIgnoreCase("select")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {
-                        LanguageModelVersion languageModelVersion = dao.getById(id);
-                        if (languageModelVersion != null) {
+                        AcousticModelVersion model = dao.getById(id);
+                        if (model != null) {
                             dao.removeSelected();
-                            languageModelVersion.setSelectedDate(new Date(System.currentTimeMillis()));
-                            languageModelVersion.setAdmin(admin);
-                            languageModelVersion.setSelected(true);
-                            dao.update(languageModelVersion);
+                            model.setSelectedDate(new Date(System.currentTimeMillis()));
+                            model.setAdmin(admin);
+                            model.setSelected(true);
+                            dao.update(model);
                         } else {
-                            out.write("No language model found with id " + id);
+                            out.write("No acoustic model found with id " + id);
                         }
                     } else {
                         out.write("No parameter id found");
@@ -152,7 +140,7 @@ public class LanguageModelHandler extends BaseServlet {
                         responseData.recordsTotal = count;
                         responseData.data = dao.listAll(start, length, search, col, oder);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        log("Could not list acoustic model", e);
                     } finally {
                         out.write(gson.toJson(responseData));
                     }

@@ -13,12 +13,20 @@ import java.util.List;
  */
 public class LanguageModelService {
 
+    public File getExtraDir() {
+        return extraDir;
+    }
+
+    public void setExtraDir(File extraDir) {
+        this.extraDir = extraDir;
+    }
+
     public interface TrainingListener {
-        public void onMessage(String message);
+        void onMessage(String message);
 
-        public void onError(String message, Throwable e);
+        void onError(String message, Throwable e);
 
-        public void onSuccess(File languageModel);
+        void onSuccess(File languageModel);
     }
 
     private final TrainingListener listener;
@@ -27,12 +35,26 @@ public class LanguageModelService {
 
     private final File tmpDir;
 
+    private File extraDir;
+
     public LanguageModelService(TrainingListener listener) {
         this.listener = listener;
         this.transcriptionDAO = new TranscriptionDAO();
         this.tmpDir = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + "_lm");
         if (!tmpDir.exists())
             tmpDir.mkdirs();
+    }
+
+    private void addExtraSentences(File fileSentences) throws IOException {
+        if (extraDir != null && extraDir.exists() && extraDir.isDirectory()) {
+            listener.onMessage("Found extra directory " + extraDir);
+            List<String> transcriptions = FileUtils.readLines(new File(extraDir, "ext.transcription"), "UTF-8");
+            for (String transcription : transcriptions) {
+                String sentence = transcription.substring(0, transcription.lastIndexOf("(") - 1);
+                sentence = sentence.trim().toUpperCase();
+                FileUtils.writeStringToFile(fileSentences, "<s> " + sentence.toLowerCase().trim() + " </s>\n", "UTF-8", true);
+            }
+        }
     }
 
     public synchronized void training() {
@@ -62,6 +84,7 @@ public class LanguageModelService {
                         FileUtils.writeStringToFile(fileSentences, "<s> " + sentence.toLowerCase().trim() + " </s>\n", "UTF-8", true);
                     }
                 }
+                addExtraSentences(fileSentences);
                 listener.onMessage("Sentences saved successfully!");
                 FileUtils.write(fileScript, "LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n", "UTF-8", true);
                 String command = "text2wfreq < " + fileSentences.getAbsolutePath() + " | wfreq2vocab > " + fileVocab.getAbsolutePath();

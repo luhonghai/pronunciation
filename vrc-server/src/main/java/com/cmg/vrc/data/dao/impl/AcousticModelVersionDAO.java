@@ -1,30 +1,29 @@
 package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.LanguageModelVersion;
+import com.cmg.vrc.data.jdo.AcousticModelVersion;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by cmg on 10/09/15.
+ * Created by cmg on 05/10/2015.
  */
-public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
+public class AcousticModelVersionDAO extends DataAccess<AcousticModelVersion> {
 
-    public LanguageModelVersionDAO() {
-        super(LanguageModelVersion.class);
+    public AcousticModelVersionDAO() {
+        super(AcousticModelVersion.class);
     }
 
-    public List<LanguageModelVersion> listAll(int start, int length,String search,int column,String order) {
+    public List<AcousticModelVersion> listAll(int start, int length,String search,int column,String order) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + AcousticModelVersion.class.getCanonicalName());
         if(search.length()>0){
             q.setFilter("(admin.toLowerCase().indexOf(search.toLowerCase()) != -1) || (fileName.toLowerCase().indexOf(search.toLowerCase()) != -1)");
         } else {
@@ -66,7 +65,7 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
 
     public int getCountSearch(String search) {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + AcousticModelVersion.class.getCanonicalName());
         if(search.length()>0){
             q.setFilter("(admin.toLowerCase().indexOf(search.toLowerCase()) != -1) || (fileName.toLowerCase().indexOf(search.toLowerCase()) != -1)");
         } else {
@@ -88,7 +87,7 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
 
     public int getMaxVersion() {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT MAX(version) FROM " + LanguageModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT MAX(version) FROM " + AcousticModelVersion.class.getCanonicalName());
         try {
             if (q != null)
                 return (Integer) q.execute();
@@ -106,8 +105,8 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
     public void removeSelected() {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LanguageModelVersion.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metaRecorderSentence.getTable()+ " SET selected=0");
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(AcousticModelVersion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metadata.getTable()+ " SET selected=0");
         try {
             tx.begin();
             q.execute();
@@ -123,8 +122,8 @@ public class LanguageModelVersionDAO extends DataAccess<LanguageModelVersion> {
         }
     }
 
-    public LanguageModelVersion getSelectedVersion() throws Exception {
-        List<LanguageModelVersion> list = list(" WHERE selected == :1", true);
+    public AcousticModelVersion getSelectedVersion() throws Exception {
+        List<AcousticModelVersion> list = list(" WHERE selected == :1", true);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;

@@ -113,27 +113,33 @@ public class Test1 {
     private static long startTime;
 
     public static void main(String []args){
+        saveData();
+    }
+
+    private static void pickRandomTranscription() {
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
         Gson gson = new Gson();
-        File target = new File("D:\\Sentence\\sentence.json");
         DictionaryHelper dictionaryHelper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
         try {
             startTime = System.currentTimeMillis();
-            List<Transcription> transcriptionList = gson.fromJson(
-                FileUtils.readFileToString(target, "UTF-8"),
-                new TypeToken<List<Transcription>>(){}.getType());
-                while(!pickTranscription(transcriptionList, dictionaryHelper));
+            final List<Transcription> transcriptionList = gson.fromJson(
+                    IOUtils.toString(Test1.class.getClassLoader().getResourceAsStream("amt/sentence.json"), "UTF-8"),
+                    new TypeToken<List<Transcription>>(){}.getType());
+            final List<String> phones = IOUtils.readLines(Test1.class.getClassLoader().getResourceAsStream("amt/phones"));
+
+            while(!pickTranscription(transcriptionList, dictionaryHelper, phones));
+
             //transcriptionDAO.create(transcriptions);
-           // FileUtils.write(new File("D:\\Sentence\\sentence.json"), gson.toJson(transcriptionList), "UTF-8");
+            // FileUtils.write(new File("D:\\Sentence\\sentence.json"), gson.toJson(transcriptionList), "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private static boolean pickTranscription(List<Transcription> transcriptionList, DictionaryHelper dictionaryHelper) throws Exception {
+    private static boolean pickTranscription(List<Transcription> transcriptionList, DictionaryHelper dictionaryHelper, List<String> phones) throws Exception {
         long now = System.currentTimeMillis();
         long executiontime = now - startTime;
-        EXTRA_RANGE = (int) executiontime / (2 * 60 * 1000);
+        EXTRA_RANGE = (int) executiontime / (10 * 1000);
         System.out.println("===========================================");
         System.out.println("EXTRA_RANGE: " + EXTRA_RANGE);
         System.out.println("Try to pick " + EXPECTED_SENTENCES_LENGTH + " sentences from transcriptions list size " + transcriptionList.size());
@@ -141,7 +147,7 @@ public class Test1 {
         Map<String, Transcription> data = new HashMap<String, Transcription>();
         while (data.size() < EXPECTED_SENTENCES_LENGTH) {
             Random r = new Random();
-            int index = -1;
+            int index;
             do {
                 index = r.nextInt(size + 1);
                 if (index < 0) index = 0;
@@ -169,7 +175,6 @@ public class Test1 {
             }
         }
         Map<String, Integer> phonemes = new HashMap<String, Integer>();
-        List<String> phones = IOUtils.readLines(Test1.class.getClassLoader().getResourceAsStream("amt/phones"));
         for (String phone : phones) {
             if (!phone.equalsIgnoreCase("sil") && !phonemes.containsKey(phone.toLowerCase())) {
                 phonemes.put(phone.toLowerCase(), 0);
@@ -195,34 +200,36 @@ public class Test1 {
             int count = phonemes.get(phone);
             System.out.println("Phone: " + phone + ". Count: " + count + ". Avg: " + avg);
             int aRange = ACCEPTED_RANGE + EXTRA_RANGE;
-            if ((avg - count > aRange
-                || phone.equalsIgnoreCase("zh")
-                || phone.equalsIgnoreCase("oy")
-                || phone.equalsIgnoreCase("ua"))
-                    && count <= MIN_ACCEPTED_COUNT) {
-                System.out.println("Out of accepted range " + (avg - count));
-                isValid = false;
+            if (avg - count > aRange) {
+                if ((phone.equalsIgnoreCase("zh")
+                        || phone.equalsIgnoreCase("oy")
+                        || phone.equalsIgnoreCase("ua")) && count > MIN_ACCEPTED_COUNT) {
+                    System.out.println("It's ok for phone " + phone);
+                } else {
+                    System.out.println("Out of accepted range " + (avg - count));
+                    isValid = false;
+                }
             }
         }
         if (isValid) {
-            System.out.println("Found good list. Save to file");
             Gson gson = new Gson();
-            FileUtils.write(new File("D:\\Sentence\\sentence-700.json"), gson.toJson(data.values()), "UTF-8");
+            File output = new File("sentence-700" + (ACCEPTED_RANGE + EXTRA_RANGE) + ".json");
+            FileUtils.write(output, gson.toJson(data.values()), "UTF-8");
+            System.out.println("Found good list. Save to file " + output);
         }
         return isValid;
     }
 
     private static void saveData() {
-        Map<Integer, Transcription> data = new HashMap<Integer, Transcription>();
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
         Gson gson = new Gson();
-        File target = new File("D:\\Sentence\\sentence.json");
         try {
             List<Transcription> transcriptionList = gson.fromJson(
-                    FileUtils.readFileToString(target, "UTF-8"),
+                IOUtils.toString(Test1.class.getClassLoader().getResourceAsStream("amt/sentence-700.json"), "UTF-8"),
                     new TypeToken<List<Transcription>>(){}.getType());
-            transcriptionDAO.deleteAll();
+            //transcriptionDAO.deleteAll();
             List<com.cmg.vrc.data.jdo.Transcription> transcriptions = new ArrayList<com.cmg.vrc.data.jdo.Transcription>();
+            int count = 0;
             for (Transcription transcription : transcriptionList) {
                 com.cmg.vrc.data.jdo.Transcription t = new com.cmg.vrc.data.jdo.Transcription();
                 t.setAuthor(transcription.getAuthor());
@@ -234,6 +241,7 @@ public class Test1 {
                 t.setModifiedDate(transcription.getModifiedDate());
                 t.setSentence(transcription.getSentence());
                 transcriptions.add(t);
+                System.out.println("Save #" + (++count) + " " + transcription.getSentence());
             }
             transcriptionDAO.create(transcriptions);
             // FileUtils.write(new File("D:\\Sentence\\sentence.json"), gson.toJson(transcriptionList), "UTF-8");

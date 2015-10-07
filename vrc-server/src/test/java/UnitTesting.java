@@ -1,3 +1,4 @@
+
 import com.cmg.lesson.dao.QuestionDAO;
 import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.dao.WordMappingPhonemesDAO;
@@ -7,19 +8,7 @@ import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.lesson.data.jdo.WordOfQuestion;
 import com.cmg.lesson.services.WordCollectionService;
-import com.cmg.lesson.services.WordMappingPhonemesService;
-import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
-import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
-import com.cmg.vrc.data.jdo.PhonemeScoreDB;
-import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
-import com.cmg.vrc.service.PhonemeScoreService;
-import com.cmg.vrc.service.UserVoiceModelService;
-import com.cmg.vrc.service.amt.TranscriptionService;
-import com.cmg.vrc.sphinx.DictionaryHelper;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

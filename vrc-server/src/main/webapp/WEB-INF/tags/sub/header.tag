@@ -41,6 +41,7 @@
 						<li><a href="AdminManageRecorder.jsp">Manage Recording</a></li>
 						<li><a href="LanguageModel.jsp">Language model</a></li>
 						<li><a href="Dictionary.jsp">Dictionary management</a></li>
+						<li><a href="AcousticModel.jsp">Acoustic model</a></li>
 					</ul>
 				</li>
 				<%

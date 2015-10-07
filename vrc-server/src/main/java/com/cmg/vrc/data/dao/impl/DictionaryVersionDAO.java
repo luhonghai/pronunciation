@@ -122,4 +122,11 @@ public class DictionaryVersionDAO extends DataAccess<DictionaryVersion> {
             pm.close();
         }
     }
+
+    public DictionaryVersion getSelectedVersion() throws Exception {
+        List<DictionaryVersion> list = list(" WHERE selected == :1", true);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
 }
