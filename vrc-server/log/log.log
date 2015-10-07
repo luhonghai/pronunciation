@@ -3261,3 +3261,121 @@
 2015-10-02 11:24:13 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.lesson.data.jdo.WordCollection" since the connection used is closing/committing
 2015-10-02 11:24:15 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.lesson.data.jdo.WordCollection" since the connection used is closing/committing
 2015-10-02 11:24:17 INFO  Query:77 - Reading in results for query "SELECT max(version) FROM com.cmg.lesson.data.jdo.WordCollection" since the connection used is closing/committing
+2015-10-06 09:16:00 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCode.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Security.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Feedback.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCode.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetail.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Admin.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersion.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/User.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDevice.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Usage.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModel.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompany.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/PhonemeScoreDB.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Transcription.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentence.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistory.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-10-06 09:16:01 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersion.class" with enhanced definition
+2015-10-06 09:16:01 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-10-06 09:16:01 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=253 ms, enhance=192 ms, total=445 ms. Consult the log for full details
+2015-10-06 09:16:06 INFO  MLog:80 - MLog clients using log4j logging.
+2015-10-06 09:16:06 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-10-06 09:16:06 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@fed83ab7 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@575cfee2 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9cgcog6s1xlgv5t|6452ab73, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@8dad1bdb [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9cgcog6s1xlgv5t|47217048, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9cgcog6s1xlgv5t|6f763e79, numHelperThreads -> 3 ]
+2015-10-06 09:17:44 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.ClientCode" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Security" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Feedback" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCode" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.AppDetail" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Admin" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.DictionaryVersion" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.User" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserDevice" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Usage" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.UserVoiceModel" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LicenseCodeCompany" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.PhonemeScoreDB" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.Transcription" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentence" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.RecordedSentenceHistory" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-10-06 09:17:44 INFO  Enhancer:77 - Class "com.cmg.vrc.data.jdo.LanguageModelVersion" is already enhanced.
+2015-10-06 09:17:44 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-10-06 09:17:44 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 17 classes. Timings : input=260 ms, enhance=82 ms, total=342 ms. Consult the log for full details
+2015-10-06 09:17:48 INFO  MLog:80 - MLog clients using log4j logging.
+2015-10-06 09:17:48 INFO  C3P0Registry:204 - Initializing c3p0-0.9.1.1 [built 15-March-2007 01:32:31; debug? true; trace: 10]
+2015-10-06 09:17:48 INFO  AbstractPoolBackedDataSource:462 - Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@2c264082 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@9215f319 [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, identityToken -> z8kflt9cgcqmu51fxhg1y|2c6ff930, idleConnectionTestPeriod -> 0, initialPoolSize -> 3, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 0, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 15, maxStatements -> 0, maxStatementsPerConnection -> 0, minPoolSize -> 3, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@90423480 [ description -> null, driverClass -> null, factoryClassLocation -> null, identityToken -> z8kflt9cgcqmu51fxhg1y|63e66ad5, jdbcUrl -> jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false, properties -> {user=******, password=******} ], preferredTestQuery -> null, propertyCycle -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, factoryClassLocation -> null, identityToken -> z8kflt9cgcqmu51fxhg1y|6b50d51a, numHelperThreads -> 3 ]
+2015-10-06 09:17:50 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.DictionaryVersion WHERE selected == :1" since the connection used is closing/committing
+2015-10-06 09:17:58 INFO  Query:77 - Reading in results for query "SELECT FROM com.cmg.vrc.data.jdo.LanguageModelVersion WHERE selected == :1" since the connection used is closing/committing
+2015-10-06 11:46:55 INFO  Enhancer:77 - DataNucleus Enhancer (version 4.1.3) for API "JDO"
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LanguageModelVersion.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LanguageModelVersion
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/PhonemeScoreDB.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.PhonemeScoreDB
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/ClientCode.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.ClientCode
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCodeCompany.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCodeCompany
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/lesson/data/jdo/WordCollection.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.lesson.data.jdo.WordCollection
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/AppDetail.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.AppDetail
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Admin.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Admin
+2015-10-06 11:46:55 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/User.class" with enhanced definition
+2015-10-06 11:46:55 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.User
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentenceHistory.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentenceHistory
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/DictionaryVersion.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.DictionaryVersion
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Feedback.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Feedback
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Transcription.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Transcription
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/RecordedSentence.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.RecordedSentence
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Security.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Security
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/Usage.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.Usage
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserDevice.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserDevice
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/LicenseCode.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.LicenseCode
+2015-10-06 11:46:56 INFO  Enhancer:77 - Writing class file "/Users/cmg/git/pronunciation/vrc-server/target/classes/com/cmg/vrc/data/jdo/UserVoiceModel.class" with enhanced definition
+2015-10-06 11:46:56 INFO  Enhancer:77 - ENHANCED (Persistable) : com.cmg.vrc.data.jdo.UserVoiceModel
+2015-10-06 11:46:56 INFO  Enhancer:77 - DataNucleus Enhancer completed with success for 18 classes. Timings : input=169 ms, enhance=268 ms, total=437 ms. Consult the log for full details

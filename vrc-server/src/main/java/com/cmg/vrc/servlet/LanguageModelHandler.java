@@ -92,6 +92,7 @@ public class LanguageModelHandler extends BaseServlet {
                             out.flush();
                         }
                     });
+                    languageModelService.setExtraDir(new File("/Users/cmg/Documents/training/ext-training"));
                     languageModelService.training();
                     out.write("Execution time: " + (System.currentTimeMillis() - start) + "ms");
                     out.flush();
