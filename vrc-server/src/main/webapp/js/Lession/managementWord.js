@@ -179,7 +179,8 @@ function deleteWord(){
                 id: id
             },
             success: function (data) {
-                if (data.message == "success") {
+                var messages=JSON.parse(data);
+                if (messages.message == "success") {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
