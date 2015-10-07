@@ -1,15 +1,12 @@
 package com.cmg.lesson.services;
 
-import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.dao.WordMappingPhonemesDAO;
-import com.cmg.lesson.data.dto.PhonemeDTO;
 import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +17,9 @@ public class WordMappingPhonemesService {
     private static final Logger logger = Logger.getLogger(WordMappingPhonemesService.class
             .getName());
 
+
+    private String SUCCESS = "success";
+    private String ERROR = "error mapping phonemes:";
     /**
      *
      * @return max version
@@ -38,14 +38,29 @@ public class WordMappingPhonemesService {
 
     /**
      *
+     * @param idWord
+     * @return
+     */
+    public List<WordMappingPhonemes> getByWordID(String idWord){
+        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        try {
+            return dao.getByWordID(idWord);
+        }catch (Exception e){
+            logger.error("get by word id did not work cause : " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     *
      * @param wordID
      * @param phonemes
      * @param version
      * @param isDeleted
      * @return
      */
-    public boolean addMapping(String wordID, List<String> phonemes,int version,boolean isDeleted){
-        boolean check = false;
+    public String addMapping(String wordID, List<String> phonemes,int version,boolean isDeleted){
+        String messageError = "";
         if(checkExist(wordID)){
             updateDeleted(wordID,true);
         }
@@ -59,12 +74,45 @@ public class WordMappingPhonemesService {
             }
             if(list.size() > 0){
                 dao.create(list);
-                check = true;
+                return SUCCESS;
             }
         }catch(Exception e ){
             logger.error("error when add mapping word with phoneme because : " + e.getMessage());
+            messageError = e.getMessage();
         }
-        return check;
+        return ERROR+messageError;
+    }
+
+    /**
+     *
+     * @param wordID
+     * @param phonemes
+     * @param version
+     * @param isDeleted
+     * @return
+     */
+    public String addMappingPhonemes(String wordID, List<WordMappingPhonemes> phonemes,int version,boolean isDeleted){
+        String messageError = "";
+        if(checkExist(wordID)){
+            updateDeleted(wordID,true);
+        }
+        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
+        try {
+            for(int i = 0 ; i < phonemes.size(); i++){
+                WordMappingPhonemes wp = new WordMappingPhonemes(wordID,phonemes.get(i).getPhoneme(),phonemes.get(i).getIndex(),isDeleted,version);
+                logger.info("add mapping phonemes " + wp.getPhoneme());
+                list.add(wp);
+            }
+            if(list.size() > 0){
+                dao.create(list);
+                return SUCCESS;
+            }
+        }catch(Exception e ){
+            logger.error("error when add mapping word with phoneme because : " + e.getMessage());
+            messageError = e.getMessage();
+        }
+        return ERROR+messageError;
     }
 
     /**
@@ -88,13 +136,17 @@ public class WordMappingPhonemesService {
      * @param wordID
      * @param isDeleted
      */
-    public void updateDeleted(String wordID, boolean isDeleted){
+    public String updateDeleted(String wordID, boolean isDeleted){
         WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+        String messageError;
         try {
-             dao.updateDeleted(wordID,isDeleted);
+            dao.updateDeleted(wordID,isDeleted);
+            return SUCCESS;
         }catch (Exception e){
             logger.warn("check exist warning : " + e.getMessage());
+            messageError = e.getMessage();
         }
+        return ERROR + messageError;
     }
 
     /**
@@ -104,18 +156,18 @@ public class WordMappingPhonemesService {
         WordCollectionService wcSer = new WordCollectionService();
         String word = null;
         try {
-            ArrayList<WordCollection> list = wcSer.listAll(false);
+            List<WordCollection> list = wcSer.listAll(false);
+
             if(list == null || list.size() == 0){
+                System.out.println("list equal null");
                 return;
             }
             DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
             for(WordCollection wc : list){
                 word = wc.getWord();
+                System.out.println("check word : " + word);
                 List<String> phonemes = helper.getCorrectPhonemes(wc.getWord());
                 if (phonemes != null && phonemes.size() > 0) {
-                    if(checkExist(wc.getId())){
-                        updateDeleted(wc.getId(),true);
-                    }
                     int version = getMaxVersion();
                     logger.info("add mapping word " + wc.getWord());
                     addMapping(wc.getId(), phonemes, version, false);
@@ -125,7 +177,6 @@ public class WordMappingPhonemesService {
         }catch (Exception e){
             logger.error("can not check word :"+word+ " in beep cause : " + e.getMessage());
         }
-
     }
 
 }

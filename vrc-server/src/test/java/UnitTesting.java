@@ -1,3 +1,8 @@
+import com.cmg.lesson.dao.WordCollectionDAO;
+import com.cmg.lesson.data.dto.ListWord;
+import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.services.WordCollectionService;
+import com.cmg.lesson.services.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.PhonemeScoreDB;
@@ -37,8 +42,26 @@ public class UnitTesting {
             } else {
                 System.out.println("No phonemes found");
             }*/
-            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
-            walker.generateDictionary();
+        /*    OxfordDictionaryWalker walker = new OxfordDictionaryWalker(new File("D:\\word_pronunciation"));
+            walker.generateDictionary();*/
+
+            /*WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updateDatabase();*/
+/*
+            WordCollectionDAO dao = new WordCollectionDAO();
+            List<WordCollection> list = dao.search("ac","desc",10,10);
+            if(list!=null && list.size() > 0){
+                for(WordCollection word : list){
+                    System.out.println(word.getWord());
+                }
+            }*/
+
+            WordCollectionService sc = new WordCollectionService();
+           ListWord list =  sc.searchWord("", "asc", 0, 10, 1);
+            List<WordCollection> collection = list.getData();
+            for(WordCollection w : collection){
+                System.out.println(w.getWord() + " - " + w.getMp3Path());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

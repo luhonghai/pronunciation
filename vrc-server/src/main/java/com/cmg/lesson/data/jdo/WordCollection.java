@@ -101,7 +101,7 @@ public class WordCollection implements Mirrorable{
 
     @Override
     public String getId() {
-        return null;
+        return this.id;
     }
 
     @Override
