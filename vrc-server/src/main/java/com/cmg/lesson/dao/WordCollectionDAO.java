@@ -247,5 +247,18 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    public List<WordCollection> listIn(String ids) throws Exception{
+        List<WordCollection> list = list("Where id in("+ids+")");
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 
 }
