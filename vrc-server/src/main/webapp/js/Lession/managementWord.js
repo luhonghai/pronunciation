@@ -119,9 +119,14 @@ function addWord(){
                 word: JSON.stringify(word)
             },
             success: function (data) {
-                if (data == "success") {
+                var messages=JSON.parse(data);
+                if (messages.message == "success") {
                     $("tbody").html("");
                     myTable.fnDraw();
+                    $("#add").modal('hide');
+                }
+                if(messages.message=="word is existed"){
+                    alert("Word is existed ");
                     $("#add").modal('hide');
                 }
             },
@@ -174,7 +179,7 @@ function deleteWord(){
                 id: id
             },
             success: function (data) {
-                if (data == "success") {
+                if (data.message == "success") {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
