@@ -64,29 +64,35 @@
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
-
-                <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <button type="button" name="yesadd" id="addPhonemes" class="btn btn-default" value="yes" >Add Phonemes</button>
-                </div>
-                <div id="addphoneme">
-
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
@@ -120,36 +126,40 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editWord" name="addsentence" class=" form-control" disabled style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editWord" name="addsentence" class=" form-control" disabled style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editPronunciation" name="addsentence" class=" form-control" disabled style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editPronunciation" name="addsentence" class=" form-control" disabled style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editDifinition" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
-                <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <button type="button" name="yesadd" id="addPhonemesEdit" class="btn btn-default" value="yes" >Add Phonemes</button>
-                </div>
-                <div class="col-xs-8  col-sm-9" id="listPhonemes">
-
-                </div>
-                <div id="addphonemeEdit">
-
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
                 </div>
 
               </div>
               <div class="modal-footer">
-                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
+                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Submit</button>
                 <button type="button" name="closeedit" id="closeedit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
 
               </div>
@@ -177,7 +187,7 @@
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">
-          <button type="button" name="YesDelete" id="deleteItems" class="btn btn-default" >Yes</button>
+          <button type="button" name="YesDelete" id="deleteItems" class="btn btn-default" >Submit</button>
           <button type="button" name="closedelete" id="closedelete" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
         </div>
       </form>
