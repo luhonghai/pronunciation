@@ -7,8 +7,12 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.AcousticModelVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.data.jdo.LanguageModelVersion;
+import com.cmg.vrc.service.AcousticModelTrainingService;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.util.AWSHelper;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -16,30 +20,56 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by cmg on 05/10/2015.
  */
 public class AcousticModelTraining {
-    /**
-     * Number of tied states (senones) to create in decision-tree clustering
-     */
-    private static final int DEFAULT_SENONES = 200;
-    /**
-     *
-     */
-    private static final int DEFAULT_DENSITIES = 8;
 
-    public boolean isTrainCiModelEnabled() {
-        return isTrainCiModelEnabled;
+    public static class ConfigurationBuilder {
+        /**
+         * Number of tied states (senones) to create in decision-tree clustering
+         */
+        private static final Map<String, String> DEFAULT_CONFIGURATIONS = new HashMap<String, String>();
+
+        static {
+            // Number of tied states (senones) to create in decision-tree clustering
+            DEFAULT_CONFIGURATIONS.put("CFG_N_TIED_STATES", "200");
+            DEFAULT_CONFIGURATIONS.put("CFG_NPART", "8");
+            DEFAULT_CONFIGURATIONS.put("DEC_CFG_NPART", "8");
+        }
+
+        private Map<String, String> configuration;
+
+        private ConfigurationBuilder() {}
+
+        public static ConfigurationBuilder createNew() {
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.configuration = new HashMap<String, String>();
+            return configurationBuilder;
+        }
+
+        public static ConfigurationBuilder createDefault() {
+            ConfigurationBuilder configurationBuilder = createNew();
+            Iterator<String> keys = DEFAULT_CONFIGURATIONS.keySet().iterator();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                String value = DEFAULT_CONFIGURATIONS.get(key);
+                configurationBuilder.configuration.put(key, value);
+            }
+            return configurationBuilder;
+        }
+
+        public ConfigurationBuilder put(String key, String value) {
+            this.configuration.put(key, value);
+            return this;
+        }
+
+        public Map<String, String> get() {
+            return configuration;
+        }
     }
-
-    public void setIsTrainCiModelEnabled(boolean isTrainCiModelEnabled) {
-        this.isTrainCiModelEnabled = isTrainCiModelEnabled;
-    }
-
     public File getExtraDir() {
         return extraDir;
     }
@@ -61,6 +91,10 @@ public class AcousticModelTraining {
         void onDetectSentence(String id, String account, String sentence, String fileName) throws Exception;
     }
 
+    private Map<String, String> configuration = ConfigurationBuilder.createDefault().get();
+
+    private final File targetDir;
+
     private final File rootDir;
 
     private final String projectName;
@@ -79,8 +113,6 @@ public class AcousticModelTraining {
 
     private long count;
 
-    private boolean isTrainCiModelEnabled = false;
-
     private File extraDir;
 
     private List<String> allWords;
@@ -97,18 +129,38 @@ public class AcousticModelTraining {
 
     private File trainTranscription;
 
-    public AcousticModelTraining(File rootDir, String projectName, TrainingListener listener) {
-        this.rootDir = rootDir;
+    public AcousticModelTraining(File targetDir, String projectName, TrainingListener listener) {
+        this.targetDir = targetDir;
+        this.rootDir = new File(targetDir, "training");
         this.projectName = projectName;
         this.listener = listener;
         this.awsHelper = new AWSHelper();
+    }
 
+    public AcousticModelTraining(File targetDir, String projectName, Map<String, String> configuration, TrainingListener listener) {
+        this(targetDir, projectName, listener);
+        if (configuration != null && configuration.size() > 0) {
+            this.configuration = configuration;
+        }
     }
 
     public void train() throws Exception {
         count = 0;
         prepare();
         doTraining();
+        saveConfiguration();
+        saveLog();
+        saveResult();
+        AcousticModelVersion amv = new AcousticModelVersion();
+        amv.setCreatedDate(new Date(System.currentTimeMillis()));
+        amv.setDictionaryVersionId(dictionaryVersion.getId());
+        amv.setLanguageModelVersionId(languageModelVersion.getId());
+        amv.setProjectName(projectName);
+        amv.setFileName(projectName + ".zip");
+        amv.setLogResultName(projectName + ".log.zip");
+        amv.setLogFileName(projectName + ".running.log");
+        amv.setCfgFileName(projectName + ".etc.zip");
+        listener.onSuccess(amv);
     }
 
     private void prepare() throws Exception {
@@ -220,9 +272,10 @@ public class AcousticModelTraining {
                                     allWords.add(word);
                             }
                             String fullSentence = "<s> " + sentence.toLowerCase() + " </s>";
-                            FileUtils.writeStringToFile(testFileIds, fileId + "\n", "UTF-8", true);
+                            // Only use extra data for training
+                            //FileUtils.writeStringToFile(testFileIds, fileId + "\n", "UTF-8", true);
                             FileUtils.writeStringToFile(trainFileIds, fileId + "\n", "UTF-8", true);
-                            FileUtils.writeStringToFile(testTranscription, fullSentence + " (" + sId + ")" + "\n", "UTF-8", true);
+                            //FileUtils.writeStringToFile(testTranscription, fullSentence + " (" + sId + ")" + "\n", "UTF-8", true);
                             FileUtils.writeStringToFile(trainTranscription, fullSentence + " (" + sId + ")" + "\n", "UTF-8", true);
                             listener.onMessage("Add extra sentence to training list " + sentence + ". WAV file " + targetWav);
                         }
@@ -286,12 +339,21 @@ public class AcousticModelTraining {
             List<String> cfgContent = FileUtils.readLines(cfg, "UTF-8");
             List<String> newCfgContent = new ArrayList<String>();
             for (String line : cfgContent) {
-                if (line.startsWith("$CFG_N_TIED_STATES")) {
-                    line = "$CFG_N_TIED_STATES = " + DEFAULT_SENONES + ";";
-                } else if (line.startsWith("$DEC_CFG_LANGUAGEMODEL")) {
+                if (line.startsWith("$DEC_CFG_LANGUAGEMODEL")) {
                     line = "$DEC_CFG_LANGUAGEMODEL  = \"$CFG_BASE_DIR/etc/${CFG_DB_NAME}.lm\";";
-                } else if (line.startsWith("$CFG_CD_TRAIN")) {
-                    line = "$CFG_CD_TRAIN = '" + (isTrainCiModelEnabled ? "no" : "yes") + "';";
+                } else {
+                    if (configuration != null && configuration.size() > 0) {
+                        Iterator<String> keys = configuration.keySet().iterator();
+                        while (keys.hasNext()) {
+                            String key = keys.next();
+                            String value = configuration.get(key);
+                            if (line.startsWith("$" + key + " =")) {
+                                line = "$" + key + " = " + value + ";";
+                                listener.onMessage("Replace configuration " + line);
+                                break;
+                            }
+                        }
+                    }
                 }
                 newCfgContent.add(line);
             }
@@ -351,30 +413,144 @@ public class AcousticModelTraining {
         process.waitFor();
     }
 
-    public static void main(String[] args) {
-        AcousticModelTraining training = new AcousticModelTraining(new File("/Users/cmg/Documents/training/amt_test"), "amt_test", new TrainingListener() {
-            @Override
-            public void onMessage(String message) {
-                System.out.println(message);
-            }
+    private void saveConfiguration() throws IOException, ZipException {
+        listener.onMessage("Save all configuration");
+        String configName = projectName + ".etc";
+        String configZipName = projectName + ".etc.zip";
+        File cfgDir = new File(targetDir, configName);
+        if (cfgDir.exists())
+            FileUtils.forceDelete(cfgDir);
+        File etcDir = new File(rootDir, "etc");
+        if (etcDir.exists())
+            FileUtils.moveDirectory(etcDir, cfgDir);
+        File fileZip = new File(targetDir, configZipName);
+        if (fileZip.exists())
+            FileUtils.forceDelete(fileZip);
+        ZipFile zipFile = new ZipFile(fileZip);
+        zipFile.createZipFileFromFolder(cfgDir, new ZipParameters(), false, 0);
+        listener.onMessage("Upload to AWS S3 " + getS3KeyConfigurationName());
+        awsHelper.upload(getS3KeyConfigurationName(), fileZip);
+    }
 
-            @Override
-            public void onError(String message, Throwable e) {
-                System.out.println("Error: " + message);
-                if (e != null)
-                    e.printStackTrace();
-            }
+    private void saveLog() throws IOException, ZipException {
+        listener.onMessage("Save all result log");
+        String logName = projectName + ".log";
+        String logZipName = projectName + ".log.zip";
+        File logDir = new File(targetDir, logName);
+        if (logDir.exists())
+            FileUtils.forceDelete(logDir);
+        logDir.mkdirs();
+        File logHtml = new File(rootDir, projectName + ".html");
+        if (logHtml.exists())
+            FileUtils.moveFile(logHtml, new File(logDir, projectName + ".html"));
+        File logContainer = new File(rootDir, "logdir");
+        if (logContainer.exists())
+            FileUtils.moveDirectory(logContainer, new File(logDir, "logdir"));
+        File result = new File(rootDir, "result");
+        if (result.exists())
+            FileUtils.moveDirectory(result, new File(logDir, "result"));
+        File fileZip = new File(targetDir, logZipName);
+        if (fileZip.exists())
+            FileUtils.forceDelete(fileZip);
+        ZipFile zipFile = new ZipFile(fileZip);
+        zipFile.createZipFileFromFolder(logDir, new ZipParameters(), false, 0);
+        listener.onMessage("Upload to AWS S3 " + getS3KeyOutputLog());
+        awsHelper.upload(getS3KeyOutputLog(), fileZip);
+    }
 
-            @Override
-            public void onSuccess(AcousticModelVersion amv) {
-
+    private void saveResult() throws TrainingException, IOException, ZipException {
+        listener.onMessage("Save acoustic model");
+        File outputModel = new File(rootDir, "model_parameters" + File.separator + projectName + ".cd_cont_" + getSenones());
+        if (outputModel.exists() && outputModel.isDirectory()
+                && checkValidOutputModel(outputModel, "mdef")
+                && checkValidOutputModel(outputModel, "means")
+                && checkValidOutputModel(outputModel, "mixture_weights")
+                && checkValidOutputModel(outputModel, "variances")
+                && checkValidOutputModel(outputModel, "feat.params")
+                && checkValidOutputModel(outputModel, "transition_matrices")
+                && checkValidOutputModel(outputModel, "noisedict")
+                ) {
+            listener.onMessage("Zip output model");
+            File tmpOutputModel = new File(targetDir, projectName);
+            if (tmpOutputModel.exists())
+                FileUtils.forceDelete(tmpOutputModel);
+            FileUtils.moveDirectory(outputModel, tmpOutputModel);
+            String zipName = projectName + ".zip";
+            File outputModelZip = new File(targetDir, zipName);
+            if (outputModelZip.exists())
+                FileUtils.forceDelete(outputModelZip);
+            ZipFile zipFile = new ZipFile(outputModelZip);
+            zipFile.createZipFileFromFolder(tmpOutputModel, new ZipParameters(), false, 0);
+            if (outputModelZip.exists()) {
+                listener.onMessage("Found output model zip file " + outputModelZip + ". Upload to AWS S3 " + getS3KeyOutputModel());
+                awsHelper.upload(getS3KeyOutputModel(), outputModelZip);
+            } else {
+                throw new TrainingException("Could not zip output folder");
             }
-        });
-        try {
-            training.setExtraDir(new File("/Users/cmg/Documents/training/ext-training"));
-            training.train();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            throw new TrainingException("No output acoustic model found!");
         }
+    }
+
+    public String getS3KeyConfigurationName() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".etc.zip";
+    }
+
+    public String getS3KeyOutputLog() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".log.zip";
+    }
+
+    public String getS3KeyRunningLog() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".running.log";
+    }
+
+    public String getS3KeyOutputModel() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".zip";
+    }
+
+    private boolean checkValidOutputModel(File outputModel, String fileName) throws TrainingException {
+        File f = new File(outputModel, fileName);
+        if (f.exists() && !f.isDirectory()) {
+            return true;
+        } else {
+            throw new TrainingException("Missing file " + fileName + " in output acoustic model " + outputModel);
+        }
+    }
+
+    private String getSenones() {
+        if (configuration != null && configuration.containsKey("CFG_N_TIED_STATES")) {
+            return configuration.get("CFG_N_TIED_STATES");
+        } else {
+            return ConfigurationBuilder.DEFAULT_CONFIGURATIONS.get("CFG_N_TIED_STATES");
+        }
+    }
+
+    public static void main(String[] args) {
+//        AcousticModelTraining training = new AcousticModelTraining(new File("/Users/cmg/Documents/training/amt_test"), "amt_test", new TrainingListener() {
+//            @Override
+//            public void onMessage(String message) {
+//                System.out.println(message);
+//            }
+//
+//            @Override
+//            public void onError(String message, Throwable e) {
+//                System.out.println("Error: " + message);
+//                if (e != null)
+//                    e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onSuccess(AcousticModelVersion amv) {
+//                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//                System.out.println(gson.toJson(amv));
+//            }
+//        });
+//        try {
+//            training.setExtraDir(new File("/Users/cmg/Documents/training/ext-training"));
+//            training.train();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        AcousticModelTrainingService.getInstance().train("admin@c-mg.com", true, null);
     }
 }

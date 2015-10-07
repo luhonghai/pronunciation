@@ -356,6 +356,15 @@
         <url-pattern>/dictionary_upload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AcousticModelDataHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AcousticModelDataHandler</servlet-name>
+        <url-pattern>/acoustic_model</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>

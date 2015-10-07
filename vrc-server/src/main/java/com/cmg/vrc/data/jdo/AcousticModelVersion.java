@@ -38,6 +38,12 @@ public class AcousticModelVersion implements Mirrorable {
     private String logFileName;
 
     @Persistent
+    private String logResultName;
+
+    @Persistent
+    private String cfgFileName;
+
+    @Persistent
     private String admin;
 
     @Persistent
@@ -132,5 +138,21 @@ public class AcousticModelVersion implements Mirrorable {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public String getLogResultName() {
+        return logResultName;
+    }
+
+    public void setLogResultName(String logResultName) {
+        this.logResultName = logResultName;
+    }
+
+    public String getCfgFileName() {
+        return cfgFileName;
+    }
+
+    public void setCfgFileName(String cfgFileName) {
+        this.cfgFileName = cfgFileName;
     }
 }

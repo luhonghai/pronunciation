@@ -425,7 +425,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
                 + " as R INNER join "  + metaTranscription.getTable()
                 + " as T on R.SENTENCEID = T.ID WHERE "
                 + " R.isDeleted = 0" +
-                " and R.account in ('dcarlyle@c-mg.com','elaine.dimon@c-mg.com')";
+                " and R.status in (" + RecordedSentence.APPROVED + "," + RecordedSentence.LOCKED + ")";
 
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
