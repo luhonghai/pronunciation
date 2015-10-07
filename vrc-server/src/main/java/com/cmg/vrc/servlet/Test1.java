@@ -104,7 +104,13 @@ public class Test1 {
 
     private static final int EXPECTED_SENTENCES_LENGTH = 700;
 
-    private static final int ACCEPTED_RANGE = 100;
+    private static final int ACCEPTED_RANGE = 150;
+
+    private static final int MIN_ACCEPTED_COUNT = 30;
+
+    private static int EXTRA_RANGE = 0;
+
+    private static long startTime;
 
     public static void main(String []args){
         TranscriptionDAO transcriptionDAO=new TranscriptionDAO();
@@ -112,6 +118,7 @@ public class Test1 {
         File target = new File("D:\\Sentence\\sentence.json");
         DictionaryHelper dictionaryHelper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
         try {
+            startTime = System.currentTimeMillis();
             List<Transcription> transcriptionList = gson.fromJson(
                 FileUtils.readFileToString(target, "UTF-8"),
                 new TypeToken<List<Transcription>>(){}.getType());
@@ -124,7 +131,11 @@ public class Test1 {
     }
 
     private static boolean pickTranscription(List<Transcription> transcriptionList, DictionaryHelper dictionaryHelper) throws Exception {
+        long now = System.currentTimeMillis();
+        long executiontime = now - startTime;
+        EXTRA_RANGE = (int) executiontime / (2 * 60 * 1000);
         System.out.println("===========================================");
+        System.out.println("EXTRA_RANGE: " + EXTRA_RANGE);
         System.out.println("Try to pick " + EXPECTED_SENTENCES_LENGTH + " sentences from transcriptions list size " + transcriptionList.size());
         int size = transcriptionList.size();
         Map<String, Transcription> data = new HashMap<String, Transcription>();
@@ -135,7 +146,7 @@ public class Test1 {
                 index = r.nextInt(size + 1);
                 if (index < 0) index = 0;
                 if (index > size - 1) index = size - 1;
-                System.out.println("Random index: " + index);
+                //System.out.println("Random index: " + index);
             } while (data.containsKey(Integer.toString(index)));
             Transcription transcription = transcriptionList.get(index);
             String sentence = transcription.getSentence();
@@ -146,13 +157,13 @@ public class Test1 {
             for (String word : words) {
                 List<String> mPhonemes = dictionaryHelper.getCorrectPhonemes(word);
                 if (mPhonemes == null) {
-                    System.out.println("Detect invalid word " + word + ". Skip by default");
+                   // System.out.println("Detect invalid word " + word + ". Skip by default");
                     isValid = false;
                     break;
                 }
             }
             if (isValid) {
-                System.out.println("Pick sentence index " + index + ":" + sentence);
+                //System.out.println("Pick sentence index " + index + ":" + sentence);
                 transcription.setSentence(sentence);
                 data.put(Integer.toString(index), transcription);
             }
@@ -183,7 +194,12 @@ public class Test1 {
             String phone = keys.next();
             int count = phonemes.get(phone);
             System.out.println("Phone: " + phone + ". Count: " + count + ". Avg: " + avg);
-            if (avg - count > ACCEPTED_RANGE) {
+            int aRange = ACCEPTED_RANGE + EXTRA_RANGE;
+            if ((avg - count > aRange
+                || phone.equalsIgnoreCase("zh")
+                || phone.equalsIgnoreCase("oy")
+                || phone.equalsIgnoreCase("ua"))
+                    && count <= MIN_ACCEPTED_COUNT) {
                 System.out.println("Out of accepted range " + (avg - count));
                 isValid = false;
             }
