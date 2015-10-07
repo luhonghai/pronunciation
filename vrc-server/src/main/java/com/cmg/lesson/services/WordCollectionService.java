@@ -293,9 +293,11 @@ public class WordCollectionService {
         WordDTO dto = new WordDTO();
         String message = updateWordInformation(wordID,definition,mp3Path);
         if(message.startsWith(SUCCESS)){
-            WordMappingPhonemesService wpService = new WordMappingPhonemesService();
-            int version = wpService.getMaxVersion();
-            message = wpService.addMappingPhonemes(wordID,phonemes,version,false);
+            if(phonemes!=null && phonemes.size() > 0) {
+                WordMappingPhonemesService wpService = new WordMappingPhonemesService();
+                int version = wpService.getMaxVersion();
+                message = wpService.addMappingPhonemes(wordID, phonemes, version, false);
+            }
         }
         dto.setMessage(message);
         return dto;
