@@ -82,7 +82,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @throws Exception
      */
     public boolean checkWordExist(String word) throws Exception {
-        List<WordCollection> list = list("WHERE word == :1", word);
+        List<WordCollection> list = list("WHERE word == :1  && isDeleted==:2", word,false);
         if (list != null && list.size() > 0)
             return true;
         return false;

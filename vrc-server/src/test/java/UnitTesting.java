@@ -1,3 +1,4 @@
+import com.cmg.lesson.dao.QuestionDAO;
 import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.dao.WordMappingPhonemesDAO;
 import com.cmg.lesson.data.dto.ListWord;
@@ -71,6 +72,7 @@ public class UnitTesting {
                     System.out.println(wmp.getIndex() + " - "  + wmp.getPhoneme());
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
