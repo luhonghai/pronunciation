@@ -3,6 +3,8 @@
  */
 var myTable;
 var iphonemes=0;
+var iphonemess=0;
+var listPhoneme;
 
 function listTranscription(){
 
@@ -83,7 +85,6 @@ function listTranscription(){
                 $button.attr("pronunciation", data.pronunciation);
                 $button.attr("definition", data.definition);
                 $button.attr("mp3Path", data.mp3Path);
-                $button.attr("phonemes", data.phonemes);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -120,12 +121,12 @@ function addWord(){
             },
             success: function (data) {
                 var messages=JSON.parse(data);
-                if (messages.message == "success") {
+                if (messages.message.indexOf("success:") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
                 }
-                if(messages.message=="word is existed"){
+                if(messages.message.indexOf("error:")!=-1){
                     alert("Word is existed ");
                     $("#add").modal('hide');
                 }
@@ -197,12 +198,20 @@ function deleteWord(){
 function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
+        $("#listPhonemes").html("");
+        $("#addphonemeEdit").html("");
         var idd = $(this).attr('id-column');
         var definition = $(this).attr('definition');
         var mp3Path = $(this).attr('mp3Path');
+        var word = $(this).attr('word');
+        var pronunciation = $(this).attr('pronunciation');
         $("#idedit").val(idd);
         $("#editDifinition").val(definition);
         $("#editPath").val(mp3Path);
+        $("#editWord").val(word);
+        $("#editPronunciation").val(pronunciation);
+
+
         $.ajax({
             url: "ManagementWordServlet",
             type: "POST",
@@ -212,13 +221,12 @@ function edit(){
                 id: idd
             },
             success: function (data) {
-                if(data!=null) {
+                listPhoneme=data;
+                if(typeof listPhoneme!="undefined") {
                     var i;
-                    for (i = 0; i < data.size; i++) {
-                        $("#listPhonemes").append("'" + i + "': <input type='text' id=" + i + " class='form-control' value='" + data.phonemes + "'>");
+                    for (i = 0; i < listPhoneme.phonemes.length; i++) {
+                        $("#listPhonemes").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'> </div>");
                     }
-                }else{
-                    $("#listPhonemes").html("null");
                 }
             },
             error: function () {
@@ -231,9 +239,22 @@ function edit(){
 
 }
 
+function addPhonemesEdit(){
+    $(document).on("click","#addPhonemesEdit", function(){
+        if(listPhoneme!=null){
+            var size=listPhoneme.length +1 ;
+            iphonemess=size;
+        }
+        $("#addphonemeEdit").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemess+"' class='form-control'></div>");
+        $("#"+iphonemess+"").css("padding-left: 0px;");
+        iphonemess=iphonemess+1;
+
+    });
+}
+
+
 function editWord(){
     $(document).on("click","#yesedit", function(){
-        var phonemes = $(this).attr('phonemes');
         var word = {
             id : $("#idedit").val(),
             definition: $("#editDifinition").val(),
@@ -241,8 +262,21 @@ function editWord(){
             phonemes : []
         };
         var i;
-        for(i=0;i<phonemes.size();i++){
-            word.phonemes.push($("#"+i+"").val());
+        if(listPhoneme!=null) {
+            for (i = 0; i < listPhoneme.length; i++) {
+                word.phonemes.push({
+                    index: listPhoneme.index,
+                    phoneme: $("#" + listPhoneme.index + "").val()
+                });
+            }
+        }else{
+            for(i=0;i<iphonemess;i++){
+                word.phonemes.push({
+                    index: i,
+                    phoneme: $("#"+i+"").val()
+                });
+            }
+
         }
 
         $.ajax({
@@ -306,6 +340,7 @@ $(document).ready(function(){
     deletes();
     deleteWord();
     addPhonemes();
+    addPhonemesEdit();
     listTranscription();
 });
 
