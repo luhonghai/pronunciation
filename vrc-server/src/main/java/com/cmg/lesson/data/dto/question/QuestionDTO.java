@@ -1,6 +1,7 @@
-package com.cmg.lesson.data.dto;
+package com.cmg.lesson.data.dto.question;
 
-import com.cmg.lesson.data.jdo.Question;
+import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 
 import java.util.List;
 
@@ -11,10 +12,11 @@ public class QuestionDTO {
     public int draw;
     public Double recordsTotal;
     public Double recordsFiltered;
-
     private String message;
 
-    private List<Question> listQuestion;
+    private List<Question> data;
+
+    private List<WeightForPhoneme> listWeightPhoneme;
 
     public String getMessage() {
         return message;
@@ -24,12 +26,12 @@ public class QuestionDTO {
         this.message = message;
     }
 
-    public List<Question> getListQuestion() {
-        return listQuestion;
+    public List<Question> getData() {
+        return data;
     }
 
-    public void setListQuestion(List<Question> listQuestion) {
-        this.listQuestion = listQuestion;
+    public void setData(List<Question> data) {
+        this.data = data;
     }
 
     public int getDraw() {
@@ -56,5 +58,11 @@ public class QuestionDTO {
         this.recordsFiltered = recordsFiltered;
     }
 
+    public List<WeightForPhoneme> getListWeightPhoneme() {
+        return listWeightPhoneme;
+    }
 
+    public void setListWeightPhoneme(List<WeightForPhoneme> listWeightPhoneme) {
+        this.listWeightPhoneme = listWeightPhoneme;
+    }
 }

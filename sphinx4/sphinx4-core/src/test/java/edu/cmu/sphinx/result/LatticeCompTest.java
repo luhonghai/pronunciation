@@ -37,36 +37,36 @@ public class LatticeCompTest {
      * @throws IOException
      * @throws UnsupportedAudioFileException
      */
-    @Test
-    public void testLatticeComp() throws UnsupportedAudioFileException,
-            IOException {
-        // TODO: make an integration test, too heavy to be a unit test
-        URL audioFileURL = getClass().getResource("green.wav");
-        URL configURL = getClass().getResource("config.xml");
-        URL lm = getClass().getResource("hellongram.trigram.lm");
-
-        ConfigurationManager cm = new ConfigurationManager(configURL);
-        setProperty(cm, "trigramModel", "location", lm.toString());
-
-        Recognizer recognizer = cm.lookup("recognizer");
-        StreamDataSource dataSource = cm.lookup(StreamDataSource.class);
-
-        AudioInputStream ais = getAudioInputStream(audioFileURL);
-        dataSource.setInputStream(ais);
-
-        recognizer.allocate();
-        Lattice lattice = new Lattice(recognizer.recognize());
-
-        cm = new ConfigurationManager(configURL);
-        setProperty(cm, "keepAllTokens", "true");
-        setProperty(cm, "trigramModel", "location", lm.toString());
-
-        recognizer = cm.lookup("recognizer");
-        recognizer.allocate();
-        dataSource = cm.lookup(StreamDataSource.class);
-        dataSource.setInputStream(getAudioInputStream(audioFileURL));
-        Lattice allLattice = new Lattice(recognizer.recognize());
-
-        assertTrue(lattice.isEquivalent(allLattice));
-    }
+//    @Test
+//    public void testLatticeComp() throws UnsupportedAudioFileException,
+//            IOException {
+//        // TODO: make an integration test, too heavy to be a unit test
+//        URL audioFileURL = getClass().getResource("green.wav");
+//        URL configURL = getClass().getResource("config.xml");
+//        URL lm = getClass().getResource("hellongram.trigram.lm");
+//
+//        ConfigurationManager cm = new ConfigurationManager(configURL);
+//        setProperty(cm, "trigramModel", "location", lm.toString());
+//
+//        Recognizer recognizer = cm.lookup("recognizer");
+//        StreamDataSource dataSource = cm.lookup(StreamDataSource.class);
+//
+//        AudioInputStream ais = getAudioInputStream(audioFileURL);
+//        dataSource.setInputStream(ais);
+//
+//        recognizer.allocate();
+//        Lattice lattice = new Lattice(recognizer.recognize());
+//
+//        cm = new ConfigurationManager(configURL);
+//        setProperty(cm, "keepAllTokens", "true");
+//        setProperty(cm, "trigramModel", "location", lm.toString());
+//
+//        recognizer = cm.lookup("recognizer");
+//        recognizer.allocate();
+//        dataSource = cm.lookup(StreamDataSource.class);
+//        dataSource.setInputStream(getAudioInputStream(audioFileURL));
+//        Lattice allLattice = new Lattice(recognizer.recognize());
+//
+//        assertTrue(lattice.isEquivalent(allLattice));
+//    }
 }

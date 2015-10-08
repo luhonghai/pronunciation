@@ -60,7 +60,16 @@
 					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
 				<li>
-					<a href="ManagementWord.jsp" ><i class="glyphicon glyphicon-comment"></i> Management Word </a>
+					<a href="#"><i class="fa fa-folder"></i> Lession</a>
+					<ul>
+						<li>
+							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Management Word </a>
+						</li>
+
+						<li>
+							<a href="ManagementQuestion.jsp" ><i class="fa fa-file-word-o"></i> Management Question </a>
+						</li>
+					</ul>
 				</li>
 
 

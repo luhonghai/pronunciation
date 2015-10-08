@@ -1,8 +1,8 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.word;
 
-import com.cmg.lesson.dao.WordMappingPhonemesDAO;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+import com.cmg.lesson.dao.word.WordMappingPhonemesDAO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 
@@ -93,12 +93,12 @@ public class WordMappingPhonemesService {
      */
     public String addMappingPhonemes(String wordID, List<WordMappingPhonemes> phonemes,int version,boolean isDeleted){
         String messageError = "";
-        if(checkExist(wordID)){
-            updateDeleted(wordID,true);
-        }
-        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
-        ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
         try {
+            if(checkExist(wordID)){
+                updateDeleted(wordID,true);
+            }
+            WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+            ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
             for(int i = 0 ; i < phonemes.size(); i++){
                 WordMappingPhonemes wp = new WordMappingPhonemes(wordID,phonemes.get(i).getPhoneme(),phonemes.get(i).getIndex(),isDeleted,version);
                 logger.info("add mapping phonemes " + wp.getPhoneme());

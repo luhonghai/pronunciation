@@ -1,13 +1,12 @@
-package com.cmg.lesson.dao;
+package com.cmg.lesson.dao.question;
 
-import com.cmg.lesson.data.jdo.Question;
-import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,13 +45,58 @@ public class QuestionDAO extends DataAccess<Question> {
 
     /**
      *
+     * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateQuestion(String id, String name) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? WHERE id=?");
+        try {
+            q.execute(name,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    public boolean deteleQuestion(String id) throws Exception{
+        boolean isDelete=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            isDelete=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isDelete;
+    }
+
+    /**
+     *
      * @param name
      * @return true is exist word name.
      * @throws Exception
      */
     public boolean checkExist(String name) throws Exception{
         boolean isExist = false;
-        List<Question> list = list("Where name==:1 && isDeleted==:2", name, false);
+        List<Question> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }
@@ -95,15 +139,15 @@ public class QuestionDAO extends DataAccess<Question> {
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(timeCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(timeCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -150,15 +194,15 @@ public class QuestionDAO extends DataAccess<Question> {
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(timeCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(timeCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -178,9 +222,9 @@ public class QuestionDAO extends DataAccess<Question> {
             q.setOrdering("name desc");
         }
         if (column==2 && order.equals("asc")) {
-            q.setOrdering("createdDate asc");
+            q.setOrdering("timeCreated asc");
         }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("createdDate desc");
+            q.setOrdering("timeCreated desc");
         }
 
         q.setRange(start, start + length);
@@ -193,6 +237,31 @@ public class QuestionDAO extends DataAccess<Question> {
             q.closeAll();
             pm.close();
         }
+    }
+
+    /**
+     *
+     * @param id
+     * @return true if update deleted success
+     */
+    public boolean updateDeleted(String id){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
     }
 
 

@@ -1,4 +1,4 @@
-package com.cmg.lesson.data.jdo;
+package com.cmg.lesson.data.jdo.question;
 
 import com.cmg.vrc.data.Mirrorable;
 
@@ -20,8 +20,6 @@ public class Question implements Mirrorable {
     @Persistent
     @Column(jdbcType="VARCHAR", length=10000)
     private String name;
-
-
 
     @Persistent
     private boolean isDeleted;

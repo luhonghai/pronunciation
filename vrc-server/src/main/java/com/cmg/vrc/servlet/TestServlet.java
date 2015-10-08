@@ -1,20 +1,6 @@
 package com.cmg.vrc.servlet;
 
-import com.cmg.vrc.data.dao.impl.*;
-import com.cmg.vrc.data.jdo.*;
-import com.cmg.vrc.data.jdo.UserDevice;
-import com.cmg.vrc.util.StringUtil;
-import org.apache.poi.util.SystemOutLogger;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import com.cmg.lesson.services.question.QuestionService;
 
 
 public class TestServlet {
@@ -133,6 +119,15 @@ public class TestServlet {
 ////        }catch (Exception e){
 ////            e.printStackTrace();;
 ////        }
+
+
+        QuestionService questionSER=new QuestionService();
+        try {
+            System.out.println(questionSER.addQuestionToDB("bai 2").getMessage());
+
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
 //
 //
 //
@@ -163,17 +158,17 @@ public class TestServlet {
 ////            e.printStackTrace();
 ////        }
 //    }
-        String dateStr="03/09/2015";
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        Date date = null;
-        try {
-            date = format.parse(dateStr);
-            System.out.println( "Feedback account: " + date.toString());
-        }catch(Exception e){
-
-        }
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        System.out.println( "Feedback account: " + df.format(date).toString());
+//        String dateStr="03/09/2015";
+//        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+//        Date date = null;
+//        try {
+//            date = format.parse(dateStr);
+//            System.out.println( "Feedback account: " + date.toString());
+//        }catch(Exception e){
+//
+//        }
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        System.out.println( "Feedback account: " + df.format(date).toString());
     }
 }
