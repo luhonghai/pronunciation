@@ -48,7 +48,7 @@ public class WordCollectionService {
      * @param word
      * @return true if word is exist
      */
-    public boolean checkWordExist(String word){
+    public boolean checkWordExist(String word) throws Exception{
         boolean check = false;
         WordCollectionDAO dao = new WordCollectionDAO();
         try {

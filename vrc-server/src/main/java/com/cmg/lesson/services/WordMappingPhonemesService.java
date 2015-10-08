@@ -93,12 +93,12 @@ public class WordMappingPhonemesService {
      */
     public String addMappingPhonemes(String wordID, List<WordMappingPhonemes> phonemes,int version,boolean isDeleted){
         String messageError = "";
-        if(checkExist(wordID)){
-            updateDeleted(wordID,true);
-        }
-        WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
-        ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
         try {
+            if(checkExist(wordID)){
+                updateDeleted(wordID,true);
+            }
+            WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+            ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
             for(int i = 0 ; i < phonemes.size(); i++){
                 WordMappingPhonemes wp = new WordMappingPhonemes(wordID,phonemes.get(i).getPhoneme(),phonemes.get(i).getIndex(),isDeleted,version);
                 logger.info("add mapping phonemes " + wp.getPhoneme());

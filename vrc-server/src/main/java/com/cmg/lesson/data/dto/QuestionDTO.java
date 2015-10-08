@@ -1,6 +1,7 @@
 package com.cmg.lesson.data.dto;
 
 import com.cmg.lesson.data.jdo.Question;
+import com.cmg.lesson.data.jdo.WeightForPhoneme;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public class QuestionDTO {
     private String message;
 
     private List<Question> listQuestion;
+
+    private List<WeightForPhoneme> listWeightPhoneme;
 
     public String getMessage() {
         return message;
@@ -56,5 +59,11 @@ public class QuestionDTO {
         this.recordsFiltered = recordsFiltered;
     }
 
+    public List<WeightForPhoneme> getListWeightPhoneme() {
+        return listWeightPhoneme;
+    }
 
+    public void setListWeightPhoneme(List<WeightForPhoneme> listWeightPhoneme) {
+        this.listWeightPhoneme = listWeightPhoneme;
+    }
 }
