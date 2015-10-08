@@ -67,17 +67,19 @@ public class UnitTesting {
             }
 */
 
-           WordCollectionDAO dao = new WordCollectionDAO();
+         /*  WordCollectionDAO dao = new WordCollectionDAO();
             List<String> ids = new ArrayList<String>();
             ids.add("000e7c11-3800-4c81-a8cf-ba1538edda08");
             ids.add("009b77ec-f72c-45d0-b9c0-2a447b2249f2");
             ids.add("009c9892-ac02-456d-b216-4153b1414789");
-
             List<WordCollection> lis = dao.listIn(ids);
             if(lis!=null && lis.size()>0){
                 for(WordCollection word : lis)
                 System.out.println(word.getWord());
-            }
+            }*/
+
+            QuestionDAO dao = new QuestionDAO();
+            dao.checkExist("bai 1");
         } catch (Exception e) {
             e.printStackTrace();
         }
