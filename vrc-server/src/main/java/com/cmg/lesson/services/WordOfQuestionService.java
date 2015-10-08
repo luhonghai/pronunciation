@@ -83,6 +83,11 @@ public class WordOfQuestionService {
         return dto;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @return
+     */
     public ListWord listWordByIdQuestion(String idQuestion){
         ListWord listWord = new ListWord();
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
@@ -94,7 +99,7 @@ public class WordOfQuestionService {
                 lstId.append(woq.getIdWordCollection() + ",");
             }
             List<WordCollection> wordCollections = wcDAO.listIn(lstId.toString());
-
+            listWord.setData(wordCollections);
         } catch (Exception e) {
             e.printStackTrace();
         }
