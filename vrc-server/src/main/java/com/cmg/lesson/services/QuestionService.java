@@ -64,6 +64,55 @@ public class QuestionService {
 
     /**
      *
+     * @param id
+     * @param questionName
+     * @return
+     */
+    public QuestionDTO updateQuestionToDB(String id, String questionName){
+        QuestionDTO dto = new QuestionDTO();
+        QuestionDAO dao = new QuestionDAO();
+        String message;
+        try{
+            boolean isUpdate=dao.updateQuestion(id, questionName);
+            if (isUpdate){
+                message = SUCCESS;
+            }else{
+                message = ERROR + ":" + "an error has been occurred in server!";
+            }
+        }catch(Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("can not update question : " + questionName + " because : " + e.getMessage());
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public QuestionDTO deleteQuestionToDB(String id){
+        QuestionDTO dto = new QuestionDTO();
+        QuestionDAO dao = new QuestionDAO();
+        String message;
+        try{
+            boolean isDelete=dao.deteleQuestion(id);
+            if (isDelete){
+                message = SUCCESS;
+            }else{
+                message = ERROR + ": " + "an error has been occurred in server!";
+            }
+        }catch(Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("can not delete question id: " + id + " because : " + e.getMessage());
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
      * @param name
      * @return true is exits question name
      */

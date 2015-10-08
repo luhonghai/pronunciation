@@ -4,6 +4,7 @@ import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.RecordedSentence;
 import com.cmg.vrc.data.jdo.RecorderClient;
 import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.sphinx.training.AcousticModelTraining;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
@@ -77,8 +78,6 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
 
     }
-
-
 
     public RecordedSentence getUserByEmail(String email) throws Exception {
         List<RecordedSentence> userList = list("WHERE userName == :1", email);
@@ -418,6 +417,31 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
     }
 
+    public void listTrainingSentences(AcousticModelTraining.FetchSentencesListener listener) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorder = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentence.class.getCanonicalName());
+        TypeMetadata metaTranscription= PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Transcription.class.getCanonicalName());
+        String query = "SELECT R.id, R.account, T.sentence, R.fileName FROM " +  metaRecorder.getTable()
+                + " as R INNER join "  + metaTranscription.getTable()
+                + " as T on R.SENTENCEID = T.ID WHERE "
+                + " R.isDeleted = 0" +
+                " and R.status in (" + RecordedSentence.APPROVED + "," + RecordedSentence.LOCKED + ")";
 
-
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>)q.execute();
+            for(Object obj : tmp){
+                Object[] array =(Object[]) obj;
+                listener.onDetectSentence(array[0].toString(),
+                        array[1].toString(),
+                        array[2].toString(),
+                        array[3].toString());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
 }

@@ -25,7 +25,9 @@
 		<class>com.cmg.vrc.data.jdo.PhonemeScoreDB</class>
 		<class>com.cmg.lesson.data.jdo.WordCollection</class>
 		<class>com.cmg.lesson.data.jdo.WordMappingPhonemes</class>
+		<class>com.cmg.vrc.data.jdo.AcousticModelVersion</class>
 		<class>com.cmg.lesson.data.jdo.Question</class>
+		<class>com.cmg.lesson.data.jdo.WordOfQuestion</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

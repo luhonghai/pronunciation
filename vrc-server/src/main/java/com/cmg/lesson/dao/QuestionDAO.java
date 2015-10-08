@@ -2,12 +2,14 @@ package com.cmg.lesson.dao;
 
 import com.cmg.lesson.data.jdo.Question;
 import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.data.jdo.WordOfQuestion;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +44,51 @@ public class QuestionDAO extends DataAccess<Question> {
             pm.close();
         }
         return version;
+    }
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateQuestion(String id, String name) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? WHERE id=?");
+        try {
+            q.execute(name,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    public boolean deteleQuestion(String id) throws Exception{
+        boolean isDelete=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            isDelete=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isDelete;
     }
 
     /**
@@ -193,6 +240,31 @@ public class QuestionDAO extends DataAccess<Question> {
             q.closeAll();
             pm.close();
         }
+    }
+
+    /**
+     *
+     * @param id
+     * @return true if update deleted success
+     */
+    public boolean updateDeleted(String id){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
     }
 
 

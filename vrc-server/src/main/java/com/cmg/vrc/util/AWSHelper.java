@@ -35,7 +35,7 @@ public class AWSHelper {
 
     private static final String BBC_ACCENT_APPLICATION_NAME = "AccentEasyTomcatServer";
 
-    private static final String BBC_ACCENT_CONFIGURATION_TEMPLATE = "sat_start_from_7am_to_11pm";
+    private static final String BBC_ACCENT_CONFIGURATION_TEMPLATE = "ami-linux-sphinx-tools-ffmpeg";
 
     private static final boolean ENABLE_AWS = true;
 
@@ -212,6 +212,7 @@ public class AWSHelper {
         AWSHelper awsHelper = new AWSHelper();
         //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
         awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
+        //awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
         //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
         //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");

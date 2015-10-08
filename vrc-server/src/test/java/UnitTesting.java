@@ -1,23 +1,16 @@
+
 import com.cmg.lesson.dao.QuestionDAO;
 import com.cmg.lesson.dao.WordCollectionDAO;
 import com.cmg.lesson.dao.WordMappingPhonemesDAO;
+import com.cmg.lesson.dao.WordOfQuestionDAO;
 import com.cmg.lesson.data.dto.ListWord;
 import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+import com.cmg.lesson.data.jdo.WordOfQuestion;
 import com.cmg.lesson.services.WordCollectionService;
-import com.cmg.lesson.services.WordMappingPhonemesService;
-import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
-import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
-import com.cmg.vrc.data.jdo.PhonemeScoreDB;
-import com.cmg.vrc.data.jdo.UserVoiceModel;
-import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
-import com.cmg.vrc.service.PhonemeScoreService;
-import com.cmg.vrc.service.UserVoiceModelService;
-import com.cmg.vrc.service.amt.TranscriptionService;
-import com.cmg.vrc.sphinx.DictionaryHelper;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,14 +58,26 @@ public class UnitTesting {
             for(WordCollection w : collection){
                 System.out.println(w.getWord() + " - " + w.getMp3Path());
             }*/
-            WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
+          /*  WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
             List<WordMappingPhonemes> list = dao.getByWordID("ab9b9e31-49c5-4cfb-9b1d-cfb334fb7f82");
             if(list !=null && list.size() > 0){
                 for(WordMappingPhonemes wmp : list){
                     System.out.println(wmp.getIndex() + " - "  + wmp.getPhoneme());
                 }
             }
+*/
 
+           WordCollectionDAO dao = new WordCollectionDAO();
+            List<String> ids = new ArrayList<String>();
+            ids.add("000e7c11-3800-4c81-a8cf-ba1538edda08");
+            ids.add("009b77ec-f72c-45d0-b9c0-2a447b2249f2");
+            ids.add("009c9892-ac02-456d-b216-4153b1414789");
+
+            List<WordCollection> lis = dao.listIn(ids);
+            if(lis!=null && lis.size()>0){
+                for(WordCollection word : lis)
+                System.out.println(word.getWord());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

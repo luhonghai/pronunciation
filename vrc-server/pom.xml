@@ -8,6 +8,7 @@
 	<name>VRC Server</name>
 	<description>VRC Server</description>
 	<properties>
+		<sysenv>SAT</sysenv>
 		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 		<beanstalk.versionLabel>${sysenv}-v${project.version}-${maven.build.timestamp}</beanstalk.versionLabel>
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>

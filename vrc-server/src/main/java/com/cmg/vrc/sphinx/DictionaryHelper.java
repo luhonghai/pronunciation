@@ -2,6 +2,7 @@ package com.cmg.vrc.sphinx;
 
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.util.StringUtil;
 import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +45,9 @@ public class DictionaryHelper {
 
     }
 
-    private static HashMap<String, List<String>> BEEP_CACHE;
+    private static final String DEFAULT_BEEP_S3_PATH = "sphinx-data/dict/beep-1.0";
+
+    private static Map<String, Map<String, List<String>>> BEEP_CACHE = new ConcurrentHashMap<String, Map<String, List<String>>>();
 
     private static final Map<String, String> UK_VS_US_SPELLING = new HashMap<String, String>();
 
@@ -53,8 +57,15 @@ public class DictionaryHelper {
 
     private final Type type;
 
+    private String s3Path = DEFAULT_BEEP_S3_PATH;
+
     public DictionaryHelper(Type type) {
         this.type = type;
+    }
+
+    public DictionaryHelper(Type type, String s3Path) {
+        this(type);
+        this.s3Path = s3Path;
     }
 
     public String getUKWord(String usWord) {
@@ -77,8 +88,9 @@ public class DictionaryHelper {
 
     public int getBeepSize() {
         checkBEEP();
-        if (BEEP_CACHE == null) return 0;
-        return BEEP_CACHE.size();
+        if (BEEP_CACHE.containsKey(s3Path))
+            return BEEP_CACHE.size();
+        return 0;
     }
 
     private static void initSpellingDictionary() {
@@ -122,8 +134,8 @@ public class DictionaryHelper {
                 case BEEP:
                 default:
                     checkBEEP();
-                    if (BEEP_CACHE != null && BEEP_CACHE.size() > 0 && BEEP_CACHE.containsKey(word.toUpperCase())) {
-                        return BEEP_CACHE.get(word.toUpperCase());
+                    if (BEEP_CACHE.containsKey(s3Path)) {
+                        return BEEP_CACHE.get(s3Path).get(word.toUpperCase());
                     }
                     break;
             }
@@ -135,21 +147,18 @@ public class DictionaryHelper {
     }
 
     private void checkBEEP() {
-        if (BEEP_CACHE == null || BEEP_CACHE.size() == 0) {
+        if (!BEEP_CACHE.containsKey(s3Path)) {
             synchronized (lock) {
-                logger.info("Start fetch BEEP dictionary");
-                File tmp = new File(FileHelper.getTmpSphinx4DataDir(), "sphinx-dict-beep-1.0.tmp");
+                logger.info("Start fetch BEEP dictionary for s3 path " + s3Path);
+                File tmp = new File(FileHelper.getTmpSphinx4DataDir(), StringUtil.md5(s3Path) + ".dic");
                 if (!tmp.exists()) {
                     logger.info("Fetch BEEP dictionary from AWS S3");
                     AWSHelper awsHelper = new AWSHelper();
-                    awsHelper.download("sphinx-data/dict/beep-1.0", tmp);
-                }
-                if (!tmp.exists()) {
-                    tmp = new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0");
+                    awsHelper.download(s3Path, tmp);
                 }
                 if (tmp.exists()) {
                     logger.info("Start analyze BEEP dictionary");
-                    BEEP_CACHE = new HashMap<String, List<String>>();
+                    Map<String, List<String>> cache = new HashMap<String, List<String>>();
                     BufferedReader br = null;
                     try {
                         br = new BufferedReader(new FileReader(tmp));
@@ -168,7 +177,7 @@ public class DictionaryHelper {
                                         if (p.length() > 0)
                                             phonemes.add(p);
                                     }
-                                    BEEP_CACHE.put(lineData[0].trim(), phonemes);
+                                    cache.put(lineData[0].trim(), phonemes);
                                 }
                             }
                         }
@@ -182,11 +191,13 @@ public class DictionaryHelper {
 
                         }
                     }
+                    BEEP_CACHE.put(s3Path, cache);
+                    logger.info("Found " + BEEP_CACHE.get(s3Path).size() + " words from BEEP dictionary");
                 } else {
-                    logger.info("BEEP dictionary cache not found!");
+                    logger.info("BEEP dictionary cache not found for path " + s3Path);
                 }
             }
-            logger.info("Found " + BEEP_CACHE.size() + " words from BEEP dictionary");
+
         }
     }
 
