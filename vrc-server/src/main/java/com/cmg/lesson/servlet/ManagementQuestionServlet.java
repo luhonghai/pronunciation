@@ -24,6 +24,7 @@ public class ManagementQuestionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         QuestionService questionService = new QuestionService();
         QuestionDTO questionDTO = new QuestionDTO();
+        Gson gson = new Gson();
         if(request.getParameter("list")!=null){
             int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
             int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
@@ -35,9 +36,21 @@ public class ManagementQuestionServlet extends HttpServlet {
             String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
             try {
                 questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
-                Gson gson = new Gson();
                 String json = gson.toJson(questionDTO);
                 response.getWriter().write(json);
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+        }
+
+        if(request.getParameter("add")!=null){
+            String question = request.getParameter("question");
+
+            try {
+                String message=questionService.addQuestionToDB(question).getMessage();
+                //String json = gson.toJson(message);
+                response.getWriter().write(message);
             }catch (Exception e){
                 response.getWriter().write("error");
                 e.printStackTrace();

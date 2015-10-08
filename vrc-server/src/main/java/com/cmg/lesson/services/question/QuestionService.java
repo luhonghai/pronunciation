@@ -6,6 +6,7 @@ import com.cmg.lesson.data.jdo.question.Question;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -48,7 +49,6 @@ public class QuestionService {
                 Question q = new Question();
                 q.setName(questionName);
                 q.setVersion(getMaxVersion());
-
                 q.setTimeCreated(new Date(System.currentTimeMillis()));
                 q.setIsDeleted(false);
                 dao.create(q);
@@ -182,7 +182,7 @@ public class QuestionService {
     public QuestionDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
         QuestionDTO dto = new QuestionDTO();
         Date dateFrom = parseDate(createDateFrom);
-        Date dateTo = parseDate(createDateTo);
+        Date dateTo = parseDate(createDateTo, true);
         double count = getCount(search,dateFrom,dateTo,length,start);
         List<Question> listQuestion = listAll(start,length,search,column,order,dateFrom,dateTo);
         dto.setDraw(draw);
@@ -197,15 +197,28 @@ public class QuestionService {
      * @param date
      * @return
      */
-    public Date parseDate(String date){
+    public Date parseDate(String date, boolean isEndOfDay){
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             Date d = df.parse(date);
-
-            return d;
+            if (isEndOfDay) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal.set(Calendar.HOUR, 23);
+                cal.set(Calendar.MINUTE, 59);
+                cal.set(Calendar.SECOND, 59);
+                cal.set(Calendar.MILLISECOND, 999);
+                return cal.getTime();
+            } else {
+                return d;
+            }
         }catch (Exception e){
             logger.error("can not parse date");
         }
         return null;
+    }
+
+    public Date parseDate(String date) {
+        return parseDate(date, false);
     }
 }

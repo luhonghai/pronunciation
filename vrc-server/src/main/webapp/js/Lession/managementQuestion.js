@@ -60,22 +60,24 @@ function dateTo(){
     });
 }
 
-function addsentence(){
+function addquestion(){
     $(document).on("click","#yesadd", function(){
-        var sentence = $("#addsentence").val();
+        var question = $("#addquestion").val();
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementQuestionServlet",
             type: "POST",
             dataType: "text",
             data: {
                 add: "add",
-                sentence: sentence
+                question: question
             },
             success: function (data) {
-                if (data == "success") {
+                if (data.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
+                }else{
+                    swal("Could not add question!", data.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -94,9 +96,9 @@ function addsentence(){
 }
 
 function add(){
-    $(document).on("click","#addUser", function(){
+    $(document).on("click","#openAddQuestion", function(){
         $("#add").modal('show');
-        $("#addusername").val("");
+        $("#addquestion").val("");
     });
 }
 
@@ -205,8 +207,8 @@ $(document).ready(function(){
     //var roleAdmin=$("#role").val();
     dateFrom();
     dateTo();
-    //add();
-    //addsentence();
+    add();
+    addquestion();
     //edit();
     //editsentence();
     //deletes();
