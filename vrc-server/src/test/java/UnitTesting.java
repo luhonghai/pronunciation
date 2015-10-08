@@ -72,7 +72,7 @@ public class UnitTesting {
             q.setIdWordCollection("def");
             q.setIsDeleted(false);
             dao.create(q);
-            dao.updateDeleted("abc","def");
+            //dao.updateDeleted("abc","def");
         } catch (Exception e) {
             e.printStackTrace();
         }
