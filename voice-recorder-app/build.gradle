@@ -30,8 +30,8 @@ android {
     buildToolsVersion "19.1.0"
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
-        versionCode 300002
-        versionName "3.0.002"
+        versionCode 400000
+        versionName "4.0"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
@@ -112,6 +112,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
+    compile 'com.luhonghai:litedb:1.1.2'
 }
 
 task copyFiles(type: Copy)

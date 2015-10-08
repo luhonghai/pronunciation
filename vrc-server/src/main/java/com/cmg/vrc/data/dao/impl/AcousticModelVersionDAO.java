@@ -45,10 +45,16 @@ public class AcousticModelVersionDAO extends DataAccess<AcousticModelVersion> {
                 orderColumn = "fileName";
                 break;
             case 3:
-                orderColumn = "createdDate";
+                orderColumn = "cfgFileName";
                 break;
             case 4:
-                orderColumn = "selectedDate";
+                orderColumn = "logResultName";
+                break;
+            case 5:
+                orderColumn = "logFileName";
+                break;
+            case 6:
+                orderColumn = "createdDate";
                 break;
         }
         q.setOrdering(orderColumn + " " + order);
