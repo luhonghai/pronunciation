@@ -1,6 +1,7 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.QuestionDAO;
+import com.cmg.lesson.data.dto.QuestionDTO;
 import com.cmg.lesson.data.jdo.Question;
 import com.cmg.lesson.services.QuestionService;
 import com.cmg.vrc.data.dao.impl.*;
@@ -140,7 +141,8 @@ public class TestServlet {
 
         QuestionService questionSER=new QuestionService();
         try {
-            questionSER.addQuestionToDB("bai 4");
+            System.out.println(questionSER.addQuestionToDB("bai 2").getMessage());
+
         }catch (Exception e){
             e.printStackTrace();;
         }

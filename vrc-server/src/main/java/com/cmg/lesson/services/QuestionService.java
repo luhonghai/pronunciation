@@ -123,6 +123,17 @@ public class QuestionService {
         return isExist;
     }
 
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @return List<Question>
+     */
     public List<Question> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
         QuestionDAO dao = new QuestionDAO();
         try{
