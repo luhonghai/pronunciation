@@ -21,8 +21,6 @@ public class Question implements Mirrorable {
     @Column(jdbcType="VARCHAR", length=10000)
     private String name;
 
-
-
     @Persistent
     private boolean isDeleted;
 

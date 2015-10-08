@@ -177,5 +177,5 @@
 </div>
 
 
-<%--<script src="<%=request.getContextPath() %>/js/adminTranscription.js"></script>--%>
+<script src="<%=request.getContextPath() %>/js/Lession/managementQuestion.js"></script>
 

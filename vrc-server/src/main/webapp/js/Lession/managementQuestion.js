@@ -228,7 +228,7 @@ $(document).ready(function(){
     editsentence();
     deletes();
     deletesentence();
-    listTranscription();
+    listQuestion();
     searchAdvanted();
 });
 
