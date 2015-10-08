@@ -326,7 +326,8 @@ public class AcousticModelTraining {
         File cfg = new File(etcDir, "sphinx_train.cfg");
         listener.onMessage("Generate configuration file " + cfg);
         StringBuilder command = new StringBuilder("");
-        command.append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
+        command.append("LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n")
+            .append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
             .append("sphinxtrain -t ").append(projectName).append(" setup");
         File shScript = new File(rootDir, "configure.sh");
         FileUtils.writeStringToFile(shScript, command.toString(), "UTF-8");
@@ -389,7 +390,8 @@ public class AcousticModelTraining {
     private void doTraining() throws IOException, InterruptedException {
         listener.onMessage("Start training acoustic model");
         StringBuilder command = new StringBuilder("");
-        command.append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
+        command.append("LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n")
+                .append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
                 .append("sphinxtrain run");
         File shScript = new File(rootDir, "train.sh");
         FileUtils.writeStringToFile(shScript, command.toString(), "UTF-8");
