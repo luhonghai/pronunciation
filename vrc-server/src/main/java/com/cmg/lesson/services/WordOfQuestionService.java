@@ -101,7 +101,7 @@ public class WordOfQuestionService {
             List<WordCollection> wordCollections = wcDAO.listIn(lstId.toString());
             listWord.setData(wordCollections);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("can not get list word of id question, id question is: " + idQuestion + " because : " + e.getMessage());
         }
         return listWord;
     }
