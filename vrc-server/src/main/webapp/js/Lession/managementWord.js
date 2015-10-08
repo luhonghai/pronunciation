@@ -49,7 +49,7 @@ function listTranscription(){
             "bSortable": false,
             "sDefaultContent":"",
             "mRender": function (data, type, full) {
-                if (data.mp3Path!=null) {
+                if (typeof data.mp3Path!='undefined' && data.mp3Path!=null && data.mp3Path.length>0) {
                     var audioUrl = data.mp3Path;
                     $divs = $('<div id="' + data.id + '" class="cp-jplayer">' + '</div>' +
                     '<div class="prototype-wrapper"> ' +
@@ -97,20 +97,14 @@ function listTranscription(){
 
 function addWord(){
     $(document).on("click","#yesadd", function(){
-        var i;
+        var listphonemes=$("#addPhoneme").val();
         var word = {
             word: $("#addWord").val(),
             definition: $("#addDifinition").val(),
             pronunciation: $("#addpronunciation").val(),
             mp3Path : $("#addPath").val(),
-            phonemes : []
+            phonemes : readPhones(listphonemes)
         };
-        for(i=0;i<iphonemes;i++){
-            word.phonemes.push({
-                index: i,
-                phoneme: $("#"+i+"").val()
-            });
-        }
         $.ajax({
             url: "ManagementWordServlet",
             type: "POST",
@@ -121,13 +115,13 @@ function addWord(){
             },
             success: function (data) {
                 var messages=JSON.parse(data);
-                if (messages.message.indexOf("success:") !=-1) {
+                if (messages.message.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
                 }
-                if(messages.message.indexOf("error:")!=-1){
-                    alert("Word is existed ");
+                if(messages.message.indexOf("error")!=-1){
+                    alert(messages.message);
                     $("#add").modal('hide');
                 }
             },
@@ -149,8 +143,7 @@ function addWord(){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
-        $("#addphoneme").html("");
-        iphonemes=0;
+        $("#addPhoneme").val("");
         $("#addWord").val("");
         $("#addpronunciation").val("");
         $("#addDifinition").val("");
@@ -181,7 +174,7 @@ function deleteWord(){
             },
             success: function (data) {
                 var messages=JSON.parse(data);
-                if (messages.message == "success") {
+                if (messages.message.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
@@ -198,8 +191,6 @@ function deleteWord(){
 function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
-        $("#listPhonemes").html("");
-        $("#addphonemeEdit").html("");
         var idd = $(this).attr('id-column');
         var definition = $(this).attr('definition');
         var mp3Path = $(this).attr('mp3Path');
@@ -224,10 +215,15 @@ function edit(){
                 listPhoneme=data;
                 if(typeof listPhoneme!="undefined") {
                     var i;
+                    var phones = [];
                     for (i = 0; i < listPhoneme.phonemes.length; i++) {
-                        $("#listPhonemes").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
-                        $("#"+listPhoneme.phonemes[i].index+"").css("padding-left: 0px;");
+                        phones.push(listPhoneme.phonemes[i].phoneme);
+                        //$("#listPhonemes").append("<div class='col-sm-8 col-sm-offset-4' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
+                        //$("#"+listPhoneme.phonemes[i].index+"").css({"padding-left": "0px", "margin-bottom": "5px"});
                     }
+                    var txtPhones = phones.join(" ");
+                    $("#editPhoneme").val(txtPhones);
+
                 }
             },
             error: function () {
@@ -240,36 +236,29 @@ function edit(){
 
 }
 
-function addPhonemesEdit(){
-    $(document).on("click","#addPhonemesEdit", function(){
-        if(listPhoneme!=null){
-            var size=listPhoneme.phonemes.length;
-            iphonemess=size;
-        }
-        $("#addphonemeEdit").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemess+"' class='form-control'></div>");
-        $("#"+iphonemess+"").css("padding-left: 0px;");
-        iphonemess=iphonemess+1;
-
-    });
+function readPhones(txt) {
+    if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
+    var txt1=txt.toLocaleUpperCase();
+    var data =  txt1.split(" ");
+    var output = [];
+    for (var i = 0; i < data.length; i++) {
+        output.push({
+           index : i,
+            phoneme : data[i]
+        });
+    }
+    return output;
 }
-
 
 function editWord(){
     $(document).on("click","#yesedit", function(){
+        var listphones=$("#editPhoneme").val();
         var word = {
             id : $("#idedit").val(),
             definition: $("#editDifinition").val(),
             mp3Path : $("#editPath").val(),
-            phonemes : []
+            phonemes : readPhones(listphones)
         };
-        var i;
-        for(i=0;i<iphonemess;i++){
-            word.phonemes.push({
-                index: i,
-                phoneme: $("#"+i+"").val()
-            });
-        }
-
         $.ajax({
             url: "ManagementWordServlet",
             type: "POST",
@@ -279,10 +268,13 @@ function editWord(){
                 word: JSON.stringify(word)// to json word,
             },
             success: function (data) {
-                if (data == "success") {
+                var messages=JSON.parse(data);
+                if (messages.message.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                }else{
+                    alert("error");
                 }
 
             },
@@ -310,14 +302,14 @@ function loadAudio(){
     });
 
 }
-function addPhonemes(){
-    $(document).on("click","#addPhonemes", function(){
-        $("#addphoneme").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemes+"' class='form-control'></div>");
-        $("#"+iphonemes+"").css("padding-left: 0px;");
-        iphonemes=iphonemes+1;
-
-    });
-}
+//function addPhonemes(){
+//    $(document).on("click","#addPhonemes", function(){
+//        $("#addphoneme").append("<div class='col-sm-9 col-sm-offset-3' ><input type='text' id='"+iphonemes+"' class='form-control'></div>");
+//        $("#"+iphonemes+"").css({"padding-left": "0px", "margin-bottom": "5px"});
+//        iphonemes=iphonemes+1;
+//
+//    });
+//}
 
 
 
@@ -330,8 +322,6 @@ $(document).ready(function(){
     editWord();
     deletes();
     deleteWord();
-    addPhonemes();
-    addPhonemesEdit();
     listTranscription();
 });
 
