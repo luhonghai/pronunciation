@@ -1,17 +1,5 @@
 
-import com.cmg.lesson.dao.QuestionDAO;
-import com.cmg.lesson.dao.WordCollectionDAO;
-import com.cmg.lesson.dao.WordMappingPhonemesDAO;
-import com.cmg.lesson.dao.WordOfQuestionDAO;
-import com.cmg.lesson.data.dto.ListWord;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
-import com.cmg.lesson.data.jdo.WordOfQuestion;
-import com.cmg.lesson.services.WordCollectionService;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.cmg.lesson.dao.question.QuestionDAO;
 
 /**
  * Created by cmg on 08/07/15.

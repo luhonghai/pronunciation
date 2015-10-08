@@ -1,24 +1,6 @@
 package com.cmg.vrc.servlet;
 
-import com.cmg.lesson.dao.QuestionDAO;
-import com.cmg.lesson.data.dto.QuestionDTO;
-import com.cmg.lesson.data.jdo.Question;
-import com.cmg.lesson.services.QuestionService;
-import com.cmg.vrc.data.dao.impl.*;
-import com.cmg.vrc.data.jdo.*;
-import com.cmg.vrc.data.jdo.UserDevice;
-import com.cmg.vrc.util.StringUtil;
-import org.apache.poi.util.SystemOutLogger;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import com.cmg.lesson.services.question.QuestionService;
 
 
 public class TestServlet {

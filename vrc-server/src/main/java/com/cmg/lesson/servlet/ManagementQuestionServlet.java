@@ -1,7 +1,7 @@
 package com.cmg.lesson.servlet;
 
-import com.cmg.lesson.data.dto.QuestionDTO;
-import com.cmg.lesson.services.QuestionService;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.services.question.QuestionService;
 import com.cmg.vrc.util.StringUtil;
 
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package com.cmg.lesson.data.jdo;
+package com.cmg.lesson.data.jdo.word;
 
 import com.cmg.vrc.data.Mirrorable;
 
@@ -7,19 +7,16 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
- * Created by lantb on 2015-10-08.
+ * Created by lantb on 2015-10-01.
  */
-@PersistenceCapable(table = "WeightForPhoneme", detachable = "true")
-public class WeightForPhoneme implements Mirrorable{
+@PersistenceCapable(table = "WordMappingPhonemes", detachable = "true")
+public class WordMappingPhonemes implements Mirrorable{
 
     @PrimaryKey
     private String id;
 
     @Persistent
-    private String idWordCollection;
-
-    @Persistent
-    private String idQuestion;
+    private String wordID;
 
     @Persistent
     private String phoneme;
@@ -28,29 +25,26 @@ public class WeightForPhoneme implements Mirrorable{
     private int index;
 
     @Persistent
-    private int weight;
+    private boolean isDeleted;
 
     @Persistent
     private int version;
 
-    @Persistent
-    private boolean isDeleted;
-
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
+    public WordMappingPhonemes(String wordID, String phoneme,int index, boolean isDeleted, int version){
+        this.wordID = wordID;
+        this.phoneme = phoneme;
+        this.index = index;
         this.isDeleted = isDeleted;
+        this.version = version;
     }
 
-    public String getIdQuestion() {
-        return idQuestion;
+
+    public String getWordID() {
+        return wordID;
     }
 
-    public void setIdQuestion(String idQuestion) {
-        this.idQuestion = idQuestion;
+    public void setWordID(String wordID) {
+        this.wordID = wordID;
     }
 
     public String getPhoneme() {
@@ -69,12 +63,12 @@ public class WeightForPhoneme implements Mirrorable{
         this.index = index;
     }
 
-    public int getWeight() {
-        return weight;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public int getVersion() {
@@ -83,14 +77,6 @@ public class WeightForPhoneme implements Mirrorable{
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    public String getIdWordCollection() {
-        return idWordCollection;
-    }
-
-    public void setIdWordCollection(String idWordCollection) {
-        this.idWordCollection = idWordCollection;
     }
 
 

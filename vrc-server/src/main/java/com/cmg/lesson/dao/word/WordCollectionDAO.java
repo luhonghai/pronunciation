@@ -1,19 +1,12 @@
-package com.cmg.lesson.dao;
+package com.cmg.lesson.dao.word;
 
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.Admin;
-import com.cmg.vrc.data.jdo.PhonemeScoreDB;
-import com.cmg.vrc.data.jdo.Transcription;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.Transaction;
 import javax.jdo.metadata.TypeMetadata;
-import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.cmg.lesson.data.jdo;
+package com.cmg.lesson.data.jdo.question;
 
 import com.cmg.vrc.data.Mirrorable;
 

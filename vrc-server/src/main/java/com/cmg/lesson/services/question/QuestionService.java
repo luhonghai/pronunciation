@@ -1,8 +1,8 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.question;
 
-import com.cmg.lesson.dao.QuestionDAO;
-import com.cmg.lesson.data.dto.QuestionDTO;
-import com.cmg.lesson.data.jdo.Question;
+import com.cmg.lesson.dao.question.QuestionDAO;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.question.Question;
 import org.apache.log4j.Logger;
 
 import java.util.Date;

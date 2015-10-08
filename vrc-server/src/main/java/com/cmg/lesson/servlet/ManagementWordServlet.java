@@ -1,10 +1,9 @@
 package com.cmg.lesson.servlet;
 
-import com.cmg.lesson.data.dto.ListWord;
-import com.cmg.lesson.data.dto.WordDTO;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
-import com.cmg.lesson.services.WordCollectionService;
-import com.cmg.lesson.services.WordMappingPhonemesService;
+import com.cmg.lesson.data.dto.word.ListWord;
+import com.cmg.lesson.data.dto.word.WordDTO;
+import com.cmg.lesson.services.word.WordCollectionService;
+import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 
@@ -14,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by CMGT400 on 10/5/2015.

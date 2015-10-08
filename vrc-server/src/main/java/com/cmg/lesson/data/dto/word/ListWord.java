@@ -1,6 +1,6 @@
-package com.cmg.lesson.data.dto;
+package com.cmg.lesson.data.dto.word;
 
-import com.cmg.lesson.data.jdo.WordCollection;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 
 import java.util.List;
 

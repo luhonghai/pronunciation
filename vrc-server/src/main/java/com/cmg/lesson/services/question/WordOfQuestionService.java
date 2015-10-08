@@ -1,12 +1,11 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.question;
 
-import com.cmg.lesson.dao.WordCollectionDAO;
-import com.cmg.lesson.dao.WordOfQuestionDAO;
-import com.cmg.lesson.data.dto.ListWord;
-import com.cmg.lesson.data.dto.QuestionDTO;
-import com.cmg.lesson.data.dto.WordDTO;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordOfQuestion;
+import com.cmg.lesson.dao.word.WordCollectionDAO;
+import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.dto.word.ListWord;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;

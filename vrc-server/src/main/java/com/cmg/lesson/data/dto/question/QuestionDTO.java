@@ -1,7 +1,7 @@
-package com.cmg.lesson.data.dto;
+package com.cmg.lesson.data.dto.question;
 
-import com.cmg.lesson.data.jdo.Question;
-import com.cmg.lesson.data.jdo.WeightForPhoneme;
+import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 
 import java.util.List;
 

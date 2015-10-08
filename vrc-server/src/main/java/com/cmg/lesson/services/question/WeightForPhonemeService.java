@@ -1,8 +1,8 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.question;
 
-import com.cmg.lesson.dao.WeightForPhonemeDAO;
-import com.cmg.lesson.data.dto.QuestionDTO;
-import com.cmg.lesson.data.jdo.WeightForPhoneme;
+import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import org.apache.log4j.Logger;
 
 import java.util.List;

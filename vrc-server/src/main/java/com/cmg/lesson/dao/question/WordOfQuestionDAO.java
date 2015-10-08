@@ -1,8 +1,6 @@
-package com.cmg.lesson.dao;
+package com.cmg.lesson.dao.question;
 
-import com.cmg.lesson.data.jdo.Question;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordOfQuestion;
+import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 

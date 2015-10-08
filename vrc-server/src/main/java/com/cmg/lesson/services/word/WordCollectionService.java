@@ -1,10 +1,10 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.word;
 
-import com.cmg.lesson.dao.WordCollectionDAO;
-import com.cmg.lesson.data.dto.ListWord;
-import com.cmg.lesson.data.dto.WordDTO;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+import com.cmg.lesson.dao.word.WordCollectionDAO;
+import com.cmg.lesson.data.dto.word.ListWord;
+import com.cmg.lesson.data.dto.word.WordDTO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
 import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by lantb on 2015-10-01.

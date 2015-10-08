@@ -1,8 +1,8 @@
-package com.cmg.lesson.services;
+package com.cmg.lesson.services.word;
 
-import com.cmg.lesson.dao.WordMappingPhonemesDAO;
-import com.cmg.lesson.data.jdo.WordCollection;
-import com.cmg.lesson.data.jdo.WordMappingPhonemes;
+import com.cmg.lesson.dao.word.WordMappingPhonemesDAO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 

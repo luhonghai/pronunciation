@@ -1,7 +1,7 @@
 package com.cmg.vrc.dictionary;
 
 
-import com.cmg.lesson.services.WordCollectionService;
+import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
