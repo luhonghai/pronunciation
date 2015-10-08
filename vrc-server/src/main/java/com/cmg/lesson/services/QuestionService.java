@@ -116,14 +116,10 @@ public class QuestionService {
      * @param name
      * @return true is exits question name
      */
-    public boolean isExistQuestionName(String name){
+    public boolean isExistQuestionName(String name) throws Exception{
         boolean isExist = false;
         QuestionDAO dao = new QuestionDAO();
-        try{
-            isExist = dao.checkExist(name);
-        }catch (Exception ex){
-            logger.error("question name : " + name + " is exist, because:" + ex.getMessage());
-        }
+        isExist = dao.checkExist(name);
         return isExist;
     }
 

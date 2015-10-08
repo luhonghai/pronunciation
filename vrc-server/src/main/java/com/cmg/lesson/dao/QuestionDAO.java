@@ -99,7 +99,7 @@ public class QuestionDAO extends DataAccess<Question> {
      */
     public boolean checkExist(String name) throws Exception{
         boolean isExist = false;
-        List<Question> list = list("Where name==:1 && isDeleted==:2", name, false);
+        List<Question> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }

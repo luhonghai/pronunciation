@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.QuestionDAO;
 import com.cmg.lesson.data.jdo.Question;
+import com.cmg.lesson.services.QuestionService;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.data.jdo.UserDevice;
@@ -135,16 +136,14 @@ public class TestServlet {
 ////        }catch (Exception e){
 ////            e.printStackTrace();;
 ////        }
-        QuestionDAO questionDAO=new QuestionDAO();
-        Question question=new Question();
-        question.setName("bai 1");
-        question.setVersion(10);
-        question.setIsDeleted(false);
+
+
+        QuestionService questionSER=new QuestionService();
         try {
-            questionDAO.put(question);
-    }catch (Exception e){
-        e.printStackTrace();;
-    }
+            questionSER.addQuestionToDB("bai 4");
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
 //
 //
 //
