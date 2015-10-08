@@ -40,7 +40,15 @@
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-          <div id="generate-log" style="margin: 10px;"></div>
+          <div style="margin: 4px;">
+            <a id="btnLatestRunningLog" href="<%=request.getContextPath()%>/acoustic_model?action=latest_log" class="btn btn-primary btn-xs" target="_blank">Latest running log</a>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" id="btnLatestResultLog" data-id="latest.log.zip" class="btn btn-primary btn-xs btn-download-lm">Latest result log</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="button" id="btnLatestConfiguration" data-id="latest.etc.zip" class="btn btn-primary btn-xs btn-download-lm">Latest configuration</button>
+          </div>
+          <hr/>
+          <div id="generate-log" style="margin: 10px; max-height: 400px; overflow-y: scroll"></div>
           <div class="dataTable_wrapper">
             <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
@@ -48,9 +56,11 @@
               <tr>
                 <th>Version</th>
                 <th>Admin</th>
-                <th>File name</th>
+                <th>Result Model</th>
+                <th>Configuration</th>
+                <th>Result Log</th>
+                <th>Running Log</th>
                 <th>Created Date</th>
-                <th>Selected Date</th>
                 <th>Select version</th>
               </tr>
               </thead>

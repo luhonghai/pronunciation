@@ -82,7 +82,7 @@ function adduser(){
                     }
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
@@ -176,7 +176,7 @@ function deleteuser(){
                     }
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
@@ -231,7 +231,7 @@ function edituser(){
 
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });

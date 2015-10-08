@@ -21,7 +21,7 @@ public class BeanstalkJob {
     static {
         ENVIRONMENTS = new HashMap<String, String>();
         ENVIRONMENTS.put("PROD", "accenteasytomcat-PRD");
-        ENVIRONMENTS.put("SAT", "accenteasytomcat-SAT");
+        //ENVIRONMENTS.put("SAT", "accenteasytomcat-SAT");
     }
 
     private static final Logger logger = Logger.getLogger(BeanstalkJob.class.getName());

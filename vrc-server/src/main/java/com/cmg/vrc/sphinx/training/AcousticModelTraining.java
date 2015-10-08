@@ -16,10 +16,7 @@ import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -430,6 +427,7 @@ public class AcousticModelTraining {
         zipFile.createZipFileFromFolder(cfgDir, new ZipParameters(), false, 0);
         listener.onMessage("Upload to AWS S3 " + getS3KeyConfigurationName());
         awsHelper.upload(getS3KeyConfigurationName(), fileZip);
+        awsHelper.upload(getS3KeyLatestConfigurationName(), fileZip);
     }
 
     private void saveLog() throws IOException, ZipException {
@@ -441,8 +439,29 @@ public class AcousticModelTraining {
             FileUtils.forceDelete(logDir);
         logDir.mkdirs();
         File logHtml = new File(rootDir, projectName + ".html");
-        if (logHtml.exists())
-            FileUtils.moveFile(logHtml, new File(logDir, projectName + ".html"));
+        if (logHtml.exists()) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(logHtml));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(logDir, projectName + ".html")));
+            try {
+                String line;
+                String rootDirURI = rootDir.toURI().toString();
+                rootDirURI = rootDirURI.replace("file:/", "file:///");
+                listener.onMessage("Root dir URI: " + rootDirURI);
+                while ((line = bufferedReader.readLine()) != null) {
+                    while (line.contains(rootDirURI)) {
+                        line = line.replace(rootDirURI, "");
+                    }
+                    bufferedWriter.write(line);
+                    bufferedWriter.newLine();
+                }
+            } finally {
+                try {
+                    bufferedReader.close();
+                    bufferedWriter.close();
+                } catch (Exception e) {}
+            }
+            //FileUtils.moveFile(logHtml, new File(logDir, projectName + ".html"));
+        }
         File logContainer = new File(rootDir, "logdir");
         if (logContainer.exists())
             FileUtils.moveDirectory(logContainer, new File(logDir, "logdir"));
@@ -456,6 +475,7 @@ public class AcousticModelTraining {
         zipFile.createZipFileFromFolder(logDir, new ZipParameters(), false, 0);
         listener.onMessage("Upload to AWS S3 " + getS3KeyOutputLog());
         awsHelper.upload(getS3KeyOutputLog(), fileZip);
+        awsHelper.upload(getS3KeyLatestOutputLog(), fileZip);
     }
 
     private void saveResult() throws TrainingException, IOException, ZipException {
@@ -496,12 +516,24 @@ public class AcousticModelTraining {
         return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".etc.zip";
     }
 
+    public static String getS3KeyLatestConfigurationName() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/latest.etc.zip";
+    }
+
     public String getS3KeyOutputLog() {
         return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".log.zip";
     }
 
+    public static String getS3KeyLatestOutputLog() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/latest.log.zip";
+    }
+
     public String getS3KeyRunningLog() {
         return Constant.FOLDER_ACOUSTIC_MODEL + "/" + projectName + ".running.log";
+    }
+
+    public static String getS3KeyLatestRunningLog() {
+        return Constant.FOLDER_ACOUSTIC_MODEL + "/latest.running.log";
     }
 
     public String getS3KeyOutputModel() {
@@ -551,6 +583,8 @@ public class AcousticModelTraining {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        AcousticModelTrainingService.getInstance().train("admin@c-mg.com", true, null);
+        //AcousticModelTrainingService.getInstance().train("admin@c-mg.com", true, null);
+        File file =new File("/Users/cmg/Documents/training/ext-training");
+        System.out.println(file.toURI().toASCIIString());
     }
 }

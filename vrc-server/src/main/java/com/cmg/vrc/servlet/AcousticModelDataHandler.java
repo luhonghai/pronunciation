@@ -1,13 +1,16 @@
 package com.cmg.vrc.servlet;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AcousticModelVersionDAO;
 import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
 import com.cmg.vrc.data.jdo.AcousticModelVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.service.AcousticModelTrainingService;
+import com.cmg.vrc.sphinx.training.AcousticModelTraining;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -15,8 +18,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +41,7 @@ public class AcousticModelDataHandler extends BaseServlet {
 
     class ResponseStatus {
         boolean running;
+        boolean stopping;
         String latestLog;
         int draw;
         int lines;
@@ -71,6 +74,7 @@ public class AcousticModelDataHandler extends BaseServlet {
                     int lines = Integer.parseInt(request.getParameter("lines"));
                     ResponseStatus status = new ResponseStatus();
                     status.running = AcousticModelTrainingService.getInstance().isRunning();
+                    status.stopping = AcousticModelTrainingService.getInstance().isStopping();
                     status.latestLog = AcousticModelTrainingService.getInstance().getCurrentLog(lines);
                     status.draw = draw;
                     status.lines = lines;
@@ -86,6 +90,41 @@ public class AcousticModelDataHandler extends BaseServlet {
                             trainingRequest.extra,
                             trainingRequest.configuration);
                     out.write("done");
+                } else if (action.equalsIgnoreCase("latest_log")) {
+                    InputStream is = null;
+                    BufferedReader bufferedReader = null;
+                    try {
+                        if (AcousticModelTrainingService.getInstance().isRunning()) {
+                            if (AcousticModelTrainingService.getInstance().getCurrentLogFile() != null &&
+                                    AcousticModelTrainingService.getInstance().getCurrentLogFile().exists())
+                                is = new FileInputStream(AcousticModelTrainingService.getInstance().getCurrentLogFile());
+                        } else {
+                            S3Object s3Object = awsHelper.getS3Object(AcousticModelTraining.getS3KeyLatestRunningLog());
+                            if (s3Object != null) {
+                                is = s3Object.getObjectContent();
+                            }
+                        }
+                        if (is != null) {
+                            bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                out.write(line + "\n");
+                                out.flush();
+                            }
+                        } else {
+                            out.print("No log found");
+                        }
+                    } catch (Exception e) {
+                        out.print("No log found. Error: " + e.getMessage());
+                        log("No log found", e);
+                    } finally {
+                        try {
+                            if (is != null)
+                                is.close();
+                            if (bufferedReader != null)
+                                bufferedReader.close();
+                        } catch (Exception e) {}
+                    }
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {

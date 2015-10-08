@@ -123,7 +123,7 @@ public class TestServlet {
 
         QuestionService questionSER=new QuestionService();
         try {
-            System.out.println(questionSER.addQuestionToDB("bai 2").getMessage());
+            System.out.println(questionSER.addQuestionToDB("bai 3").getMessage());
 
         }catch (Exception e){
             e.printStackTrace();;

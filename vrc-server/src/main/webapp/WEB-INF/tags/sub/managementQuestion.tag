@@ -43,7 +43,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add New Question</button>
+          <button type="button" id="openAddQuestion" name="addCode">Add New Question</button>
 
 
         </div>

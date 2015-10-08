@@ -29,7 +29,7 @@ public class AcousticModelTrainingService {
 
     private static final Logger logger = Logger.getLogger(AcousticModelTrainingService.class.getName());
 
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private static ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     private static final AcousticModelTrainingService instance = new AcousticModelTrainingService();
 
@@ -44,6 +44,8 @@ public class AcousticModelTrainingService {
     private Map<String, String> configuration;
 
     private boolean running;
+
+    private boolean stopping;
 
     private boolean useExtraData;
 
@@ -100,7 +102,7 @@ public class AcousticModelTrainingService {
                 for (File file : files) {
                     String name = file.getName();
                     if (!(name.equalsIgnoreCase("current.log")
-                        || name.equalsIgnoreCase("extra"))) {
+                            || name.equalsIgnoreCase("extra"))) {
                         try {
                             FileUtils.forceDelete(file);
                         } catch (Exception e) {}
@@ -112,20 +114,29 @@ public class AcousticModelTrainingService {
 
     public void forceStop() {
         synchronized (this) {
+            stopping = true;
             appendMessage("Force stop training ...");
             if (runningFuture != null) {
                 final Future future = runningFuture.get();
-                if (future != null)
-                    future.cancel(true);
+                if (future != null) {
+                    while (!future.isDone()) {
+                        future.cancel(true);
+                    }
+                }
+                try {
+                    executorService.shutdownNow();
+                    executorService = Executors.newFixedThreadPool(1);
+                } catch (Exception e) {}
             }
             cleanup();
-            if (currentLogFile != null && currentLogFile.exists())
-                try {
-                    FileUtils.forceDelete(currentLogFile);
-                } catch (IOException e) {}
+//            if (currentLogFile != null && currentLogFile.exists())
+//                try {
+//                    FileUtils.forceDelete(currentLogFile);
+//                } catch (IOException e) {}
             this.useExtraData = false;
             this.admin = null;
             running = false;
+            stopping = false;
         }
     }
 
@@ -145,14 +156,19 @@ public class AcousticModelTrainingService {
         return useExtraData;
     }
 
+    public boolean isStopping() {
+        return stopping;
+    }
+
     private class TrainingRunnable implements Runnable {
         @Override
         public void run() {
             String projectName = "empty";
+            boolean doTraining = true;
             try {
                 final AcousticModelVersionDAO dao = new AcousticModelVersionDAO();
                 final int version = dao.getMaxVersion() + 1;
-                 projectName = "acoustic_model_v" + version;
+                projectName = "acoustic_model_v" + version;
                 training = new AcousticModelTraining(targetDir, projectName, configuration, new AcousticModelTraining.TrainingListener() {
                     @Override
                     public void onMessage(String message) {
@@ -181,36 +197,33 @@ public class AcousticModelTrainingService {
                 });
                 if (isUseExtraData()) {
                     appendMessage("Enable extra data. Check extra data directory at " + extraDir);
-                    try {
-                        File status = new File(extraDir, ".completed");
-                        if (!status.exists()) {
-                            appendMessage("No extra data found. Try to download from S3");
-                            File rootExtra = new File(tmpDir, "extra");
-                            if (rootExtra.exists())
-                                FileUtils.forceDelete(rootExtra);
-                            rootExtra.mkdirs();
-                            awsHelper.downloadAndUnzip("training/ext-training.zip", rootExtra);
-                            if (extraDir.exists()) {
-                                appendMessage("Download completed");
-                                FileUtils.write(status, "Completed at " + sdf.format(new Date(System.currentTimeMillis())));
-                                training.setExtraDir(extraDir);
-                            } else {
-                                appendError("Could not not extra data directory. Skip include extra data");
-                            }
-                        } else {
-                            appendMessage("Valid extra data. Include to training script");
+                    File status = new File(extraDir, ".completed");
+                    if (!status.exists()) {
+                        appendMessage("No extra data found. Try to download from S3");
+                        File rootExtra = new File(tmpDir, "extra");
+                        if (rootExtra.exists())
+                            FileUtils.forceDelete(rootExtra);
+                        rootExtra.mkdirs();
+                        awsHelper.downloadAndUnzip("training/ext-training.zip", rootExtra);
+                        if (extraDir.exists()) {
+                            appendMessage("Download completed");
+                            FileUtils.write(status, "Completed at " + sdf.format(new Date(System.currentTimeMillis())));
                             training.setExtraDir(extraDir);
+                        } else {
+                            appendError("Could not not extra data directory.");
+                            doTraining = false;
                         }
-                    } catch (Exception e) {
-                        appendError("Could not download extra data", e);
+                    } else {
+                        appendMessage("Found valid extra data. Include to training script");
+                        training.setExtraDir(extraDir);
                     }
                 }
-                training.train();
-
+                if (doTraining)
+                    training.train();
             } catch (Exception e) {
                 appendError("Could not complete training acoustic model",e);
             } finally {
-                appendMessage("Completed. Clean up ...");
+                appendMessage("Clean up ...");
                 cleanup();
                 appendMessage("Done.");
                 if (currentLogFile != null && currentLogFile.exists()) {
@@ -221,6 +234,7 @@ public class AcousticModelTrainingService {
                             FileUtils.forceDelete(targetLog);
                         FileUtils.copyFile(currentLogFile, targetLog);
                         awsHelper.upload(training.getS3KeyRunningLog(), targetLog);
+                        awsHelper.upload(AcousticModelTraining.getS3KeyLatestRunningLog(), targetLog);
                     } catch (Exception e) {
                         appendError("Could not save running log", e);
                     }
@@ -253,6 +267,10 @@ public class AcousticModelTrainingService {
                         "UTF-8", true);
             } catch (Exception e) {}
         }
+    }
+
+    public File getCurrentLogFile() {
+        return currentLogFile;
     }
 
     public String getCurrentLog(int lines) {
