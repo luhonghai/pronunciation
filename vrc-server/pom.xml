@@ -14,19 +14,6 @@
 		<beanstalker.serverId>aws.amazon.com</beanstalker.serverId>
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
 	</properties>
-	<repositories>
-        <repository>
-            <id>deployment</id>
-            <name>CMG Public Repository</name>
-            <url>http://c-mg.vn/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 	<build>
 		<finalName>bbc-accent-server-${sysenv}-v${project.version}</finalName>
 		<plugins>
