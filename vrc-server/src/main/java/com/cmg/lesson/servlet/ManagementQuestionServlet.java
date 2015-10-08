@@ -24,8 +24,6 @@ public class ManagementQuestionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         QuestionService questionService = new QuestionService();
         QuestionDTO questionDTO = new QuestionDTO();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
         if(request.getParameter("list")!=null){
             int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
             int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
@@ -33,24 +31,10 @@ public class ManagementQuestionServlet extends HttpServlet {
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
             String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
             int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
-            Date createDateFrom=null;
-            if(StringUtil.isNull(request.getParameter("CreateDateFrom"),"").toString() != ""){
-                try {
-                    createDateFrom = df.parse(StringUtil.isNull(request.getParameter("CreateDateFrom"),"").toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            Date createDateTo=null;
-            if(StringUtil.isNull(request.getParameter("createDateTo"),"").toString() != ""){
-                try {
-                    createDateFrom = df.parse(StringUtil.isNull(request.getParameter("createDateTo"),"").toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-            questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+            String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
+            String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
             try {
+                questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
                 Gson gson = new Gson();
                 String json = gson.toJson(questionDTO);
                 response.getWriter().write(json);
@@ -62,6 +46,6 @@ public class ManagementQuestionServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doPost(request,response);
     }
 }

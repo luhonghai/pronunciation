@@ -139,15 +139,15 @@ public class QuestionDAO extends DataAccess<Question> {
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(timeCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(timeCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -194,15 +194,15 @@ public class QuestionDAO extends DataAccess<Question> {
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(timeCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(timeCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
         }
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -222,9 +222,9 @@ public class QuestionDAO extends DataAccess<Question> {
             q.setOrdering("name desc");
         }
         if (column==2 && order.equals("asc")) {
-            q.setOrdering("createdDate asc");
+            q.setOrdering("timeCreated asc");
         }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("createdDate desc");
+            q.setOrdering("timeCreated desc");
         }
 
         q.setRange(start, start + length);

@@ -34,10 +34,6 @@
 
       </div>
       <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Question</label>
-          <input type="text" name="filter-question" id="question" class="form-control" placeholder="Question">
-        </div>
         <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
 
       </div>

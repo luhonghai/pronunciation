@@ -12,10 +12,9 @@ public class QuestionDTO {
     public int draw;
     public Double recordsTotal;
     public Double recordsFiltered;
-
     private String message;
 
-    private List<Question> listQuestion;
+    private List<Question> data;
 
     private List<WeightForPhoneme> listWeightPhoneme;
 
@@ -27,12 +26,12 @@ public class QuestionDTO {
         this.message = message;
     }
 
-    public List<Question> getListQuestion() {
-        return listQuestion;
+    public List<Question> getData() {
+        return data;
     }
 
-    public void setListQuestion(List<Question> listQuestion) {
-        this.listQuestion = listQuestion;
+    public void setData(List<Question> data) {
+        this.data = data;
     }
 
     public int getDraw() {

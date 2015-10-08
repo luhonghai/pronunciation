@@ -18,7 +18,6 @@ function listQuestion(){
             "dataType": "json",
             "data": {
                 list: "list",
-                question: $("#question").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -57,17 +56,6 @@ function dateFrom(){
 }
 function dateTo(){
     $('#CreateDateTo').datetimepicker({
-        format: 'DD/MM/YYYY'
-    });
-}
-
-function dateFrom1(){
-    $('#ModifiedDateFrom').datetimepicker({
-        format: 'DD/MM/YYYY'
-    });
-}
-function dateTo1(){
-    $('#ModifiedDateTo').datetimepicker({
         format: 'DD/MM/YYYY'
     });
 }
@@ -196,16 +184,13 @@ function editsentence(){
 function searchAdvanted(){
     $(document).on("click","#button-filter", function(){
         myTable.fnSettings().ajax = {
-            "url": "TranscriptionServlet",
+            "url": "ManagementQuestionServlet",
             "type": "POST",
             "dataType": "json",
             "data": {
                 list: "list",
-                sentence: $("#sentence").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
-                CreateDateTo: $("#CreateDateTo").val(),
-                ModifiedDateFrom: $("#ModifiedDateFrom").val(),
-                ModifiedDateTo: $("#ModifiedDateTo").val()
+                CreateDateTo: $("#CreateDateTo").val()
             }
         };
         $("tbody").html("");
@@ -217,17 +202,15 @@ function searchAdvanted(){
 
 
 $(document).ready(function(){
-    var roleAdmin=$("#role").val();
+    //var roleAdmin=$("#role").val();
     dateFrom();
     dateTo();
-    dateFrom1();
-    dateTo1();
-    add();
-    addsentence();
-    edit();
-    editsentence();
-    deletes();
-    deletesentence();
+    //add();
+    //addsentence();
+    //edit();
+    //editsentence();
+    //deletes();
+    //deletesentence();
     listQuestion();
     searchAdvanted();
 });
