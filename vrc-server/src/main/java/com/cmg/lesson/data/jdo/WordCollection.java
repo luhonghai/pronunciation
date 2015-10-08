@@ -12,6 +12,7 @@ import javax.jdo.annotations.PrimaryKey;
  */
 @PersistenceCapable(table = "WordCollection", detachable = "true")
 public class WordCollection implements Mirrorable{
+
     @PrimaryKey
     private String id;
 
@@ -33,6 +34,8 @@ public class WordCollection implements Mirrorable{
 
     @Persistent
     private int version;
+
+    public WordCollection(){}
 
     public WordCollection(String word, String pronunciation, String definition, String mp3Path,boolean isDeleted, int version){
         this.word = word;

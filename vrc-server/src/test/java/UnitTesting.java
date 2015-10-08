@@ -9,6 +9,8 @@ import com.cmg.lesson.data.jdo.WordMappingPhonemes;
 import com.cmg.lesson.data.jdo.WordOfQuestion;
 import com.cmg.lesson.services.WordCollectionService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -65,14 +67,17 @@ public class UnitTesting {
             }
 */
 
-            WordOfQuestionDAO dao = new WordOfQuestionDAO();
-            WordOfQuestion q = new WordOfQuestion();
-            q.setVersion(1);
-            q.setIdQuestion("abc");
-            q.setIdWordCollection("def");
-            q.setIsDeleted(false);
-            dao.create(q);
-            dao.updateDeleted("abc","def");
+           WordCollectionDAO dao = new WordCollectionDAO();
+            List<String> ids = new ArrayList<String>();
+            ids.add("000e7c11-3800-4c81-a8cf-ba1538edda08");
+            ids.add("009b77ec-f72c-45d0-b9c0-2a447b2249f2");
+            ids.add("009c9892-ac02-456d-b216-4153b1414789");
+
+            List<WordCollection> lis = dao.listIn(ids);
+            if(lis!=null && lis.size()>0){
+                for(WordCollection word : lis)
+                System.out.println(word.getWord());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -11,6 +11,7 @@ package com.cmg.vrc.data.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -419,6 +420,21 @@ public class DataAccess<T> implements InDataAccess<T> {
 		try {
 			//tx.begin();
 			return detachCopyAllList(pm,  q.execute());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			q.closeAll();
+			pm.close();
+		}
+	}
+
+	@Override
+	public List<T> listFilter(String query, List<String> ids) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
+		try {
+			//tx.begin();
+			return detachCopyAllList(pm,  q.execute(ids));
 		} catch (Exception e) {
 			throw e;
 		} finally {

@@ -99,7 +99,7 @@ public class WordOfQuestionDAO extends DataAccess<WordOfQuestion> {
      * @return
      */
     public List<WordOfQuestion> listByIdQuestion(String idQuestion) throws Exception{
-        List<WordOfQuestion> list = list("Where idQuestion==:1", idQuestion);
+        List<WordOfQuestion> list = list("Where idQuestion==:1 and isDeleted==:2", idQuestion,false);
         if(list!=null && list.size() > 0){
             return list;
         }

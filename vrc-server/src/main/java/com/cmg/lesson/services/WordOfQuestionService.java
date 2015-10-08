@@ -9,6 +9,7 @@ import com.cmg.lesson.data.jdo.WordCollection;
 import com.cmg.lesson.data.jdo.WordOfQuestion;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,19 +84,27 @@ public class WordOfQuestionService {
         return dto;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @return list word collection
+     */
     public ListWord listWordByIdQuestion(String idQuestion){
         ListWord listWord = new ListWord();
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         WordCollectionDAO wcDAO = new WordCollectionDAO();
-        StringBuffer lstId = new StringBuffer();
+        List<String> lstId = new ArrayList<String>();
         try {
             List<WordOfQuestion> listWordOfQuestion = woqDAO.listByIdQuestion(idQuestion);
-            for(WordOfQuestion woq : listWordOfQuestion){
-                lstId.append(woq.getIdWordCollection() + ",");
+            if(listWordOfQuestion!=null && listWordOfQuestion.size()>0){
+                for(WordOfQuestion woq : listWordOfQuestion){
+                    lstId.add(woq.getIdWordCollection());
+                }
+                List<WordCollection> wordCollections = wcDAO.listIn(lstId);
+                listWord.setData(wordCollections);
             }
-            List<WordCollection> wordCollections = wcDAO.listIn(lstId.toString());
-
         } catch (Exception e) {
+            logger.error("list word by id question : "+ idQuestion + " false because : " +e.getMessage());
             e.printStackTrace();
         }
         return listWord;

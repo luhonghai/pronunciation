@@ -12,11 +12,10 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 import javax.jdo.metadata.TypeMetadata;
+import java.awt.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lantb on 2015-10-01.
@@ -252,12 +251,47 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @param ids
      * @return
      */
-    public List<WordCollection> listIn(String ids) throws Exception{
-        List<WordCollection> list = list("Where id in("+ids+")");
-        if(list!=null && list.size() > 0){
-            return list;
+    public List<WordCollection> listIn(List<String> ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where WordCollection.ID in(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
         }
-        return null;
+        List<WordCollection> listWord = new ArrayList<WordCollection>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        whereClause = whereClause + ") and isDeleted=false";
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,word,definition,pronunciation from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    WordCollection word = new WordCollection();
+                    Object[] array = (Object[]) obj;
+                    word.setId(array[0].toString());
+                    if(array[1]!=null){
+                        word.setWord(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        word.setDefinition(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        word.setPronunciation(array[3].toString());
+                    }
+                    listWord.add(word);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listWord;
+
     }
 
 
