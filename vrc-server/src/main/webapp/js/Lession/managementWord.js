@@ -238,7 +238,8 @@ function edit(){
 
 function readPhones(txt) {
     if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
-    var data =  txt.split(" ");
+    var txt1=txt.toLocaleUpperCase();
+    var data =  txt1.split(" ");
     var output = [];
     for (var i = 0; i < data.length; i++) {
         output.push({

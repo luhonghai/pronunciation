@@ -1,5 +1,7 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.lesson.dao.QuestionDAO;
+import com.cmg.lesson.data.jdo.Question;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.data.jdo.UserDevice;
@@ -133,6 +135,16 @@ public class TestServlet {
 ////        }catch (Exception e){
 ////            e.printStackTrace();;
 ////        }
+        QuestionDAO questionDAO=new QuestionDAO();
+        Question question=new Question();
+        question.setName("bai 1");
+        question.setVersion(10);
+        question.setIsDeleted(false);
+        try {
+            questionDAO.put(question);
+    }catch (Exception e){
+        e.printStackTrace();;
+    }
 //
 //
 //
@@ -163,17 +175,17 @@ public class TestServlet {
 ////            e.printStackTrace();
 ////        }
 //    }
-        String dateStr="03/09/2015";
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        Date date = null;
-        try {
-            date = format.parse(dateStr);
-            System.out.println( "Feedback account: " + date.toString());
-        }catch(Exception e){
-
-        }
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        System.out.println( "Feedback account: " + df.format(date).toString());
+//        String dateStr="03/09/2015";
+//        DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+//        Date date = null;
+//        try {
+//            date = format.parse(dateStr);
+//            System.out.println( "Feedback account: " + date.toString());
+//        }catch(Exception e){
+//
+//        }
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        System.out.println( "Feedback account: " + df.format(date).toString());
     }
 }
