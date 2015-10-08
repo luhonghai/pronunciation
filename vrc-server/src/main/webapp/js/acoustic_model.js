@@ -18,19 +18,19 @@ function drawTable(){
         },
 
         "columns": [{
-            "sWidth": "8%",
+            "sWidth": "6%",
             "data": "version",
             "bSortable": true,
             "sDefaultContent": ""
 
         }, {
-            "sWidth": "20%",
+            "sWidth": "10%",
             "data": "admin",
             "bSortable": true,
             "sDefaultContent": ""
         }, {
             "data": null,
-            "sWidth": "20%",
+            "sWidth": "15%",
             "bSortable": true,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
@@ -44,20 +44,58 @@ function drawTable(){
                 return $("<div/>").append($btn).html();
             }
         }, {
-            "sWidth": "20%",
+            "data": null,
+            "sWidth": "15%",
+            "bSortable": true,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                var $btn = $(document.createElement("button"));
+                $btn.attr("type", "button");
+                $btn.attr("data-id", data.cfgFileName);
+                $btn.attr("data-loading-text", "downloading...");
+                $btn.attr("class", "btn btn-primary btn-xs btn-download-lm");
+                $btn.attr("autocomplete", "off");
+                $btn.html(data.cfgFileName);
+                return $("<div/>").append($btn).html();
+            }
+        }, {
+            "data": null,
+            "sWidth": "15%",
+            "bSortable": true,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                var $btn = $(document.createElement("button"));
+                $btn.attr("type", "button");
+                $btn.attr("data-id", data.logResultName);
+                $btn.attr("data-loading-text", "downloading...");
+                $btn.attr("class", "btn btn-primary btn-xs btn-download-lm");
+                $btn.attr("autocomplete", "off");
+                $btn.html(data.logResultName);
+                return $("<div/>").append($btn).html();
+            }
+        }, {
+            "data": null,
+            "sWidth": "15%",
+            "bSortable": true,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                var $btn = $(document.createElement("button"));
+                $btn.attr("type", "button");
+                $btn.attr("data-id", data.logFileName);
+                $btn.attr("data-loading-text", "downloading...");
+                $btn.attr("class", "btn btn-primary btn-xs btn-download-lm");
+                $btn.attr("autocomplete", "off");
+                $btn.html(data.logFileName);
+                return $("<div/>").append($btn).html();
+            }
+        }, {
+            "sWidth": "14%",
             "bSortable": true,
             "data": "createdDate",
             "sDefaultContent": ""
-        },
-            {
-                "sWidth": "20%",
-                "bSortable": true,
-                "data": "selectedDate",
-                "sDefaultContent": ""
-            },
-            {
+        },{
                 "data": null,
-                "sWidth": "12%",
+                "sWidth": "10%",
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
@@ -80,6 +118,7 @@ function drawTable(){
 }
 var drawCount = 0;
 var checkStatusTimeout;
+var latestStatus;
 
 function checkStatus() {
     $.ajax({
@@ -102,6 +141,11 @@ function checkStatus() {
                     $popup.prop("disabled",false);
                     $btnStop.hide();
                 }
+                if (data.stopping) {
+                    $btnStop.prop("disabled","disabled");
+                } else {
+                    $btnStop.prop("disabled",false);
+                }
                 var $log = $("#generate-log");
                 if (typeof data.latestLog != 'undefined' && data.latestLog.length > 0) {
                     var lines = data.latestLog.split("\n");
@@ -109,7 +153,11 @@ function checkStatus() {
                     logHTMl.push("<span>...</span><br/>");
                     for (var i = lines.length - 1; i >= 0; i--) {
                         var span = document.createElement("span");
-                        $(span).text(lines[i]);
+                        var text = lines[i];
+                        if (text.indexOf("ERROR") != -1) {
+                            $(span).css("color", "red");
+                        }
+                        $(span).text(text);
                         logHTMl.push($("<div/>").append(span).append("<br/>").html());
                     }
                     $log.html(logHTMl.join(""));
@@ -117,7 +165,13 @@ function checkStatus() {
                     $log.html("");
                 }
                 $("#generate-log").animate({ scrollTop: $('#generate-log')[0].scrollHeight}, 100);
+                if (typeof latestStatus != 'undefined' && latestStatus != null) {
+                    if (!data.running && latestStatus.running) {
+                        myTable.fnDraw();
+                    }
+                }
             }
+            latestStatus = data;
             checkStatusTimeout = setTimeout(checkStatus, 1000);
         },
         error: function (data) {
@@ -191,10 +245,12 @@ $(document).ready(function(){
     });
     $(document).click(function(e) {
         var $target = $(e.target);
+        var dataId;
         if ($target.hasClass("btn-download-lm")) {
+            $target.prop("disabled","disabled");
             $target.removeClass("btn-danger");
             $target.addClass("btn-primary");
-            var dataId = $target.attr("data-id");
+            dataId = $target.attr("data-id");
             $.ajax({
                 "url": CONTEXT_PATH + "/acoustic_model",
                 type: "GET",
@@ -209,13 +265,17 @@ $(document).ready(function(){
                             .hide()
                             .attr('src', data)
                             .appendTo('body');
+                    } else {
+                        swal("Could not download!", "File not found in server", "error")
                     }
                     $target.button('reset');
+                    $target.prop("disabled",false);
                 },
                 error: function () {
                     $target.addClass("btn-danger");
                     $target.removeClass("btn-primary");
                     $target.button('reset');
+                    $target.prop("disabled",false);
                 }
 
             });
@@ -223,7 +283,7 @@ $(document).ready(function(){
             $('.btn-select').attr("disabled","disabled");
             $target.removeClass("btn-danger");
             $target.addClass("btn-primary");
-            var dataId = $target.attr("data-id");
+            dataId = $target.attr("data-id");
             $.ajax({
                 "url": CONTEXT_PATH + "/acoustic_model",
                 type: "POST",

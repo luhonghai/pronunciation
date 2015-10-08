@@ -1,5 +1,6 @@
 
 function login(){
+    enableForm(false);
     $("#result").empty();
     var account=$("#account").val();
     var pass=$("#password").val();
@@ -7,6 +8,7 @@ function login(){
 
             $("#result").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Missing data!</strong> Please enter your email account</div>');
             $("#result").show();
+            enableForm(true);
             $("#account").focus();
             return false;
         }
@@ -14,6 +16,7 @@ function login(){
 
             $("#result").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Missing data!</strong> Please enter your password</div>');
             $("#result").show();
+            enableForm(true);
             $("#password").focus();
             return false;
         }
@@ -34,10 +37,12 @@ function login(){
             } else {
                 $("#result").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Could not login!</strong> Invalid email or password</div>');
                 $("#result").show();
+                enableForm(true);
                 $("#account").focus();
             }
            },
         error:function(){
+            enableForm(true);
             $("#result").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Error!</strong> Could not connect to server</div>');
             $("#result").show();
             $("#account").focus();
@@ -48,6 +53,19 @@ function login(){
 
 
 }
+
+function enableForm(enable) {
+    if (enable) {
+        $("#login").prop("disabled",false);
+        $("#password").prop("disabled",false);
+        $("#account").prop("disabled",false);
+    } else {
+        $("#login").prop("disabled","disabled");
+        $("#password").prop("disabled","disabled");
+        $("#account").prop("disabled","disabled");
+    }
+}
+
 function loginButton(){
     $(document).on("click","#login", function () {
         login();

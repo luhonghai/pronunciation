@@ -105,7 +105,7 @@ function detailemei(){
 
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -153,7 +153,7 @@ function detail(){
 
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

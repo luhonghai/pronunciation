@@ -180,7 +180,7 @@ function drawMap(){
 
         },
         error:function(e){
-            alert(e);
+            swal("Error!", "Could not connect to server", "error");
         }
 
     });
