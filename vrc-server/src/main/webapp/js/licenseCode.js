@@ -224,7 +224,7 @@ function addCode(){
                }
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -255,7 +255,7 @@ function detailemei(){
                 $("#attacheddatepopup").text(data.attachedDate);
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

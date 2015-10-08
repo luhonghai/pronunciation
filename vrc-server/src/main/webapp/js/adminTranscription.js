@@ -102,7 +102,7 @@ function addsentence(){
                     }
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
@@ -152,7 +152,7 @@ function deletesentence(){
                     }
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
@@ -194,7 +194,7 @@ function editsentence(){
 
                 },
                 error: function () {
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });

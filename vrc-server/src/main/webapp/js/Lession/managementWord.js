@@ -121,12 +121,12 @@ function addWord(){
                     $("#add").modal('hide');
                 }
                 if(messages.message.indexOf("error")!=-1){
-                    alert(messages.message);
+                    swal("Error!", messages.message, "error");
                     $("#add").modal('hide');
                 }
             },
             error: function () {
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -181,7 +181,7 @@ function deleteWord(){
                 }
             },
             error: function () {
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -227,7 +227,7 @@ function edit(){
                 }
             },
             error: function () {
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -274,12 +274,12 @@ function editWord(){
                     myTable.fnDraw();
                     $("#edits").modal('hide');
                 }else{
-                    alert("error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             },
             error: function () {
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

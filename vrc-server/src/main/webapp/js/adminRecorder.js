@@ -275,7 +275,7 @@ function reject(){
                 }
                 if(data=="change"){
                     $row.html("");
-                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
+                    swal("Warning!", "This sentence has been edited or deleted, its audio file shall be removed.", "warning");
                 }
 
             }
@@ -340,7 +340,7 @@ function approved(){
                 }
                 if(data=="change"){
                     $row.html("");
-                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
+                    swal("Warning!", "This sentence has been edited or deleted, its audio file shall be removed.", "warning");
                 }
 
             }
@@ -398,7 +398,7 @@ function locked(){
                 }
                 if(data=="change"){
                     $row.html("");
-                    alert("This sentence has been edited or deleted, its audio file shall be removed.");
+                    swal("Warning!", "This sentence has been edited or deleted, its audio file shall be removed.", "warning");
                 }
 
             }
