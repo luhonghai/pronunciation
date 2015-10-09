@@ -101,11 +101,11 @@ public class WordOfQuestionService {
                     lstId.add(woq.getIdWordCollection());
                 }
                 List<WordCollection> wordCollections = wcDAO.listIn(lstId, word, order,start,length);
-                //int count = wcDAO.getCountListIn(lstId, word, order,start,length);
+                int count = wcDAO.getCountListIn(lstId, word, order, start, length);
                 listWord.setData(wordCollections);
                 listWord.setDraw(draw);
-                listWord.setRecordsFiltered((double) wordCollections.size());
-                listWord.setRecordsTotal((double) wordCollections.size());
+                listWord.setRecordsFiltered((double) count);
+                listWord.setRecordsTotal((double) count);
             }else{
                 listWord.setRecordsFiltered(0.0);
                 listWord.setRecordsTotal(0.0);

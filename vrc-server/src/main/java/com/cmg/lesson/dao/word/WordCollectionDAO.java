@@ -265,8 +265,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
-               // count = (int)tmp[0][0];
-
+                count = Integer.parseInt(tmp.get(0).toString());
             }
         } catch (Exception e) {
             e.printStackTrace();
