@@ -240,6 +240,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
     }
 
     public Double getCountListIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
+        Double numberReturn = 0.0;
         StringBuffer clause = new StringBuffer();
         clause.append(" Where WordCollection.ID in(");
         for(String id : ids){
@@ -263,7 +264,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         q.setRange(start, start + length);
         try {
             Long count = (Long) q.execute();
-            return count.doubleValue();
+            numberReturn = count.doubleValue();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -272,6 +273,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
                 q.closeAll();
             pm.close();
         }
+        return numberReturn;
 
     }
 
