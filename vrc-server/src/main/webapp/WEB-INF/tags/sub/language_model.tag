@@ -34,11 +34,16 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="btnPopup" name="addCode" class="btn btn-primary">Generate</button>
+          <button type="button" id="btnPopup" name="addCode" class="btn btn-primary" disabled="disabled">Generate</button>
+          &nbsp;&nbsp;&nbsp;
+          <button type="button" id="btnStop" name="btnStop" class="btn btn-danger" style="display: none">Force stop</button>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
-          <div id="generate-log" style="max-height: 300px; overflow-y: scroll; margin: 10px;"></div>
+          <div style="margin: 4px;">
+            <a id="btnLatestRunningLog" href="<%=request.getContextPath()%>/languagemodel?action=latest_log" class="btn btn-primary btn-xs" target="_blank">Latest running log</a>
+          </div>
+          <div id="generate-log" style="margin: 10px; max-height: 400px; overflow-y: scroll"></div>
           <div class="dataTable_wrapper">
             <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
@@ -46,7 +51,8 @@
               <tr>
                 <th>Version</th>
                 <th>Admin</th>
-                <th>File name</th>
+                <th>Model</th>
+                <th>Log file</th>
                 <th>Created Date</th>
                 <th>Selected Date</th>
                 <th>Select version</th>

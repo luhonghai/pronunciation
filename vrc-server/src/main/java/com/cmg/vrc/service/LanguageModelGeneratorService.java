@@ -1,8 +1,12 @@
 package com.cmg.vrc.service;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AcousticModelVersionDAO;
+import com.cmg.vrc.data.dao.impl.LanguageModelVersionDAO;
 import com.cmg.vrc.data.jdo.AcousticModelVersion;
+import com.cmg.vrc.data.jdo.LanguageModelVersion;
 import com.cmg.vrc.sphinx.training.AcousticModelTraining;
+import com.cmg.vrc.sphinx.training.LanguageModelGenerator;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +19,6 @@ import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -25,15 +28,15 @@ import java.util.logging.Logger;
 /**
  * Created by cmg on 07/10/2015.
  */
-public class AcousticModelTrainingService {
+public class LanguageModelGeneratorService {
 
-    private static final Logger logger = Logger.getLogger(AcousticModelTrainingService.class.getName());
+    private static final Logger logger = Logger.getLogger(LanguageModelGeneratorService.class.getName());
 
     private static ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-    private static final AcousticModelTrainingService instance = new AcousticModelTrainingService();
+    private static final LanguageModelGeneratorService instance = new LanguageModelGeneratorService();
 
-    public static synchronized AcousticModelTrainingService getInstance() {
+    public static synchronized LanguageModelGeneratorService getInstance() {
         return instance;
     }
 
@@ -41,38 +44,32 @@ public class AcousticModelTrainingService {
 
     private String admin;
 
-    private Map<String, String> configuration;
-
     private boolean running;
 
     private boolean stopping;
 
-    private boolean useExtraData;
-
     private File targetDir;
-
-    private File extraDir;
 
     private File currentLogFile;
 
-    private AcousticModelTraining training;
+    private String projectName = "empty";
+
+    private LanguageModelGenerator generator;
 
     private WeakReference<Future<?>> runningFuture;
 
-    private File tmpDir = new File(FileUtils.getTempDirectory(), "acoustic_model_training");
+    private File tmpDir = new File(FileUtils.getTempDirectory(), "language_model_generator");
 
     private AWSHelper awsHelper = new AWSHelper();
 
-    private AcousticModelTrainingService() {
+    private LanguageModelGeneratorService() {
     }
 
-    public void train(String admin, boolean useExtraData, Map<String, String> configuration) {
+    public void generate(String admin) {
         if (!isRunning()) {
             synchronized (this) {
                 setRunning(true);
                 this.admin = admin;
-                this.useExtraData = useExtraData;
-                this.configuration = configuration;
                 try {
                     cleanup();
                     if (!tmpDir.exists() || !tmpDir.isDirectory())
@@ -83,9 +80,8 @@ public class AcousticModelTrainingService {
                             FileUtils.forceDelete(currentLogFile);
                         } catch (IOException e) {
                         }
-                    extraDir = new File(tmpDir, "extra" + File.separator + "ext-training");
                     targetDir = new File(tmpDir, UUIDGenerator.generateUUID());
-                    runningFuture = new WeakReference<Future<?>>(executorService.submit(new TrainingRunnable()));
+                    runningFuture = new WeakReference<Future<?>>(executorService.submit(new GeneratorRunnable()));
                 } catch (Exception e) {
                     appendError("Could not start training", e);
                     setRunning(false);
@@ -115,7 +111,7 @@ public class AcousticModelTrainingService {
     public void forceStop() {
         synchronized (this) {
             stopping = true;
-            appendMessage("Force stop training ...");
+            appendMessage("Force stop generating ...");
             if (runningFuture != null) {
                 final Future future = runningFuture.get();
                 if (future != null) {
@@ -133,7 +129,6 @@ public class AcousticModelTrainingService {
 //                try {
 //                    FileUtils.forceDelete(currentLogFile);
 //                } catch (IOException e) {}
-            this.useExtraData = false;
             this.admin = null;
             running = false;
             stopping = false;
@@ -152,26 +147,20 @@ public class AcousticModelTrainingService {
         this.running = running;
     }
 
-    public boolean isUseExtraData() {
-        return useExtraData;
-    }
-
     public boolean isStopping() {
         return stopping;
     }
 
-    private class TrainingRunnable implements Runnable {
+    private class GeneratorRunnable implements Runnable {
         @Override
         public void run() {
             appendMessage("Preparing ... Please wait.");
             long start = System.currentTimeMillis();
-            String projectName = "empty";
-            boolean doTraining = true;
             try {
-                final AcousticModelVersionDAO dao = new AcousticModelVersionDAO();
+                final LanguageModelVersionDAO dao = new LanguageModelVersionDAO();
                 final int version = dao.getMaxVersion() + 1;
-                projectName = "acoustic_model_v" + version;
-                training = new AcousticModelTraining(targetDir, projectName, configuration, new AcousticModelTraining.TrainingListener() {
+                projectName = "version-" +version +".lm";
+                LanguageModelGenerator generator = new LanguageModelGenerator(new LanguageModelGenerator.TrainingListener() {
                     @Override
                     public void onMessage(String message) {
                         appendMessage(message);
@@ -183,61 +172,43 @@ public class AcousticModelTrainingService {
                     }
 
                     @Override
-                    public void onSuccess(AcousticModelVersion amv) {
-                        amv.setAdmin(admin);
-
-                        amv.setVersion(version);
-                        try {
-                            appendMessage("Save acoustic model version " + version + " to database");
-                            //dao.removeSelected();
-                            amv.setSelected(dao.getCount() == 0);
-                            dao.put(amv);
-                        } catch (Exception e) {
-                            appendError("Could not save to database",e);
-                        }
+                    public void onSuccess(File languageModel) throws Exception {
+                        appendMessage("Upload to language model to S3 " + projectName);
+                        awsHelper.upload(Constant.FOLDER_LANGUAGE_MODEL
+                                + "/" + projectName, languageModel);
+                        Date now = new Date(System.currentTimeMillis());
+                        LanguageModelVersion languageModelVersion = new LanguageModelVersion();
+                        languageModelVersion.setVersion(version);
+                        languageModelVersion.setAdmin(admin);
+                        languageModelVersion.setCreatedDate(now);
+                        languageModelVersion.setFileName(projectName);
+                        languageModelVersion.setLogFileName(projectName + ".log");
+                        languageModelVersion.setSelected(true);
+                        languageModelVersion.setSelectedDate(now);
+                        appendMessage("Insert to database");
+                        dao.removeSelected();
+                        dao.createObj(languageModelVersion);
                     }
-                });
-                if (isUseExtraData()) {
-                    appendMessage("Enable extra data. Check extra data directory at " + extraDir);
-                    File status = new File(extraDir, ".completed");
-                    if (!status.exists()) {
-                        appendMessage("No extra data found. Try to download from S3");
-                        File rootExtra = new File(tmpDir, "extra");
-                        if (rootExtra.exists())
-                            FileUtils.forceDelete(rootExtra);
-                        rootExtra.mkdirs();
-                        awsHelper.downloadAndUnzip("training/ext-training.zip", rootExtra);
-                        if (extraDir.exists()) {
-                            appendMessage("Download completed");
-                            FileUtils.write(status, "Completed at " + sdf.format(new Date(System.currentTimeMillis())));
-                            training.setExtraDir(extraDir);
-                        } else {
-                            appendError("Could not not extra data directory.");
-                            doTraining = false;
-                        }
-                    } else {
-                        appendMessage("Found valid extra data. Include to training script");
-                        training.setExtraDir(extraDir);
-                    }
-                }
-                if (doTraining)
-                    training.train();
+                }, targetDir);
+                generator.training();
             } catch (Exception e) {
-                appendError("Could not complete training acoustic model",e);
+                appendError("Could not complete generate language model",e);
             } finally {
                 appendMessage("Execution time: " + (System.currentTimeMillis() - start) + "ms");
                 appendMessage("Clean up ...");
                 cleanup();
                 appendMessage("Done.");
                 if (currentLogFile != null && currentLogFile.exists()) {
-                    appendMessage("Save running log " + currentLogFile + " to AWS S3 " + training.getS3KeyRunningLog());
+                    appendMessage("Save running log " + currentLogFile + " to AWS S3 " + projectName + ".log");
                     try {
                         File targetLog = new File(targetDir, projectName + ".running.log");
                         if (targetLog.exists())
                             FileUtils.forceDelete(targetLog);
                         FileUtils.copyFile(currentLogFile, targetLog);
-                        awsHelper.upload(training.getS3KeyRunningLog(), targetLog);
-                        awsHelper.upload(AcousticModelTraining.getS3KeyLatestRunningLog(), targetLog);
+                        awsHelper.upload(Constant.FOLDER_LANGUAGE_MODEL
+                                + "/" +projectName + ".log", targetLog);
+                        awsHelper.upload(Constant.FOLDER_LANGUAGE_MODEL
+                                + "/" + "latest.running.log", targetLog);
                     } catch (Exception e) {
                         appendError("Could not save running log", e);
                     }

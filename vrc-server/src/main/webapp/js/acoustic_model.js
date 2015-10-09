@@ -7,7 +7,7 @@ function drawTable(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-
+        "order": [[ 0, "desc" ]],
         "ajax": {
             "url": CONTEXT_PATH + "/acoustic_model",
             "type": "POST",
@@ -205,6 +205,7 @@ $(document).ready(function(){
             },
             error: function () {
                 $("#btnStop").prop("disabled",false);
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -234,6 +235,7 @@ $(document).ready(function(){
             },
             error: function () {
                 $popup.prop("disabled",false);
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -276,6 +278,7 @@ $(document).ready(function(){
                     $target.removeClass("btn-primary");
                     $target.button('reset');
                     $target.prop("disabled",false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
@@ -302,6 +305,7 @@ $(document).ready(function(){
                     $target.removeClass("btn-primary");
                     $target.button('reset');
                     $('.btn-select').prop("disabled", false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });

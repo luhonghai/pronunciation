@@ -7,7 +7,7 @@ function drawTable(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-
+        "order": [[ 0, "desc" ]],
         "ajax": {
             "url": CONTEXT_PATH + "/dictionary",
             "type": "POST",
@@ -90,6 +90,8 @@ $(document).ready(function(){
     $("#fileuploader").uploadFile({
         url:CONTEXT_PATH + "dictionary_upload",
         fileName:"dictionary",
+        maxFileCount: 1,
+        allowedTypes: "dic,dict",
         onSuccess:function(files,data,xhr,pd)
         {
             myTable.fnDraw();
@@ -101,6 +103,7 @@ $(document).ready(function(){
         if ($target.hasClass("btn-download-lm")) {
             $target.removeClass("btn-danger");
             $target.addClass("btn-primary");
+            $target.prop("disabled", "disabled");
             var dataId = $target.attr("data-id");
             $.ajax({
                 "url": CONTEXT_PATH + "/dictionary",
@@ -118,16 +121,19 @@ $(document).ready(function(){
                             .appendTo('body');
                     }
                     $target.button('reset');
+                    $target.prop("disabled", false);
                 },
                 error: function () {
                     $target.addClass("btn-danger");
                     $target.removeClass("btn-primary");
                     $target.button('reset');
+                    $target.prop("disabled", false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
         } else if ($target.hasClass("btn-select")) {
-            $('.btn-select').attr("disabled","disabled");
+            $('.btn-select').prop("disabled","disabled");
             $target.removeClass("btn-danger");
             $target.addClass("btn-primary");
             var dataId = $target.attr("data-id");
@@ -149,6 +155,7 @@ $(document).ready(function(){
                     $target.removeClass("btn-primary");
                     $target.button('reset');
                     $('.btn-select').prop("disabled", false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
 
             });
