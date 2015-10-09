@@ -37,7 +37,7 @@ function listQuestion(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Word' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementWordOfQuestion.jsp?id='+ data.id +'" type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Word' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("question", data.name);
                 return $("<div/>").append($button).html();
@@ -112,11 +112,11 @@ function deletes(){
     });
 }
 
-function deletesentence(){
+function DeleteQuestion(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementQuestionServlet",
             type: "POST",
             dataType: "text",
             data: {
@@ -124,10 +124,12 @@ function deletesentence(){
                 id: id
             },
             success: function (data) {
-                if (data == "success") {
+                if (data.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                }else{
+                    swal("Could not delete question!", data.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -142,33 +144,35 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var sentence = $(this).attr('sentence');
-        $("#editsentence").val(sentence);
+        var question = $(this).attr('question');
+        $("#editquestion").val(question);
         $("#idedit").val(idd);
     });
 
 }
 
-function editsentence(){
+function EditQuestion(){
     $(document).on("click","#yesedit", function(){
 
         var id = $("#idedit").val();
-        var sentence = $("#editsentence").val();
+        var question = $("#editquestion").val();
 
         $.ajax({
-            url: "TranscriptionServlet",
+            url: "ManagementQuestionServlet",
             type: "POST",
             dataType: "text",
             data: {
                 edit: "edit",
                 id: id,
-                sentence: sentence
+                question: question
             },
             success: function (data) {
-                if (data == "success") {
+                if (data.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                }else{
+                    swal("Could not update question!", data.split(":")[1], "error");
                 }
 
             },
@@ -204,15 +208,14 @@ function searchAdvanted(){
 
 
 $(document).ready(function(){
-    //var roleAdmin=$("#role").val();
     dateFrom();
     dateTo();
     add();
     addquestion();
-    //edit();
-    //editsentence();
-    //deletes();
-    //deletesentence();
+    edit();
+    EditQuestion();
+    deletes();
+    DeleteQuestion();
     listQuestion();
     searchAdvanted();
 });
