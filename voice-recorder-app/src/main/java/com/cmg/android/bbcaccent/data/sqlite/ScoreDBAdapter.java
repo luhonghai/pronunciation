@@ -1,4 +1,4 @@
-package com.cmg.android.bbcaccent.data;
+package com.cmg.android.bbcaccent.data.sqlite;
 
 import android.database.Cursor;
 
@@ -85,8 +85,8 @@ public class ScoreDBAdapter extends LiteBaseDao<PronunciationScore> {
         if (cursor != null && cursor.moveToFirst()) {
             try {
                 String val = cursor.getString(0);
-                if (!"".equals(val))
-                    version = Integer.parseInt(cursor.getString(0));
+                if (val != null && val.length() > 0)
+                    version = Integer.parseInt(val);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not get max version",e);
             }

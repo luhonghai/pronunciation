@@ -1,4 +1,4 @@
-package com.cmg.android.bbcaccent.data;
+package com.cmg.android.bbcaccent.data.sqlite;
 
 import android.database.Cursor;
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;

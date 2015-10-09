@@ -35,7 +35,7 @@ import com.cmg.android.bbcaccent.activity.fragment.TipFragment;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.activity.view.adapter.PhoneScoreAdapter;
 import com.cmg.android.bbcaccent.activity.view.adapter.PhoneScoreItemAdapter;
-import com.cmg.android.bbcaccent.data.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;

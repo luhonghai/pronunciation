@@ -3,7 +3,7 @@ package com.cmg.android.bbcaccent.http;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;

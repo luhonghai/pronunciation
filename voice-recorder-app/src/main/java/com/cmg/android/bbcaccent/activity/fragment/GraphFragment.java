@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.view.CustomGraphView;
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
@@ -24,8 +24,6 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
 
