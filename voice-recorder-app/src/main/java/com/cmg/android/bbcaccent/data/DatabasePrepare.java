@@ -3,6 +3,8 @@ package com.cmg.android.bbcaccent.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -51,23 +53,11 @@ public class DatabasePrepare {
     }
 
     private void loadDatabase() {
-        ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context.getApplicationContext());
-        WordDBAdapter wordDBAdapter = WordDBAdapter.getInstance(context.getApplicationContext());
-        PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context.getApplicationContext());
+        WordDBAdapter wordDBAdapter = new WordDBAdapter();
         try {
-            scoreDBAdapter.open();
-            scoreDBAdapter.getAll("");
-            phonemeScoreDBAdapter.open();
-            phonemeScoreDBAdapter.getAll();
-            wordDBAdapter.open();
-            wordDBAdapter.getAll();
+            wordDBAdapter.checkWord();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            scoreDBAdapter.close();
-            phonemeScoreDBAdapter.close();
-            wordDBAdapter.close();
+            SimpleAppLog.error("Could not check database",e);
         }
-
     }
 }

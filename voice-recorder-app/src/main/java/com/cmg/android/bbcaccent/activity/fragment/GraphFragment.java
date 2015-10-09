@@ -12,18 +12,18 @@ import android.view.ViewGroup;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.view.CustomGraphView;
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -58,9 +58,9 @@ public class GraphFragment extends FragmentTab {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (dbAdapter == null)
-            dbAdapter = new ScoreDBAdapter(getActivity());
+            dbAdapter = new ScoreDBAdapter();
         if (phonemeScoreDBAdapter == null)
-            phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(getActivity());
+            phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
         View v = inflater.inflate(R.layout.fragment_graph, container, false);
         graph = (CustomGraphView) v.findViewById(R.id.graphScore);
 
@@ -137,19 +137,16 @@ public class GraphFragment extends FragmentTab {
         try {
             phonemeScoreDBAdapter.open();
             if (phoneme == null || phoneme.length() == 0) {
-                scores = phonemeScoreDBAdapter.toCollection(phonemeScoreDBAdapter.getAll());
+                scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getAll());
             } else {
-                scores = phonemeScoreDBAdapter.toCollection(phonemeScoreDBAdapter.getByPhoneme(phoneme));
+                scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getByPhoneme(phoneme));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not open database",e);
         } finally {
             try {
                 phonemeScoreDBAdapter.close();
             } catch (Exception ex) {
-
             }
         }
         if (scores != null && scores.size() > 0) {
@@ -171,19 +168,17 @@ public class GraphFragment extends FragmentTab {
     }
 
     private void loadWordScore() {
-        Collection<ScoreDBAdapter.PronunciationScore> scores = null;
+        Collection<PronunciationScore> scores = null;
         UserProfile profile = Preferences.getCurrentProfile(getActivity());
         try {
             dbAdapter.open();
             if (word == null || word.length() == 0) {
-                scores = dbAdapter.toCollection(dbAdapter.getAll(profile.getUsername()));
+                scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
             } else {
-                scores = dbAdapter.toCollection(dbAdapter.getByWord(word,profile.getUsername()));
+                scores = dbAdapter.toList(dbAdapter.getByWord(word,profile.getUsername()));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not open database",e);
         } finally {
             try {
                 dbAdapter.close();
@@ -194,11 +189,11 @@ public class GraphFragment extends FragmentTab {
         if (scores != null && scores.size() > 0) {
             int size = scores.size();
             DataPoint[] points = new DataPoint[size];
-            Iterator<ScoreDBAdapter.PronunciationScore> scoreIterator = scores.iterator();
+            Iterator<PronunciationScore> scoreIterator = scores.iterator();
             int i = 0;
             float latestScore = -1;
             while (scoreIterator.hasNext()) {
-                ScoreDBAdapter.PronunciationScore score = scoreIterator.next();
+                PronunciationScore score = scoreIterator.next();
                 if (latestScore == -1)
                     latestScore = score.getScore();
                 DataPoint dataPoint = new DataPoint(size - 1 - i, score.getScore());

@@ -9,31 +9,22 @@
 
 package com.cmg.android.bbcaccent.activity;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.common.Common;
 import com.cmg.android.bbcaccent.common.DeviceInfoCommon;
 import com.cmg.android.bbcaccent.common.FileCommon;
-import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.http.UploadFeedbackAsync;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ContentUtils;

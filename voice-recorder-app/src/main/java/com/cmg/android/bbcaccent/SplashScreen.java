@@ -1,23 +1,19 @@
 package com.cmg.android.bbcaccent;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.fragment.Preferences;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
-import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.crashlytics.android.Crashlytics;
@@ -26,7 +22,6 @@ import com.facebook.FacebookSdk;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
