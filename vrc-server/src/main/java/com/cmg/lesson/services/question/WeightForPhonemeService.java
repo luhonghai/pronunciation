@@ -2,9 +2,13 @@ package com.cmg.lesson.services.question;
 
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.dto.question.WeightDTO;
+import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
+import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,25 +56,60 @@ public class WeightForPhonemeService {
         return dto;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @param idWord
+     * @param phoneme
+     * @return
+     */
+    public boolean updateDeleted(String idQuestion, String idWord){
+        boolean check = false;
+        WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
+        try {
+            dao.updateDeletedBy(idQuestion,idWord);
+            check = true;
+        }catch (Exception e){
+            logger.debug("can not update delete in database because : " + e.getMessage());
+        }
+        return check;
+    }
+
 
     /**
      *
      * @param list
      * @return
      */
-    public QuestionDTO addMapping(List<WeightForPhoneme> list){
+    public boolean addMapping(WeightPhonemesDTO dto){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
-        QuestionDTO dto = new QuestionDTO();
-        String message="";
+        QuestionDTO qDTO = new QuestionDTO();
+        boolean message=false;
         try {
-            dao.create(list);
-            message = SUCCESS;
+            if(dto.getData()!=null && dto.getData().size() > 0){
+                updateDeleted(dto.getIdQuestion(),dto.getIdWord());
+                List<WeightForPhoneme> list = new ArrayList<WeightForPhoneme>();
+                int version = getMaxVersion();
+                for(WeightDTO w : dto.getData()){
+                    WeightForPhoneme wfp = new WeightForPhoneme();
+                    wfp.setIdQuestion(dto.getIdQuestion());
+                    wfp.setIdWordCollection(dto.getIdWord());
+                    wfp.setPhoneme(w.getPhoneme());
+                    wfp.setIndex(w.getIndex());
+                    wfp.setWeight(w.getWeight());
+                    wfp.setVersion(version);
+                    wfp.setIsDeleted(false);
+                    list.add(wfp);
+                }
+                dao.create(list);
+                message = true;
+            }else{
+                message = true;
+            }
         }catch (Exception e){
-            message = ERROR + ":" + e.getMessage();
             logger.error("can not add mapping list weight for phoneme : " + e.getMessage());
         }
-        dto.setMessage(message);
-        return dto;
+       return message;
     }
 
 

@@ -56,6 +56,32 @@ public class ManagementQuestionServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+
+        if(request.getParameter("edit")!=null){
+            String questionId = request.getParameter("id");
+            String question = request.getParameter("question");
+
+            try {
+                String message=questionService.updateQuestionToDB(questionId, question).getMessage();
+                //String json = gson.toJson(message);
+                response.getWriter().write(message);
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+        }
+
+        if(request.getParameter("delete")!=null){
+            String questionId = request.getParameter("id");
+            try {
+                String message=questionService.deleteQuestionToDB(questionId).getMessage();
+                //String json = gson.toJson(message);
+                response.getWriter().write(message);
+            }catch (Exception e){
+                response.getWriter().write("error");
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
