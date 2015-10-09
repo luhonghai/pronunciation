@@ -2,6 +2,7 @@ package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
+import com.cmg.lesson.services.question.WordOfQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.vrc.util.StringUtil;
@@ -23,6 +24,7 @@ public class ManagementWordOfQuestionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         WordCollectionService wordCollectionService=new WordCollectionService();
+        WordOfQuestionService wordOfQuestionService = new WordOfQuestionService();
         WordDTO wordDTO=new WordDTO();
         Gson gson = new Gson();
         if(request.getParameter("list")!=null){
@@ -32,7 +34,7 @@ public class ManagementWordOfQuestionServlet extends HttpServlet {
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
             String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
             String questionId = request.getParameter("questionId");
-            ListWord list = wordCollectionService.searchWord(search,order,start,length,draw);
+            ListWord list = wordOfQuestionService.listWordByIdQuestion(questionId,search,order,start,length,draw);
             try {
                 String json = gson.toJson(list);
                 response.getWriter().write(json);
