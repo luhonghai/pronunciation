@@ -2,6 +2,7 @@ package com.cmg.lesson.services.question;
 
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
 import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.word.WordCollection;
@@ -40,7 +41,7 @@ public class WordOfQuestionService {
      * @param idWord
      * @return
      */
-    public QuestionDTO deleteWordofQuestion(String idQuestion, String idWord){
+    public QuestionDTO deleteWordOfQuestion(String idQuestion, String idWord){
         QuestionDTO dto = new QuestionDTO();
         WordOfQuestionDAO dao = new WordOfQuestionDAO();
         String message;
@@ -88,7 +89,7 @@ public class WordOfQuestionService {
      * @param idQuestion
      * @return list word collection
      */
-    public ListWord listWordByIdQuestion(String idQuestion){
+    public ListWord listWordByIdQuestion(String idQuestion, String word,String order){
         ListWord listWord = new ListWord();
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         WordCollectionDAO wcDAO = new WordCollectionDAO();
@@ -99,7 +100,7 @@ public class WordOfQuestionService {
                 for(WordOfQuestion woq : listWordOfQuestion){
                     lstId.add(woq.getIdWordCollection());
                 }
-                List<WordCollection> wordCollections = wcDAO.listIn(lstId);
+                List<WordCollection> wordCollections = wcDAO.listIn(lstId, word, order);
                 listWord.setData(wordCollections);
             }
         } catch (Exception e) {
@@ -107,6 +108,53 @@ public class WordOfQuestionService {
             e.printStackTrace();
         }
         return listWord;
+    }
+
+    /**
+     *
+     * @param dto
+     * @return
+     */
+    public QuestionDTO addWordToQuestion(WeightPhonemesDTO dto){
+        QuestionDTO qDTO = new QuestionDTO();
+        WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
+        boolean check = false;
+        try {
+            WordOfQuestion woq = new WordOfQuestion(dto.getIdQuestion(),dto.getIdWord(),getMaxVersion(),false);
+            check = addWordToQuestionDB(woq);
+            if(check){
+                WeightForPhonemeService wfpService = new WeightForPhonemeService();
+                check = wfpService.addMapping(dto);
+                if(check){
+                    qDTO.setMessage(SUCCESS);
+                }else{
+                    deleteWordOfQuestion(dto.getIdQuestion(),dto.getIdWord());
+                    qDTO.setMessage(ERROR +": can not add mapping weight for phonemes.An error has been occurred in server");
+                }
+            }else{
+                qDTO.setMessage(ERROR +": can not add mapping word to question.An error has been occurred in server");
+            }
+        }catch (Exception e){
+            logger.error("can not add Word to question because : " + e.getMessage());
+        }
+        return qDTO;
+    }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    public boolean addWordToQuestionDB(WordOfQuestion obj){
+        WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
+        boolean check = false;
+        try {
+            woqDAO.create(obj);
+            check = true;
+        }catch (Exception e){
+            logger.error("can not add word to question in db because : " + e.getMessage());
+        }
+        return check;
     }
 
 

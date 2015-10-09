@@ -337,6 +337,20 @@ public class WordCollectionService {
         return dto;
     }
 
+    /**
+     *
+     * @param wordID
+     * @return
+     */
+    public WordCollection getById(String wordID){
+        WordCollectionDAO dao = new WordCollectionDAO();
+        try {
+            return dao.getById(wordID);
+        }catch (Exception e){
+            logger.debug("can not get word by id : " + e.getMessage());
+        }
+        return null;
+    }
 
 
 

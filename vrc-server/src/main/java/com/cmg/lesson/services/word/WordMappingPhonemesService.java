@@ -2,6 +2,7 @@ package com.cmg.lesson.services.word;
 
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.dao.word.WordMappingPhonemesDAO;
+import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
 import com.cmg.vrc.sphinx.DictionaryHelper;
@@ -57,19 +58,29 @@ public class WordMappingPhonemesService {
      * @param word
      * @return list phonemes of word
      */
-    public List<WordMappingPhonemes> getByWord(String word){
+    public WordDTO getByWord(String word){
         WordCollectionDAO wcDao = new WordCollectionDAO();
+        WordDTO dto = new WordDTO();
         WordMappingPhonemesDAO wmpDao = new WordMappingPhonemesDAO();
         try {
             WordCollection wc = wcDao.getByWord(word);
             if(wc!=null){
                 List<WordMappingPhonemes> list = wmpDao.getByWordID(wc.getId());
-                return list;
+                if(list!=null && list.size() > 0){
+                    dto.setPhonemes(list);
+                    dto.setMessage(SUCCESS);
+                }else{
+                    dto.setMessage(ERROR + ": this word have not any phoneme in database");
+                }
+
+            }else{
+                dto.setMessage(ERROR + ": this word does not exist in database" );
             }
         }catch (Exception e){
+            dto.setMessage(ERROR + ": an error has been occurred in server");
             logger.error("can not get phoneme of this word : " + word  + " because : "+ e.getMessage());
         }
-        return null;
+        return dto;
     }
 
     /**

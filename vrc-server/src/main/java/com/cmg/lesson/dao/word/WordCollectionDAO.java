@@ -244,7 +244,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @param ids
      * @return
      */
-    public List<WordCollection> listIn(List<String> ids) throws Exception{
+    public List<WordCollection> listIn(List<String> ids, String wordSearch,String order) throws Exception{
         StringBuffer clause = new StringBuffer();
         clause.append(" Where WordCollection.ID in(");
         for(String id : ids){
@@ -252,10 +252,14 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         }
         List<WordCollection> listWord = new ArrayList<WordCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        whereClause = whereClause + ") and isDeleted=false";
+        if(wordSearch!=null && wordSearch.length() > 0){
+            whereClause = whereClause + ") and isDeleted=false order by word " + order;
+        }else{
+            whereClause = whereClause + ") and word =='"+wordSearch+"' and isDeleted=false order by word " + order;
+        }
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,word,definition,pronunciation from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,word,mp3Path,pronunciation from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
@@ -267,7 +271,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
                         word.setWord(array[1].toString());
                     }
                     if(array[2]!=null){
-                        word.setDefinition(array[2].toString());
+                        word.setMp3Path(array[2].toString());
                     }
                     if(array[3]!=null){
                         word.setPronunciation(array[3].toString());
