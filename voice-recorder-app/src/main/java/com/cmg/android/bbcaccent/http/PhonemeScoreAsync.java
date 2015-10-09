@@ -3,16 +3,12 @@ package com.cmg.android.bbcaccent.http;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
-import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,18 +58,11 @@ public class PhonemeScoreAsync extends AsyncTask<Map<String, String>, Void, Stri
             Gson gson = new Gson();
             PhonemeScoreAsync.ResponseDataPhoneme data = gson.fromJson(json,PhonemeScoreAsync.ResponseDataPhoneme.class);
             if(data!=null && data.phonemeScoreDBList!=null && data.phonemeScoreDBList.size() > 0 ){
-                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(context);
-                phonemeScoreDBAdapter.open();
-                phonemeScoreDBAdapter.getDB().beginTransaction();
-                for(SphinxResult.PhonemeScore model : data.phonemeScoreDBList){
-                    phonemeScoreDBAdapter.insert(model,model.getUsername(),model.getVersion());
-                }
-                phonemeScoreDBAdapter.getDB().setTransactionSuccessful();
-                phonemeScoreDBAdapter.getDB().endTransaction();
-                phonemeScoreDBAdapter.close();
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
+                phonemeScoreDBAdapter.insert(data.phonemeScoreDBList);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            SimpleAppLog.error("Could not update database",e);
         }
 
     }

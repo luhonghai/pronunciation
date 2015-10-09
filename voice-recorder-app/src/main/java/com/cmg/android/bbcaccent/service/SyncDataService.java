@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.UserProfile;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.http.PhonemeScoreAsync;
 import com.cmg.android.bbcaccent.http.UserVoiceModelAsync;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
@@ -54,7 +54,7 @@ public class SyncDataService extends Service {
 
     public void syncUserVoiceModel(String username){
         try {
-            ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(this);
+            ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter();
             scoreDBAdapter.open();
             int version = scoreDBAdapter.getLastedVersion(username);
             scoreDBAdapter.close();
@@ -71,7 +71,7 @@ public class SyncDataService extends Service {
     }
     public void syncPhonemeScore(String username){
         try {
-            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
+            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
             phonemeScoreDBAdapter.open();
             int version = phonemeScoreDBAdapter.getLastedVersion(username);
             phonemeScoreDBAdapter.close();

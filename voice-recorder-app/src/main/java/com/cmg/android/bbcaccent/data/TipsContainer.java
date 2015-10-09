@@ -3,8 +3,11 @@ package com.cmg.android.bbcaccent.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
@@ -78,6 +81,8 @@ public class TipsContainer {
 
     private static Map<String, List<Integer>> tipIndex;
 
+    private static final Object lock = new Object();
+
     private static boolean isLoaded;
 
     public TipsContainer(Context context) {
@@ -85,38 +90,26 @@ public class TipsContainer {
     }
 
     public void loadSync() {
+        synchronized (lock) {
         if (tips == null)
             tips = new PronunciationTip[0];
-        synchronized (tips) {
             File tipFile = FileHelper.getSavedTipFile(context);
-            //File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID());
             try {
                 if (tipFile.exists()) {
                     FileUtils.forceDelete(tipFile);
                 }
                 FileUtils.copyInputStreamToFile(context.getAssets().open("tips.json"), tipFile);
-//                FileUtils.copyURLToFile(new URL(context.getResources().getString(R.string.tips_url)), tmpFile, TIMEOUT,TIMEOUT);
-//                if (tmpFile.exists()) {
-//                    if (tipFile.exists())
-//                        FileUtils.forceDelete(tipFile);
-//                    FileUtils.moveFile(tmpFile, tipFile);
-//                }
-            } catch (IOException e) {
-                e.printStackTrace();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                SimpleAppLog.error("Could not copy tips.json",ex);
             }
             if (tipFile.exists()) {
                 Gson gson = new Gson();
                 try {
                     String source = FileUtils.readFileToString(tipFile, "UTF-8");
-                    //AppLog.logString("Found tip source: " + source);
                     if (source != null && source.length() > 0)
                         tips = gson.fromJson(source, PronunciationTip[].class);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                   SimpleAppLog.error("Could not read tips.json",ex);
                 }
             }
             tipIndex = new HashMap<String, List<Integer>>();
@@ -158,7 +151,6 @@ public class TipsContainer {
             if (model != null) {
                 SphinxResult result = model.getResult();
                 int index = RandomHelper.getRandomIndex(tips.length);
-                // More than 100 :)
                 float lastScore = 1703.89f;
                 if (result != null) {
                     List<SphinxResult.PhonemeScore> scores = result.getPhonemeScores();

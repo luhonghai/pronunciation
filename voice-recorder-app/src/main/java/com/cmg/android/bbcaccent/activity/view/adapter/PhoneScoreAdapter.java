@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.data.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 
 
 /**

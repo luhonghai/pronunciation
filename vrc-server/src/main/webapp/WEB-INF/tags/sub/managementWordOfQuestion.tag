@@ -79,28 +79,38 @@
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
-                <div>
+                <div class="row">
                   <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <div class="col-xs-5  col-sm-6">
                     <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="addpronunciation" name="addsentence" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  <div class="col-xs-3  col-sm-2">
+                    <button type="button" name="yesadd" id="" class="btn btn-default" value="yes" >Submit</button>
                   </div>
                 </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Mp3Url:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="addPath" name="addsentence" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+
+                <div class="row">
+                  <div class="col-xs-3">
+                    <div class="row"><label class="control-label ">Phonemes:</label></div>
+                    <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
                   </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="addPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  <div class="col-xs-6">
+                    <div class="row">
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                    </div>
+                    <div class="row">
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+                    </div>
                   </div>
                 </div>
               </div>

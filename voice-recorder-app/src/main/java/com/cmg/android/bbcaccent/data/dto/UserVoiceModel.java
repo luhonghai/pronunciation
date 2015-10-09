@@ -1,4 +1,6 @@
-package com.cmg.android.bbcaccent.data;
+package com.cmg.android.bbcaccent.data.dto;
+
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 
 /**
  * Created by luhonghai on 9/30/14.

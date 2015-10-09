@@ -60,12 +60,13 @@ import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.common.FileCommon;
-import com.cmg.android.bbcaccent.data.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserProfile;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
-import com.cmg.android.bbcaccent.data.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
@@ -84,6 +85,7 @@ import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
+import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -92,8 +94,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } else {
             getWord(getString(R.string.example_word));
         }
-        scoreDBAdapter = new ScoreDBAdapter(this);
+        scoreDBAdapter = new ScoreDBAdapter();
         checkProfile();
     }
 
@@ -473,23 +473,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.performClick();
             searchView.requestFocus();
             searchView.setIconified(true);
-            dbAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
-            try {
-                dbAdapter.open();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            dbAdapter = new WordDBAdapter();
             searchView.setQueryHint(getString(R.string.tint_search_word));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             //  searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
             searchView.setOnSuggestionListener(this);
-            adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
-                    dbAdapter.getAll(),
-                    new String[]{WordDBAdapter.KEY_WORD, WordDBAdapter.KEY_PRONUNCIATION},
-                    new int[]{R.id.txtWord, R.id.txtPhoneme},
-                    CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-            searchView.setSuggestionsAdapter(adapter);
+            try {
+                adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
+                        dbAdapter.getAll(),
+                        new String[]{"word", "pronunciation"},
+                        new int[]{R.id.txtWord, R.id.txtPhoneme},
+                        CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+                searchView.setSuggestionsAdapter(adapter);
+            } catch (LiteDatabaseException e) {
+                SimpleAppLog.error("Could not open word database", e);
+            }
+
         }
         //return super.onCreateOptionsMenu(menu);
         return true;
@@ -582,7 +582,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private void getWord(final String word) {
         if (isRecording) return;
         try {
-            // dbAdapter.open();
+            if (dbAdapter == null) dbAdapter = new WordDBAdapter();
             if (!dbAdapter.isBeep(word)) {
                 AnalyticHelper.sendSelectWordNotInBeep(this, word);
                 SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
@@ -674,22 +674,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void updateQuery() {
+        final Cursor c;
         try {
-            dbAdapter.close();
-            dbAdapter.open();
-        } catch (Exception e) {
+            c = dbAdapter.search(searchText);
+            if (c.getCount() > 0) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchView.getSuggestionsAdapter().changeCursor(c);
+                        //searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                    }
+                });
+            }
+        } catch (LiteDatabaseException e) {
+            SimpleAppLog.error("Could not open word database",e);
+        }
 
-        }
-        final Cursor c = dbAdapter.search(searchText);
-        if (c.getCount() > 0) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    searchView.getSuggestionsAdapter().changeCursor(c);
-                    //searchView.getSuggestionsAdapter().notifyDataSetChanged();
-                }
-            });
-        }
     }
 
     private Handler updateQueryHandler = new Handler();
@@ -1382,7 +1382,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
-            String s = cursor.getString(cursor.getColumnIndex(WordDBAdapter.KEY_WORD));
+            String s = dbAdapter.toObject(cursor).getWord();
             searchView.setQuery(s, true);
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word", e);
@@ -1544,14 +1544,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
 
-    private void saveToDatabase() throws IOException, SQLException {
+    private void saveToDatabase() throws Exception {
         if (audioStream == null) return;
         String tmpFile = audioStream.getFilename();
         File recordedFile = new File(tmpFile);
         if (recordedFile.exists() && currentModel != null) {
             AnalyticHelper.sendAnalyzingWord(this, currentModel.getWord(), Math.round(currentModel.getScore()));
             File pronScoreDir = FileHelper.getPronunciationScoreDir(this.getApplicationContext());
-            ScoreDBAdapter.PronunciationScore score = new ScoreDBAdapter.PronunciationScore();
+            PronunciationScore score = new PronunciationScore();
             // Get ID from server
             String dataId = currentModel.getId();
             score.setDataId(dataId);
@@ -1572,12 +1572,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             scoreDBAdapter.insert(score);
             scoreDBAdapter.close();
             if (currentModel.getResult() != null) {
-                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(this);
+                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
                 phonemeScoreDBAdapter.open();
                 List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
                 if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
                     for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
                         phonemeScore.setTime(System.currentTimeMillis());
+                        phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
                         phonemeScore.setUserVoiceId(dataId);
                         phonemeScoreDBAdapter.insert(phonemeScore, currentModel.getUsername(),currentModel.getVersionPhoneme());
                     }

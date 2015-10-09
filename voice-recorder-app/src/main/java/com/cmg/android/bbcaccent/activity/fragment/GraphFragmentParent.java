@@ -17,8 +17,7 @@ import android.view.ViewGroup;
 import com.cmg.android.bbcaccent.AppLog;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.DetailActivity;
-import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.google.gson.Gson;
 
 import java.util.List;
