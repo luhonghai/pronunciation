@@ -27,6 +27,15 @@ public class WordOfQuestion implements Mirrorable{
     @Persistent
     private boolean isDeleted;
 
+    public WordOfQuestion(){}
+
+    public WordOfQuestion(String idQuestion, String idWordCollection, int version, boolean isDeleted){
+        this.idQuestion = idQuestion;
+        this.idWordCollection = idWordCollection;
+        this.version = version;
+        this.isDeleted = isDeleted;
+    }
+
     public String getIdQuestion() {
         return idQuestion;
     }
