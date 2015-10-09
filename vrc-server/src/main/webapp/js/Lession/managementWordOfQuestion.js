@@ -22,7 +22,7 @@ function getUrlVars()
 
 
 
-function listTranscription(){
+function listWordOfQuestion(questionId){
 
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -35,12 +35,12 @@ function listTranscription(){
         },
 
         "ajax": {
-            "url": "ManagementWordServlet",
+            "url": servletName,
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list"
-
+                list: "list",
+                questionId:questionId
             }
         },
 
@@ -333,7 +333,7 @@ $(document).ready(function(){
     editWord();
     deletes();
     deleteWord();
-    listTranscription();
+    listWordOfQuestion(questionId);
 });
 
 

@@ -1,5 +1,7 @@
 <%@ tag import="com.cmg.lesson.data.jdo.word.WordCollection" %>
 <%@ tag import="com.cmg.lesson.services.word.WordCollectionService" %>
+<%@ tag import="com.cmg.lesson.services.question.QuestionService" %>
+<%@ tag import="com.cmg.lesson.data.jdo.question.Question" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <div id="page-wrapper">
@@ -7,14 +9,18 @@
     <div class="col-lg-12">
       <h1 class="page-header">Management Word Of Question</h1>
     </div>
+    <%String name="";%>
     <!-- /.col-lg-12 -->
     <div class="col-lg-12">
       <%
         String id = request.getParameter("id");
-        WordCollectionService ser = new WordCollectionService();
-        
+        QuestionService ser = new QuestionService();
+        Question wc = ser.getById(id);
+        if(wc!=null){
+          name = wc.getName();
+        }
       %>
-      <h3 id="questionId">This is question name!</h3>
+      <h3 id="questionId"><%=name%></h3>
     </div>
   </div>
   <!-- /.row -->
