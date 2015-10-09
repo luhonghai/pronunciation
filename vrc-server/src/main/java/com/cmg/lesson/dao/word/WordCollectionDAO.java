@@ -239,8 +239,8 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
-    public Double getCountListIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
-        Double numberReturn = 0.0;
+    public int getCountListIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
+        int count = 0;
         StringBuffer clause = new StringBuffer();
         clause.append(" Where WordCollection.ID in(");
         for(String id : ids){
@@ -248,10 +248,10 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         }
         List<WordCollection> listWord = new ArrayList<WordCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        if(wordSearch!=null && wordSearch.length() > 0){
-            whereClause = whereClause + ") and isDeleted=false " ;
+        if(wordSearch!=null && wordSearch.trim().length() > 0){
+            whereClause = whereClause + ") and word ='"+wordSearch+"' and isDeleted=false ";
         }else{
-            whereClause = whereClause + ") and word =='"+wordSearch+"' and isDeleted=false ";
+            whereClause = whereClause + ") and isDeleted=false " ;
         }
         if(order!=null && order.length() >0 ){
             whereClause = whereClause + "order by word " + order;
@@ -263,8 +263,11 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select COUNT(id) from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
-            Long count = (Long) q.execute();
-            numberReturn = count.doubleValue();
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+               // count = (int)tmp[0][0];
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -273,7 +276,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
                 q.closeAll();
             pm.close();
         }
-        return numberReturn;
+        return count;
 
     }
 
@@ -290,10 +293,10 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         }
         List<WordCollection> listWord = new ArrayList<WordCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        if(wordSearch!=null && wordSearch.length() > 0){
-            whereClause = whereClause + ") and isDeleted=false " ;
+        if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
+            whereClause = whereClause + ") and word ='"+wordSearch+"' and isDeleted=false ";
         }else{
-            whereClause = whereClause + ") and word =='"+wordSearch+"' and isDeleted=false ";
+            whereClause = whereClause + ") and isDeleted=false " ;
         }
         if(order!=null && order.length() >0 ){
             whereClause = whereClause + "order by word " + order;
@@ -314,7 +317,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
                     if(array[1]!=null){
                         word.setWord(array[1].toString());
                     }
-                    if(array[2]!=null){
+                    if(array[2] != null) {
                         word.setMp3Path(array[2].toString());
                     }
                     if(array[3]!=null){

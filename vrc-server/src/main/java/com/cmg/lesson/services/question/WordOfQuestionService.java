@@ -101,15 +101,15 @@ public class WordOfQuestionService {
                     lstId.add(woq.getIdWordCollection());
                 }
                 List<WordCollection> wordCollections = wcDAO.listIn(lstId, word, order,start,length);
-                Double count = wcDAO.getCountListIn(lstId, word, order,start,length);
+                //int count = wcDAO.getCountListIn(lstId, word, order,start,length);
                 listWord.setData(wordCollections);
                 listWord.setDraw(draw);
-                listWord.setRecordsFiltered(count);
-                listWord.setRecordsTotal(count);
+                listWord.setRecordsFiltered((double) wordCollections.size());
+                listWord.setRecordsTotal((double) wordCollections.size());
             }else{
                 listWord.setRecordsFiltered(0.0);
                 listWord.setRecordsTotal(0.0);
-                listWord.setData(null);
+                listWord.setData(new ArrayList<WordCollection>());
                 listWord.setDraw(draw);
             }
         } catch (Exception e) {

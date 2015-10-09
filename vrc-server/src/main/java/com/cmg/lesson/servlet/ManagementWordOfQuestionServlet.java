@@ -33,7 +33,7 @@ public class ManagementWordOfQuestionServlet extends HttpServlet {
             int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
             String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
-            String questionId = request.getParameter("questionId");
+            String questionId =  (String)StringUtil.isNull(request.getParameter("questionId"),"");
             ListWord list = wordOfQuestionService.listWordByIdQuestion(questionId,search,order,start,length,draw);
             try {
                 String json = gson.toJson(list);

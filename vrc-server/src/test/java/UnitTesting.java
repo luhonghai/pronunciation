@@ -1,5 +1,7 @@
 
 import com.cmg.lesson.dao.question.QuestionDAO;
+import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 
 /**
  * Created by cmg on 08/07/15.
@@ -66,8 +68,13 @@ public class UnitTesting {
                 System.out.println(word.getWord());
             }*/
 
-            QuestionDAO dao = new QuestionDAO();
-            dao.checkExist("bai 1");
+            WordOfQuestionDAO dao = new WordOfQuestionDAO();
+            WordOfQuestion q = new WordOfQuestion();
+            q.setIdQuestion("b846712f-2308-4f20-9d27-d6ee1916e28f");
+            q.setIdWordCollection("1c00cb1c-896f-4e09-82aa-7cfadf69ef03");
+            q.setVersion(1);
+            q.setIsDeleted(false);
+            dao.create(q);
         } catch (Exception e) {
             e.printStackTrace();
         }
