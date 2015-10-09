@@ -106,6 +106,11 @@ public class WordOfQuestionService {
                 listWord.setDraw(draw);
                 listWord.setRecordsFiltered(count);
                 listWord.setRecordsTotal(count);
+            }else{
+                listWord.setRecordsFiltered(0.0);
+                listWord.setRecordsTotal(0.0);
+                listWord.setData(null);
+                listWord.setDraw(draw);
             }
         } catch (Exception e) {
             logger.error("list word by id question : "+ idQuestion + " false because : " +e.getMessage());
