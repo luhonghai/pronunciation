@@ -75,11 +75,15 @@ public class QuestionService {
         QuestionDAO dao = new QuestionDAO();
         String message;
         try{
-            boolean isUpdate=dao.updateQuestion(id, questionName);
-            if (isUpdate){
-                message = SUCCESS;
+            if(!isExistQuestionName(questionName)) {
+                boolean isUpdate = dao.updateQuestion(id, questionName);
+                if (isUpdate) {
+                    message = SUCCESS;
+                } else {
+                    message = ERROR + ":" + "an error has been occurred in server!";
+                }
             }else{
-                message = ERROR + ":" + "an error has been occurred in server!";
+                message = ERROR + ":" + "question name is existed";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();

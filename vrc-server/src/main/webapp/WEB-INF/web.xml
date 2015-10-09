@@ -289,6 +289,16 @@
         <url-pattern>/ManagementQuestionServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementWordOfQuestionServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementWordOfQuestionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementWordOfQuestionServlet</servlet-name>
+        <url-pattern>/ManagementWordOfQuestionServlet</url-pattern>
+    </servlet-mapping>
+
 
 
 

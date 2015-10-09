@@ -231,14 +231,14 @@ public class QuestionDAO extends DataAccess<Question> {
         params.put("search", search);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
-        if (column==1 && order.equals("asc")) {
+        if (column==0 && order.equals("asc")) {
             q.setOrdering("name asc");
-        }else if(column==1 && order.equals("desc")) {
+        }else if(column==0 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
-        if (column==2 && order.equals("asc")) {
+        if (column==1 && order.equals("asc")) {
             q.setOrdering("timeCreated asc");
-        }else if(column==2 && order.equals("desc")) {
+        }else if(column==1 && order.equals("desc")) {
             q.setOrdering("timeCreated desc");
         }
 

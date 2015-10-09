@@ -7,6 +7,7 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.AcousticModelVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.data.jdo.LanguageModelVersion;
+import com.cmg.vrc.processor.CommandExecutor;
 import com.cmg.vrc.service.AcousticModelTrainingService;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.util.AWSHelper;
@@ -399,17 +400,17 @@ public class AcousticModelTraining {
     }
 
     private void executeCommand(File targetDir, String... commands) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder(commands);
-        if (targetDir != null)
-            processBuilder.directory(targetDir);
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
-        BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String readLine;
-        while ((readLine = processOutputReader.readLine()) != null) {
-            listener.onMessage(readLine);
-        }
-        process.waitFor();
+        CommandExecutor.execute(targetDir, new CommandExecutor.CommandListener() {
+            @Override
+            public void onMessage(String message) {
+                listener.onMessage(message);
+            }
+
+            @Override
+            public void onError(String message, Throwable e) {
+                listener.onError(message, e);
+            }
+        }, commands);
     }
 
     private void saveConfiguration() throws IOException, ZipException {
