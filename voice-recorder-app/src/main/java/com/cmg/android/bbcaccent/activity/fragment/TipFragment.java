@@ -13,7 +13,7 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
 import com.cmg.android.bbcaccent.activity.DetailActivity;
 import com.cmg.android.bbcaccent.data.TipsContainer;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.google.gson.Gson;
 

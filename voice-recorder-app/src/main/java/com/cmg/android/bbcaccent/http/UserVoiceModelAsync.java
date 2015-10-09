@@ -1,16 +1,15 @@
 package com.cmg.android.bbcaccent.http;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
-import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -63,12 +62,11 @@ public class UserVoiceModelAsync extends AsyncTask<Map<String, String>, Void, St
             Gson gson = new Gson();
             UserVoiceModelAsync.ResponseDataUserVoice data = gson.fromJson(json,UserVoiceModelAsync.ResponseDataUserVoice.class);
             SimpleAppLog.info("clone  responsedata from server " + data.userVoiceModelList.size());
-            if(data!=null && data.userVoiceModelList!=null && data.userVoiceModelList.size() > 0 ){
-                ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter(context);
-                scoreDBAdapter.open();
-                scoreDBAdapter.getDB().beginTransaction();
+            if(data.userVoiceModelList!=null && data.userVoiceModelList.size() > 0 ){
+                ScoreDBAdapter scoreDBAdapter = new ScoreDBAdapter();
+                List<PronunciationScore> pronunciationScores = new ArrayList<PronunciationScore>();
                 for(UserVoiceModel model : data.userVoiceModelList){
-                    ScoreDBAdapter.PronunciationScore score = new ScoreDBAdapter.PronunciationScore();
+                    PronunciationScore score = new PronunciationScore();
                     String dataId = model.getId();
                     score.setDataId(dataId);
                     score.setScore(model.getScore());
@@ -77,14 +75,12 @@ public class UserVoiceModelAsync extends AsyncTask<Map<String, String>, Void, St
                     //DENP-238
                     score.setUsername(model.getUsername());
                     score.setVersion(model.getVersion());
-                    scoreDBAdapter.insert(score);
+                    pronunciationScores.add(score);
                 }
-                scoreDBAdapter.getDB().setTransactionSuccessful();
-                scoreDBAdapter.getDB().endTransaction();
-                scoreDBAdapter.close();
+                scoreDBAdapter.insert(pronunciationScores);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            SimpleAppLog.error("Could not update database",e);
         }
 
     }

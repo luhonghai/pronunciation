@@ -1,4 +1,4 @@
-package com.cmg.android.bbcaccent.data;
+package com.cmg.android.bbcaccent.data.dto;
 
 import java.util.List;
 

@@ -35,9 +35,9 @@ import com.cmg.android.bbcaccent.activity.fragment.TipFragment;
 import com.cmg.android.bbcaccent.activity.view.RecordingView;
 import com.cmg.android.bbcaccent.activity.view.adapter.PhoneScoreAdapter;
 import com.cmg.android.bbcaccent.activity.view.adapter.PhoneScoreItemAdapter;
-import com.cmg.android.bbcaccent.data.SphinxResult;
-import com.cmg.android.bbcaccent.data.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
@@ -49,13 +49,13 @@ import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.PopoverView;
 import com.google.gson.Gson;
+import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +111,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        WordDBAdapter wordDBAdapter = WordDBAdapter.getInstance(this.getApplicationContext());
+        WordDBAdapter wordDBAdapter = new WordDBAdapter();
         mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(this.getIntent().getExtras().get(USER_VOICE_MODEL).toString(), UserVoiceModel.class);
@@ -121,16 +121,16 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         initDetailView();
         try {
             showData(model, false);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not open database",e);
         }
         registerReceiver(mHandleUpdate, new IntentFilter(FragmentTab.ON_UPDATE_DATA));
         registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
     }
 
-    private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws SQLException {
+    private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws LiteDatabaseException {
         model = userVoiceModel;
-        WordDBAdapter dbAdapter = WordDBAdapter.getInstance(this);
+        WordDBAdapter dbAdapter = new WordDBAdapter();
         dbAdapter.open();
         String pronunciation = dbAdapter.getPronunciation(model.getWord());
         dbAdapter.close();
@@ -698,7 +698,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                                     public void run() {
                                         try {
                                             showData(model, true);
-                                        } catch (SQLException e) {
+                                        } catch (Exception e) {
                                             SimpleAppLog.error("Could not show data",e);
                                         }
                                     }

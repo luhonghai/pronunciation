@@ -1,5 +1,10 @@
-package com.cmg.android.bbcaccent.data;
+package com.cmg.android.bbcaccent.data.dto;
 
+import com.luhonghai.litedb.LiteEntity;
+import com.luhonghai.litedb.annotation.LiteColumn;
+import com.luhonghai.litedb.annotation.LiteTable;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,16 +78,34 @@ public class SphinxResult {
             this.count = count;
         }
     }
+    @LiteTable(name = "score")
+    public static class PhonemeScore extends LiteEntity {
 
-    public static class PhonemeScore {
+        @LiteColumn(name = "index_phoneme")
         private int index;
+
+        @LiteColumn(name = "phoneme")
         private String name;
+
+        @LiteColumn(name = "score")
         private float totalScore;
+
+        @LiteColumn
         private String username;
+
+        @LiteColumn
         private int version;
-        private List<PhonemeScoreUnit> phonemes;
-        private long time;
+
+        @LiteColumn
+        private Date timestamp;
+
+        @LiteColumn(name = "data_id")
         private String userVoiceId;
+
+        private long time;
+
+        private List<PhonemeScoreUnit> phonemes;
+
         public String getUserVoiceId() {
             return userVoiceId;
         }
@@ -91,6 +114,7 @@ public class SphinxResult {
             this.userVoiceId = userVoiceId;
         }
         public long getTime() {
+            if (timestamp != null) return timestamp.getTime();
             return time;
         }
 
@@ -141,6 +165,14 @@ public class SphinxResult {
 
         public void setPhonemes(List<PhonemeScoreUnit> phonemes) {
             this.phonemes = phonemes;
+        }
+
+        public Date getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(Date timestamp) {
+            this.timestamp = timestamp;
         }
     }
 

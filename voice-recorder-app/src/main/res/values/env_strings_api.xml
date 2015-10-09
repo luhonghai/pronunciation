@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="upload_url">http://c-mg.vn/vrc/VoiceRecordHandler</string>
-    <string name="sync_data_url">http://c-mg.vn/vrc/syncData</string>
-    <string name="auth_url">http://c-mg.vn/vrc/AuthHandler</string>
-    <string name="user_profile_url">http://c-mg.vn/vrc/userprofile</string>
-    <string name="register_url">http://c-mg.vn/vrc/RegisterHandler</string>
-    <string name="activation_url">http://c-mg.vn/vrc/activate</string>
-    <string name="feedback_url">http://c-mg.vn/vrc/FeedbackHandler</string>
-    <string name="license_url">http://c-mg.vn/vrc/LicenseHandler</string>
-    <string name="reset_password_url">http://c-mg.vn/vrc/ResetPasswordHandler</string>
+    <string name="upload_url">http://accenteasytomcat-sat.elasticbeanstalk.com/VoiceRecordHandler</string>
+    <string name="sync_data_url">http://accenteasytomcat-sat.elasticbeanstalk.com/syncData</string>
+    <string name="auth_url">http://accenteasytomcat-sat.elasticbeanstalk.com/AuthHandler</string>
+    <string name="user_profile_url">http://accenteasytomcat-sat.elasticbeanstalk.com/userprofile</string>
+    <string name="register_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RegisterHandler</string>
+    <string name="activation_url">http://accenteasytomcat-sat.elasticbeanstalk.com/activate</string>
+    <string name="feedback_url">http://accenteasytomcat-sat.elasticbeanstalk.com/FeedbackHandler</string>
+    <string name="license_url">http://accenteasytomcat-sat.elasticbeanstalk.com/LicenseHandler</string>
+    <string name="reset_password_url">http://accenteasytomcat-sat.elasticbeanstalk.com/ResetPasswordHandler</string>
 </resources>
