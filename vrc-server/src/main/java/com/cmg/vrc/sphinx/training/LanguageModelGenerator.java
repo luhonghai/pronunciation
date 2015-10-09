@@ -1,17 +1,19 @@
-package com.cmg.vrc.service;
+package com.cmg.vrc.sphinx.training;
 
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.Transcription;
-import com.cmg.vrc.util.UUIDGenerator;
+import com.cmg.vrc.processor.CommandExecutor;
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by cmg on 10/09/15.
  */
-public class LanguageModelService {
+public class LanguageModelGenerator {
 
     public File getExtraDir() {
         return extraDir;
@@ -26,7 +28,7 @@ public class LanguageModelService {
 
         void onError(String message, Throwable e);
 
-        void onSuccess(File languageModel);
+        void onSuccess(File languageModel) throws Exception;
     }
 
     private final TrainingListener listener;
@@ -37,10 +39,10 @@ public class LanguageModelService {
 
     private File extraDir;
 
-    public LanguageModelService(TrainingListener listener) {
+    public LanguageModelGenerator(TrainingListener listener, File targetDir) {
         this.listener = listener;
         this.transcriptionDAO = new TranscriptionDAO();
-        this.tmpDir = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + "_lm");
+        this.tmpDir = targetDir;
         if (!tmpDir.exists())
             tmpDir.mkdirs();
     }
@@ -57,7 +59,7 @@ public class LanguageModelService {
         }
     }
 
-    public synchronized void training() {
+    public void training() {
         try {
             listener.onMessage("Fetch all sentences from database");
             List<Transcription> transcriptions =  transcriptionDAO.listAll();
@@ -127,41 +129,16 @@ public class LanguageModelService {
     }
 
     private void executeCommand(File targetDir, String... commands) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder(commands);
-        if (targetDir != null)
-            processBuilder.directory(targetDir);
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
-        BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String readLine;
-        while ((readLine = processOutputReader.readLine()) != null) {
-            listener.onMessage(readLine);
-        }
-        process.waitFor();
-    }
-
-    public static void main(String[] args) {
-        LanguageModelService languageModelService = new LanguageModelService(new TrainingListener() {
+        CommandExecutor.execute(targetDir, new CommandExecutor.CommandListener() {
             @Override
             public void onMessage(String message) {
-                System.out.println(message);
+                listener.onMessage(message);
             }
 
             @Override
             public void onError(String message, Throwable e) {
-                System.out.println(message);
-                e.printStackTrace();
+                listener.onError(message, e);
             }
-
-            @Override
-            public void onSuccess(File languageModel) {
-                try {
-                    FileUtils.moveFile(languageModel, new File("/Users/cmg/Desktop/languagemodel.lm"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        languageModelService.training();
+        }, commands);
     }
 }

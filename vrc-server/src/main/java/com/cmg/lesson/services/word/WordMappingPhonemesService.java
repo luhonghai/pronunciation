@@ -1,5 +1,6 @@
 package com.cmg.lesson.services.word;
 
+import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.dao.word.WordMappingPhonemesDAO;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
@@ -47,6 +48,26 @@ public class WordMappingPhonemesService {
             return dao.getByWordID(idWord);
         }catch (Exception e){
             logger.error("get by word id did not work cause : " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param word
+     * @return list phonemes of word
+     */
+    public List<WordMappingPhonemes> getByWord(String word){
+        WordCollectionDAO wcDao = new WordCollectionDAO();
+        WordMappingPhonemesDAO wmpDao = new WordMappingPhonemesDAO();
+        try {
+            WordCollection wc = wcDao.getByWord(word);
+            if(wc!=null){
+                List<WordMappingPhonemes> list = wmpDao.getByWordID(wc.getId());
+                return list;
+            }
+        }catch (Exception e){
+            logger.error("can not get phoneme of this word : " + word  + " because : "+ e.getMessage());
         }
         return null;
     }

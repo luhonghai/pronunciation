@@ -7,6 +7,7 @@ import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.jdo.AcousticModelVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.data.jdo.LanguageModelVersion;
+import com.cmg.vrc.processor.CommandExecutor;
 import com.cmg.vrc.service.AcousticModelTrainingService;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.util.AWSHelper;
@@ -326,7 +327,8 @@ public class AcousticModelTraining {
         File cfg = new File(etcDir, "sphinx_train.cfg");
         listener.onMessage("Generate configuration file " + cfg);
         StringBuilder command = new StringBuilder("");
-        command.append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
+        command.append("LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n")
+            .append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
             .append("sphinxtrain -t ").append(projectName).append(" setup");
         File shScript = new File(rootDir, "configure.sh");
         FileUtils.writeStringToFile(shScript, command.toString(), "UTF-8");
@@ -389,7 +391,8 @@ public class AcousticModelTraining {
     private void doTraining() throws IOException, InterruptedException {
         listener.onMessage("Start training acoustic model");
         StringBuilder command = new StringBuilder("");
-        command.append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
+        command.append("LD_LIBRARY_PATH=/usr/local/lib\nexport LD_LIBRARY_PATH\n")
+                .append("cd ").append("\"").append(rootDir.getAbsolutePath()).append("\"").append("\n")
                 .append("sphinxtrain run");
         File shScript = new File(rootDir, "train.sh");
         FileUtils.writeStringToFile(shScript, command.toString(), "UTF-8");
@@ -397,17 +400,17 @@ public class AcousticModelTraining {
     }
 
     private void executeCommand(File targetDir, String... commands) throws IOException, InterruptedException {
-        ProcessBuilder processBuilder = new ProcessBuilder(commands);
-        if (targetDir != null)
-            processBuilder.directory(targetDir);
-        processBuilder.redirectErrorStream(true);
-        Process process = processBuilder.start();
-        BufferedReader processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        String readLine;
-        while ((readLine = processOutputReader.readLine()) != null) {
-            listener.onMessage(readLine);
-        }
-        process.waitFor();
+        CommandExecutor.execute(targetDir, new CommandExecutor.CommandListener() {
+            @Override
+            public void onMessage(String message) {
+                listener.onMessage(message);
+            }
+
+            @Override
+            public void onError(String message, Throwable e) {
+                listener.onError(message, e);
+            }
+        }, commands);
     }
 
     private void saveConfiguration() throws IOException, ZipException {

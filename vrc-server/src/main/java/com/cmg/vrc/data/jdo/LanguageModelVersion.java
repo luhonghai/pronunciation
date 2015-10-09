@@ -26,6 +26,9 @@ public class LanguageModelVersion implements Mirrorable {
     private String fileName;
 
     @Persistent
+    private String logFileName;
+
+    @Persistent
     private String admin;
 
     @Persistent
@@ -88,5 +91,13 @@ public class LanguageModelVersion implements Mirrorable {
 
     public void setSelectedDate(Date selectedDate) {
         this.selectedDate = selectedDate;
+    }
+
+    public String getLogFileName() {
+        return logFileName;
+    }
+
+    public void setLogFileName(String logFileName) {
+        this.logFileName = logFileName;
     }
 }

@@ -1,9 +1,11 @@
 package com.cmg.vrc.servlet;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.LanguageModelVersionDAO;
 import com.cmg.vrc.data.jdo.LanguageModelVersion;
-import com.cmg.vrc.service.LanguageModelService;
+import com.cmg.vrc.service.LanguageModelGeneratorService;
+import com.cmg.vrc.sphinx.training.LanguageModelGenerator;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -13,9 +15,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +35,14 @@ public class LanguageModelHandler extends BaseServlet {
         List<LanguageModelVersion> data;
     }
 
+    class ResponseStatus {
+        boolean running;
+        boolean stopping;
+        String latestLog;
+        int draw;
+        int lines;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
         final PrintWriter out = response.getWriter();
@@ -49,61 +57,68 @@ public class LanguageModelHandler extends BaseServlet {
             if (!StringUtils.isEmpty(action)) {
                 final LanguageModelVersionDAO dao = new LanguageModelVersionDAO();
                 final AWSHelper awsHelper = new AWSHelper();
-                if (action.equalsIgnoreCase("load")) {
-                    response.setContentType("text/html; charset=utf-8");
-                    long start = System.currentTimeMillis();
-                    LanguageModelService languageModelService = new LanguageModelService(new LanguageModelService.TrainingListener() {
-                        @Override
-                        public void onMessage(String message) {
-                            out.write(StringEscapeUtils.escapeHtml(message) + "<br/>");
-                            out.flush();
-                        }
-
-                        @Override
-                        public void onError(String message, Throwable e) {
-                            printException(out, message, e);
-                            out.flush();
-                        }
-
-                        @Override
-                        public void onSuccess(File languageModel) {
-                            try {
-                                int version = dao.getMaxVersion();
-                                version++;
-                                String fileName = "version-" +version +".lm";
-                                out.write("Upload " + languageModel + " to AWS S3 " + fileName + "<br/>");
-                                awsHelper.upload(Constant.FOLDER_LANGUAGE_MODEL
-                                        + "/" + fileName, languageModel);
-                                Date now = new Date(System.currentTimeMillis());
-                                LanguageModelVersion languageModelVersion = new LanguageModelVersion();
-                                languageModelVersion.setVersion(version);
-                                languageModelVersion.setAdmin(admin);
-                                languageModelVersion.setCreatedDate(now);
-                                languageModelVersion.setFileName(fileName);
-                                languageModelVersion.setSelected(true);
-                                languageModelVersion.setSelectedDate(now);
-                                out.write("Insert information to database<br/>");
-                                dao.removeSelected();
-                                dao.createObj(languageModelVersion);
-                                out.write("Successfully!<br/>");
-                            } catch (Exception e) {
-                                printException(out, "Could not insert information to database", e);
+                if (action.equalsIgnoreCase("status")) {
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+                    int lines = Integer.parseInt(request.getParameter("lines"));
+                    ResponseStatus status = new ResponseStatus();
+                    status.running = LanguageModelGeneratorService.getInstance().isRunning();
+                    status.stopping = LanguageModelGeneratorService.getInstance().isStopping();
+                    status.latestLog = LanguageModelGeneratorService.getInstance().getCurrentLog(lines);
+                    status.draw = draw;
+                    status.lines = lines;
+                    out.write(new Gson().toJson(status));
+                } else if (action.equalsIgnoreCase("stop")){
+                    LanguageModelGeneratorService.getInstance().forceStop();
+                    out.write("done");
+                } else if (action.equalsIgnoreCase("load")){
+                    LanguageModelGeneratorService.getInstance().generate(admin);
+                    out.write("done");
+                } else if (action.equalsIgnoreCase("latest_log")) {
+                    InputStream is = null;
+                    BufferedReader bufferedReader = null;
+                    try {
+                        if (LanguageModelGeneratorService.getInstance().isRunning()) {
+                            if (LanguageModelGeneratorService.getInstance().getCurrentLogFile() != null &&
+                                    LanguageModelGeneratorService.getInstance().getCurrentLogFile().exists())
+                                is = new FileInputStream(LanguageModelGeneratorService.getInstance().getCurrentLogFile());
+                        } else {
+                            S3Object s3Object = awsHelper.getS3Object(Constant.FOLDER_LANGUAGE_MODEL
+                                    + "/" + "latest.running.log");
+                            if (s3Object != null) {
+                                is = s3Object.getObjectContent();
                             }
-                            out.flush();
                         }
-                    });
-                    //languageModelService.setExtraDir(new File("/Users/cmg/Documents/training/ext-training"));
-                    languageModelService.training();
-                    out.write("Execution time: " + (System.currentTimeMillis() - start) + "ms");
-                    out.flush();
+                        if (is != null) {
+                            bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                out.write(line + "\n");
+                                out.flush();
+                            }
+                        } else {
+                            out.print("No log found");
+                        }
+                    } catch (Exception e) {
+                        out.print("No log found. Error: " + e.getMessage());
+                        log("No log found", e);
+                    } finally {
+                        try {
+                            if (is != null)
+                                is.close();
+                            if (bufferedReader != null)
+                                bufferedReader.close();
+                        } catch (Exception e) {}
+                    }
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {
-                        LanguageModelVersion languageModelVersion = dao.getById(id);
-                        if (languageModelVersion != null) {
+                        S3Object s3Object = awsHelper.getS3Object(Constant.FOLDER_LANGUAGE_MODEL
+                                + "/"
+                                + id);
+                        if (s3Object != null) {
                             out.write(awsHelper.generatePresignedUrl(Constant.FOLDER_LANGUAGE_MODEL
                                     + "/"
-                                    + languageModelVersion.getFileName()));
+                                    + id));
                         } else {
                             out.write("No language model found with id " + id);
                         }
