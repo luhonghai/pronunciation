@@ -89,7 +89,7 @@ public class WordOfQuestionService {
      * @param idQuestion
      * @return list word collection
      */
-    public ListWord listWordByIdQuestion(String idQuestion){
+    public ListWord listWordByIdQuestion(String idQuestion, String word,String order){
         ListWord listWord = new ListWord();
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         WordCollectionDAO wcDAO = new WordCollectionDAO();
@@ -100,7 +100,7 @@ public class WordOfQuestionService {
                 for(WordOfQuestion woq : listWordOfQuestion){
                     lstId.add(woq.getIdWordCollection());
                 }
-                List<WordCollection> wordCollections = wcDAO.listIn(lstId);
+                List<WordCollection> wordCollections = wcDAO.listIn(lstId, word, order);
                 listWord.setData(wordCollections);
             }
         } catch (Exception e) {
