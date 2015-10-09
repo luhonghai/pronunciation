@@ -105,6 +105,21 @@ public class QuestionDAO extends DataAccess<Question> {
 
     /**
      *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public Question getById(String id) throws Exception{
+        boolean isExist = false;
+        List<Question> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     *
      * @return total rows in table
      */
     public double getCount() throws  Exception{

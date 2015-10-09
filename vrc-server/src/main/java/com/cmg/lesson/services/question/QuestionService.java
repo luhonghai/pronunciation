@@ -221,4 +221,19 @@ public class QuestionService {
     public Date parseDate(String date) {
         return parseDate(date, false);
     }
+
+    /**
+     * 
+     * @param id
+     * @return
+     */
+    public Question getById(String id){
+        QuestionDAO dao = new QuestionDAO();
+        try {
+            return dao.getById(id);
+        }catch (Exception e){
+            logger.info("can not get question by id : " + id);
+        }
+        return null;
+    }
 }
