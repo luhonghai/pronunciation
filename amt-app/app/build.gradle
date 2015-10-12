@@ -36,7 +36,7 @@ android {
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
         compileSdkVersion 19
-        archivesBaseName = "bbc-accent-amt"
+        archivesBaseName ="acoustic-model-trainer"
     }
     productFlavors {
     }

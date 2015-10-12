@@ -53,7 +53,6 @@ import com.cmg.android.bbcaccentamt.activity.fragment.HistoryFragment;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.activity.info.AboutActivity;
 import com.cmg.android.bbcaccentamt.activity.info.HelpActivity;
-import com.cmg.android.bbcaccentamt.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccentamt.activity.view.RecordingView;
 import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
@@ -342,8 +341,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         notUpload=databaseHandlerSentence.getSentenceWithAccountandStatus(name, Common.RECORDED_BUT_NOT_UPLOAD);
         sentenceModels=new ArrayList<SentenceModel>();
         sentenceModels.addAll(reject);
-        sentenceModels.addAll(notUpload);
         sentenceModels.addAll(notRecord);
+        sentenceModels.addAll(notUpload);
         sentenceModels.addAll(upload);
         sentenceModels.addAll(approved);
         sentenceModels.addAll(locked);
@@ -374,6 +373,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             String itemValue=m.getSentence();
             textrecord.setText(itemValue);
 
+
         }
         customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
        /* List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();*/
@@ -396,7 +396,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                view.setSelected(true);
                 SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
+                //lvItem.getItemAtPosition(position).
+
+
                 String itemValue = a.getSentence();
                 idSentence = a.getID();
                 /*RecorderSentenceModel recorderSentenceModel=new RecorderSentenceModel();
@@ -608,12 +612,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         startActivity(AboutActivity.class);
                         break;
                     case 3:
-                        startActivity(LicenceActivity.class);
-                        break;
-                    case 4:
                         startActivity(FeedbackActivity.class);
                         break;
-                    case 5:
+                    case 4:
                         SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
                         d.setTitleText(getString(R.string.logout_account_message_title));
                         d.setContentText(getString(R.string.logout_account_message_content));
@@ -2194,11 +2195,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             case -1:
                 index=reject.size()+getIndexWithStatus(-1);
                 break;
-            case 0:
-                index=reject.size()+notUpload.size()+getIndexWithStatus(0);
-                break;
             case 1:
-                index=reject.size()+notUpload.size()+notRecord.size()+getIndexWithStatus(1);
+                index=reject.size()+notUpload.size()+getIndexWithStatus(1);
+                break;
+            case 0:
+                index=reject.size()+notUpload.size()+notRecord.size()+getIndexWithStatus(0);
                 break;
             case 2:
                 index=getIndexWithStatus(2);
@@ -2234,7 +2235,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
-            status= databaseHandlerSentence.getStatus(idSentence,name);
+            status= databaseHandlerSentence.getStatus(idSentence, name);
             textrecord.setText(s);
             searchView.setQuery(s,false);
             positionSelect();
