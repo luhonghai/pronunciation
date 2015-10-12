@@ -15,7 +15,7 @@
 		<beanstalker.region>ap-southeast-1</beanstalker.region>
 	</properties>
 	<build>
-		<finalName>bbc-accent-server-${sysenv}-v${project.version}</finalName>
+		<finalName>vrc</finalName>
 		<plugins>
 
 			<plugin>

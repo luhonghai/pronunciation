@@ -154,7 +154,8 @@ public class VoiceRecordHandler extends HttpServlet {
                     logger.error("Could not analyze word", ex);
                 }
                 UserVoiceModelDAO dao = new UserVoiceModelDAO();
-                model.setScore(result.getScore());
+                if (result != null)
+                    model.setScore(result.getScore());
                 model = dao.createObj(model);
                 if (result != null) {
                     model.setResult(result);
