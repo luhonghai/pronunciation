@@ -1450,7 +1450,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SimpleAppLog.info("Request location update");
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         try {
-            lm.removeUpdates(this);
+           //lm.removeUpdates(this);
         } catch (Exception e) {
             SimpleAppLog.error("Could not stop request location",e);
         }
@@ -1460,12 +1460,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SimpleAppLog.info("Request location update");
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         try {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
+            //lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
         } catch (Exception e) {
             SimpleAppLog.error("Could not request GPS provider location", e);
         }
         try {
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
+           // lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
         } catch (Exception e) {
             SimpleAppLog.error("Could not request Network provider location", e);
         }
@@ -1497,7 +1497,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         File dstFile = new File(output);
         switch (v.getId()) {
             case R.id.btnAnalyzing:
-                if (checkNetwork(false)) {
+               // if (checkNetwork(false)) {
                     if (isRecording) {
                         stop();
                         switch (status){
@@ -1577,7 +1577,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     } else {
                         analyze();
                     }
-                }
+                //}
                 break;
             case R.id.btnAudio:
                 if (isPlaying) {

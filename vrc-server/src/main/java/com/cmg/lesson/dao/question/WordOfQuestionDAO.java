@@ -104,4 +104,19 @@ public class WordOfQuestionDAO extends DataAccess<WordOfQuestion> {
         return null;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @param idWord
+     * @return
+     */
+    public boolean checkExistedWord(String idQuestion, String idWord) throws Exception{
+        List<WordOfQuestion> list = list("WHERE idQuestion==:1 && idWordCollection== :2 && isDeleted==:3", idQuestion,idWord,false);
+        if(list!=null && list.size() > 0){
+            return true;
+        }
+        return false;
+
+    }
+
 }
