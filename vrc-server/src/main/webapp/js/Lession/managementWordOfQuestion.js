@@ -104,36 +104,49 @@ function listWordOfQuestion(questionId){
 
 }
 
+function getWeightAndPhoneme(){
+    var output = [];
+    $("#listPhonmes").find('input').each(function(e){
+        var vlue = $(this).val();
+        var index = $(this).attr("index");
+        var weight = $('#weight' + index).val();
+        output.push({
+            index : index,
+            phoneme : vlue,
+            weight : weight
+        });
+    });
+    return output;
+}
 
-function addWord(){
+
+function addWord(questionId){
     //add word click
     $(document).on("click","#yesadd", function(){
         var listphonemes=$("#addPhoneme").val();
         var word = {
-            word: $("#addWord").val(),
-            definition: $("#addDifinition").val(),
-            pronunciation: $("#addpronunciation").val(),
-            mp3Path : $("#addPath").val(),
-            phonemes : readPhones(listphonemes)
+            idWord: $("#addWord").attr("idWord"),
+            idQuestion: questionId,
+            data: JSON.stringify(getWeightAndPhoneme())
         };
         $.ajax({
             url: servletName,
             type: "POST",
-            dataType: "text",
+            dataType: "json",
             data: {
                 add: "add",
                 word: JSON.stringify(word)
             },
             success: function (data) {
-                var messages=JSON.parse(data);
-                if (messages.message.indexOf("success") !=-1) {
+                var message = data.message;
+                if(message.indexOf("success")!=-1){
+                    //set successfull leen
+                    alert("add success!");
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
-                }
-                if(messages.message.indexOf("error")!=-1){
-                    swal("Error!", messages.message, "error");
-                    $("#add").modal('hide');
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -158,11 +171,14 @@ function addWord(){
             },
             success: function (data) {
                 if(typeof data!="undefined") {
+                    $("#addWord").attr("idWord", data.id);
+                    $("#listPhonmes").html("");
+                    $("#listWeight").html("");
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
-                        //$("#listPhonmes").append('<input id="phoneme'+idx+'" name="phoneme'+idx+'" value="'+phonmeName+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
-                        //$("#listWeight").append('<input id="phoneme'+idx+'" name="phoneme'+idx+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
+                        $("#listPhonmes").append('<input index="'+obj.index+'" value="'+phonmeName+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
+                        $("#listWeight").append('<input id="weight'+obj.index+'"   type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
                     });
                 }
                 /*
@@ -365,7 +381,7 @@ $(document).ready(function(){
     var roleAdmin=$("#role").val();
     var questionId = getUrlVars()["id"];
     add();
-    addWord();
+    addWord(questionId);
     edit();
     editWord();
     deletes();
