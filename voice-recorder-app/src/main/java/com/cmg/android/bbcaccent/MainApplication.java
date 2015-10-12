@@ -12,24 +12,25 @@ public class MainApplication  extends Application {
 
     private static MainApplication context;
 
-    private FreestyleDatabaseHelper phonemeDatabaseHelper;
+    private FreestyleDatabaseHelper freestyleDatabaseHelper;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
         try {
-            phonemeDatabaseHelper = new FreestyleDatabaseHelper();
+            freestyleDatabaseHelper = new FreestyleDatabaseHelper();
+            freestyleDatabaseHelper.open();
         } catch (Exception e) {
             SimpleAppLog.error("Could not init database",e);
         }
-        phonemeDatabaseHelper.open();
     }
 
     @Override
     public void onTerminate() {
         super.onTerminate();
-        phonemeDatabaseHelper.close();
+        if (freestyleDatabaseHelper != null)
+            freestyleDatabaseHelper.close();
     }
 
     public static MainApplication getContext() {
@@ -37,7 +38,7 @@ public class MainApplication  extends Application {
     }
 
     public FreestyleDatabaseHelper getFreestyleDatabaseHelper() {
-        return phonemeDatabaseHelper;
+        return freestyleDatabaseHelper;
     }
 
 }

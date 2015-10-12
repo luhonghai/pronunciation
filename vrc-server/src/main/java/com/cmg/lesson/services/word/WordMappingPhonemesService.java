@@ -69,6 +69,7 @@ public class WordMappingPhonemesService {
                 if(list!=null && list.size() > 0){
                     dto.setPhonemes(list);
                     dto.setMessage(SUCCESS);
+                    dto.setId(wc.getId());
                 }else{
                     dto.setMessage(ERROR + ": this word have not any phoneme in database");
                 }

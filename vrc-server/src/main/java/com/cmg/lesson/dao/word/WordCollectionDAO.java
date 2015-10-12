@@ -249,7 +249,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         List<WordCollection> listWord = new ArrayList<WordCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0){
-            whereClause = whereClause + ") and word ='"+wordSearch+"' and isDeleted=false ";
+            whereClause = whereClause + ") and word like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
@@ -293,7 +293,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         List<WordCollection> listWord = new ArrayList<WordCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
-            whereClause = whereClause + ") and word ='"+wordSearch+"' and isDeleted=false ";
+            whereClause = whereClause + ") and word like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
