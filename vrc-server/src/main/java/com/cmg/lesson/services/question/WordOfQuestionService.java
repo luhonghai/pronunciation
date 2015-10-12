@@ -124,24 +124,50 @@ public class WordOfQuestionService {
      * @param dto
      * @return
      */
-    public QuestionDTO addWordToQuestion(WeightPhonemesDTO dto){
+    public QuestionDTO updateWordToQuestion(WeightPhonemesDTO dto){
         QuestionDTO qDTO = new QuestionDTO();
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
-        boolean check = false;
         try {
-            WordOfQuestion woq = new WordOfQuestion(dto.getIdQuestion(),dto.getIdWord(),getMaxVersion(),false);
-            check = addWordToQuestionDB(woq);
+            boolean check = woqDAO.checkExistedWord(dto.getIdQuestion(), dto.getIdWord());
             if(check){
                 WeightForPhonemeService wfpService = new WeightForPhonemeService();
-                check = wfpService.addMapping(dto);
-                if(check){
+                boolean con1 = wfpService.addMapping(dto);
+                if(con1){
+                    qDTO.setMessage(SUCCESS);
+                }else{
+                    deleteWordOfQuestion(dto.getIdQuestion(),dto.getIdWord());
+                    qDTO.setMessage(ERROR +": can not add mapping weight for phonemes of this word.An error has been occurred in server");
+                }
+            }else{
+                qDTO.setMessage(ERROR + " : this word does not mapping with the question anymore!");
+            }
+        }catch (Exception e){
+            logger.error("can not update Word to question because : " + e.getMessage());
+        }
+        return qDTO;
+    }
+
+    /**
+     *
+     * @param dto
+     * @return
+     */
+    public QuestionDTO addWordToQuestion(WeightPhonemesDTO dto){
+        QuestionDTO qDTO = new QuestionDTO();
+        try {
+            WordOfQuestion woq = new WordOfQuestion(dto.getIdQuestion(),dto.getIdWord(),getMaxVersion(),false);
+            String con = addWordToQuestionDB(woq);
+            if(con.equalsIgnoreCase(SUCCESS)){
+                WeightForPhonemeService wfpService = new WeightForPhonemeService();
+                boolean con1 = wfpService.addMapping(dto);
+                if(con1){
                     qDTO.setMessage(SUCCESS);
                 }else{
                     deleteWordOfQuestion(dto.getIdQuestion(),dto.getIdWord());
                     qDTO.setMessage(ERROR +": can not add mapping weight for phonemes.An error has been occurred in server");
                 }
             }else{
-                qDTO.setMessage(ERROR +": can not add mapping word to question.An error has been occurred in server");
+                qDTO.setMessage(con);
             }
         }catch (Exception e){
             logger.error("can not add Word to question because : " + e.getMessage());
@@ -154,16 +180,23 @@ public class WordOfQuestionService {
      * @param obj
      * @return
      */
-    public boolean addWordToQuestionDB(WordOfQuestion obj){
+    public String addWordToQuestionDB(WordOfQuestion obj){
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         boolean check = false;
+        String message = "";
         try {
-            woqDAO.create(obj);
-            check = true;
+            check = woqDAO.checkExistedWord(obj.getIdQuestion(), obj.getIdWordCollection());
+            if(check){
+                message = ERROR + " : this word was already added to question!";
+            }else {
+                woqDAO.create(obj);
+                message = SUCCESS;
+            }
         }catch (Exception e){
+            message = ERROR + " : " + e.getMessage();
             logger.error("can not add word to question in db because : " + e.getMessage());
         }
-        return check;
+        return message;
     }
 
 
