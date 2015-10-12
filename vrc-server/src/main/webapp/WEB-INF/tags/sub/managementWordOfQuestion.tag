@@ -95,11 +95,22 @@
                     <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
                   </div>
                   <div class="col-xs-6">
-                    <div class="row">
-
+                    <div class="row" id="listPhonmes">
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                     </div>
-                    <div class="row">
 
+                    <div class="row" id="listWeight">
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                     </div>
                   </div>
                 </div>
