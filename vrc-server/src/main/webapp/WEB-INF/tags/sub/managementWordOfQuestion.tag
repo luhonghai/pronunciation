@@ -96,20 +96,10 @@
                   </div>
                   <div class="col-xs-6">
                     <div class="row">
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+
                     </div>
                     <div class="row">
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
-                      <input  type="text" size="1" id="" name="addsentence"  style="padding-left: 0px;margin-bottom: 5px;width: 30px;" />
+
                     </div>
                   </div>
                 </div>

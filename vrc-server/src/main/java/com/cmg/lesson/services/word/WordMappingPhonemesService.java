@@ -16,6 +16,7 @@ import java.util.List;
  * Created by lantb on 2015-10-01.
  */
 public class WordMappingPhonemesService {
+
     private static final Logger logger = Logger.getLogger(WordMappingPhonemesService.class
             .getName());
 
