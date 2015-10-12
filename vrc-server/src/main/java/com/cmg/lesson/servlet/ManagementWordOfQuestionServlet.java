@@ -34,8 +34,8 @@ public class ManagementWordOfQuestionServlet extends HttpServlet {
             String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
             String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
             String questionId =  (String)StringUtil.isNull(request.getParameter("questionId"),"");
-            ListWord list = wordOfQuestionService.listWordByIdQuestion(questionId,search,order,start,length,draw);
             try {
+                ListWord list = wordOfQuestionService.listWordByIdQuestion(questionId,search,order,start,length,draw);
                 String json = gson.toJson(list);
                 response.getWriter().write(json);
             }catch (Exception e){
