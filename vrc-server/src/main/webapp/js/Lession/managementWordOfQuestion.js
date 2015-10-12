@@ -106,6 +106,7 @@ function listWordOfQuestion(questionId){
 
 
 function addWord(){
+    //add word click
     $(document).on("click","#yesadd", function(){
         var listphonemes=$("#addPhoneme").val();
         var word = {
@@ -144,11 +145,38 @@ function addWord(){
 
     });
 
+    //load phonemes click
+    $("#loadPhonemes").click(function(){
+        var word = $("#addWord").val();
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "text",
+            data: {
+                listPhonemes: "listPhonemes",
+                word: word
+            },
+            success: function (data) {
+                var messages=JSON.parse(data);
+                if (messages.message.indexOf("success") !=-1) {
+                    $("tbody").html("");
+                    myTable.fnDraw();
+                    $("#add").modal('hide');
+                }
+                if(messages.message.indexOf("error")!=-1){
+                    swal("Error!", messages.message, "error");
+                    $("#add").modal('hide');
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
 
-
-
-
+        });
+    });
 }
+
+
 
 function add(){
     $(document).on("click","#addUser", function(){
