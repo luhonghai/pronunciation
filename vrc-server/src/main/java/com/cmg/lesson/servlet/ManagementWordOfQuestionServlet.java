@@ -62,8 +62,9 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 response.getWriter().write(json);
 
             }else if(request.getParameter("delete")!=null){
-                String id= request.getParameter("id");
-                WordDTO dto = wordCollectionService.deleteWord(id);
+                String idQuestion = (String)StringUtil.isNull(request.getParameter("idQuestion"), "");
+                String idWord = (String)StringUtil.isNull(request.getParameter("idWord"), "");
+                QuestionDTO dto = wordOfQuestionService.deleteWordOfQuestion(idQuestion,idWord);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
             }
