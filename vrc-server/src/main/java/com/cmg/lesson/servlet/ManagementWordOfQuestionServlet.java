@@ -38,8 +38,7 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 ListWord list = wordOfQuestionService.listWordByIdQuestion(questionId,search,order,start,length,draw);
                 String json = gson.toJson(list);
                 response.getWriter().write(json);
-            }else
-            if(request.getParameter("add")!=null){
+            }else if(request.getParameter("add")!=null){
                 String wordAdd = request.getParameter("word");
                 WordDTO word = gson.fromJson(wordAdd, WordDTO.class);
                 WordDTO dto =  wordCollectionService.addWordPhonemes(word.getWord(), word.getPronunciation(),
