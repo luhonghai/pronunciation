@@ -22,14 +22,12 @@ public class ListMenuAdapter extends BaseAdapter {
             R.string.menu_help,
             R.string.menu_settings,
             R.string.menu_about,
-            R.string.menu_licence,
             R.string.menu_feedback,
             R.string.menu_logout);
     private  List<Integer> menuIcon = Arrays.asList(
             R.drawable.p_menu_help,
             R.drawable.p_menu_setting,
             R.drawable.p_menu_about,
-            R.drawable.p_menu_license,
             R.drawable.p_menu_feedback,
             R.drawable.p_logout_red);
 
@@ -72,7 +70,7 @@ public class ListMenuAdapter extends BaseAdapter {
 
         }
         view.textView.setText(context.getString(menuText.get(position)));
-        if (position == 5) {
+        if (position == 4) {
             view.textView.setTextColor(context.getResources().getColor(R.color.app_red));
         }
         view.imageButton.setImageResource(menuIcon.get(position));

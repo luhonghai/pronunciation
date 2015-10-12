@@ -107,13 +107,13 @@ function listWordOfQuestion(questionId){
 function getWeightAndPhoneme(){
     var output = [];
     $("#listPhonmes").find('input').each(function(e){
-        var vlue = $(this).val();
+        var value = $(this).val();
         var index = $(this).attr("index");
         var weight = $('#weight' + index).val();
         output.push({
-            index : index,
-            phoneme : vlue,
-            weight : weight
+            index : parseInt(index),
+            phoneme : value,
+            weight : parseInt(weight)
         });
     });
     return output;
@@ -127,7 +127,7 @@ function addWord(questionId){
         var word = {
             idWord: $("#addWord").attr("idWord"),
             idQuestion: questionId,
-            data: JSON.stringify(getWeightAndPhoneme())
+            data:getWeightAndPhoneme()
         };
         $.ajax({
             url: servletName,
