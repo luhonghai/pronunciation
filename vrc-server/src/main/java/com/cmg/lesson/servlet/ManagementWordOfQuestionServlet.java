@@ -1,5 +1,7 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
 import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.services.question.WordOfQuestionService;
@@ -40,17 +42,15 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String wordAdd = request.getParameter("word");
-                WordDTO word = gson.fromJson(wordAdd, WordDTO.class);
-                WordDTO dto =  wordCollectionService.addWordPhonemes(word.getWord(), word.getPronunciation(),
-                        word.getDefinition(), word.getMp3Path(), word.getPhonemes());
+                WeightPhonemesDTO dtoClient = gson.fromJson(wordAdd, WeightPhonemesDTO.class);
+                QuestionDTO dto = wordOfQuestionService.addWordToQuestion(dtoClient);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
             }else if(request.getParameter("edit")!=null){
-                String phonemes = request.getParameter("word");
-                WordDTO word = gson.fromJson(phonemes, WordDTO.class);
-                WordDTO dto =  wordCollectionService.updateWordPhonemes(word.getId(),
-                        word.getDefinition(), word.getMp3Path(), word.getPhonemes());
+                String wordEdit = request.getParameter("word");
+                WeightPhonemesDTO dtoClient = gson.fromJson(wordEdit, WeightPhonemesDTO.class);
+                QuestionDTO dto = wordOfQuestionService.updateWordToQuestion(dtoClient);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
@@ -60,6 +60,7 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 WordDTO dto = service.getByWord(word);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
+
             }else if(request.getParameter("delete")!=null){
                 String id= request.getParameter("id");
                 WordDTO dto = wordCollectionService.deleteWord(id);

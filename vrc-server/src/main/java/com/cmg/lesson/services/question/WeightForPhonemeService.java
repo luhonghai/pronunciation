@@ -83,7 +83,6 @@ public class WeightForPhonemeService {
      */
     public boolean addMapping(WeightPhonemesDTO dto){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
-        QuestionDTO qDTO = new QuestionDTO();
         boolean message=false;
         try {
             if(dto.getData()!=null && dto.getData().size() > 0){
