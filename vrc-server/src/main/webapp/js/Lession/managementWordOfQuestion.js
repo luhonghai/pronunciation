@@ -151,22 +151,31 @@ function addWord(){
         $.ajax({
             url: servletName,
             type: "POST",
-            dataType: "text",
+            dataType: "json",
             data: {
                 listPhonemes: "listPhonemes",
                 word: word
             },
             success: function (data) {
+                if(typeof data!="undefined") {
+                    $.each(data.phonemes, function (idx, obj) {
+                        var phonmeName = obj.phoneme;
+                        //alert(jsonItem);
+                        //$("#listPhonmes").append('<input id="phoneme'+idx+'" name="phoneme'+idx+'" value="'+phonmeName+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
+                        //$("#listWeight").append('<input id="phoneme'+idx+'" name="phoneme'+idx+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
+                    });
+                }
+                /*
                 var messages=JSON.parse(data);
                 if (messages.message.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
-                    $("#add").modal('hide');
+                    //$("#add").modal('hide');
                 }
                 if(messages.message.indexOf("error")!=-1){
                     swal("Error!", messages.message, "error");
                     $("#add").modal('hide');
-                }
+                }*/
             },
             error: function () {
                 swal("Error!", "Could not connect to server", "error");
