@@ -82,10 +82,10 @@
                 <div class="row">
                   <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
                   <div class="col-xs-5  col-sm-6">
-                    <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                    <input  type="text" id="addWord" name="addWord" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                   <div class="col-xs-3  col-sm-2">
-                    <button type="button" name="yesadd" id="" class="btn btn-default" value="yes" >Submit</button>
+                    <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" value="yes" >Load Phonemes</button>
                   </div>
                 </div>
 
