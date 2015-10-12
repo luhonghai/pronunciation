@@ -11,12 +11,17 @@ package com.cmg.android.bbcaccentamt.http;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.cmg.android.bbcaccentamt.AppLog;
+import com.cmg.android.bbcaccentamt.MainActivity;
+import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
+import com.cmg.android.bbcaccentamt.common.Common;
 import com.cmg.android.bbcaccentamt.data.DatabaseHandlerSentence;
 import com.cmg.android.bbcaccentamt.data.DatabasePrepare;
 import com.cmg.android.bbcaccentamt.data.SentenceModel;
 import com.cmg.android.bbcaccentamt.data.RecorderSentenceModel;
+import com.cmg.android.bbcaccentamt.data.UserProfile;
 import com.cmg.android.bbcaccentamt.http.exception.UploaderException;
 import com.google.gson.Gson;
 
@@ -50,8 +55,9 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
     protected String doInBackground(List<Map<String, String>>... params) {
         AppLog.logString("do upload");
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(context);
+        UserProfile profile = Preferences.getCurrentProfile(context);
+        int n=0;
         try {
-            String idSentence = "";
             if (params != null && params.length > 0) {
                 for (List<Map<String, String>> param : params) {
                     for (Map<String, String> p : param) {
@@ -59,25 +65,26 @@ public class UploaderAllAsync extends AsyncTask<List<Map<String, String>>, Void,
                         String result = FileUploader.upload(p, uploadUrl);
                         Gson gson = new Gson();
                         DatabasePrepare.ResponseDataRecorded datas = gson.fromJson(result, DatabasePrepare.ResponseDataRecorded.class);
-                        if(datas!=null &&datas.RecordedSentences.size() > 0 ){
+                        if(datas != null && datas.RecordedSentences != null && datas.RecordedSentences.size() > 0 && datas.status()!=false){
                             for(DatabasePrepare.RecordedSentence model : datas.RecordedSentences){
                                 //call database update version, status, isdeleted with object model.
                                 databaseHandlerSentence.updateRecorder(model.getVersion(),model.getStatus(),model.isDeteted(),model.getSentenceId(),model.getAccount());
 
                             }
 
+                        }else {
+                            databaseHandlerSentence.updateRecorder(databaseHandlerSentence.getLastedVersionRecorder(p.get("username")), Common.NOT_RECORD, Common.ISDELETED_FALSE,p.get("sentence"), profile.getUsername());
+                            n=n+1;
                         }
 
-
-//                        idSentence = p.get("sentence");
-//                        SentenceModel sentenceModel=databaseHandlerSentence.getSentence(idSentence);
-//                        sentenceModel.setStatus(1);
-//                        sentenceModel.setIndex(4);
-//                        databaseHandlerSentence.updateSentence(sentenceModel);
                     }
                 }
             }
-            return "upload done";
+            if(n!=0){
+                return "has been change";
+            }else {
+                return "upload done";
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (UploaderException e) {

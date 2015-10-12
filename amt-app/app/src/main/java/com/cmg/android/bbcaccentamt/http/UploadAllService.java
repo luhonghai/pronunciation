@@ -81,15 +81,16 @@ public class UploadAllService extends Service {
 
     }
 
-    public int maxVersion(){
+    public int maxVersion(String username){
         int maxversion=0;
         DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
-        maxversion=databaseHandlerSentence.getLastedVersionRecorder();
+        maxversion=databaseHandlerSentence.getLastedVersionRecorder(username);
         return maxversion;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        DatabaseHandlerSentence databaseHandlerSentence=new DatabaseHandlerSentence(this);
         profile = getUserProfile(intent);
         List<RecorderSentenceModel> recorderSentenceModels=getListSentence(profile.getUsername());
         List<Map<String, String> > list = new ArrayList<Map<String, String>>();
@@ -98,7 +99,8 @@ public class UploadAllService extends Service {
                 String id=recorderSentenceModels.get(i).getID();
                 int version=recorderSentenceModels.get(i).getVersion();
                 String versions=Integer.toString(version);
-                int maxversion=maxVersion();
+                String sentence=databaseHandlerSentence.getSentence(id).getSentence();
+                int maxversion=maxVersion(profile.getUsername());
                 String maxversions=Integer.toString(maxversion);
                 String fileName = getTmpDir(id, profile.getUsername());
                 File tmp = new File(fileName);
@@ -121,8 +123,10 @@ public class UploadAllService extends Service {
                         params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                         params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
                         params.put("profile", gson.toJson(profile));
+                        params.put("username", gson.toJson(profile.getUsername()));
                         params.put("sentence", id);
                         params.put("version", versions);
+                        params.put("contentSentence",sentence);
                         params.put("versionmax", maxversions);
                         list.add(params);
                     } else {

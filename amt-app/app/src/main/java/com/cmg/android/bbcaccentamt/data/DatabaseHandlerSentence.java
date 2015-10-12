@@ -91,24 +91,25 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_SENTENCE, new String[]{KEY_ID,
                         KEY_NAME, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount()>0) {
             cursor.moveToFirst();
             SentenceModel sentenceModel = new SentenceModel(cursor.getString(0), cursor.getString(1), Integer.parseInt(cursor.getString(2)), Integer.parseInt(cursor.getString(3)), Integer.parseInt(cursor.getString(4)));
+            cursor.close();
             return sentenceModel;
         }
         return null;
     }
     //not use
-    public List<SentenceModel> getAllSentence() {
+    public List<SentenceModel> getListSentence(String sentence) {
+        SQLiteDatabase db = this.getReadableDatabase();
         List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
 
-        String selectQuery = "SELECT "+ KEY_ID +"," + KEY_NAME +"," + KEY_STATUS +"," + KEY_VERSION +","+KEY_ISDELETED+ " FROM " + TABLE_SENTENCE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.query(TABLE_SENTENCE, new String[]{KEY_ID,
+                        KEY_NAME, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_NAME + " LIKE ?",
+                new String[]{sentence}, null, null, null, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursor!=null && cursor.getCount()>0 && cursor.moveToFirst()) {
             do {
                 SentenceModel sentenceModel = new SentenceModel();
                 sentenceModel.setID(cursor.getString(0));
@@ -118,16 +119,18 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModel.setIsDeleted(Integer.parseInt(cursor.getString(4)));
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
-        }
+            cursor.close();
 
-        return sentenceModelsList;
+            return sentenceModelsList;
+        }
+      return null;
     }
 
 
     public List<SentenceModel> getAllSentenceWithStatusandAccount(String account) {
         List<SentenceModel> sentenceModelsList = new ArrayList<SentenceModel>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + " WHERE " + KEY_ID + " NOT IN " + "(" + " SELECT " + KEY_ID_SENTENCE + " FROM " + TABLE_RECORDERSENTENCE + " WHERE " + KEY_ACCOUNT +"='"+account+"'"+") and " +KEY_ISDELETED +"="+Common.ISDELETED_FALSE;
+        String selectQuery = "SELECT  * FROM " + TABLE_SENTENCE + " WHERE " + KEY_ID + " NOT IN " + "(" + " SELECT " + KEY_ID_SENTENCE + " FROM " + TABLE_RECORDERSENTENCE + " WHERE " + KEY_ACCOUNT +"='"+account+"' and " + KEY_STATUS +"!='"+Common.NOT_RECORD+"'"+") and " +KEY_ISDELETED +"="+Common.ISDELETED_FALSE;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -144,6 +147,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModelsList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return sentenceModelsList;
     }
@@ -168,6 +172,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 sentenceModelList.add(sentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return sentenceModelList;
     }
@@ -189,6 +194,22 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         return db.update(TABLE_SENTENCE, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(sentenceModel.getID()) });
     }
+    public int updateRecorded(RecorderSentenceModel recorderSentenceModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, recorderSentenceModel.getID());
+        values.put(KEY_ID_SENTENCE, recorderSentenceModel.getIdSentence());
+        values.put(KEY_FILENAME, recorderSentenceModel.getFileName());
+        values.put(KEY_ACCOUNT, recorderSentenceModel.getAccount());
+        values.put(KEY_STATUS, recorderSentenceModel.getStatus());
+        values.put(KEY_VERSION, recorderSentenceModel.getVersion());
+        values.put(KEY_ISDELETED, recorderSentenceModel.isDelete());
+
+        return db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + " = ?",
+                new String[] { String.valueOf(recorderSentenceModel.getIdSentence()) });
+    }
+
 
     public void deleteSentence(SentenceModel sentenceModel) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -242,8 +263,19 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                         KEY_STATUS,
                         KEY_VERSION,
                         KEY_ISDELETED},
-                "sentence LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
-                new String[]{String.valueOf(s), String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
+                KEY_NAME + " LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
+                new String[]{"%"+ s +"%", String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
+    }
+    public Cursor searchKeyboard(String s) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.query(TABLE_SENTENCE, new String[]{
+                        KEY_ID,
+                        KEY_NAME,
+                        KEY_STATUS,
+                        KEY_VERSION,
+                        KEY_ISDELETED},
+                KEY_NAME + " LIKE ?"+ " and " + KEY_ISDELETED + "=? ",
+                new String[]{ s, String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
     }
     public DatabaseHandlerSentence open() throws SQLException
     {
@@ -255,13 +287,14 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         int lastest=0;
         Cursor cursor= db.rawQuery("SELECT MAX(version) FROM " + TABLE_SENTENCE, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount()>0)
             cursor.moveToFirst();
         try {
             lastest= Integer.parseInt(cursor.getString(0));
         }catch (Exception e){
             e.printStackTrace();
         }
+        cursor.close();
         return lastest;
 
     }
@@ -270,8 +303,8 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
     public List<RecorderSentenceModel> getAllSentenceUpload(String account) {
         List<RecorderSentenceModel> recorderSentenceModels = new ArrayList<RecorderSentenceModel>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_RECORDERSENTENCE, new String[]{KEY_ID,KEY_ID_SENTENCE,
-                        KEY_FILENAME, KEY_ACCOUNT,KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_STATUS + "=?" + " and " + KEY_ACCOUNT + "=? " + "and " +KEY_ISDELETED +"=?",
+        Cursor cursor = db.query(TABLE_RECORDERSENTENCE, new String[]{KEY_ID, KEY_ID_SENTENCE,
+                        KEY_FILENAME, KEY_ACCOUNT, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_STATUS + "=?" + " and " + KEY_ACCOUNT + "=? " + "and " + KEY_ISDELETED + "=?",
                 new String[]{String.valueOf(Common.RECORDED_BUT_NOT_UPLOAD), String.valueOf(account), String.valueOf(Common.ISDELETED_FALSE)}, null, null, null, null);
 
         // looping through all rows and adding to list
@@ -288,6 +321,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 recorderSentenceModels.add(recorderSentenceModel);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         return recorderSentenceModels;
     }
@@ -316,15 +350,36 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_RECORDERSENTENCE, new String[]{KEY_ID, KEY_ID_SENTENCE
                         , KEY_ACCOUNT, KEY_FILENAME, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
                 new String[]{String.valueOf(idSentence), String.valueOf(account)}, null, null, null, null);
-        if (cursor != null)
+        if (cursor != null && cursor.getCount()>0) {
             cursor.moveToFirst();
+            try {
+                RecorderSentenceModel recorderSentenceModel = new RecorderSentenceModel(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), Integer.parseInt(cursor.getString(4)), Integer.parseInt(cursor.getString(5)), Integer.parseInt(cursor.getString(6)));
+                cursor.close();
+                return recorderSentenceModel;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return null;
 
-        RecorderSentenceModel recorderSentenceModel = new RecorderSentenceModel(
-                cursor.getString(0),cursor.getString(1),
-                cursor.getString(2),cursor.getString(3),
-                Integer.parseInt(cursor.getString(4)),
-                Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
-        return recorderSentenceModel;
+    }
+
+    public int getStatus(String idSentence, String account) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int status=0;
+        Cursor cursor = db.query(TABLE_RECORDERSENTENCE, new String[]{KEY_ID, KEY_ID_SENTENCE
+                        , KEY_ACCOUNT, KEY_FILENAME, KEY_STATUS, KEY_VERSION, KEY_ISDELETED}, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
+                new String[]{String.valueOf(idSentence), String.valueOf(account)}, null, null, null, null);
+        if (cursor != null && cursor.getCount()>0)
+            cursor.moveToFirst();
+        try {
+            status= Integer.parseInt(cursor.getString(4));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        cursor.close();
+        return status;
+
     }
 
     public int updateRecorder(int version, int status,int isdeleted, String idSentence, String account) {
@@ -334,7 +389,7 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
         values.put(KEY_ISDELETED, isdeleted);
         values.put(KEY_STATUS, status);
 
-       int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
+        int i = db.update(TABLE_RECORDERSENTENCE, values, KEY_ID_SENTENCE + "=?" + " and " + KEY_ACCOUNT + "=?",
                 new String[]{String.valueOf(idSentence), String.valueOf(account)});
         db.close();
         return i;
@@ -366,17 +421,18 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[] { String.valueOf(recorderSentenceModel.getID()) });
     }
 
-    public int getLastedVersionRecorder() {
+    public int getLastedVersionRecorder(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         int lastest=0;
-        Cursor cursor= db.rawQuery("SELECT MAX("+KEY_VERSION+") FROM " + TABLE_RECORDERSENTENCE,null);
-        if (cursor != null)
+        Cursor cursor= db.rawQuery("SELECT MAX("+KEY_VERSION+") FROM " + TABLE_RECORDERSENTENCE + " WHERE " +KEY_ACCOUNT+  " LIKE '"+username+"'" ,null);
+        if (cursor != null && cursor.getCount()>0)
             cursor.moveToFirst();
         try {
             lastest= Integer.parseInt(cursor.getString(0));
         }catch (Exception e){
             e.printStackTrace();
         }
+        cursor.close();
         return lastest;
 
 
@@ -388,5 +444,15 @@ public class DatabaseHandlerSentence extends SQLiteOpenHelper {
                 new String[]{String.valueOf(recorderSentenceModel.getIdSentence()),String.valueOf(recorderSentenceModel.getAccount())});
         db.close();
     }
+    public int getContactsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_RECORDERSENTENCE;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+
+        return cursor.getCount();
+    }
+
 
 }

@@ -10,10 +10,7 @@ import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalkClient;
 import com.amazonaws.services.elasticbeanstalk.model.*;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.*;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.properties.Configuration;
 import com.google.gson.Gson;
@@ -38,7 +35,7 @@ public class AWSHelper {
 
     private static final String BBC_ACCENT_APPLICATION_NAME = "AccentEasyTomcatServer";
 
-    private static final String BBC_ACCENT_CONFIGURATION_TEMPLATE = "sat_start_from_7am_to_11pm";
+    private static final String BBC_ACCENT_CONFIGURATION_TEMPLATE = "ami-linux-sphinx-tools-ffmpeg";
 
     private static final boolean ENABLE_AWS = true;
 
@@ -68,7 +65,17 @@ public class AWSHelper {
             return "";
         }
     }
+    public S3Object getS3Object(String keyName) {
+        try {
+            return s3client.getObject(bucketName, keyName);
+        } catch (AmazonS3Exception e) {
+            return null;
+        }
+    }
 
+    public InputStream openInputStream(String keyName) {
+        return s3client.getObject(bucketName, keyName).getObjectContent();
+    }
 
     public boolean download(String keyName, File file) {
         if (!ENABLE_AWS) return false;
@@ -205,6 +212,7 @@ public class AWSHelper {
         AWSHelper awsHelper = new AWSHelper();
         //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
         awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
+        //awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
         //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
         //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
         //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");

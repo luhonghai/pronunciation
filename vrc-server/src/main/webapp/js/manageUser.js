@@ -22,9 +22,6 @@ function user(){
             "sDefaultContent":""
 
         },{
-            //"sWidth": "25%",
-            //"data": "emei",
-            //"sDefaultContent":""
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -77,7 +74,7 @@ function detail(){
                 $("#attacheddatepopup").text(data.attachedDate);
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

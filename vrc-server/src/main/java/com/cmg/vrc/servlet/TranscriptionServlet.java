@@ -79,7 +79,7 @@ public class TranscriptionServlet extends HttpServlet {
             }
             if(createDateTo.length()>0){
                 try {
-                    modifiedDateFrom1=df.parse(createDateTo);
+                    createDateTo1=df.parse(createDateTo);
                 }catch (Exception e){
                     e.getStackTrace();
                 }
@@ -166,7 +166,7 @@ public class TranscriptionServlet extends HttpServlet {
             try {
                 Transcription transcription=trService.getById(id);
                 transcription.setIsDeleted(Constant.ISDELETE_TRUE);
-                trService.edit(transcription);
+                trService.delete(transcription);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");

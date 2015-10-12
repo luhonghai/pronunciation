@@ -19,6 +19,17 @@
   xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   id="WebApp_ID" version="2.5">
+    <servlet>
+        <display-name>DataSynchronizationServlet</display-name>
+        <servlet-name>DataSynchronizationServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DataSynchronizationServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DataSynchronizationServlet</servlet-name>
+        <url-pattern>/syncData</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <display-name>VoiceRecordHandler</display-name>
@@ -100,6 +111,15 @@
     <servlet-mapping>
         <servlet-name>Feedbacks</servlet-name>
         <url-pattern>/Feedbacks</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoadAudioRecorder</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LoadAudioRecorder</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoadAudioRecorder</servlet-name>
+        <url-pattern>/LoadAudioRecorder</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -209,7 +229,7 @@
 
     <servlet>
         <servlet-name>RecorderServletNumber</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.RecorderServletNumber</servlet-class>
+        <servlet-class>com.cmg.vrc.servlet.RecorderNumberServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -246,6 +266,39 @@
         <servlet-name>ChangeStatusRecorder</servlet-name>
         <url-pattern>/ChangeStatusRecorder</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ManagementWordServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementWordServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementWordServlet</servlet-name>
+        <url-pattern>/ManagementWordServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ManagementQuestionServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementQuestionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementQuestionServlet</servlet-name>
+        <url-pattern>/ManagementQuestionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManagementWordOfQuestionServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementWordOfQuestionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementWordOfQuestionServlet</servlet-name>
+        <url-pattern>/ManagementWordOfQuestionServlet</url-pattern>
+    </servlet-mapping>
+
 
 
 
@@ -297,7 +350,47 @@
         <url-pattern>/recordedsentence</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LanguageModelHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LanguageModelHandler</servlet-name>
+        <url-pattern>/languagemodel</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DictionaryDataHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DictionaryDataHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DictionaryDataHandler</servlet-name>
+        <url-pattern>/dictionary</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DictionaryUploadHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DictionaryUploadHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DictionaryUploadHandler</servlet-name>
+        <url-pattern>/dictionary_upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AcousticModelDataHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AcousticModelDataHandler</servlet-name>
+        <url-pattern>/acoustic_model</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>
     </welcome-file-list>
+
+    <session-config>
+        <session-timeout>-1</session-timeout>
+    </session-config>
 </web-app>

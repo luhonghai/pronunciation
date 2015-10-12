@@ -22,6 +22,12 @@
 		<class>com.cmg.vrc.data.jdo.Transcription</class>
 		<class>com.cmg.vrc.data.jdo.ClientCode</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeCompany</class>
+		<class>com.cmg.vrc.data.jdo.PhonemeScoreDB</class>
+		<class>com.cmg.lesson.data.jdo.word.WordCollection</class>
+		<class>com.cmg.lesson.data.jdo.word.WordMappingPhonemes</class>
+		<class>com.cmg.vrc.data.jdo.AcousticModelVersion</class>
+		<class>com.cmg.lesson.data.jdo.question.Question</class>
+		<class>com.cmg.lesson.data.jdo.question.WordOfQuestion</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

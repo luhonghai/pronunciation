@@ -14,9 +14,8 @@
   <url>http://cmusphinx.sourceforge.net</url>
 
   <modules>
-    <module>sphinx4-core</module>
     <module>sphinx4-data</module>
-    <module>sphinx4-samples</module>
+    <module>sphinx4-core</module>
   </modules>
 
   <dependencies>

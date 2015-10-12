@@ -17,15 +17,13 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.cmg.android.bbcaccent.data.GMapGeocodeResponse;
+import com.cmg.android.bbcaccent.data.dto.GMapGeocodeResponse;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.gson.Gson;

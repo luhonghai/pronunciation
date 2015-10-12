@@ -15,14 +15,14 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.activity.BaseActivity;
-import com.cmg.android.bbcaccent.data.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 
@@ -43,17 +43,17 @@ public class HistoryFragment extends FragmentTab {
         private ImageButton btnRecordItem;
     }
 
-    private class HistoryAdapter extends ArrayAdapter<ScoreDBAdapter.PronunciationScore> implements View.OnClickListener {
+    private class HistoryAdapter extends ArrayAdapter<PronunciationScore> implements View.OnClickListener {
 
         private Context context;
-        private ScoreDBAdapter.PronunciationScore[] scores;
+        private PronunciationScore[] scores;
 
         private ViewHolder view;
         private boolean isDetail;
 
         private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
 
-        public HistoryAdapter(Context context, ScoreDBAdapter.PronunciationScore[] objects, boolean isDetail) {
+        public HistoryAdapter(Context context, PronunciationScore[] objects, boolean isDetail) {
             super(context, R.layout.fragment_history_list_item, objects);
             this.context = context;
             this.scores = objects;
@@ -63,7 +63,7 @@ public class HistoryFragment extends FragmentTab {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflator = LayoutInflater.from(context);
-            final ScoreDBAdapter.PronunciationScore score = scores[position];
+            final PronunciationScore score = scores[position];
             float scoreVal = score.getScore();
             if (convertView == null) {
                 view = new ViewHolder();
@@ -101,7 +101,7 @@ public class HistoryFragment extends FragmentTab {
                     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         AndroidHelper.updateMarqueeTextView((TextView)v, !AndroidHelper.isCorrectWidth((TextView) v, score.getWord()));
                         v.setSelected(true);
-                       // v.requestFocus();
+                        // v.requestFocus();
                     }
                 });
 
@@ -130,28 +130,28 @@ public class HistoryFragment extends FragmentTab {
 
         @Override
         public void onClick(View v) {
-            ScoreDBAdapter.PronunciationScore score = (ScoreDBAdapter.PronunciationScore) v.getTag();
+            PronunciationScore score = (PronunciationScore) v.getTag();
             switch (v.getId()) {
                 case R.id.btnPlayItem:
                     try {
                         sendAction(score, CLICK_PLAY_BUTTON);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case R.id.btnRecordItem:
                     try {
                         sendAction(score, CLICK_RECORD_BUTTON);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 case R.id.rlHistoryItem:
-                //case R.id.txtWordItem:
-                //case R.id.txtWordScore:
+                    //case R.id.txtWordItem:
+                    //case R.id.txtWordScore:
                     try {
                         sendAction(score, CLICK_LIST_ITEM);
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
@@ -173,7 +173,7 @@ public class HistoryFragment extends FragmentTab {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         listView = (ListView) v.findViewById(R.id.listHistory);
         isLoadedView = true;
-        dbAdapter = new ScoreDBAdapter(getActivity());
+        dbAdapter = new ScoreDBAdapter();
         Bundle bundle =  getArguments();
         if (bundle != null)
             word = bundle.getString(ARG_WORD);
@@ -203,20 +203,19 @@ public class HistoryFragment extends FragmentTab {
     }
 
     private void loadScore() {
-        Collection<ScoreDBAdapter.PronunciationScore> scores = null;
+        Collection<PronunciationScore> scores = null;
+        UserProfile profile = Preferences.getCurrentProfile(getActivity());
         boolean isDetail = false;
         try {
             dbAdapter.open();
             if (word == null || word.length() == 0) {
-                scores = dbAdapter.toCollection(dbAdapter.getAll());
+                scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
             } else {
                 isDetail = true;
-                scores = dbAdapter.toCollection(dbAdapter.getByWord(word));
+                scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not open database",e);
         } finally {
             try {
                 dbAdapter.close();
@@ -225,8 +224,8 @@ public class HistoryFragment extends FragmentTab {
             }
         }
         if (scores != null && scores.size() > 0) {
-            ScoreDBAdapter.PronunciationScore[]
-                    listScores = new ScoreDBAdapter.PronunciationScore[scores.size()];
+            PronunciationScore[]
+                    listScores = new PronunciationScore[scores.size()];
             scores.toArray(listScores);
             historyAdapter = new HistoryAdapter(getActivity(), listScores, isDetail);
             listView.setAdapter(historyAdapter);
@@ -234,7 +233,7 @@ public class HistoryFragment extends FragmentTab {
         }
     }
 
-    private void sendAction(ScoreDBAdapter.PronunciationScore score, int type) throws IOException {
+    private void sendAction(PronunciationScore score, int type) throws Exception {
         String modelSource = score.getUserVoiceModel(getActivity());
         Intent intent = new Intent(ON_HISTORY_LIST_CLICK);
         intent.putExtra(BaseActivity.USER_VOICE_MODEL, modelSource);

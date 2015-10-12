@@ -6,4 +6,3 @@
   <x:clientCodeManage pageTitle="admins"></x:clientCodeManage>
 
 </t:main>
-<script src="<%=request.getContextPath() %>/js/clientCode.js"></script>

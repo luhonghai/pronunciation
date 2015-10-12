@@ -11,6 +11,7 @@ import android.os.Environment;
 import com.cmg.android.bbcaccentamt.AppLog;
 import com.cmg.android.bbcaccentamt.R;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
+import com.cmg.android.bbcaccentamt.common.Common;
 import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccentamt.http.ResponseData;
 import com.cmg.android.bbcaccentamt.utils.FileHelper;
@@ -103,19 +104,18 @@ public class DatabasePrepare {
         if (!sentenceDb.exists()) {
             SimpleAppLog.info("Try to preload sqlite database");
             try {
-                //FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+                FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not save database from asset",e);
             }
         }
-
         DatabaseHandlerSentence dbHandleStc=new DatabaseHandlerSentence(context);
         File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
         try {
             if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
             UserProfile profile = Preferences.getCurrentProfile(context);
             String name= profile.getUsername();
-            int lengh=dbHandleStc.getAll().getColumnCount();
+          //  int lengh=dbHandleStc.getAll().getColumnCount();
             int version = dbHandleStc.getLastedVersion();
             String requestUrl = context.getString(R.string.transcription_url)
                     + "?action=list&data="
@@ -134,6 +134,8 @@ public class DatabasePrepare {
 
                     for (int i = 0; i < data.transcriptions.size(); i++) {
                         Transcription temp = data.transcriptions.get(i);
+                        RecorderSentenceModel recorderSentence=new RecorderSentenceModel();
+                        recorderSentence=dbHandleStc.getRecorderSentence(temp.getId(),name);
                         SentenceModel model = new SentenceModel();
                         model.setID(temp.getId());
                         model.setVersion(temp.getVersion());
@@ -141,6 +143,20 @@ public class DatabasePrepare {
                         model.setSentence(temp.getSentence());
                         dbHandleStc.deleteSentence(model);
                         dbHandleStc.addSentence(model);
+                        if(recorderSentence!=null) {
+                            recorderSentence.setID(temp.getId());
+                            recorderSentence.setStatus(0);
+                            recorderSentence.setIdSentence(temp.getId());
+                            recorderSentence.setFileName("");
+                            recorderSentence.setAccount(name);
+                            recorderSentence.setStatus(Common.NOT_RECORD);
+                            recorderSentence.setIsDelete(Common.ISDELETED_FALSE);
+                            dbHandleStc.updateRecorded(recorderSentence);
+                            File file = new File(getTmpDir(temp.getId(), name));
+                            FileUtils.forceDelete(file);
+                        }
+
+
                     }
                 }
             }
@@ -169,7 +185,7 @@ public class DatabasePrepare {
             if (tmpFile.exists()) FileUtils.forceDelete(tmpFile);
             UserProfile profile = Preferences.getCurrentProfile(context);
             String name= profile.getUsername();
-            int version = dbHandleStc.getLastedVersionRecorder();
+            int version = dbHandleStc.getLastedVersionRecorder(name);
             String requestUrl = context.getString(R.string.recorder_url)
                     + "?action=listbyclient&data="
                     + URLEncoder.encode(name,"UTF-8")
@@ -197,12 +213,15 @@ public class DatabasePrepare {
                         recorderSentence.setFileName(fileName);
                         if(temp.isDeteted()==1 || temp.getStatus()==0 ){
                             File file = new File(getTmpDir(temp.getSentenceId(),name));
-                            FileUtils.forceDelete(file);
+                            if(file.exists()) {
+                                FileUtils.forceDelete(file);
+                            }
                         }
                         dbHandleStc.deleteRecorderSentence(recorderSentence);
                         dbHandleStc.addRecorderSentence(recorderSentence);
                     }
                 }
+                SimpleAppLog.info("Size Recorder: " + dbHandleStc.getContactsCount());
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -216,10 +235,16 @@ public class DatabasePrepare {
     }
 
     public class ResponseData extends com.cmg.android.bbcaccentamt.http.ResponseData<Transcription> {
-       public List<Transcription> transcriptions;
+        public List<Transcription> transcriptions;
     }
     public class ResponseDataRecorded extends com.cmg.android.bbcaccentamt.http.ResponseData<RecordedSentence> {
         public List<RecordedSentence> RecordedSentences;
+        public boolean status(){
+            return isStatus();
+        }
+        public String message(){
+            return getMessage();
+        }
     }
     public class Transcription  {
 
@@ -408,4 +433,4 @@ public class DatabasePrepare {
         }
 
     }
-    }
+}

@@ -6,4 +6,3 @@
   <x:adminManageRecorder pageTitle="admins"></x:adminManageRecorder>
 
 </t:main>
-<script src="<%=request.getContextPath() %>/js/adminRecorder.js"></script>

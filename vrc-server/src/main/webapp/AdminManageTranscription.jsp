@@ -4,5 +4,5 @@
 <t:main pageTitle="Wholesale delivery system" index="0">
   <%--<x:admin pageTitle="admin"></x:admin>--%>
   <x:adminManageTranscription pageTitle="admin"></x:adminManageTranscription>
+
 </t:main>
-<script src="<%=request.getContextPath() %>/js/adminTranscription.js"></script>

@@ -14,8 +14,7 @@
 
         <!-- Javascripts -->
 <!-- jQuery -->
-<script src="<%=request.getContextPath() %>/bower_components/jquery/dist/jquery.min.js"></script>
-<%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.js"></script>--%>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.0.1/sweetalert.min.js"></script>
@@ -34,6 +33,14 @@
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/raphael/raphael-min.js"></script>
 
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.transform2d.js"></script>
+
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.grab.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.jplayer.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/mod.csstransforms.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/circle.player.js"></script>
+
+
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -48,6 +55,7 @@
 <!-- Custom Theme JavaScript -->
 
 <script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script src="http://hayageek.github.io/jQuery-Upload-File/4.0.6/jquery.uploadfile.min.js"></script>
 <%--<script src="<%=request.getContextPath() %>/js/jsapi.js"></script>--%>
 <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script>
 

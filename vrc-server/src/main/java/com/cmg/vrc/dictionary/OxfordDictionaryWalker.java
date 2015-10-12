@@ -1,6 +1,7 @@
 package com.cmg.vrc.dictionary;
 
 
+import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.vrc.service.MailService;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
@@ -24,6 +25,8 @@ import java.util.regex.Pattern;
  */
 public class OxfordDictionaryWalker extends DictionaryWalker {
 
+    private static final int TIMEOUT = 3 * 60 * 1000;
+
     private static final String ENCODE = "UTF-8";
 
     private Language language = Language.ENGLISH;
@@ -38,6 +41,10 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             targetDir.mkdirs();
         }
         gson = new Gson();
+    }
+    public OxfordDictionaryWalker(File targetDir, boolean isFetchAudio) {
+        this(targetDir);
+        setFetchAudio(isFetchAudio);
     }
 
     public static DictionaryItem getExistingDictionary(String word) {
@@ -56,14 +63,14 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
     @Override
     public void execute(String word) {
         File wordData = new File(getTargetDir(), word +".json");
-        if (wordData.exists()) {
+        /*if (wordData.exists()) {
             try {
                 onDetectWord(gson.fromJson(FileUtils.readFileToString(wordData, "UTF-8"), DictionaryItem.class));
                 return;
             } catch (Exception ex) {
 
             }
-        }
+        }*/
 
         DictionaryItem item = new DictionaryItem(word);
         String url = "";
@@ -77,7 +84,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         try {
            // logger.log(Level.INFO, "Fetch word: " + word + ". URL: " + url);
 
-            FileUtils.copyURLToFile(new URL(url), tmpSource);
+            FileUtils.copyURLToFile(new URL(url), tmpSource, TIMEOUT, TIMEOUT);
             Document doc = Jsoup.parse(tmpSource, ENCODE);
             Element title = doc.select(".pageTitle").first();
             String mTitle = "";
@@ -101,13 +108,21 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 } catch (Exception e) {
 
                 }
+                try {
+                    String definition = doc.select(".definition").first().text();
+                    item.setDefinition(definition);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 if (isFetchAudio()) {
+                    System.out.println("start audio parse");
                     // Find line breaks
                     //item.setLineBreaks(doc.select("span.linebreaks").first().text().trim());
                     // Find audio sound url. Type mp3
                     try {
                         String audioUrl = doc.select(".audio_play_button").first().attr("data-src-mp3");
                         if (audioUrl.length() > 0 && audioUrl.endsWith(".mp3")) {
+                            System.out.println("audioURL : " + audioUrl);
                             item.setAudioUrl(audioUrl);
                             if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
                                 getTargetDir().mkdirs();
@@ -157,7 +172,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
     public static void generateDictionary() throws IOException, MessagingException {
         File targetDir = new File(FileHelper.getTmpSphinx4DataDir(), "dictionary");
         DictionaryWalker walker = new OxfordDictionaryWalker(targetDir);
-        walker.setFetchAudio(false);
+       // walker.setFetchAudio(false);
         final File wordXml = new File(targetDir,"words.xml");
         if (wordXml.exists()) {
             FileUtils.forceDelete(wordXml);
@@ -168,8 +183,11 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
         walker.setListener(new DictionaryListener() {
             @Override
             public void onDetectWord(DictionaryItem item) {
+
                 System.out.println("Write word " + item.getWord() + " to list");
                 try {
+                    WordCollectionService service = new WordCollectionService();
+                    service.addWordToDb(item.getWord(),item.getPronunciation(),item.getDefinition(),item.getAudioUrl(),false);
                     FileUtils.writeStringToFile(wordXml, "\n\t\t<item>" + item.getWord() + "|" + item.getPronunciation() + "</item>", true);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -204,5 +222,7 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 wordXml.getAbsolutePath()
         });
     }
+
+
 
 }

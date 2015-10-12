@@ -51,6 +51,7 @@ function listFeedback(){
                     "data": "createdDate",
                     "sDefaultContent":""
                 }, {
+                    "sWidth": "5%",
                     "data": null,
                     "bSortable": false,
                     "sDefaultContent": "",
@@ -104,7 +105,7 @@ function detailemei(){
 
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });
@@ -152,7 +153,7 @@ function detail(){
 
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

@@ -170,7 +170,7 @@ function drawMap(){
 
         },
         error:function(e){
-            alert(e);
+            swal("Error!", "Could not connect to server", "error");
         }
 
     });
@@ -260,7 +260,7 @@ function detailemei(){
                 }
             },
             error:function(){
-                alert("error");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

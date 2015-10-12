@@ -7,9 +7,7 @@ function listUsers(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-       // "sScrollX": "100%",
         "bScrollCollapse": true,
-       // "sScrollXInner": "140%",
         "ajax": {
             "url": "Users",
             "type": "POST",
@@ -156,7 +154,7 @@ function activated(){
                 }
             },
             error:function(e){
-                alert(e);
+                swal("Error!", "Could not connect to server", "error");
             }
 
         });

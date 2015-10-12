@@ -11,6 +11,7 @@ package com.cmg.vrc.data.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,16 +34,16 @@ import com.cmg.vrc.util.UUIDGenerator;
 
 /**
  *  T is JDO class E is mirror class
- *  
+ *
  *  Query with format
-        [WHERE <filter>]
-        [VARIABLES <variable declarations>]
-        [PARAMETERS <parameter declarations>]
-        [<import declarations>]
-        [GROUP BY <grouping>]
-        [ORDER BY <ordering>]
-        [RANGE <start>, <end>]
- * 
+ [WHERE <filter>]
+ [VARIABLES <variable declarations>]
+ [PARAMETERS <parameter declarations>]
+ [<import declarations>]
+ [GROUP BY <grouping>]
+ [ORDER BY <ordering>]
+ [RANGE <start>, <end>]
+ *
  * @Creator Hai Lu
  * @author $Author$
  * @version $Revision$
@@ -53,12 +54,12 @@ public class DataAccess<T> implements InDataAccess<T> {
 
 	/**
 	 *  @param clazzT
-     */
+	 */
 	public DataAccess(Class<T> clazzT) {
 		this.clazzT = clazzT;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws JsonParseException
@@ -73,7 +74,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return obj;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws JsonParseException
@@ -86,22 +87,22 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return obj;
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @throws DataAccessException
 	 */
 	protected void verifyObject(final Object obj) throws DataAccessException {
 		if (obj instanceof Mirrorable) {
-			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0) 
-				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());			
+			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0)
+				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());
 		} else {
 			throw new DataAccessException(
 					"The object must implement interface Mirrorable");
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
@@ -109,11 +110,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	public boolean put(final T obj) throws Exception {
 		verifyObject(obj);
 		String id = ((Mirrorable) obj).getId();
-		if (checkExistence(id)){
-			System.out.println("id deleted : " + id);
-			delete(id);
-		}
-		return create(obj);
+		return update(obj);
 	}
 	/**
 	 *
@@ -127,7 +124,60 @@ public class DataAccess<T> implements InDataAccess<T> {
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			pm.makePersistent(from(obj));
+			pm.makePersistent(obj);
+			obj = pm.detachCopy(obj);
+			tx.commit();
+			return true;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	/**
+	 *
+	 * @param obj
+	 * @return
+	 * @throws Exception
+	 */
+	public T createObj(T obj) throws Exception {
+		verifyObject(obj);
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			pm.makePersistent(obj);
+			tx.commit();
+			return pm.detachCopy(obj);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+
+	/**
+	 *
+	 * @param objs
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean create(List<T> objs) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			for (T obj : objs) {
+				verifyObject(obj);
+				pm.makePersistent(obj);
+			}
 			tx.commit();
 			return true;
 		} catch (Exception e) {
@@ -140,7 +190,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
@@ -178,30 +228,16 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param obj
 	 * @return
 	 * @throws Exception
 	 */
 	public boolean update(T obj) throws Exception {
-		PersistenceManager pm = PersistenceManagerHelper.get();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			pm.makePersistent(obj);
-			tx.commit();
-			return true;
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
+		return create(obj);
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -209,7 +245,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	public T getById(String id) throws Exception {
 		return getJDOById(id);
 	}
-	
+
 	public List<T> listAll() throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();
 		Query q = pm.newQuery(clazzT);
@@ -223,7 +259,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
@@ -255,7 +291,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -276,7 +312,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		return null;
 	}
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 * @throws Exception
@@ -285,7 +321,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 		T obj = getJDOById(id);
 		return obj != null;
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -303,7 +339,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -321,7 +357,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -339,7 +375,22 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
+	@Override
+	public List<T> list(String query, Object para1, Object para2, String order) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
+		q.setOrdering(order);
+		try {
+			return detachCopyAllList(pm, q.execute(para1, para2));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			q.closeAll();
+			pm.close();
+		}
+	}
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -357,7 +408,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)
@@ -369,6 +420,21 @@ public class DataAccess<T> implements InDataAccess<T> {
 		try {
 			//tx.begin();
 			return detachCopyAllList(pm,  q.execute());
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			q.closeAll();
+			pm.close();
+		}
+	}
+
+	@Override
+	public List<T> listFilter(String query, List<String> ids) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
+		try {
+			//tx.begin();
+			return detachCopyAllList(pm,  q.execute(ids));
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -391,7 +457,8 @@ public class DataAccess<T> implements InDataAccess<T> {
 			count = (Long) q.execute(parameters);
 			return count.doubleValue();
 		} catch (Exception e) {
-			throw e;
+			//throw e;
+			return 0;
 		} finally {
 			q.closeAll();
 			pm.close();

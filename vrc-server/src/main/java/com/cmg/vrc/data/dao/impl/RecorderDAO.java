@@ -2,6 +2,9 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.data.jdo.RecorderClient;
+import com.cmg.vrc.data.jdo.Transcription;
+import com.cmg.vrc.sphinx.training.AcousticModelTraining;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
@@ -35,6 +38,7 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
             return userList.get(0);
         return null;
     }
+
 
     public boolean adminUpdate(String idSentence, int isDelete, int statu, int ver){
         boolean result=false;
@@ -75,8 +79,6 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
 
     }
 
-
-
     public RecordedSentence getUserByEmail(String email) throws Exception {
         List<RecordedSentence> userList = list("WHERE userName == :1", email);
         if (userList != null && userList.size() > 0)
@@ -102,123 +104,13 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
     }
 
 
-
-    public List<RecordedSentence> listAll(int start, int length,String search,int column,String order,String ac,Date dateFrom, Date dateTo, int sta, String acs) throws Exception {
-
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + RecordedSentence.class.getCanonicalName());
-        StringBuffer string=new StringBuffer();
-        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-
-        if(ac.length()>0){
-            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
-        }
-        if(acs.length()>0){
-            string.append("(account==acs) &&");
-        }
-        if(dateFrom!=null&&dateTo==null){
-            string.append("(createdDate >= dateFrom) &&");
-        }
-        if(dateFrom==null&&dateTo!=null){
-            string.append("(createdDate <= dateTo) &&");
-        }
-
-        if(sta!=6) {
-            string.append("(status=sta) &&");
-        }
-
-        if(dateFrom!=null&&dateTo!=null){
-            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
-        }
-        if(search.length()>0){
-            string.append(a);
-        }
-        if(search.length()==0){
-            string.append(b);
-        }
-        q.setFilter(string.toString());
-        q.declareParameters("String search, String ac, String acs, Integer sta, java.util.Date dateFrom,java.util.Date dateTo");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("search", search);
-        params.put("ac", ac);
-        params.put("acs", acs);
-        params.put("sta", sta);
-        params.put("dateFrom", dateFrom);
-        params.put("dateTo", dateTo);
-
-        if (column==0 && order.equals("asc")) {
-            q.setOrdering("account asc");
-        }else if(column==0 && order.equals("desc")) {
-            q.setOrdering("account desc");
-        }
-        if (column==3 && order.equals("asc")) {
-            q.setOrdering("createdDate asc");
-        }else if(column==3 && order.equals("desc")) {
-            q.setOrdering("createdDate desc");
-        }
-
-        if (column==4 && order.equals("asc")) {
-            q.setOrdering("status asc");
-        }else if(column==4 && order.equals("desc")) {
-            q.setOrdering("status desc");
-        }
-
-        q.setRange(start, start + length);
-
-        try {
-            return detachCopyAllList(pm, q.executeWithMap(params));
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            q.closeAll();
-            pm.close();
-        }
-    }
-
-    public double getCountSearch(String search, String ac,Date dateFrom,Date dateTo, int sta, String acs) throws Exception {
+    public double getCount() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + RecordedSentence.class.getCanonicalName());
-        StringBuffer string=new StringBuffer();
-        String a="(account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b="(account == null || account.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        if(ac.length()>0){
-            string.append("(account.toLowerCase().indexOf(ac.toLowerCase()) != -1) &&");
-        }
-        if(acs.length()>0){
-            string.append("(account==acs) &&");
-        }
-        if(dateFrom!=null&&dateTo==null){
-            string.append("(createdDate >= dateFrom) &&");
-        }
-        if(dateFrom==null&&dateTo!=null){
-            string.append("(createdDate <= dateTo) &&");
-        }
-        if(sta!=6) {
-            string.append("(status=sta) &&");
-        }
-
-        if(dateFrom!=null&&dateTo!=null){
-            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
-        }
-        if(search.length()>0){
-            string.append(a);
-        }
-        if(search.length()==0){
-            string.append(b);
-        }
-        q.setFilter(string.toString());
-        q.declareParameters("String search, String ac,String acs, Integer sta, java.util.Date dateFrom,java.util.Date dateTo");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("search", search);
-        params.put("ac", ac);
-        params.put("acs", acs);
-        params.put("sta", sta);
-        params.put("dateFrom", dateFrom);
-        params.put("dateTo", dateTo);
+        q.setFilter(" status!=0");
         try {
-            count = (Long) q.executeWithMap(params);
+            count = (Long) q.execute();
             return count.doubleValue();
         } catch (Exception e) {
             throw e;
@@ -228,6 +120,328 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         }
     }
 
+    public List<RecordedSentence> list(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + RecordedSentence.class.getCanonicalName()+ " WHERE status!=0 ORDER BY account");
+        try {
+            return detachCopyAllList(pm, q.execute());
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
 
 
+
+    public List<RecorderClient> listRecoder(int start, int length,String search,int column,String order,String ac,String dateFrom, String dateTo, int sta, String acs, String sentence) throws Exception {
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        StringBuffer query=new StringBuffer();
+        TypeMetadata metaRecorder = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentence.class.getCanonicalName());
+        TypeMetadata metaTranscription= PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Transcription.class.getCanonicalName());
+        String firstQuery = "SELECT R.id, R.account, R.admin, T.sentence, R.status, R.isDeleted, R.version, R.createdDate, R.modifiedDate, R.sentenceId, R.fileName FROM " +  metaRecorder.getTable()
+                + " as R INNER join "  + metaTranscription.getTable()
+                + " as T on R.SENTENCEID = T.ID WHERE ";
+        query.append(firstQuery);
+        query.append(" (R.account LIKE '%" + search + "%' or T.sentence LIKE '%" + search.toUpperCase() + "%')");
+        if(ac.length()>0){
+            query.append(" and R.account LIKE '%" + ac + "%'");
+        }
+        if(acs.length()>0){
+            query.append(" and R.account LIKE '%" + acs + "%'");
+        }
+        if(sentence.length()>0){
+            query.append(" and T.sentence LIKE '%" + sentence + "%'");
+        }
+        if(sta!=6) {
+            query.append(" and R.status='" + sta + "'");
+        }
+        if(sta==6){
+            query.append(" and R.status!=0");
+        }
+        if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
+            query.append(" and R.modifiedDate >= '" + dateFrom + "'");
+        }
+        if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
+            query.append(" and R.modifiedDate <= '" + dateTo + "'");
+        }
+
+        if(dateFrom.length()>0 && dateTo.length()>0){
+            query.append(" and R.modifiedDate >= '" + dateFrom + "' and R.modifiedDate <= '" + dateTo + "'");
+        }
+        if (column==0 && order.equals("asc")) {
+            query.append(" ORDER BY R.account ASC");
+        }else if(column==0 && order.equals("desc")) {
+            query.append(" ORDER BY R.account DESC");
+        }
+        if (column==1 && order.equals("asc")) {
+            query.append(" ORDER BY T.sentence ASC");
+        }else if(column==1 && order.equals("desc")) {
+            query.append(" ORDER BY T.sentence DESC");
+        }
+        if (column==3 && order.equals("asc")) {
+            query.append(" ORDER BY R.modifiedDate ASC");
+        }else if(column==3 && order.equals("desc")) {
+            query.append(" ORDER BY R.modifiedDate DESC");
+        }
+        if (column==4 && order.equals("asc")) {
+            query.append(" ORDER BY R.status ASC");
+        }else if(column==4 && order.equals("desc")) {
+            query.append(" ORDER BY R.status DESC");
+        }
+        query.append(" limit " + start + "," + length);
+
+
+        Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
+        List<RecorderClient> list = new ArrayList<RecorderClient>();
+        try {
+            List<Object> tmp = (List<Object>)q.execute();
+            for(Object obj : tmp){
+                RecorderClient recorderClient=new RecorderClient();
+                Object[] array =(Object[]) obj;
+                if(array[0].toString().length()>0) {
+                    recorderClient.setId(array[0].toString());
+                }
+                else{
+                    recorderClient.setId(null);
+                }
+                if(array[1]!=null) {
+                    recorderClient.setAccount(array[1].toString());
+                }
+                else{
+                    recorderClient.setAccount(null);
+                }
+                if(array[2]!=null) {
+                    recorderClient.setAdmin(array[2].toString());
+                }
+                else {
+                    recorderClient.setAdmin(null);
+                }
+                if(array[3]!=null) {
+                    recorderClient.setSentence(array[3].toString());
+                }else{
+                    recorderClient.setSentence(null);
+                }
+                if(array[4]!=null) {
+                    recorderClient.setStatus(Integer.parseInt(array[4].toString()));
+                }else {
+                    recorderClient.setStatus(0);
+                }
+                if(array[5]!=null) {
+                    recorderClient.setIsDeleted(Integer.parseInt(array[5].toString()));
+                }else{
+                    recorderClient.setIsDeleted(0);
+                }
+
+                if(array[6]!=null) {
+                    recorderClient.setVersion(Integer.parseInt(array[6].toString()));
+                }else {
+                    recorderClient.setVersion(0);
+                }
+                if(array[7]!=null) {
+                    recorderClient.setCreatedDate((Date) array[7]);
+                }
+                else {
+                    recorderClient.setCreatedDate(null);
+                }
+                if(array[8]!=null) {
+                    recorderClient.setModifiedDate((Date) array[8]);
+                }
+                else {
+                    recorderClient.setModifiedDate(null);
+                }
+                if(array[9]!=null) {
+                    recorderClient.setSentenceId(array[9].toString());
+                } else {
+                    recorderClient.setSentenceId(null);
+                }
+                if(array[10]!=null) {
+                    recorderClient.setFileName(array[10].toString());
+                } else {
+                    recorderClient.setFileName(null);
+                }
+
+                list.add(recorderClient);
+
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    public List<RecorderClient> listRecoderCount(String search,int column,String order,String ac,String dateFrom, String dateTo, int sta, String acs, String sentence) throws Exception {
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        StringBuffer query=new StringBuffer();
+        TypeMetadata metaRecorder = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentence.class.getCanonicalName());
+        TypeMetadata metaTranscription= PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Transcription.class.getCanonicalName());
+        String firstQuery = "SELECT R.id, R.account, R.admin, T.sentence, R.status, R.isDeleted, R.version, R.createdDate, R.modifiedDate, R.sentenceId, R.fileName FROM " +  metaRecorder.getTable()
+                + " as R INNER join "  + metaTranscription.getTable()
+                + " as T on R.SENTENCEID = T.ID WHERE ";
+        query.append(firstQuery);
+        query.append(" (R.account LIKE '%" + search + "%' or T.sentence LIKE '%" + search.toUpperCase() + "%')");
+        if(ac.length()>0){
+            query.append(" and R.account LIKE '%" + ac + "%'");
+        }
+        if(acs.length()>0){
+            query.append(" and R.account LIKE '%" + acs + "%'");
+        }
+        if(sentence.length()>0){
+            query.append(" and T.sentence LIKE '%" + sentence + "%'");
+        }
+        if(sta!=6) {
+            query.append(" and R.status='" + sta + "'");
+        }
+        if(sta==6){
+            query.append(" and R.status!=0");
+        }
+        if(dateFrom.length()>0 && dateTo.equalsIgnoreCase("")){
+            query.append(" and R.modifiedDate >= '" + dateFrom + "'");
+        }
+        if(dateFrom.equalsIgnoreCase("") && dateTo.length()>0){
+            query.append(" and R.modifiedDate <= '" + dateTo + "'");
+        }
+
+        if(dateFrom.length()>0 && dateTo.length()>0){
+            query.append(" and R.modifiedDate >= '" + dateFrom + "' and R.modifiedDate <= '" + dateTo + "'");
+        }
+        if (column==0 && order.equals("asc")) {
+            query.append(" ORDER BY R.account ASC");
+        }else if(column==0 && order.equals("desc")) {
+            query.append(" ORDER BY R.account DESC");
+        }
+        if (column==1 && order.equals("asc")) {
+            query.append(" ORDER BY T.sentence ASC");
+        }else if(column==1 && order.equals("desc")) {
+            query.append(" ORDER BY T.sentence DESC");
+        }
+        if (column==3 && order.equals("asc")) {
+            query.append(" ORDER BY R.modifiedDate ASC");
+        }else if(column==3 && order.equals("desc")) {
+            query.append(" ORDER BY R.modifiedDate DESC");
+        }
+        if (column==4 && order.equals("asc")) {
+            query.append(" ORDER BY R.status ASC");
+        }else if(column==4 && order.equals("desc")) {
+            query.append(" ORDER BY R.status DESC");
+        }
+
+        Query q = pm.newQuery("javax.jdo.query.SQL",query.toString());
+        List<RecorderClient> list = new ArrayList<RecorderClient>();
+        try {
+            List<Object> tmp = (List<Object>)q.execute();
+            for(Object obj : tmp){
+                RecorderClient recorderClient=new RecorderClient();
+                Object[] array =(Object[]) obj;
+                if(array[0].toString().length()>0) {
+                    recorderClient.setId(array[0].toString());
+                }
+                else{
+                    recorderClient.setId(null);
+                }
+                if(array[1]!=null) {
+                    recorderClient.setAccount(array[1].toString());
+                }
+                else{
+                    recorderClient.setAccount(null);
+                }
+                if(array[2]!=null) {
+                    recorderClient.setAdmin(array[2].toString());
+                }
+                else {
+                    recorderClient.setAdmin(null);
+                }
+                if(array[3]!=null) {
+                    recorderClient.setSentence(array[3].toString());
+                }else{
+                    recorderClient.setSentence(null);
+                }
+                if(array[4]!=null) {
+                    recorderClient.setStatus(Integer.parseInt(array[4].toString()));
+                }else {
+                    recorderClient.setStatus(0);
+                }
+                if(array[5]!=null) {
+                    recorderClient.setIsDeleted(Integer.parseInt(array[5].toString()));
+                }else{
+                    recorderClient.setIsDeleted(0);
+                }
+
+                if(array[6]!=null) {
+                    recorderClient.setVersion(Integer.parseInt(array[6].toString()));
+                }else {
+                    recorderClient.setVersion(0);
+                }
+                if(array[7]!=null) {
+                    recorderClient.setCreatedDate((Date) array[7]);
+                }
+                else {
+                    recorderClient.setCreatedDate(null);
+                }
+                if(array[8]!=null) {
+                    recorderClient.setModifiedDate((Date) array[8]);
+                }
+                else {
+                    recorderClient.setModifiedDate(null);
+                }
+                if(array[9]!=null) {
+                    recorderClient.setSentenceId(array[9].toString());
+                } else {
+                    recorderClient.setSentenceId(null);
+                }
+                if(array[10]!=null) {
+                    recorderClient.setFileName(array[10].toString());
+                } else {
+                    recorderClient.setFileName(null);
+                }
+
+                list.add(recorderClient);
+
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    public void listTrainingSentences(AcousticModelTraining.FetchSentencesListener listener) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorder = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(RecordedSentence.class.getCanonicalName());
+        TypeMetadata metaTranscription= PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Transcription.class.getCanonicalName());
+        String query = "SELECT R.id, R.account, T.sentence, R.fileName FROM " +  metaRecorder.getTable()
+                + " as R INNER join "  + metaTranscription.getTable()
+                + " as T on R.SENTENCEID = T.ID WHERE "
+                + " R.isDeleted = 0" +
+                " and R.status in (" + RecordedSentence.APPROVED + "," + RecordedSentence.LOCKED + ")";
+
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>)q.execute();
+            for(Object obj : tmp){
+                Object[] array =(Object[]) obj;
+                listener.onDetectSentence(array[0].toString(),
+                        array[1].toString(),
+                        array[2].toString(),
+                        array[3].toString());
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
 }

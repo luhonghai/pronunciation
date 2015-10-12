@@ -30,8 +30,8 @@ android {
     buildToolsVersion "19.1.0"
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
-        versionCode 201004
-        versionName "2.1.004"
+        versionCode 400000
+        versionName "4.0"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
@@ -112,6 +112,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
+    compile 'com.luhonghai:litedb:1.1.2'
 }
 
 task copyFiles(type: Copy)
@@ -121,10 +122,9 @@ copyFiles {
     if (project.hasProperty('env')) {
         from "src/main/resources/env-values/${env}"
     } else {
-        from "src/main/resources/env-values/prod"
+        from "src/main/resources/env-values/sat"
     }
     into 'src/main/res/values'
     include('**/*')
 }
-
 preBuild.dependsOn copyFiles

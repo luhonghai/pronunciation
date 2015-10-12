@@ -41,12 +41,16 @@ public interface InDataAccess<T> {
 	public List<T> list(String query, Object parameter) throws Exception;
 	
 	public List<T> list(String query, Object para1, Object para2) throws Exception;
+
+	public List<T> list(String query, Object para1, Object para2 , String order) throws Exception;
 	
 	public List<T> list(String query, Object para1, Object para2, Object para3) throws Exception;
 	
 	public List<T> list(String query, Object... parameters) throws Exception;
 	
 	public List<T> list(String query) throws Exception;
+
+	public List<T> listFilter(String query , List<String> ids) throws Exception;
 	
 	public boolean checkExistence(String id) throws Exception;
 

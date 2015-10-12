@@ -199,6 +199,8 @@ public class TranscriptionService {
             }
             if (isCorrected) {
                 transcriptionResult.correctedSentenceCount++;
+            } else {
+                output = "";
             }
             transcriptionResult.loadedCount++;
         } else {
@@ -251,7 +253,7 @@ public class TranscriptionService {
                 transcription.setCreatedDate(new Date(System.currentTimeMillis()));
                 transcription.setModifiedDate(new Date(System.currentTimeMillis()));
                 transcription.setSentence(sentence);
-                transcription.setVersion(2000);
+                transcription.setVersion(20);
                 return transcriptionDAO.put(transcription);
             } else {
                 SENTENCES.add(sentence);
@@ -408,12 +410,8 @@ public class TranscriptionService {
                 List<String> transcriptions = IOUtils.readLines(is);
                 if (transcriptions != null && transcriptions.size() > 0) {
                     writeHtmlToResult("<table cellspacing=\"3\" cellpadding=\"3\">");
-                    int count = 0;
+                    //int count = 0;
                     for (String t : transcriptions) {
-                        count++;
-                        if (count > 5) {
-                            break;
-                        }
                         t = t.trim();
                         if (t.length() > 0) {
                             String sentence;

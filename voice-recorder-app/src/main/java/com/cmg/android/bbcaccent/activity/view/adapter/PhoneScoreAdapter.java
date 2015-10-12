@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.data.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 
 
 /**
@@ -31,6 +31,11 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> {
         super(context, R.layout.list_phome_item, objects);
         this.scores = objects;
         this.onPhonemeClickListener = onPhonemeClickListener;
+    }
+
+    @Override
+    public int getCount() {
+        return scores == null ? 0 : scores.length;
     }
 
     @Override
