@@ -69,6 +69,7 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 response.getWriter().write(json);
             }
         }catch (Exception e){
+            e.printStackTrace();
             response.getWriter().print("error : " + e.getMessage());
         }
     }
