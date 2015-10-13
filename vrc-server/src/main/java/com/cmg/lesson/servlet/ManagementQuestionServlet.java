@@ -41,16 +41,16 @@ public class ManagementQuestionServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String question =  (String)StringUtil.isNull(request.getParameter("question"),"");
-                String message=questionService.addQuestionToDB(question).getMessage();
+                String message = questionService.addQuestionToDB(question).getMessage();
                 response.getWriter().write(message);
             }else if(request.getParameter("edit")!=null){
                 String questionId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String question = (String)StringUtil.isNull(request.getParameter("question"),"");
-                String message= questionService.updateQuestionToDB(questionId, question).getMessage();
+                String message = questionService.updateQuestionToDB(questionId, question).getMessage();
                 response.getWriter().write(message);
             }else if(request.getParameter("delete")!=null){
                 String questionId =  (String)StringUtil.isNull(request.getParameter("id"),"");
-                String message=questionService.deleteQuestionToDB(questionId).getMessage();
+                String message = questionService.deleteQuestionToDB(questionId).getMessage();
                 response.getWriter().write(message);
             }
         }catch (Exception e){
