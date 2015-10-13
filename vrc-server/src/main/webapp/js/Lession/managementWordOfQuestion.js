@@ -162,6 +162,10 @@ function addWord(questionId){
 
     });
 
+    $('.phoneme-weight').on("input",function(){
+        //alert('is number');
+    });
+
     //load phonemes click
     $("#loadPhonemes").click(function(){
         var word = $("#addWord").val();
@@ -187,13 +191,16 @@ function addWord(questionId){
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
                         $("#listPhonmes").append('<input index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
-                        $("#listWeight").append('<input id="weight'+obj.index+'"   type="text">');
+                        $("#listWeight").append('<input id="weight'+obj.index+'" class="phoneme-weight" type="text">');
                         $("#listPhonmes").css({"width":(idx+1)*35});
                         $("#listWeight").css({"width":(idx+1)*35});
                     });
                     $("#yesadd").show();
                 }else{
                     swal("Error!",message.split(":")[1], "error");
+                    $("#listPhonmes").html("");
+                    $("#listWeight").html("");
+                    $("#yesadd").hide();
                 }
                 /*
                 var messages=JSON.parse(data);
