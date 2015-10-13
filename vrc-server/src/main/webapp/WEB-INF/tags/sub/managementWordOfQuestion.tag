@@ -31,11 +31,13 @@
     width: 30px;
     text-align: center;
   }
-  #listPhonmes input{
+  #listPhonmes input,
+  #listPhonmesEdit input{
     margin: 5px 5px 5px 0;
   }
 
-  #listWeight input{
+  #listWeight input,
+  #listWeightEdit input{
     margin: 0px 5px 5px 0;
   }
 </style>

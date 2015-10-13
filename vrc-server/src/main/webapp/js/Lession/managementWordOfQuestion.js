@@ -275,42 +275,44 @@ function deleteWord(){
     });
 }
 
-function edit(){
+function edit(questionId){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
-        var idd = $(this).attr('id-column');
-        var definition = $(this).attr('definition');
-        var mp3Path = $(this).attr('mp3Path');
+        var idWord = $(this).attr('id-column');
         var word = $(this).attr('word');
-        var pronunciation = $(this).attr('pronunciation');
-        $("#idedit").val(idd);
-        $("#editDifinition").val(definition);
-        $("#editPath").val(mp3Path);
+        $("#idedit").val(idWord);
         $("#editWord").val(word);
-        $("#editPronunciation").val(pronunciation);
-
 
         $.ajax({
             url: servletName,
             type: "POST",
             dataType: "json",
             data: {
-                listPhonemes: "listPhonemes",
-                id: idd
+                listPhonemesEdit: "listPhonemesEdit",
+                idWord: idWord,
+                idQuestion: questionId
             },
             success: function (data) {
-                listPhoneme=data;
-                if(typeof listPhoneme!="undefined") {
-                    var i;
-                    var phones = [];
-                    for (i = 0; i < listPhoneme.phonemes.length; i++) {
-                        phones.push(listPhoneme.phonemes[i].phoneme);
-                        //$("#listPhonemes").append("<div class='col-sm-8 col-sm-offset-4' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
-                        //$("#"+listPhoneme.phonemes[i].index+"").css({"padding-left": "0px", "margin-bottom": "5px"});
-                    }
-                    var txtPhones = phones.join(" ");
-                    $("#editPhoneme").val(txtPhones);
-
+                var message = data.message;
+                if(message.indexOf("success") != -1){
+                    //$("#addWord").attr("idWord", data.id);
+                    $("#listPhonmesEdit").html("");
+                    $("#listWeightEdit").html("");
+                    $.each(data.listWeightPhoneme, function (idx, obj) {
+                        var phonemeName = obj.phoneme;
+                        var weightOfPhoneme = obj.weight;
+                        //alert(jsonItem);
+                        $("#listPhonmesEdit").append('<input index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+                        $("#listWeightEdit").append('<input id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
+                        $("#listPhonmesEdit").css({"width":(idx+1)*35});
+                        $("#listWeightEdit").css({"width":(idx+1)*35});
+                    });
+                    //$("#yesadd").show();
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
+                    //$("#listPhonmes").html("");
+                    //$("#listWeight").html("");
+                    //$("#yesadd").hide();
                 }
             },
             error: function () {
@@ -406,7 +408,7 @@ $(document).ready(function(){
     var questionId = getUrlVars()["id"];
     add();
     addWord(questionId);
-    edit();
+    edit(questionId);
     editWord();
     deletes();
     deleteWord();
