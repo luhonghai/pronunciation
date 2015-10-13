@@ -2,6 +2,7 @@ package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.services.question.QuestionService;
+import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 
 import javax.servlet.ServletException;
@@ -20,67 +21,40 @@ import com.google.gson.Gson;
  * Created by CMGT400 on 10/8/2015.
  */
 @WebServlet(name = "ManagementQuestionServlet")
-public class ManagementQuestionServlet extends HttpServlet {
+public class ManagementQuestionServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         QuestionService questionService = new QuestionService();
         QuestionDTO questionDTO = new QuestionDTO();
         Gson gson = new Gson();
-        if(request.getParameter("list")!=null){
-            int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
-            int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
-            int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
-            String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
-            String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
-            int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
-            String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
-            String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-            try {
+        try {
+            if(request.getParameter("list")!=null){
+                int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
+                int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
+                int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
+                String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
+                String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
+                int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
+                String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
+                String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
                 questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(questionDTO);
                 response.getWriter().write(json);
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
-            }
-        }
-
-        if(request.getParameter("add")!=null){
-            String question = request.getParameter("question");
-
-            try {
+            }else if(request.getParameter("add")!=null){
+                String question =  (String)StringUtil.isNull(request.getParameter("question"),"");
                 String message=questionService.addQuestionToDB(question).getMessage();
-                //String json = gson.toJson(message);
                 response.getWriter().write(message);
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
-            }
-        }
-
-        if(request.getParameter("edit")!=null){
-            String questionId = request.getParameter("id");
-            String question = request.getParameter("question");
-
-            try {
-                String message=questionService.updateQuestionToDB(questionId, question).getMessage();
-                //String json = gson.toJson(message);
+            }else if(request.getParameter("edit")!=null){
+                String questionId = (String)StringUtil.isNull( request.getParameter("id"),"");
+                String question = (String)StringUtil.isNull(request.getParameter("question"),"");
+                String message= questionService.updateQuestionToDB(questionId, question).getMessage();
                 response.getWriter().write(message);
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
-            }
-        }
-
-        if(request.getParameter("delete")!=null){
-            String questionId = request.getParameter("id");
-            try {
+            }else if(request.getParameter("delete")!=null){
+                String questionId =  (String)StringUtil.isNull(request.getParameter("id"),"");
                 String message=questionService.deleteQuestionToDB(questionId).getMessage();
-                //String json = gson.toJson(message);
                 response.getWriter().write(message);
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
             }
+        }catch (Exception e){
+            response.getWriter().print("Error : " + e.getMessage());
         }
     }
 
