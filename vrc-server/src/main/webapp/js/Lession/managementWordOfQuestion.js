@@ -281,8 +281,8 @@ function edit(){
                     var phones = [];
                     for (i = 0; i < listPhoneme.phonemes.length; i++) {
                         phones.push(listPhoneme.phonemes[i].phoneme);
-                        //$("#listPhonemes").append("<div class='col-sm-8 col-sm-offset-4' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
-                        //$("#"+listPhoneme.phonemes[i].index+"").css({"padding-left": "0px", "margin-bottom": "5px"});
+                        $("#listPhonemes").append("<div class='col-sm-8 col-sm-offset-4' ><input type='text' id=" + listPhoneme.phonemes[i].index + " class='form-control' value='" + listPhoneme.phonemes[i].phoneme + "'></div>");
+                        $("#"+listPhoneme.phonemes[i].index+"").css({"padding-left": "0px", "margin-bottom": "5px"});
                     }
                     var txtPhones = phones.join(" ");
                     $("#editPhoneme").val(txtPhones);
