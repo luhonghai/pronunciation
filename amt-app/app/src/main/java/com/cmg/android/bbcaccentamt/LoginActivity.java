@@ -66,6 +66,22 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         }
+        ((TextView)findViewById(R.id.txtLostPassword)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.WARNING_TYPE);
+                d.setTitleText(getString(R.string.passwordforgot));
+                d.setContentText(getString(R.string.resetpassword));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+            }
+        });
     }
 
     private void showProcessDialog() {

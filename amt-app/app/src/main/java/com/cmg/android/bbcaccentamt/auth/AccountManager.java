@@ -190,6 +190,7 @@ public class AccountManager {
                 Gson gson = new Gson();
                 data.put("account", profile.getUsername());
                 data.put("action", "check");
+
                 data.put("code", profile.getLicenseCode());
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
