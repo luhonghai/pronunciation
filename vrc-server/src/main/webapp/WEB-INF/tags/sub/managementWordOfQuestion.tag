@@ -99,12 +99,12 @@
                   </div>
                   <div class="col-xs-8">
                     <div class="row" id="listPhonmes">
+                      <!--<input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                       <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                       <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                       <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
                       <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
+                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >-->
                     </div>
 
                     <div class="row" id="listWeight">
@@ -114,10 +114,10 @@
 
               </div>
               <div class="form-group">
-                <div class="row add-word-group">
+                <div class="row add-word-group" style="text-align: right;border-top: 1px solid #e5e5e5;">
                   <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Submit</button>
                   <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-                </div>>
+                </div>
               </div>
 
             </form>
