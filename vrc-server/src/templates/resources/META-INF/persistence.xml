@@ -29,6 +29,8 @@
 		<class>com.cmg.lesson.data.jdo.question.Question</class>
 		<class>com.cmg.lesson.data.jdo.question.WordOfQuestion</class>
 		<class>com.cmg.lesson.data.jdo.question.WeightForPhoneme</class>
+		<class>com.cmg.lesson.data.jdo.lessons.LessonCollection</class>
+		<class>com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

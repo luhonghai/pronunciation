@@ -4,6 +4,7 @@ import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
 import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
+import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.lesson.services.question.WordOfQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
@@ -58,6 +59,14 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 String word= (String)StringUtil.isNull(request.getParameter("word"), "");
                 WordMappingPhonemesService service = new WordMappingPhonemesService();
                 WordDTO dto = service.getByWord(word);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
+
+            }else if(request.getParameter("listPhonemesEdit")!=null){
+                String wordId = (String)StringUtil.isNull(request.getParameter("idWord"), "");
+                String questionId = (String)StringUtil.isNull(request.getParameter("idQuestion"), "");
+                WeightForPhonemeService service =  new WeightForPhonemeService();
+                QuestionDTO dto = service.listAll(questionId,wordId);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
