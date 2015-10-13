@@ -123,7 +123,11 @@ function getWeightAndPhoneme(){
 function addWord(questionId){
     //add word click
     $(document).on("click","#yesadd", function(){
-        var listphonemes=$("#addPhoneme").val();
+        var txtWord=$("#addWord").val();
+        if (txtWord == null || typeof txtWord == "undefined" || txtWord.length == 0){
+            swal("Warning!", "Word not null!", "warning");
+            return;
+        }
         var word = {
             idWord: $("#addWord").attr("idWord"),
             idQuestion: questionId,
@@ -141,7 +145,7 @@ function addWord(questionId){
                 var message = data.message;
                 if(message.indexOf("success")!=-1){
                     //set successfull leen
-                    alert("add success!");
+                    //alert("add success!");
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
@@ -161,6 +165,10 @@ function addWord(questionId){
     //load phonemes click
     $("#loadPhonemes").click(function(){
         var word = $("#addWord").val();
+        if (word == null || typeof word == "undefined" || word.length == 0){
+            swal("Warning!", "Word not null!", "warning");
+            return;
+        }
         $.ajax({
             url: servletName,
             type: "POST",
@@ -170,16 +178,22 @@ function addWord(questionId){
                 word: word
             },
             success: function (data) {
-                if(typeof data!="undefined") {
+                var message = data.message;
+                if(message.indexOf("success") != -1){
                     $("#addWord").attr("idWord", data.id);
                     $("#listPhonmes").html("");
                     $("#listWeight").html("");
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
-                        $("#listPhonmes").append('<input index="'+obj.index+'" value="'+phonmeName+'"  type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
-                        $("#listWeight").append('<input id="weight'+obj.index+'"   type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;">');
+                        $("#listPhonmes").append('<input index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
+                        $("#listWeight").append('<input id="weight'+obj.index+'"   type="text">');
+                        $("#listPhonmes").css({"width":(idx+1)*35});
+                        $("#listWeight").css({"width":(idx+1)*35});
                     });
+                    $("#yesadd").show();
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
                 }
                 /*
                 var messages=JSON.parse(data);
@@ -206,11 +220,14 @@ function addWord(questionId){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
-        $("#addPhoneme").val("");
         $("#addWord").val("");
-        $("#addpronunciation").val("");
-        $("#addDifinition").val("");
-        $("#addPath").val("");
+        $("#listPhonmes").html("");
+        $("#listWeight").html("");
+        $("#yesadd").hide();
+        //$("#addWord").val("");
+        //$("#addpronunciation").val("");
+        //$("#addDifinition").val("");
+        //$("#addPath").val("");
     });
 }
 

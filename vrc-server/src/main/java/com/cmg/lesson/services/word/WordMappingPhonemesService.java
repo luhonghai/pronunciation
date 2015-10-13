@@ -22,7 +22,7 @@ public class WordMappingPhonemesService {
 
 
     private String SUCCESS = "success";
-    private String ERROR = "error mapping phonemes:";
+    private String ERROR = "error mapping phonemes";
     /**
      *
      * @return max version

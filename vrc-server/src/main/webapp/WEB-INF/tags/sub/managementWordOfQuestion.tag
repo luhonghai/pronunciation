@@ -4,6 +4,42 @@
 <%@ tag import="com.cmg.lesson.data.jdo.question.Question" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<style>
+  #addform,
+  #editform{
+    margin-top: 25px;
+  }
+
+  #addWord{
+    width:95%;
+  }
+
+  .add-word-group{
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+  }
+
+  .group-phoneme-weight{
+    height: 80px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .group-phoneme-weight input{
+    padding-left: 0px;
+    width: 30px;
+    text-align: center;
+  }
+  #listPhonmes input{
+    margin: 5px 5px 5px 0;
+  }
+
+  #listWeight input{
+    margin: 0px 5px 5px 0;
+  }
+</style>
+
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
@@ -75,8 +111,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Add Word</h1>
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform">
+            <form name="add" class="form-horizontal" id="addform">
 
               <div class="form-group">
 
@@ -97,24 +132,15 @@
                     <div class="row"><label class="control-label ">Phonemes:</label></div>
                     <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
                   </div>
-                  <div class="col-xs-8">
-                    <div class="row" id="listPhonmes">
-                      <!--<input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >
-                      <input id="" type="text" style="padding-left: 0px;margin-bottom: 5px;width: 30px;" name="addsentence" >-->
-                    </div>
-
-                    <div class="row" id="listWeight">
-                    </div>
+                  <div class="col-xs-8 col-sm-9 group-phoneme-weight">
+                    <div class="row" id="listPhonmes"></div>
+                    <div class="row" id="listWeight"></div>
                   </div>
                 </div>
 
               </div>
               <div class="form-group">
-                <div class="row add-word-group" style="text-align: right;border-top: 1px solid #e5e5e5;">
+                <div class="row add-word-group">
                   <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Submit</button>
                   <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
                 </div>
