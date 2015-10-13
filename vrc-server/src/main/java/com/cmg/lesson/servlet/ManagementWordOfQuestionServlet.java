@@ -41,21 +41,21 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 String json = gson.toJson(list);
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
-                String wordAdd = request.getParameter("word");
+                String wordAdd = (String)StringUtil.isNull(request.getParameter("word"),"");
                 WeightPhonemesDTO dtoClient = gson.fromJson(wordAdd, WeightPhonemesDTO.class);
                 QuestionDTO dto = wordOfQuestionService.addWordToQuestion(dtoClient);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
             }else if(request.getParameter("edit")!=null){
-                String wordEdit = request.getParameter("word");
+                String wordEdit = (String)StringUtil.isNull(request.getParameter("word"),"");
                 WeightPhonemesDTO dtoClient = gson.fromJson(wordEdit, WeightPhonemesDTO.class);
                 QuestionDTO dto = wordOfQuestionService.updateWordToQuestion(dtoClient);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
             }else if(request.getParameter("listPhonemes")!=null){
-                String word= (String)StringUtil.isNull(request.getParameter("word"), "");
+                String word = (String)StringUtil.isNull(request.getParameter("word"), "");
                 WordMappingPhonemesService service = new WordMappingPhonemesService();
                 WordDTO dto = service.getByWord(word);
                 String json = gson.toJson(dto);
