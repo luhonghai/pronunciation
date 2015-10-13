@@ -2,7 +2,7 @@
 <resources>
     <string name="app_info">Analyzing your English pronunciation level</string>
     <string name="facebook_app_id">1588042831452923</string>
-    <string name="app_name">BBC accent</string>
+    <string name="app_name">accenteasy</string>
     <string name="choose_format_title">Choose Audio Format</string>
     <string name="start_recording">Record</string>
     <string name="stop_recording">Stop</string>
@@ -124,6 +124,8 @@
     <string name="loading">loading &#8230;</string>
     <string name="no_tip_found">no tip found</string>
     <string name="tap_to_reload">tap to reload</string>
+    <string name="menu_freestyle">freestyle</string>
+    <string name="menu_lesson">lesson</string>
     <string name="menu_help">help</string>
     <string name="menu_settings">settings</string>
     <string name="menu_licence">licence</string>

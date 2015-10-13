@@ -180,7 +180,7 @@ ADDED from AndroidManifest.xml:38:9
 		ADDED from AndroidManifest.xml:41:13
 	android:name
 		ADDED from AndroidManifest.xml:39:13
-activity#com.cmg.android.bbcaccent.activity.DetailActivity
+activity#com.cmg.android.bbcaccent.fragment.DetailActivity
 ADDED from AndroidManifest.xml:47:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:52:13
@@ -192,7 +192,7 @@ ADDED from AndroidManifest.xml:47:9
 		ADDED from AndroidManifest.xml:50:13
 	android:name
 		ADDED from AndroidManifest.xml:48:13
-activity#com.cmg.android.bbcaccent.activity.SettingsActivity
+activity#com.cmg.android.bbcaccent.fragment.SettingsActivity
 ADDED from AndroidManifest.xml:60:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:65:13
@@ -204,7 +204,7 @@ ADDED from AndroidManifest.xml:60:9
 		ADDED from AndroidManifest.xml:63:13
 	android:name
 		ADDED from AndroidManifest.xml:61:13
-activity#com.cmg.android.bbcaccent.activity.info.AboutActivity
+activity#com.cmg.android.bbcaccent.fragment.info.AboutActivity
 ADDED from AndroidManifest.xml:67:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:72:13
@@ -216,7 +216,7 @@ ADDED from AndroidManifest.xml:67:9
 		ADDED from AndroidManifest.xml:70:13
 	android:name
 		ADDED from AndroidManifest.xml:68:13
-activity#com.cmg.android.bbcaccent.activity.info.LicenceActivity
+activity#com.cmg.android.bbcaccent.fragment.info.LicenceActivity
 ADDED from AndroidManifest.xml:74:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:79:13
@@ -228,7 +228,7 @@ ADDED from AndroidManifest.xml:74:9
 		ADDED from AndroidManifest.xml:77:13
 	android:name
 		ADDED from AndroidManifest.xml:75:13
-activity#com.cmg.android.bbcaccent.activity.info.HelpActivity
+activity#com.cmg.android.bbcaccent.fragment.info.HelpActivity
 ADDED from AndroidManifest.xml:81:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:86:13
@@ -240,7 +240,7 @@ ADDED from AndroidManifest.xml:81:9
 		ADDED from AndroidManifest.xml:84:13
 	android:name
 		ADDED from AndroidManifest.xml:82:13
-activity#com.cmg.android.bbcaccent.activity.FeedbackActivity
+activity#com.cmg.android.bbcaccent.fragment.FeedbackActivity
 ADDED from AndroidManifest.xml:88:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:94:13
