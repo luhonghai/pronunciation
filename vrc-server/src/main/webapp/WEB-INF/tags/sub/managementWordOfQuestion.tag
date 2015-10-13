@@ -31,11 +31,13 @@
     width: 30px;
     text-align: center;
   }
-  #listPhonmes input{
+  #listPhonmes input,
+  #listPhonmesEdit input{
     margin: 5px 5px 5px 0;
   }
 
-  #listWeight input{
+  #listWeight input,
+  #listWeightEdit input{
     margin: 0px 5px 5px 0;
   }
 </style>
@@ -108,7 +110,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
+          <div class="col-xs-10 col-xs-offset-1">
 
             <h1 align="center">Add Word</h1>
             <form name="add" class="form-horizontal" id="addform">
@@ -163,7 +165,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
+          <div class="col-xs-10 col-xs-offset-1">
 
             <h1 align="center">Edit Word</h1>
             <form name="Edit" class="form-horizontal"
@@ -171,37 +173,28 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="editWord" name="addsentence" class=" form-control" disabled style="padding-left: 0px; margin-bottom: 5px;">
+                <div class="row">
+                  <div class="col-xs-4  col-sm-3">
+                    <div class="row"><label class="control-label ">Word:</label></div>
                   </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Pronunciation:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="editPronunciation" name="addsentence" class=" form-control" disabled style="padding-left: 0px; margin-bottom: 5px;">
+                  <div class="col-xs-5  col-sm-6">
+                    <div class="row"><input  type="text" id="editWord" name="editWord" class=" form-control"></div>
                   </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Definition:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <textarea type="text" id="editDifinition" name="addsentence" rows="3" cols="50" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;"></textarea>
-                  </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Mp3 Url:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="editPath" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
-                  </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="editPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  <div class="col-xs-3  col-sm-2">
+                    <div class="row"></div>
                   </div>
                 </div>
 
+                <div class="row">
+                  <div class="col-xs-4 col-sm-3">
+                    <div class="row"><label class="control-label ">Phonemes:</label></div>
+                    <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
+                  </div>
+                  <div class="col-xs-8 col-sm-9 group-phoneme-weight">
+                    <div class="row" id="listPhonmesEdit"></div>
+                    <div class="row" id="listWeightEdit"></div>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Submit</button>
