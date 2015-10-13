@@ -98,6 +98,7 @@ function listTranscription(){
 function addWord(){
     $(document).on("click","#yesadd", function(){
         var listphonemes=$("#addPhoneme").val();
+        var words=$("#addWord").val();
         var word = {
             word: $("#addWord").val(),
             definition: $("#addDifinition").val(),
@@ -105,31 +106,36 @@ function addWord(){
             mp3Path : $("#addPath").val(),
             phonemes : readPhones(listphonemes)
         };
-        $.ajax({
-            url: "ManagementWordServlet",
-            type: "POST",
-            dataType: "text",
-            data: {
-                add: "add",
-                word: JSON.stringify(word)
-            },
-            success: function (data) {
-                var messages=JSON.parse(data);
-                if (messages.message.indexOf("success") !=-1) {
-                    $("tbody").html("");
-                    myTable.fnDraw();
-                    $("#add").modal('hide');
+        if(words!=null && typeof words!="undefined" && words.length>0){
+            $.ajax({
+                url: "ManagementWordServlet",
+                type: "POST",
+                dataType: "text",
+                data: {
+                    add: "add",
+                    word: JSON.stringify(word)
+                },
+                success: function (data) {
+                    var messages=JSON.parse(data);
+                    if (messages.message.indexOf("success") !=-1) {
+                        $("tbody").html("");
+                        myTable.fnDraw();
+                        $("#add").modal('hide');
+                    }
+                    if(messages.message.indexOf("error")!=-1){
+                        swal("Error!", messages.message, "error");
+                        $("#add").modal('hide');
+                    }
+                },
+                error: function () {
+                    swal("Error!", "Could not connect to server", "error");
                 }
-                if(messages.message.indexOf("error")!=-1){
-                    swal("Error!", messages.message, "error");
-                    $("#add").modal('hide');
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
+            });
+        }else{
+            swal("Warning!", "Word not null!", "warning");
+        }
+
 
 
     });

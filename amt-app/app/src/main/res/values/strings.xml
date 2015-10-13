@@ -171,6 +171,6 @@
     <string name="closeHelp">Close</string>
     <string name="notdata">Sorry, your sentence could not be found!</string>
     <string name="sentenceDeleteOrEdit">Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update</string>
-
-
+    <string name="resetpassword">Please contact Administrator to reset your password</string>
+    <string name="passwordforgot">forgot password</string>
 </resources>

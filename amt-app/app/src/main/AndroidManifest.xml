@@ -88,13 +88,6 @@
             android:theme="@style/Theme.Default" >
         </activity>
         <activity
-            android:name=".activity.info.LicenceActivity"
-            android:configChanges="orientation"
-            android:label="licence"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Default" >
-        </activity>
-        <activity
             android:name=".activity.info.HelpActivity"
             android:configChanges="orientation"
             android:label="help"
