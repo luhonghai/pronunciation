@@ -30,6 +30,12 @@
     width: 30px;
     text-align: center;
   }
+
+  .group-phoneme-weight input[readonly],
+  .group-phoneme-weight input[disabled]{
+    background-color: #eee;
+  }
+
   #listPhonmes input,
   #listPhonmesEdit input{
     margin: 5px 5px 5px 0;

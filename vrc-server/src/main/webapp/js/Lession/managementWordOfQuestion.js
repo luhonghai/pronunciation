@@ -6,6 +6,14 @@ var iphonemes=0;
 var iphonemess=0;
 var listPhoneme;
 var servletName="ManagementWordOfQuestionServlet";
+function isNumberKey(evt,e){
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    return true;
+}
 
 function getUrlVars() {
     var vars = [], hash;
@@ -122,6 +130,7 @@ function loadAudio(){
 
 }
 
+
 function getWeightAndPhoneme(listPhonemeName, listWeightName){
     var output = [];
     $(listPhonemeName).find('input').each(function(e){
@@ -143,7 +152,10 @@ function openPopupAdd(){
         $("#addWord").val("");
         $("#listPhonmes").html("");
         $("#listWeight").html("");
+        $(".phoneme-lable").html("");
+        $(".weight-lable").html("");
         $("#yesadd").attr("disabled", true);
+        $("#addWord").removeAttr("readonly");
     });
 }
 
@@ -212,11 +224,12 @@ function addWord(){
                     $(".weight-lable").html("WeightPhonemes:");
                     $("#listPhonmes").html("");
                     $("#listWeight").html("");
+                    $("#addWord").attr("readonly","readonly");
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
-                        $("#listPhonmes").append('<input index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
-                        $("#listWeight").append('<input id="weight'+obj.index+'" class="phoneme-weight" type="text">');
+                        $("#listPhonmes").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
+                        $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
                         $("#listPhonmes").css({"width":(idx+1)*35});
                         $("#listWeight").css({"width":(idx+1)*35});
                     });
@@ -300,12 +313,14 @@ function openPopupEdit(){
                     $("#editWord").attr("idWord", idWord);
                     $("#listPhonmesEdit").html("");
                     $("#listWeightEdit").html("");
+                    $("#editWord").attr("readonly","readonly");
                     $.each(data.listWeightPhoneme, function (idx, obj) {
                         var phonemeName = obj.phoneme;
                         var weightOfPhoneme = obj.weight;
                         //alert(jsonItem);
-                        $("#listPhonmesEdit").append('<input index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
-                        $("#listWeightEdit").append('<input id="weight-edit'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
+
+                        $("#listPhonmesEdit").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+                        $("#listWeightEdit").append('<input onkeypress="return isNumberKey(event,this)" id="weight-edit'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
                         $("#listPhonmesEdit").css({"width":(idx+1)*35});
                         $("#listWeightEdit").css({"width":(idx+1)*35});
                     });
