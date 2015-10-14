@@ -111,9 +111,8 @@ public class PronunciationScore extends LiteEntity {
             model.setResult(result);
             Gson gson = new Gson();
             String json = gson.toJson(model);
-            SimpleAppLog.info("json file get from database : " + json);
+            SimpleAppLog.debug("json file get from database : " + json);
             return json;
         }
-        //return null;
     }
 }

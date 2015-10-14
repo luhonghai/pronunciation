@@ -49,8 +49,12 @@ public class WeightForPhonemeService {
             List<WeightForPhoneme> list = dao.listBy(idQuestion,idWord);
             if(list!=null && list.size() > 0){
                 dto.setListWeightPhoneme(list);
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR + ":can not get phoneme and weight for this word");
             }
         }catch (Exception e){
+            dto.setMessage(ERROR + ": can not get phoneme and weight for this word");
             logger.error("can not get list phoneme weight base on idQuestion : " + idQuestion + " and idWord : " + idWord + " because : " + e.getMessage());
         }
         return dto;
