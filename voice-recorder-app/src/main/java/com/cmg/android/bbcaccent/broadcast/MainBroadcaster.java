@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
+import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
@@ -27,7 +28,9 @@ public class MainBroadcaster {
         WORD("word"),
         DATA_UPDATE("data_update"),
         FEEDBACK("feedback"),
-        SEARCH_WORD("search_word")
+        SEARCH_WORD("search_word"),
+        SWITCH_FRAGMENT("switch_fragment"),
+        POP_BACK_STACK_FRAGMENT("pop_back_stack_fragment")
         ;
         String name;
         Filler(String name) {
@@ -50,7 +53,10 @@ public class MainBroadcaster {
             NULL(""),
             WORD("word"),
             TYPE("type"),
-            DATA("data")
+            DATA("data"),
+            CLASS_NAME("class_name"),
+            SWITCH_FRAGMENT_PARAMETER("switch_fragment_parameter"),
+            DICTIONARY_ITEM("dictionary_item")
             ;
             String name;
             Key(String name) {this.name = name;}
@@ -211,6 +217,18 @@ public class MainBroadcaster {
             bundle.putString(Filler.Key.DATA.toString(), data);
             bundle.putInt(Filler.Key.TYPE.toString(), type);
             sendMessage(Filler.DATA_UPDATE, bundle);
+        }
+
+        public void sendSwitchFragment(Class<?> fragmentClass, MainActivity.SwitchFragmentParameter parameter, Bundle bundle) {
+            if (bundle == null) bundle = new Bundle();
+            Gson gson = new Gson();
+            bundle.putString(Filler.Key.CLASS_NAME.toString(), fragmentClass.getName());
+            bundle.putString(Filler.Key.SWITCH_FRAGMENT_PARAMETER.toString(), gson.toJson(parameter));
+            sendMessage(Filler.SWITCH_FRAGMENT, bundle);
+        }
+
+        public void sendPopBackStackFragment() {
+            sendMessage(Filler.POP_BACK_STACK_FRAGMENT, null);
         }
 
         public void sendMessage(Filler key, Bundle bundle) {

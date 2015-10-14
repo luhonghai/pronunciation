@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.view.CustomGraphView;
 import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
@@ -105,7 +106,7 @@ public class GraphFragment extends FragmentTab {
         graph.getViewport().setScrollable(false);
         Bundle bundle =  getArguments();
         if (bundle != null)
-            word = bundle.getString(ARG_WORD);
+            word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
         loadScore();
         return v;
     }

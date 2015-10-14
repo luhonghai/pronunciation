@@ -162,7 +162,7 @@ public class HistoryFragment extends FragmentTab {
         dbAdapter = new ScoreDBAdapter();
         Bundle bundle =  getArguments();
         if (bundle != null)
-            word = bundle.getString(ARG_WORD);
+            word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
         loadScore();
 
         return v;

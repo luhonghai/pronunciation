@@ -1,12 +1,9 @@
 package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaPlayer;
@@ -28,19 +25,11 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TableLayout;
 
-import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
-import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
-import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
-import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
-import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
-import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
-import com.cmg.android.bbcaccent.http.common.FileCommon;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
@@ -53,16 +42,24 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
+import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
+import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
+import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
+import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
+import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
-import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.http.common.FileCommon;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
+import com.cmg.android.bbcaccent.view.RecordingView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -193,18 +190,20 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final Gson gson = new Gson();
         root = inflater.inflate(R.layout.fragment_free_style, null);
         accountManager = new AccountManager(getActivity());
         initTabHost();
         initRecordingView();
         initAnimation();
         switchButtonStage(ButtonState.DISABLED);
-
-        String[] words = getResources().getStringArray(R.array.random_words);
-        if (words != null && words.length > 0) {
-            getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
-        } else {
-            getWord(getString(R.string.example_word));
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(MainBroadcaster.Filler.USER_VOICE_MODEL.toString())) {
+                currentModel = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
+            }
+            if (savedInstanceState.containsKey(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString())) {
+                dictionaryItem = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString()), DictionaryItem.class);
+            }
         }
         scoreDBAdapter = new ScoreDBAdapter();
         dbAdapter = new WordDBAdapter();
@@ -223,16 +222,17 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
                 willMoveToDetail = true;
             }
-
             @Override
             public void onHistoryAction(final UserVoiceModel model, String word, int type) {
-                Gson gson = new Gson();
                 switch (type) {
                     case HistoryFragment.CLICK_LIST_ITEM:
                         if (word == null || word.length() == 0) {
-                            Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-                            detailIntent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
-                            startActivity(detailIntent);
+                            Bundle bundle = new Bundle();
+                            bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
+                            MainBroadcaster.getInstance().getSender().sendSwitchFragment(
+                                    DetailFragment.class,
+                                    new MainActivity.SwitchFragmentParameter(true, true, true),
+                                    bundle);
                         }
                         break;
                     case HistoryFragment.CLICK_PLAY_BUTTON:
@@ -254,6 +254,19 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 getWord(word);
             }
         });
+        if (currentModel == null) {
+            String[] words = getResources().getStringArray(R.array.random_words);
+            if (words != null && words.length > 0) {
+                getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
+            } else {
+                getWord(getString(R.string.example_word));
+            }
+        } else {
+            if (dictionaryItem != null) {
+                txtPhonemes.setText(dictionaryItem.getPronunciation());
+                txtWord.setText(dictionaryItem.getWord());
+            }
+        }
         return root;
 
     }
@@ -359,6 +372,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
                 @Override
                 public void onError(DictionaryItem dItem, final Exception ex) {
+
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -677,28 +691,28 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     }
 
     protected void stopRequestLocation() {
-        SimpleAppLog.info("Request location update");
-        LocationManager lm = (LocationManager) MainApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-        try {
-            lm.removeUpdates(this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not stop request location", e);
-        }
+//        SimpleAppLog.info("Request location update");
+//        LocationManager lm = (LocationManager) MainApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
+//        try {
+//            lm.removeUpdates(this);
+//        } catch (Exception e) {
+//            SimpleAppLog.error("Could not stop request location", e);
+//        }
     }
 
     protected void requestLocation() {
-        SimpleAppLog.info("Request location update");
-        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        try {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not request GPS provider location", e);
-        }
-        try {
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not request Network provider location", e);
-        }
+//        SimpleAppLog.info("Request location update");
+//        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//        try {
+//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
+//        } catch (Exception e) {
+//            SimpleAppLog.error("Could not request GPS provider location", e);
+//        }
+//        try {
+//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
+//        } catch (Exception e) {
+//            SimpleAppLog.error("Could not request Network provider location", e);
+//        }
     }
 
     @Override
@@ -707,12 +721,12 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         if (mTabHost != null) {
             mTabHost.getTabWidget().setEnabled(true);
         }
-        requestLocation();
+        //requestLocation();
         fetchSetting();
         isPrepared = false;
         if (currentModel != null) {
             analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-            recordingView.startPingAnimation(getActivity(), 2000, currentModel.getScore(), true, true);
+            recordingView.startPingAnimation(getActivity(), 1000, currentModel.getScore(), true, true);
         }
     }
 
@@ -763,9 +777,12 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             willMoveToDetail = false;
             if (currentModel != null && dictionaryItem != null) {
                 Gson gson = new Gson();
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(currentModel));
+                MainBroadcaster.getInstance().getSender().sendSwitchFragment(
+                        DetailFragment.class,
+                        new MainActivity.SwitchFragmentParameter(true, true, true),
+                        bundle);
             }
         }
     };
@@ -1159,6 +1176,20 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Gson gson = new Gson();
+        if (outState != null) {
+            // Save last user voice model
+            if (currentModel != null) {
+                outState.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(currentModel));
+            }
+            if (dictionaryItem != null) {
+                outState.putString(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString(), gson.toJson(dictionaryItem));
+            }
+        }
+    }
 
     private void showHelpDialog() {
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_WhiteDialog);

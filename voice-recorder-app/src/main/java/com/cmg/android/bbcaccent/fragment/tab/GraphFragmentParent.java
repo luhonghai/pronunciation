@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.DetailActivity;
+import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.google.gson.Gson;
@@ -40,8 +40,8 @@ public class GraphFragmentParent extends Fragment {
         String word = "";
 
         if (bundle != null) {
-            word = bundle.getString(FragmentTab.ARG_WORD);
-            String rawModel = bundle.getString(DetailActivity.USER_VOICE_MODEL);
+            word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
+            String rawModel = bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString());
             Gson gson = new Gson();
             model = gson.fromJson(rawModel, UserVoiceModel.class);
         }
