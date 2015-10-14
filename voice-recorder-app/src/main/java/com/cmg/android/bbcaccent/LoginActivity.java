@@ -18,9 +18,9 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.cmg.android.bbcaccent.activity.BaseActivity;
-import com.cmg.android.bbcaccent.activity.fragment.Preferences;
-import com.cmg.android.bbcaccent.activity.view.RecordingView;
+import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;

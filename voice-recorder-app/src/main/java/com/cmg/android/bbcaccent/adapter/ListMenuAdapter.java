@@ -2,12 +2,14 @@ package com.cmg.android.bbcaccent.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 
 import java.util.Arrays;
@@ -18,51 +20,67 @@ import java.util.List;
  */
 public class ListMenuAdapter extends BaseAdapter {
 
-    private  List<Integer> menuText = Arrays.asList(
-            R.string.menu_help,
-            R.string.menu_settings,
-            R.string.menu_about,
-            R.string.menu_licence,
-            R.string.menu_feedback,
-            R.string.menu_logout);
-    private  List<Integer> menuIcon = Arrays.asList(
-            R.drawable.p_menu_help,
-            R.drawable.p_menu_setting,
-            R.drawable.p_menu_about,
-            R.drawable.p_menu_license,
-            R.drawable.p_menu_feedback,
-            R.drawable.p_logout_red);
+    public enum MenuItem {
+        FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_about),
+        LESSON(R.string.menu_lesson, R.drawable.p_menu_about),
+        HELP(R.string.menu_help, R.drawable.p_menu_help),
+        SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
+        ABOUT(R.string.menu_about, R.drawable.p_menu_about),
+        LICENCE(R.string.menu_licence, R.drawable.p_menu_license),
+        FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
+        LOGOUT(R.string.menu_logout, R.drawable.p_logout_red)
+        ;
+        int stringId;
+        int drawableId;
+        MenuItem(int stringId, int drawableId) {
+            this.stringId = stringId;
+            this.drawableId = drawableId;
+        }
+
+        public static MenuItem fromName(String name) {
+            for (MenuItem menuItem : values()) {
+                if (menuItem.toString().equals(name)) return menuItem;
+            }
+            return null;
+        }
+
+        @Override
+        public String toString() {
+            return MainApplication.getContext().getString(stringId);
+        }
+    }
 
     private ViewHolder view;
 
     private final Context context;
 
+    private LayoutInflater inflater;
+
     public ListMenuAdapter(Context context) {
         this.context = context;
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return menuText.size();
+        return MenuItem.values().length;
     }
 
     @Override
     public Object getItem(int position) {
-        return menuText.get(position);
+        return MenuItem.values()[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return MenuItem.values()[position].stringId;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflator = LayoutInflater.from(context);
-
         if (convertView == null) {
             view = new ViewHolder();
-            convertView = inflator.inflate(R.layout.list_menu_item,
+            convertView = inflater.inflate(R.layout.list_menu_item,
                     null);
             view.imageButton = (ImageButton) convertView.findViewById(R.id.btnMenuImage);
             view.textView = (TextView) convertView.findViewById(R.id.txtMenuItem);
@@ -71,11 +89,12 @@ public class ListMenuAdapter extends BaseAdapter {
             view = (ViewHolder) convertView.getTag();
 
         }
-        view.textView.setText(context.getString(menuText.get(position)));
-        if (position == 5) {
+        MenuItem item = MenuItem.values()[position];
+        view.textView.setText(item.toString());
+        if (item == MenuItem.LOGOUT) {
             view.textView.setTextColor(context.getResources().getColor(R.color.app_red));
         }
-        view.imageButton.setImageResource(menuIcon.get(position));
+        view.imageButton.setImageResource(item.drawableId);
         return convertView;
     }
 

@@ -35,7 +35,7 @@ import android.content.pm.PackageManager;
 import android.media.AudioRecord;
 import android.os.Environment;
 
-import com.cmg.android.bbcaccent.AppLog;
+import com.cmg.android.bbcaccent.utils.AppLog;
 
 import org.apache.commons.io.FileUtils;
 
