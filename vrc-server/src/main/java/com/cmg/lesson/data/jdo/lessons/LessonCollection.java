@@ -19,6 +19,9 @@ public class LessonCollection implements Mirrorable {
     private String name;
 
     @Persistent
+    private String description;
+
+    @Persistent
     private Date dateCreated;
 
     @Persistent
@@ -68,5 +71,13 @@ public class LessonCollection implements Mirrorable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
