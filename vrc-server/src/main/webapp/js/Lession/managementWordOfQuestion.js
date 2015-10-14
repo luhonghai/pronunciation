@@ -236,7 +236,7 @@ function add(){
     });
 }
 
-function deletes(){
+function deletes(questionId){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
         var idd=$(this).attr('id-column');
@@ -244,23 +244,26 @@ function deletes(){
     });
 }
 
-function deleteWord(){
+function deleteWord(questionId){
     $(document).on("click","#deleteItems", function(){
-        var id=  $("#iddelete").val();
+        var idWord =  $("#iddelete").val();
         $.ajax({
             url: servletName,
             type: "POST",
-            dataType: "text",
+            dataType: "json",
             data: {
                 delete: "delete",
-                id: id
+                idWord: idWord,
+                idQuestion: questionId
             },
             success: function (data) {
-                var messages=JSON.parse(data);
-                if (messages.message.indexOf("success") !=-1) {
+                var messages=data.message;
+                if (messages.indexOf("success") != -1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -411,8 +414,8 @@ $(document).ready(function(){
     addWord(questionId);
     edit(questionId);
     editWord(questionId);
-    deletes();
-    deleteWord();
+    deletes(questionId);
+    deleteWord(questionId);
     listWordOfQuestion(questionId);
 });
 
