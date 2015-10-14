@@ -3,6 +3,7 @@ package com.cmg.android.bbcaccent;
 import android.app.Application;
 
 import com.cmg.android.bbcaccent.data.sqlite.FreestyleDatabaseHelper;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 /**
@@ -24,6 +25,7 @@ public class MainApplication  extends Application {
         } catch (Exception e) {
             SimpleAppLog.error("Could not init database",e);
         }
+        MainBroadcaster.getInstance().init();
     }
 
     @Override
@@ -31,6 +33,7 @@ public class MainApplication  extends Application {
         super.onTerminate();
         if (freestyleDatabaseHelper != null)
             freestyleDatabaseHelper.close();
+        MainBroadcaster.getInstance().destroy();
     }
 
     public static MainApplication getContext() {

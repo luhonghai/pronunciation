@@ -2,7 +2,7 @@ package com.cmg.android.bbcaccent.dictionary;
 
 import android.content.Context;
 
-import com.cmg.android.bbcaccent.AppLog;
+import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.UUIDGenerator;
 import com.google.gson.Gson;
@@ -15,7 +15,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

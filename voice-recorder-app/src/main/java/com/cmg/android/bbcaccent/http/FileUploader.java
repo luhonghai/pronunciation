@@ -10,8 +10,8 @@ package com.cmg.android.bbcaccent.http;
 
 
 
-import com.cmg.android.bbcaccent.AppLog;
-import com.cmg.android.bbcaccent.common.FileCommon;
+import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.http.common.FileCommon;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
 
 import org.apache.http.HttpEntity;

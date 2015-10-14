@@ -3,39 +3,24 @@ package com.cmg.android.bbcaccent;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.media.AudioFormat;
-import android.media.AudioRecord;
-import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentTabHost;
+import android.preference.PreferenceFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -44,194 +29,96 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
-import com.cmg.android.bbcaccent.activity.BaseActivity;
-import com.cmg.android.bbcaccent.activity.DetailActivity;
-import com.cmg.android.bbcaccent.activity.FeedbackActivity;
-import com.cmg.android.bbcaccent.activity.SettingsActivity;
-import com.cmg.android.bbcaccent.activity.fragment.FragmentTab;
-import com.cmg.android.bbcaccent.activity.fragment.GraphFragment;
-import com.cmg.android.bbcaccent.activity.fragment.HistoryFragment;
-import com.cmg.android.bbcaccent.activity.fragment.Preferences;
-import com.cmg.android.bbcaccent.activity.fragment.TipFragment;
-import com.cmg.android.bbcaccent.activity.info.AboutActivity;
-import com.cmg.android.bbcaccent.activity.info.HelpActivity;
-import com.cmg.android.bbcaccent.activity.info.LicenceActivity;
-import com.cmg.android.bbcaccent.activity.view.RecordingView;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
+import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
+import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
+import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
-import com.cmg.android.bbcaccent.common.FileCommon;
-import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
-import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
-import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
-import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
-import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
-import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
-import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
-import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
-import com.cmg.android.bbcaccent.http.UploaderAsync;
+import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
-import com.cmg.android.bbcaccent.utils.AndroidHelper;
-import com.cmg.android.bbcaccent.utils.ColorHelper;
-import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
-import com.cmg.android.bbcaccent.utils.FileHelper;
-import com.cmg.android.bbcaccent.utils.RandomHelper;
+import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
-import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
-import com.nineoldandroids.animation.Animator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.AudioEvent;
-import be.tarsos.dsp.Oscilloscope;
-import be.tarsos.dsp.io.TarsosDSPAudioFormat;
-import be.tarsos.dsp.pitch.PitchDetectionHandler;
-import be.tarsos.dsp.pitch.PitchDetectionResult;
-import be.tarsos.dsp.pitch.PitchProcessor;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
-        View.OnClickListener,
-        Animation.AnimationListener,
-        LocationListener,
-        SearchView.OnSuggestionListener,
-        RecordingView.OnAnimationListener {
-    /**
-     * Define all button state
-     */
-    enum ButtonState {
-        DEFAULT,
-        RECORDING,
-        PLAYING,
-        ORANGE,
-        RED,
-        GREEN,
-        DISABLED
+        SearchView.OnSuggestionListener {
+
+    enum FragmentState {
+        NULL(null),
+        FREE_STYLE(FreeStyleFragment.class, ListMenuAdapter.MenuItem.FREESTYLE),
+        LESSON(FreeStyleFragment.class, ListMenuAdapter.MenuItem.LESSON),
+        HELP(HelpFragment.class, ListMenuAdapter.MenuItem.HELP),
+        SETTINGS(Preferences.class, ListMenuAdapter.MenuItem.SETTING),
+        ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
+        LICENCE(LicenceFragment.class, ListMenuAdapter.MenuItem.LICENCE),
+        FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK)
+        ;
+        Class<?> clazz;
+        ListMenuAdapter.MenuItem menuItem;
+
+        FragmentState(Class<?> clazz) {
+            this.clazz = clazz;
+        }
+
+        FragmentState(Class<?> clazz, ListMenuAdapter.MenuItem menuItem) {
+            this.clazz = clazz;
+            this.menuItem = menuItem;
+        }
+
+        static FragmentState fromMenuItem(ListMenuAdapter.MenuItem menuItem) {
+            for (FragmentState state : values()) {
+                if (state.menuItem == menuItem) return state;
+            }
+            return NULL;
+        }
+
+        static FragmentState fromFragmentClassName(String className) {
+            for (FragmentState state : values()) {
+                if (state.clazz != null && state.clazz.getName().equals(className)) return state;
+            }
+            return NULL;
+        }
+
+        @Override
+        public String toString() {
+            return clazz == null ? "null" : clazz.getName();
+        }
     }
 
-    enum AnalyzingState {
-        DEFAULT,
-        RECORDING,
-        ANALYZING,
-        WAIT_FOR_ANIMATION_MIN,
-        WAIT_FOR_ANIMATION_MAX
-    }
+    private FragmentState currentFragmentState = FragmentState.NULL;
 
     private DrawerLayout drawerLayout;
-    private boolean isDrawerOpened;
-    private MaterialMenuView materialMenu;
 
-    private FragmentTabHost mTabHost;
+    private boolean isDrawerOpened;
+
+    private MaterialMenuView materialMenu;
 
     private ListView listMenu;
 
-
-    /**
-     * Recording
-     */
-    private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-
-    private static final long PITCH_TIMEOUT = 1000;
-    private static final long START_TIMEOUT = 1000;
-
-    private static final long RECORD_MAX_LENGTH = 6000;
-
-    private ButtonState lastState;
-
-    private RecordingView recordingView;
-
-    private AnalyzingState analyzingState = AnalyzingState.DEFAULT;
-
-    private ImageButton btnAnalyzing;
-    private ImageButton btnAudio;
-
-    private AlwaysMarqueeTextView txtWord;
-    private AlwaysMarqueeTextView txtPhonemes;
-
-    private RelativeLayout rlVoiceExample;
-
-    private ImageButton imgHourGlass;
-    private ImageButton imgHelpHand;
-
-
-    private AndroidAudioInputStream audioStream;
-    private AudioDispatcher dispatcher;
-    private Thread runner;
-    private double pitch = 0;
-    private long lastDetectedPitchTime = -1;
-
-    private AudioRecord audioInputStream;
-    private int chanel;
-    private int sampleRate;
-    private int bufferSize;
-
-    private boolean isPrepared = false;
-    private boolean isRecording = false;
-    private boolean isPlaying = false;
-    private boolean isUploading = false;
-    private boolean isAutoStop = false;
-
-    private PlayerHelper player;
-
-    private long start;
-
-    private String selectedWord;
-
-    private UserVoiceModel currentModel;
-
-    private DictionaryItem dictionaryItem;
-
-
-    /**
-     * Animation
-     */
-    Animation fadeIn;
-    Animation fadeOut;
-
-    private UploaderAsync uploadTask;
-
-    /**
-     * Search word
-     */
-    private WordDBAdapter dbAdapter;
-    private CursorAdapter adapter;
-    private SearchView searchView;
-
-    /**
-     * Score
-     */
-    private ScoreDBAdapter scoreDBAdapter;
-
-
     private AccountManager accountManager;
 
-    /**
-     * User profile
-     */
+    private SearchView searchView;
+
+    private WordDBAdapter dbAdapter;
+
+    private CursorAdapter adapter;
 
     private ImageView imgAvatar;
-    private TextView txtUserName;
-    private TextView txtUserEmail;
-    private boolean isInitTabHost = false;
 
+    private TextView txtUserName;
+
+    private TextView txtUserEmail;
 
     public void syncService(){
         Gson gson = new Gson();
@@ -248,18 +135,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        syncService();
-        accountManager = new AccountManager(this);
+
         setContentView(R.layout.main);
+
+        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+        txtUserName = (TextView) findViewById(R.id.txtUserName);
+        txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
+
         initListMenu();
         initCustomActionBar();
-        if (savedInstanceState != null) {
-            isInitTabHost = true;
-            initTabHost();
-        }
-        initRecordingView();
-        initAnimation();
-        switchButtonStage(ButtonState.DISABLED);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -288,27 +172,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }
         });
-
-        registerReceiver(mHandleMessageReader, new IntentFilter(UploaderAsync.UPLOAD_COMPLETE_INTENT));
-        registerReceiver(mHandleHistoryAction, new IntentFilter(HistoryFragment.ON_HISTORY_LIST_CLICK));
-        String[] words = getResources().getStringArray(R.array.random_words);
-        if (words != null && words.length > 0) {
-            getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
-        } else {
-            getWord(getString(R.string.example_word));
-        }
-        scoreDBAdapter = new ScoreDBAdapter();
+        accountManager = new AccountManager(this);
         checkProfile();
-    }
-
-    private void openSettings() {
-        startActivity(SettingsActivity.class);
-    }
-
-
-    private void initAnimation() {
-        fadeIn = AnimationUtils.loadAnimation(this.getApplicationContext(), android.R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(this.getApplicationContext(), android.R.anim.fade_out);
+        syncService();
+        switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null);
     }
 
     private void initListMenu() {
@@ -318,23 +185,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        startActivity(HelpActivity.class);
-                        break;
-                    case 1:
-                        startActivity(SettingsActivity.class);
-                        break;
-                    case 2:
-                        startActivity(AboutActivity.class);
-                        break;
-                    case 3:
-                        startActivity(LicenceActivity.class);
-                        break;
-                    case 4:
-                        startActivity(FeedbackActivity.class);
-                        break;
-                    case 5:
+                ListMenuAdapter.MenuItem menuItem = ListMenuAdapter.MenuItem.values()[position];
+                switch (menuItem) {
+                    case LOGOUT:
                         SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
                         d.setTitleText(getString(R.string.logout_account_message_title));
                         d.setContentText(getString(R.string.logout_account_message_content));
@@ -348,7 +201,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 }
                                 accountManager.logout();
                                 MainActivity.this.finish();
-                                startActivity(LoginActivity.class);
+                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(intent);
                             }
                         });
                         d.setCancelText(getString(R.string.dialog_no));
@@ -360,71 +214,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         });
                         d.show();
                         break;
+                    default:
+                        switchFragment(menuItem, null);
                 }
             }
         });
         adapter.notifyDataSetChanged();
     }
 
-    private void startActivity(Class clazz) {
-        Intent activity = new Intent();
-        activity.setClass(this, clazz);
-        this.startActivity(activity);
-    }
 
-    private void initRecordingView() {
-        rlVoiceExample = (RelativeLayout) findViewById(R.id.rlVoiceExample);
-        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
-        txtUserName = (TextView) findViewById(R.id.txtUserName);
-        txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
-
-        imgHelpHand = (ImageButton) findViewById(R.id.imgHelpHand);
-
-        imgHourGlass = (ImageButton) findViewById(R.id.imgHourGlass);
-        recordingView = (RecordingView) findViewById(R.id.main_recording_view);
-        btnAnalyzing = (ImageButton) findViewById(R.id.btnAnalyzing);
-        btnAnalyzing.setOnClickListener(this);
-        btnAudio = (ImageButton) findViewById(R.id.btnAudio);
-        btnAudio.setOnClickListener(this);
-        txtPhonemes = (AlwaysMarqueeTextView) findViewById(R.id.txtPhoneme);
-        txtPhonemes.setText("");
-        txtWord = (AlwaysMarqueeTextView) findViewById(R.id.txtWord);
-        txtWord.setText("");
-        txtPhonemes.setOnClickListener(this);
-        txtWord.setOnClickListener(this);
-        rlVoiceExample.setOnClickListener(this);
-        recordingView.setOnClickListener(this);
-        recordingView.setAnimationListener(this);
-    }
-
-    private void initTabHost() {
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-        if (mTabHost == null) return;
-
-        mTabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
-        addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, getString(R.string.tab_graph));
-        addTabImage(R.drawable.tab_history,
-                HistoryFragment.class, getString(R.string.tab_history));
-        addTabImage(R.drawable.tab_tip,
-                TipFragment.class, getString(R.string.tab_tip));
-    }
-
-    private void addTabImage(int drawableId, Class<?> c, String labelId) {
-        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
-        mTabHost.addTab(spec, c, null);
-
-    }
-
-    private void addTab(int drawableId, Class<?> c, String labelId) {
-        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, (RelativeLayout) findViewById(R.id.content), false);
-        ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-        icon.setImageResource(drawableId);
-        spec.setIndicator(tabIndicator);
-        mTabHost.addTab(spec, c, null);
-
-    }
 
     private void initCustomActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -449,18 +247,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
     }
 
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        isDrawerOpened = drawerLayout.isDrawerOpen(Gravity.START); // or END, LEFT, RIGHT
-        //materialMenu.onRestoreInstanceState(savedInstanceState);
+        isDrawerOpened = drawerLayout.isDrawerOpen(Gravity.LEFT);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //materialMenu.onSaveInstanceState();
     }
 
     @Override
@@ -491,7 +286,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
 
         }
-        //return super.onCreateOptionsMenu(menu);
         return true;
     }
 
@@ -509,149 +303,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 break;
             case R.id.menu_feedback:
-                startActivity(FeedbackActivity.class);
+                switchFragment(FragmentState.FEEDBACK, null);
                 break;
         }
-        //return super.onOptionsItemSelected(item);
         return true;
-    }
-
-    private void completeGetWord(DictionaryItem item, ButtonState state) {
-        if (item != null) {
-            dictionaryItem = item;
-        } else {
-            dictionaryItem = null;
-        }
-        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-        lastState = state;
-        if (audioStream != null)
-            audioStream.clearOldRecord();
-    }
-
-    private class GetWordAsync extends AsyncTask {
-        private final String word;
-
-        private GetWordAsync(String word) {
-            this.word = word;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            selectedWord = word;
-            DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainActivity.this.getApplicationContext()));
-            walker.setListener(new DictionaryListener() {
-                @Override
-                public void onDetectWord(final DictionaryItem dItem) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            completeGetWord(dItem, ButtonState.DEFAULT);
-                        }
-                    });
-                }
-
-                @Override
-                public void onWordNotFound(DictionaryItem dItem, final FileNotFoundException ex) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ex.printStackTrace();
-                            completeGetWord(null, ButtonState.DISABLED);
-                        }
-                    });
-                }
-
-                @Override
-                public void onError(DictionaryItem dItem, final Exception ex) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ex.printStackTrace();
-                            completeGetWord(null, ButtonState.DISABLED);
-                        }
-                    });
-                }
-            });
-            walker.execute(word);
-            return null;
-        }
-    }
-
-    private GetWordAsync getWordAsync;
-
-    private void getWord(final String word) {
-        if (isRecording) return;
-        try {
-            if (dbAdapter == null) dbAdapter = new WordDBAdapter();
-            if (!dbAdapter.isBeep(word)) {
-                AnalyticHelper.sendSelectWordNotInBeep(this, word);
-                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-                d.setTitleText(getString(R.string.word_not_in_beep_title));
-                d.setContentText(getString(R.string.word_not_in_beep_message));
-                d.setConfirmText(getString(R.string.dialog_ok));
-                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                d.show();
-                return;
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not check word " + word + " is beep or not",e);
-        }
-        try {
-            if (checkNetwork(false)) {
-                currentModel = null;
-                recordingView.setScore(0.0f);
-                recordingView.stopPingAnimation();
-                recordingView.recycle();
-                recordingView.invalidate();
-                analyzingState = AnalyzingState.DEFAULT;
-                AnalyticHelper.sendSelectWord(this, word);
-                switchButtonStage(ButtonState.DISABLED);
-                recordingView.startPingAnimation(this);
-
-                YoYo.with(Techniques.FadeIn).duration(700).withListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        imgHourGlass.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                }).playOn(imgHourGlass);
-
-                txtWord.setText(getString(R.string.searching));
-                txtPhonemes.setText(getString(R.string.please_wait));
-                dictionaryItem = null;
-                currentModel = null;
-                if (getWordAsync != null) {
-                    try {
-                        while (!getWordAsync.isCancelled() && getWordAsync.cancel(true)) ;
-                    } catch (Exception ex) {
-
-                    }
-                }
-                getWordAsync = new GetWordAsync(word);
-                getWordAsync.execute();
-            }
-        } catch (Exception e) {
-
-        }
     }
 
     @Override
@@ -661,7 +316,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             View v = getCurrentFocus();
             if (v != null)
                 v.clearFocus();
-            getWord(s);
+            MainBroadcaster.getInstance().getSender().sendSearchWord(s);
         }
         return false;
     }
@@ -708,448 +363,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return false;
     }
 
-    private void stopPlay() {
-        switchButtonStage();
-        isPlaying = false;
-        player.stop();
-    }
-
-    private void play(String file) {
-        if (file == null || file.length() == 0) return;
-        play(new File(file));
-    }
-
-    private void play(File file) {
-        try {
-            if (player != null) {
-                try {
-                    player.stop();
-                } catch (Exception ex) {
-
-                }
-            }
-            player = new PlayerHelper(file, new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
-                    AppLog.logString("Stop playing");
-                }
-
-            });
-            player.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean checkAudioExist() {
-        if (audioStream == null || audioStream.getFilename() == null) return false;
-        return new File(audioStream.getFilename()).exists();
-    }
-
-    private void play() {
-        if (!checkAudioExist()) return;
-        try {
-            String fileName = audioStream.getFilename();
-            File file = new File(fileName);
-            if (!file.exists()) return;
-            switchButtonStage(ButtonState.PLAYING);
-            isPlaying = true;
-            if (player != null) {
-                try {
-                    player.stop();
-                } catch (Exception ex) {
-
-                }
-            }
-            player = new PlayerHelper(new File(fileName), new MediaPlayer.OnCompletionListener() {
-
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.release();
-                    AppLog.logString("Stop sound");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            stopPlay();
-                        }
-                    });
-
-                }
-
-            });
-            start = System.currentTimeMillis();
-            player.play();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void stop() {
-        stopRecording();
-        if (uploadTask != null) {
-            try {
-                while (!uploadTask.isCancelled() && uploadTask.cancel(true)) ;
-                uploadTask = null;
-            } catch (Exception ex) {
-
-            }
-        }
-    }
-
-    private void analyze() {
-        try {
-            // Clear old data
-            currentModel = null;
-            analyzingState = AnalyzingState.RECORDING;
-            switchButtonStage(ButtonState.RECORDING);
-            isRecording = true;
-            if (recordingView != null)
-                recordingView.recycle();
-            audioInputStream = new AudioRecord(MediaRecorder.AudioSource.MIC,
-                    sampleRate, chanel, RECORDER_AUDIO_ENCODING, bufferSize);
-
-            if (audioInputStream.getState() == AudioRecord.STATE_UNINITIALIZED) {
-                String configResume = "initRecorderParameters(sRates) has found recorder settings supported by the device:"
-                        + "\nSource   = MICROPHONE"
-                        + "\nsRate    = " + sampleRate + "Hz"
-                        + "\nChannel  = " + ((chanel == AudioFormat.CHANNEL_IN_MONO) ? "MONO" : "STEREO")
-                        + "\nEncoding = 16BIT";
-                AppLog.logString(configResume);
-                audioInputStream.release();
-                audioInputStream = null;
-                return;
-            }
-            //start recording ! Opens the stream
-            audioInputStream.startRecording();
-
-            TarsosDSPAudioFormat format = new TarsosDSPAudioFormat(sampleRate, 16, (chanel == AudioFormat.CHANNEL_IN_MONO) ? 1 : 2, true, false);
-
-            audioStream = new AndroidAudioInputStream(this.getApplicationContext(), audioInputStream, format, bufferSize);
-            dispatcher = new AudioDispatcher(audioStream, bufferSize / 2, 0);
-            dispatcher.addAudioProcessor(new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, sampleRate, bufferSize / 2, new PitchDetectionHandler() {
-
-                @Override
-                public void handlePitch(PitchDetectionResult pitchDetectionResult,
-                                        AudioEvent audioEvent) {
-                    pitch = pitchDetectionResult.getPitch();
-                    if (pitch != -1) {
-                        AppLog.logString("Detect pitch " + pitch);
-                        lastDetectedPitchTime = System.currentTimeMillis();
-                    }
-                    long length = System.currentTimeMillis() - start;
-                    if (length > RECORD_MAX_LENGTH || ((System.currentTimeMillis() - lastDetectedPitchTime) > PITCH_TIMEOUT)
-                            && isAutoStop
-                            && (length > (START_TIMEOUT + PITCH_TIMEOUT))) {
-                        stopRecording(false);
-                        uploadRecord();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                recordingView.startPingAnimation(MainActivity.this, 2000, 100.0f, true, false);
-                            }
-                        });
-                    }
-                }
-            }));
-            dispatcher.addAudioProcessor(new Oscilloscope(new Oscilloscope.OscilloscopeEventHandler() {
-                @Override
-                public void handleEvent(final float[] floats, final AudioEvent audioEvent) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (recordingView != null)
-                                recordingView.setData(floats, pitch);
-                        }
-                    });
-
-                }
-            }));
-            start = System.currentTimeMillis();
-            runner = new Thread(dispatcher, "Audio Dispatcher");
-            lastDetectedPitchTime = System.currentTimeMillis();
-            runner.start();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void stopRecording() {
-        stopRecording(true);
-    }
-
-    private void stopRecording(boolean changeStatus) {
-        if (isRecording) {
-            if (changeStatus) {
-                isRecording = false;
-            }
-            AppLog.logString("Stop Recording");
-            try {
-                if (audioInputStream != null) {
-                    audioInputStream.stop();
-                    audioInputStream.release();
-                }
-            } catch (Exception ex) {
-                //ex.printStackTrace();
-            }
-            try {
-                if (dispatcher != null)
-                    dispatcher.stop();
-            } catch (Exception ex) {
-                // ex.printStackTrace();
-            }
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handlerStartDetail.removeCallbacks(runnableStartDetail);
-        try {
-            unregisterReceiver(mHandleMessageReader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            unregisterReceiver(mHandleHistoryAction);
-        } catch (Exception e) {
-
-        }
-        stop();
-        try {
-            dbAdapter.close();
-        } catch (Exception e) {
-
-        }
-        try {
-            recordingView.recycle();
-        } catch (Exception ex) {
-
-        }
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mTabHost != null) {
-            mTabHost.getTabWidget().setEnabled(false);
-        }
-        stopRequestLocation();
-        if (currentModel != null) {
-            recordingView.stopPingAnimation();
-            recordingView.recycle();
-            recordingView.invalidate();
-            // Null response
-            analyzingState = AnalyzingState.DEFAULT;
-        }
-    }
-
-    protected void stopRequestLocation() {
-        SimpleAppLog.info("Request location update");
-        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        try {
-            lm.removeUpdates(this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not stop request location", e);
-        }
-    }
-
-    protected void requestLocation() {
-        SimpleAppLog.info("Request location update");
-        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        try {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not request GPS provider location", e);
-        }
-        try {
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not request Network provider location", e);
-        }
+        updateQueryHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isInitTabHost) {
-            isInitTabHost = true;
-            initTabHost();
-
-        }
-        mTabHost.getTabWidget().setEnabled(true);
-
-        requestLocation();
         fetchSetting();
-        isPrepared = false;
-        if (currentModel != null) {
-            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-            recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnAnalyzing:
-                if (checkNetwork(false)) {
-                    if (isRecording) {
-                        stop();
-                        switchButtonStage(ButtonState.DISABLED);
-                        if (currentModel != null) {
-                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                            recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
-                        } else {
-                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                            recordingView.startPingAnimation(this, 1000, 100.0f, false, false);
-                        }
-                    } else {
-                        analyze();
-                    }
-                }
-                break;
-            case R.id.btnAudio:
-                if (isPlaying) {
-                    stopPlay();
-                } else {
-                    play();
-                }
-                break;
-            //case R.id.txtPhoneme:
-            //case R.id.txtWord:
-            case R.id.rlVoiceExample:
-                if (dictionaryItem != null) {
-                    play(dictionaryItem.getAudioFile());
-                }
-                break;
-            case R.id.main_recording_view:
-                handlerStartDetail.post(runnableStartDetail);
-        }
-    }
-
-    private Handler handlerStartDetail = new Handler();
-
-    private Runnable runnableStartDetail = new Runnable() {
-        @Override
-        public void run() {
-            willMoveToDetail = false;
-            if (currentModel != null && dictionaryItem != null) {
-                Gson gson = new Gson();
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(currentModel));
-                startActivity(intent);
-            }
-        }
-    };
-
-    private void switchButtonStage() {
-        if (lastState == null) lastState = ButtonState.DEFAULT;
-        switchButtonStage(lastState);
-    }
-
-    private void switchButtonStage(ButtonState state) {
-        try {
-            boolean isProcess = true;
-            imgHelpHand.setVisibility(View.GONE);
-            switch (state) {
-                case RECORDING:
-                    btnAudio.setImageResource(R.drawable.p_audio_gray);
-                    btnAudio.setEnabled(false);
-                    btnAnalyzing.startAnimation(fadeOut);
-                    btnAnalyzing.setImageResource(R.drawable.p_close_red);
-                    btnAnalyzing.startAnimation(fadeIn);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtPhonemes.setEnabled(false);
-                    txtWord.setEnabled(false);
-                    rlVoiceExample.setEnabled(false);
-                    break;
-                case PLAYING:
-                    btnAudio.startAnimation(fadeOut);
-                    btnAudio.setImageResource(R.drawable.p_close_red);
-                    btnAudio.startAnimation(fadeIn);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                    btnAnalyzing.setEnabled(false);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtPhonemes.setEnabled(false);
-                    txtWord.setEnabled(false);
-                    rlVoiceExample.setEnabled(false);
-                    break;
-                case GREEN:
-                    btnAudio.setEnabled(true);
-                    btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_green);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtPhonemes.setEnabled(true);
-                    txtWord.setEnabled(true);
-                    rlVoiceExample.setEnabled(true);
-                    isProcess = false;
-                    break;
-                case ORANGE:
-                    btnAudio.setEnabled(true);
-                    btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_orange);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_orange);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
-                    txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
-                    txtPhonemes.setEnabled(true);
-                    txtWord.setEnabled(true);
-                    rlVoiceExample.setEnabled(true);
-                    isProcess = false;
-                    break;
-                case RED:
-                    btnAudio.setEnabled(true);
-                    btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_red);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_red);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
-                    txtWord.setTextColor(ColorHelper.COLOR_RED);
-                    txtPhonemes.setEnabled(true);
-                    txtWord.setEnabled(true);
-                    rlVoiceExample.setEnabled(true);
-                    isProcess = false;
-                    break;
-                case DISABLED:
-                    btnAudio.setEnabled(false);
-                    btnAnalyzing.setEnabled(false);
-                    btnAudio.setImageResource(R.drawable.p_audio_gray);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtPhonemes.setEnabled(false);
-                    txtWord.setEnabled(false);
-                    break;
-                case DEFAULT:
-                default:
-                    btnAudio.setEnabled(true);
-                    btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_green);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtPhonemes.setEnabled(true);
-                    txtWord.setEnabled(true);
-                    rlVoiceExample.setEnabled(true);
-                    isProcess = false;
-                    break;
-            }
-            // Call other view update
-            Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
-            notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
-            sendBroadcast(notifyUpdateIntent);
-            if (!checkAudioExist()) {
-                btnAudio.setEnabled(false);
-                btnAudio.setImageResource(R.drawable.p_audio_gray);
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not update screen state", e);
-        }
     }
 
     private void checkProfile() {
@@ -1157,7 +380,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         if (profile == null) {
             AppLog.logString("No profile found");
             //openSettings();
-            //startActivity(HelpActivity.class);
+            //switchFragment(HelpActivity.class);
         } else if (profile.getHelpStatus() == UserProfile.HELP_INIT) {
             AppLog.logString("Profile is not setup: " + profile.getUsername());
             //openSettings();
@@ -1175,7 +398,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             });
             dialogHelp.show();
             Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
-            startActivity(HelpActivity.class);
+            switchFragment(FragmentState.HELP, null);
         } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
             AppLog.logString("Display help dialog");
             showHelpDialog();
@@ -1196,19 +419,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
             }
-
-            String mChanel = Preferences.getString(Preferences.KEY_AUDIO_CHANEL, this.getApplicationContext(), "mono");
-            if (mChanel.equalsIgnoreCase("mono")) {
-                chanel = AudioFormat.CHANNEL_IN_MONO;
-            } else {
-                chanel = AudioFormat.CHANNEL_IN_STEREO;
-            }
-            sampleRate = Preferences.getInt(Preferences.KEY_AUDIO_SAMPLE_RATE, this.getApplicationContext(), 16000);
-            isAutoStop = Preferences.getBoolean(Preferences.KEY_AUDIO_AUTO_STOP_RECORDING, this.getApplicationContext(), true);
-
-            bufferSize = AudioRecord.getMinBufferSize(sampleRate, chanel, RECORDER_AUDIO_ENCODING);
-
-            isPrepared = false;
         } catch (Exception e) {
             SimpleAppLog.error("Could not fetch setting", e);
         }
@@ -1227,145 +437,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         accountManager.stop();
     }
 
-    @Override
-    public void onAnimationStart(Animation animation) {
-
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
-    }
-
-    private final BroadcastReceiver mHandleMessageReader = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle.containsKey(UploaderAsync.UPLOAD_COMPLETE_INTENT)) {
-                String data = bundle.getString(UploaderAsync.UPLOAD_COMPLETE_INTENT);
-                Gson gson = new Gson();
-                try {
-                    currentModel = gson.fromJson(data, UserVoiceModel.class);
-                } catch (Exception ex) {
-                    //switchButtonStage(ButtonState.RED);
-                }
-                try {
-                    saveToDatabase();
-                } catch (Exception e) {
-                    SimpleAppLog.error("Could not save data to database", e);
-                    e.printStackTrace();
-                    currentModel = null;
-                }
-                AppLog.logString("Start score animation");
-                // Waiting for animation complete
-                analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                willMoveToDetail = true;
-            }
-        }
-    };
-
-    private boolean willMoveToDetail = false;
-
-    private final BroadcastReceiver mHandleHistoryAction = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle.containsKey(BaseActivity.USER_VOICE_MODEL)) {
-                String modelSource = bundle.getString(BaseActivity.USER_VOICE_MODEL);
-                String word = bundle.getString(FragmentTab.ARG_WORD);
-                int type = bundle.getInt(FragmentTab.ACTION_TYPE);
-                if (word == null || word.length() == 0) {
-                    Gson gson = new Gson();
-                    final UserVoiceModel model = gson.fromJson(modelSource, UserVoiceModel.class);
-                    if (model != null) {
-                        switch (type) {
-                            case HistoryFragment.CLICK_LIST_ITEM:
-                                Intent detailIntent = new Intent(MainActivity.this, DetailActivity.class);
-                                detailIntent.putExtra(DetailActivity.USER_VOICE_MODEL, gson.toJson(model));
-                                startActivity(detailIntent);
-                                break;
-                            case HistoryFragment.CLICK_PLAY_BUTTON:
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        play(model.getAudioFile());
-                                    }
-                                });
-                                break;
-                            case HistoryFragment.CLICK_RECORD_BUTTON:
-                                getWord(model.getWord());
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-    };
-
-    private void uploadRecord() {
-        try {
-            AppLog.logString("Start Uploading");
-            analyzingState = AnalyzingState.ANALYZING;
-            uploadTask = new UploaderAsync(this, getResources().getString(R.string.upload_url));
-            Map<String, String> params = new HashMap<String, String>();
-            String fileName = audioStream.getFilename();
-            File tmp = new File(fileName);
-            if (tmp.exists()) {
-                UserProfile profile = Preferences.getCurrentProfile(this);
-                if (profile != null) {
-                    Gson gson = new Gson();
-                    profile.setUuid(new DeviceUuidFactory(this).getDeviceUuid().toString());
-                    UserProfile.UserLocation lc = new UserProfile.UserLocation();
-                    Location location = AndroidHelper.getLastBestLocation(this);
-                    if (location != null) {
-                        lc.setLongitude(location.getLongitude());
-                        lc.setLatitude(location.getLatitude());
-                        AppLog.logString("Lat: " + lc.getLatitude() + ". Lon: " + lc.getLongitude());
-                        profile.setLocation(lc);
-                    }
-                    profile.setTime(System.currentTimeMillis());
-                    params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
-                    params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
-                    params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
-                    params.put("profile", gson.toJson(profile));
-                    params.put("word", selectedWord);
-                    uploadTask.execute(params);
-                } else {
-                    AppLog.logString("Could not get user profile");
-                }
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not upload recording", e);
-        }
-    }
-
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 
     public void hideSoftKeyboard() {
+        if (this.getCurrentFocus() == null) return;
         InputMethodManager inputMethodManager = (InputMethodManager) this
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus()
@@ -1394,201 +468,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         selectSuggestionWord(i);
         return true;
     }
-
-    @Override
-    public void onAnimationMax() {
-        try {
-            if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
-                AppLog.logString("On animation max");
-                recordingView.stopPingAnimation();
-                isRecording = false;
-                if (currentModel != null) {
-                    currentModel.setAudioFile(audioStream.getFilename());
-                    float score = currentModel.getScore();
-                    if (score >= 80.0) {
-                        lastState = ButtonState.GREEN;
-                    } else if (score >= 45.0) {
-                        lastState = ButtonState.ORANGE;
-                    } else {
-                        lastState = ButtonState.RED;
-                    }
-                    // Call other view update
-                    Gson gson = new Gson();
-                    Intent notifyUpdateIntent = new Intent(FragmentTab.ON_UPDATE_DATA);
-                    notifyUpdateIntent.putExtra(FragmentTab.ACTION_TYPE, FragmentTab.TYPE_RELOAD_DATA);
-                    notifyUpdateIntent.putExtra(FragmentTab.ACTION_DATA, gson.toJson(currentModel));
-                    sendBroadcast(notifyUpdateIntent);
-                    switchButtonStage();
-
-                    YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            imgHelpHand.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            if (willMoveToDetail) {
-                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
-                            }
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(imgHelpHand);
-
-                } else {
-                    switchButtonStage(ButtonState.RED);
-                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
-                    d.setContentText(getString(R.string.could_not_analyze_word_message));
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-                    d.show();
-                }
-                analyzingState = AnalyzingState.DEFAULT;
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not complete animation", e);
-        }
-    }
-
-    @Override
-    public void onAnimationMin() {
-        try {
-            if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MIN) {
-                AppLog.logString("On animation min");
-                recordingView.setScore(0.0f);
-                recordingView.stopPingAnimation();
-                recordingView.recycle();
-                recordingView.invalidate();
-                if (currentModel != null) {
-                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                    recordingView.startPingAnimation(this, 2000, currentModel.getScore(), true, true);
-                } else if (isRecording) {
-                    SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE);
-                    d.setTitleText(getString(R.string.could_not_analyze_word_title));
-                    d.setContentText(getString(R.string.could_not_analyze_word_message));
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-                    d.show();
-                    switchButtonStage(ButtonState.RED);
-                    recordingView.drawEmptyCycle();
-                    analyzingState = AnalyzingState.DEFAULT;
-                    isRecording = false;
-                } else {
-                    YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            imgHourGlass.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(imgHourGlass);
-
-                    recordingView.drawEmptyCycle();
-                    // Null response
-                    analyzingState = AnalyzingState.DEFAULT;
-                    switchButtonStage();
-
-                    if (dictionaryItem != null) {
-                        txtWord.setText(dictionaryItem.getWord());
-                        txtPhonemes.setText(dictionaryItem.getPronunciation());
-                        txtWord.setEnabled(true);
-                        txtPhonemes.setEnabled(true);
-                        rlVoiceExample.setEnabled(true);
-                        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
-                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getPronunciation()));
-                        //txtPhonemes.setSelected(true);
-                        //txtWord.setSelected(true);
-
-                    } else {
-                        txtWord.setText(getString(R.string.not_found));
-                        txtPhonemes.setText(getString(R.string.please_try_again));
-                    }
-                }
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not complete animation", e);
-        }
-    }
-
-
-    private void saveToDatabase() throws Exception {
-        if (audioStream == null) return;
-        String tmpFile = audioStream.getFilename();
-        File recordedFile = new File(tmpFile);
-        if (recordedFile.exists() && currentModel != null) {
-            AnalyticHelper.sendAnalyzingWord(this, currentModel.getWord(), Math.round(currentModel.getScore()));
-            File pronScoreDir = FileHelper.getPronunciationScoreDir(this.getApplicationContext());
-            PronunciationScore score = new PronunciationScore();
-            // Get ID from server
-            String dataId = currentModel.getId();
-            score.setDataId(dataId);
-            score.setScore(currentModel.getScore());
-            score.setWord(currentModel.getWord());
-            score.setTimestamp(new Date(System.currentTimeMillis()));
-            //DENP-238
-            score.setUsername(currentModel.getUsername());
-            score.setVersion(currentModel.getVersion());
-            // Save recorded file
-            File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
-            FileUtils.copyFile(recordedFile, savedFile);
-            // Save json data
-            Gson gson = new Gson();
-            currentModel.setAudioFile(savedFile.getAbsolutePath());
-            FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(currentModel), "UTF-8");
-            scoreDBAdapter.open();
-            scoreDBAdapter.insert(score);
-            scoreDBAdapter.close();
-            if (currentModel.getResult() != null) {
-                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
-                phonemeScoreDBAdapter.open();
-                List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
-                if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
-                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                        phonemeScore.setTime(System.currentTimeMillis());
-                        phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
-                        phonemeScore.setUserVoiceId(dataId);
-                        phonemeScoreDBAdapter.insert(phonemeScore, currentModel.getUsername(),currentModel.getVersionPhoneme());
-                    }
-                }
-                phonemeScoreDBAdapter.close();
-            }
-
-        }
-    }
-
 
     private void showHelpDialog() {
         final Dialog dialog = new Dialog(this, R.style.Theme_WhiteDialog);
@@ -1624,7 +503,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(HelpActivity.class);
+                switchFragment(FragmentState.HELP, null);
                 dialog.dismiss();
             }
         });
@@ -1635,4 +514,92 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         dialog.show();
     }
 
+    private void switchFragment(ListMenuAdapter.MenuItem menuItem, Bundle args) {
+        FragmentState state = FragmentState.fromMenuItem(menuItem);
+        if (state != null) {
+            switchFragment(state, args);
+        } else {
+            SimpleAppLog.error("Could not found fragment state of menu item " + menuItem.toString());
+        }
+    }
+
+    private void switchFragment(FragmentState state, Bundle args) {
+        if (state.clazz == null) {
+            SimpleAppLog.error("Could not found fragment state");
+        } else {
+            switchFragment(state.clazz, args);
+        }
+    }
+
+    private void switchFragment(String className, Bundle args) {
+        try {
+            Class<?> clazz = Class.forName(className);
+            switchFragment(clazz, args);
+        } catch (ClassNotFoundException e) {
+            SimpleAppLog.error("Could not found fragment class " + className,e);
+        }
+    }
+
+    private void switchFragment(Class<?> clazz, Bundle args) {
+        try {
+            SimpleAppLog.debug("Switch to fragment class " + clazz.getName());
+            FragmentState state = FragmentState.fromFragmentClassName(clazz.getName());
+            if (state != FragmentState.NULL) {
+                if (isDrawerOpened) {
+                    //materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
+                    drawerLayout.closeDrawer(Gravity.LEFT);
+                }
+                if (state != currentFragmentState) {
+                    switch (state) {
+                        case FREE_STYLE:
+                        case LESSON:
+                            if (searchView != null) searchView.setVisibility(View.VISIBLE);
+                            break;
+                        default:
+                            if (searchView != null) {
+                                if (!searchView.isIconified())
+                                    searchView.setIconified(true);
+                                searchView.setVisibility(View.INVISIBLE);
+                            }
+                            break;
+                    }
+                    if (currentFragmentState != FragmentState.NULL) {
+                        if (PreferenceFragment.class.isAssignableFrom(currentFragmentState.clazz)) {
+                            android.app.Fragment fragment = getFragmentManager().findFragmentByTag(currentFragmentState.toString());
+                            if (fragment != null)
+                                getFragmentManager().beginTransaction()
+                                        .hide(fragment)
+                                        .commit();
+                        } else {
+                            Fragment fragment = getSupportFragmentManager().findFragmentByTag(currentFragmentState.toString());
+                            if (fragment != null)
+                                getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+                        }
+                    }
+                    if (PreferenceFragment.class.isAssignableFrom(clazz)) {
+                        PreferenceFragment fragment = (PreferenceFragment) clazz.newInstance();
+                        if (args != null)
+                            fragment.setArguments(args);
+                        getFragmentManager().beginTransaction()
+                                .replace(R.id.content, fragment, state.toString())
+                                .addToBackStack(null)
+                                .commit();
+                    } else {
+                        Fragment fragment = (Fragment) clazz.newInstance();
+                        fragment.setArguments(args);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.content, fragment, state.toString())
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                    currentFragmentState = state;
+                }
+            } else {
+                SimpleAppLog.error("Could not found fragment state for class " + clazz.getName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            SimpleAppLog.error("Could not switch fragment",e);
+        }
+    }
 }

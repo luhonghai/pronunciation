@@ -9,13 +9,11 @@
 package com.cmg.android.bbcaccent.http;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.activity.FeedbackActivity;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
@@ -61,10 +59,7 @@ public class UploadFeedbackAsync extends AsyncTask<Void, Void, String> {
 
     @Override
     protected void onPostExecute(String v) {
-        Intent intent = new Intent(FeedbackActivity.SEND_FEEDBACK_FINISH);
-        intent.putExtra(FeedbackActivity.SEND_FEEDBACK_FINISH, "true");
-        context.sendBroadcast(intent);
-        //Toast.makeText(context, "Completed", Toast.LENGTH_LONG).show();
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.FEEDBACK, null);
         super.onPostExecute(v);
     }
 

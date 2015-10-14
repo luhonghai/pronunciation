@@ -5,6 +5,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 
+import com.cmg.android.bbcaccent.MainApplication;
+
 import java.io.File;
 
 /**
@@ -42,6 +44,10 @@ public class FileHelper {
             dir.mkdirs();
         }
         return dir;
+    }
+
+    public static File getApplicationDir() {
+        return getApplicationDir(MainApplication.getContext());
     }
 
     public static File getApplicationDir(Context context) {
