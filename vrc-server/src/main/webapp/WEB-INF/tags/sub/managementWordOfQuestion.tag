@@ -21,7 +21,6 @@
   }
 
   .group-phoneme-weight{
-    height: 80px;
     overflow-x: auto;
     overflow-y: hidden;
   }
@@ -40,17 +39,22 @@
   #listWeightEdit input{
     margin: 0px 5px 5px 0;
   }
+
+  .back-wrapper{
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  #id-question{
+    display: none;
+  }
 </style>
 
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Management Word Of Question</h1>
-    </div>
-    <%String name="";%>
-    <!-- /.col-lg-12 -->
-    <div class="col-lg-12">
       <%
+        String name="";
         String id = request.getParameter("id");
         QuestionService ser = new QuestionService();
         Question wc = ser.getById(id);
@@ -58,7 +62,17 @@
           name = wc.getName();
         }
       %>
-      <h3 id="questionId"><%=name%></h3>
+      <h1 class="page-header">Word Of Question: <%=name%></h1>
+    </div>
+    <!-- /.col-lg-12 -->
+    <div class="col-lg-12 back-wrapper">
+      <span id="id-question"></span>
+      <button onclick="goBack()">Back to Management Question</button>
+      <script>
+        function goBack() {
+          window.history.back();
+        }
+      </script>
     </div>
   </div>
   <!-- /.row -->
@@ -67,7 +81,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add New Word</button>
+          <button type="button" id="add-word-of-question" name="addCode">Add New Word</button>
 
 
         </div>
@@ -131,8 +145,8 @@
 
                 <div class="row">
                   <div class="col-xs-4 col-sm-3">
-                    <div class="row"><label class="control-label ">Phonemes:</label></div>
-                    <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
+                    <div class="row"><label class="control-label phoneme-lable"></label></div>
+                    <div class="row"><label class="control-label weight-lable"></label></div>
                   </div>
                   <div class="col-xs-8 col-sm-9 group-phoneme-weight">
                     <div class="row" id="listPhonmes"></div>
