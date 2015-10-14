@@ -227,6 +227,7 @@ public class AWSHelper {
 //        System.out.println("Start downloading & unzip");
         //awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", new File("/Users/cmg/git/pronunciation/sphinx-data/tmp"));
         //awsHelper.download("", new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID()));
-//        System.out.println("Complete downloading & unzip");
+//        System.out.println("
+// downloading & unzip");
     }
 }
