@@ -155,7 +155,9 @@ function openPopupAdd(){
         $(".phoneme-lable").html("");
         $(".weight-lable").html("");
         $("#yesadd").attr("disabled", true);
-        $("#addWord").removeAttr("readonly");
+        $("#loadPhonemes").attr("disabled",false)
+        $("#addWord").attr("disabled",false);
+        //$("#addWord").removeAttr("readonly");
     });
 }
 
@@ -204,6 +206,8 @@ function addWord(){
         $("#loadPhonemes").attr("disabled",true);
         var word = $("#addWord").val();
         if (word == null || typeof word == "undefined" || word.length == 0){
+            $("#loadPhonemes").attr("disabled",false);
+            $("#addWord").focus();
             swal("Warning!", "Word not null!", "warning");
             return;
         }
@@ -219,12 +223,13 @@ function addWord(){
                 var message = data.message;
                 if(message.indexOf("success") != -1){
                     $("#addWord").attr("idWord", data.id);
-                    $("#loadPhonemes").attr("disabled",false);
+                    //$("#loadPhonemes").attr("disabled",true);
                     $(".phoneme-lable").html("Phonemes:");
                     $(".weight-lable").html("WeightPhonemes:");
                     $("#listPhonmes").html("");
                     $("#listWeight").html("");
-                    $("#addWord").attr("readonly","readonly");
+                    //$("#addWord").attr("readonly","readonly");
+                    $("#addWord").attr("disabled",true);
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
@@ -235,13 +240,14 @@ function addWord(){
                     });
                     $("#yesadd").attr("disabled", false);
                 }else{
-                    swal("Error!",message.split(":")[1], "error");
                     $("#loadPhonemes").attr("disabled",false);
                     $("#listPhonmes").html("");
                     $("#listWeight").html("");
                     $(".phoneme-lable").html("");
                     $(".weight-lable").html("");
                     $("#yesadd").attr("disabled", true);
+                    $("#addWord").focus();
+                    swal("Error!",message.split(":")[1], "error");
                 }
             },
             error: function () {

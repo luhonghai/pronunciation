@@ -47,8 +47,12 @@
   }
 
   .back-wrapper{
-    text-align: right;
-    margin-bottom: 10px;
+    display: inline-block;
+    float: right;
+  }
+
+  .back-wrapper a{
+    font-size: 17px;
   }
 
   #id-question{
@@ -71,14 +75,8 @@
       <h1 class="page-header">Word Of Question: <%=name%></h1>
     </div>
     <!-- /.col-lg-12 -->
-    <div class="col-lg-12 back-wrapper">
+    <div class="col-lg-12">
       <span id="id-question"></span>
-      <button onclick="goBack()">Back to Management Question</button>
-      <script>
-        function goBack() {
-          window.history.back();
-        }
-      </script>
     </div>
   </div>
   <!-- /.row -->
@@ -87,9 +85,13 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="add-word-of-question" name="addCode">Add New Word</button>
-
-
+          <button type="button" id="add-word-of-question" name="addCode">Add Word</button>
+          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to Management Question</a></span>
+          <script>
+            function goBack() {
+              window.history.back();
+            }
+          </script>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
