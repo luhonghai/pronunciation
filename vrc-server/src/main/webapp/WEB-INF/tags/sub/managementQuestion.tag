@@ -12,7 +12,7 @@
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 40px;text-align: left;">
+        <div class="form-group" style="margin-top: 32px;text-align: right;">
           <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
         </div>
       </div>

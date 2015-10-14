@@ -27,7 +27,7 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-        WordCollectionService wordCollectionService=new WordCollectionService();
+        WordCollectionService wordCollectionService = new WordCollectionService();
         WordOfQuestionService wordOfQuestionService = new WordOfQuestionService();
         Gson gson = new Gson();
         try {

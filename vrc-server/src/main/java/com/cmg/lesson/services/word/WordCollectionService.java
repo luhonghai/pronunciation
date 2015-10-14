@@ -22,9 +22,9 @@ public class WordCollectionService {
     private static final Logger logger = Logger.getLogger(WordCollectionService.class
             .getName());
 
-    private String SUCCESS = "success:";
+    private String SUCCESS = "success";
 
-    private String ERROR = "error:";
+    private String ERROR = "error";
 
     /**
      *

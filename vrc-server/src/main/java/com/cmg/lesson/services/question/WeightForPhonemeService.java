@@ -64,7 +64,6 @@ public class WeightForPhonemeService {
      *
      * @param idQuestion
      * @param idWord
-     * @param phoneme
      * @return
      */
     public boolean updateDeleted(String idQuestion, String idWord){
@@ -82,7 +81,7 @@ public class WeightForPhonemeService {
 
     /**
      *
-     * @param list
+     * @param dto
      * @return
      */
     public boolean addMapping(WeightPhonemesDTO dto){
