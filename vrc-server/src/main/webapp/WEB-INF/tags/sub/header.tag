@@ -60,7 +60,7 @@
 					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
 				<li>
-					<a href="#"><i class="fa fa-folder"></i> Lession</a>
+					<a href="#"><i class="fa fa-folder"></i> Lessons</a>
 					<ul>
 						<li>
 							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Management Word </a>

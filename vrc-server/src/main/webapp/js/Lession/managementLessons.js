@@ -13,7 +13,7 @@ function listLessons(){
         "bServerSide": true,
 
         "ajax": {
-            "url": "ManagementQuestionServlet",
+            "url": "ManagementLessonsServlet",
             "type": "POST",
             "dataType": "json",
             "data": {
@@ -75,7 +75,7 @@ function addLesson(){
             return;
         }
         $.ajax({
-            url: "ManagementQuestionServlet",
+            url: "ManagementLessonsServlet",
             type: "POST",
             dataType: "text",
             data: {
@@ -128,7 +128,7 @@ function deleteLesson(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
-            url: "ManagementQuestionServlet",
+            url: "ManagementLessonsServlet",
             type: "POST",
             dataType: "text",
             data: {
@@ -177,7 +177,7 @@ function editLesson(){
             return;
         }
         $.ajax({
-            url: "ManagementQuestionServlet",
+            url: "ManagementLessonsServlet",
             type: "POST",
             dataType: "text",
             data: {
@@ -210,7 +210,7 @@ function editLesson(){
 function searchAdvanted(){
     $(document).on("click","#button-filter", function(){
         myTable.fnSettings().ajax = {
-            "url": "ManagementQuestionServlet",
+            "url": "ManagementLessonsServlet",
             "type": "POST",
             "dataType": "json",
             "data": {

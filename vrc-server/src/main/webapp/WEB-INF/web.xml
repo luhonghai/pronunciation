@@ -290,6 +290,16 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>ManagementLessonsServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementLessonsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementLessonsServlet</servlet-name>
+        <url-pattern>/ManagementLessonsServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>ManagementWordOfQuestionServlet</servlet-name>
         <servlet-class>com.cmg.lesson.servlet.ManagementWordOfQuestionServlet</servlet-class>
     </servlet>
