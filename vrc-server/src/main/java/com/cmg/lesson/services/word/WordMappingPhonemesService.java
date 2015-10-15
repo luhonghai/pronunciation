@@ -191,7 +191,6 @@ public class WordMappingPhonemesService {
         String word = null;
         try {
             List<WordCollection> list = wcSer.listAll(false);
-
             if(list == null || list.size() == 0){
                 System.out.println("list equal null");
                 return;
@@ -206,6 +205,8 @@ public class WordMappingPhonemesService {
                     logger.info("add mapping word " + wc.getWord());
                     addMapping(wc.getId(), phonemes, version, false);
                     logger.info("==add success mapping word " + wc.getWord() +"====");
+                }else{
+                    logger.info("this word : " + word + " not in Beep Dictionary");
                 }
             }
         }catch (Exception e){
