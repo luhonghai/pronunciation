@@ -1,5 +1,6 @@
 package com.cmg.android.bbcaccent;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
@@ -9,37 +10,37 @@ import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.CursorAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.SearchView;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
-import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
-import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
-import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
-import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
+import com.cmg.android.bbcaccent.fragment.DetailFragment;
+import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
+import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
+import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
+import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
+import com.cmg.android.bbcaccent.fragment.tab.Preferences;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
@@ -62,9 +63,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SETTINGS(Preferences.class, ListMenuAdapter.MenuItem.SETTING),
         ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
         LICENCE(LicenceFragment.class, ListMenuAdapter.MenuItem.LICENCE),
-        FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK)
+        FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK),
+        FREE_STYLE_DETAIL(DetailFragment.class, null)
         ;
         Class<?> clazz;
+
         ListMenuAdapter.MenuItem menuItem;
 
         FragmentState(Class<?> clazz) {
@@ -98,6 +101,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private FragmentState currentFragmentState = FragmentState.NULL;
 
+    private FragmentState lastFragmentState = FragmentState.NULL;
+
     private DrawerLayout drawerLayout;
 
     private boolean isDrawerOpened;
@@ -119,6 +124,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private TextView txtUserName;
 
     private TextView txtUserEmail;
+
+    private int listenerId;
 
     public void syncService(){
         Gson gson = new Gson();
@@ -175,7 +182,24 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         accountManager = new AccountManager(this);
         checkProfile();
         syncService();
-        switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null);
+        switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
+        listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
+
+            @Override
+            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.SWITCH_FRAGMENT) {
+                    String className = bundle.getString(MainBroadcaster.Filler.Key.CLASS_NAME.toString());
+                    SwitchFragmentParameter parameter = null;
+                    if (bundle.containsKey(MainBroadcaster.Filler.Key.SWITCH_FRAGMENT_PARAMETER.toString())) {
+                        Gson gson = new Gson();
+                        parameter = gson.fromJson(bundle.getString(MainBroadcaster.Filler.Key.SWITCH_FRAGMENT_PARAMETER.toString()), SwitchFragmentParameter.class);
+                    }
+                    switchFragment(className, parameter, bundle);
+                } else if (filler == MainBroadcaster.Filler.POP_BACK_STACK_FRAGMENT) {
+                    popBackStackFragment();
+                }
+            }
+        });
     }
 
     private void initListMenu() {
@@ -215,34 +239,41 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         d.show();
                         break;
                     default:
-                        switchFragment(menuItem, null);
+                        switchFragment(menuItem, null, null);
                 }
             }
         });
         adapter.notifyDataSetChanged();
     }
 
-
+    private void onClickMenuButton() {
+        if (currentFragmentState == FragmentState.FREE_STYLE_DETAIL) {
+            popBackStackFragment();
+        } else {
+            if (isDrawerOpened) {
+                materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            } else {
+                materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        }
+    }
 
     private void initCustomActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(R.layout.main_action_bar);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(R.layout.main_action_bar);
+        }
         materialMenu = (MaterialMenuView) actionBar.getCustomView().findViewById(R.id.action_bar_menu);
         materialMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isDrawerOpened) {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
+                onClickMenuButton();
             }
         });
     }
@@ -260,7 +291,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
@@ -274,17 +305,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             //  searchView.setIconifiedByDefault(false);
             searchView.setOnQueryTextListener(this);
             searchView.setOnSuggestionListener(this);
-            try {
-                adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
-                        dbAdapter.getAll(),
+            adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
+                        null,
                         new String[]{"word", "pronunciation"},
                         new int[]{R.id.txtWord, R.id.txtPhoneme},
                         CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-                searchView.setSuggestionsAdapter(adapter);
-            } catch (LiteDatabaseException e) {
-                SimpleAppLog.error("Could not open word database", e);
-            }
-
+             searchView.setSuggestionsAdapter(adapter);
         }
         return true;
     }
@@ -294,16 +320,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
-                if (isDrawerOpened) {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
-                    drawerLayout.closeDrawer(Gravity.LEFT);
-                } else {
-                    materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
-                    drawerLayout.openDrawer(Gravity.LEFT);
-                }
+                onClickMenuButton();
                 break;
             case R.id.menu_feedback:
-                switchFragment(FragmentState.FEEDBACK, null);
+                switchFragment(FragmentState.FEEDBACK, null, null);
                 break;
         }
         return true;
@@ -329,22 +349,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     };
 
     private void updateQuery() {
-        final Cursor c;
         try {
-            c = dbAdapter.search(searchText);
-            if (c.getCount() > 0) {
-                runOnUiThread(new Runnable() {
+            final Cursor c = (searchText != null && searchText.length() > 0)  ? dbAdapter.search(searchText) : null;
+            runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        searchView.getSuggestionsAdapter().changeCursor(c);
-                        //searchView.getSuggestionsAdapter().notifyDataSetChanged();
+                            searchView.getSuggestionsAdapter().changeCursor(c);
+
                     }
-                });
-            }
+            });
         } catch (LiteDatabaseException e) {
             SimpleAppLog.error("Could not open word database",e);
         }
-
     }
 
     private Handler updateQueryHandler = new Handler();
@@ -353,19 +369,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextChange(String s) {
-        if (s.length() > 0) {
-            searchText = s;
-            updateQueryHandler.removeCallbacks(updateQueryRunnable);
-            updateQueryHandler.postDelayed(updateQueryRunnable, 200);
-            //updateQuery();
-            return true;
-        }
-        return false;
+        searchText = s;
+        updateQueryHandler.removeCallbacks(updateQueryRunnable);
+        updateQueryHandler.postDelayed(updateQueryRunnable, 200);
+        //updateQuery();
+        return true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        MainBroadcaster.getInstance().unregister(listenerId);
         updateQueryHandler.removeCallbacksAndMessages(null);
     }
 
@@ -398,7 +412,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             });
             dialogHelp.show();
             Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
-            switchFragment(FragmentState.HELP, null);
+            switchFragment(FragmentState.HELP, null, null);
         } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
             AppLog.logString("Display help dialog");
             showHelpDialog();
@@ -503,7 +517,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchFragment(FragmentState.HELP, null);
+                switchFragment(FragmentState.HELP, null, null);
                 dialog.dismiss();
             }
         });
@@ -514,34 +528,58 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         dialog.show();
     }
 
-    private void switchFragment(ListMenuAdapter.MenuItem menuItem, Bundle args) {
+    private void switchFragment(ListMenuAdapter.MenuItem menuItem, SwitchFragmentParameter parameter, Bundle args) {
         FragmentState state = FragmentState.fromMenuItem(menuItem);
         if (state != null) {
-            switchFragment(state, args);
+            switchFragment(state, parameter, args);
         } else {
             SimpleAppLog.error("Could not found fragment state of menu item " + menuItem.toString());
         }
     }
 
-    private void switchFragment(FragmentState state, Bundle args) {
+    private void switchFragment(FragmentState state, SwitchFragmentParameter parameter, Bundle args) {
         if (state.clazz == null) {
             SimpleAppLog.error("Could not found fragment state");
         } else {
-            switchFragment(state.clazz, args);
+            switchFragment(state.clazz, parameter, args);
         }
     }
 
-    private void switchFragment(String className, Bundle args) {
+    private void switchFragment(String className,SwitchFragmentParameter parameter, Bundle args) {
         try {
             Class<?> clazz = Class.forName(className);
-            switchFragment(clazz, args);
+            switchFragment(clazz, parameter, args);
         } catch (ClassNotFoundException e) {
             SimpleAppLog.error("Could not found fragment class " + className,e);
         }
     }
 
-    private void switchFragment(Class<?> clazz, Bundle args) {
+    private void popBackStackFragment() {
+        if (android.app.Fragment.class.isAssignableFrom(currentFragmentState.clazz)) {
+            findViewById(R.id.contentV4).setVisibility(View.GONE);
+            findViewById(R.id.content).setVisibility(View.VISIBLE);
+            getFragmentManager().popBackStackImmediate();
+        } else {
+            findViewById(R.id.contentV4).setVisibility(View.VISIBLE);
+            findViewById(R.id.content).setVisibility(View.GONE);
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+        currentFragmentState = lastFragmentState;
+        switch (currentFragmentState) {
+            case FREE_STYLE_DETAIL:
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
+                break;
+            default:
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                materialMenu.animateState(MaterialMenuDrawable.IconState.BURGER);
+                break;
+        }
+    }
+
+    private void switchFragment(Class<?> clazz, SwitchFragmentParameter parameter, Bundle args) {
         try {
+            if (parameter == null) parameter = new SwitchFragmentParameter();
             SimpleAppLog.debug("Switch to fragment class " + clazz.getName());
             FragmentState state = FragmentState.fromFragmentClassName(clazz.getName());
             if (state != FragmentState.NULL) {
@@ -563,43 +601,113 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             }
                             break;
                     }
-                    if (currentFragmentState != FragmentState.NULL) {
-                        if (PreferenceFragment.class.isAssignableFrom(currentFragmentState.clazz)) {
-                            android.app.Fragment fragment = getFragmentManager().findFragmentByTag(currentFragmentState.toString());
-                            if (fragment != null)
-                                getFragmentManager().beginTransaction()
-                                        .hide(fragment)
-                                        .commit();
-                        } else {
-                            Fragment fragment = getSupportFragmentManager().findFragmentByTag(currentFragmentState.toString());
-                            if (fragment != null)
-                                getSupportFragmentManager().beginTransaction().hide(fragment).commit();
-                        }
-                    }
-                    if (PreferenceFragment.class.isAssignableFrom(clazz)) {
-                        PreferenceFragment fragment = (PreferenceFragment) clazz.newInstance();
-                        if (args != null)
+                    if (android.app.Fragment.class.isAssignableFrom(clazz)) {
+                        findViewById(R.id.contentV4).setVisibility(View.GONE);
+                        findViewById(R.id.content).setVisibility(View.VISIBLE);
+                        android.app.Fragment fragment = getFragmentManager().findFragmentByTag(state.toString());
+                        if (fragment == null || parameter.isCreateNew()) {
+                            fragment = (android.app.Fragment) clazz.newInstance();
                             fragment.setArguments(args);
-                        getFragmentManager().beginTransaction()
-                                .replace(R.id.content, fragment, state.toString())
-                                .addToBackStack(null)
-                                .commit();
+
+                        }
+                        android.app.FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        if (parameter.isAddToBackStack())
+                            transaction.addToBackStack(state.toString());
+                        if (parameter.isUseAnimation())
+                            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                                    R.anim.enter_from_left, R.anim.exit_to_right);
+                        transaction.replace(R.id.content, fragment, state.toString());
+                        transaction.commit();
                     } else {
-                        Fragment fragment = (Fragment) clazz.newInstance();
-                        fragment.setArguments(args);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.content, fragment, state.toString())
-                                .addToBackStack(null)
-                                .commit();
+                        findViewById(R.id.contentV4).setVisibility(View.VISIBLE);
+                        findViewById(R.id.content).setVisibility(View.GONE);
+                        Fragment fragment = getSupportFragmentManager().findFragmentByTag(state.toString());
+                        if (fragment == null || parameter.isCreateNew()) {
+                            fragment = (Fragment) clazz.newInstance();
+                            fragment.setArguments(args);
+                        }
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        if (parameter.isAddToBackStack())
+                            transaction.addToBackStack(state.toString());
+                        if (parameter.isUseAnimation())
+                            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
+                                    R.anim.enter_from_left, R.anim.exit_to_right);
+                        transaction.replace(R.id.contentV4, fragment, state.toString());
+                        transaction.commit();
                     }
+                    switch (state) {
+                        case FREE_STYLE_DETAIL:
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                            materialMenu.animateState(MaterialMenuDrawable.IconState.ARROW);
+                            break;
+                        default:
+                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                            materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
+                            break;
+                    }
+                    lastFragmentState = currentFragmentState;
                     currentFragmentState = state;
                 }
             } else {
                 SimpleAppLog.error("Could not found fragment state for class " + clazz.getName());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             SimpleAppLog.error("Could not switch fragment",e);
+        }
+    }
+
+    public static class SwitchFragmentParameter {
+
+        private boolean useAnimation = false;
+
+        private boolean addToBackStack = false;
+
+        private boolean createNew = false;
+
+        public SwitchFragmentParameter() {}
+
+        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack) {
+            this.useAnimation = useAnimation;
+            this.addToBackStack = addToBackStack;
+        }
+
+        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack, boolean createNew) {
+            this(useAnimation, addToBackStack);
+            this.createNew = createNew;
+        }
+
+        public boolean isUseAnimation() {
+            return useAnimation;
+        }
+
+        public void setUseAnimation(boolean useAnimation) {
+            this.useAnimation = useAnimation;
+        }
+
+        public boolean isAddToBackStack() {
+            return addToBackStack;
+        }
+
+        public void setAddToBackStack(boolean addToBackStack) {
+            this.addToBackStack = addToBackStack;
+        }
+
+        public boolean isCreateNew() {
+            return createNew;
+        }
+
+        public void setCreateNew(boolean createNew) {
+            this.createNew = createNew;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentFragmentState == FragmentState.FREE_STYLE_DETAIL) {
+            popBackStackFragment();
+            return;
+        } else {
+            super.onBackPressed();
         }
     }
 }

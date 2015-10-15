@@ -1,7 +1,6 @@
 package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -25,7 +23,6 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
-import com.cmg.android.bbcaccent.adapter.PhoneScoreItemAdapter;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
@@ -45,7 +42,6 @@ import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
-import com.cmg.android.bbcaccent.view.PopoverView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
@@ -63,7 +59,7 @@ import it.sephiroth.android.library.widget.HListView;
 /**
  * Created by luhonghai on 12/22/14.
  */
-public class DetailActivity extends BaseFragment implements View.OnClickListener, RecordingView.OnAnimationListener {
+public class DetailFragment extends BaseFragment implements View.OnClickListener, RecordingView.OnAnimationListener {
 
     enum DisplayingState {
         DEFAULT,
@@ -201,7 +197,7 @@ public class DetailActivity extends BaseFragment implements View.OnClickListener
     }
 
     private void closeDetail() {
-
+        MainBroadcaster.getInstance().getSender().sendPopBackStackFragment();
     }
 
     private void showPhonemesListView() {
@@ -251,7 +247,7 @@ public class DetailActivity extends BaseFragment implements View.OnClickListener
             recordingView.setScore(0.0f);
             recordingView.recycle();
             recordingView.invalidate();
-            recordingView.startPingAnimation(getActivity(), 2000, model.getScore(), true, true);
+            recordingView.startPingAnimation(getActivity(), 1000, model.getScore(), true, true);
         }
     }
 
@@ -287,7 +283,7 @@ public class DetailActivity extends BaseFragment implements View.OnClickListener
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         Bundle bundle = new Bundle();
-        bundle.putString(FragmentTab.ARG_WORD, model.getWord());
+        bundle.putString(MainBroadcaster.Filler.Key.WORD.toString(), model.getWord());
         Gson gson = new Gson();
         bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
 
@@ -434,73 +430,6 @@ public class DetailActivity extends BaseFragment implements View.OnClickListener
                 dialog.dismiss();
             }
         }, 10000);
-    }
-
-    @Deprecated
-    private void showPopup(View v) {
-        View root = getView();
-        if (root == null) return;
-        final SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
-        final float totalScore = score.getTotalScore();
-        RelativeLayout rootView = (RelativeLayout) root.findViewById(R.id.content);
-        PopoverView popoverView = new PopoverView(getActivity(), R.layout.popover_showed_view);
-        popoverView.setContentSizeForViewInPopover(new Point(440, 260));
-        popoverView.setDelegate(new PopoverView.PopoverViewDelegate() {
-            @Override
-            public void popoverViewWillShow(PopoverView view) {
-
-            }
-
-            @Override
-            public void popoverViewDidShow(PopoverView view) {
-                RecordingView recordingView = (RecordingView) view.findViewById(R.id.cyclePhoneScore);
-                if (recordingView != null) {
-                    recordingView.setScore(totalScore);
-                    recordingView.showScore();
-                    recordingView.setOnClickListener(DetailActivity.this);
-                } else {
-                    AppLog.logString("No score view found");
-                }
-
-                TextView textView = (TextView) view.findViewById(R.id.txtTotalPhonemeScore);
-                if (textView != null) {
-                    textView.setOnClickListener(DetailActivity.this);
-                    if (totalScore > 80.0f) {
-                        textView.setTextColor(getResources().getColor(R.color.app_green));
-                    } else if (totalScore >= 45.0f) {
-                        textView.setTextColor(getResources().getColor(R.color.app_orange));
-                    } else {
-                        textView.setTextColor(getResources().getColor(R.color.app_red));
-                    }
-                    textView.setText(Math.round(totalScore) + "% like " + score.getName().toUpperCase());
-                }
-                List<SphinxResult.PhonemeScoreUnit> scoreItems = score.getPhonemes();
-                if (scoreItems != null && scoreItems.size() > 0) {
-                    SphinxResult.PhonemeScoreUnit[] scoreItemArray = new SphinxResult.PhonemeScoreUnit[scoreItems.size()];
-                    scoreItems.toArray(scoreItemArray);
-                    ListView listView = (ListView) view.findViewById(R.id.listViewScoreItem);
-                    PhoneScoreItemAdapter adapter = new PhoneScoreItemAdapter(getActivity(), scoreItemArray);
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void popoverViewWillDismiss(PopoverView view) {
-
-            }
-
-            @Override
-            public void popoverViewDidDismiss(PopoverView view) {
-                RecordingView recordingView = (RecordingView) view.findViewById(R.id.cyclePhoneScore);
-                if (recordingView != null) {
-                    try {
-                        recordingView.recycle();
-                    } catch (Exception ex) {}
-                }
-            }
-        });
-        popoverView.showPopoverFromRectInViewGroup(rootView, PopoverView.getFrameForView(v), PopoverView.PopoverArrowDirectionDown, true);
     }
 
     private void play(String file) {

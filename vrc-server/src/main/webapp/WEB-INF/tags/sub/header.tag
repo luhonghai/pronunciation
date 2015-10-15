@@ -67,7 +67,10 @@
 						</li>
 
 						<li>
-							<a href="ManagementQuestion.jsp" ><i class="fa fa-file-word-o"></i> Management Question </a>
+							<a href="ManagementQuestion.jsp" ><i class="fa fa-question-circle"></i> Management Question </a>
+						</li>
+						<li>
+							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Management Lessons </a>
 						</li>
 					</ul>
 				</li>
@@ -78,11 +81,6 @@
 					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
 				</li>
 
-
-				<li>
-					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
-				</li>
-
 				<li>
 					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
 
@@ -91,6 +89,10 @@
 
 				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+				</li>
+
+				<li>
+					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 
 				<li>

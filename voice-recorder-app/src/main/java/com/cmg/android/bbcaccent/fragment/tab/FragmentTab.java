@@ -12,8 +12,6 @@ public abstract class FragmentTab extends Fragment {
     public static final int TYPE_DISABLE_VIEW = 2;
     public static final int TYPE_SELECT_PHONEME_GRAPH = 3;
 
-    public static final String ARG_WORD = "word";
-
     protected boolean isLoadedView = false;
 
     private int receiverListenerId;

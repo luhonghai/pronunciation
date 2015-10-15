@@ -9,15 +9,15 @@
     <string name="upload_recording">Upload</string>
     <string name="audio_format">Format</string>
 
-    <string name="upload_url">http://192.168.1.45:8080/recordedsentence</string>
-    <string name="auth_url">http://192.168.1.45:8080/AuthHandler</string>
-    <string name="register_url">http://192.168.1.45:8080/RegisterHandler</string>
-    <string name="activation_url">http://192.168.1.45:8080/activate</string>
-    <string name="feedback_url">http://192.168.1.45:8080/FeedbackHandler</string>
-    <string name="license_url">http://192.168.1.45:8080/LicenseHandler</string>
-    <string name="reset_password_url">http://192.168.1.45:8080/ResetPasswordHandler</string>
-    <string name="transcription_url">http://192.168.1.45:8080/transcription</string>
-    <string name="recorder_url">http://192.168.1.45:8080/RecorderServlet</string>
+    <!--<string name="upload_url">http://192.168.1.45:8080/recordedsentence</string>-->
+    <!--<string name="auth_url">http://192.168.1.45:8080/AuthHandler</string>-->
+    <!--<string name="register_url">http://192.168.1.45:8080/RegisterHandler</string>-->
+    <!--<string name="activation_url">http://192.168.1.45:8080/activate</string>-->
+    <!--<string name="feedback_url">http://192.168.1.45:8080/FeedbackHandler</string>-->
+    <!--<string name="license_url">http://192.168.1.45:8080/LicenseHandler</string>-->
+    <!--<string name="reset_password_url">http://192.168.1.45:8080/ResetPasswordHandler</string>-->
+    <!--<string name="transcription_url">http://192.168.1.45:8080/transcription</string>-->
+    <!--<string name="recorder_url">http://192.168.1.45:8080/RecorderServlet</string>-->
 
 
 
@@ -32,15 +32,15 @@
     <!--<string name="recorder_url">http://c-mg.vn/vrc/RecorderServlet</string>-->
 
 
-    <!--<string name="upload_url">http://accenteasytomcat-sat.elasticbeanstalk.com/recordedsentence</string>-->
-    <!--<string name="auth_url">http://accenteasytomcat-sat.elasticbeanstalk.com/AuthHandler</string>-->
-    <!--<string name="register_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RegisterHandler</string>-->
-    <!--<string name="activation_url">http://accenteasytomcat-sat.elasticbeanstalk.com/activate</string>-->
-    <!--<string name="feedback_url">http://accenteasytomcat-sat.elasticbeanstalk.com/FeedbackHandler</string>-->
-    <!--<string name="license_url">http://accenteasytomcat-sat.elasticbeanstalk.com/LicenseHandler</string>-->
-    <!--<string name="reset_password_url">http://accenteasytomcat-sat.elasticbeanstalk.com/ResetPasswordHandler</string>-->
-    <!--<string name="transcription_url">http://accenteasytomcat-sat.elasticbeanstalk.com/transcription</string>-->
-    <!--<string name="recorder_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RecorderServlet</string>-->
+    <string name="upload_url">http://accenteasytomcat-sat.elasticbeanstalk.com/recordedsentence</string>
+    <string name="auth_url">http://accenteasytomcat-sat.elasticbeanstalk.com/AuthHandler</string>
+    <string name="register_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RegisterHandler</string>
+    <string name="activation_url">http://accenteasytomcat-sat.elasticbeanstalk.com/activate</string>
+    <string name="feedback_url">http://accenteasytomcat-sat.elasticbeanstalk.com/FeedbackHandler</string>
+    <string name="license_url">http://accenteasytomcat-sat.elasticbeanstalk.com/LicenseHandler</string>
+    <string name="reset_password_url">http://accenteasytomcat-sat.elasticbeanstalk.com/ResetPasswordHandler</string>
+    <string name="transcription_url">http://accenteasytomcat-sat.elasticbeanstalk.com/transcription</string>
+    <string name="recorder_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RecorderServlet</string>
 
     <string name="tips_url">http://services.c-mg.vn/file/Dictionary/tips.json</string>
     <string name="action_random">Just a random icon</string>
@@ -173,4 +173,6 @@
     <string name="sentenceDeleteOrEdit">Your uploaded sentence(s) has been edited or deleted, please logout and login again to get their latest update</string>
     <string name="resetpassword">Please contact Administrator to reset your password</string>
     <string name="passwordforgot">forgot password</string>
+    <string name="appname">RP accent training</string>
+    <string name="datachange">sentence have change</string>
 </resources>

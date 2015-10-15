@@ -9,7 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.DetailActivity;
+import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.data.TipsContainer;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
@@ -70,7 +70,7 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
         btnRecord.setOnClickListener(this);
         isLoadedView = true;
         Bundle bundle = getArguments();
-        updateTip(bundle == null ? null : bundle.getString(DetailActivity.USER_VOICE_MODEL));
+        updateTip(bundle == null ? null : bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()));
         return v;
     }
 
