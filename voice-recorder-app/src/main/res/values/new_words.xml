@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
  <string-array name="words_list"> 
+ 	<!-- Custom words -->
+  <item>
+  	jumped| |true
+  </item>
+  <item>
+  	shouted| |true
+  </item>
+  <item>
+  	foiled| |true
+  </item>
+  <item>
+  	created| |true
+  </item>
+  <item>
+  	Britian| |true
+  </item>
+  <item>
+  	England| |true
+  </item>
+  <item>
+  	Parsee| |true
+  </item>
+  <item>
+  	Usquebaugh| |true
+  </item>
   <item>
    aardvark|\ˈɑːdvɑːk|true
   </item> 

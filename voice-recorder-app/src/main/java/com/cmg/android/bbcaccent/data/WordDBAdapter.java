@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 
 import org.apache.commons.io.IOUtils;
 
@@ -177,6 +178,38 @@ public class WordDBAdapter {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+
+    public DictionaryItem get(String word) throws SQLException
+    {
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE, new String[] {
+                                KEY_ROWID,
+                                KEY_WORD,
+                                KEY_BEEP,
+                                KEY_PRONUNCIATION
+                        },
+                        KEY_WORD + "= ?",
+                        new String[] {word},
+                        null,
+                        null,
+                        null,
+                        null);
+        if (mCursor != null && mCursor.moveToFirst()) {
+            try {
+                DictionaryItem item = new DictionaryItem();
+                boolean isBeep = mCursor.getInt(mCursor.getColumnIndex(KEY_BEEP)) == 1;
+                item.setWord(mCursor.getString(mCursor.getColumnIndex(KEY_WORD)));
+                item.setPronunciation(mCursor.getString(mCursor.getColumnIndex(KEY_PRONUNCIATION)));
+                if (isBeep)
+                    return item;
+            } finally {
+                {
+                    mCursor.close();
+                }
+            }
+        }
+        return null;
     }
 
     public boolean isBeep(String word) throws SQLException

@@ -3,7 +3,10 @@ package com.cmg.android.bbcaccent.dictionary;
 import android.content.Context;
 
 import com.cmg.android.bbcaccent.AppLog;
+import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.data.WordDBAdapter;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.utils.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
@@ -133,16 +136,11 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
                 FileUtils.write(new File(getTargetDir(), word + ".json"), gson.toJson(item), "UTF-8");
                 onDetectWord(item);
             } else {
-                onWordNotFound(item,
-                        new FileNotFoundException(
-                                "Word title not matched. Found: "
-                                        + mTitle
-                                        + ". Actual: "
-                                        + word));
+                foundWordFromDb(word);
             }
 
         } catch (FileNotFoundException fnex) {
-            onWordNotFound(item, fnex);
+            foundWordFromDb(word);
         } catch (IOException e) {
             onError(item, "Could not download URL: " + url, e);
         } catch (Exception e) {
@@ -154,6 +152,30 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
             } catch (IOException e) {
                 //logger.log(Level.WARNING, "Could not delete temp file " + tmpSource, e);
             }
+        }
+    }
+
+    private void foundWordFromDb(String word) {
+        DictionaryItem item = new DictionaryItem(word);
+        boolean found = false;
+        WordDBAdapter dbAdapter = WordDBAdapter.getInstance(MainApplication.getContext());
+        try {
+            dbAdapter.open();
+            item = dbAdapter.get(word);
+            if (item != null) {
+                found = true;
+                FileUtils.write(new File(getTargetDir(), word + ".json"), gson.toJson(item), "UTF-8");
+                onDetectWord(item);
+            }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not get word form database",e);
+        } finally {
+            dbAdapter.close();
+        }
+        if (!found) {
+            onWordNotFound(item,
+                    new FileNotFoundException(
+                            "No word found from database"));
         }
     }
 
