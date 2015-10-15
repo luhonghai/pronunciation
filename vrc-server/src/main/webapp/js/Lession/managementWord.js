@@ -2,8 +2,6 @@
  * Created by CMGT400 on 10/5/2015.
  */
 var myTable;
-var iphonemes=0;
-var iphonemess=0;
 var listPhoneme;
 
 function listTranscription(){
@@ -212,7 +210,7 @@ function edit(){
         $("#editWord").val(word);
         $("#editPronunciation").val(pronunciation);
         $("#editPhoneme").val("");
-
+        if(word!=null && typeof word!="undefined" && word.length>0){
         $.ajax({
             url: "ManagementWordServlet",
             type: "POST",
@@ -241,6 +239,9 @@ function edit(){
             }
 
         });
+        }else{
+            swal("Warning!", "Word not null!", "warning");
+        }
 
     });
 
