@@ -78,11 +78,6 @@
 					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
 				</li>
 
-
-				<li>
-					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Pronunciation Score </a>
-				</li>
-
 				<li>
 					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
 
@@ -91,6 +86,10 @@
 
 				<li>
 					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+				</li>
+
+				<li>
+					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 
 				<li>

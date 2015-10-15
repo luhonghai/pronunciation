@@ -4,18 +4,27 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="@android:color/white">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|center_vertical">
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:paddingTop="@dimen/dialog_logo_padding_top"
             android:paddingBottom="@dimen/dialog_logo_padding_bottom"
-            android:src="@drawable/accenteasy_icon_text"
+            android:src="@drawable/app_icon"
             />
-    </RelativeLayout>
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:text="@string/appname"/>
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1"
@@ -69,13 +78,13 @@
         android:padding="5dp"
         android:text="@string/lostpassword"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
-    <TextView
-        android:id="@+id/txtTermAndCondition"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/txtTermCondition"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+    <!--<TextView-->
+        <!--android:id="@+id/txtTermAndCondition"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="5dp"-->
+        <!--android:text="@string/txtTermCondition"-->
+        <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
 </LinearLayout>

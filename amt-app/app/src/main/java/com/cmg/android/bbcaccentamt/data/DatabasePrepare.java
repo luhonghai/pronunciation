@@ -14,6 +14,7 @@ import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.common.Common;
 import com.cmg.android.bbcaccentamt.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccentamt.http.ResponseData;
+import com.cmg.android.bbcaccentamt.utils.AndroidHelper;
 import com.cmg.android.bbcaccentamt.utils.FileHelper;
 import com.cmg.android.bbcaccentamt.utils.SimpleAppLog;
 import com.google.gson.Gson;
@@ -97,18 +98,40 @@ public class DatabasePrepare {
 
     private void loadTranscription(){
         File sentenceDbFolder = new File(FileHelper.getApplicationDir(context), "databases");
+        String versionnew= AndroidHelper.getVersionName(context);
+        File fileVersion = new File(sentenceDbFolder, "version");
         if (!sentenceDbFolder.exists()) {
             sentenceDbFolder.mkdirs();
         }
+        boolean willOverride = false;
         File sentenceDb = new File(sentenceDbFolder, "sentencesManager");
-        if (!sentenceDb.exists()) {
-            SimpleAppLog.info("Try to preload sqlite database");
+        SimpleAppLog.info("Current db version: " + versionnew);
+        if (!sentenceDb.exists()) willOverride = true;
+        if (!fileVersion.exists()) {
             try {
-                //FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
-            } catch (Exception e) {
-                SimpleAppLog.error("Could not save database from asset",e);
+                String oldVersion = FileUtils.readFileToString(fileVersion, "UTF-8");
+                SimpleAppLog.info("Old version: " + oldVersion);
+                if (!oldVersion.equalsIgnoreCase(versionnew)) {
+                    willOverride = true;
+                }
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read old version",e);
             }
+        } else {
+            willOverride = true;
         }
+        SimpleAppLog.info("fileVersion :"+fileVersion);
+            if (willOverride) {
+                SimpleAppLog.info("Try to preload sqlite database");
+                try {
+                    FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+                    FileUtils.writeStringToFile(fileVersion, versionnew, "UTF-8", true);
+                } catch (Exception e) {
+                    SimpleAppLog.error("Could not save database from asset",e);
+                }
+                SimpleAppLog.info("Save new version to :"+fileVersion);
+            }
+
         DatabaseHandlerSentence dbHandleStc=new DatabaseHandlerSentence(context);
         File tmpFile = new File(FileUtils.getTempDirectory(), "transcriptions.json");
         try {

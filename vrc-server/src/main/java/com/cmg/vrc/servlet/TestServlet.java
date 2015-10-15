@@ -121,13 +121,14 @@ public class TestServlet {
 ////        }
 
 
-        QuestionService questionSER=new QuestionService();
-        try {
-            System.out.println(questionSER.addQuestionToDB("bai 3").getMessage());
+//        QuestionService questionSER=new QuestionService();
+//        try {
+//            System.out.println(questionSER.addQuestionToDB("bai 3").getMessage());
+//
+//        }catch (Exception e){
+//            e.printStackTrace();;
+//        }
 
-        }catch (Exception e){
-            e.printStackTrace();;
-        }
 //
 //
 //
