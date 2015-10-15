@@ -21,8 +21,8 @@ import java.util.List;
 public class ListMenuAdapter extends BaseAdapter {
 
     public enum MenuItem {
-        FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_about),
-        LESSON(R.string.menu_lesson, R.drawable.p_menu_about),
+        FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_freestyle),
+        LESSON(R.string.menu_lesson, R.drawable.p_menu_lesson),
         HELP(R.string.menu_help, R.drawable.p_menu_help),
         SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),
