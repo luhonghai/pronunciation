@@ -207,7 +207,7 @@ function edit(){
         $("#editPath").val(mp3Path);
         $("#editWord").val(word);
         $("#editPronunciation").val(pronunciation);
-
+        $("#editPhoneme").val("");
 
         $.ajax({
             url: "ManagementWordServlet",
