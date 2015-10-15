@@ -121,6 +121,7 @@ function addWord(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#add").modal('hide');
+                        swal("Success!", "This word has been added!", "success");
                     }
                     if(messages.message.indexOf("error")!=-1){
                         swal("Error!", messages.message, "error");
@@ -184,6 +185,9 @@ function deleteWord(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Deleted!", "This word has been deleted!", "success");
+                }else{
+                    swal("Error!", messages.message.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -207,7 +211,7 @@ function edit(){
         $("#editPath").val(mp3Path);
         $("#editWord").val(word);
         $("#editPronunciation").val(pronunciation);
-
+        $("#editPhoneme").val("");
 
         $.ajax({
             url: "ManagementWordServlet",
@@ -278,9 +282,10 @@ function editWord(){
                 if (messages.message.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
+                    swal("Updated!", "This word has been updated!", "success");
                     $("#edits").modal('hide');
                 }else{
-                    swal("Error!", "Could not connect to server", "error");
+                    swal("Error!", messages.message, "error");
                 }
 
             },

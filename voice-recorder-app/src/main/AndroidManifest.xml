@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
@@ -39,13 +38,13 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".SplashScreen"
+            android:name=".SplashActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sherlock.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,7 +57,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sherlock.Light.NoActionBar"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="stateHidden|adjustPan"  >
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -71,56 +70,23 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Default"
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+        </activity>
+        <activity
+            android:name=".fragment.DetailFragment"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Default"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".activity.DetailActivity"
-            android:configChanges="orientation"
-            android:label="detail"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Default" >
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:configChanges="orientation"
-            android:label="settings"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Default" >
-        </activity>
-        <activity
-            android:name=".activity.info.AboutActivity"
-            android:configChanges="orientation"
-            android:label="about"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Default" >
-        </activity>
-        <activity
-            android:name=".activity.info.LicenceActivity"
-            android:configChanges="orientation"
-            android:label="licence"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Default" >
-        </activity>
-        <activity
-            android:name=".activity.info.HelpActivity"
-            android:configChanges="orientation"
-            android:label="help"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Sherlock.Light.NoActionBar" >
-        </activity>
-        <activity
-            android:name=".activity.FeedbackActivity"
+            android:name=".FeedbackActivity"
             android:configChanges="orientation"
             android:label="feedback"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Default"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
 

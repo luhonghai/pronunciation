@@ -35,7 +35,8 @@ import android.content.pm.PackageManager;
 import android.media.AudioRecord;
 import android.os.Environment;
 
-import com.cmg.android.bbcaccent.AppLog;
+import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 import org.apache.commons.io.FileUtils;
 
@@ -44,8 +45,6 @@ import be.tarsos.dsp.io.TarsosDSPAudioInputStream;
 
 public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
     private static final int RECORDER_BPP = 16;
-
-
 
     private static final String AUDIO_RECORDER_FOLDER = "AudioRecorder";
     private static final String AUDIO_RECORDER_OUTPUT_FILE = "record_temp.wav";
@@ -125,7 +124,11 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
 
     public void deleteTempFile() {
         if (tmpFile != null && tmpFile.exists()) {
-            tmpFile.delete();
+            try {
+                FileUtils.forceDelete(tmpFile);
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not delete temp file " + tmpFile,e);
+            }
         }
     }
 
@@ -254,11 +257,7 @@ public class AndroidAudioInputStream implements TarsosDSPAudioInputStream{
             file.mkdirs();
         }
         tmpFile = new File(file,AUDIO_RECORDER_TEMP_FILE);
-
-//        if(tempFile.exists())
-//            tempFile.delete();
-
-        return (file.getAbsolutePath() + "/" + AUDIO_RECORDER_TEMP_FILE);
+        return tmpFile.getAbsolutePath();
     }
 
 

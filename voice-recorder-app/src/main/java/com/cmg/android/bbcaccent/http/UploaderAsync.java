@@ -9,11 +9,11 @@
 package com.cmg.android.bbcaccent.http;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 
 
 import com.cmg.android.bbcaccent.http.exception.UploaderException;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @Last changed: $LastChangedDate$
  */
 public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> {
-    public static final String UPLOAD_COMPLETE_INTENT = "com.cmg.android.bbcaccent.UploaderAysncT";
+
     private final Context context;
     private final String uploadUrl;
     public UploaderAsync(Context context, String uploadUrl) {
@@ -60,9 +60,7 @@ public class UploaderAsync extends AsyncTask<Map<String, String>, Void, String> 
 
     @Override
     protected void onPostExecute(String v) {
-        Intent intent = new Intent(UPLOAD_COMPLETE_INTENT);
-        intent.putExtra(UPLOAD_COMPLETE_INTENT, v);
-        context.sendBroadcast(intent);
+        MainBroadcaster.getInstance().getSender().sendOnUserVoiceModelFound(v);
         super.onPostExecute(v);
     }
 

@@ -50,7 +50,8 @@ public class WeightForPhonemeDAO extends DataAccess<WeightForPhoneme> {
      * @throws Exception
      */
     public List<WeightForPhoneme> listBy(String idQuestion, String idWord) throws Exception{
-        List<WeightForPhoneme> list = list("WHERE idQuestion == :1 && idWordCollection == :2 && isDeleted == :3",idQuestion,idWord,false);
+        List<WeightForPhoneme> list = list("WHERE idQuestion == :1 && idWordCollection == :2 && isDeleted == :3",
+                idQuestion,idWord,false,"index asc");
         if(list!=null && list.size() > 0){
             return list;
         }

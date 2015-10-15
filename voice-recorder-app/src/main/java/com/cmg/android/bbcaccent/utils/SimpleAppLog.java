@@ -14,7 +14,7 @@ import io.fabric.sdk.android.Fabric;
  */
 public class SimpleAppLog {
 
-    private static final String TAG = "BBC accent";
+    private static final String TAG = "accenteasy";
 
     public static void info(String log) {
         //Log.i(TAG, log);

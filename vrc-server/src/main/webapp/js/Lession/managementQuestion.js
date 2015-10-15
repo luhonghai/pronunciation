@@ -63,6 +63,11 @@ function dateTo(){
 function addquestion(){
     $(document).on("click","#yesadd", function(){
         var question = $("#addquestion").val();
+        if (question == null || typeof question == "undefined" || question.length == 0){
+            $("#addquestion").focus();
+            swal("Warning!", "Question not null!", "warning");
+            return;
+        }
         $.ajax({
             url: "ManagementQuestionServlet",
             type: "POST",
@@ -156,7 +161,11 @@ function EditQuestion(){
 
         var id = $("#idedit").val();
         var question = $("#editquestion").val();
-
+        if (question == null || typeof question == "undefined" || question.length == 0){
+            $("#addquestion").focus();
+            swal("Warning!", "Question not null!", "warning");
+            return;
+        }
         $.ajax({
             url: "ManagementQuestionServlet",
             type: "POST",
