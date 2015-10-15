@@ -3,13 +3,23 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TableLayout
-        android:id="@+id/content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
-    </TableLayout>
+        android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:visibility="gone">
+        </TableLayout>
+        <TableLayout
+            android:id="@+id/contentV4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+        </TableLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/drawer"

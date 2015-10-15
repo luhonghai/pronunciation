@@ -10,8 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -23,35 +21,20 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.cmg.android.bbcaccent.data.dto.GMapGeocodeResponse;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -302,16 +285,20 @@ public class AndroidHelper {
                 Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if (locationGPS != null) return locationGPS;
             }
-        } catch (Exception e) {
+        } catch (SecurityException e) {
             SimpleAppLog.error("Could not get last known GPS location", e);
+        } catch (Exception ex) {
+            SimpleAppLog.error("Could not get last known GPS location", ex);
         }
         try {
             if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 if (locationNet != null) return locationNet;
             }
-        } catch (Exception e) {
+        } catch (SecurityException e) {
             SimpleAppLog.error("Could not get last known Network location", e);
+        } catch (Exception ex) {
+            SimpleAppLog.error("Could not get last known Network location", ex);
         }
 //        Location locationPassive = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
 //        if (locationPassive != null) return  locationPassive;
@@ -333,103 +320,6 @@ public class AndroidHelper {
 //        if (location == null)
 //            return locationPassive;
 //        return location;
-    }
-
-    public static String findAddress(Context context, Location prettyLocation) {
-        Geocoder geocoder = new Geocoder(context, Locale.ENGLISH);
-        Location location = prettyLocation != null ? prettyLocation : getLastBestLocation(context);
-        if (location != null) {
-            try {
-                SimpleAppLog.info("Start find address by location");
-                List<Address> addresses = null;
-                try {
-                    addresses = geocoder.getFromLocation(
-                            location.getLatitude(), location.getLongitude(),
-                            1);
-                } catch (Exception e) {
-                    SimpleAppLog.error("Could not fetch address from Google API in Android", e);
-                }
-                if (addresses == null || addresses.size() == 0) {
-                    try {
-                        addresses = getFromLocation(
-                                location.getLatitude(), location.getLongitude()
-                                , 1);
-                    } catch (Exception e) {
-                        SimpleAppLog.error("Could not fetch address from Google API Remote", e);
-                    }
-                }
-                if (addresses != null && addresses.size() > 0) {
-                    Address address = addresses.get(0);
-                    Gson gson = new GsonBuilder().setPrettyPrinting().serializeSpecialFloatingPointValues().create();
-                    SimpleAppLog.info("Address: " + gson.toJson(address));
-                    String area = address.getAdminArea();
-                    if (area == null || area.length() == 0) {
-                        area = address.getLocality();
-                    }
-                    return area;
-                }
-            } catch (Exception e) {
-                SimpleAppLog.error("Could not fetch address",e);
-            }
-        } else {
-            SimpleAppLog.info("No location data found");
-        }
-        return "";
-    }
-
-
-    public static List<Address> getFromLocation(double lat, double lng, int maxResult) {
-        String address = String.format(Locale.ENGLISH, "http://maps.googleapis.com/maps/api/geocode/json?latlng=%1$f,%2$f&sensor=true&language=" + Locale.ENGLISH.getCountry(), lat, lng);
-        HttpGet httpGet = new HttpGet(address);
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response;
-        List<Address> retList = null;
-
-        try {
-            response = client.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            InputStream stream = entity.getContent();
-            String rawData = IOUtils.toString(stream, "UTF-8");
-
-            SimpleAppLog.info("Raw address data: " + rawData);
-            if (rawData != null && rawData.length() > 0) {
-                Gson gson = new Gson();
-                GMapGeocodeResponse gmapRes = gson.fromJson(rawData, GMapGeocodeResponse.class);
-                retList = new ArrayList<Address>();
-                if (gmapRes.isOk()) {
-                    List<GMapGeocodeResponse.Result> results = gmapRes.getResults();
-                    if (results != null && results.size() > 0) {
-                        for (int i = 0; i < maxResult; i++) {
-                            GMapGeocodeResponse.Result result = results.get(i);
-                            Address addr = new Address(Locale.ENGLISH);
-                            addr.setAddressLine(0, result.getFormatted_address());
-                            List<GMapGeocodeResponse.AddressComponent> addressComponents = result.getAddress_components();
-                            if (addressComponents != null && addressComponents.size() > 0) {
-                                for (GMapGeocodeResponse.AddressComponent addressComponent : addressComponents) {
-                                    if (addressComponent.isType(GMapGeocodeResponse.AddressComponent.TYPE_ADMIN_AREA)) {
-                                        addr.setAdminArea(addressComponent.getLong_name());
-                                    } else if (addressComponent.isType(GMapGeocodeResponse.AddressComponent.TYPE_COUNTRY)) {
-                                        addr.setCountryName(addressComponent.getLong_name());
-                                    } else if (addressComponent.isType(GMapGeocodeResponse.AddressComponent.TYPE_LOCALITY)) {
-                                        addr.setLocality(addressComponent.getLong_name());
-                                    }
-                                }
-                            }
-                            retList.add(addr);
-                        }
-                    }
-                }
-            }
-
-        } catch (ClientProtocolException e) {
-            SimpleAppLog.error("Error calling Google geocode webservice.", e);
-        } catch (IOException e) {
-            SimpleAppLog.error("Error calling Google geocode webservice.", e);
-        } catch (Exception e) {
-            SimpleAppLog.error("Error parsing Google geocode webservice response.", e);
-        }
-
-        return retList;
     }
 
     public static Location getRandomLocation(double longitude, double latitude, int radius) {
