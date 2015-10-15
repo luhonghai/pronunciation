@@ -1,5 +1,6 @@
 package com.cmg.lesson.services.question;
 
+import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.question.Question;
@@ -185,45 +186,20 @@ public class QuestionService {
      */
     public QuestionDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
         QuestionDTO dto = new QuestionDTO();
-        Date dateFrom = parseDate(createDateFrom);
-        Date dateTo = parseDate(createDateTo, true);
-        double count = getCount(search,dateFrom,dateTo,length,start);
-        List<Question> listQuestion = listAll(start,length,search,column,order,dateFrom,dateTo);
-        dto.setDraw(draw);
-        dto.setRecordsFiltered(count);
-        dto.setRecordsTotal(count);
-        dto.setData(listQuestion);
-        return dto;
-    }
-
-    /**
-     *
-     * @param date
-     * @return
-     */
-    public Date parseDate(String date, boolean isEndOfDay){
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date d = df.parse(date);
-            if (isEndOfDay) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(d);
-                cal.set(Calendar.HOUR, 23);
-                cal.set(Calendar.MINUTE, 59);
-                cal.set(Calendar.SECOND, 59);
-                cal.set(Calendar.MILLISECOND, 999);
-                return cal.getTime();
-            } else {
-                return d;
-            }
+        try{
+            Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
+            Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
+            double count = getCount(search,dateFrom,dateTo,length,start);
+            List<Question> listQuestion = listAll(start,length,search,column,order,dateFrom,dateTo);
+            dto.setDraw(draw);
+            dto.setRecordsFiltered(count);
+            dto.setRecordsTotal(count);
+            dto.setData(listQuestion);
         }catch (Exception e){
-            logger.error("can not parse date");
+            dto.setMessage(ERROR + ": " + "search question error, because:" + e.getMessage());
+            logger.error("search question error, because:" + e.getMessage());
         }
-        return null;
-    }
-
-    public Date parseDate(String date) {
-        return parseDate(date, false);
+        return dto;
     }
 
     /**

@@ -53,13 +53,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateQuestion(String id, String name) throws Exception{
+    public boolean updateLesson(String id, String name, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=? WHERE id=?");
         try {
-            q.execute(name,id);
+            q.execute(name,description,id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -245,14 +245,14 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @param id
      * @return true if update deleted success
      */
-    public boolean updateDeleted(String id){
-        boolean check = false;
+    public boolean deletedLesson(String id){
+        boolean isDelete = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
         try {
             q.execute(true,id);
-            check=true;
+            isDelete=true;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -262,6 +262,6 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             pm.close();
         }
 
-        return check;
+        return isDelete;
     }
 }
