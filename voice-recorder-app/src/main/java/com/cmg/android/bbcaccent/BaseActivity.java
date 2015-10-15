@@ -3,10 +3,10 @@ package com.cmg.android.bbcaccent;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
@@ -19,7 +19,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
 
-public abstract class BaseActivity extends SherlockFragmentActivity  {
+public abstract class BaseActivity extends FragmentActivity {
 
     public static final String DICTIONARY_ITEM = "DICTIONARY_ITEM";
 
@@ -95,7 +95,7 @@ public abstract class BaseActivity extends SherlockFragmentActivity  {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.default_menu, menu);
+        getMenuInflater().inflate(R.menu.default_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     @Override

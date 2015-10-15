@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -34,44 +35,45 @@ public class CustomAdapter extends  ArrayAdapter<SentenceModel> {
         LayoutInflater inflater= context.getLayoutInflater();
         convertView=inflater.inflate(layoutId, null);
         if(myArray.size()>0 && position>=0){
-          TextView txtdisplay=(TextView)convertView.findViewById(R.id.textStatement);
+           TextView txtdisplay=(TextView)convertView.findViewById(R.id.textStatement);
+            LinearLayout itemListview=(LinearLayout)convertView.findViewById(R.id.itemListview);
             String sentence=myArray.get(position).getSentence();
             int status=myArray.get(position).getStatus();
             switch (status){
                 case 0:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_black));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_white));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_white));
                     break;
                 case -1:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_default));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_default));
                     break;
                 case 1:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_orange));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_orange));
                     break;
                 case 2:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_red));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_red));
                     break;
                 case 3:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_green));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_green));
                     break;
                 case 4:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_white));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_gray));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_gray));
                     break;
                 default:
                     txtdisplay.setText(sentence);
                     txtdisplay.setTextColor(context.getResources().getColor(R.color.app_black));
-                    txtdisplay.setBackgroundColor(context.getResources().getColor(R.color.app_white));
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_white));
                     break;
             }
 

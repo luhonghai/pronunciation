@@ -66,7 +66,7 @@ public class SyncDataService extends Service {
             UserVoiceModelAsync uAsync = new UserVoiceModelAsync(this,getResources().getString(R.string.sync_data_url));
             uAsync.execute(params);
         }catch (Exception e){
-            e.printStackTrace();
+            SimpleAppLog.error("Could not sync user voice model",e);
         }
     }
     public void syncPhonemeScore(String username){

@@ -31,12 +31,12 @@ android {
     defaultConfig {
         applicationId "com.cmg.android.bbcaccentamt"
         versionCode 30005
-        versionName "3.0.005"
+        versionName "3.0.006"
         minSdkVersion 11
         targetSdkVersion 19
         //TODO comment second line if build is not compiles for "L"
         compileSdkVersion 19
-        archivesBaseName ="acoustic-model-trainer"
+        archivesBaseName ="RP accent training"
     }
     productFlavors {
     }
