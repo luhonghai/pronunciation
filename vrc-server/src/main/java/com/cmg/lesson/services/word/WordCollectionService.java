@@ -104,19 +104,6 @@ public class WordCollectionService {
     }
 
     /**
-     *  use for load all word from oxford dictionary
-     * @param fileWords
-     */
-    public void loadWordToDataBase(File fileWords){
-        try {
-            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(fileWords);
-            walker.generateDictionary();
-        }catch (Exception e){
-            logger.error("can not load data to database : " + e.getMessage());
-        }
-    }
-
-    /**
      *
      * @param isDeleted
      * @return list contains all words with filter column isDeleted
@@ -352,6 +339,20 @@ public class WordCollectionService {
         return null;
     }
 
+
+
+    /**
+     *  use for load all word from oxford dictionary
+     * @param fileWords
+     */
+    public void loadWordToDataBase(File fileWords){
+        try {
+            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(fileWords);
+            walker.generateDictionary();
+        }catch (Exception e){
+            logger.error("can not load data to database : " + e.getMessage());
+        }
+    }
 
 
 

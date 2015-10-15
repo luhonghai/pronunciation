@@ -186,19 +186,19 @@ public class WordMappingPhonemesService {
     /**
      * update database mapping phonemes
      */
-    public void updateDatabase(){
+    public void updatePhonemeOfWordToDatabase(){
         WordCollectionService wcSer = new WordCollectionService();
         String word = null;
         try {
             List<WordCollection> list = wcSer.listAll(false);
             if(list == null || list.size() == 0){
-                System.out.println("list equal null");
+                logger.info("list equal null");
                 return;
             }
             DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
             for(WordCollection wc : list){
                 word = wc.getWord();
-                System.out.println("check word : " + word);
+                logger.info("check word : " + word);
                 List<String> phonemes = helper.getCorrectPhonemes(wc.getWord());
                 if (phonemes != null && phonemes.size() > 0) {
                     int version = getMaxVersion();
