@@ -2,9 +2,6 @@
  * Created by CMGT400 on 10/5/2015.
  */
 var myTable;
-var iphonemes=0;
-var iphonemess=0;
-var listPhoneme;
 var servletName="ManagementWordOfQuestionServlet";
 function isNumberKey(evt,e){
     var charCode = (evt.which) ? evt.which : event.keyCode;
