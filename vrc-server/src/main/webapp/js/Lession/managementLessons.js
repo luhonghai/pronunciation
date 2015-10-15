@@ -3,7 +3,7 @@
  */
 var myTable;
 
-function listQuestion(){
+function listLessons(){
 
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -24,12 +24,16 @@ function listQuestion(){
         },
 
         "columns": [{
-            "sWidth": "50%",
+            "sWidth": "25%",
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
-            "data": "timeCreated",
+            "sWidth": "30%",
+            "data": "description",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
+            "data": "dateCreated",
             "sDefaultContent": ""
         }, {
             "sWidth": "25%",
@@ -39,7 +43,8 @@ function listQuestion(){
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementWordOfQuestion.jsp?id='+ data.id +'" type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Word' + '</a>');
                 $button.attr("id-column", data.id);
-                $button.attr("question", data.name);
+                $button.attr("lesson", data.name);
+                $button.attr("description", data.description);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -60,11 +65,12 @@ function dateTo(){
     });
 }
 
-function addquestion(){
+function addLesson(){
     $(document).on("click","#yesadd", function(){
-        var question = $("#addquestion").val();
-        if (question == null || typeof question == "undefined" || question.length == 0){
-            $("#addquestion").focus();
+        var lesson = $("#addLesson").val();
+        var description = $("#addDescription").val();
+        if (lesson == null || typeof lesson == "undefined" || lesson.length == 0){
+            $("#addLesson").focus();
             swal("Warning!", "Question not null!", "warning");
             return;
         }
@@ -74,7 +80,8 @@ function addquestion(){
             dataType: "text",
             data: {
                 add: "add",
-                question: question
+                lesson: lesson,
+                description:description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
@@ -101,9 +108,9 @@ function addquestion(){
 }
 
 function add(){
-    $(document).on("click","#openAddQuestion", function(){
+    $(document).on("click","#openAddLesson", function(){
         $("#add").modal('show');
-        $("#addquestion").val("");
+        $("#addLesson").val("");
     });
 }
 
@@ -117,7 +124,7 @@ function deletes(){
     });
 }
 
-function DeleteQuestion(){
+function deleteLesson(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
@@ -149,18 +156,21 @@ function edit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var question = $(this).attr('question');
-        $("#editquestion").val(question);
+        var lesson = $(this).attr('lesson');
+        var description = $(this).attr('description');
+        $("#editLesson").val(lesson);
+        $("#editDescription").val(description);
         $("#idedit").val(idd);
     });
 
 }
 
-function EditQuestion(){
+function editLesson(){
     $(document).on("click","#yesedit", function(){
 
         var id = $("#idedit").val();
-        var question = $("#editquestion").val();
+        var lesson = $("#editLesson").val();
+        var description = $("#editDescription").val();
         if (question == null || typeof question == "undefined" || question.length == 0){
             $("#addquestion").focus();
             swal("Warning!", "Question not null!", "warning");
@@ -173,7 +183,8 @@ function EditQuestion(){
             data: {
                 edit: "edit",
                 id: id,
-                question: question
+                lesson: lesson,
+                description:description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
@@ -220,12 +231,12 @@ $(document).ready(function(){
     dateFrom();
     dateTo();
     add();
-    addquestion();
+    addLesson();
     edit();
-    EditQuestion();
+    editLesson();
     deletes();
-    DeleteQuestion();
-    listQuestion();
+    deleteLesson();
+    listLessons();
     searchAdvanted();
 });
 

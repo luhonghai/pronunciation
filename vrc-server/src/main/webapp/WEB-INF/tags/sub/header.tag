@@ -67,7 +67,10 @@
 						</li>
 
 						<li>
-							<a href="ManagementQuestion.jsp" ><i class="fa fa-file-word-o"></i> Management Question </a>
+							<a href="ManagementQuestion.jsp" ><i class="fa fa-question-circle"></i> Management Question </a>
+						</li>
+						<li>
+							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Management Lessons </a>
 						</li>
 					</ul>
 				</li>

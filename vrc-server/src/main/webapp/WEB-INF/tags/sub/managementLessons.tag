@@ -55,6 +55,7 @@
                 <thead>
                 <tr>
                   <th>Lessons</th>
+                  <th>Description</th>
                   <th>Created date</th>
                   <th></th>
                 </tr>
@@ -93,9 +94,17 @@
 
               <div class="form-group">
 
-                <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addDescription" name="addDescription" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
@@ -129,9 +138,17 @@
               <input type="hidden" id="idedit" name="idedit">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">Lesson:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editLesson" name="editLesson" class=" form-control" style="padding-left: 0px;">
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editLesson" name="editLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editDescription" name="editDescription" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;">
+                  </div>
                 </div>
 
               </div>
