@@ -71,7 +71,7 @@ public class UnitTesting {
                 for(WordCollection word : lis)
                 System.out.println(word.getWord());
             }*/
-            
+
             WordMappingPhonemesService serv = new WordMappingPhonemesService();
            // serv.updateDatabase();
 
