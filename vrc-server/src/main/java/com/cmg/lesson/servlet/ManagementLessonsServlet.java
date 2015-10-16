@@ -1,6 +1,8 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.services.lessons.LessonCollectionService;
 import com.cmg.lesson.services.question.QuestionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
@@ -18,8 +20,8 @@ import java.io.IOException;
 @WebServlet(name = "ManagementLessonsServlet")
 public class ManagementLessonsServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        QuestionService questionService = new QuestionService();
-        QuestionDTO questionDTO = new QuestionDTO();
+        LessonCollectionService lessonCollectionService = new LessonCollectionService();
+        LessonCollectionDTO lessonCollectionDTO;
         Gson gson = new Gson();
         try {
             if(request.getParameter("list")!=null){
@@ -31,20 +33,26 @@ public class ManagementLessonsServlet extends BaseServlet {
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
-                String json = gson.toJson(questionDTO);
+                lessonCollectionDTO = lessonCollectionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                String json = gson.toJson(lessonCollectionDTO);
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String lesson =  (String)StringUtil.isNull(request.getParameter("lesson"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
+                String message = lessonCollectionService.addLesson(lesson,description).getMessage();
+                response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
                 String lessonId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String lesson = (String)StringUtil.isNull(request.getParameter("lesson"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
+                String message = lessonCollectionService.updateLesson(lessonId,lesson,description).getMessage();
+                response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){
                 String lessonId =  (String)StringUtil.isNull(request.getParameter("id"),"");
+                String message = lessonCollectionService.deleteLesson(lessonId).getMessage();
+                response.getWriter().write(message);
             }
         }catch (Exception e){
             response.getWriter().print("Error : " + e.getMessage());
