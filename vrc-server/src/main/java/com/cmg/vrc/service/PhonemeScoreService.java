@@ -1,5 +1,6 @@
 package com.cmg.vrc.service;
 
+import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.PhonemeScoreDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
@@ -77,8 +78,6 @@ public class PhonemeScoreService {
         }
         return check;
     }
-
-
 
     /**
      * function add phoneme score ,not use

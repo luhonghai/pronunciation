@@ -241,7 +241,7 @@ public class PhonemesDetector {
                 r.setBestPhonemes(bestTokenPhonemes);
                 calculateScore(r);
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "Could not calculate pronunciation" ,e);
+                logger.log(Level.SEVERE, "Could not calculation pronunciation" ,e);
             } finally {
                 try {
                     close();
