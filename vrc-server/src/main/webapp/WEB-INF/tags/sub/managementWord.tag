@@ -25,6 +25,7 @@
                 <thead>
                 <tr>
                   <th>Word</th>
+                  <th>Arpabet</th>
                   <th>Pronunciation</th>
                   <th>Definition</th>
                   <th>Audio</th>
@@ -89,7 +90,7 @@
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                  <label class="col-xs-4  col-sm-3 control-label ">Arpabet:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="addPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
@@ -151,7 +152,7 @@
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Phonemes:</label>
+                  <label class="col-xs-4  col-sm-3 control-label ">Arpabet:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="editPhoneme" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>

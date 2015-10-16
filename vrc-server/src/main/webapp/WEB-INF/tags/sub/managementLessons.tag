@@ -179,7 +179,7 @@
 
               <div class="form-group">
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
+                  <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="editLesson" name="editLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>

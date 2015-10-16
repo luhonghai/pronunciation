@@ -913,7 +913,7 @@
 	
 	
 	/**
-	 * Take the column definitions and static columns arrays and calculate how
+	 * Take the column definitions and static columns arrays and calculation how
 	 * they relate to column indexes. The callback function will then apply the
 	 * definition found for a column to a suitable configuration object.
 	 *  @param {object} oSettings dataTables settings object
@@ -9899,7 +9899,7 @@
 	
 		/**
 		 * Enable or disable automatic column width calculation. This can be disabled
-		 * as an optimisation (it takes some time to calculate the widths) if the
+		 * as an optimisation (it takes some time to calculation the widths) if the
 		 * tables widths are passed in using `columns`.
 		 *  @type boolean
 		 *  @default true
@@ -10394,7 +10394,7 @@
 	
 		/**
 		 * This function is called on every 'draw' event, and allows you to
-		 * dynamically modify the header row. This can be used to calculate and
+		 * dynamically modify the header row. This can be used to calculation and
 		 * display useful information about the table.
 		 *  @type function
 		 *  @param {node} head "TR" element for the header
@@ -12587,7 +12587,7 @@
 		"oFeatures": {
 	
 			/**
-			 * Flag to say if DataTables should automatically try to calculate the
+			 * Flag to say if DataTables should automatically try to calculation the
 			 * optimum table and columns widths (true) or not (false).
 			 * Note that this parameter will be set by the initialisation routine. To
 			 * set a default use {@link DataTable.defaults}.
