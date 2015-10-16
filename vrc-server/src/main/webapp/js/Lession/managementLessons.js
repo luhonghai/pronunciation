@@ -43,7 +43,7 @@ function listLessons(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementLessonMappingQuestion.jsp?id='+ data.id +'" type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</a>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
                 $button.attr("id-column", data.id);
                 $button.attr("lesson", data.name);
                 $button.attr("description", data.description);
@@ -114,7 +114,7 @@ function addLesson(){
 
 }
 
-function openPopupDeletes(){
+function openPopupDelete(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
         var idd=$(this).attr('id-column');
@@ -229,6 +229,34 @@ function searchAdvanted(){
     });
 }
 
+function addQuestionToLesson(){
+    $(document).on("click","#addQuestion", function(){
+        $("#addQuestionToLesson").modal('show');
+        var idd=$(this).attr('id-column');
+        $.ajax({
+            url: "ManagementLessonsServlet",
+            type: "POST",
+            dataType: "text",
+            data: {
+                addQuestion: "addQuestion",
+                id: id
+            },
+            success: function (data) {
+                if (data.indexOf("success") !=-1) {
+
+                }else{
+                    swal("Could not delete question!", data.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+    });
+}
+
 $(document).ready(function(){
     dateFrom();
     dateTo();
@@ -236,9 +264,10 @@ $(document).ready(function(){
     addLesson();
     openPopupEdit();
     editLesson();
-    openPopupDeletes();
+    openPopupDelete();
     deleteLesson();
     listLessons();
+    addQuestionToLesson();
     searchAdvanted();
 });
 
