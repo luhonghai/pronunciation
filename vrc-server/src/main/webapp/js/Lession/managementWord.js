@@ -32,12 +32,18 @@ function listTranscription(){
             "sDefaultContent": ""
 
         }, {
+            "sWidth": "17%",
+            "data": "arpabet",
+            "bSortable": false,
+            "sDefaultContent": ""
+        },
+            {
             "sWidth": "15%",
             "data": "pronunciation",
             "bSortable": false,
             "sDefaultContent": ""
         }, {
-            "sWidth": "35%",
+            "sWidth": "30%",
             "data": "definition",
             "bSortable": false,
             "sDefaultContent": ""

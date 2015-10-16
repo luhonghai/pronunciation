@@ -73,7 +73,7 @@ public class UnitTesting {
             }*/
 
             WordMappingPhonemesService serv = new WordMappingPhonemesService();
-            serv.updateDatabase();
+           // serv.updateDatabase();
 
         } catch (Exception e) {
             e.printStackTrace();

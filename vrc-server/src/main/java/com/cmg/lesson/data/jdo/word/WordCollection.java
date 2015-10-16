@@ -2,10 +2,7 @@ package com.cmg.lesson.data.jdo.word;
 
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 
 /**
  * Created by lantb on 2015-10-01.
@@ -34,6 +31,9 @@ public class WordCollection implements Mirrorable{
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private String arpabet;
 
     public WordCollection(){}
 
@@ -110,5 +110,13 @@ public class WordCollection implements Mirrorable{
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getArpabet() {
+        return arpabet;
+    }
+
+    public void setArpabet(String arpabet) {
+        this.arpabet = arpabet;
     }
 }

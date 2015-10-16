@@ -25,6 +25,7 @@
                 <thead>
                 <tr>
                   <th>Word</th>
+                  <th>Arpabet</th>
                   <th>Pronunciation</th>
                   <th>Definition</th>
                   <th>Audio</th>
