@@ -17,9 +17,9 @@ public class SimpleAppLog {
     private static final String TAG = "BBC accent";
 
     public static void info(String log) {
-        //Log.i(TAG, log);
-        if (Fabric.isInitialized())
-            Crashlytics.log(Log.INFO, TAG, log);
+        Log.i(TAG, log);
+//        if (Fabric.isInitialized())
+//            Crashlytics.log(Log.INFO, TAG, log);
     }
 
     public static void logJson(Object obj) {

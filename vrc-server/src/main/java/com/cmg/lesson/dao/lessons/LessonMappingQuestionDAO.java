@@ -50,7 +50,7 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
      * @return true if question exist
      * @throws Exception
      */
-    public boolean checkQuestionExist(String idLessonCollection, String idQuestion) throws Exception{
+    public boolean checkExist(String idLessonCollection, String idQuestion) throws Exception{
         List<LessonMappingQuestion> list = list("WHERE idLesson==:1 && idQuestion== :2 && isDeleted==:3", idLessonCollection,idQuestion,false);
         if(list!=null && list.size() > 0){
             return true;

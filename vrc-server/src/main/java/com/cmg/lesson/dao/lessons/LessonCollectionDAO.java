@@ -53,13 +53,38 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateQuestion(String id, String name) throws Exception{
+    public boolean updateLesson(String id, String name, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=? WHERE id=?");
         try {
-            q.execute(name,id);
+            q.execute(name,description,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
+     * @param id
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateDescription(String id, String description) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=? WHERE id=?");
+        try {
+            q.execute(description,id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,13 +220,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
@@ -222,10 +247,17 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
+
         if (column==1 && order.equals("asc")) {
-            q.setOrdering("timeCreated asc");
+            q.setOrdering("description asc");
         }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("timeCreated desc");
+            q.setOrdering("description desc");
+        }
+
+        if (column==2 && order.equals("asc")) {
+            q.setOrdering("dateCreated asc");
+        }else if(column==1 && order.equals("desc")) {
+            q.setOrdering("dateCreated desc");
         }
 
         q.setRange(start, start + length);
@@ -245,14 +277,14 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @param id
      * @return true if update deleted success
      */
-    public boolean updateDeleted(String id){
-        boolean check = false;
+    public boolean deletedLesson(String id){
+        boolean isDelete = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
         try {
             q.execute(true,id);
-            check=true;
+            isDelete=true;
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -262,6 +294,6 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             pm.close();
         }
 
-        return check;
+        return isDelete;
     }
 }

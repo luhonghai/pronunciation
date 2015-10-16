@@ -17,6 +17,7 @@ public class UserVoiceModel implements Mirrorable {
     private String username;
     @Persistent
     private boolean nativeEnglish;
+
     @Persistent
     private boolean gender;
     @Persistent
@@ -25,10 +26,13 @@ public class UserVoiceModel implements Mirrorable {
     private String country;
     @Persistent
     private int englishProficiency;
+
     @Persistent
     private long time;
+
     @Persistent
     private long serverTime;
+
     @Persistent
     private long duration;
     @Persistent

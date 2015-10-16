@@ -56,6 +56,33 @@ public class WordMappingPhonemesService {
 
     /**
      *
+     * @param idWord
+     * @return
+     */
+    public String getPhonemesArpabet(String idWord){
+        StringBuffer arpabet = new StringBuffer();
+        try {
+            List<WordMappingPhonemes> list = getByWordID(idWord);
+            if(list!=null && list.size() > 0){
+                for(WordMappingPhonemes p : list){
+                   arpabet.append(p.getPhoneme()+" ");
+                }
+            }else{
+                arpabet.append(" ");
+            }
+        }catch (Exception e){
+            logger.debug("get by word id did not work cause : " + e.getMessage());
+            arpabet.append(" ");
+        }
+        String temp = arpabet.toString().substring(0,arpabet.toString().length()-1);
+        return temp;
+
+    }
+
+
+
+    /**
+     *
      * @param word
      * @return list phonemes of word
      */
@@ -183,29 +210,33 @@ public class WordMappingPhonemesService {
         return ERROR + messageError;
     }
 
+
+
+
     /**
      * update database mapping phonemes
      */
-    public void updateDatabase(){
+    public void updatePhonemeOfWordToDatabase(){
         WordCollectionService wcSer = new WordCollectionService();
         String word = null;
         try {
             List<WordCollection> list = wcSer.listAll(false);
-
             if(list == null || list.size() == 0){
-                System.out.println("list equal null");
+                logger.info("list equal null");
                 return;
             }
             DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
             for(WordCollection wc : list){
                 word = wc.getWord();
-                System.out.println("check word : " + word);
+                logger.info("check word : " + word);
                 List<String> phonemes = helper.getCorrectPhonemes(wc.getWord());
                 if (phonemes != null && phonemes.size() > 0) {
                     int version = getMaxVersion();
                     logger.info("add mapping word " + wc.getWord());
                     addMapping(wc.getId(), phonemes, version, false);
                     logger.info("==add success mapping word " + wc.getWord() +"====");
+                }else{
+                    logger.info("this word : " + word + " not in Beep Dictionary");
                 }
             }
         }catch (Exception e){

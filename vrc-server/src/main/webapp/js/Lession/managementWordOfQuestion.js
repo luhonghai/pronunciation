@@ -2,14 +2,18 @@
  * Created by CMGT400 on 10/5/2015.
  */
 var myTable;
-var iphonemes=0;
-var iphonemess=0;
-var listPhoneme;
 var servletName="ManagementWordOfQuestionServlet";
+var maxlengthWeight=2;
+
 function isNumberKey(evt,e){
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if (charCode != 46 && charCode > 31
         && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    var inputValue = $(e).val();
+    //var maxlength = parseFloatCMG($(e).attr("length"));
+    if(inputValue.length >= maxlengthWeight){
         return false;
     }
     return true;
@@ -130,7 +134,6 @@ function loadAudio(){
 
 }
 
-
 function getWeightAndPhoneme(listPhonemeName, listWeightName){
     var output = [];
     $(listPhonemeName).find('input').each(function(e){
@@ -189,6 +192,13 @@ function addWord(){
                     myTable.fnDraw();
                     $("#add").modal('hide');
                 }else{
+                    $("#listPhonmes").html("");
+                    $("#listWeight").html("");
+                    $(".phoneme-lable").html("");
+                    $(".weight-lable").html("");
+                    $("#yesadd").attr("disabled", true);
+                    $("#loadPhonemes").attr("disabled",false)
+                    $("#addWord").attr("disabled",false)
                     swal("Error!",message.split(":")[1], "error");
                 }
             },

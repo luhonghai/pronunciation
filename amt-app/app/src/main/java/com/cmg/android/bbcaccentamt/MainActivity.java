@@ -34,6 +34,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ import com.cmg.android.bbcaccentamt.activity.fragment.HistoryFragment;
 import com.cmg.android.bbcaccentamt.activity.fragment.Preferences;
 import com.cmg.android.bbcaccentamt.activity.info.AboutActivity;
 import com.cmg.android.bbcaccentamt.activity.info.HelpActivity;
+//import com.cmg.android.bbcaccentamt.activity.info.LicenceActivity;
 import com.cmg.android.bbcaccentamt.activity.view.RecordingView;
 import com.cmg.android.bbcaccentamt.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccentamt.auth.AccountManager;
@@ -373,21 +375,26 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             String itemValue=m.getSentence();
             textrecord.setText(itemValue);
 
-
         }
         customAdapter=new CustomAdapter(this, R.layout.lv_statement, sentenceModels);
        /* List<RecorderSentenceModel> recorderSentenceModels=databaseHandlerSentence.getAllSentenceUpload();*/
-        if(notUpload.size()!=0 && status==-1){
-            switchButtonStage(ButtonState.GREEN);
-        }
-        if(notUpload.size()!=0 && status!=-1){
+        if(notUpload.size()!=0 && reject.size()!=0 && dstFile.exists()){
             switchButtonStage(ButtonState.UPLOAD2);
         }
+        if(notUpload.size()!=0 && reject.size()!=0 && !dstFile.exists()){
+            switchButtonStage(ButtonState.UPLOADALL2);
+        }
+        if(notUpload.size()!=0 && reject.size()==0){
+            switchButtonStage(ButtonState.UPLOADALL2);
+        }
 
-        if(notUpload.size()==0 && dstFile.exists() ){
+        if(notUpload.size()==0 && reject.size()!=0 && dstFile.exists() ){
             switchButtonStage(ButtonState.UPLOADALL1);
         }
-        if(notUpload.size()==0 && !dstFile.exists() ){
+        if(notUpload.size()==0 && reject.size()!=0 && !dstFile.exists() ){
+            switchButtonStage(ButtonState.NORECORDING);
+        }
+        if(notUpload.size()==0 && reject.size()==0 ){
             switchButtonStage(ButtonState.NORECORDING);
         }
 
@@ -398,9 +405,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 view.setSelected(true);
                 SentenceModel a = (SentenceModel) lvItem.getItemAtPosition(position);
-                //lvItem.getItemAtPosition(position).
-
-
                 String itemValue = a.getSentence();
                 idSentence = a.getID();
                 /*RecorderSentenceModel recorderSentenceModel=new RecorderSentenceModel();
@@ -524,8 +528,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
     }
     public void clickUploadAll(){
-            switchButtonStage(ButtonState.UPLOADALL);
-            uploadAllRecord();
+        switchButtonStage(ButtonState.UPLOADALL);
+        uploadAllRecord();
     }
 
     public void uploadSentence(){
@@ -1334,6 +1338,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                 String sentence = databaseHandlerSentence.getSentence(idSentence).getSentence();
                                 textrecord.setText(sentence);
                                 status=-1;
+                                positionSelect();
 
                             }
                         });
@@ -1451,7 +1456,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         SimpleAppLog.info("Request location update");
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         try {
-           //lm.removeUpdates(this);
+            //lm.removeUpdates(this);
         } catch (Exception e) {
             SimpleAppLog.error("Could not stop request location",e);
         }
@@ -1498,7 +1503,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         File dstFile = new File(output);
         switch (v.getId()) {
             case R.id.btnAnalyzing:
-               // if (checkNetwork(false)) {
                     if (isRecording) {
                         stop();
                         switch (status){
@@ -1578,7 +1582,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     } else {
                         analyze();
                     }
-                //}
                 break;
             case R.id.btnAudio:
                 if (isPlaying) {
@@ -1925,7 +1928,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     switchButtonStage(ButtonState.NORECORDING);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
                     SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                    d.setTitleText(getString(R.string.missing_data));
+                    d.setTitleText(getString(R.string.datachange));
                     d.setContentText(getString(R.string.sentenceDeleteOrEdit));
                     d.setConfirmText(getString(R.string.dialog_ok));
                     d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -1988,7 +1991,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     textrecord.setText(sentence);
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
                     SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                    d.setTitleText(getString(R.string.missing_data));
+                    d.setTitleText(getString(R.string.datachange));
                     d.setContentText(getString(R.string.sentenceDeleteOrEdit));
                     d.setConfirmText(getString(R.string.dialog_ok));
                     d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -2193,13 +2196,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         int index=0;
         switch (status) {
             case -1:
-                index=reject.size()+getIndexWithStatus(-1);
-                break;
-            case 1:
-                index=reject.size()+notUpload.size()+getIndexWithStatus(1);
+                index=reject.size()+ notRecord.size() +getIndexWithStatus(-1);
                 break;
             case 0:
-                index=reject.size()+notUpload.size()+notRecord.size()+getIndexWithStatus(0);
+                index=reject.size() +getIndexWithStatus(0);
+                break;
+            case 1:
+                index=reject.size()+notUpload.size()+notRecord.size()+getIndexWithStatus(1);
                 break;
             case 2:
                 index=getIndexWithStatus(2);
@@ -2235,7 +2238,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             Cursor cursor = (Cursor) adapter.getItem(index);
             String s = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_NAME));
             idSentence = cursor.getString(cursor.getColumnIndex(DatabaseHandlerSentence.KEY_ID));
-            status= databaseHandlerSentence.getStatus(idSentence, name);
+            status= databaseHandlerSentence.getStatus(idSentence,name);
             textrecord.setText(s);
             searchView.setQuery(s,false);
             positionSelect();

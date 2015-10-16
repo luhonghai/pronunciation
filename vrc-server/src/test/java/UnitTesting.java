@@ -3,6 +3,7 @@ import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.services.word.WordCollectionService;
+import com.cmg.lesson.services.word.WordMappingPhonemesService;
 
 import java.io.File;
 
@@ -71,16 +72,14 @@ public class UnitTesting {
                 System.out.println(word.getWord());
             }*/
 
-           /* WordOfQuestionDAO dao = new WordOfQuestionDAO();
-            WordOfQuestion q = new WordOfQuestion();
-            q.setIdQuestion("b846712f-2308-4f20-9d27-d6ee1916e28f");
-            q.setIdWordCollection("1c00cb1c-896f-4e09-82aa-7cfadf69ef03");
-            q.setVersion(1);
-            q.setIsDeleted(false);
-            dao.create(q);*/
+<<<<<<< HEAD
+//            WordMappingPhonemesService serv = new WordMappingPhonemesService();
+//            serv.updateDatabase();
+=======
+            WordMappingPhonemesService serv = new WordMappingPhonemesService();
+           // serv.updateDatabase();
+>>>>>>> adca6b31f3c2c9f5c79dbfb6cde5e5fe75e1b434
 
-            WordCollectionService service = new WordCollectionService();
-            service.loadWordToDataBase(new File("D:\\word_pronunciation"));
         } catch (Exception e) {
             e.printStackTrace();
         }

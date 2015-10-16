@@ -7,6 +7,7 @@ import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
 import com.cmg.vrc.dictionary.OxfordDictionaryWalker;
 import com.cmg.vrc.util.UUIDGenerator;
+import edu.cmu.sphinx.linguist.dictionary.Word;
 import org.apache.log4j.Logger;
 
 
@@ -104,19 +105,6 @@ public class WordCollectionService {
     }
 
     /**
-     *  use for load all word from oxford dictionary
-     * @param fileWords
-     */
-    public void loadWordToDataBase(File fileWords){
-        try {
-            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(fileWords);
-            walker.generateDictionary();
-        }catch (Exception e){
-            logger.error("can not load data to database : " + e.getMessage());
-        }
-    }
-
-    /**
      *
      * @param isDeleted
      * @return list contains all words with filter column isDeleted
@@ -182,11 +170,28 @@ public class WordCollectionService {
         ListWord client = new ListWord();
         double count = countSearch(start, length, search, order);
         List<WordCollection> listWord = searchWord(start,length,search,order);
+        listWord = setPhonemeArpabet(listWord);
         client.setDraw(draw);
         client.setRecordsFiltered(count);
         client.setRecordsTotal(count);
         client.setData(listWord);
         return client;
+    }
+
+    /**
+     *
+     * @param temp
+     * @return
+     */
+    public List<WordCollection> setPhonemeArpabet(List<WordCollection> temp){
+        WordMappingPhonemesService service = new WordMappingPhonemesService();
+        if(temp!=null && temp.size()>0){
+            for(WordCollection w : temp){
+                String arpabet = service.getPhonemesArpabet(w.getId());
+                w.setArpabet(arpabet);
+            }
+        }
+        return temp;
     }
 
     /**
@@ -352,6 +357,20 @@ public class WordCollectionService {
         return null;
     }
 
+
+
+    /**
+     *  use for load all word from oxford dictionary
+     * @param fileWords
+     */
+    public void loadWordToDataBase(File fileWords){
+        try {
+            OxfordDictionaryWalker walker = new OxfordDictionaryWalker(fileWords);
+            walker.generateDictionary();
+        }catch (Exception e){
+            logger.error("can not load data to database : " + e.getMessage());
+        }
+    }
 
 
 

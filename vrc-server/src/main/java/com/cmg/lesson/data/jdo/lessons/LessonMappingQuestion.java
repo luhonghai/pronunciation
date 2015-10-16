@@ -37,4 +37,36 @@ public class LessonMappingQuestion implements Mirrorable {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getIdLesson() {
+        return idLesson;
+    }
+
+    public void setIdLesson(String idLesson) {
+        this.idLesson = idLesson;
+    }
+
+    public String getIdQuestion() {
+        return idQuestion;
+    }
+
+    public void setIdQuestion(String idQuestion) {
+        this.idQuestion = idQuestion;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
 }
