@@ -72,8 +72,8 @@ public class UnitTesting {
                 System.out.println(word.getWord());
             }*/
 
-            WordMappingPhonemesService serv = new WordMappingPhonemesService();
-            serv.updateDatabase();
+            //WordMappingPhonemesService serv = new WordMappingPhonemesService();
+            //serv.updateDatabase();
 
         } catch (Exception e) {
             e.printStackTrace();

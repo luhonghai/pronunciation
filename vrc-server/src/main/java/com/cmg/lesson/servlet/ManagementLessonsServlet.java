@@ -46,7 +46,8 @@ public class ManagementLessonsServlet extends BaseServlet {
                 String lessonId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String lesson = (String)StringUtil.isNull(request.getParameter("lesson"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
-                String message = lessonCollectionService.updateLesson(lessonId,lesson,description).getMessage();
+                boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
+                String message = lessonCollectionService.updateLesson(lessonId,lesson,description, isUpdateLessonName).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){
