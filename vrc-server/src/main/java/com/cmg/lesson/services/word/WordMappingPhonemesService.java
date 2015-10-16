@@ -56,6 +56,33 @@ public class WordMappingPhonemesService {
 
     /**
      *
+     * @param idWord
+     * @return
+     */
+    public String getPhonemesArpabet(String idWord){
+        StringBuffer arpabet = new StringBuffer();
+        try {
+            List<WordMappingPhonemes> list = getByWordID(idWord);
+            if(list!=null && list.size() > 0){
+                for(WordMappingPhonemes p : list){
+                   arpabet.append(p.getPhoneme()+" ");
+                }
+            }else{
+                arpabet.append(" ");
+            }
+        }catch (Exception e){
+            logger.debug("get by word id did not work cause : " + e.getMessage());
+            arpabet.append(" ");
+        }
+        String temp = arpabet.toString().substring(0,arpabet.toString().length()-1);
+        return temp;
+
+    }
+
+
+
+    /**
+     *
      * @param word
      * @return list phonemes of word
      */
@@ -182,6 +209,9 @@ public class WordMappingPhonemesService {
         }
         return ERROR + messageError;
     }
+
+
+
 
     /**
      * update database mapping phonemes
