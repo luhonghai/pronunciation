@@ -2864,7 +2864,7 @@ Licensed under the MIT license.
                             y - my > maxy || y - my < -maxy)
                             continue;
 
-                        // We have to calculate distances in pixels, not in
+                        // We have to calculation distances in pixels, not in
                         // data units, because the scales of the axes may be different
                         var dx = Math.abs(axisx.p2c(x) - mouseX),
                             dy = Math.abs(axisy.p2c(y) - mouseY),

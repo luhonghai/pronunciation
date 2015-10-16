@@ -201,7 +201,7 @@ More detail and specific examples can be found in the included HTML file.
 				data[i].data = [value];
 			}
 
-			// Sum up all the slices, so we can calculate percentages for each
+			// Sum up all the slices, so we can calculation percentages for each
 
 			for (var i = 0; i < data.length; ++i) {
 				total += data[i].data[0][1];
@@ -285,7 +285,7 @@ More detail and specific examples can be found in the included HTML file.
 
 			processed = false;
 
-			// calculate maximum radius and center point
+			// calculation maximum radius and center point
 
 			maxRadius =  Math.min(canvasWidth, canvasHeight / options.series.pie.tilt) / 2;
 			centerTop = canvasHeight / 2 + options.series.pie.offset.top;

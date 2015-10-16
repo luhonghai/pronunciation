@@ -29,7 +29,7 @@ describe 'Morris.Grid#setData', ->
 
     describe 'auto', ->
 
-      it 'should automatically calculate the minimum and maximum value', ->
+      it 'should automatically calculation the minimum and maximum value', ->
         line = Morris.Line $.extend @defaults,
           data: [{x: 1, y: 10}, {x: 2, y: 15}, {x: 3, y: null}, {x: 4}]
           ymin: 'auto'
@@ -37,7 +37,7 @@ describe 'Morris.Grid#setData', ->
         line.ymin.should.equal 10
         line.ymax.should.equal 15
 
-      it 'should automatically calculate the minimum and maximum value given no y data', ->
+      it 'should automatically calculation the minimum and maximum value given no y data', ->
         line = Morris.Line $.extend @defaults,
           data: [{x: 1}, {x: 2}, {x: 3}, {x: 4}]
           ymin: 'auto'
@@ -47,7 +47,7 @@ describe 'Morris.Grid#setData', ->
 
     describe 'auto [n]', ->
 
-      it 'should automatically calculate the minimum and maximum value', ->
+      it 'should automatically calculation the minimum and maximum value', ->
         line = Morris.Line $.extend @defaults,
           data: [{x: 1, y: 10}, {x: 2, y: 15}, {x: 3, y: null}, {x: 4}]
           ymin: 'auto 11'
@@ -55,7 +55,7 @@ describe 'Morris.Grid#setData', ->
         line.ymin.should.equal 10
         line.ymax.should.equal 15
 
-      it 'should automatically calculate the minimum and maximum value given no data', ->
+      it 'should automatically calculation the minimum and maximum value given no data', ->
         line = Morris.Line $.extend @defaults,
           data: [{x: 1}, {x: 2}, {x: 3}, {x: 4}]
           ymin: 'auto 11'
@@ -81,7 +81,7 @@ describe 'Morris.Grid#setData', ->
 
   describe 'xmin/xmax', ->
 
-    it 'should calculate the horizontal range', ->
+    it 'should calculation the horizontal range', ->
       line = Morris.Line
         element: 'graph'
         data: [{x: 2, y: 2}, {x: 1, y: 1}, {x: 4, y: 4}, {x: 3, y: 3}]
