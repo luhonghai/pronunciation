@@ -43,6 +43,7 @@ import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
+import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
@@ -55,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.sephiroth.android.library.widget.HListView;
+import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
 
 /**
  * Created by luhonghai on 12/22/14.
@@ -104,6 +106,8 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
     private Map<String, String> mapCMUvsIPA;
 
     private int receiverListenerId;
+
+    private ShowcaseHelper showcaseHelper;
 
     @Nullable
     @Override
@@ -163,6 +167,7 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         });
+        showcaseHelper = new ShowcaseHelper(getActivity());
         return root;
     }
 
@@ -606,6 +611,21 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
             AppLog.logString("On animation max");
             recordingView.stopPingAnimation();
             displayingState = DisplayingState.DEFAULT;
+            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.DETAIL_SELECT_PHONEME,
+                    new ShowcaseHelper.HelpState(getViewByPosition(0, hListView), "<b>Press</b> a phoneme for even more detail"),
+                    new ShowcaseHelper.HelpState(recordingView, "<b>Press</> the score to return to previous screen"));
+        }
+    }
+
+    private View getViewByPosition(int pos, HListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
         }
     }
 

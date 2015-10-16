@@ -46,7 +46,7 @@ public class UserProfile {
     }
 
     public String getProfileImage() {
-        if (profileImage == null || profileImage.length() == 0) return "http://www.gravatar.com/avatar/" + MD5Util.md5Hex(username.toLowerCase()) + "?d=mm";
+        if (profileImage == null) return "";
         return profileImage;
     }
 

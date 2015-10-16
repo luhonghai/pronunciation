@@ -151,7 +151,6 @@ public class RecordingView extends View {
         txtPaint = new Paint();
         txtPaint.setColor(Color.WHITE);
         txtPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-
     }
 
     public void recycle() {
@@ -165,6 +164,13 @@ public class RecordingView extends View {
 
         }
         startTime = -1;
+    }
+
+    public void recycleView() {
+        recycle();
+        stopPingAnimation();
+        setScore(0.0f);
+        drawEmptyCycle();
     }
 
     private boolean initBitmap() {

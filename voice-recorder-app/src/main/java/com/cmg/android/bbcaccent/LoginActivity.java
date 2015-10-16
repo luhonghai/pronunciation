@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -806,19 +807,19 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             }
                             try {
                                 String birthDay = object.getString("birthday");
-                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
-                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+                                SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
+                                SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                                 profile.setDob(sdf2.format(sdf1.parse(birthDay)));
                             } catch (Exception e) {
 
                             }
                             try {
-                                profile.setName(object.getString("name"));
+                                profile.setName(new String(object.getString("name").getBytes(), "UTF-8"));
                             } catch (JSONException e) {
 
                             }
                             try {
-                                profile.setProfileImage("https://graph.facebook.com/"+object.getString("id")+"/picture");
+                                profile.setProfileImage("https://graph.facebook.com/"+object.getString("id")+"/picture?width=320&height=320&type=square");
                             } catch (JSONException e) {
 
                             }
@@ -965,7 +966,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             UserProfile profile = new UserProfile();
             profile.setUsername(Plus.AccountApi.getAccountName(mGoogleApiClient));
             profile.setDob(person.getBirthday());
-            profile.setProfileImage(person.getImage().getUrl());
+            String imageUrl = person.getImage().getUrl();
+            if (imageUrl.contains("?sz=")) {
+                imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("?sz=")) + "?sz=320";
+            }
+            SimpleAppLog.debug("Google plus avatar " + imageUrl);
+            profile.setProfileImage(imageUrl);
             profile.setName(person.getDisplayName());
             profile.setGender(person.getGender() == 1);
             profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);

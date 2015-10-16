@@ -19,7 +19,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:textSize="@dimen/main_selected_word_size"
-            android:textColor="#FFF2FF"
+            android:textColor="@android:color/black"
             android:text="@string/example_word"
             />
         <TextView

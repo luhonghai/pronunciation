@@ -9,7 +9,7 @@
     <dimen name="button_login_height">44dp</dimen>
 
     <!-- Main screen - recording area -->
-    <dimen name="main_action_button_margin">15dp</dimen>
+    <dimen name="main_action_button_margin">6dp</dimen>
 
     <dimen name="main_record_view_padding_bottom">8dp</dimen>
 

@@ -40,15 +40,20 @@ import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
 import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
 import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
 import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -121,6 +126,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private ImageView imgAvatar;
 
+    private ImageView imgAvatarCover;
+
     private TextView txtUserName;
 
     private TextView txtUserEmail;
@@ -146,6 +153,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         setContentView(R.layout.main);
 
         imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
+        imgAvatarCover = (ImageView) findViewById(R.id.imgAvatarCover);
         txtUserName = (TextView) findViewById(R.id.txtUserName);
         txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
 
@@ -200,6 +208,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }
         });
+        displayRandomBackground();
     }
 
     private void initListMenu() {
@@ -268,14 +277,14 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             actionBar.setDisplayHomeAsUpEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
             actionBar.setCustomView(R.layout.main_action_bar);
+            materialMenu = (MaterialMenuView) actionBar.getCustomView().findViewById(R.id.action_bar_menu);
+            materialMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickMenuButton();
+                }
+            });
         }
-        materialMenu = (MaterialMenuView) actionBar.getCustomView().findViewById(R.id.action_bar_menu);
-        materialMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickMenuButton();
-            }
-        });
     }
 
     @Override
@@ -399,23 +408,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             AppLog.logString("Profile is not setup: " + profile.getUsername());
             //openSettings();
             //profile.setHelpStatus(UserProfile.HELP_SKIP);
-            SweetAlertDialog dialogHelp = new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
-            dialogHelp.setCustomImage(android.R.drawable.ic_menu_search);
-            dialogHelp.setTitleText(getString(R.string.help_search_icon_title));
-            dialogHelp.setContentText(getString(R.string.help_search_icon));
-            dialogHelp.setConfirmText(getString(R.string.dialog_ok));
-            dialogHelp.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
-            dialogHelp.show();
-            Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
-            switchFragment(FragmentState.HELP, null, null);
+//            SweetAlertDialog dialogHelp = new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+//            dialogHelp.setCustomImage(android.R.drawable.ic_menu_search);
+//            dialogHelp.setTitleText(getString(R.string.help_search_icon_title));
+//            dialogHelp.setContentText(getString(R.string.help_search_icon));
+//            dialogHelp.setConfirmText(getString(R.string.dialog_ok));
+//            dialogHelp.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                @Override
+//                public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                    sweetAlertDialog.dismissWithAnimation();
+//                }
+//            });
+//            dialogHelp.show();
+//            Preferences.setHelpStatusProfile(this, profile.getUsername(), UserProfile.HELP_SKIP);
+//            switchFragment(FragmentState.HELP, null, null);
         } else if (profile.getHelpStatus() == UserProfile.HELP_SKIP) {
             AppLog.logString("Display help dialog");
-            showHelpDialog();
+            //showHelpDialog();
         } else {
             SimpleAppLog.info("Help status: " + profile.getHelpStatus());
             //showHelpDialog();
@@ -431,7 +440,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (!ImageLoader.getInstance().isInited()) {
                     ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
                 }
-                ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar);
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .showImageForEmptyUri(R.drawable.default_avatar)
+                        .showImageOnFail(R.drawable.default_avatar)
+                        .build();
+                ImageLoader.getInstance().displayImage(profile.getProfileImage(), imgAvatar, options);
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not fetch setting", e);
@@ -575,6 +588,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 materialMenu.animateState(MaterialMenuDrawable.IconState.BURGER);
                 break;
         }
+        switch (currentFragmentState) {
+            case FREE_STYLE:
+            case LESSON:
+                if (searchView != null) searchView.setVisibility(View.VISIBLE);
+                break;
+            default:
+                if (searchView != null) {
+                    if (!searchView.isIconified())
+                        searchView.setIconified(true);
+                    searchView.setVisibility(View.INVISIBLE);
+                }
+                break;
+        }
     }
 
     private void switchFragment(Class<?> clazz, SwitchFragmentParameter parameter, Bundle args) {
@@ -709,5 +735,35 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } else {
             super.onBackPressed();
         }
+    }
+
+    private void displayRandomBackground() {
+        String img = "drawable://" + R.drawable.london_cover;
+        try {
+            String dir = "background";
+            String[] files = getResources().getAssets().list(dir);
+            if (files != null && files.length > 0) {
+                Random r = new Random();
+                int index = 0;
+                if (files.length > 1) {
+                    index = r.nextInt(files.length + 1);
+                    if (index < 0 || index > files.length) {
+                        index = 0;
+                    }
+                }
+                if (index != files.length) {
+                    img = "assets://" + dir + File.separator + files[index];
+                }
+            }
+
+        } catch (IOException e) {
+            SimpleAppLog.error("could not display background", e);
+        }
+        SimpleAppLog.debug("display background: " + img);
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageForEmptyUri(R.drawable.london_cover)
+                .showImageOnFail(R.drawable.london_cover)
+                .build();
+        ImageLoader.getInstance().displayImage(img, imgAvatarCover, options);
     }
 }

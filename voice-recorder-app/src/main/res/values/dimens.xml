@@ -9,13 +9,13 @@
     <dimen name="button_login_height">44dp</dimen>
 
     <!-- Main screen - recording area -->
-    <dimen name="main_action_button_margin">20dp</dimen>
+    <dimen name="main_action_button_margin">10dp</dimen>
 
     <dimen name="main_record_view_padding_bottom">10dp</dimen>
 
     <dimen name="main_selected_word_margin">7dp</dimen>
     <!-- Text size -->
-
+    <dimen name="main_recorded_word_phone_container_height">60dp</dimen>
     <dimen name="main_selected_word_size">21sp</dimen>
     <dimen name="main_selected_phoneme_size">14sp</dimen>
 
@@ -30,4 +30,7 @@
 
     <!-- Tip view -->
     <dimen name="button_tip_margin">20dp</dimen>
+
+    <dimen name="show_case_text_size">18sp</dimen>
+
 </resources>
