@@ -39,20 +39,29 @@ public class LessonCollectionService {
      * @param description
      * @return
      */
-    public LessonCollectionDTO updateLesson(String id, String name, String description){
+    public LessonCollectionDTO updateLesson(String id, String name, String description, boolean isUpdateLessonName){
         LessonCollectionDTO dto = new LessonCollectionDTO();
         LessonCollectionDAO dao = new LessonCollectionDAO();
         String message;
         try{
-            if(!isExistLessonName(name)) {
-                boolean isUpdate = dao.updateLesson(id, name, description);
+            if(isUpdateLessonName) {
+                if (!isExistLessonName(name)) {
+                    boolean isUpdate = dao.updateLesson(id, name, description);
+                    if (isUpdate) {
+                        message = SUCCESS;
+                    } else {
+                        message = ERROR + ":" + "An error has been occurred in server!";
+                    }
+                } else {
+                    message = ERROR + ":" + "LessionCollection name is existed";
+                }
+            }else {
+                boolean isUpdate = dao.updateDescription(id, description);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
                     message = ERROR + ":" + "An error has been occurred in server!";
                 }
-            }else{
-                message = ERROR + ":" + "LessionCollection name is existed";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
