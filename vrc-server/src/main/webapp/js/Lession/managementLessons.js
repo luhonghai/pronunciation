@@ -41,7 +41,7 @@ function listLessons(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementWordOfQuestion.jsp?id='+ data.id +'" type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Word' + '</a>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementWordOfQuestion.jsp?id='+ data.id +'" type="button" id="addquestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("lesson", data.name);
                 $button.attr("description", data.description);
@@ -101,16 +101,40 @@ function addLesson(){
 
     });
 
-
-
-
-
 }
 
 function add(){
     $(document).on("click","#openAddLesson", function(){
         $("#add").modal('show');
         $("#addLesson").val("");
+    });
+}
+
+function addQuestionToLesson(){
+    $(document).on("click","#addquestion", function(){
+        $("#addQuestionToLesson").modal('show');
+        var idd=$(this).attr('id-column');
+        $.ajax({
+            url: "ManagementLessonsServlet",
+            type: "POST",
+            dataType: "text",
+            data: {
+                addQuestion: "addQuestion",
+                id: id
+            },
+            success: function (data) {
+                if (data.indexOf("success") !=-1) {
+
+                }else{
+                    swal("Could not delete question!", data.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
     });
 }
 
@@ -232,6 +256,7 @@ $(document).ready(function(){
     dateTo();
     add();
     addLesson();
+    addQuestionToLesson();
     edit();
     editLesson();
     deletes();
