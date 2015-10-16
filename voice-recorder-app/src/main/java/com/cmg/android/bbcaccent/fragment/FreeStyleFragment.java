@@ -1,7 +1,5 @@
 package com.cmg.android.bbcaccent.fragment;
 
-import android.app.Dialog;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.media.AudioFormat;
@@ -13,14 +11,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTabHost;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TableLayout;
@@ -45,7 +45,6 @@ import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
@@ -60,6 +59,8 @@ import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
+import com.cmg.android.bbcaccent.view.ShowcaseHelper;
+import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -82,6 +83,7 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
@@ -163,11 +165,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
     private String selectedWord;
 
-    private UserVoiceModel currentModel;
-
-    private DictionaryItem dictionaryItem;
-
-
     /**
      * Animation
      */
@@ -187,6 +184,25 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
     private int receiverListenerId;
 
+    private SlidingUpPanelLayout panelSlider;
+
+    class ViewState {
+
+        UserVoiceModel currentModel;
+
+        DictionaryItem dictionaryItem;
+
+        boolean willCollapseSlider = true;
+
+        boolean willSearchRandomWord = true;
+
+        boolean willShowHelpSearchWordAndSlider = false;
+    }
+
+    private ViewState viewState;
+
+    private ShowcaseHelper showcaseHelper;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -198,12 +214,12 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         initAnimation();
         switchButtonStage(ButtonState.DISABLED);
         if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(MainBroadcaster.Filler.USER_VOICE_MODEL.toString())) {
-                currentModel = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
+            if (savedInstanceState.containsKey(MainBroadcaster.Filler.Key.VIEW_STATE.toString())) {
+                viewState = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.VIEW_STATE.toString()), ViewState.class);
             }
-            if (savedInstanceState.containsKey(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString())) {
-                dictionaryItem = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString()), DictionaryItem.class);
-            }
+        }
+        if (viewState == null) {
+            viewState = new ViewState();
         }
         scoreDBAdapter = new ScoreDBAdapter();
         dbAdapter = new WordDBAdapter();
@@ -211,12 +227,12 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
             @Override
             public void onUserModelFetched(UserVoiceModel model) {
-                currentModel = model;
+                viewState.currentModel = model;
                 try {
                     saveToDatabase();
                 } catch (Exception e) {
                     SimpleAppLog.error("Could not save data to database", e);
-                    currentModel = null;
+                    viewState.currentModel = null;
                 }
                 AppLog.logString("Start score animation");
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
@@ -254,20 +270,113 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 getWord(word);
             }
         });
-        if (currentModel == null) {
-            String[] words = getResources().getStringArray(R.array.random_words);
-            if (words != null && words.length > 0) {
-                getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
+        if (viewState.currentModel == null) {
+            if (viewState.willSearchRandomWord || viewState.dictionaryItem == null) {
+                String[] words = getResources().getStringArray(R.array.random_words);
+                if (words != null && words.length > 0) {
+                    getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
+                } else {
+                    getWord(getString(R.string.example_word));
+                }
+                viewState.willSearchRandomWord = false;
             } else {
-                getWord(getString(R.string.example_word));
+                displayDictionaryItem();
+                switchButtonStage(ButtonState.DEFAULT);
+                recordingView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recordingView.recycleView();
+                    }
+                }, 100);
             }
         } else {
-            if (dictionaryItem != null) {
-                txtPhonemes.setText(dictionaryItem.getPronunciation());
-                txtWord.setText(dictionaryItem.getWord());
-            }
+            displayDictionaryItem();
+            recordingView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    recordingView.recycleView();
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                    recordingView.startPingAnimation(getActivity(), 0, viewState.currentModel.getScore(), true, false);
+                }
+            }, 100);
+        }
+
+        initSlider(root);
+        showcaseHelper = new ShowcaseHelper(getActivity());
+        if (viewState.willShowHelpSearchWordAndSlider) {
+            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
+                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
+                            "Don't forget to try new words by searching for them by pressing the magnifying glass"),
+                    new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
+                            "Swipe up or tap to track progress, view past words and tips"));
         }
         return root;
+    }
+
+    private void displayDictionaryItem() {
+        if (viewState.dictionaryItem != null) {
+            txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
+            txtWord.setText(viewState.dictionaryItem.getWord());
+        }
+    }
+
+    private void initSlider(final View root) {
+        LinearLayout rlSliderContent = (LinearLayout) root.findViewById(R.id.rlSliderContent);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        SlidingUpPanelLayout.LayoutParams layoutParams = (SlidingUpPanelLayout.LayoutParams) rlSliderContent.getLayoutParams();
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        final int halfHeight = (displayMetrics.heightPixels - actionBarHeight) / 2;
+        layoutParams.height = halfHeight;
+        rlSliderContent.setLayoutParams(layoutParams);
+        txtPhonemes.setVisibility(View.INVISIBLE);
+        panelSlider = (SlidingUpPanelLayout) root.findViewById(R.id.panelSlider);
+        panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                float test = (halfHeight - root.findViewById(R.id.btnSlider).getHeight()) / (float) halfHeight;
+                //SimpleAppLog.debug("Offset: " + slideOffset + ". Test: " + test);
+                if (slideOffset > test ) {
+                    txtPhonemes.setVisibility(View.INVISIBLE);
+                } else {
+                    txtPhonemes.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+        if (viewState.willCollapseSlider) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    viewState.willCollapseSlider = false;
+                }
+            }, 2000);
+        }
 
     }
 
@@ -327,9 +436,9 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
     private void completeGetWord(DictionaryItem item, ButtonState state) {
         if (item != null) {
-            dictionaryItem = item;
+            viewState.dictionaryItem = item;
         } else {
-            dictionaryItem = null;
+            viewState.dictionaryItem = null;
         }
         analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
         lastState = state;
@@ -413,11 +522,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         }
         try {
             if (((MainActivity)getActivity()).checkNetwork(false)) {
-                currentModel = null;
-                recordingView.setScore(0.0f);
-                recordingView.stopPingAnimation();
-                recordingView.recycle();
-                recordingView.invalidate();
+                viewState.currentModel = null;
+                recordingView.recycleView();
                 analyzingState = AnalyzingState.DEFAULT;
                 AnalyticHelper.sendSelectWord(MainApplication.getContext(), word);
                 switchButtonStage(ButtonState.DISABLED);
@@ -447,8 +553,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
                 txtWord.setText(getString(R.string.searching));
                 txtPhonemes.setText(getString(R.string.please_wait));
-                dictionaryItem = null;
-                currentModel = null;
+                viewState.dictionaryItem = null;
+                viewState.currentModel = null;
                 if (getWordAsync != null) {
                     try {
                         while (!getWordAsync.isCancelled() && getWordAsync.cancel(true)) ;
@@ -555,7 +661,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     private void analyze() {
         try {
             // Clear old data
-            currentModel = null;
+            viewState.currentModel = null;
             analyzingState = AnalyzingState.RECORDING;
             switchButtonStage(ButtonState.RECORDING);
             isRecording = true;
@@ -681,13 +787,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             mTabHost.getTabWidget().setEnabled(false);
         }
         stopRequestLocation();
-        if (currentModel != null) {
-            recordingView.stopPingAnimation();
-            recordingView.recycle();
-            recordingView.invalidate();
-            // Null response
-            analyzingState = AnalyzingState.DEFAULT;
-        }
     }
 
     protected void stopRequestLocation() {
@@ -724,10 +823,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         //requestLocation();
         fetchSetting();
         isPrepared = false;
-        if (currentModel != null) {
-            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-            recordingView.startPingAnimation(getActivity(), 1000, currentModel.getScore(), true, true);
-        }
     }
 
     @Override
@@ -738,9 +833,9 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                     if (isRecording) {
                         stop();
                         switchButtonStage(ButtonState.DISABLED);
-                        if (currentModel != null) {
+                        if (viewState.currentModel != null) {
                             analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                            recordingView.startPingAnimation(getActivity(), 2000, currentModel.getScore(), true, true);
+                            recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
                         } else {
                             analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
                             recordingView.startPingAnimation(getActivity(), 1000, 100.0f, false, false);
@@ -760,12 +855,14 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             //case R.id.txtPhoneme:
             //case R.id.txtWord:
             case R.id.rlVoiceExample:
-                if (dictionaryItem != null) {
-                    play(dictionaryItem.getAudioFile());
+                if (viewState.dictionaryItem != null) {
+                    play(viewState.dictionaryItem.getAudioFile());
                 }
                 break;
             case R.id.main_recording_view:
+                viewState.willShowHelpSearchWordAndSlider = true;
                 handlerStartDetail.post(runnableStartDetail);
+                break;
         }
     }
 
@@ -775,10 +872,10 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         @Override
         public void run() {
             willMoveToDetail = false;
-            if (currentModel != null && dictionaryItem != null) {
+            if (viewState.currentModel != null && viewState.dictionaryItem != null) {
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
-                bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(currentModel));
+                bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new MainActivity.SwitchFragmentParameter(true, true, true),
@@ -992,9 +1089,9 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 AppLog.logString("On animation max");
                 recordingView.stopPingAnimation();
                 isRecording = false;
-                if (currentModel != null) {
-                    currentModel.setAudioFile(audioStream.getFilename());
-                    float score = currentModel.getScore();
+                if (viewState.currentModel != null) {
+                    viewState.currentModel.setAudioFile(audioStream.getFilename());
+                    float score = viewState.currentModel.getScore();
                     if (score >= 80.0) {
                         lastState = ButtonState.GREEN;
                     } else if (score >= 45.0) {
@@ -1004,32 +1101,34 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                     }
                     // Call other view update
                     Gson gson = new Gson();
-                    MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(currentModel), FragmentTab.TYPE_RELOAD_DATA);
+                    MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(viewState.currentModel), FragmentTab.TYPE_RELOAD_DATA);
                     switchButtonStage();
-
-                    YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                            imgHelpHand.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            if (willMoveToDetail) {
-                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
-                            }
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-
-                        }
-                    }).playOn(imgHelpHand);
+                    showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
+                            new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
+                            new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
+//                    YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
+//                        @Override
+//                        public void onAnimationStart(Animator animation) {
+//                            imgHelpHand.setVisibility(View.VISIBLE);
+//                        }
+//
+//                        @Override
+//                        public void onAnimationEnd(Animator animation) {
+//                            if (willMoveToDetail) {
+//                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onAnimationCancel(Animator animation) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onAnimationRepeat(Animator animation) {
+//
+//                        }
+//                    }).playOn(imgHelpHand);
 
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1061,9 +1160,9 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 recordingView.stopPingAnimation();
                 recordingView.recycle();
                 recordingView.invalidate();
-                if (currentModel != null) {
+                if (viewState.currentModel != null) {
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                    recordingView.startPingAnimation(getActivity(), 2000, currentModel.getScore(), true, true);
+                    recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
                 } else if (isRecording) {
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
                     d.setTitleText(getString(R.string.could_not_analyze_word_title));
@@ -1108,17 +1207,19 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                     analyzingState = AnalyzingState.DEFAULT;
                     switchButtonStage();
 
-                    if (dictionaryItem != null) {
-                        txtWord.setText(dictionaryItem.getWord());
-                        txtPhonemes.setText(dictionaryItem.getPronunciation());
+                    if (viewState.dictionaryItem != null) {
+                        txtWord.setText(viewState.dictionaryItem.getWord());
+                        txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
                         txtWord.setEnabled(true);
                         txtPhonemes.setEnabled(true);
                         rlVoiceExample.setEnabled(true);
-                        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getWord()));
-                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, dictionaryItem.getPronunciation()));
+                        AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, viewState.dictionaryItem.getWord()));
+                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, viewState.dictionaryItem.getPronunciation()));
                         //txtPhonemes.setSelected(true);
                         //txtWord.setSelected(true);
-
+                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.ANALYZING_WORD,
+                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> <i>\"" + viewState.dictionaryItem.getWord() + "\"</i> to hear the word"),
+                                new ShowcaseHelper.HelpState(btnAnalyzing, "<b>Press</b> to <b>test</b> your pronunciation"));
                     } else {
                         txtWord.setText(getString(R.string.not_found));
                         txtPhonemes.setText(getString(R.string.please_try_again));
@@ -1135,39 +1236,39 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         if (audioStream == null) return;
         String tmpFile = audioStream.getFilename();
         File recordedFile = new File(tmpFile);
-        if (recordedFile.exists() && currentModel != null) {
-            AnalyticHelper.sendAnalyzingWord(getActivity(), currentModel.getWord(), Math.round(currentModel.getScore()));
+        if (recordedFile.exists() && viewState.currentModel != null) {
+            AnalyticHelper.sendAnalyzingWord(getActivity(), viewState.currentModel.getWord(), Math.round(viewState.currentModel.getScore()));
             File pronScoreDir = FileHelper.getPronunciationScoreDir(MainApplication.getContext());
             PronunciationScore score = new PronunciationScore();
             // Get ID from server
-            String dataId = currentModel.getId();
+            String dataId = viewState.currentModel.getId();
             score.setDataId(dataId);
-            score.setScore(currentModel.getScore());
-            score.setWord(currentModel.getWord());
+            score.setScore(viewState.currentModel.getScore());
+            score.setWord(viewState.currentModel.getWord());
             score.setTimestamp(new Date(System.currentTimeMillis()));
             //DENP-238
-            score.setUsername(currentModel.getUsername());
-            score.setVersion(currentModel.getVersion());
+            score.setUsername(viewState.currentModel.getUsername());
+            score.setVersion(viewState.currentModel.getVersion());
             // Save recorded file
             File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
             FileUtils.copyFile(recordedFile, savedFile);
             // Save json data
             Gson gson = new Gson();
-            currentModel.setAudioFile(savedFile.getAbsolutePath());
-            FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(currentModel), "UTF-8");
+            viewState.currentModel.setAudioFile(savedFile.getAbsolutePath());
+            FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(viewState.currentModel), "UTF-8");
             scoreDBAdapter.open();
             scoreDBAdapter.insert(score);
             scoreDBAdapter.close();
-            if (currentModel.getResult() != null) {
+            if (viewState.currentModel.getResult() != null) {
                 PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
                 phonemeScoreDBAdapter.open();
-                List<SphinxResult.PhonemeScore> phonemeScoreList = currentModel.getResult().getPhonemeScores();
+                List<SphinxResult.PhonemeScore> phonemeScoreList = viewState.currentModel.getResult().getPhonemeScores();
                 if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
                     for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
                         phonemeScore.setTime(System.currentTimeMillis());
                         phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
                         phonemeScore.setUserVoiceId(dataId);
-                        phonemeScoreDBAdapter.insert(phonemeScore, currentModel.getUsername(),currentModel.getVersionPhoneme());
+                        phonemeScoreDBAdapter.insert(phonemeScore, viewState.currentModel.getUsername(),viewState.currentModel.getVersionPhoneme());
                     }
                 }
                 phonemeScoreDBAdapter.close();
@@ -1182,57 +1283,9 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         Gson gson = new Gson();
         if (outState != null) {
             // Save last user voice model
-            if (currentModel != null) {
-                outState.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(currentModel));
-            }
-            if (dictionaryItem != null) {
-                outState.putString(MainBroadcaster.Filler.Key.DICTIONARY_ITEM.toString(), gson.toJson(dictionaryItem));
+            if (viewState != null) {
+                outState.putString(MainBroadcaster.Filler.Key.VIEW_STATE.toString(), gson.toJson(viewState));
             }
         }
-    }
-
-    private void showHelpDialog() {
-        final Dialog dialog = new Dialog(getActivity(), R.style.Theme_WhiteDialog);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setContentView(R.layout.help_dialog);
-
-        dialog.findViewById(R.id.btnNever).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserProfile userProfile = Preferences.getCurrentProfile(MainApplication.getContext());
-                if (userProfile != null) {
-                    Preferences.setHelpStatusProfile(MainApplication.getContext(), userProfile.getUsername(), UserProfile.HELP_NEVER);
-                }
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.btnSkip).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.btnClose).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(HelpActivity.class);
-                dialog.dismiss();
-            }
-        });
-
-        dialog.setTitle(null);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setCancelable(true);
-        dialog.show();
     }
 }

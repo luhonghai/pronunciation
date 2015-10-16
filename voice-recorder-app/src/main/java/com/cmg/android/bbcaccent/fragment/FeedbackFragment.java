@@ -22,7 +22,6 @@ import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
 import com.cmg.android.bbcaccent.http.UploadFeedbackAsync;
 import com.cmg.android.bbcaccent.http.common.Common;
 import com.cmg.android.bbcaccent.http.common.DeviceInfoCommon;

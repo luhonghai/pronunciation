@@ -1,144 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout android:layout_weight="1"
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
+<com.cmg.android.bbcaccent.view.SlidingUpPanelLayout
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/panelSlider"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="bottom"
+    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoPanelHeight="25dp"
+    sothree:umanoOverlay="true"
+    sothree:umanoInitialState="expanded"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoDragView="@+id/btnSlider">
+    <LinearLayout
         android:orientation="vertical"
-        android:paddingBottom="@dimen/main_record_view_padding_bottom"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <RelativeLayout
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:layout_weight="1.5">
-            <com.cmg.android.bbcaccent.view.RecordingView
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:layout_centerInParent="true"
-                android:background="@android:color/white"
-                android:id="@+id/main_recording_view" />
-            <ImageButton
-                android:id="@+id/imgHourGlass"
-                android:background="@null"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_margin="40dp"
-                android:src="@drawable/p_hour_glass"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:clickable="false"
-                android:visibility="gone"
-                />
-            <ImageButton
-                android:id="@+id/imgHelpHand"
-                android:background="@null"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="120dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="120dp"
-                android:src="@drawable/p_help_hand"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:clickable="false"
-                android:visibility="gone"
-                />
-        </RelativeLayout>
-        <LinearLayout
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:orientation="horizontal"
-            android:layout_weight="4.8">
-            <ImageButton
-                android:id="@+id/btnAudio"
-                android:background="@null"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/p_audio_gray"
-                android:layout_weight="1.2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:clickable="false"
-                android:layout_marginLeft="@dimen/main_action_button_margin"
-                android:layout_marginStart="@dimen/main_action_button_margin"/>
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight=".8">
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/main_selected_word_margin"
-                    android:layout_marginStart="@dimen/main_selected_word_margin"
-                    android:layout_marginEnd="@dimen/main_selected_word_margin"
-                    android:layout_marginRight="@dimen/main_selected_word_margin"
-                    >
-                    <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
-                        android:id="@+id/txtWord"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="@dimen/main_selected_word_size"
-                        />
-                    <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
-                        android:id="@+id/txtPhoneme"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textSize="@dimen/main_selected_phoneme_size"
-                        android:gravity="center"
-                        android:layout_weight="1"/>
-                </LinearLayout>
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
                 <RelativeLayout
-                    android:id="@+id/rlVoiceExample"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <ImageButton
+                            android:id="@+id/btnAudio"
+                            android:background="@null"
+                            android:layout_width="@dimen/button_default_size"
+                            android:layout_height="@dimen/button_default_size"
+                            android:src="@drawable/p_audio_gray"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:clickable="false"
+                            android:layout_margin="@dimen/main_action_button_margin"/>
+                        <RelativeLayout
+                            android:layout_height="fill_parent"
+                            android:layout_width="0dp"
+                            android:layout_weight="1">
+                            <com.cmg.android.bbcaccent.view.RecordingView
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_centerInParent="true"
+                                android:background="@android:color/white"
+                                android:id="@+id/main_recording_view" />
+                            <ImageButton
+                                android:id="@+id/imgHourGlass"
+                                android:background="@null"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_margin="40dp"
+                                android:src="@drawable/p_hour_glass"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                android:clickable="false"
+                                android:visibility="gone"
+                                />
+                            <ImageButton
+                                android:id="@+id/imgHelpHand"
+                                android:background="@null"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="120dp"
+                                android:layout_marginRight="120dp"
+                                android:layout_marginBottom="30dp"
+                                android:layout_marginTop="120dp"
+                                android:src="@drawable/p_help_hand"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                android:clickable="false"
+                                android:visibility="gone"
+                                />
+                        </RelativeLayout>
+                        <ImageButton
+                            android:id="@+id/btnAnalyzing"
+                            android:background="@null"
+                            android:layout_width="@dimen/button_default_size"
+                            android:layout_height="@dimen/button_default_size"
+                            android:src="@drawable/p_record_orange"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:layout_margin="@dimen/main_action_button_margin"/>
+                    </LinearLayout>
                 </RelativeLayout>
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="@dimen/main_recorded_word_phone_container_height"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/main_selected_word_margin"
+                        android:layout_marginStart="@dimen/main_selected_word_margin"
+                        android:layout_marginEnd="@dimen/main_selected_word_margin"
+                        android:layout_marginRight="@dimen/main_selected_word_margin"
+                        >
+                        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+                            android:id="@+id/txtWord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:text="Word"
+                            android:textSize="@dimen/main_selected_word_size"
+                            />
+                        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+                            android:id="@+id/txtPhoneme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="@dimen/main_selected_phoneme_size"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:text="Phonemes"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+                    <RelativeLayout
+                        android:id="@+id/rlVoiceExample"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/main_recorded_word_phone_container_height">
 
-            <ImageButton
-                android:id="@+id/btnAnalyzing"
-                android:background="@null"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/p_record_orange"
-                android:layout_weight="1.2"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_marginEnd="@dimen/main_action_button_margin"
-                android:layout_marginRight="@dimen/main_action_button_margin"/>
-        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/app_green"
+                android:layout_height="wrap_content"  android:text="The definition of current word ..."/>
+        </RelativeLayout>
     </LinearLayout>
-    <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-        <android.support.v4.app.FragmentTabHost
-            xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:id="@+id/rlSliderContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageButton
+                        android:id="@+id/btnSlider"
+                        android:background="@null"
+                        android:layout_width="55dp"
+                        android:layout_height="23dp"
+                        android:src="@drawable/ic_slider"
+                        android:layout_centerInParent="true"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"/>
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/app_blue_sky"/>
+            </LinearLayout>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            android:layout_width="match_parent">
+            <android.support.v4.app.FragmentTabHost
             android:id="@android:id/tabhost"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-
-            <LinearLayout
+                <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
                 <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"/>
+                android:id="@android:id/tabs"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
 
                 <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="fill_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-        </android.support.v4.app.FragmentTabHost>
+                android:id="@android:id/tabcontent"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+                </LinearLayout>
+            </android.support.v4.app.FragmentTabHost>
+        </RelativeLayout>
     </LinearLayout>
-</LinearLayout>
+</com.cmg.android.bbcaccent.view.SlidingUpPanelLayout>

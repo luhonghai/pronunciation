@@ -8,7 +8,7 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.widget.ImageView;
 
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;

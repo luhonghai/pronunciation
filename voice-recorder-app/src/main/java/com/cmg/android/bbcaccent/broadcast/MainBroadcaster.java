@@ -56,7 +56,8 @@ public class MainBroadcaster {
             DATA("data"),
             CLASS_NAME("class_name"),
             SWITCH_FRAGMENT_PARAMETER("switch_fragment_parameter"),
-            DICTIONARY_ITEM("dictionary_item")
+            DICTIONARY_ITEM("dictionary_item"),
+            VIEW_STATE("view_state")
             ;
             String name;
             Key(String name) {this.name = name;}

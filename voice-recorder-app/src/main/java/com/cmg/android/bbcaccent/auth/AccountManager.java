@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.tab.Preferences;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.http.HttpContacter;
 import com.cmg.android.bbcaccent.http.ResponseData;

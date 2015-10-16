@@ -45,6 +45,7 @@ public class PronunciationWord extends LiteEntity {
     }
 
     public String getPronunciation() {
+        if (pronunciation == null) return "";
         return pronunciation;
     }
 
