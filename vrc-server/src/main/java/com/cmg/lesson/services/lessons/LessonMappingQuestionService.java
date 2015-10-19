@@ -1,7 +1,11 @@
 package com.cmg.lesson.services.lessons;
 
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
+import com.cmg.lesson.data.dto.lessons.LessonMappingQuestionDTO;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import org.apache.log4j.Logger;
+
+import java.util.List;
 
 /**
  * Created by CMG Dev156 on 10/16/2015.
@@ -26,5 +30,73 @@ public class LessonMappingQuestionService {
         return version +1;
     }
 
+    /**
+     *
+     * @param idLessonCollection
+     * @param idQuestion
+     * @return
+     * @throws Exception
+     */
+    public boolean checkExist(String idLessonCollection, String idQuestion) throws Exception{
+        boolean isExist = false;
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        isExist = dao.checkExist(idLessonCollection, idQuestion);
+        return isExist;
+    }
 
+    /**
+     *
+     * @param idLessonCollection
+     * @return
+     */
+    public LessonMappingQuestionDTO getAllByIDLesson(String idLessonCollection){
+        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        try{
+            List<LessonMappingQuestion> list = dao.getAllByIDLesson(idLessonCollection);
+            if(list!=null && list.size() > 0){
+                dto.setData(list);
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR + ":can not get question for this lesson");
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ":can not get question for this lesson");
+            logger.error("can not get list question on idLesson : " + idLessonCollection + " because : " + e.getMessage());
+        }
+        return dto;
+    }
+
+    /**
+     *
+     * @param idLessonCollection
+     * @return
+     */
+    public boolean updateDeleted(String idLessonCollection){
+        boolean isDelete = false;
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        try{
+            isDelete = dao.updateDeleted(idLessonCollection);
+        }catch (Exception e){
+            logger.debug("can not update delete in database because : " + e.getMessage());
+        }
+        return isDelete;
+    }
+
+    /**
+     * 
+     * @param idLessonCollection
+     * @param idQuestion
+     * @return
+     */
+    public boolean updateDeleted(String idLessonCollection, String idQuestion){
+        boolean isDelete = false;
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        try{
+            isDelete = dao.updateDeleted(idLessonCollection,idQuestion);
+        }catch (Exception e){
+            logger.debug("can not update delete in database because : " + e.getMessage());
+        }
+        return isDelete;
+    }
 }
