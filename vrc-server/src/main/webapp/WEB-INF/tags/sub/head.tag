@@ -23,7 +23,7 @@
         <!-- DataTables Responsive CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
         <%--<link href="bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">--%>
-
+        <link href="<%=request.getContextPath()%>/bower_components/semantic/dist/semantic.min.css">
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/dist/css/sb-admin-2.css" rel="stylesheet">
@@ -45,6 +45,7 @@
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="<%=request.getContextPath() %>/bower_components/semantic/dist/semantic.min.js"></script>
         <![endif]-->
         <style>
                 /*@media (min-width: 768px) and (max-width: 970px) {*/

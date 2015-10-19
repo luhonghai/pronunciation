@@ -30,7 +30,7 @@ function listLessons(){
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "30%",
+            "sWidth": "25%",
             "data": "description",
             "sDefaultContent": ""
         }, {
@@ -38,7 +38,7 @@ function listLessons(){
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
+            "sWidth": "30%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
@@ -233,31 +233,35 @@ function addQuestionToLesson(){
     $(document).on("click","#addQuestion", function(){
         $("#addQuestionToLesson").modal('show');
         var idd=$(this).attr('id-column');
-        $.ajax({
-            url: "ManagementLessonsServlet",
-            type: "POST",
-            dataType: "text",
-            data: {
-                addQuestion: "addQuestion",
-                id: id
-            },
-            success: function (data) {
-                if (data.indexOf("success") !=-1) {
-
-                }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
-
+        //$.ajax({
+        //    url: "ManagementLessonsServlet",
+        //    type: "POST",
+        //    dataType: "json",
+        //    data: {
+        //        addQuestion: "addQuestion",
+        //        idd: idd
+        //    },
+        //    success: function (data) {
+        //        if (data!=null) {
+        //
+        //
+        //        }else{
+        //            swal("Could not delete question!", data.split(":")[1], "error");
+        //        }
+        //    },
+        //    error: function () {
+        //        swal("Error!", "Could not connect to server", "error");
+        //    }
+        //
+        //});
     });
+
 }
 
 $(document).ready(function(){
+    //$("#ui_normal_dropdown").dropdown({
+    //        maxSelections: 3
+    //    });
     dateFrom();
     dateTo();
     openPopupAdd();

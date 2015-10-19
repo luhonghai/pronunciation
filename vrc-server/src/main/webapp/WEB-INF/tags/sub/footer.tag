@@ -29,7 +29,6 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
-
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/raphael/raphael-min.js"></script>
 
