@@ -1,6 +1,9 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 
+<link class="ui" href="<%=request.getContextPath()%>/bower_components/semantic/semantic.min.css" type="text/css" rel="stylesheet">
+<script src="<%=request.getContextPath() %>/bower_components/semantic/semantic.min.js"></script>
+
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
@@ -136,7 +139,7 @@
 
               <div class="form-group">
                 <div class="ui sub header">Selection</div>
-                <select  name="skills" class="" id="ui_normal_dropdown">
+                <select multiple="" id="select_question" name="skills" class="ui fluid search normal dropdown">
                   <option value="">Skills</option>
                   <option value="angular">Angular</option>
                   <option value="css">CSS</option>
@@ -157,6 +160,14 @@
                   <option value="ui">UI Design</option>
                   <option value="ux">User Experience</option>
                 </select>
+                <div id="js-dropdow"></div>
+                <!--<script>
+                  $('.ui.dropdown')
+                          .dropdown(
+                          'set selected',['Angular','CSS','Graphic Design']
+                  );
+
+                </script>-->
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesaddquestion" class="btn btn-default" value="yes" >Yes</button>
@@ -173,8 +184,6 @@
     </div>
   </div>
 </div>
-
-
 
 <div id="edits" class="modal fade">
   <div class="modal-dialog">
@@ -217,7 +226,6 @@
   </div>
 </div>
 
-
 <div id="deletes" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -239,7 +247,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="<%=request.getContextPath() %>/js/Lession/managementLessons.js"></script>
 

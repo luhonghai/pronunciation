@@ -1,9 +1,14 @@
 
+import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
+import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
+import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.jdo.Admin;
 
 import java.io.File;
 
@@ -72,8 +77,19 @@ public class UnitTesting {
                 System.out.println(word.getWord());
             }*/
 
+
+            LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
+            LessonMappingQuestion lessonMappingQuestion = new LessonMappingQuestion();
+            lessonMappingQuestion.setIdLesson("72e02373-d236-4eca-a083-3775271ffd52");
+            lessonMappingQuestion.setIdQuestion("dafaae2d-8947-4fd3-bee3-f0d921e0d3ef");
+            lessonMappingQuestion.setIsDeleted(false);
+            lessonMappingQuestion.setVersion(lessonMappingQuestionService.getMaxVersion());
+            lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);
+
+
             WordMappingPhonemesService serv = new WordMappingPhonemesService();
            // serv.updateDatabase();
+
 
         } catch (Exception e) {
             e.printStackTrace();

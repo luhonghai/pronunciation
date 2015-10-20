@@ -1,8 +1,10 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
+import com.cmg.lesson.data.dto.lessons.LessonMappingQuestionDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.services.lessons.LessonCollectionService;
+import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.question.QuestionService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
@@ -21,7 +23,11 @@ import java.io.IOException;
 public class ManagementLessonsServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         LessonCollectionService lessonCollectionService = new LessonCollectionService();
+        LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
+        QuestionService questionService = new QuestionService();
         LessonCollectionDTO lessonCollectionDTO;
+        LessonMappingQuestionDTO lessonMappingQuestionDTO;
+        QuestionDTO questionDTO;
         Gson gson = new Gson();
         try {
             if(request.getParameter("list")!=null){
@@ -54,6 +60,13 @@ public class ManagementLessonsServlet extends BaseServlet {
                 String lessonId =  (String)StringUtil.isNull(request.getParameter("id"),"");
                 String message = lessonCollectionService.deleteLesson(lessonId).getMessage();
                 response.getWriter().write(message);
+            }else if(request.getParameter("listQuestionOfLesson")!=null){
+                String lessonId =  (String)StringUtil.isNull(request.getParameter("idLesson"),"");
+                questionDTO = lessonMappingQuestionService.listQuestionByIdLesson(lessonId,"");
+                String json = gson.toJson(questionDTO);
+                response.getWriter().write(json);
+                //questionService.
+                //response.getWriter().write(message);
             }
         }catch (Exception e){
             response.getWriter().print("Error : " + e.getMessage());

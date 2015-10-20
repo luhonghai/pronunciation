@@ -107,8 +107,9 @@ public class RecorderSentenceService {
             if (recordedSentence == null) {
                 recordedSentence = new RecordedSentence();
                 uuid = UUIDGenerator.generateUUID();
+            }else {
+                uuid = recordedSentence.getId();
             }
-            uuid=recordedSentence.getId();
             Date now = new Date(System.currentTimeMillis());
             int lastStatus = recordedSentence.getStatus();
             recordedSentence.setId(uuid);

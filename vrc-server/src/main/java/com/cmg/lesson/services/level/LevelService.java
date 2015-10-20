@@ -46,6 +46,12 @@ public class LevelService {
         String message;
         try {
             if(!isExistQuestionName(name)) {
+                if(isDemo && isDemoExisted()){
+                    message = ERROR + ":" + "There are only one level to be set to DEMO";
+                    dto.setMessage(message);
+                    return dto;
+
+                }
                 Level lv = new Level();
                 lv.setName(name);
                 lv.setDescription(description);
@@ -92,19 +98,13 @@ public class LevelService {
         LevelDTO dto = new LevelDTO();
         String message;
         try {
-            if(isUpdateLessonName) {
-                if (!isExistQuestionName(name)) {
-                    boolean isUpdate = dao.updateLevel(id, name, description, color, isDemo);
-                    if (isUpdate) {
-                        message = SUCCESS;
-                    } else {
-                        message = ERROR + ":" + "an error has been occurred in server!";
-                    }
-                } else {
-                    message = ERROR + ":" + "level name is existed";
+            if(!isExistQuestionName(name)) {
+                if(isDemo && isDemoExisted()){
+                    message = ERROR + ":" + "There are only one level to be set to DEMO";
+                    dto.setMessage(message);
+                    return dto;
                 }
-            }else{
-                boolean isUpdate = dao.updateLevels(id, description, color, isDemo);
+                boolean isUpdate = dao.updateLevel(id,name,description,color,isDemo);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
@@ -229,6 +229,17 @@ public class LevelService {
             logger.info("can not get level by id : " + id);
         }
         return null;
+    }
+
+    public boolean isDemoExisted(){
+        LevelDAO dao = new LevelDAO();
+        boolean check = false;
+        try {
+            check =  dao.checkIsDemoExisted();
+        }catch (Exception e){
+            logger.info("there are some thing with find level demo in database");
+        }
+        return check;
     }
 }
 
