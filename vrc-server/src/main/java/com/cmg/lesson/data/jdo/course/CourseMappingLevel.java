@@ -21,6 +21,9 @@ public class CourseMappingLevel implements Mirrorable {
     private String idLevel;
 
     @Persistent
+    private int index;
+
+    @Persistent
     private int version;
 
     @Persistent
@@ -66,5 +69,13 @@ public class CourseMappingLevel implements Mirrorable {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
