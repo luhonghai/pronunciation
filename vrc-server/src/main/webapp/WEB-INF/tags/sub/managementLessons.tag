@@ -1,9 +1,6 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 
-<link class="ui" href="<%=request.getContextPath()%>/bower_components/semantic/semantic.min.css" type="text/css" rel="stylesheet">
-<script src="<%=request.getContextPath() %>/bower_components/semantic/semantic.min.js"></script>
-
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">

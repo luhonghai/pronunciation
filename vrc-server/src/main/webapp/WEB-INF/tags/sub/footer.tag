@@ -26,7 +26,6 @@
 <script src="<%=request.getContextPath() %>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
-<script src="<%=request.getContextPath() %>/bower_components/semantic/semantic.min.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>

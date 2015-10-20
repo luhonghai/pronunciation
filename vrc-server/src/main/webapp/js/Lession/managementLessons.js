@@ -265,7 +265,7 @@ function initModal(){
                         $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
                         listSelected.push(obj.name);
                     });
-                    
+
                     listSelected = listSelected.substring(0,listSelected.length-1);
                     addJsForDropdown(listSelected);
 
