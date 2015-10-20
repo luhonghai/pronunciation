@@ -4,6 +4,7 @@ import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
@@ -76,6 +77,12 @@ public class QuestionService {
         QuestionDAO dao = new QuestionDAO();
         String message;
         try{
+            String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
+            if(oldName.equalsIgnoreCase(questionName)){
+                message = SUCCESS;
+                dto.setMessage(message);
+                return dto;
+            }
             if(!isExistQuestionName(questionName)) {
                 boolean isUpdate = dao.updateQuestion(id, questionName);
                 if (isUpdate) {

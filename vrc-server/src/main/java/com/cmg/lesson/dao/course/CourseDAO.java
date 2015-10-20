@@ -1,7 +1,7 @@
-package com.cmg.lesson.dao.level;
+package com.cmg.lesson.dao.course;
 
+import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
-import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -16,8 +16,8 @@ import java.util.Map;
 /**
  * Created by lantb on 2015-10-20.
  */
-public class LevelDAO extends DataAccess<Level> {
-    public LevelDAO(){super(Level.class);}
+public class CourseDAO extends DataAccess<Course> {
+    public CourseDAO(){super(Course.class);}
 
     /**
      *  use for get latest version in table
@@ -27,7 +27,7 @@ public class LevelDAO extends DataAccess<Level> {
     public int getLatestVersion() throws Exception{
         int version = 0;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT max(version) FROM " + Level.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT max(version) FROM " + Course.class.getCanonicalName());
         try {
             if (q != null) {
                 version = (int) q.execute();
@@ -42,61 +42,6 @@ public class LevelDAO extends DataAccess<Level> {
         return version;
     }
 
-
-    /**
-     *
-     * @param id
-     * @param name
-     * @return true is update
-     * @throws Exception
-     */
-    public boolean updateLevel(String id, String name, String description, String color ,boolean isDemo) throws Exception{
-        boolean isUpdate=false;
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+" WHERE id='"+id+"'");
-        try {
-            q.execute(name,description,color);
-            isUpdate=true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (q!= null)
-                q.closeAll();
-            pm.close();
-        }
-        return isUpdate;
-    }
-
-    /**
-     *
-     * @param id
-     * @param description
-     * @param color
-     * @param isDemo
-     * @return
-     * @throws Exception
-     */
-    public boolean updateLevels(String id, String description, String color ,boolean isDemo) throws Exception{
-        boolean isUpdate=false;
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, color=? ,isDemo="+isDemo+" is WHERE id='"+id+"'");
-        try {
-            q.execute(description,color);
-            isUpdate=true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (q!= null)
-                q.closeAll();
-            pm.close();
-        }
-        return isUpdate;
-    }
-
     /**
      *
      * @param name
@@ -105,27 +50,12 @@ public class LevelDAO extends DataAccess<Level> {
      */
     public boolean checkExist(String name) throws Exception{
         boolean isExist = false;
-        List<Level> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
+        List<Course> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }
         return isExist;
     }
-
-    /**
-     *
-     * @return
-     * @throws Exception
-     */
-    public boolean checkIsDemoExisted() throws Exception{
-        boolean isExist = false;
-        List<Level> list = list("WHERE isDemo == :1 && isDeleted == :2 ", true, false);
-        if(list!=null && list.size() > 0){
-            isExist = true;
-        }
-        return isExist;
-    }
-
 
     /**
      *
@@ -133,15 +63,14 @@ public class LevelDAO extends DataAccess<Level> {
      * @return
      * @throws Exception
      */
-    public Level getById(String id) throws Exception{
+    public Course getById(String id) throws Exception{
         boolean isExist = false;
-        List<Level> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        List<Course> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if(list!=null && list.size() > 0){
             return list.get(0);
         }
         return null;
     }
-
 
     /**
      *
@@ -150,7 +79,7 @@ public class LevelDAO extends DataAccess<Level> {
     public double getCount() throws  Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Level.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Course.class.getCanonicalName());
         q.setFilter("isDeleted==false");
         try {
             count = (Long) q.execute();
@@ -163,6 +92,7 @@ public class LevelDAO extends DataAccess<Level> {
         }
     }
 
+
     /**
      *
      * @param search
@@ -174,7 +104,7 @@ public class LevelDAO extends DataAccess<Level> {
     public double getCountSearch(String search,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Level.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Course.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
@@ -213,6 +143,7 @@ public class LevelDAO extends DataAccess<Level> {
         }
     }
 
+
     /**
      *
      * @param start
@@ -225,10 +156,10 @@ public class LevelDAO extends DataAccess<Level> {
      * @return
      * @throws Exception
      */
-    public List<Level> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
+    public List<Course> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + Level.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + Course.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
@@ -288,7 +219,7 @@ public class LevelDAO extends DataAccess<Level> {
     public boolean updateDeleted(String id){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
         try {
             q.execute(true,id);
@@ -299,11 +230,10 @@ public class LevelDAO extends DataAccess<Level> {
         } finally {
             if (q!= null)
                 q.closeAll();
-                pm.close();
+            pm.close();
         }
 
         return check;
     }
-
-
 }
+
