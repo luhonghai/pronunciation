@@ -77,6 +77,7 @@ public class UnitTesting {
                 System.out.println(word.getWord());
             }*/
 
+
             LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
             LessonMappingQuestion lessonMappingQuestion = new LessonMappingQuestion();
             lessonMappingQuestion.setIdLesson("72e02373-d236-4eca-a083-3775271ffd52");
@@ -84,6 +85,10 @@ public class UnitTesting {
             lessonMappingQuestion.setIsDeleted(false);
             lessonMappingQuestion.setVersion(lessonMappingQuestionService.getMaxVersion());
             lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);
+
+
+            WordMappingPhonemesService serv = new WordMappingPhonemesService();
+           // serv.updateDatabase();
 
 
         } catch (Exception e) {
