@@ -233,7 +233,36 @@ function searchAdvanted(){
 function addQuestionForLesson(){
     $(document).on("click","#addQuestion", function(){
         idLesson=$(this).attr('id-column');
-        $("#addQuestionToLesson").modal('show');
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                listQuestionOfLesson: servletName,
+                idLesson: idLesson
+            },
+            success: function (data) {
+                var message = data.message;
+                if(message.indexOf("success") != -1){
+                    var listSelected = [];
+                    $("#select_question").empty();
+                    $.each(data.data, function (idx, obj) {
+                        $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                        listSelected.push(obj.name);
+                    });
+                    // addJsForDropdown(listSelected);
+                    $("#addQuestionToLesson").modal('show');
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
         //alert(idd);
 
     });
@@ -246,36 +275,8 @@ function addJsForDropdown(listSelected){
 }
 
 function initModal(){
-    $('#addQuestionToLesson').on('shown.bs.modal', function (e) {
-        $.ajax({
-            url: servletName,
-            type: "POST",
-            dataType: "json",
-            data: {
-                listQuestionOfLesson: servletName,
-                idLesson: idLesson
-            },
-            success: function (data) {
-                var message = data.message;
-                if(message.indexOf("success") != -1){
-                    var listSelected = "";
-                    $("#select_question").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                        listSelected += "'" +obj.name + "',";
-                    });
-                    listSelected = listSelected.substring(0,listSelected.length-1);
-                    $('.ui.dropdown').dropdown('set selected',["+listSelected+"]);
-                   // addJsForDropdown(listSelected);
-                }else{
-                    swal("Error!",message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
+    $('#addQuestionToLesson').on('show.bs.modal', function (e) {
+        $('#select_question').dropdown();
     })
 }
 
