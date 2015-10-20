@@ -259,14 +259,16 @@ function initModal(){
             success: function (data) {
                 var message = data.message;
                 if(message.indexOf("success") != -1){
-                    var listSelected = "";
+                    var listSelected = [];
                     $("#select_question").empty();
                     $.each(data.data, function (idx, obj) {
                         $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                        listSelected += "'" +obj.name + "',";
+                        listSelected.push(obj.name);
                     });
+                    
                     listSelected = listSelected.substring(0,listSelected.length-1);
                     addJsForDropdown(listSelected);
+
                 }else{
                     swal("Error!",message.split(":")[1], "error");
                 }
@@ -276,6 +278,22 @@ function initModal(){
             }
 
         });
+
+
+        //alert(idd);
+
+    });
+
+}
+
+function addJsForDropdown(listSelected){
+    var jsContent= "<script>$('.ui.dropdown').dropdown('set selected',["+listSelected+"]);</script>";
+    $("#js-dropdow").html(jsContent);
+}
+
+function initModal(){
+    $('#addQuestionToLesson').on('show.bs.modal', function (e) {
+        $('#select_question').dropdown();
     })
 }
 
