@@ -2,7 +2,7 @@
  * Created by CMGT400 on 10/8/2015.
  */
 var myTable;
-var servletName="ManagementLevelServlet";
+var servletName="ManagementCourseServlet";
 var lessonName;
 var isDemos=false;
 function listLevels(){
@@ -38,14 +38,6 @@ function listLevels(){
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
-            "sWidth": "5%",
-            "data": null,
-            "bSortable": false,
-            "sDefaultContent": "",
-            "mRender": function (data, type, full) {
-            return '<label type="text" style="background-color: ' + data.color + '; margin-right:10px; width:100px; height:30px;">'+'</label>';
-            }
-        }, {
             "sWidth": "30%",
             "data": null,
             "bSortable": false,
@@ -53,10 +45,8 @@ function listLevels(){
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
                 $button.attr("id-column", data.id);
-                $button.attr("level", data.name);
+                $button.attr("course", data.name);
                 $button.attr("description", data.description);
-                $button.attr("color", data.color);
-                $button.attr("isDemo", data.isDemo);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -79,24 +69,19 @@ function dateTo(){
 }
 
 function openPopupAdd(){
-    $(document).on("click","#openAddLevel", function(){
+    $(document).on("click","#openAddCourse", function(){
         $("#add").modal('show');
-        $("#addLevel").val("");
+        $("#addCourse").val("");
         $("#addDescription").val("");
-        $("#addColor").val("");
-
-
     });
 }
 
 function addLevel(){
     $(document).on("click","#yesadd", function(){
-        var level = $("#addLevel").val();
+        var course = $("#addCourse").val();
         var description = $("#addDescription").val();
-        var color = $("#addColor").val();
-        var isDemo = isDemos;
-        if (level == null || typeof level == "undefined" || level.length == 0){
-            $("#addLevel").focus();
+        if (course == null || typeof course == "undefined" || course.length == 0){
+            $("#addCourse").focus();
             swal("Warning!", "Level not null!", "warning");
             return;
         }
@@ -106,10 +91,8 @@ function addLevel(){
             dataType: "text",
             data: {
                 add: "add",
-                level: level,
-                description:description,
-                color:color,
-                isDemo:isDemo
+                course: course,
+                description:description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
@@ -172,19 +155,11 @@ function openPopupEdit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
-        var level = $(this).attr('level');
+        var course = $(this).attr('course');
         var description = $(this).attr('description');
-        var color = $(this).attr('color');
-        var isDemo = $(this).attr('isDemo');;
-        $("#editLevel").val(level);
+        $("#editCourse").val(course);
         $("#editDescription").val(description);
-        $("#editColor").val(color);
         $("#idedit").val(idd);
-        if(isDemo=='true'){
-            $("#isDemoEdit").prop('checked', true);
-        }else{
-            $("#isDemoEdit").prop('checked', false);
-        }
         lessonName = level;
     });
 
@@ -195,16 +170,14 @@ function editLevel(){
 
         var isUpdateLessonName=true;
         var id = $("#idedit").val();
-        var level = $("#editLevel").val();
+        var course = $("#editCourse").val();
         var description = $("#editDescription").val();
-        var color = $("#editColor").val();
-        var isDemo = isDemos;
-        if (level == null || typeof level == "undefined" || level.length == 0){
+        if (course == null || typeof course == "undefined" || course.length == 0){
             $("#editLevel").focus();
             swal("Warning!", "Lesson not null!", "warning");
             return;
         }
-        if(level == lessonName){
+        if(course == lessonName){
             isUpdateLessonName = false;
         }
         $.ajax({
@@ -214,8 +187,6 @@ function editLevel(){
             data: {
                 edit: "edit",
                 id: id,
-                color:color,
-                isDemo:isDemo,
                 level: level,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
@@ -259,29 +230,6 @@ function searchAdvanted(){
 
     });
 }
-function addcolor(){
-    $("#addColor").colorpicker();
-}
-function editcolor(){
-    $("#editColor").colorpicker();
-}
-function isDemoAdd(){
-    $(document).on("change","#idDemoAdd", function(){
-        var $this = $(this);
-        if ($this.is(':checked')) {
-           isDemos=true;
-        }
-    });
-}
-function isDemoEdit(){
-    $(document).on("change","#isDemoEdit", function(){
-        var $this = $(this);
-        if ($this.is(':checked')) {
-            isDemos=true;
-        }
-    });
-}
-
 
 
 
@@ -289,8 +237,7 @@ $(document).ready(function(){
     //$("#ui_normal_dropdown").dropdown({
     //        maxSelections: 3
     //    });
-    isDemoAdd();
-    isDemoEdit();
+
     dateFrom();
     dateTo();
     openPopupAdd();
@@ -300,8 +247,6 @@ $(document).ready(function(){
     openPopupDelete();
     deleteLevel();
     listLevels();
-    editcolor();
-    addcolor();
     searchAdvanted();
 });
 
