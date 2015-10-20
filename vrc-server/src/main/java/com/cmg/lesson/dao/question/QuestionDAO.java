@@ -7,10 +7,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lantb on 2015-10-07.
@@ -279,6 +276,58 @@ public class QuestionDAO extends DataAccess<Question> {
         return check;
     }
 
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    //public List<Question> listIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
+    public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where Question.ID in(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
+        }
+        List<Question> listQuestions = new ArrayList<Question>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
+            whereClause = whereClause + ") and word like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
+        }else{
+            whereClause = whereClause + ") and isDeleted=false " ;
+        }
+        /*
+        if(order!=null && order.length() >0 ){
+            whereClause = whereClause + "order by word " + order;
+        }else{
+            whereClause = whereClause + "order by word asc" ;
+        }*/
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name from " + metaRecorderSentence.getTable() + whereClause);
+        //q.setRange(start, start + length);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Question question = new Question();
+                    Object[] array = (Object[]) obj;
+                    question.setId(array[0].toString());
+                    if(array[1]!=null){
+                        question.setName(array[1].toString());
+                    }
+                    listQuestions.add(question);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listQuestions;
 
+    }
 
 }

@@ -1,10 +1,14 @@
 package com.cmg.lesson.services.lessons;
 
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
+import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.data.dto.lessons.LessonMappingQuestionDTO;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
+import com.cmg.lesson.data.jdo.question.Question;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,6 +73,46 @@ public class LessonMappingQuestionService {
 
     /**
      *
+     * @param idLesson
+     * @return list question
+     */
+    //public QuestionDTO listQuestionByIdLesson(String idLesson, String word,String order, int start, int length, int draw){
+    public QuestionDTO listQuestionByIdLesson(String idLesson, String word){
+        QuestionDTO questionDTO = new QuestionDTO();
+        LessonMappingQuestionDAO lessonMappingQuestionDAO = new LessonMappingQuestionDAO();
+        QuestionDAO questionDAO = new QuestionDAO();
+        List<String> lstId = new ArrayList<String>();
+        try {
+            List<LessonMappingQuestion> listLessonMappingQuestions = lessonMappingQuestionDAO.getAllByIDLesson(idLesson);
+            if(listLessonMappingQuestions!=null && listLessonMappingQuestions.size()>0){
+                for(LessonMappingQuestion lmq : listLessonMappingQuestions){
+                    lstId.add(lmq.getIdQuestion());
+                }
+                //List<Question> listQuestions = questionDAO.listIn(lstId, word, order, start, length);
+                List<Question> listQuestions = questionDAO.listIn(lstId, word);
+                //int count = wcDAO.getCountListIn(lstId, word, order, start, length);
+                questionDTO.setData(listQuestions);
+                questionDTO.setMessage(SUCCESS);
+                //listWord.setDraw(draw);
+                //listWord.setRecordsFiltered((double) count);
+                //listWord.setRecordsTotal((double) count);
+            }else{
+                //listWord.setRecordsFiltered(0.0);
+                //listWord.setRecordsTotal(0.0);
+                //listWord.setData(new ArrayList<WordCollection>());
+                //listWord.setDraw(draw);
+                questionDTO.setMessage(ERROR + ":can not get question for this lesson");
+            }
+        } catch (Exception e) {
+            questionDTO.setMessage(ERROR + "List question by id lesson : " + idLesson + " false because : " + e.getMessage());
+            logger.error("List question by id lesson : " + idLesson + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return questionDTO;
+    }
+
+    /**
+     *
      * @param idLessonCollection
      * @return
      */
@@ -98,5 +142,24 @@ public class LessonMappingQuestionService {
             logger.debug("can not update delete in database because : " + e.getMessage());
         }
         return isDelete;
+    }
+
+    public String addQuestionToLessonDB(LessonMappingQuestion obj){
+        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        boolean check = false;
+        String message = "";
+        try {
+            check = dao.checkExist(obj.getIdLesson(), obj.getIdQuestion());
+            if(check){
+                message = ERROR + " : this question was already added to lesson!";
+            }else {
+                dao.create(obj);
+                message = SUCCESS;
+            }
+        }catch (Exception e){
+            message = ERROR + " : " + e.getMessage();
+            logger.error("can not add question to lesson in db because : " + e.getMessage());
+        }
+        return message;
     }
 }

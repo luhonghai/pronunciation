@@ -4,6 +4,7 @@
 var myTable;
 var servletName="ManagementLessonsServlet";
 var lessonName;
+var idLesson;
 
 function listLessons(){
 
@@ -229,33 +230,53 @@ function searchAdvanted(){
     });
 }
 
-function addQuestionToLesson(){
+function addQuestionForLesson(){
     $(document).on("click","#addQuestion", function(){
+        idLesson=$(this).attr('id-column');
         $("#addQuestionToLesson").modal('show');
-        var idd=$(this).attr('id-column');
-        //$.ajax({
-        //    url: "ManagementLessonsServlet",
-        //    type: "POST",
-        //    dataType: "json",
-        //    data: {
-        //        addQuestion: "addQuestion",
-        //        idd: idd
-        //    },
-        //    success: function (data) {
-        //        if (data!=null) {
-        //
-        //
-        //        }else{
-        //            swal("Could not delete question!", data.split(":")[1], "error");
-        //        }
-        //    },
-        //    error: function () {
-        //        swal("Error!", "Could not connect to server", "error");
-        //    }
-        //
-        //});
+        //alert(idd);
+
     });
 
+}
+
+function addJsForDropdown(listSelected){
+    var jsContent= "<script>$('.ui.dropdown').dropdown('set selected',["+listSelected+"]);</script>";
+    $("#js-dropdow").html(jsContent);
+}
+
+function initModal(){
+    $('#addQuestionToLesson').on('shown.bs.modal', function (e) {
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                listQuestionOfLesson: servletName,
+                idLesson: idLesson
+            },
+            success: function (data) {
+                var message = data.message;
+                if(message.indexOf("success") != -1){
+                    var listSelected = "";
+                    $("#select_question").empty();
+                    $.each(data.data, function (idx, obj) {
+                        $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                        listSelected += "'" +obj.name + "',";
+                    });
+                    listSelected = listSelected.substring(0,listSelected.length-1);
+                    $('.ui.dropdown').dropdown('set selected',["+listSelected+"]);
+                   // addJsForDropdown(listSelected);
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    })
 }
 
 $(document).ready(function(){
@@ -264,14 +285,15 @@ $(document).ready(function(){
     //    });
     dateFrom();
     dateTo();
+    initModal();
     openPopupAdd();
     addLesson();
     openPopupEdit();
     editLesson();
     openPopupDelete();
     deleteLesson();
+    addQuestionForLesson();
     listLessons();
-    addQuestionToLesson();
     searchAdvanted();
 });
 
