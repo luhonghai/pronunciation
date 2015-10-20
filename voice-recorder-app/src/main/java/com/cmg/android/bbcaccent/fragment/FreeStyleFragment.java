@@ -1,7 +1,9 @@
 package com.cmg.android.bbcaccent.fragment;
 
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaPlayer;
@@ -153,10 +155,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     private int sampleRate;
     private int bufferSize;
 
-    private boolean isPrepared = false;
     private boolean isRecording = false;
     private boolean isPlaying = false;
-    private boolean isUploading = false;
     private boolean isAutoStop = false;
 
     private PlayerHelper player;
@@ -309,6 +309,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                             "Don't forget to try new words by searching for them by pressing the magnifying glass"),
                     new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
                             "Swipe up or tap to track progress, view past words and tips"));
+            viewState.willShowHelpSearchWordAndSlider = false;
         }
         return root;
     }
@@ -731,7 +732,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             lastDetectedPitchTime = System.currentTimeMillis();
             runner.start();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            SimpleAppLog.error("Could not start recording", ex);
         }
     }
 
@@ -790,28 +791,34 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     }
 
     protected void stopRequestLocation() {
-//        SimpleAppLog.info("Request location update");
-//        LocationManager lm = (LocationManager) MainApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
-//        try {
-//            lm.removeUpdates(this);
-//        } catch (Exception e) {
-//            SimpleAppLog.error("Could not stop request location", e);
-//        }
+        SimpleAppLog.info("Request location update");
+        LocationManager lm = (LocationManager) MainApplication.getContext().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.removeUpdates(this);
+        } catch (SecurityException e) {
+            SimpleAppLog.error("Error location", e);
+        } catch (Exception ex) {
+            SimpleAppLog.error("Could not stop request location", ex);
+        }
     }
 
     protected void requestLocation() {
-//        SimpleAppLog.info("Request location update");
-//        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        try {
-//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
-//        } catch (Exception e) {
-//            SimpleAppLog.error("Could not request GPS provider location", e);
-//        }
-//        try {
-//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
-//        } catch (Exception e) {
-//            SimpleAppLog.error("Could not request Network provider location", e);
-//        }
+        SimpleAppLog.info("Request location update");
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 1000, this);
+        } catch (SecurityException e) {
+            SimpleAppLog.error("Error location", e);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not request GPS provider location", e);
+        }
+        try {
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 1000, this);
+        } catch (SecurityException e) {
+            SimpleAppLog.error("Error location", e);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not request Network provider location", e);
+        }
     }
 
     @Override
@@ -820,9 +827,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         if (mTabHost != null) {
             mTabHost.getTabWidget().setEnabled(true);
         }
-        //requestLocation();
+        requestLocation();
         fetchSetting();
-        isPrepared = false;
     }
 
     @Override
@@ -1002,8 +1008,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             isAutoStop = Preferences.getBoolean(Preferences.KEY_AUDIO_AUTO_STOP_RECORDING, MainApplication.getContext(), true);
 
             bufferSize = AudioRecord.getMinBufferSize(sampleRate, chanel, RECORDER_AUDIO_ENCODING);
-
-            isPrepared = false;
         } catch (Exception e) {
             SimpleAppLog.error("Could not fetch setting", e);
         }
@@ -1106,30 +1110,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                     showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
                             new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
                             new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
-//                    YoYo.with(Techniques.FadeIn).duration(500).withListener(new Animator.AnimatorListener() {
-//                        @Override
-//                        public void onAnimationStart(Animator animation) {
-//                            imgHelpHand.setVisibility(View.VISIBLE);
-//                        }
-//
-//                        @Override
-//                        public void onAnimationEnd(Animator animation) {
-//                            if (willMoveToDetail) {
-//                                handlerStartDetail.postDelayed(runnableStartDetail, 2000);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onAnimationCancel(Animator animation) {
-//
-//                        }
-//
-//                        @Override
-//                        public void onAnimationRepeat(Animator animation) {
-//
-//                        }
-//                    }).playOn(imgHelpHand);
-
                 } else {
                     switchButtonStage(ButtonState.RED);
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
