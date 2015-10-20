@@ -141,6 +141,7 @@ public class CalculationServlet extends HttpServlet {
                     ScoreService service = new ScoreService();
                     service.reCalculateBaseOnWeight(model);
                 }
+
                 String output = gson.toJson(model);
                 out.print(output);
             }
