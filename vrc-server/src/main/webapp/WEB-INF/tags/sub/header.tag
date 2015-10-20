@@ -72,6 +72,9 @@
 						<li>
 							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Management Lessons </a>
 						</li>
+						<li>
+							<a href="ManagementLevel.jsp" ><i class="fa fa-list-alt"></i> Management Level </a>
+						</li>
 					</ul>
 				</li>
 

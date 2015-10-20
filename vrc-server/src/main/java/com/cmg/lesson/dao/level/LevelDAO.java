@@ -68,6 +68,24 @@ public class LevelDAO extends DataAccess<Level> {
         }
         return isUpdate;
     }
+    public boolean updateLevels(String id, String description, String color ,boolean isDemo) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, color=? ,isDemo="+isDemo+" is WHERE id='"+id+"'");
+        try {
+            q.execute(description,color);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
 
     /**
      *

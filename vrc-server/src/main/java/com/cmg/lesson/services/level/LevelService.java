@@ -87,20 +87,29 @@ public class LevelService {
      * @param color
      * @return
      */
-    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo){
+    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo,boolean isUpdateLessonName){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message;
         try {
-            if(!isExistQuestionName(name)) {
-                boolean isUpdate = dao.updateLevel(id,name,description,color,isDemo);
+            if(isUpdateLessonName) {
+                if (!isExistQuestionName(name)) {
+                    boolean isUpdate = dao.updateLevel(id, name, description, color, isDemo);
+                    if (isUpdate) {
+                        message = SUCCESS;
+                    } else {
+                        message = ERROR + ":" + "an error has been occurred in server!";
+                    }
+                } else {
+                    message = ERROR + ":" + "level name is existed";
+                }
+            }else{
+                boolean isUpdate = dao.updateLevels(id, description, color, isDemo);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
-                    message = ERROR + ":" + "an error has been occurred in server!";
+                    message = ERROR + ":" + "An error has been occurred in server!";
                 }
-            }else{
-                message = ERROR + ":" + "level name is existed";
             }
         }catch (Exception e){
             message = ERROR + ":" + e.getMessage();

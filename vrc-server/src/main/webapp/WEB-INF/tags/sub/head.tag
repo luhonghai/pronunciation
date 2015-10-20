@@ -11,6 +11,7 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-colorpicker-master/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
 
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap-glyphicons-master/css/bootstrap.icon-large.min.css" rel="stylesheet">
 

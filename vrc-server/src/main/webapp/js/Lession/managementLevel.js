@@ -2,10 +2,10 @@
  * Created by CMGT400 on 10/8/2015.
  */
 var myTable;
-var servletName="ManagementLessonsServlet";
+var servletName="ManagementLevelServlet";
 var lessonName;
-
-function listLessons(){
+var isDemos=false;
+function listLevels(){
 
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -26,7 +26,7 @@ function listLessons(){
         },
 
         "columns": [{
-            "sWidth": "25%",
+            "sWidth": "20%",
             "data": "name",
             "sDefaultContent": ""
         }, {
@@ -38,6 +38,14 @@ function listLessons(){
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
+            "sWidth": "5%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+            return '<label type="text" style="background-color: ' + data.color + '; margin-right:10px; width:100px; height:30px;">'+'</label>';
+            }
+        }, {
             "sWidth": "30%",
             "data": null,
             "bSortable": false,
@@ -47,6 +55,8 @@ function listLessons(){
                 $button.attr("id-column", data.id);
                 $button.attr("level", data.name);
                 $button.attr("description", data.description);
+                $button.attr("color", data.color);
+                $button.attr("isDemo", data.isDemo);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -69,20 +79,24 @@ function dateTo(){
 }
 
 function openPopupAdd(){
-    $(document).on("click","#openAddLesson", function(){
+    $(document).on("click","#openAddLevel", function(){
         $("#add").modal('show');
         $("#addLevel").val("");
         $("#addDescription").val("");
+        $("#addColor").val("");
+
     });
 }
 
-function addLesson(){
+function addLevel(){
     $(document).on("click","#yesadd", function(){
         var level = $("#addLevel").val();
         var description = $("#addDescription").val();
+        var color = $("#addColor").val();
+        var isDemo = isDemos;
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#addLevel").focus();
-            swal("Warning!", "Lesson not null!", "warning");
+            swal("Warning!", "Level not null!", "warning");
             return;
         }
         $.ajax({
@@ -92,15 +106,18 @@ function addLesson(){
             data: {
                 add: "add",
                 level: level,
-                description:description
+                description:description,
+                color:color,
+                isDemo:isDemo
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
+                    isDemos=false;
                 }else{
-                    swal("Could not add question!", data.split(":")[1], "error");
+                    swal("Could not add Level!", data.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -122,7 +139,7 @@ function openPopupDelete(){
     });
 }
 
-function deleteLesson(){
+function deleteLevel(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
@@ -156,21 +173,31 @@ function openPopupEdit(){
         var idd = $(this).attr('id-column');
         var level = $(this).attr('level');
         var description = $(this).attr('description');
+        var color = $(this).attr('color');
+        var isDemo = $(this).attr('isDemo');;
         $("#editLevel").val(level);
         $("#editDescription").val(description);
+        $("#editColor").val(color);
         $("#idedit").val(idd);
+        if(isDemo=='true'){
+            $("#isDemoEdit").prop('checked', true);
+        }else{
+            $("#isDemoEdit").prop('checked', false);
+        }
         lessonName = level;
     });
 
 }
 
-function editLesson(){
+function editLevel(){
     $(document).on("click","#yesedit", function(){
 
         var isUpdateLessonName=true;
         var id = $("#idedit").val();
         var level = $("#editLevel").val();
         var description = $("#editDescription").val();
+        var color = $("#editColor").val();
+        var isDemo = isDemos;
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#editLevel").focus();
             swal("Warning!", "Lesson not null!", "warning");
@@ -186,6 +213,8 @@ function editLesson(){
             data: {
                 edit: "edit",
                 id: id,
+                color:color,
+                isDemo:isDemo,
                 level: level,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
@@ -195,6 +224,7 @@ function editLesson(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                    isDemos=false;
                 }else{
                     swal("Could not update lesson!", data.split(":")[1], "error");
                 }
@@ -228,6 +258,29 @@ function searchAdvanted(){
 
     });
 }
+function addcolor(){
+    $("#addColor").colorpicker();
+}
+function editcolor(){
+    $("#editColor").colorpicker();
+}
+function isDemoAdd(){
+    $(document).on("change","#idDemoAdd", function(){
+        var $this = $(this);
+        if ($this.is(':checked')) {
+           isDemos=true;
+        }
+    });
+}
+function isDemoEdit(){
+    $(document).on("change","#isDemoEdit", function(){
+        var $this = $(this);
+        if ($this.is(':checked')) {
+            isDemos=true;
+        }
+    });
+}
+
 
 
 
@@ -235,15 +288,19 @@ $(document).ready(function(){
     //$("#ui_normal_dropdown").dropdown({
     //        maxSelections: 3
     //    });
+    isDemoAdd();
+    isDemoEdit();
     dateFrom();
     dateTo();
     openPopupAdd();
-    addLesson();
+    addLevel();
     openPopupEdit();
-    editLesson();
+    editLevel();
     openPopupDelete();
-    deleteLesson();
-    listLessons();
+    deleteLevel();
+    listLevels();
+    editcolor();
+    addcolor();
     searchAdvanted();
 });
 

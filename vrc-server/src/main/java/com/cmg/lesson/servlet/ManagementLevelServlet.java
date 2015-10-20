@@ -1,7 +1,9 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
+import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.services.lessons.LessonCollectionService;
+import com.cmg.lesson.services.level.LevelService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
@@ -19,6 +21,8 @@ import java.io.IOException;
 public class ManagementLevelServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        LevelService levelService=new LevelService();
+        LevelDTO levelDTO=new LevelDTO();
         Gson gson = new Gson();
         try {
             if(request.getParameter("list")!=null){
@@ -30,19 +34,31 @@ public class ManagementLevelServlet extends BaseServlet {
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
+                levelDTO = levelService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                String json = gson.toJson(levelDTO);
+                response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String level =  (String)StringUtil.isNull(request.getParameter("level"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
+                String color =  (String)StringUtil.isNull(request.getParameter("color"),"");
+                boolean isDemo =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDemo"), "").toString());
+                String message = levelService.addLevelToDB(level, description,color,isDemo).getMessage();
+                response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
                 String levelId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String level = (String)StringUtil.isNull(request.getParameter("level"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
+                String color =  (String)StringUtil.isNull(request.getParameter("color"),"");
+                boolean isDemo =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDemo"), "").toString());
+                String message = levelService.updateLevel(levelId, level, description,color,isDemo,isUpdateLessonName).getMessage();
+                response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){
                 String levelId =  (String)StringUtil.isNull(request.getParameter("id"),"");
-
+                String message = levelService.deleteLevelToDB(levelId).getMessage();
+                response.getWriter().write(message);
             }
         }catch (Exception e){
             response.getWriter().print("Error : " + e.getMessage());
