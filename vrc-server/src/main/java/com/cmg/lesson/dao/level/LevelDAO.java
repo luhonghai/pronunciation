@@ -54,7 +54,7 @@ public class LevelDAO extends DataAccess<Level> {
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+" is WHERE id='"+id+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+" WHERE id='"+id+"'");
         try {
             q.execute(name,description,color);
             isUpdate=true;
