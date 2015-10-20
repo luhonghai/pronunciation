@@ -81,7 +81,7 @@ public class UnitTesting {
             LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
             LessonMappingQuestion lessonMappingQuestion = new LessonMappingQuestion();
             lessonMappingQuestion.setIdLesson("72e02373-d236-4eca-a083-3775271ffd52");
-            lessonMappingQuestion.setIdQuestion("dafaae2d-8947-4fd3-bee3-f0d921e0d3ef");
+            lessonMappingQuestion.setIdQuestion("3cf73216-371f-458a-a3a3-130d158d984e");
             lessonMappingQuestion.setIsDeleted(false);
             lessonMappingQuestion.setVersion(lessonMappingQuestionService.getMaxVersion());
             lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);

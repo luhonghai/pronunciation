@@ -234,6 +234,7 @@ function addQuestionForLesson(){
     $(document).on("click","#addQuestion", function(){
         idLesson=$(this).attr('id-column');
         $("#addQuestionToLesson").modal('show');
+
         //alert(idd);
 
     });
@@ -265,8 +266,7 @@ function initModal(){
                         listSelected += "'" +obj.name + "',";
                     });
                     listSelected = listSelected.substring(0,listSelected.length-1);
-                    $('.ui.dropdown').dropdown('set selected',["+listSelected+"]);
-                   // addJsForDropdown(listSelected);
+                    addJsForDropdown(listSelected);
                 }else{
                     swal("Error!",message.split(":")[1], "error");
                 }
