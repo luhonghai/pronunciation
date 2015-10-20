@@ -40,7 +40,7 @@ public class LevelService {
      * @param name, description,color
      * @return true if question was added to table.
      */
-    public LevelDTO addLevelToDB(String name, String description, String color){
+    public LevelDTO addLevelToDB(String name, String description, String color, boolean isDemo){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message;
@@ -53,6 +53,7 @@ public class LevelService {
                 lv.setDateCreated(new Date(System.currentTimeMillis()));
                 lv.setIsDeleted(false);
                 lv.setVersion(getMaxVersion());
+                lv.setIsDemo(isDemo);
                 dao.create(lv);
                 message = SUCCESS;
             }else{
@@ -86,13 +87,13 @@ public class LevelService {
      * @param color
      * @return
      */
-    public LevelDTO updateLevel(String id, String name, String description, String color){
+    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message;
         try {
             if(!isExistQuestionName(name)) {
-                boolean isUpdate = dao.updateLevel(id,name,description,color);
+                boolean isUpdate = dao.updateLevel(id,name,description,color,isDemo);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
