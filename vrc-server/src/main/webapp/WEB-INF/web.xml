@@ -309,7 +309,15 @@
         <url-pattern>/ManagementWordOfQuestionServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementLevelServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementLevelServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ManagementLevelServlet</servlet-name>
+        <url-pattern>/ManagementLevelServlet</url-pattern>
+    </servlet-mapping>
 
 
 
