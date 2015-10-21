@@ -84,7 +84,7 @@ public class UnitTesting {
             lessonMappingQuestion.setIdQuestion("eeb5a178-380f-4910-837c-e0eebba67450");
             lessonMappingQuestion.setIsDeleted(false);
             lessonMappingQuestion.setVersion(lessonMappingQuestionService.getMaxVersion());
-            lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);
+            //lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);
 
 
             WordMappingPhonemesService serv = new WordMappingPhonemesService();

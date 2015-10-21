@@ -1,13 +1,16 @@
 package com.cmg.lesson.services.question;
 
 import com.cmg.lesson.common.DateSearchParse;
+import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -158,6 +161,33 @@ public class QuestionService {
         return null;
     }
 
+
+    public QuestionDTO searchName(String lessonId,String questionName){
+        QuestionDTO dto = new QuestionDTO();
+        QuestionDAO dao = new QuestionDAO();
+        LessonMappingQuestionDAO lessonMappingQuestionDAO = new LessonMappingQuestionDAO();
+        List<String> lstId = new ArrayList<String>();
+        try{
+            List<LessonMappingQuestion> listLessonMappingQuestions = lessonMappingQuestionDAO.getAllByIDLesson(lessonId);
+            if(listLessonMappingQuestions!=null && listLessonMappingQuestions.size()>0) {
+                for (LessonMappingQuestion lmq : listLessonMappingQuestions) {
+                    lstId.add(lmq.getIdQuestion());
+                }
+            }
+            List<Question> listQuestion = dao.searchName(lstId, questionName);
+            if(listQuestion!=null && listQuestion.size()>0){
+                dto.setData(listQuestion);
+                dto.setMessage(SUCCESS);
+            }else {
+                dto.setMessage(ERROR + ":question not exists in database");
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": " + "search name question error, because:" + e.getMessage());
+            logger.error("search name question error, because:" + e.getMessage());
+        }
+        return dto;
+    }
+
     /**
      *
      * @param search
@@ -203,7 +233,7 @@ public class QuestionService {
             dto.setRecordsTotal(count);
             dto.setData(listQuestion);
         }catch (Exception e){
-            dto.setMessage(ERROR + ": " + "search question error, because:" + e.getMessage());
+            dto.setMessage(ERROR + ": " + "search question error, because " + e.getMessage());
             logger.error("search question error, because:" + e.getMessage());
         }
         return dto;

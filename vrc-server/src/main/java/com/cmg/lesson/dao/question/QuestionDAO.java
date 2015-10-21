@@ -286,14 +286,14 @@ public class QuestionDAO extends DataAccess<Question> {
         List<Question> listWord = new ArrayList<Question>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0){
-            whereClause = whereClause + ") and word like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
+            whereClause = whereClause + ") and name like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
         if(order!=null && order.length() >0 ){
-            whereClause = whereClause + "order by word " + order;
+            whereClause = whereClause + "order by name " + order;
         }else{
-            whereClause = whereClause + "order by word asc" ;
+            whereClause = whereClause + "order by name asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
@@ -331,19 +331,19 @@ public class QuestionDAO extends DataAccess<Question> {
         List<Question> listQuestions = new ArrayList<Question>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
-            whereClause = whereClause + ") and word like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
+            whereClause = whereClause + ") and name like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
 
         if(order!=null && order.length() >0 ){
-            whereClause = whereClause + "order by word " + order;
+            whereClause = whereClause + "order by name " + order;
         }else{
-            whereClause = whereClause + "order by word asc" ;
+            whereClause = whereClause + "order by name asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -354,6 +354,74 @@ public class QuestionDAO extends DataAccess<Question> {
                     question.setId(array[0].toString());
                     if(array[1]!=null){
                         question.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        question.setVersion(Integer.parseInt(array[2].toString()));
+                    }
+                    listQuestions.add(question);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listQuestions;
+
+    }
+
+
+    /**
+     *
+     * @param questionName
+     * @return
+     */
+    public List<Question> searchName(List<String> ids, String questionName) throws Exception{
+        //public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        List<Question> listQuestions = new ArrayList<Question>();
+        String whereClause;
+        if (ids.isEmpty()){
+            clause.append(" Where ");
+            whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
+            if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
+                whereClause = whereClause + " name like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+            }else{
+                whereClause = whereClause + " isDeleted=false order by name asc" ;
+            }
+        }
+        else {
+            clause.append(" Where Question.ID NOT IN(");
+            for(String id : ids){
+                clause.append("'"+id+"',");
+            }
+            whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+            if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
+                whereClause = whereClause + ") and name like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+            }else{
+                whereClause = whereClause + ") and isDeleted=false order by name asc" ;
+            }
+        }
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
+        q.setRange(0,10);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Question question = new Question();
+                    Object[] array = (Object[]) obj;
+                    question.setId(array[0].toString());
+                    if(array[1]!=null){
+                        question.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        question.setVersion(Integer.parseInt(array[2].toString()));
                     }
                     listQuestions.add(question);
                 }

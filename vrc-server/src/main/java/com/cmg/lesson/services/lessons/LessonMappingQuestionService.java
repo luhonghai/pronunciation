@@ -129,37 +129,50 @@ public class LessonMappingQuestionService {
 
     /**
      *
-     * @param idLessonCollection
+     * @param idLesson
      * @param idQuestion
      * @return
      */
-    public boolean updateDeleted(String idLessonCollection, String idQuestion){
+    public LessonMappingQuestionDTO updateDeleted(String idLesson, String idQuestion){
+        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
         boolean isDelete = false;
         LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
         try{
-            isDelete = dao.updateDeleted(idLessonCollection,idQuestion);
+            isDelete = dao.updateDeleted(idLesson,idQuestion);
+            if (isDelete){
+                dto.setMessage(SUCCESS);
+            }else {
+                dto.setMessage(ERROR + ": can not delete in database");
+            }
         }catch (Exception e){
-            logger.debug("can not update delete in database because : " + e.getMessage());
+            dto.setMessage(ERROR + ": can not delete in database because " + e.getMessage());
+            logger.debug("can not delete in database because : " + e.getMessage());
         }
-        return isDelete;
+        return dto;
     }
 
-    public String addQuestionToLessonDB(LessonMappingQuestion obj){
+    public LessonMappingQuestionDTO addQuestionToLessonDB(String lessonId, String questionId){
+        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
+        LessonMappingQuestion obj = new LessonMappingQuestion();
         LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        obj.setIdLesson(lessonId);
+        obj.setIdQuestion(questionId);
+        obj.setIsDeleted(false);
+        obj.setVersion(getMaxVersion());
+
         boolean check = false;
-        String message = "";
         try {
             check = dao.checkExist(obj.getIdLesson(), obj.getIdQuestion());
             if(check){
-                message = ERROR + " : this question was already added to lesson!";
+                dto.setMessage(ERROR + " : this question was already added to lesson!");
             }else {
                 dao.create(obj);
-                message = SUCCESS;
+                dto.setMessage(SUCCESS);
             }
         }catch (Exception e){
-            message = ERROR + " : " + e.getMessage();
+            dto.setMessage(ERROR + " : " + e.getMessage());
             logger.error("can not add question to lesson in db because : " + e.getMessage());
         }
-        return message;
+        return dto;
     }
 }
