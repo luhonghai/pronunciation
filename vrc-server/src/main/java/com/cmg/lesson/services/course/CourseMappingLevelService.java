@@ -109,6 +109,29 @@ public class CourseMappingLevelService {
         return dto;
     }
 
+
+    /**
+     *
+     * @param idCourse
+     * @param idLevel
+     * @return
+     */
+    public String removeLevel( String idLevel){
+        CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+        String message;
+        try {
+            if(dao.removeLevel(idLevel)){
+                message = SUCCESS;
+            }else{
+                message = ERROR +": An error has been occurred in server!";
+            }
+        }catch (Exception e){
+            message = ERROR +": An error has been occurred in server!";
+            logger.error("can not add mapping because : " + e);
+        }
+        return message;
+    }
+
     /**
      *
      * @param idCourse
