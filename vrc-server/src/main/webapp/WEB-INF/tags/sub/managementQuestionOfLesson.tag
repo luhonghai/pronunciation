@@ -12,7 +12,7 @@
     margin-top: 25px;
   }
 
-  #addWord{
+  #addQuestion {
     width:95%;
   }
 
@@ -20,32 +20,6 @@
     text-align: right;
     border-top: 1px solid #e5e5e5;
     padding-top: 10px;
-  }
-
-  .group-phoneme-weight{
-    overflow-x: auto;
-    overflow-y: hidden;
-  }
-
-  .group-phoneme-weight input{
-    padding-left: 0px;
-    width: 30px;
-    text-align: center;
-  }
-
-  .group-phoneme-weight input[readonly],
-  .group-phoneme-weight input[disabled]{
-    background-color: #eee;
-  }
-
-  #listPhonmes input,
-  #listPhonmesEdit input{
-    margin: 5px 5px 5px 0;
-  }
-
-  #listWeight input,
-  #listWeightEdit input{
-    margin: 0px 5px 5px 0;
   }
 
   .back-wrapper{
@@ -133,32 +107,31 @@
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
 
-            <h1 align="center">Add Word</h1>
+            <h1 align="center">Add Question</h1>
             <form name="add" class="form-horizontal" id="addform">
 
               <div class="form-group">
 
                 <div class="row">
                   <div class="col-xs-4  col-sm-3">
-                    <div class="row"><label class="control-label ">Word:</label></div>
+                    <div class="row"><label class="control-label ">Question:</label></div>
                   </div>
                   <div class="col-xs-5  col-sm-6">
-                    <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
+                    <div class="row"><input  type="text" id="addQuestion" name="addQuestion" class=" form-control"></div>
                   </div>
                   <div class="col-xs-3  col-sm-2">
-                    <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" value="yes" >Load Phonemes</button></div>
+                    <div class="row"><button type="button" name="loadQuestion" id="loadQuestion" class="btn btn-default" value="yes" >Load Question</button></div>
                   </div>
                 </div>
 
                 <div class="row">
-                  <div class="col-xs-4 col-sm-3">
-                    <div class="row"><label class="control-label phoneme-lable"></label></div>
-                    <div class="row"><label class="control-label weight-lable"></label></div>
-                  </div>
-                  <div class="col-xs-8 col-sm-9 group-phoneme-weight">
-                    <div class="row" id="listPhonmes"></div>
-                    <div class="row" id="listWeight"></div>
-                  </div>
+                    <label for="select-question">Select Question:</label>
+                    <select class="form-control" id="select-question">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                    </select>
                 </div>
 
               </div>
@@ -238,7 +211,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Word</h1>
+        <h1 class="modal-title" align="center">Delete Question</h1>
       </div>
       <form name="form-delete" >
         <div class="modal-body">
