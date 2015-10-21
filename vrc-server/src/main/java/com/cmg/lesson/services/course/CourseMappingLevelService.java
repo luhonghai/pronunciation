@@ -131,8 +131,7 @@ public class CourseMappingLevelService {
      * @param idCourse
      * @return
      */
-    public LevelDTO getLevelsByCourse(String idCourse){
-        LevelDTO dto = new LevelDTO();
+    public List<Level> getLevelsByCourse(String idCourse){
         LevelService lvService = new LevelService();
         CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
         List<Level> listLv = new ArrayList<Level>();
@@ -144,14 +143,13 @@ public class CourseMappingLevelService {
                     ids.add(cm.getIdLevel());
                 }
                 listLv = lvService.listIn(ids);
-                dto.setMessage(SUCCESS);
             }
         }catch (Exception e){
-            dto.setMessage(ERROR + ": can not get all level : "+e.getMessage());
+
             logger.error("can not get all level : "  + e);
         }
-        dto.setData(listLv);
-        return dto;
+
+        return listLv;
     }
 
 
@@ -160,8 +158,7 @@ public class CourseMappingLevelService {
      * @param idCourse
      * @return
      */
-    public LevelDTO getLevelsForDropdown(String idCourse){
-        LevelDTO dto = new LevelDTO();
+    public List<Level> getLevelsForDropdown(String idCourse){
         LevelService lvService = new LevelService();
         CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
         List<Level> listLv = new ArrayList<Level>();
@@ -173,16 +170,27 @@ public class CourseMappingLevelService {
                     ids.add(cm.getIdLevel());
                 }
                 listLv = lvService.listNotIn(ids);
-                dto.setMessage(SUCCESS);
+
             }else{
                 listLv = lvService.listAll();
-                dto.setMessage(SUCCESS);
+
             }
         }catch (Exception e){
-            dto.setMessage(ERROR + ": can not get all level : "+e.getMessage());
             logger.error("can not get all level : "  + e);
         }
-        dto.setData(listLv);
+        return listLv;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return level dto
+     */
+    public LevelDTO getLevels(String idCourse){
+        LevelDTO dto = new LevelDTO();
+        dto.setData(getLevelsByCourse(idCourse));
+        dto.setDataforDropdown(getLevelsForDropdown(idCourse));
+        dto.setMessage(SUCCESS);
         return dto;
     }
 }
