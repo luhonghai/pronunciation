@@ -32,6 +32,7 @@ function listLevels(){
         }, {
             "sWidth": "25%",
             "data": "description",
+            "bSortable": false,
             "sDefaultContent": ""
         }, {
             "sWidth": "20%",
