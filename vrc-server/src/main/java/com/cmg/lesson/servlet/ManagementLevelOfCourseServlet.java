@@ -1,5 +1,6 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.data.dto.course.CourseDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
@@ -36,11 +37,15 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
         try {
             if(action.equalsIgnoreCase("listLevel")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("id"),"");
-                LevelDTO dto = courseMappingLevelService.getLevelsForDropdown(idCourse);
+                LevelDTO dto = courseMappingLevelService.getLevels(idCourse);
                  String json = gson.toJson(dto);
                 response.getWriter().write(json);
-            }else if(request.getParameter("add")!=null){
-
+            }else if(action.equalsIgnoreCase("addLevel")){
+                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                CourseDTO dto = courseMappingLevelService.addMappingLevel(idCourse,idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
 
             }else if(request.getParameter("edit")!=null){
 

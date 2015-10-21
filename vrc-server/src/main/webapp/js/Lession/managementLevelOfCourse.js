@@ -6,8 +6,9 @@ var servletName="ManagementLevelOfCourseServlet";
 
 function listLevel(){
     var $selected=$("#level");
+    var $listLevel=$("#accordion");
     var id=$("#idCourse").val();
-    $('#company option[value!="-1"]').remove();
+    $('#level option[value!="-1"]').remove();
     $.ajax({
         "url": servletName,
         "type": "POST",
@@ -17,20 +18,71 @@ function listLevel(){
             id:id
         },
         success:function(data){
-            var items=data;
+            var items=data.dataforDropdown;
+            var listLevel=data.data;
             $(items).each(function(){
-                var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
+                var newOption = '<option color="'+this.color+'" id="'+this.id+'" value="' + this.name + '">' + this.name + '</option>';
                 $selected.append(newOption);
             });
             $("#level").append($("#company option").remove().sort(function(a, b) {
                 var at = $(a).text(), bt = $(b).text();
                 return (at > bt)?1:((at < bt)?-1:0);
             }));
+            $(listLevel).each(function(){
+                var newOption = '  <div class="panel panel-default" id="panel1"> ' +
+                    '<div class="panel-heading"> ' +
+                    '<h4 class="panel-title"> ' +
+                    '<a data-toggle="collapse" data-target="#collapseOne" href="#collapseOne">' +
+                    ''+this.name+' </a> ' +
+                    '</h4> ' +
+                    '</div>' +
+                    '<div id="collapseOne" class="panel-collapse collapse in"> ' +
+                    '<div class="panel-body">' +
+                     '<div class="row"><button type="button" name="createObject" id="createObject" class="btn btn-default" value="yes" >Create Object</button></div>' +
+                     '<div class="row"><button type="button" name="createTest" id="createTest" class="btn btn-default" value="yes" >Create Test</button></div>' +
+                    '</div> ' +
+                    '</div> ' +
+                    '</div>';
+                $listLevel.append(newOption);
+            });
 
 
         }
 
     });
+}
+
+function addLevel(){
+    $(document).on("click","#addlevel", function(){
+        var txtLevel=$("#level").val();
+        var idLevel=$("#level option:selected").attr('id');
+        var idCourse=$("#idCourse").val();
+
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "addLevel",
+                idLevel:idLevel,
+                idCourse:idCourse
+            },
+            success: function (data) {
+                if(data.message.indexOf("success")!=-1){
+                    listLevel();
+                }else{
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+    });
+
 }
 
 function openPopupAdd(){
@@ -238,6 +290,7 @@ $(document).ready(function(){
     //openPopupEdit();
     //editWord();
     //listWordOfQuestion();
+    addLevel();
     listLevel();
 });
 

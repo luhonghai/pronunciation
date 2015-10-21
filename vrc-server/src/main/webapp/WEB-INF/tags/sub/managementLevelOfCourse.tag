@@ -16,7 +16,7 @@
           name = wc.getName();
         }
       %>
-      <h1 class="page-header">Level Of Course: <%=name%></h1>
+      <h1 class="page-header">Course: <%=name%></h1>
       <input type="hidden" id="idCourse" name="iddelete" value="<%=id%>">
     </div>
     <!-- /.col-lg-12 -->
@@ -40,8 +40,8 @@
         <!-- /.panel-heading -->
           <div class="panel-body">
             <div class="row">
-            <div class="col-sm-2" style="margin-top: 15px;text-align: left;">
-              <label class="control-label">Select level</label>
+            <div class="col-sm-2" style="padding-top: 5px;text-align: left;">
+              <label style="vertical-align: middle" class="control-label">Select level</label>
             </div>
             <div class="col-sm-7">
               <select name="level" id="level" class="form-control" required="required">
@@ -51,6 +51,10 @@
               <div class="col-sm-3 pull-right">
                 <div class="row"><button type="button" name="addlevel" id="addlevel" class="btn btn-default" value="yes" >Add Level</button></div>
               </div>
+            </div>
+            <div class="panel-group" id="accordion">
+
+
             </div>
 
           </div>

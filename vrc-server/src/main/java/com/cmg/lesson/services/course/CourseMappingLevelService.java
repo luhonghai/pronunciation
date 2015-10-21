@@ -65,7 +65,7 @@ public class CourseMappingLevelService {
         String message;
         try {
             boolean condition = checkExistedLevel(idCourse,idLevel);
-            if(condition){
+            if(!condition){
                 CourseMappingLevel cml = new CourseMappingLevel();
                 cml.setIdCourse(idCourse);
                 cml.setIdLevel(idLevel);
@@ -145,7 +145,6 @@ public class CourseMappingLevelService {
                 listLv = lvService.listIn(ids);
             }
         }catch (Exception e){
-
             logger.error("can not get all level : "  + e);
         }
 
