@@ -93,7 +93,7 @@ public class CourseMappingLevelDAO extends DataAccess<CourseMappingLevel> {
      * @throws Exception
      */
     public List<CourseMappingLevel> getByIdCourse(String idCourse) throws Exception{
-        List<CourseMappingLevel> list = list("WHERE idCourse==:1 && isDeleted == :3", idCourse, false);
+        List<CourseMappingLevel> list = list("WHERE idCourse==:1 && isDeleted == :3", idCourse, false, "index asc");
         if(list!=null && list.size() > 0){
            return list;
         }
