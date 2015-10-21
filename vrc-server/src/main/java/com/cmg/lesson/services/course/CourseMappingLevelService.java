@@ -3,8 +3,14 @@ package com.cmg.lesson.services.course;
 import com.cmg.lesson.dao.course.CourseDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
+import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
+import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.services.level.LevelService;
 import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lantb on 2015-10-21.
@@ -118,5 +124,33 @@ public class CourseMappingLevelService {
             logger.error("can not check exited level : "  + e);
         }
         return check;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public LevelDTO getLevelsByCourse(String idCourse){
+        LevelDTO dto = new LevelDTO();
+        LevelService lvService = new LevelService();
+        CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+        List<Level> listLv = new ArrayList<Level>();
+        try {
+            List<CourseMappingLevel> temp = dao.getByIdCourse(idCourse);
+            if(temp!=null && temp.size() > 0){
+                List<String> ids = new ArrayList<>();
+                for(CourseMappingLevel cm : temp){
+                    ids.add(cm.getIdLevel());
+                }
+                listLv = lvService.listIn(ids);
+                dto.setMessage(SUCCESS);
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": can not get all level : "+e.getMessage());
+            logger.error("can not get all level : "  + e);
+        }
+        dto.setData(listLv);
+        return dto;
     }
 }
