@@ -297,7 +297,6 @@ public class LevelService {
         List<Level> listLv = new ArrayList<Level>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         whereClause = whereClause + ") and isDeleted=false " ;
-        whereClause = whereClause + "order by index asc" ;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,isDemo,color from " + metaRecorderSentence.getTable() + whereClause);
@@ -348,8 +347,7 @@ public class LevelService {
         }
         List<Level> listLv = new ArrayList<Level>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        whereClause = whereClause + ") and isDeleted=false " ;
-        whereClause = whereClause + "order by index asc" ;
+        whereClause = whereClause + ") and isDeleted=false ";
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,isDemo,color from " + metaRecorderSentence.getTable() + whereClause);
