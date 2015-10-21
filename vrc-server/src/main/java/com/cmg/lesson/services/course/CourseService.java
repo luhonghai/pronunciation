@@ -1,5 +1,6 @@
 package com.cmg.lesson.services.course;
 
+import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.course.CourseDAO;
 import com.cmg.lesson.dao.level.LevelDAO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
@@ -10,6 +11,7 @@ import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lantb on 2015-10-21.
@@ -118,5 +120,108 @@ public class CourseService {
         dto.setMessage(message);
         return dto;
     }
+
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public CourseDTO deleteCourseToDB(String id){
+        CourseDTO dto = new CourseDTO();
+        CourseDAO dao = new CourseDAO();
+        String message;
+        try{
+            boolean isDelete=dao.updateDeleted(id);
+            if (isDelete){
+                message = SUCCESS;
+            }else{
+                message = ERROR + ": " + "an error has been occurred in server!";
+            }
+        }catch(Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("can not delete course id: " + id + " because : " + e.getMessage());
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+
+
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @param draw
+     * @return
+     */
+    public CourseDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+        CourseDTO dto = new CourseDTO();
+        try{
+            Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
+            Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
+            double count = getCount(search,dateFrom,dateTo,length,start);
+            List<Course> listCourse = listAll(start,length,search,column,order,dateFrom,dateTo);
+            dto.setDraw(draw);
+            dto.setRecordsFiltered(count);
+            dto.setRecordsTotal(count);
+            dto.setData(listCourse);
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": " + "search course error, because:" + e.getMessage());
+            logger.error("search course error, because:" + e.getMessage());
+        }
+        return dto;
+    }
+
+
+
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @return List<Question>
+     */
+    public List<Course> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+        CourseDAO dao = new CourseDAO();
+        try{
+            return dao.listAll(start, length, search,column, order, createDateFrom, createDateTo);
+        }catch (Exception ex){
+            logger.error("list all course error, because:" + ex.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param search
+     * @param createDateFrom
+     * @param createDateTo
+     * @return total rows
+     */
+    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+        CourseDAO dao = new CourseDAO();
+        try {
+            if (search == null && createDateFrom == null && createDateTo == null){
+                return dao.getCount();
+            }else {
+                return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+
 
 }
