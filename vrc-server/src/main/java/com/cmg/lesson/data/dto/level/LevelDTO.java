@@ -14,6 +14,8 @@ public class LevelDTO {
     public Double recordsFiltered;
     private String message;
 
+    private List<Level> dataforDropdown;
+
     private List<Level> data;
 
     public int getDraw() {
@@ -54,5 +56,14 @@ public class LevelDTO {
 
     public void setData(List<Level> data) {
         this.data = data;
+    }
+
+
+    public List<Level> getDataforDropdown() {
+        return dataforDropdown;
+    }
+
+    public void setDataforDropdown(List<Level> dataforDropdown) {
+        this.dataforDropdown = dataforDropdown;
     }
 }

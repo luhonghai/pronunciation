@@ -26,7 +26,7 @@ function listLevels(){
         },
 
         "columns": [{
-            "sWidth": "20%",
+            "sWidth": "25%",
             "data": "name",
             "sDefaultContent": ""
         }, {
@@ -43,7 +43,7 @@ function listLevels(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementLevelOfCourse.jsp?id='+ data.id +'" type="button" id="addlevel" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Level ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("course", data.name);
                 $button.attr("description", data.description);
@@ -187,7 +187,7 @@ function editLevel(){
             data: {
                 action: "edit",
                 id: id,
-                level: level,
+                course: course,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
             },

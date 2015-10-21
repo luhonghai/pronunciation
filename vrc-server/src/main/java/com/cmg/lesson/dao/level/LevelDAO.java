@@ -126,6 +126,20 @@ public class LevelDAO extends DataAccess<Level> {
         return isExist;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public List<Level> listAll() throws Exception{
+        boolean isExist = false;
+        List<Level> list = list("WHERE isDeleted == :1 ", false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 
     /**
      *
