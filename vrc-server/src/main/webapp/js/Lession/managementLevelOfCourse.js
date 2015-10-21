@@ -34,8 +34,8 @@ function listLevel(){
                             '<div class="row">' +
                                 '<div class="col-sm-3">' +
                                     '<h4 class="panel-title"> ' +
-                                    '<a data-toggle="collapse" data-target="#'+this.id+'" href="#'+this.id+'">' +
-                                    ''+this.name+' </a> ' +
+                                    '<button class="btn btn-default" data-toggle="collapse" data-target="#'+this.id+'">' +
+                                    ''+this.name+' </button> ' +
                                     '</h4> ' +
                                 '</div>' +
                                 '<div class="col-sm-2 pull-right"><button type="button" name="removeLevel" id="removeLevel'+this.id+'" class="btn btn-default" value="yes" >Remove Level</button></div>' +
@@ -93,12 +93,45 @@ function addLevel(){
     });
 
 }
+function removeLevel(){
+    $(document).on("click","#addlevel", function(){
+        var idLevel=$("#level option:selected").attr('id');
+        var idCourse=$("#idCourse").val();
+
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "addLevel",
+                idLevel:idLevel,
+                idCourse:idCourse
+            },
+            success: function (data) {
+                if(data.message.indexOf("success")!=-1){
+                    $("#accordion").empty();
+                    listLevel();
+                }else{
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+    });
+
+}
 
     //load phonemes click
 
 
 
 $(document).ready(function(){
+    removeLevel();
     addLevel();
     listLevel();
 });

@@ -271,6 +271,8 @@ function isDemoAdd(){
         var $this = $(this);
         if ($this.is(':checked')) {
            isDemos=true;
+        }else{
+            isDemos=false;
         }
     });
 }
@@ -279,7 +281,10 @@ function isDemoEdit(){
         var $this = $(this);
         if ($this.is(':checked')) {
             isDemos=true;
+        }else{
+            isDemos=false;
         }
+
     });
 }
 
