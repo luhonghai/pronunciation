@@ -39,14 +39,14 @@ public class ManagementCourseServlet extends BaseServlet {
                 String json = gson.toJson(courseDTO);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("add")){
-                String course =  (String)StringUtil.isNull(request.getParameter("level"),"");
+                String course =  (String)StringUtil.isNull(request.getParameter("course"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
                 String message = courseService.addCourseToDB(course, description).getMessage();
                 response.getWriter().write(message);
 
             }else if(action.equalsIgnoreCase("edit")){
                 String courseId = (String)StringUtil.isNull( request.getParameter("id"),"");
-                String course = (String)StringUtil.isNull(request.getParameter("level"),"");
+                String course = (String)StringUtil.isNull(request.getParameter("course"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
                 String message = courseService.updateCourse(courseId, course, description).getMessage();

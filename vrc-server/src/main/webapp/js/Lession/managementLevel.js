@@ -26,11 +26,11 @@ function listLevels(){
         },
 
         "columns": [{
-            "sWidth": "20%",
+            "sWidth": "25%",
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
+            "sWidth": "30%",
             "data": "description",
             "sDefaultContent": ""
         }, {
@@ -46,7 +46,7 @@ function listLevels(){
             return '<label type="text" style="background-color: ' + data.color + '; margin-right:10px; width:100px; height:30px;">'+'</label>';
             }
         }, {
-            "sWidth": "30%",
+            "sWidth": "20%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
