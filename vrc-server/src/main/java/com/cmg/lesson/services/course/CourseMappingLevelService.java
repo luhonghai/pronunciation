@@ -153,4 +153,33 @@ public class CourseMappingLevelService {
         dto.setData(listLv);
         return dto;
     }
+
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public LevelDTO getLevelsForDropdown(String idCourse){
+        LevelDTO dto = new LevelDTO();
+        LevelService lvService = new LevelService();
+        CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+        List<Level> listLv = new ArrayList<Level>();
+        try {
+            List<CourseMappingLevel> temp = dao.getByIdCourse(idCourse);
+            if(temp!=null && temp.size() > 0){
+                List<String> ids = new ArrayList<>();
+                for(CourseMappingLevel cm : temp){
+                    ids.add(cm.getIdLevel());
+                }
+                listLv = lvService.listNotIn(ids);
+                dto.setMessage(SUCCESS);
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": can not get all level : "+e.getMessage());
+            logger.error("can not get all level : "  + e);
+        }
+        dto.setData(listLv);
+        return dto;
+    }
 }

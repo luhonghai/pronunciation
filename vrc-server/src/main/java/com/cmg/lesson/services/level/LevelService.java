@@ -322,6 +322,58 @@ public class LevelService {
         return listLv;
 
     }
+
+    /**
+     *
+     * @param ids
+     * @return list level
+     */
+    public List<Level> listNotIn(List<String> ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where Level.ID not in(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
+        }
+        List<Level> listLv = new ArrayList<Level>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        whereClause = whereClause + ") and isDeleted=false " ;
+        whereClause = whereClause + "order by index asc" ;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,isDemo,color from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Level lv = new Level();
+                    Object[] array = (Object[]) obj;
+                    lv.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lv.setName(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        lv.setDescription(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        lv.setIsDeleted(Boolean.parseBoolean(array[3].toString()));
+                    }
+                    if(array[4]!=null){
+                        lv.setColor(array[4].toString());
+                    }
+                    listLv.add(lv);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listLv;
+
+    }
 }
 
 
