@@ -225,11 +225,11 @@ public class LevelService {
             Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
             Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
             double count = getCount(search,dateFrom,dateTo,length,start);
-            List<Level> listQuestion = listAll(start,length,search,column,order,dateFrom,dateTo);
+            List<Level> listLevel = listAll(start,length,search,column,order,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);
-            dto.setData(listQuestion);
+            dto.setData(listLevel);
         }catch (Exception e){
             dto.setMessage(ERROR + ": " + "search level error, because:" + e.getMessage());
             logger.error("search question error, because:" + e.getMessage());
