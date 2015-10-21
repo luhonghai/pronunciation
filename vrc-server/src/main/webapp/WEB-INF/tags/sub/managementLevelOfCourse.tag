@@ -52,6 +52,10 @@
                 <div class="row"><button type="button" name="addlevel" id="addlevel" class="btn btn-default" value="yes" >Add Level</button></div>
               </div>
             </div>
+            <div class="panel-group" id="accordion">
+
+
+            </div>
 
           </div>
 

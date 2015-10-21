@@ -7,7 +7,7 @@ var servletName="ManagementLevelOfCourseServlet";
 function listLevel(){
     var $selected=$("#level");
     var id=$("#idCourse").val();
-    $('#company option[value!="-1"]').remove();
+    $('#level option[value!="-1"]').remove();
     $.ajax({
         "url": servletName,
         "type": "POST",
@@ -17,9 +17,9 @@ function listLevel(){
             id:id
         },
         success:function(data){
-            var items=data;
+            var items=data.data;
             $(items).each(function(){
-                var newOption = '<option value="' + this.companyName + '">' + this.companyName + '</option>';
+                var newOption = '<option value="' + this.name + '">' + this.name + '</option>';
                 $selected.append(newOption);
             });
             $("#level").append($("#company option").remove().sort(function(a, b) {
@@ -31,6 +31,30 @@ function listLevel(){
         }
 
     });
+}
+
+function addLevel(){
+    $(document).on("click","#addlevel", function(){
+        var txtLevel=$("#level").val();
+
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                add: "add"
+            },
+            success: function (data) {
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+    });
+
 }
 
 function openPopupAdd(){
