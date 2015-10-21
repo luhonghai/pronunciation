@@ -173,7 +173,7 @@ function editLevel(){
         var course = $("#editCourse").val();
         var description = $("#editDescription").val();
         if (course == null || typeof course == "undefined" || course.length == 0){
-            $("#editLevel").focus();
+            $("#editCourse").focus();
             swal("Warning!", "Lesson not null!", "warning");
             return;
         }

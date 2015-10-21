@@ -31,8 +31,9 @@ public class ManagementQuestionOfLessonServlet extends BaseServlet {
         WordOfQuestionService wordOfQuestionService = new WordOfQuestionService();
         LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
         Gson gson = new Gson();
+        String action=request.getParameter("action");
         try {
-            if(request.getParameter("action") == "list"){
+            if(action.equalsIgnoreCase("list")){
                 int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
                 int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
                 int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());

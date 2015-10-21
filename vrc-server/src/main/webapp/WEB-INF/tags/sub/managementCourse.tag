@@ -106,19 +106,6 @@
                     <textarea   type="text" id="addDescription" name="addDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Color:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="addColor" name="addColor" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
-                  </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">IsDemo:</label>
-                  <div class="col-xs-8  col-sm-9" style="margin-top: 8px;">
-                    <input type="checkbox" id="idDemoAdd">
-                  </div>
-                </div>
-
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
@@ -160,18 +147,6 @@
                   <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
                   <div class="col-xs-8  col-sm-9">
                     <textarea   type="text" id="editDescription" name="editDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
-                  </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Color:</label>
-                  <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="editColor" name="editColor" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
-                  </div>
-                </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">IsDemo:</label>
-                  <div class="col-xs-8  col-sm-9" style="margin-top: 8px;">
-                    <input type="checkbox" id="isDemoEdit">
                   </div>
                 </div>
               </div>
