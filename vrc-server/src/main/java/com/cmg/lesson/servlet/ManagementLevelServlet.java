@@ -20,7 +20,6 @@ import java.io.IOException;
 @WebServlet(name = "ManagementLevelServlet")
 public class ManagementLevelServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         LevelService levelService=new LevelService();
         LevelDTO levelDTO=new LevelDTO();
         Gson gson = new Gson();
