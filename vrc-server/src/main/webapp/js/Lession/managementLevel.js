@@ -26,11 +26,11 @@ function listLevels(){
         },
 
         "columns": [{
-            "sWidth": "20%",
+            "sWidth": "25%",
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
+            "sWidth": "30%",
             "data": "description",
             "sDefaultContent": ""
         }, {
@@ -46,12 +46,12 @@ function listLevels(){
             return '<label type="text" style="background-color: ' + data.color + '; margin-right:10px; width:100px; height:30px;">'+'</label>';
             }
         }, {
-            "sWidth": "30%",
+            "sWidth": "20%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 $button.attr("id-column", data.id);
                 $button.attr("level", data.name);
                 $button.attr("description", data.description);

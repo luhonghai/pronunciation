@@ -19,7 +19,7 @@ function listLevels(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -30,7 +30,7 @@ function listLevels(){
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
+            "sWidth": "35%",
             "data": "description",
             "sDefaultContent": ""
         }, {
@@ -38,12 +38,12 @@ function listLevels(){
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
-            "sWidth": "30%",
+            "sWidth": "20%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 $button.attr("id-column", data.id);
                 $button.attr("course", data.name);
                 $button.attr("description", data.description);
@@ -90,7 +90,7 @@ function addLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                add: "add",
+                action: "add",
                 course: course,
                 description:description
             },
@@ -131,7 +131,7 @@ function deleteLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                delete: "delete",
+                action: "delete",
                 id: id
             },
             success: function (data) {
@@ -173,7 +173,7 @@ function editLevel(){
         var course = $("#editCourse").val();
         var description = $("#editDescription").val();
         if (course == null || typeof course == "undefined" || course.length == 0){
-            $("#editLevel").focus();
+            $("#editCourse").focus();
             swal("Warning!", "Lesson not null!", "warning");
             return;
         }
@@ -185,9 +185,9 @@ function editLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                edit: "edit",
+                action: "edit",
                 id: id,
-                level: level,
+                course: course,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
             },
@@ -219,7 +219,7 @@ function searchAdvanted(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
