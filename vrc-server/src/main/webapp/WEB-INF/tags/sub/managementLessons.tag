@@ -123,47 +123,6 @@
   </div>
 </div>
 
-<div id="addQuestionToLesson" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h1 align="center">Add Question</h1>
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform1">
-
-              <div class="form-group">
-                <div class="ui sub header">Selection</div>
-                <select multiple="" id="select_question" name="skills" class="ui multiple selection dropdown">
-
-                </select>
-                <div id="js-dropdow"></div>
-                <!--<script>
-                  $('.ui.dropdown')
-                          .dropdown(
-                          'set selected',['Angular','CSS','Graphic Design']
-                  );
-
-                </script>-->
-              </div>
-              <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesaddquestion" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeadd" id="closeaddquestion" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-
 <div id="edits" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">

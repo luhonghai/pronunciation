@@ -62,9 +62,9 @@ public class ManagementLessonsServlet extends BaseServlet {
                 response.getWriter().write(message);
             }else if(request.getParameter("listQuestionOfLesson")!=null){
                 String lessonId =  (String)StringUtil.isNull(request.getParameter("idLesson"),"");
-                questionDTO = lessonMappingQuestionService.listQuestionByIdLesson(lessonId,"");
-                String json = gson.toJson(questionDTO);
-                response.getWriter().write(json);
+                //questionDTO = lessonMappingQuestionService.listQuestionByIdLesson(lessonId,"");
+                //String json = gson.toJson(questionDTO);
+                //response.getWriter().write(json);
                 //questionService.
                 //response.getWriter().write(message);
             }

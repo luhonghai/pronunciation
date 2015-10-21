@@ -44,7 +44,7 @@ function listLessons(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("lesson", data.name);
                 $button.attr("description", data.description);
@@ -303,14 +303,14 @@ $(document).ready(function(){
     //    });
     dateFrom();
     dateTo();
-    initModal();
+    //initModal();
     openPopupAdd();
     addLesson();
     openPopupEdit();
     editLesson();
     openPopupDelete();
     deleteLesson();
-    addQuestionForLesson();
+    //addQuestionForLesson();
     listLessons();
     searchAdvanted();
 });

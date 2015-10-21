@@ -76,8 +76,8 @@ public class LessonMappingQuestionService {
      * @param idLesson
      * @return list question
      */
-    //public QuestionDTO listQuestionByIdLesson(String idLesson, String word,String order, int start, int length, int draw){
-    public QuestionDTO listQuestionByIdLesson(String idLesson, String word){
+    public QuestionDTO listQuestionByIdLesson(String idLesson, String word,String order, int start, int length, int draw){
+   // public QuestionDTO listQuestionByIdLesson(String idLesson, String word){
         QuestionDTO questionDTO = new QuestionDTO();
         LessonMappingQuestionDAO lessonMappingQuestionDAO = new LessonMappingQuestionDAO();
         QuestionDAO questionDAO = new QuestionDAO();
@@ -88,19 +88,19 @@ public class LessonMappingQuestionService {
                 for(LessonMappingQuestion lmq : listLessonMappingQuestions){
                     lstId.add(lmq.getIdQuestion());
                 }
-                //List<Question> listQuestions = questionDAO.listIn(lstId, word, order, start, length);
-                List<Question> listQuestions = questionDAO.listIn(lstId, word);
-                //int count = wcDAO.getCountListIn(lstId, word, order, start, length);
+                List<Question> listQuestions = questionDAO.listIn(lstId, word, order, start, length);
+                //List<Question> listQuestions = questionDAO.listIn(lstId, word);
+                int count = questionDAO.getCountListIn(lstId, word, order, start, length);
                 questionDTO.setData(listQuestions);
                 questionDTO.setMessage(SUCCESS);
-                //listWord.setDraw(draw);
-                //listWord.setRecordsFiltered((double) count);
-                //listWord.setRecordsTotal((double) count);
+                questionDTO.setDraw(draw);
+                questionDTO.setRecordsFiltered((double) count);
+                questionDTO.setRecordsTotal((double) count);
             }else{
-                //listWord.setRecordsFiltered(0.0);
-                //listWord.setRecordsTotal(0.0);
-                //listWord.setData(new ArrayList<WordCollection>());
-                //listWord.setDraw(draw);
+                questionDTO.setRecordsFiltered(0.0);
+                questionDTO.setRecordsTotal(0.0);
+                questionDTO.setData(new ArrayList<Question>());
+                questionDTO.setDraw(draw);
                 questionDTO.setMessage(ERROR + ":can not get question for this lesson");
             }
         } catch (Exception e) {
