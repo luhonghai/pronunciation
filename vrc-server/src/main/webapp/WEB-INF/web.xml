@@ -329,6 +329,16 @@
         <url-pattern>/ManagementLevelServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementCourseServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementCourseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementCourseServlet</servlet-name>
+        <url-pattern>/ManagementCourseServlet</url-pattern>
+    </servlet-mapping>
+
 
 
     <servlet>
