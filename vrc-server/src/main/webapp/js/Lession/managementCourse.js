@@ -19,7 +19,7 @@ function listLevels(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -90,7 +90,7 @@ function addLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                add: "add",
+                action: "add",
                 course: course,
                 description:description
             },
@@ -131,7 +131,7 @@ function deleteLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                delete: "delete",
+                action: "delete",
                 id: id
             },
             success: function (data) {
@@ -185,7 +185,7 @@ function editLevel(){
             type: "POST",
             dataType: "text",
             data: {
-                edit: "edit",
+                action: "edit",
                 id: id,
                 level: level,
                 description:description,
@@ -219,7 +219,7 @@ function searchAdvanted(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                list: "list",
+                action: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

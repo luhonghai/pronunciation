@@ -24,8 +24,9 @@ public class ManagementCourseServlet extends BaseServlet {
         CourseService courseService=new CourseService();
         CourseDTO courseDTO=new CourseDTO();
         Gson gson = new Gson();
+        String action=request.getParameter("action");
         try {
-            if(request.getParameter("list")!=null){
+            if(action.equalsIgnoreCase("list")){
                 int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
                 int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
                 int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
@@ -34,27 +35,27 @@ public class ManagementCourseServlet extends BaseServlet {
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-//                courseDTO = courseService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
-//                String json = gson.toJson(courseDTO);
-//                response.getWriter().write(json);
-            }else if(request.getParameter("add")!=null){
-                String level =  (String)StringUtil.isNull(request.getParameter("level"),"");
+                courseDTO = courseService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                String json = gson.toJson(courseDTO);
+                response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("add")){
+                String course =  (String)StringUtil.isNull(request.getParameter("level"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
-                String message = courseService.addCourseToDB(level, description).getMessage();
+                String message = courseService.addCourseToDB(course, description).getMessage();
                 response.getWriter().write(message);
 
-            }else if(request.getParameter("edit")!=null){
-                String levelId = (String)StringUtil.isNull( request.getParameter("id"),"");
-                String level = (String)StringUtil.isNull(request.getParameter("level"),"");
+            }else if(action.equalsIgnoreCase("edit")){
+                String courseId = (String)StringUtil.isNull( request.getParameter("id"),"");
+                String course = (String)StringUtil.isNull(request.getParameter("level"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
-                String message = courseService.updateCourse(levelId, level, description).getMessage();
+                String message = courseService.updateCourse(courseId, course, description).getMessage();
                 response.getWriter().write(message);
 
-            }else if(request.getParameter("delete")!=null){
-                String levelId =  (String)StringUtil.isNull(request.getParameter("id"),"");
-//                String message = courseService.d(levelId).getMessage();
-//                response.getWriter().write(message);
+            }else if(action.equalsIgnoreCase("delete")){
+                String courseId =  (String)StringUtil.isNull(request.getParameter("id"),"");
+                String message = courseService.deleteCourseToDB(courseId).getMessage();
+                response.getWriter().write(message);
             }
         }catch (Exception e){
             response.getWriter().print("Error : " + e.getMessage());
