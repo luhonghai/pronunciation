@@ -174,6 +174,9 @@ public class CourseMappingLevelService {
                 }
                 listLv = lvService.listNotIn(ids);
                 dto.setMessage(SUCCESS);
+            }else{
+                listLv = lvService.listAll();
+                dto.setMessage(SUCCESS);
             }
         }catch (Exception e){
             dto.setMessage(ERROR + ": can not get all level : "+e.getMessage());

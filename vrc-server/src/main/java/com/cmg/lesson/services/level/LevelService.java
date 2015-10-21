@@ -192,6 +192,18 @@ public class LevelService {
         return null;
     }
 
+    public List<Level> listAll(){
+        LevelDAO dao = new LevelDAO();
+        try{
+            return dao.listAll();
+        }catch (Exception ex){
+            logger.error("list all level error, because:" + ex.getMessage());
+        }
+        return null;
+    }
+
+
+
     /**
      *
      * @param search
