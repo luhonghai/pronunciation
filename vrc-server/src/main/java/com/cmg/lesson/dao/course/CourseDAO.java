@@ -232,8 +232,35 @@ public class CourseDAO extends DataAccess<Course> {
                 q.closeAll();
             pm.close();
         }
-
         return check;
+    }
+
+    /**
+     *
+     * @param id
+     * @param description
+     * @param color
+     * @param isDemo
+     * @return
+     * @throws Exception
+     */
+    public boolean updateCourse(String id, String name,String description) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, name=?  WHERE id=?");
+        try {
+            q.execute(description,name,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
     }
 }
 
