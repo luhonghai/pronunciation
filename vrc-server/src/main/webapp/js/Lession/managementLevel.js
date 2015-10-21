@@ -182,6 +182,7 @@ function openPopupEdit(){
         $("#idedit").val(idd);
         if(isDemo=='true'){
             $("#isDemoEdit").prop('checked', true);
+            isDemos=true;
         }else{
             $("#isDemoEdit").prop('checked', false);
         }
