@@ -17,6 +17,7 @@
         }
       %>
       <h1 class="page-header">Level Of Course: <%=name%></h1>
+      <input type="hidden" id="idCourse" name="iddelete" value="<%=id%>">
     </div>
     <!-- /.col-lg-12 -->
     <%--<div class="col-lg-12">--%>

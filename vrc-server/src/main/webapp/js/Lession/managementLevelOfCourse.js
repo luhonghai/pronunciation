@@ -6,13 +6,15 @@ var servletName="ManagementLevelOfCourseServlet";
 
 function listLevel(){
     var $selected=$("#level");
+    var id=$("#idCourse").val();
     $('#company option[value!="-1"]').remove();
     $.ajax({
         "url": servletName,
         "type": "POST",
         "dataType":"json",
         "data": {
-            action: "listLevel"
+            action: "listLevel",
+            id:id
         },
         success:function(data){
             var items=data;
@@ -29,38 +31,6 @@ function listLevel(){
         }
 
     });
-}
-
-
-function loadAudio(){
-    $('.cp-jplayer').each(function() {
-        var id = $(this).attr('id');
-        var audioUrl = $(this).attr('audioUrl');
-        new CirclePlayer("#" + id,
-            {
-                mp3: audioUrl
-                // wav: audioUrl + "&type=wav"
-            }, {
-                cssSelectorAncestor: '#' + id + 's'
-            });
-
-    });
-
-}
-
-function getWeightAndPhoneme(listPhonemeName, listWeightName){
-    var output = [];
-    $(listPhonemeName).find('input').each(function(e){
-        var value = $(this).val();
-        var index = $(this).attr("index");
-        var weight = $(listWeightName + index).val();
-        output.push({
-            index : parseInt(index),
-            phoneme : value,
-            weight : parseInt(weight)
-        });
-    });
-    return output;
 }
 
 function openPopupAdd(){
@@ -126,60 +96,7 @@ function addWord(){
     });
 
     //load phonemes click
-    $("#loadPhonemes").click(function(){
-        $("#loadPhonemes").attr("disabled",true);
-        var word = $("#addWord").val();
-        if (word == null || typeof word == "undefined" || word.length == 0){
-            $("#loadPhonemes").attr("disabled",false);
-            $("#addWord").focus();
-            swal("Warning!", "Word not null!", "warning");
-            return;
-        }
-        $.ajax({
-            url: servletName,
-            type: "POST",
-            dataType: "json",
-            data: {
-                listPhonemes: "listPhonemes",
-                word: word
-            },
-            success: function (data) {
-                var message = data.message;
-                if(message.indexOf("success") != -1){
-                    $("#addWord").attr("idWord", data.id);
-                    //$("#loadPhonemes").attr("disabled",true);
-                    $(".phoneme-lable").html("Phonemes:");
-                    $(".weight-lable").html("WeightPhonemes:");
-                    $("#listPhonmes").html("");
-                    $("#listWeight").html("");
-                    //$("#addWord").attr("readonly","readonly");
-                    $("#addWord").attr("disabled",true);
-                    $.each(data.phonemes, function (idx, obj) {
-                        var phonmeName = obj.phoneme;
-                        //alert(jsonItem);
-                        $("#listPhonmes").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
-                        $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
-                        $("#listPhonmes").css({"width":(idx+1)*35});
-                        $("#listWeight").css({"width":(idx+1)*35});
-                    });
-                    $("#yesadd").attr("disabled", false);
-                }else{
-                    $("#loadPhonemes").attr("disabled",false);
-                    $("#listPhonmes").html("");
-                    $("#listWeight").html("");
-                    $(".phoneme-lable").html("");
-                    $(".weight-lable").html("");
-                    $("#yesadd").attr("disabled", true);
-                    $("#addWord").focus();
-                    swal("Error!",message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
-    });
 }
 
 function openPopupDeletes(){
@@ -313,14 +230,15 @@ function editWord(){
 }
 
 $(document).ready(function(){
-    getIdQuestion()
-    openPopupAdd();
-    addWord();
-    openPopupDeletes();
-    deleteWord();
-    openPopupEdit();
-    editWord();
-    listWordOfQuestion();
+    //getIdQuestion()
+    //openPopupAdd();
+    //addWord();
+    //openPopupDeletes();
+    //deleteWord();
+    //openPopupEdit();
+    //editWord();
+    //listWordOfQuestion();
+    listLevel();
 });
 
 
