@@ -27,7 +27,6 @@ public class LessonMappingQuestion implements Mirrorable {
     @Persistent
     private int version;
 
-
     @Override
     public String getId() {
         return this.id;

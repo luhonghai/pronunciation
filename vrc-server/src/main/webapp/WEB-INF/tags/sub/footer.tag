@@ -26,14 +26,12 @@
 <script src="<%=request.getContextPath() %>/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 
-
 <!-- Custom Theme JavaScript -->
 <script src="<%=request.getContextPath() %>/dist/js/sb-admin-2.js"></script>
-
 <script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/raphael/raphael-min.js"></script>
-
-<script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.transform2d.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/moment-master/min/moment.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-colorpicker-master/dist/js/bootstrap-colorpicker.min.js"></script>
 
 <script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.grab.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/jquery.jplayer.js"></script>

@@ -309,6 +309,46 @@
         <url-pattern>/ManagementWordOfQuestionServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementQuestionOfLessonServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementQuestionOfLessonServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementQuestionOfLessonServlet</servlet-name>
+        <url-pattern>/ManagementQuestionOfLessonServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManagementLevelServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementLevelServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementLevelServlet</servlet-name>
+        <url-pattern>/ManagementLevelServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ManagementCourseServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementCourseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementCourseServlet</servlet-name>
+        <url-pattern>/ManagementCourseServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ManagementLevelOfCourseServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementLevelOfCourseServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementLevelOfCourseServlet</servlet-name>
+        <url-pattern>/ManagementLevelOfCourseServlet</url-pattern>
+    </servlet-mapping>
 
 
 

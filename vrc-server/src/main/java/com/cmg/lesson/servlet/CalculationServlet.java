@@ -92,7 +92,7 @@ public class CalculationServlet extends HttpServlet {
                     // Process the input stream
                     if(getName.endsWith(".wav")){
                         FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
-                        //FileHelper.saveFile(tmpDir, tmpFile, stream);
+
                     }
                 }
             }
@@ -118,7 +118,7 @@ public class CalculationServlet extends HttpServlet {
                     if (tmpFileIn.exists())
                         FileUtils.forceDelete(tmpFileIn);
                 } catch (Exception e) {}
-                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + fileTempName,
+                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/lesson/" + fileTempName,
                         targetRaw);
                 UserLessonHistory model = new UserLessonHistory();
                 model.setId(UUIDGenerator.generateUUID());
@@ -140,6 +140,9 @@ public class CalculationServlet extends HttpServlet {
                     model.setResult(result);
                     ScoreService service = new ScoreService();
                     service.reCalculateBaseOnWeight(model);
+                    service.addUserLessonHistory(model);
+                    service.addPhonemeScore(model);
+                    service.addSessionScore(model);
                 }
                 String output = gson.toJson(model);
                 out.print(output);

@@ -123,48 +123,6 @@
   </div>
 </div>
 
-<div id="addQuestionToLesson" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h1 align="center">Add Lesson</h1>
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform1">
-
-              <div class="form-group">
-                <div class="ui selection dropdown">
-                  <input type="hidden" name="gender">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">Question</div>
-                  <div class="menu">
-                    <div class="item" data-value="male" data-text="Male">
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesaddquestion" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeadd" id="closeaddquestion" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-
-
-
 <div id="edits" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -206,7 +164,6 @@
   </div>
 </div>
 
-
 <div id="deletes" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -228,7 +185,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="<%=request.getContextPath() %>/js/Lession/managementLessons.js"></script>
 

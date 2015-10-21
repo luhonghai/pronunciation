@@ -11,6 +11,9 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-colorpicker-master/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+
 
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap-glyphicons-master/css/bootstrap.icon-large.min.css" rel="stylesheet">
 
@@ -23,7 +26,6 @@
         <!-- DataTables Responsive CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
         <%--<link href="bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">--%>
-
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/dist/css/sb-admin-2.css" rel="stylesheet">
