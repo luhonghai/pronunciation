@@ -54,6 +54,7 @@ public class CourseService {
                 course.setDescription(description);
                 course.setVersion(getMaxVersion());
                 course.setIsDeleted(false);
+                course.setDateCreated(new Date(System.currentTimeMillis()));
                 dao.create(course);
                 message = SUCCESS;
             }else{

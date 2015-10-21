@@ -8,6 +8,7 @@ import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.services.course.CourseMappingLevelService;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -158,7 +159,8 @@ public class LevelService {
         try{
             boolean isDelete=dao.updateDeleted(id);
             if (isDelete){
-                message = SUCCESS;
+                CourseMappingLevelService mappingLevelService = new CourseMappingLevelService();
+                message = mappingLevelService.removeLevel(id);
             }else{
                 message = ERROR + ": " + "an error has been occurred in server!";
             }
