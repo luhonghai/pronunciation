@@ -180,7 +180,6 @@ function getLessonsForObj(idLevel,idObject){
 
 function openPopopAddObjective(){
     $(document).on("click",".createObj", function(){
-        getAllLesson();
         $("#add-objective").modal('show');
         $("#addObjective").val("");
         $("#addDescription").val("");
@@ -189,6 +188,11 @@ function openPopopAddObjective(){
     });
 }
 
+function initAddObject(){
+    $("#add-objective").on('show.bs.collapse', function(){
+        getAllLesson();
+    });
+}
 
 function getAllLesson(){
     $.ajax({
