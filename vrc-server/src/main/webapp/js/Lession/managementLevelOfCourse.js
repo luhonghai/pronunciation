@@ -38,7 +38,7 @@ function listLevel(){
                                     ''+this.name+' </button> ' +
                                     '</h4> ' +
                                 '</div>' +
-                                '<div class="col-sm-2 pull-right"><button type="button" name="removeLevel" id="removeLevel'+this.id+'" class="btn btn-default" value="yes" >Remove Level</button></div>' +
+                                '<div class="col-sm-2 pull-right"><button type="button" name="removeLevel" id_lv="'+this.id+'" class="btn btn-default removelv" value="yes" >Remove Level</button></div>' +
                             '</div>' +
                         '</div>' +
                         '<div id="'+this.id+'" class="panel-collapse collapse"> ' +
@@ -94,8 +94,8 @@ function addLevel(){
 
 }
 function removeLevel(){
-    $(document).on("click","#addlevel", function(){
-        var idLevel=$("#level option:selected").attr('id');
+    $(document).on("click",".removelv", function(){
+        var idLevel=$(this).attr('id_lv');
         var idCourse=$("#idCourse").val();
 
         $.ajax({
@@ -103,7 +103,7 @@ function removeLevel(){
             type: "POST",
             dataType: "json",
             data: {
-                action: "addLevel",
+                action: "delete",
                 idLevel:idLevel,
                 idCourse:idCourse
             },

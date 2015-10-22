@@ -56,8 +56,12 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
             }else if(request.getParameter("listPhonemesEdit")!=null){
 
 
-            }else if(request.getParameter("delete")!=null){
-
+            }else if(action.equalsIgnoreCase("delete")){
+                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                CourseDTO dto = courseMappingLevelService.removeLevel(idCourse,idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
             }
         }catch (Exception e){
             e.printStackTrace();
