@@ -9,17 +9,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTabHost;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.webkit.WebView;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.balysv.materialmenu.MaterialMenuView;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
@@ -44,6 +44,7 @@ import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
+import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
@@ -55,51 +56,44 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import it.sephiroth.android.library.widget.HListView;
-import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
 
 /**
  * Created by luhonghai on 12/22/14.
  */
-public class DetailFragment extends BaseFragment implements View.OnClickListener, RecordingView.OnAnimationListener {
-
-    enum DisplayingState {
-        DEFAULT,
-        WAIT_FOR_ANIMATION_MAX
-    }
-
-    enum ButtonState {
-        RED,
-        ORANGE,
-        GREEN,
-        PLAYING
-    }
+public class DetailFragment extends BaseFragment implements RecordingView.OnAnimationListener {
 
     private DisplayingState displayingState;
 
-    private MaterialMenuView materialMenu;
+    @Bind(android.R.id.tabhost)
+    FragmentTabHost mTabHost;
 
-    private FragmentTabHost mTabHost;
+    @Bind(R.id.main_recording_view)
+    RecordingView recordingView;
 
-    private RecordingView recordingView;
+    @Bind(R.id.btnAudio)
+    ImageButton btnAudio;
 
-    private ImageButton btnAudio;
+    @Bind(R.id.txtWord)
+    AlwaysMarqueeTextView txtWord;
 
-    private AlwaysMarqueeTextView txtWord;
+    @Bind(R.id.txtPhoneme)
+    AlwaysMarqueeTextView txtPhonemes;
 
-    private AlwaysMarqueeTextView txtPhonemes;
+    @Bind(R.id.listViewScore)
+    HListView hListView;
 
-    private RelativeLayout rlVoiceExample;
+    @Bind(R.id.panelSlider)
+    SlidingUpPanelLayout panelSlider;
 
     private UserVoiceModel model;
 
     private PlayerHelper player;
 
     private ButtonState lastState;
-
-    private WebView webView;
-
-    private HListView hListView;
 
     private boolean isPlaying = false;
 
@@ -109,10 +103,14 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
 
     private ShowcaseHelper showcaseHelper;
 
-    @Nullable
+    private void initDetailView(View root) {
+        recordingView.setAnimationListener(this);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
+        ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
         WordDBAdapter wordDBAdapter = new WordDBAdapter();
         mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
@@ -167,8 +165,62 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         });
+        initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
         return root;
+    }
+
+    private void initSlider(final View root) {
+        LinearLayout rlSliderContent = (LinearLayout) root.findViewById(R.id.rlSliderContent);
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+        SlidingUpPanelLayout.LayoutParams layoutParams = (SlidingUpPanelLayout.LayoutParams) rlSliderContent.getLayoutParams();
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = 0;
+        if (getActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))
+        {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,getResources().getDisplayMetrics());
+        }
+        final int halfHeight = (displayMetrics.heightPixels - actionBarHeight) / 2;
+        layoutParams.height = halfHeight;
+        rlSliderContent.setLayoutParams(layoutParams);
+        panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                float test = (halfHeight - root.findViewById(R.id.btnSlider).getHeight()) / (float) halfHeight;
+                if (slideOffset > test) {
+                    //txtPhonemes.setVisibility(View.INVISIBLE);
+                } else {
+                    //txtPhonemes.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+
+            }
+        });
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        }, 1000);
     }
 
     private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws LiteDatabaseException {
@@ -207,8 +259,6 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
 
     private void showPhonemesListView() {
         if (model == null || model.getResult() == null) return;
-        //List<String> phonemes = model.getResult().getCorrectPhonemes();
-        //int size = model.getResult().getCorrectPhonemes().size();
         List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
         SphinxResult.PhonemeScore[] scores = null;
         if (phonemeScores == null || phonemeScores.size() == 0) {
@@ -216,32 +266,15 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
         } else {
             scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
             phonemeScores.toArray(scores);
-            PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(MainApplication.getContext(), scores, this);
+            PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(MainApplication.getContext(), scores, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialog(view);
+                }
+            });
             hListView.setAdapter(scoreAdapter);
             scoreAdapter.notifyDataSetChanged();
         }
-    }
-
-    private void initDetailView(View root) {
-        rlVoiceExample = (RelativeLayout) root.findViewById(R.id.rlVoiceExample);
-        hListView = (HListView) root.findViewById(R.id.listViewScore);
-        webView = (WebView) root.findViewById(R.id.webview_score);
-        recordingView = (RecordingView) root.findViewById(R.id.main_recording_view);
-        recordingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeDetail();
-            }
-        });
-        recordingView.setAnimationListener(this);
-        btnAudio = (ImageButton) root.findViewById(R.id.btnAudio);
-        btnAudio.setOnClickListener(this);
-        txtPhonemes = (AlwaysMarqueeTextView) root.findViewById(R.id.txtPhoneme);
-        txtPhonemes.setOnClickListener(this);
-        txtWord = (AlwaysMarqueeTextView) root.findViewById(R.id.txtWord);
-        txtWord.setOnClickListener(this);
-        rlVoiceExample.setOnClickListener(this);
-
     }
 
     @Override
@@ -279,12 +312,10 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
         } catch (Exception ex) {
 
         }
+        ButterKnife.unbind(this);
     }
 
     private void initTabHost(View root) {
-        mTabHost = (FragmentTabHost) root.findViewById(android.R.id.tabhost);
-        if (mTabHost == null || model == null) return;
-
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         Bundle bundle = new Bundle();
@@ -307,12 +338,12 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
 
     }
 
-    @Override
+    @OnClick({R.id.rlVoiceExample, R.id.txtPhoneme, R.id.txtWord, R.id.btnAudio})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlVoiceExample:
-                //case R.id.txtPhoneme:
-                //case R.id.txtWord:
+            case R.id.txtPhoneme:
+            case R.id.txtWord:
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
@@ -355,9 +386,6 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
                 } else {
                     playAudio();
                 }
-                break;
-            case R.id.txtPhonemeScore:
-                showDialog(v);
                 break;
         }
     }
@@ -552,59 +580,6 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
         }
     }
 
-    private void showPhonemes() {
-        if (model == null || model.getResult() == null || webView == null) return;
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                StringBuffer sb1 = new StringBuffer();
-                StringBuffer sb2 = new StringBuffer();
-                sb1.append("<table style=\"margin: 0 auto;\" cellpadding=\"3\" cellspacing=\"3\"><tr>");
-                sb2.append("<table style=\"margin: 0 auto;\" cellpadding=\"3\" cellspacing=\"3\"><tr>");
-                List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
-                if (phonemeScores != null && phonemeScores.size() > 0) {
-                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScores) {
-
-                        sb1.append("<td style=\"background-color: " + ColorHelper.COLOR_DEFAULT_STRING + ";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                        sb1.append(phonemeScore.getName());
-                        sb1.append("</td>");
-
-                        sb2.append("<td style=\"background-color: ");
-                        if (phonemeScore.getTotalScore() >= 80.0) {
-                            sb2.append(ColorHelper.COLOR_GREEN_STRING);
-                        } else if (phonemeScore.getTotalScore() >= 45.0) {
-                            sb2.append(ColorHelper.COLOR_ORANGE_STRING);
-                        } else {
-                            sb2.append(ColorHelper.COLOR_RED_STRING);
-                        }
-                        sb2.append(";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                        sb2.append(phonemeScore.getName());
-                        sb2.append("</td>");
-                    }
-                } else {
-                    List<String> correctPhonemes = model.getResult().getCorrectPhonemes();
-                    if (correctPhonemes != null && correctPhonemes.size() > 0) {
-                        for (String phoneme : correctPhonemes) {
-                            sb1.append("<td style=\"background-color: " + ColorHelper.COLOR_DEFAULT_STRING + ";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                            sb1.append(phoneme);
-                            sb1.append("</td>");
-
-                            sb2.append("<td style=\"background-color: ");
-                            sb2.append(ColorHelper.COLOR_GRAY_STRING);
-                            sb2.append(";color: white;width: 20px;height:20px;text-align: center;font-weight: bold;border-radius: 5px;\">");
-                            sb2.append(phoneme);
-                            sb2.append("</td>");
-                        }
-                    }
-                }
-                sb1.append("</tr></table>");
-                sb2.append("</tr></table>");
-                webView.loadData("<style>body{margin:0;padding:0;background:white}</style><div style='background:white;margin:0;padding:0'>" + sb1.toString() + sb2.toString() + "</div>","text/html", "UTF-8");
-                webView.reload();
-            }
-        });
-    }
-
     @Override
     public void onAnimationMax() {
         if (displayingState == DisplayingState.WAIT_FOR_ANIMATION_MAX) {
@@ -633,4 +608,17 @@ public class DetailFragment extends BaseFragment implements View.OnClickListener
     public void onAnimationMin() {
 
     }
+
+    enum DisplayingState {
+        DEFAULT,
+        WAIT_FOR_ANIMATION_MAX
+    }
+
+    enum ButtonState {
+        RED,
+        ORANGE,
+        GREEN,
+        PLAYING
+    }
+
 }

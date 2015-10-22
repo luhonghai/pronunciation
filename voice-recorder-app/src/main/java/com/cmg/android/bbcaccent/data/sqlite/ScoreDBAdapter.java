@@ -11,7 +11,7 @@ import com.luhonghai.litedb.exception.LiteDatabaseException;
 /**
  * Created by luhonghai on 12/23/14.
  */
-public class ScoreDBAdapter extends LiteBaseDao<PronunciationScore> {
+public class ScoreDBAdapter extends BaseDatabaseAdapter<PronunciationScore> {
 
     /**
      * Constructor
@@ -92,17 +92,5 @@ public class ScoreDBAdapter extends LiteBaseDao<PronunciationScore> {
             }
         }
         return version;
-    }
-
-    @Override
-    @Deprecated
-    public void open() {
-        //
-    }
-
-    @Override
-    @Deprecated
-    public void close() {
-        //
     }
 }

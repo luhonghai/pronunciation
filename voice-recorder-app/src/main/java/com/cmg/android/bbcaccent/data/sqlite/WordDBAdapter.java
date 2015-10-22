@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created by luhonghai on 12/23/14.
  */
-public class WordDBAdapter extends LiteBaseDao<PronunciationWord> {
+public class WordDBAdapter extends BaseDatabaseAdapter<PronunciationWord> {
 
     /**
      * Constructor
@@ -94,17 +94,5 @@ public class WordDBAdapter extends LiteBaseDao<PronunciationWord> {
             SimpleAppLog.error("Could not get phonemes CMU and IPA",e);
         }
         return maps;
-    }
-
-    @Override
-    @Deprecated
-    public void open() {
-        //
-    }
-
-    @Override
-    @Deprecated
-    public void close() {
-        //
     }
 }

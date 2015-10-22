@@ -9,4 +9,11 @@
     <color name="app_blue_sky">#33b5e5</color>
     <color name="help_bg">#b2b2b2</color>
     <color name="help_bg_with_tint">#838383</color>
+    
+    <color name="app_purple">#7030a0</color>
+    <color name="app_light_purple">#c0beff</color>
+    <color name="app_aqua">#1f7180</color>
+    <color name="app_light_aqua">#aeebe7</color>
+    <color name="app_dark_gray">#6c6c6c</color>
+    <color name="app_light_gray">#d0d0d0</color>
 </resources>
