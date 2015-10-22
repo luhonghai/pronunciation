@@ -53,7 +53,27 @@ public class UserLessonHistory implements Mirrorable{
     @NotPersistent
     private String idWord;
 
+    @NotPersistent
+    private String sessionID;
 
+    @NotPersistent
+    private String idLessonCollection;
+
+    public String getIdLessonCollection() {
+        return idLessonCollection;
+    }
+
+    public void setIdLessonCollection(String idLessonCollection) {
+        this.idLessonCollection = idLessonCollection;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
+    }
 
     @Override
     public String getId() {

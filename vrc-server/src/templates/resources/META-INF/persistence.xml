@@ -31,6 +31,11 @@
 		<class>com.cmg.lesson.data.jdo.question.WeightForPhoneme</class>
 		<class>com.cmg.lesson.data.jdo.lessons.LessonCollection</class>
 		<class>com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion</class>
+		<class>com.cmg.lesson.data.jdo.level.Level</class>
+		<class>com.cmg.lesson.data.jdo.course.Course</class>
+		<class>com.cmg.lesson.data.jdo.course.CourseMappingLevel</class>
+		<class>com.cmg.lesson.data.jdo.course.CourseMappingDetail</class>
+		<class>com.cmg.lesson.data.jdo.country.Country</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

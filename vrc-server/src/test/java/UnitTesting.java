@@ -1,11 +1,20 @@
 
+import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
+import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
+import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
+import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
+import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.jdo.Admin;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * Created by cmg on 08/07/15.
@@ -71,10 +80,25 @@ public class UnitTesting {
                 for(WordCollection word : lis)
                 System.out.println(word.getWord());
             }*/
+          /* WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updatePhonemeOfWordToDatabase();*/
 
-            WordMappingPhonemesService serv = new WordMappingPhonemesService();
-           // serv.updateDatabase();
+          /*  CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
 
+            CourseMappingDetail cmd = new CourseMappingDetail();
+            cmd.setIdLevel("idLevel");
+            cmd.setIdCourse("idCourse");
+            cmd.setIdChild("idchild");
+            cmd.setIsTest(false);
+            cmd.setVersion(1);
+            dao.create(cmd);
+            List<CourseMappingDetail> list = dao.getBy("idCourse","idLevel",false);
+            if(list.size()>0){
+                System.out.println(list.get(0).getIdChild());
+            }*/
+
+            CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+            dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
         } catch (Exception e) {
             e.printStackTrace();
         }

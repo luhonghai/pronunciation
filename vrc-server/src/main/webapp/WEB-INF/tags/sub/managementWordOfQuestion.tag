@@ -10,7 +10,7 @@
     margin-top: 25px;
   }
 
-  #addWord{
+  #addQuestion {
     width:95%;
   }
 

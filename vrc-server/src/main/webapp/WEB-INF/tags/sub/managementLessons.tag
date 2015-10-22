@@ -123,59 +123,6 @@
   </div>
 </div>
 
-<div id="addQuestionToLesson" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h1 align="center">Add Question</h1>
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform1">
-
-              <div class="form-group">
-                <div class="ui sub header">Selection</div>
-                <select  name="skills" class="" id="ui_normal_dropdown">
-                  <option value="">Skills</option>
-                  <option value="angular">Angular</option>
-                  <option value="css">CSS</option>
-                  <option value="design">Graphic Design</option>
-                  <option value="ember">Ember</option>
-                  <option value="html">HTML</option>
-                  <option value="ia">Information Architecture</option>
-                  <option value="javascript">Javascript</option>
-                  <option value="mech">Mechanical Engineering</option>
-                  <option value="meteor">Meteor</option>
-                  <option value="node">NodeJS</option>
-                  <option value="plumbing">Plumbing</option>
-                  <option value="python">Python</option>
-                  <option value="rails">Rails</option>
-                  <option value="react">React</option>
-                  <option value="repair">Kitchen Repair</option>
-                  <option value="ruby">Ruby</option>
-                  <option value="ui">UI Design</option>
-                  <option value="ux">User Experience</option>
-                </select>
-              </div>
-              <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesaddquestion" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeadd" id="closeaddquestion" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-
-
-
 <div id="edits" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -217,7 +164,6 @@
   </div>
 </div>
 
-
 <div id="deletes" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -239,7 +185,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="<%=request.getContextPath() %>/js/Lession/managementLessons.js"></script>
 

@@ -11,6 +11,9 @@
 
         <!-- Bootstrap Core CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-colorpicker-master/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+
+
 
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap-glyphicons-master/css/bootstrap.icon-large.min.css" rel="stylesheet">
 
@@ -23,14 +26,17 @@
         <!-- DataTables Responsive CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
         <%--<link href="bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet">--%>
-        <link href="<%=request.getContextPath()%>/bower_components/semantic/dist/semantic.min.css">
 
         <!-- Custom CSS -->
         <link href="<%=request.getContextPath()%>/dist/css/sb-admin-2.css" rel="stylesheet">
 
         <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/css/not.the.skin.css" rel="stylesheet">
 
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css" rel="stylesheet">
+
+
         <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/circle.skin/circle.player.css" rel="stylesheet">
+
 
         <!-- Custom Fonts -->
         <link href="<%=request.getContextPath()%>/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -45,7 +51,6 @@
         <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <script src="<%=request.getContextPath() %>/bower_components/semantic/dist/semantic.min.js"></script>
         <![endif]-->
         <style>
                 /*@media (min-width: 768px) and (max-width: 970px) {*/

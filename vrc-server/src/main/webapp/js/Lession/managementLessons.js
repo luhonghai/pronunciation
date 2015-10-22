@@ -4,6 +4,7 @@
 var myTable;
 var servletName="ManagementLessonsServlet";
 var lessonName;
+var idLesson;
 
 function listLessons(){
 
@@ -43,7 +44,7 @@ function listLessons(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question' + '</button>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("lesson", data.name);
                 $button.attr("description", data.description);
@@ -229,33 +230,71 @@ function searchAdvanted(){
     });
 }
 
-function addQuestionToLesson(){
+function addQuestionForLesson(){
     $(document).on("click","#addQuestion", function(){
+        idLesson=$(this).attr('id-column');
         $("#addQuestionToLesson").modal('show');
-        var idd=$(this).attr('id-column');
-        //$.ajax({
-        //    url: "ManagementLessonsServlet",
-        //    type: "POST",
-        //    dataType: "json",
-        //    data: {
-        //        addQuestion: "addQuestion",
-        //        idd: idd
-        //    },
-        //    success: function (data) {
-        //        if (data!=null) {
-        //
-        //
-        //        }else{
-        //            swal("Could not delete question!", data.split(":")[1], "error");
-        //        }
-        //    },
-        //    error: function () {
-        //        swal("Error!", "Could not connect to server", "error");
-        //    }
-        //
-        //});
+
+        //alert(idd);
+
     });
 
+}
+
+function addJsForDropdown(listSelected){
+    var jsContent= "<script>$('.ui.dropdown').dropdown('set selected',["+listSelected+"]);</script>";
+    $("#js-dropdow").html(jsContent);
+}
+
+function initModal(){
+    $('#addQuestionToLesson').on('shown.bs.modal', function (e) {
+        $.ajax({
+            url: servletName,
+            type: "POST",
+            dataType: "json",
+            data: {
+                listQuestionOfLesson: servletName,
+                idLesson: idLesson
+            },
+            success: function (data) {
+                var message = data.message;
+                if(message.indexOf("success") != -1){
+                    var listSelected = [];
+                    $("#select_question").empty();
+                    $.each(data.data, function (idx, obj) {
+                        $("#select_question").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                        listSelected.push(obj.name);
+                    });
+
+                    listSelected = listSelected.substring(0,listSelected.length-1);
+                    addJsForDropdown(listSelected);
+
+                }else{
+                    swal("Error!",message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+        //alert(idd);
+
+    });
+
+}
+
+function addJsForDropdown(listSelected){
+    var jsContent= "<script>$('.ui.dropdown').dropdown('set selected',["+listSelected+"]);</script>";
+    $("#js-dropdow").html(jsContent);
+}
+
+function initModal(){
+    $('#addQuestionToLesson').on('show.bs.modal', function (e) {
+        $('#select_question').dropdown();
+    })
 }
 
 $(document).ready(function(){
@@ -264,14 +303,15 @@ $(document).ready(function(){
     //    });
     dateFrom();
     dateTo();
+    //initModal();
     openPopupAdd();
     addLesson();
     openPopupEdit();
     editLesson();
     openPopupDelete();
     deleteLesson();
+    //addQuestionForLesson();
     listLessons();
-    addQuestionToLesson();
     searchAdvanted();
 });
 

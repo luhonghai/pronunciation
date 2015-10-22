@@ -1,11 +1,17 @@
 package com.cmg.lesson.services.calculation;
 
+import com.cmg.lesson.dao.history.PhonemeLessonScoreDAO;
+import com.cmg.lesson.dao.history.SessionScoreDAO;
+import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
+import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
+import com.cmg.lesson.data.jdo.history.SessionScore;
 import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.vrc.sphinx.SphinxResult;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,5 +64,68 @@ public class ScoreService {
         }
         logger.info("=====done=======");
         return user;
+    }
+
+    /**
+     *
+     * @param model
+     */
+    public void addUserLessonHistory(UserLessonHistory model){
+        UserLessonHistoryDAO dao = new UserLessonHistoryDAO();
+        try {
+            dao.create(model);
+        }catch (Exception e){
+            logger.error("there are something wrong with function add user lesson history : " + e);
+        }
+
+    }
+
+    /**
+     *
+     * @param model
+     */
+    public void addSessionScore(UserLessonHistory model){
+        SessionScoreDAO dao = new SessionScoreDAO();
+        try {
+            SessionScore s = new SessionScore();
+            s.setIdUserLessonHistory(model.getId());
+            s.setIdCountry(model.getIdCountry());
+            s.setSessionID(model.getSessionID());
+            s.setIdQuestion(model.getIdQuestion());
+            s.setIdLessonCollection(model.getIdLessonCollection());
+            dao.create(s);
+        }catch (Exception e){
+            logger.error("there are something wrong with function add session score : " + e);
+        }
+    }
+
+    /**
+     *
+     * @param model
+     * @return
+     */
+    public void addPhonemeScore(UserLessonHistory model){
+        PhonemeLessonScoreDAO dao = new PhonemeLessonScoreDAO();
+        List<PhonemeLessonScore> list = null;
+        try {
+            List<SphinxResult.PhonemeScore> scores = model.getResult().getPhonemeScores();
+            if(scores!=null && scores.size() > 0){
+                list = new ArrayList<PhonemeLessonScore>();
+                for(SphinxResult.PhonemeScore ph : scores){
+                    PhonemeLessonScore pls = new PhonemeLessonScore();
+                    pls.setIdCountry(model.getIdCountry());
+                    pls.setIdUserLessonHistory(model.getId());
+                    pls.setPhoneme(ph.getName());
+                    pls.setIndex(ph.getIndex());
+                    pls.setTotalScore(ph.getTotalScore());
+                    list.add(pls);
+                }
+            }
+            if(list!=null && list.size() > 0 ){
+                dao.create(list);
+            }
+        }catch (Exception e){
+            logger.error("there are something wrong with function add phoneme score for lesson : " + e);
+        }
     }
 }
