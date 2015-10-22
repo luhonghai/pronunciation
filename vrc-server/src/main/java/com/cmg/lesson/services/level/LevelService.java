@@ -367,7 +367,7 @@ public class LevelService {
                         lv.setDescription(array[2].toString());
                     }
                     if(array[3]!=null){
-                        lv.setIsDeleted(Boolean.parseBoolean(array[3].toString()));
+                        lv.setIsDemo(Boolean.parseBoolean(array[3].toString()));
                     }
                     if(array[4]!=null){
                         lv.setColor(array[4].toString());
