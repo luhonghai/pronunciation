@@ -32,7 +32,7 @@ function BuildUI(){
             }
 
             $(listLevel).each(function(){
-                buildPanel(this);
+                buildPanelLevel(this);
             });
 
 
