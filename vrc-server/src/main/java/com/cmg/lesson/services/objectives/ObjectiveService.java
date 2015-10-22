@@ -2,6 +2,7 @@ package com.cmg.lesson.services.objectives;
 
 import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
+import com.cmg.lesson.data.dto.course.CourseDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
@@ -165,6 +166,12 @@ public class ObjectiveService {
             e.printStackTrace();
         }
         return 0.0;
+    }
+
+
+    public CourseDTO getAllObj(String idCourse, String idLevel){
+        CourseDTO dto = new CourseDTO();
+        return dto;
     }
 
 }

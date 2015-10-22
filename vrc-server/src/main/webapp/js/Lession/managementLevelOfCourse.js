@@ -109,10 +109,12 @@ function loadDetails(){
     $(".collapse").on('show.bs.collapse', function(){
         var type = $(this).attr(type);
         if(type === "getObjAndTest"){
-            var idLevel = $(this).attr("id");
+            var idLevel = $(this).attr("id_level");
             var idCourse=$("#idCourse").val();
+            getObjAndTest(idLevel,idCourse);
         }else if (type ==="getLessonObj"){
-
+            var idObj   =  $(this).attr("id");
+            var idLevel =  $(this).attr("id_lv");
         }else if (type ==="getLessonTest"){
 
         }
@@ -132,7 +134,16 @@ function getObjAndTest(idLevel,idCourse){
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
                 var listObj = data.listObj;
+                if(listObj.length > 0){
+                    $("#"+idLevel).find("#collection_objective").empty();
+                    $(listObj).each(function(){
+                        buildPanelObject(this);
+                    });
+                }
                 var test = data.test;
+                if(test!=""){
+                    $("#"+idLevel).find("#collection_test").empty();
+                }
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -145,7 +156,7 @@ function getObjAndTest(idLevel,idCourse){
 }
 
 
-function getLessonsForObj(idObject){
+function getLessonsForObj(idLevel,idObject){
     $.ajax({
         url: servletName,
         type: "POST",

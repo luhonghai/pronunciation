@@ -94,7 +94,7 @@ function addLevel(){
         var level = $("#addLevel").val();
         var description = $("#addDescription").val();
         var color = $("#addColor").val();
-        var isDemo = isDemos;
+        var isDemo = isDemoAdd();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#addLevel").focus();
             swal("Warning!", "Level not null!", "warning");
@@ -185,6 +185,7 @@ function openPopupEdit(){
             isDemos=true;
         }else{
             $("#isDemoEdit").prop('checked', false);
+            isDemos=false;
         }
         lessonName = level;
     });
@@ -199,7 +200,7 @@ function editLevel(){
         var level = $("#editLevel").val();
         var description = $("#editDescription").val();
         var color = $("#editColor").val();
-        var isDemo = isDemos;
+        var isDemo = isDemoEdit();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#editLevel").focus();
             swal("Warning!", "Lesson not null!", "warning");
@@ -267,25 +268,17 @@ function editcolor(){
     $("#editColor").colorpicker();
 }
 function isDemoAdd(){
-    $(document).on("change","#idDemoAdd", function(){
-        var $this = $(this);
-        if ($this.is(':checked')) {
-           isDemos=true;
-        }else{
-            isDemos=false;
-        }
-    });
+    if($("#idDemoAdd").is(":checked")){
+        return true;
+    }
+    return false;
+
 }
 function isDemoEdit(){
-    $(document).on("change","#isDemoEdit", function(){
-        var $this = $(this);
-        if ($this.is(':checked')) {
-            isDemos=true;
-        }else{
-            isDemos=false;
-        }
-
-    });
+    if($("#isDemoEdit").is(":checked")){
+        return true;
+    }
+    return false;
 }
 
 
