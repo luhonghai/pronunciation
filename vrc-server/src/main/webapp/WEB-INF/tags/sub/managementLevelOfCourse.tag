@@ -40,7 +40,7 @@
         <!-- /.panel-heading -->
           <div class="panel-body">
             <div id="contain_level_add" class="row">
-            <div class="col-sm-2" style="padding-top: 5px;text-align: left;">
+            <div class="col-sm-2" style="padding-top: 5px;text-align: left;width : 50px">
               <label style="vertical-align: middle" class="control-label">Level</label>
             </div>
             <div class="col-sm-4">

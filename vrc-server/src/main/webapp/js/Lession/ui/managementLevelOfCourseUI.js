@@ -26,12 +26,12 @@ function buildDropdown(item){
  *
  * @param item
  */
-function buildPanel(item){
+function buildPanelLevel(item){
     //for panel default
     var $panel_default = $("<div>");
     $panel_default.addClass("panel panel-default");
-    var $panel_heading = createPanelHeading(item);
-    var $collapse = createPanelCollapse(item);
+    var $panel_heading = createPanelHeadingLevel(item);
+    var $collapse = createPanelCollapseLv(item);
     $panel_default.append($panel_heading);
     $panel_default.append($collapse);
     $("#accordion").append($panel_default);
@@ -42,7 +42,7 @@ function buildPanel(item){
  * @param item
  * @returns {*|jQuery|HTMLElement}
  */
-function createPanelHeading(item){
+function createPanelHeadingLevel(item){
     var $panel_heading = $("<div>");
     $panel_heading.addClass("panel-heading");
     $panel_heading.css("background-color", item.color);
@@ -50,6 +50,7 @@ function createPanelHeading(item){
     //for div row in heading
     var $divRow = $("<div>");
     $divRow.addClass("row");
+
     //for div col in left
     var $divColLeft =  $("<div>");
     $divColLeft.addClass("col-sm-3");
@@ -86,10 +87,11 @@ function createPanelHeading(item){
  * @param item
  * @returns {*|jQuery|HTMLElement}
  */
-function createPanelCollapse(item){
+function createPanelCollapseLv(item){
     var $collapse = $("<div>");
     $collapse.addClass("panel-collapse collapse");
     $collapse.attr("id",item.id);
+    $collapse.attr("type","getObjAndTest");
     var $panel_body = $("<div>");
     $panel_body.addClass("panel-body");
 
