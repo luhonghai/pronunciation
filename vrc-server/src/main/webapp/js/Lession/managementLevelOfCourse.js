@@ -32,7 +32,7 @@ function BuildUI(){
             }
 
             $(listLevel).each(function(){
-                buildPanel(this);
+                buildPanelLevel(this);
             });
 
 
@@ -110,7 +110,9 @@ function loadDetails(){
         if(type === "getObjAndTest"){
             var idLevel = $(this).attr("id");
             var idCourse=$("#idCourse").val();
-        }else if (type ==="getAllLesson"){
+        }else if (type ==="getLessonObj"){
+
+        }else if (type ==="getLessonTest"){
 
         }
     });
@@ -125,6 +127,31 @@ function getObjAndTest(idLevel,idCourse){
             action: "getObjAndTest",
             idLevel:idLevel,
             idCourse:idCourse
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                var listObj = data.listObj;
+                var test = data.test;
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+
+function getLessonsForObj(idObject){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getLessonsForObj",
+            idObj:idObject
         },
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
@@ -148,6 +175,31 @@ function openPopopAddObjective(){
     });
 }
 
+
+
+
+function getLessonForTest(idTest){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getLessonForTest",
+            idTest:idTest
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
 
 
 $(document).ready(function(){

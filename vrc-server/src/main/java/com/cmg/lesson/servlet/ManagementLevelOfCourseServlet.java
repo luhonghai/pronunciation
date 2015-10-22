@@ -43,17 +43,21 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
             }else if(action.equalsIgnoreCase("addLevel")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
                 String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
-                CourseDTO dto = courseMappingLevelService.addMappingLevel(idCourse,idLevel);
+                CourseDTO dto = courseMappingLevelService.addMappingLevel(idCourse, idLevel);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
-            }else if(request.getParameter("edit")!=null){
+            }else if(action.equalsIgnoreCase("getObjAndTest")){
+                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                CourseDTO dto = new CourseDTO();
+                dto.setListObj(null);
+                dto.setTest(null);
+                dto.setMessage("success");
+            }else if(action.equalsIgnoreCase("getLessonsForObj")){
 
 
-            }else if(request.getParameter("listPhonemes")!=null){
-
-
-            }else if(request.getParameter("listPhonemesEdit")!=null){
+            }else if(action.equalsIgnoreCase("getLessonForTest")){
 
 
             }else if(action.equalsIgnoreCase("delete")){
