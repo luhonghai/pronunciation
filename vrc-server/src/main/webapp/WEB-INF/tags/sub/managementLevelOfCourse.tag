@@ -39,7 +39,7 @@
         </div>
         <!-- /.panel-heading -->
           <div class="panel-body">
-            <div class="row">
+            <div id="contain_level_add" class="row">
             <div class="col-sm-2" style="padding-top: 5px;text-align: left;">
               <label style="vertical-align: middle" class="control-label">Select level</label>
             </div>
@@ -52,7 +52,7 @@
                 <div class="row"><button type="button" name="addlevel" id="addlevel" class="btn btn-default" value="yes" >Add Level</button></div>
               </div>
             </div>
-            <div class="panel-group" id="accordion" style="margin-top: 100px;">
+            <div class="panel-group" id="accordion" style="margin-top: 30px;">
 
 
             </div>
@@ -201,4 +201,5 @@
     </div>
   </div>
 </div>
+<script src="<%=request.getContextPath() %>/js/Lession/ui/managementLevelOfCourseUI.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/managementLevelOfCourse.js"></script>
