@@ -86,6 +86,7 @@ function openPopupAdd(){
         $("#select-question").empty();
         $("#yesadd").attr("disabled", true);
         $("#loadQuestion").attr("disabled",false)
+        $("#box-select-question").hide();
         //$("#addWord").attr("disabled",false);
     });
 }
@@ -152,7 +153,7 @@ function addQuestion(){
                         var phonmeName = obj.phoneme;
                         $("#select-question").append("<option value='"+ obj.id +"'>"+ obj.name+ "</option>");
                     });
-
+                    $("#box-select-question").show();
                     //$("#addWord").attr("idWord", data.id);
                     //$("#loadPhonemes").attr("disabled",true);
                     //$("#addWord").attr("readonly","readonly");

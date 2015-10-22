@@ -124,13 +124,9 @@
                   </div>
                 </div>
 
-                <div class="row">
+                <div id="box-select-question" class="row">
                     <label for="select-question">Select Question:</label>
                     <select class="form-control" id="select-question">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
                     </select>
                 </div>
 
