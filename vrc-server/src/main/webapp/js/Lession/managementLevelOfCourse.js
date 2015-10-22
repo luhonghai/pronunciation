@@ -204,6 +204,7 @@ function getAllLesson(){
                 $.each(data.data, function (idx, obj) {
                     $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
                 });
+                $('#select-lesson').multiselect({ enableFiltering: true});
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }

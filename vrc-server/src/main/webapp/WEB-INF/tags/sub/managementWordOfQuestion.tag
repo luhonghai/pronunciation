@@ -144,7 +144,7 @@
                     <div class="row"><label class="control-label ">Word:</label></div>
                   </div>
                   <div class="col-xs-5  col-sm-6">
-                    <div class="row"><input  type="text" id="addQuestion" name="addWord" class=" form-control"></div>
+                    <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
                   </div>
                   <div class="col-xs-3  col-sm-2">
                     <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" value="yes" >Load Phonemes</button></div>

@@ -102,7 +102,6 @@
                 <div>
                   <label class="col-xs-4  col-sm-3 control-label ">Select Lessons:</label>
                   <div class="col-xs-8  col-sm-9">
-                    <label for="select-lesson">(hold ctrl or shift (or drag with the mouse) to select more than one)</label>
                     <select multiple class="form-control" id="select-lesson">
                       <option>1</option>
                       <option>2</option>

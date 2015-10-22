@@ -1,5 +1,6 @@
 
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
+import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
@@ -82,7 +83,7 @@ public class UnitTesting {
           /* WordMappingPhonemesService service = new WordMappingPhonemesService();
             service.updatePhonemeOfWordToDatabase();*/
 
-            CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
+          /*  CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
 
             CourseMappingDetail cmd = new CourseMappingDetail();
             cmd.setIdLevel("idLevel");
@@ -94,7 +95,10 @@ public class UnitTesting {
             List<CourseMappingDetail> list = dao.getBy("idCourse","idLevel",false);
             if(list.size()>0){
                 System.out.println(list.get(0).getIdChild());
-            }
+            }*/
+
+            CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+            dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
         } catch (Exception e) {
             e.printStackTrace();
         }
