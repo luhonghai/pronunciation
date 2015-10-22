@@ -103,14 +103,48 @@ function removeLevel(){
 
 }
 
-    //load phonemes click
 
 
+function loadDetails(){
+    $(".collapse").on('show.bs.collapse', function(){
+        var type = $(this).attr(type);
+        if(type === "getObjAndTest"){
+            var idLevel = $(this).attr("id");
+            var idCourse=$("#idCourse").val();
+        }else if (type ==="getAllLesson"){
 
+        }
+    });
+}
+
+function getObjAndTest(idLevel,idCourse){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getObjAndTest",
+            idLevel:idLevel,
+            idCourse:idCourse
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
 $(document).ready(function(){
     removeLevel();
     addLevel();
     BuildUI();
+    loadDetails();
 });
 
 

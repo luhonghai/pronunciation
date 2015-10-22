@@ -40,15 +40,15 @@
         <!-- /.panel-heading -->
           <div class="panel-body">
             <div id="contain_level_add" class="row">
-            <div class="col-sm-2" style="padding-top: 5px;text-align: left;">
-              <label style="vertical-align: middle" class="control-label">Select level</label>
+            <div class="col-sm-2" style="padding-top: 5px;text-align: left;width : 50px">
+              <label style="vertical-align: middle" class="control-label">Level</label>
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-4">
               <select name="level" id="level" class="form-control" required="required">
 
               </select>
             </div>
-              <div class="col-sm-3 pull-right">
+              <div class="col-sm-3">
                 <div class="row"><button type="button" name="addlevel" id="addlevel" class="btn btn-default" value="yes" >Add Level</button></div>
               </div>
             </div>
