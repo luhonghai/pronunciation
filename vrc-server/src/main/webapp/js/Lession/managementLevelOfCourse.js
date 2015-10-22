@@ -72,6 +72,7 @@ function addLevel(){
     });
 
 }
+
 function removeLevel(){
     $(document).on("click",".removelv", function(){
         var idLevel=$(this).attr('id_lv');
@@ -102,8 +103,6 @@ function removeLevel(){
     });
 
 }
-
-
 
 function loadDetails(){
     $(".collapse").on('show.bs.collapse', function(){
@@ -140,6 +139,17 @@ function getObjAndTest(idLevel,idCourse){
 
     });
 }
+
+function openPopopAddObjective(){
+    $("#createObject").click(function(){
+        $("#add").modal('show');
+        $("#addObjective").val("");
+        $("#addDescription").val("");
+    });
+}
+
+
+
 $(document).ready(function(){
     removeLevel();
     addLevel();
