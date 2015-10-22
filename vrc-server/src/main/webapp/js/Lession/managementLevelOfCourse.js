@@ -168,10 +168,39 @@ function getLessonsForObj(idObject){
 }
 
 function openPopopAddObjective(){
-    $("#createObject").click(function(){
-        $("#add").modal('show');
+    $(document).on("click",".createObj", function(){
+        getAllLesson();
+        $("#add-objective").modal('show');
         $("#addObjective").val("");
         $("#addDescription").val("");
+        var idLevel = $(this).attr("id_lv");
+        //alert(idLevel);
+    });
+}
+
+
+function getAllLesson(){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getAllLesson"
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                $("#select-lesson").empty();
+                $.each(data.data, function (idx, obj) {
+                    $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                });
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
     });
 }
 
@@ -207,6 +236,7 @@ $(document).ready(function(){
     addLevel();
     BuildUI();
     loadDetails();
+    openPopopAddObjective();
 });
 
 

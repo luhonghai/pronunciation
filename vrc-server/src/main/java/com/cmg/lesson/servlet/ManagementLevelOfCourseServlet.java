@@ -1,6 +1,7 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.course.CourseDTO;
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
@@ -8,6 +9,7 @@ import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.services.course.CourseMappingLevelService;
+import com.cmg.lesson.services.lessons.LessonCollectionService;
 import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.lesson.services.question.WordOfQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
@@ -59,6 +61,12 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
 
             }else if(action.equalsIgnoreCase("getLessonForTest")){
 
+
+            }else if(action.equalsIgnoreCase("getAllLesson")){
+                LessonCollectionService service = new LessonCollectionService();
+                LessonCollectionDTO dto = service.getAll();
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
 
             }else if(action.equalsIgnoreCase("delete")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");

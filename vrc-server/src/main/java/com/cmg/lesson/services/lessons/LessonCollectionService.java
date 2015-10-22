@@ -147,9 +147,26 @@ public class LessonCollectionService {
         try {
             return dao.getById(id);
         }catch (Exception e){
-            logger.info("can not get question by id : " + id);
+            logger.info("can not get lesson by id : " + id);
         }
         return null;
+    }
+
+    /**
+     *
+     * @return All lesson
+     */
+    public LessonCollectionDTO getAll(){
+        LessonCollectionDAO dao = new LessonCollectionDAO();
+        LessonCollectionDTO dto = new LessonCollectionDTO();
+        try {
+            dto.setData(dao.getAll());
+            dto.setMessage(SUCCESS);
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": can not get lesson " + e.getMessage());
+            logger.info("can not get lesson" + e.getMessage());
+        }
+        return dto;
     }
 
     /**

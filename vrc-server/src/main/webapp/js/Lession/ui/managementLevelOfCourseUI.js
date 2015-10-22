@@ -101,7 +101,7 @@ function createPanelCollapseLv(item){
     var $divColLeft =  $("<div>");
     $divColLeft.addClass("col-sm-3");
     var $btnCreateObj = $("<button>");
-    $btnCreateObj.addClass("btn btn-default");
+    $btnCreateObj.addClass("btn btn-default createObj");
     $btnCreateObj.text("Create Objective");
     $btnCreateObj.attr("id_lv", item.id);
     $divColLeft.append($btnCreateObj);
