@@ -72,6 +72,7 @@ function addLevel(){
     });
 
 }
+
 function removeLevel(){
     $(document).on("click",".removelv", function(){
         var idLevel=$(this).attr('id_lv');
@@ -102,8 +103,6 @@ function removeLevel(){
     });
 
 }
-
-
 
 function loadDetails(){
     $(".collapse").on('show.bs.collapse', function(){
@@ -178,6 +177,18 @@ function getLessonsForObj(idLevel,idObject){
 
     });
 }
+
+function openPopopAddObjective(){
+    $("#createObject").click(function(){
+        $("#add").modal('show');
+        $("#addObjective").val("");
+        $("#addDescription").val("");
+    });
+}
+
+
+
+
 function getLessonForTest(idTest){
     $.ajax({
         url: servletName,
@@ -200,6 +211,7 @@ function getLessonForTest(idTest){
 
     });
 }
+
 
 $(document).ready(function(){
     removeLevel();
