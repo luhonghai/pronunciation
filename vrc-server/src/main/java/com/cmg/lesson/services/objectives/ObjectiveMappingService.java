@@ -1,11 +1,13 @@
-package com.cmg.lesson.services.lessons;
+package com.cmg.lesson.services.objectives;
 
-import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
+import com.cmg.lesson.dao.objectives.ObjectiveMappingDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
-import com.cmg.lesson.data.dto.lessons.LessonMappingQuestionDTO;
+import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
+import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
+
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -14,8 +16,8 @@ import java.util.List;
 /**
  * Created by CMG Dev156 on 10/16/2015.
  */
-public class LessonMappingQuestionService {
-    private static final Logger logger = Logger.getLogger(LessonMappingQuestionService.class.getName());
+public class ObjectiveMappingService {
+    private static final Logger logger = Logger.getLogger(ObjectiveMappingService.class.getName());
     private String SUCCESS = "success";
     private String ERROR = "error";
 
@@ -25,7 +27,7 @@ public class LessonMappingQuestionService {
      */
     public int getMaxVersion(){
         int version = 0;
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try {
             version = dao.getLatestVersion();
         }catch (Exception e){
@@ -37,14 +39,14 @@ public class LessonMappingQuestionService {
     /**
      *
      * @param idLessonCollection
-     * @param idQuestion
+     * @param idObjective
      * @return
      * @throws Exception
      */
-    public boolean checkExist(String idLessonCollection, String idQuestion) throws Exception{
+    public boolean checkExist(String idLessonCollection, String idObjective) throws Exception{
         boolean isExist = false;
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
-        isExist = dao.checkExist(idLessonCollection, idQuestion);
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
+        isExist = dao.checkExist(idLessonCollection, idObjective);
         return isExist;
     }
 
@@ -53,9 +55,9 @@ public class LessonMappingQuestionService {
      * @param idLessonCollection
      * @return
      */
-    public LessonMappingQuestionDTO getAllByIDLesson(String idLessonCollection){
-        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+    /*public ObjectiveMappingDTO getAllByIDLesson(String idLessonCollection){
+        ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
             List<LessonMappingQuestion> list = dao.getAllByIDLesson(idLessonCollection);
             if(list!=null && list.size() > 0){
@@ -69,21 +71,21 @@ public class LessonMappingQuestionService {
             logger.error("can not get list question on idLesson : " + idLessonCollection + " because : " + e.getMessage());
         }
         return dto;
-    }
+    }*/
 
     /**
      *
      * @param idLesson
      * @return list question
      */
-    public QuestionDTO listQuestionByIdLesson(String idLesson, String word,String order, int start, int length, int draw){
+    /*public QuestionDTO listQuestionByIdLesson(String idLesson, String word,String order, int start, int length, int draw){
    // public QuestionDTO listQuestionByIdLesson(String idLesson, String word){
         QuestionDTO questionDTO = new QuestionDTO();
-        LessonMappingQuestionDAO lessonMappingQuestionDAO = new LessonMappingQuestionDAO();
+        ObjectiveMappingDAO ObjectiveMappingDAO = new ObjectiveMappingDAO();
         QuestionDAO questionDAO = new QuestionDAO();
         List<String> lstId = new ArrayList<String>();
         try {
-            List<LessonMappingQuestion> listLessonMappingQuestions = lessonMappingQuestionDAO.getAllByIDLesson(idLesson);
+            List<LessonMappingQuestion> listLessonMappingQuestions = ObjectiveMappingDAO.getAllByIDLesson(idLesson);
             if(listLessonMappingQuestions!=null && listLessonMappingQuestions.size()>0){
                 for(LessonMappingQuestion lmq : listLessonMappingQuestions){
                     lstId.add(lmq.getIdQuestion());
@@ -109,7 +111,7 @@ public class LessonMappingQuestionService {
             e.printStackTrace();
         }
         return questionDTO;
-    }
+    }*/
 
     /**
      *
@@ -118,7 +120,7 @@ public class LessonMappingQuestionService {
      */
     public boolean updateDeleted(String idLessonCollection){
         boolean isDelete = false;
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
             isDelete = dao.updateDeleted(idLessonCollection);
         }catch (Exception e){
@@ -133,10 +135,10 @@ public class LessonMappingQuestionService {
      * @param idQuestion
      * @return
      */
-    public LessonMappingQuestionDTO updateDeleted(String idLesson, String idQuestion){
-        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
+    public ObjectiveMappingDTO updateDeleted(String idLesson, String idQuestion){
+        ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
         boolean isDelete = false;
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
             isDelete = dao.updateDeleted(idLesson,idQuestion);
             if (isDelete){
@@ -151,18 +153,18 @@ public class LessonMappingQuestionService {
         return dto;
     }
 
-    public LessonMappingQuestionDTO addQuestionToLessonDB(String lessonId, String questionId){
-        LessonMappingQuestionDTO dto = new LessonMappingQuestionDTO();
-        LessonMappingQuestion obj = new LessonMappingQuestion();
-        LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
-        obj.setIdLesson(lessonId);
-        obj.setIdQuestion(questionId);
+    public ObjectiveMappingDTO addLessonToObjectiveDB(String lessonId, String objectiveId){
+        ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
+        ObjectiveMapping obj = new ObjectiveMapping();
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
+        obj.setIdLessonCollection(lessonId);
+        obj.setIdObjective(objectiveId);
         obj.setIsDeleted(false);
         obj.setVersion(getMaxVersion());
 
         boolean check = false;
         try {
-            check = dao.checkExist(obj.getIdLesson(), obj.getIdQuestion());
+            check = dao.checkExist(obj.getIdLessonCollection(), obj.getIdObjective());
             if(check){
                 dto.setMessage(ERROR + " : this question was already added to lesson!");
             }else {
