@@ -73,16 +73,16 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
 
     /**
      *
-     * @param idLessonCollection
+     * @param idLesson
      * @return
      */
-    public boolean updateDeleted(String idLessonCollection){
+    public boolean updateDeleted(String idLesson){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonMappingQuestion.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idLesson=?");
         try {
-            q.execute(true,idLessonCollection);
+            q.execute(true,idLesson);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();

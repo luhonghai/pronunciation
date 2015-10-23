@@ -153,7 +153,7 @@ public class ObjectiveMappingService {
         return dto;
     }
 
-    public ObjectiveMappingDTO addLessonToObjectiveDB(String lessonId, String objectiveId){
+    public ObjectiveMappingDTO addObjectiveMappingLesson(String lessonId, String objectiveId){
         ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
         ObjectiveMapping obj = new ObjectiveMapping();
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
