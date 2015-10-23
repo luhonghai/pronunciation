@@ -32,16 +32,10 @@ import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
-import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
-import com.cmg.android.bbcaccent.fragment.DetailFragment;
-import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
-import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
-import com.cmg.android.bbcaccent.fragment.lesson.LessonLevelFragment;
-import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
-import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
-import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.extra.FragmentState;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
-import com.cmg.android.bbcaccent.fragment.lesson.LessonObjectiveFragment;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
@@ -683,125 +677,5 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 .showImageOnFail(R.drawable.london_cover)
                 .build();
         ImageLoader.getInstance().displayImage(img, imgAvatarCover, options);
-    }
-
-    enum FragmentState {
-        NULL(null),
-        FREE_STYLE(FreeStyleFragment.class, ListMenuAdapter.MenuItem.FREESTYLE, ""),
-        LESSON(LessonLevelFragment.class, ListMenuAdapter.MenuItem.LESSON, ""),
-        LESSON_OBJECTIVE(LessonObjectiveFragment.class, null, ""),
-        HELP(HelpFragment.class, ListMenuAdapter.MenuItem.HELP),
-        SETTINGS(Preferences.class, ListMenuAdapter.MenuItem.SETTING),
-        ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
-        LICENCE(LicenceFragment.class, ListMenuAdapter.MenuItem.LICENCE),
-        FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK),
-        FREE_STYLE_DETAIL(DetailFragment.class, "")
-        ;
-        Class<?> clazz;
-
-        ListMenuAdapter.MenuItem menuItem;
-
-        String title;
-
-        FragmentState(Class<?> clazz) {
-            this.clazz = clazz;
-        }
-
-        FragmentState(Class<?> clazz, ListMenuAdapter.MenuItem menuItem) {
-            this(clazz);
-            this.menuItem = menuItem;
-        }
-
-        FragmentState(Class<?> clazz, ListMenuAdapter.MenuItem menuItem, String title) {
-            this(clazz, menuItem);
-            this.title = title;
-        }
-
-        FragmentState(Class<?> clazz, String title) {
-            this.title = title;
-        }
-
-        static FragmentState fromMenuItem(ListMenuAdapter.MenuItem menuItem) {
-            for (FragmentState state : values()) {
-                if (state.menuItem == menuItem) return state;
-            }
-            return NULL;
-        }
-
-        static FragmentState fromFragmentClassName(String className) {
-            for (FragmentState state : values()) {
-                if (state.clazz != null && state.clazz.getName().equals(className)) return state;
-            }
-            return NULL;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getTitle() {
-            if (title == null) return (menuItem == null ? "" : menuItem.toString());
-            return title;
-        }
-
-        @Override
-        public String toString() {
-            return clazz == null ? "null" : clazz.getName();
-        }
-    }
-
-    public static class SwitchFragmentParameter {
-
-        private boolean useAnimation = false;
-
-        private boolean addToBackStack = false;
-
-        private boolean createNew = false;
-
-        private String title;
-
-        public SwitchFragmentParameter() {}
-
-        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack) {
-            this.useAnimation = useAnimation;
-            this.addToBackStack = addToBackStack;
-        }
-
-        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack, boolean createNew) {
-            this(useAnimation, addToBackStack);
-            this.createNew = createNew;
-        }
-
-        public boolean isUseAnimation() {
-            return useAnimation;
-        }
-
-        public void setUseAnimation(boolean useAnimation) {
-            this.useAnimation = useAnimation;
-        }
-
-        public boolean isAddToBackStack() {
-            return addToBackStack;
-        }
-
-        public void setAddToBackStack(boolean addToBackStack) {
-            this.addToBackStack = addToBackStack;
-        }
-
-        public boolean isCreateNew() {
-            return createNew;
-        }
-
-        public void setCreateNew(boolean createNew) {
-            this.createNew = createNew;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
     }
 }

@@ -1,10 +1,11 @@
-package com.cmg.android.bbcaccent.data.sqlite;
+package com.cmg.android.bbcaccent.data.sqlite.freestyle;
 
 import android.database.Cursor;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.data.dto.PronunciationWord;
+import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.LiteBaseDao;
 import com.luhonghai.litedb.exception.LiteDatabaseException;

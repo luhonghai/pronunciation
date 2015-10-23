@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.http.PhonemeScoreAsync;
 import com.cmg.android.bbcaccent.http.UserVoiceModelAsync;

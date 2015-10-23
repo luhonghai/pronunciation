@@ -1,0 +1,34 @@
+package com.cmg.android.bbcaccent.data.sqlite;
+
+import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+
+/**
+ * Created by luhonghai on 23/10/2015.
+ */
+public enum QueryHelper {
+    select_all_level_by_country("select_all_level_by_country"),
+    select_all_objective_by_level("select_all_objective_by_level"),
+    select_all_test_by_level("select_all_test_by_level"),
+    select_all_lesson_collection_by_objective("select_all_lesson_collection_by_objective"),
+    ;
+    String name;
+
+    QueryHelper(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return IOUtils.toString(MainApplication.getContext().getAssets().open("database/queries/" + name + ".sql"), "UTF-8");
+        } catch (IOException e) {
+            SimpleAppLog.error("",e);
+        }
+        return "";
+    }
+}
