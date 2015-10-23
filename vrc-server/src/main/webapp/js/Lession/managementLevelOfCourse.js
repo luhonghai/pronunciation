@@ -253,12 +253,7 @@ function getAllLesson(){
 
 function addObjectiveToLesson(){
     $(document).on("click","#yesadd", function(){
-        var dto = {
-            idLevel : ,
-            idCourse: ,
-            nameObj : $("#editPath").val(),
-            descriptionObj : readPhones(listphones)
-        };
+
     });
 }
 

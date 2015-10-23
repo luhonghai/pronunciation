@@ -8,12 +8,21 @@ import java.util.List;
  * Created by CMG Dev156 on 10/18/2015.
  */
 public class ObjectiveMappingDTO {
+    private String message;
     private String idObjective;
     private String idLevel;
     private String idCourse;
     private String nameObj;
     private String descriptionObj;
     private List<String> idLessons;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public String getIdObjective() {
         return idObjective;
