@@ -102,7 +102,7 @@
                 <div id="container-add-lesson">
                   <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
                   <img class="col-xs-8  col-sm-9">
-                    <img id="loading-lesson" src="http://i.imgur.com/m1fR7ef.gif" class="loading"></img>
+                    <img id="loading-lesson" src="http://i.imgur.com/m1fR7ef.gif" class="loading" />
                     <select style="display:none" multiple class="form-control" id="select-lesson">
                       <option>1</option>
                       <option>2</option>
@@ -110,7 +110,6 @@
                       <option>4</option>
                       <option>5</option>
                     </select>
-                  </div>
                 </div>
               </div>
               <div class="modal-footer">
