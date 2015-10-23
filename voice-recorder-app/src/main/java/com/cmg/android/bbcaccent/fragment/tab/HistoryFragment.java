@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -14,7 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
@@ -26,7 +25,6 @@ import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Locale;
 
 import butterknife.Bind;
