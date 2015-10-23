@@ -253,7 +253,23 @@ function getAllLesson(){
 
 function addObjectiveToLesson(){
     $(document).on("click","#yesadd", function(){
+        var dto = getDtoAddObjective();
+        $.ajax({
+            url: "Servlet",
+            type: "POST",
+            dataType: "text",
+            data: {
+                action: "addObj",
+                objDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
 
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
 }
 

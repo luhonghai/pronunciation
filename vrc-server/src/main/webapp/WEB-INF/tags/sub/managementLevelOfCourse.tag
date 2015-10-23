@@ -204,4 +204,5 @@
   </div>
 </div>
 <script src="<%=request.getContextPath() %>/js/Lession/ui/managementLevelOfCourseUI.js"></script>
+<script src="<%=request.getContextPath() %>/js/Lession/data/managementLevelOfCourseData.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/managementLevelOfCourse.js"></script>
