@@ -5,7 +5,6 @@ import android.database.Cursor;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
-import com.luhonghai.litedb.LiteBaseDao;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.sql.SQLException;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Created by luhonghai on 12/23/14.
  */
-public class PhonemeScoreDBAdapter extends LiteBaseDao<SphinxResult.PhonemeScore> {
+public class PhonemeScoreDBAdapter extends BaseDatabaseAdapter<SphinxResult.PhonemeScore> {
 
     /**
      * Constructor
@@ -73,17 +72,5 @@ public class PhonemeScoreDBAdapter extends LiteBaseDao<SphinxResult.PhonemeScore
             }
         }
         return version;
-    }
-
-    @Override
-    @Deprecated
-    public void open() {
-        //
-    }
-
-    @Override
-    @Deprecated
-    public void close() {
-        //
     }
 }

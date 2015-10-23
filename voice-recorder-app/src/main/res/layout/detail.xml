@@ -1,124 +1,118 @@
- <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<com.cmg.android.bbcaccent.view.SlidingUpPanelLayout
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/panelSlider"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:gravity="bottom"
+    sothree:umanoFadeColor="@android:color/transparent"
+    sothree:umanoPanelHeight="25dp"
+    sothree:umanoOverlay="true"
+    sothree:umanoInitialState="expanded"
+    sothree:umanoShadowHeight="0dp"
+    sothree:umanoDragView="@+id/btnSlider">
+    <LinearLayout
         android:orientation="vertical"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
-        <LinearLayout android:layout_weight="1"
-            android:layout_height="fill_parent"
-            android:layout_width="fill_parent"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/main_record_view_padding_bottom"
-            >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_height="fill_parent"
-                android:layout_width="fill_parent"
-                android:layout_weight="1.5"
-                android:orientation="horizontal"
-                android:padding="@dimen/detail_score_padding">
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                    <com.cmg.android.bbcaccent.view.RecordingView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:background="@android:color/white"
-                        android:id="@+id/main_recording_view" />
-                </RelativeLayout>
-                <LinearLayout
-                    android:layout_height="fill_parent"
-                    android:layout_width="fill_parent"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/detail_score_padding"
-                    android:layout_marginStart="@dimen/detail_score_padding">
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1.2"
-                        android:gravity="center">
-                        <ImageButton
-                            android:id="@+id/btnAudio"
-                            android:background="@null"
-                            android:layout_width="@dimen/button_default_size"
-                            android:layout_height="@dimen/button_default_size"
-                            android:src="@drawable/p_audio_gray"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
-                            android:clickable="false"/>
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight=".8">
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:orientation="vertical"
-                            android:padding="@dimen/main_selected_word_padding"
-                            >
-                            <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
-                                android:id="@+id/txtWord"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_weight=".4"
-                                android:textSize="@dimen/main_selected_word_size"
-                                android:gravity="center"
-                                />
-                            <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
-                                android:id="@+id/txtPhoneme"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:textSize="@dimen/main_selected_phoneme_size"
-                                android:layout_weight=".6"
-                                android:gravity="center"/>
-                        </LinearLayout>
-                        <RelativeLayout
-                            android:id="@+id/rlVoiceExample"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <it.sephiroth.android.library.widget.HListView
-                android:id="@+id/listViewScore"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_weight="4.8" android:layout_height="wrap_content" android:layout_width="wrap_content">
-
-            </it.sephiroth.android.library.widget.HListView>
-            <WebView android:id="@+id/webview_score"
-                android:visibility="gone"
-                android:layout_weight="4.8" android:layout_height="fill_parent" android:layout_width="fill_parent">
-            </WebView>
-        </LinearLayout>
-        <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
-            <android.support.v4.app.FragmentTabHost
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@android:id/tabhost"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <LinearLayout
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/main_record_view_padding_bottom"
+                >
+                <RelativeLayout
+                    android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" >
-
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="fill_parent"
+                    android:layout_height="0dp">
+                    <LinearLayout
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal">
+                        <RelativeLayout
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent">
+                            <com.cmg.android.bbcaccent.view.RecordingView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/white"
+                                android:layout_centerInParent="true"
+                                android:id="@+id/main_recording_view" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingStart="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingRight="@dimen/detail_score_padding"
+                            android:paddingEnd="@dimen/detail_score_padding">
+                            <ImageButton
+                                android:id="@+id/btnAudio"
+                                android:background="@null"
+                                android:layout_width="@dimen/button_default_size"
+                                android:layout_height="@dimen/button_default_size"
+                                android:src="@drawable/p_audio_gray"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                android:clickable="false"/>
+                        </RelativeLayout>
+                    </LinearLayout>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="@dimen/detail_score_padding"
+                    android:paddingEnd="@dimen/detail_score_padding">
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"/>
+                        android:orientation="vertical"
+                        android:padding="@dimen/main_selected_word_padding"
+                        >
+                        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+                            android:id="@+id/txtWord"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/main_selected_word_size"
+                            android:gravity="end"
+                            />
+                        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+                            android:id="@+id/txtPhoneme"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/main_selected_phoneme_size"
+                            android:gravity="end"/>
+                    </LinearLayout>
+                    <View
+                        android:id="@+id/rlVoiceExample"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp">
+                    </View>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <it.sephiroth.android.library.widget.HListView
+                        android:id="@+id/listViewScore"
+                        android:layout_centerInParent="true"
+                        android:layout_height="34dp" android:layout_width="wrap_content"/>
+                </RelativeLayout>
 
-                    <FrameLayout
-                        android:id="@android:id/tabcontent"
-                        android:layout_width="fill_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-
-            </android.support.v4.app.FragmentTabHost>
-        </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+        <View
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
     </LinearLayout>
+    <include layout="@layout/bottom_slider"/>
+</com.cmg.android.bbcaccent.view.SlidingUpPanelLayout>

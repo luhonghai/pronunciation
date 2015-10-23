@@ -57,7 +57,7 @@ public class CourseMappingLevelDAO extends DataAccess<CourseMappingLevel> {
         params.put("paramCourse",idCourse);
         try {
             if (q != null) {
-                index = (int) q.execute(params);
+                index = (int) q.execute(idCourse);
             }
         } catch (Exception e) {
             throw e;

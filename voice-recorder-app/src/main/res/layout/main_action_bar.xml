@@ -15,5 +15,19 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         app:mm_color="@android:color/black"/>
-
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp">
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="20sp"
+            android:gravity="end"
+            android:textColor="@color/app_purple" />
+    </RelativeLayout>
 </LinearLayout>

@@ -9,10 +9,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.DetailFragment;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.TipsContainer;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
-import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.google.gson.Gson;
 
@@ -20,12 +19,16 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 /**
  * Created by cmg on 2/12/15.
  */
 
-public class TipFragment extends FragmentTab implements View.OnClickListener {
+public class TipFragment extends FragmentTab {
 
     private TipsContainer tipsContainer;
 
@@ -37,15 +40,20 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
 
     private long startTime;
 
-    private ImageButton btnPrev;
+    @Bind(R.id.btnPrevTip)
+    ImageButton btnPrev;
 
-    private ImageButton btnNext;
+    @Bind(R.id.btnNextTip)
+    ImageButton btnNext;
 
-    private ImageButton btnRecord;
+    @Bind(R.id.btnRecordTip)
+    ImageButton btnRecord;
 
-    private TextView txtWord;
+    @Bind(R.id.txtWordTip)
+    TextView txtWord;
 
-    private HtmlTextView txtText;
+    @Bind(R.id.txtTextTip)
+    HtmlTextView txtText;
 
     private boolean isLoadedTip = false;
 
@@ -57,24 +65,15 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tip, container, false);
+        ButterKnife.bind(this, v);
         tipsContainer = new TipsContainer(getActivity());
-        btnPrev = (ImageButton) v.findViewById(R.id.btnPrevTip);
-        btnPrev.setOnClickListener(this);
-        btnNext = (ImageButton) v.findViewById(R.id.btnNextTip);
-        btnNext.setOnClickListener(this);
-        txtText = (HtmlTextView) v.findViewById(R.id.txtTextTip);
-        txtText.setOnClickListener(this);
-        txtWord = (TextView) v.findViewById(R.id.txtWordTip);
-        txtWord.setOnClickListener(this);
-        btnRecord = (ImageButton) v.findViewById(R.id.btnRecordTip);
-        btnRecord.setOnClickListener(this);
         isLoadedView = true;
         Bundle bundle = getArguments();
         updateTip(bundle == null ? null : bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()));
         return v;
     }
 
-    @Override
+    @OnClick({R.id.btnPrevTip, R.id.btnNextTip, R.id.txtWordTip, R.id.btnRecordTip})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPrevTip:
@@ -208,5 +207,11 @@ public class TipFragment extends FragmentTab implements View.OnClickListener {
         txtText.setEnabled(enable);
         btnNext.setEnabled(enable);
         btnPrev.setEnabled(enable);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

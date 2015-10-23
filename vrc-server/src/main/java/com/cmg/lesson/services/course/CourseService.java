@@ -133,8 +133,9 @@ public class CourseService {
         CourseDAO dao = new CourseDAO();
         String message;
         try{
-            boolean isDelete=dao.updateDeleted(id);
+            boolean isDelete = dao.updateDeleted(id);
             if (isDelete){
+                //need to be update to all mapping table
                 message = SUCCESS;
             }else{
                 message = ERROR + ": " + "an error has been occurred in server!";

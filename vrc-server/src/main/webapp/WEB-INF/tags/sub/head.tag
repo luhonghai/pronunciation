@@ -32,7 +32,11 @@
 
         <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/css/not.the.skin.css" rel="stylesheet">
 
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css" rel="stylesheet">
+
+
         <link href="<%=request.getContextPath()%>/bower_components/circleplayer-master/circle.skin/circle.player.css" rel="stylesheet">
+
 
         <!-- Custom Fonts -->
         <link href="<%=request.getContextPath()%>/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

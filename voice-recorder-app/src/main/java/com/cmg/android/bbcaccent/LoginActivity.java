@@ -47,22 +47,30 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Locale;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by luhonghai on 3/17/15.
  */
 public class LoginActivity extends BaseActivity implements RecordingView.OnAnimationListener, FacebookCallback<LoginResult>,
-        GoogleApiClient.ConnectionCallbacks,
-        View.OnClickListener, GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
-    private  CallbackManager callbackManager;
+    private CallbackManager callbackManager;
 
-    private ImageButton btnLoginFB;
+    @Bind(R.id.loginButton)
+    ImageButton btnLoginFB;
 
-    private ImageButton btnLoginAccent;
+    @Bind(R.id.btnLoginAccent)
+    ImageButton btnLoginAccent;
 
-    private TextView txtAlternative;
+    @Bind(R.id.sign_in_button)
+    ImageButton btnLoginGGPlus;
+
+    @Bind(R.id.txtAlternative)
+    TextView txtAlternative;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -71,8 +79,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     private boolean signedInUser;
 
     private ConnectionResult mConnectionResult;
-
-    private ImageButton btnLoginGGPlus;
 
     private ProfileTracker profileTracker;
 
@@ -87,19 +93,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.login);
+        ButterKnife.bind(this);
         accountManager = new AccountManager(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, this);
-        setContentView(R.layout.login);
-
-        (btnLoginFB = (ImageButton) findViewById(R.id.loginButton)).setOnClickListener(this);
-        (btnLoginGGPlus = (ImageButton) findViewById(R.id.sign_in_button)).setOnClickListener(this);
-        (btnLoginAccent = (ImageButton) findViewById(R.id.btnLoginAccent)).setOnClickListener(this);
-        (txtAlternative = (TextView) findViewById(R.id.txtAlternative)).setOnClickListener(this);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
                 .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -190,7 +191,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
             }
         });
-        ((TextView)dialogLogin.findViewById(R.id.txtLostPassword)).setOnClickListener(new View.OnClickListener() {
+        dialogLogin.findViewById(R.id.txtLostPassword).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!dialogResetPassword.isShowing() && isRunning()) {
@@ -199,7 +200,15 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 }
             }
         });
-        dialogLogin.findViewById(R.id.btnRegister).setOnClickListener(this);
+        dialogLogin.findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkNetwork(false)) {
+                    SimpleAppLog.info("show register dialog");
+                    dialogRegister.show();
+                }
+            }
+        });
         ((TextView)dialogLogin.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // License dialog
@@ -1000,49 +1009,44 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             hideProcessDialog();
         }
     }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                if (checkNetwork(false)) {
-                    enableForm(false);
-                    googlePlusLogin();
-                }
-                break;
-            case R.id.loginButton:
-                if (checkNetwork(false)) {
-                    enableForm(false);
-                    LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
-                }
-                break;
-            case R.id.btnLoginAccent:
-                if (checkNetwork(false)) {
-                    SimpleAppLog.info("show login dialog");
-                    dialogLogin.show();
-                }
-                break;
-            case R.id.btnRegister:
-                if (checkNetwork(false)) {
-                    SimpleAppLog.info("show register dialog");
-                    dialogRegister.show();
-                }
-                break;
-            case R.id.txtAlternative:
-                switch (alternativeStep) {
-                    case 0:
-                        btnLoginFB.setVisibility(View.VISIBLE);
-                        break;
-                    case 1:
-                        btnLoginAccent.setVisibility(View.VISIBLE);
-                        txtAlternative.setVisibility(View.INVISIBLE);
-                        break;
-                    default:
-                        break;
-                }
-                alternativeStep++;
-                return;
+    @OnClick(R.id.sign_in_button)
+    public void signinGooglePlus() {
+        if (checkNetwork(false)) {
+            enableForm(false);
+            googlePlusLogin();
         }
+    }
+
+    @OnClick(R.id.loginButton)
+    public void signinFacebook() {
+        if (checkNetwork(false)) {
+            enableForm(false);
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email", "user_birthday"));
+        }
+    }
+
+    @OnClick(R.id.btnLoginAccent)
+    public void signinAccenteasy() {
+        if (checkNetwork(false)) {
+            SimpleAppLog.info("show login dialog");
+            dialogLogin.show();
+        }
+    }
+
+    @OnClick(R.id.txtAlternative)
+    public void doAlternativeLogin() {
+        switch (alternativeStep) {
+            case 0:
+                btnLoginFB.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                btnLoginAccent.setVisibility(View.VISIBLE);
+                txtAlternative.setVisibility(View.INVISIBLE);
+                break;
+            default:
+                break;
+        }
+        alternativeStep++;
     }
 
     @Override
