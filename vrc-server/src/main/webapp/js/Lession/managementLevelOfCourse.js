@@ -178,48 +178,6 @@ function getLessonsForObj(idLevel,idObject){
     });
 }
 
-function openPopopAddObjective(){
-    $(document).on("click",".createObj", function(){
-        $("#add-objective").modal('show');
-        $("#addObjective").val("");
-        $("#addDescription").val("");
-        var idLevel = $(this).attr("id_lv");
-        //alert(idLevel);
-    });
-}
-
-function initAddObject(){
-    $("#add-objective").on('show.bs.collapse', function(){
-        getAllLesson();
-    });
-}
-
-function getAllLesson(){
-    $.ajax({
-        url: servletName,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "getAllLesson"
-        },
-        success: function (data) {
-            if(data.message.indexOf("success")!=-1){
-                $("#select-lesson").empty();
-                $.each(data.data, function (idx, obj) {
-                    $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                });
-                $('#select-lesson').multiselect({ enableFiltering: true});
-            }else{
-                swal("Error!", data.message.split(":")[1], "error");
-            }
-        },
-        error: function () {
-            swal("Error!", "Could not connect to server", "error");
-        }
-
-    });
-}
-
 
 
 
@@ -245,6 +203,65 @@ function getLessonForTest(idTest){
 
     });
 }
+
+
+function openPopopAddObjective(){
+    $(document).on("click",".createObj", function(){
+        $("#loading-lesson").show();
+        $("#add-objective").modal('show');
+        getAllLesson();
+        $("#addObjective").val("");
+        $("#addDescription").val("");
+        var idLevel = $(this).attr("id_lv");
+        $("#yesadd").attr("id_level",idLevel);
+        $("#yesadd").attr("disabled","disabled");
+        //alert(idLevel);
+    });
+}
+
+
+function getAllLesson(){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getAllLesson"
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                $("#select-lesson").empty();
+                $.each(data.data, function (idx, obj) {
+                    $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                });
+                $("#loading-lesson").hide();
+                $('#select-lesson').multiselect({ enableFiltering: true});
+                $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
+                $('#select-lesson').multiselect('refresh');
+                $("#yesadd").removeAttr("disabled");
+
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+function addObjectiveToLesson(){
+    $(document).on("click","#yesadd", function(){
+        var dto = {
+            idLevel : ,
+            idCourse: ,
+            nameObj : $("#editPath").val(),
+            descriptionObj : readPhones(listphones)
+        };
+    });
+}
+
 
 
 $(document).ready(function(){

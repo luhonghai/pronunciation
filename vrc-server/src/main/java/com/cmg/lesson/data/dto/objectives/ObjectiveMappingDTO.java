@@ -9,42 +9,57 @@ import java.util.List;
  */
 public class ObjectiveMappingDTO {
     private String idObjective;
+    private String idLevel;
+    private String idCourse;
+    private String nameObj;
+    private String descriptionObj;
+    private List<String> idLessons;
 
-    private String idLesson;
-
-    private String message;
-
-    private List<LessonMappingQuestion> data;
-
-    public String getIdQuestion() {
+    public String getIdObjective() {
         return idObjective;
     }
 
-    public void setIdQuestion(String idQuestion) {
-        this.idObjective = idQuestion;
+    public void setIdObjective(String idObjective) {
+        this.idObjective = idObjective;
     }
 
-    public String getIdLesson() {
-        return idLesson;
+    public String getIdLevel() {
+        return idLevel;
     }
 
-    public void setIdLesson(String idLesson) {
-        this.idLesson = idLesson;
+    public void setIdLevel(String idLevel) {
+        this.idLevel = idLevel;
     }
 
-    public List<LessonMappingQuestion> getData() {
-        return data;
+    public String getIdCourse() {
+        return idCourse;
     }
 
-    public void setData(List<LessonMappingQuestion> data) {
-        this.data = data;
+    public void setIdCourse(String idCourse) {
+        this.idCourse = idCourse;
     }
 
-    public String getMessage() {
-        return message;
+    public String getNameObj() {
+        return nameObj;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setNameObj(String nameObj) {
+        this.nameObj = nameObj;
+    }
+
+    public String getDescriptionObj() {
+        return descriptionObj;
+    }
+
+    public void setDescriptionObj(String descriptionObj) {
+        this.descriptionObj = descriptionObj;
+    }
+
+    public List<String> getIdLessons() {
+        return idLessons;
+    }
+
+    public void setIdLessons(List<String> idLessons) {
+        this.idLessons = idLessons;
     }
 }
