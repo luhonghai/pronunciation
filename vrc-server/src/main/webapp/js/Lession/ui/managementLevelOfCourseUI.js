@@ -182,6 +182,7 @@ function createPanelHeadingObject(obj){
     $buttonObj.attr("data-target","#"+obj.idObjective);
     $buttonObj.attr("id_lv",obj.idLevel);
     $buttonObj.attr("id_obj",obj.idObjective);
+    $buttonObj.attr("onclick","clickObj(this)");
     $buttonObj.text(obj.nameObj);
     $h4.append($buttonObj);
     $divColLeft.append($h4);

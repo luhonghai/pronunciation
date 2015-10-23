@@ -103,15 +103,16 @@ function removeLevel(){
 
 }
 
-function clickLevel(el){
-    var idLevel = $(el).attr("data-target").split("#")[1];
+function clickLevel(e){
+    var idLevel = $(e).attr("data-target").split("#")[1];
     var idCourse=$("#idCourse").val();
     getObjAndTest(idLevel,idCourse);
 }
 
 function clickObj(e){
-    var idObj   =  $(this).attr("id");
-    var idLevel =  $(this).attr("id_lv");
+    var idObj   =  $(e).attr("id");
+    var idLevel =  $(e).attr("id_lv");
+    getLessonsForObj(idObj);
 }
 
 function getObjAndTest(idLevel,idCourse){
@@ -150,9 +151,9 @@ function getObjAndTest(idLevel,idCourse){
 }
 
 
-function getLessonsForObj(idLevel,idObject){
+function getLessonsForObj(idObject){
     $.ajax({
-        url: servletName,
+        url: ObjectiveMappingServlet,
         type: "POST",
         dataType: "json",
         data: {
@@ -161,7 +162,7 @@ function getLessonsForObj(idLevel,idObject){
         },
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
-
+                
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -178,7 +179,7 @@ function getLessonsForObj(idLevel,idObject){
 
 function getLessonForTest(idTest){
     $.ajax({
-        url: servletName,
+        url: ObjectiveMappingServlet,
         type: "POST",
         dataType: "json",
         data: {

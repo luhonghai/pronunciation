@@ -1,6 +1,8 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
+import com.cmg.lesson.services.objectives.ObjectiveMappingService;
 import com.cmg.lesson.services.objectives.ObjectiveService;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
@@ -32,6 +34,16 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 ObjectiveMappingDTO dtoToClient = service.addObjective(dto);
                 String json = gson.toJson(dtoToClient);
                 response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("getLessonsForObj")){
+                String idObjective = (String) StringUtil.isNull(request.getParameter("idObj"), "");
+                ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
+                LessonCollectionDTO lessonCollectionDTO = objectiveMappingService.getAllLessonByObjective(idObjective);
+                String json = gson.toJson(lessonCollectionDTO);
+                response.getWriter().write(json);
+
+            }else if(action.equalsIgnoreCase("getLessonForTest")){
+
+
             }
         }catch (Exception e){
             e.printStackTrace();

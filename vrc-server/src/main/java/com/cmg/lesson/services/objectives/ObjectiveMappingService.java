@@ -1,10 +1,15 @@
 package com.cmg.lesson.services.objectives;
 
+import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
+import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveMappingDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
+import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
 
@@ -203,5 +208,31 @@ public class ObjectiveMappingService {
             logger.error("can not add object mapping to lesson in db because : " + e.getMessage());
         }
         return message;
+    }
+
+    public LessonCollectionDTO getAllLessonByObjective(String idObjective){
+        LessonCollectionDTO lessonCollectionDTO = new LessonCollectionDTO();
+        ObjectiveMappingDAO objectiveMappingDAO = new ObjectiveMappingDAO();
+        LessonCollectionDAO lessonCollectionDAO = new LessonCollectionDAO();
+        List<String> lstLessonId = new ArrayList<String>();
+        try {
+            List<ObjectiveMapping> listObjectiveMappings = objectiveMappingDAO.getAllByIdObjective(idObjective);
+            if(listObjectiveMappings!=null && listObjectiveMappings.size()>0){
+                for(ObjectiveMapping om : listObjectiveMappings){
+                    lstLessonId.add(om.getIdLessonCollection());
+                }
+                List<LessonCollection> listObjectives = lessonCollectionDAO.listIn(lstLessonId);
+                lessonCollectionDTO.setData(listObjectives);
+                lessonCollectionDTO.setMessage(SUCCESS);
+            }else{
+                lessonCollectionDTO.setMessage(SUCCESS);
+                lessonCollectionDTO.setData(new ArrayList<LessonCollection>());
+            }
+        } catch (Exception e) {
+            lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by objective because " + e.getMessage());
+            logger.error("Can not get list lesson by objective because : " + idObjective + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return lessonCollectionDTO;
     }
 }

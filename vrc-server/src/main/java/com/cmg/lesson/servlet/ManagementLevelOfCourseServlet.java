@@ -57,12 +57,6 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
                 LevelDTO dto = objectiveService.getAllObjAndTest(idCourse, idLevel);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
-            }else if(action.equalsIgnoreCase("getLessonsForObj")){
-
-
-            }else if(action.equalsIgnoreCase("getLessonForTest")){
-
-
             }else if(action.equalsIgnoreCase("getAllLesson")){
                 LessonCollectionService service = new LessonCollectionService();
                 LessonCollectionDTO dto = service.getAll();
