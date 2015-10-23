@@ -3,7 +3,7 @@
  */
 var myTable;
 var servletName="ManagementLevelOfCourseServlet";
-
+var ObjectiveMappingServlet = "ObjectiveMappingServlet";
 function BuildUI(){
     var $selected=$("#level");
     var $listLevel=$("#accordion");
@@ -255,7 +255,7 @@ function addObjectiveToLesson(){
     $(document).on("click","#yesadd", function(){
         var dto = getDtoAddObjective();
         $.ajax({
-            url: "Servlet",
+            url: ObjectiveMappingServlet,
             type: "POST",
             dataType: "text",
             data: {
@@ -263,7 +263,7 @@ function addObjectiveToLesson(){
                 objDto: JSON.stringify(dto)// to json word,
             },
             success: function (data) {
-
+                alert(data.message);
             },
             error: function () {
                 swal("Error!", "Could not connect to server", "error");
@@ -281,6 +281,7 @@ $(document).ready(function(){
     BuildUI();
     loadDetails();
     openPopopAddObjective();
+    addObjectiveToLesson();
 });
 
 

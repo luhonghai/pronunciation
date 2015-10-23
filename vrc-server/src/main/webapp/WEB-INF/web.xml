@@ -350,6 +350,17 @@
         <url-pattern>/ManagementLevelOfCourseServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ObjectiveMappingServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ObjectiveMappingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ObjectiveMappingServlet</servlet-name>
+        <url-pattern>/ObjectiveMappingServlet</url-pattern>
+    </servlet-mapping>
+
+
 
 
 

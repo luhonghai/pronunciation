@@ -177,4 +177,31 @@ public class ObjectiveMappingService {
         }
         return dto;
     }
+
+
+    public String addObjMapLesson(List<String> idLessons, String idObj){
+        ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
+        String message = "";
+        try {
+            if(idLessons!=null && idLessons.size() > 0){
+                List<ObjectiveMapping> temp = new ArrayList<>();
+                for(String idL : idLessons){
+                    ObjectiveMapping obj = new ObjectiveMapping();
+                    obj.setIdLessonCollection(idL);
+                    obj.setIdObjective(idObj);
+                    obj.setIsDeleted(false);
+                    obj.setVersion(getMaxVersion());
+                    temp.add(obj);
+                }
+                dao.create(temp);
+                message = SUCCESS;
+            }else{
+                message = SUCCESS;
+            }
+        }catch (Exception e){
+            message = ERROR + ": can not add object mapping to lesson in db because " + e.getMessage();
+            logger.error("can not add object mapping to lesson in db because : " + e.getMessage());
+        }
+        return message;
+    }
 }

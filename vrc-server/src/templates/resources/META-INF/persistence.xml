@@ -36,6 +36,10 @@
 		<class>com.cmg.lesson.data.jdo.course.CourseMappingLevel</class>
 		<class>com.cmg.lesson.data.jdo.course.CourseMappingDetail</class>
 		<class>com.cmg.lesson.data.jdo.country.Country</class>
+		<class>com.cmg.lesson.data.jdo.objectives.Objective</class>
+		<class>com.cmg.lesson.data.jdo.objectives.ObjectiveMapping</class>
+		<class>com.cmg.lesson.data.jdo.test.Test</class>
+		<class>com.cmg.lesson.data.jdo.test.TestMapping</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

@@ -4,8 +4,11 @@ import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
+import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.services.course.CourseMappingDetailService;
+import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
 import java.util.Date;
@@ -78,13 +81,13 @@ public class ObjectiveService {
      * @param name
      * @return true if question was added to table.
      */
-    public ObjectiveDTO addObjective(String name, String description){
+    public String addObjective(String id,String name, String description){
         ObjectiveDAO dao = new ObjectiveDAO();
-        ObjectiveDTO dto = new ObjectiveDTO();
         String message;
         try {
             if(!isExistLessonName(name)) {
                 Objective obj = new Objective();
+                obj.setId(id);
                 obj.setName(name);
                 obj.setDescription(description);
                 obj.setVersion(getMaxVersion());
@@ -98,6 +101,28 @@ public class ObjectiveService {
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
             logger.error("Can not add Objective : " + name + " because : " + e.getMessage());
+        }
+
+        return message;
+    }
+
+
+    /**
+     *
+     * @param dto
+     * @return
+     */
+    public ObjectiveMappingDTO addObjective(ObjectiveMappingDTO dto){
+        String idObjective = UUIDGenerator.generateUUID();
+        String message = addObjective(idObjective,dto.getNameObj(),dto.getDescriptionObj());
+        if(message.equalsIgnoreCase(SUCCESS)){
+            dto.setIdObjective(idObjective);
+            ObjectiveMappingService objMapSer = new ObjectiveMappingService();
+            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+            if(message.equalsIgnoreCase(SUCCESS)){
+                CourseMappingDetailService cmdSer = new CourseMappingDetailService();
+                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdObjective(),dto.getIdLevel(),false);
+            }
         }
         dto.setMessage(message);
         return dto;
