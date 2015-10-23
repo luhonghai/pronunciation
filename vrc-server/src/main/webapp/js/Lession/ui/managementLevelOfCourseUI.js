@@ -62,6 +62,7 @@ function createPanelHeadingLevel(item){
     $buttonLv.addClass("btn btn-default");
     $buttonLv.attr("data-toggle","collapse");
     $buttonLv.attr("data-target","#"+item.id);
+    $buttonLv.attr("onclick","clickLevel(this);");
     $buttonLv.text(item.name);
     $h4.append($buttonLv);
     $divColLeft.append($h4);
@@ -89,7 +90,7 @@ function createPanelHeadingLevel(item){
  */
 function createPanelCollapseLv(item){
     var $collapse = $("<div>");
-    $collapse.addClass("panel-collapse collapse");
+    $collapse.addClass("panel-collapse collapse panelLv");
     $collapse.attr("id",item.id);
     $collapse.attr("id_level",item.id);
     $collapse.attr("type","getObjAndTest");
@@ -222,7 +223,7 @@ function createPanelHeadingObject(obj){
  */
 function createPanelCollapseObject(obj){
     var $collapse = $("<div>");
-    $collapse.addClass("panel-collapse collapse");
+    $collapse.addClass("panel-collapse collapse panelObj");
     $collapse.attr("id",obj.idObjective);
     $collapse.attr("id_lv",obj.idLevel);
     $collapse.attr("type","getLessonObj");

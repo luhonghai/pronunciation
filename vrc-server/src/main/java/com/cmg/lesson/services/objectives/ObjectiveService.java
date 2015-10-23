@@ -1,16 +1,20 @@
 package com.cmg.lesson.services.objectives;
 
 import com.cmg.lesson.common.DateSearchParse;
+import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
+import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -194,9 +198,48 @@ public class ObjectiveService {
     }
 
 
-    public CourseDTO getAllObj(String idCourse, String idLevel){
-        CourseDTO dto = new CourseDTO();
-        return dto;
+    public LevelDTO getAllObjAndTest(String idCourse, String idLevel){
+        LevelDTO levelDTO = new LevelDTO();
+        CourseMappingDetailDAO courseMappingDetailDAO = new CourseMappingDetailDAO();
+        ObjectiveDAO objectiveDAO = new ObjectiveDAO();
+        List<String> lstObjId = new ArrayList<String>();
+        List<String> lstTestId = new ArrayList<String>();
+        try {
+            List<CourseMappingDetail> listCourseMappingDetails = courseMappingDetailDAO.getAllByLevel(idCourse, idLevel);
+            if(listCourseMappingDetails!=null && listCourseMappingDetails.size()>0){
+                for(CourseMappingDetail cmp : listCourseMappingDetails){
+                    if (cmp.isTest()){
+                        lstTestId.add(cmp.getIdChild());
+                    }else{
+                        lstObjId.add(cmp.getIdChild());
+                    }
+                }
+                List<Objective> listObjective = objectiveDAO.listIn(lstObjId);
+                if(listObjective!=null && listObjective.size()>0){
+                    List<ObjectiveMappingDTO> listObjectiveMappingDTO = new ArrayList<ObjectiveMappingDTO>();
+                    ObjectiveMappingDTO objectiveMappingDTO;
+                    for(Objective obj : listObjective){
+                        objectiveMappingDTO = new  ObjectiveMappingDTO();
+                        objectiveMappingDTO.setIdObjective(obj.getId());
+                        objectiveMappingDTO.setIdLevel(idLevel);
+                        objectiveMappingDTO.setIdCourse(idCourse);
+                        objectiveMappingDTO.setNameObj(obj.getName());
+                        objectiveMappingDTO.setDescriptionObj(obj.getDescription());
+                        listObjectiveMappingDTO.add(objectiveMappingDTO);
+                    }
+                    levelDTO.setListObjMap(listObjectiveMappingDTO);
+                    levelDTO.setMessage(SUCCESS);
+                }
+            }else{
+                levelDTO.setMessage(SUCCESS);
+                levelDTO.setListObjMap(new ArrayList<ObjectiveMappingDTO>());
+            }
+        } catch (Exception e) {
+            levelDTO.setMessage(ERROR + " : can not get list objectives by level because " + e.getMessage());
+            logger.error("List object by id level : " + idLevel + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return levelDTO;
     }
 
 }

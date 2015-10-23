@@ -1,6 +1,7 @@
 /**
  * Created by CMGT400 on 10/5/2015.
  */
+var attFunction = false;
 var myTable;
 var servletName="ManagementLevelOfCourseServlet";
 var ObjectiveMappingServlet = "ObjectiveMappingServlet";
@@ -34,8 +35,6 @@ function BuildUI(){
             $(listLevel).each(function(){
                 buildPanelLevel(this);
             });
-
-
         }
 
     });
@@ -104,20 +103,15 @@ function removeLevel(){
 
 }
 
-function loadDetails(){
-    $(".collapse").on('show.bs.collapse', function(){
-        var type = $(this).attr(type);
-        if(type === "getObjAndTest"){
-            var idLevel = $(this).attr("id_level");
-            var idCourse=$("#idCourse").val();
-            getObjAndTest(idLevel,idCourse);
-        }else if (type ==="getLessonObj"){
-            var idObj   =  $(this).attr("id");
-            var idLevel =  $(this).attr("id_lv");
-        }else if (type ==="getLessonTest"){
+function clickLevel(el){
+    var idLevel = $(el).attr("data-target").split("#")[1];
+    var idCourse=$("#idCourse").val();
+    getObjAndTest(idLevel,idCourse);
+}
 
-        }
-    });
+function clickObj(e){
+    var idObj   =  $(this).attr("id");
+    var idLevel =  $(this).attr("id_lv");
 }
 
 function getObjAndTest(idLevel,idCourse){
@@ -138,11 +132,12 @@ function getObjAndTest(idLevel,idCourse){
                     $(listObj).each(function(){
                         buildPanelObject(this);
                     });
+
                 }
-                var test = data.test;
+                /*var test = data.test;
                 if(test!=""){
                     $("#"+idLevel).find("#collection_test").empty();
-                }
+                }*/
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -280,9 +275,9 @@ $(document).ready(function(){
     removeLevel();
     addLevel();
     BuildUI();
-    loadDetails();
     openPopopAddObjective();
     addObjectiveToLesson();
+
 });
 
 

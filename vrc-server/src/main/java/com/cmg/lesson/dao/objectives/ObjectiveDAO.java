@@ -7,6 +7,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -165,5 +166,51 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         }
 
         return isDelete;
+    }
+
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    public List<Objective> listIn(List<String> ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where Objective.ID in(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
+        }
+        List<Objective> listObjective = new ArrayList<Objective>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        whereClause = whereClause + ") and isDeleted=false " ;
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Objective objective = new Objective();
+                    Object[] array = (Object[]) obj;
+                    objective.setId(array[0].toString());
+                    if(array[1]!=null){
+                        objective.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        objective.setDescription(array[2].toString());
+                    }
+                    listObjective.add(objective);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listObjective;
+
     }
 }

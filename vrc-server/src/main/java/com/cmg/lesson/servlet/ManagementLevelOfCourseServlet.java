@@ -10,6 +10,7 @@ import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.services.course.CourseMappingLevelService;
 import com.cmg.lesson.services.lessons.LessonCollectionService;
+import com.cmg.lesson.services.objectives.ObjectiveService;
 import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.lesson.services.question.WordOfQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
@@ -52,10 +53,10 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
             }else if(action.equalsIgnoreCase("getObjAndTest")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
                 String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
-                CourseDTO dto = new CourseDTO();
-                dto.setListObj(null);
-                dto.setTest(null);
-                dto.setMessage("success");
+                ObjectiveService objectiveService = new ObjectiveService();
+                LevelDTO dto = objectiveService.getAllObjAndTest(idCourse, idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("getLessonsForObj")){
 
 

@@ -121,4 +121,17 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
         }
         return null;
     }
+
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public List<CourseMappingDetail> getAllByLevel(String idCourse, String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idCourse==:1 && idLevel==:2 && isDeleted==:3", idCourse,idLevel,false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
 }
