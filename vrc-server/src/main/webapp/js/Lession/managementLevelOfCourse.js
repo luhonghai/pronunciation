@@ -3,7 +3,7 @@
  */
 var myTable;
 var servletName="ManagementLevelOfCourseServlet";
-
+var ObjectiveMappingServlet = "ObjectiveMappingServlet";
 function BuildUI(){
     var $selected=$("#level");
     var $listLevel=$("#accordion");
@@ -132,7 +132,7 @@ function getObjAndTest(idLevel,idCourse){
         },
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
-                var listObj = data.listObj;
+                var listObj = data.listObjMap;
                 if(listObj.length > 0){
                     $("#"+idLevel).find("#collection_objective").empty();
                     $(listObj).each(function(){
@@ -255,15 +255,16 @@ function addObjectiveToLesson(){
     $(document).on("click","#yesadd", function(){
         var dto = getDtoAddObjective();
         $.ajax({
-            url: "Servlet",
+            url: ObjectiveMappingServlet,
             type: "POST",
-            dataType: "text",
+            dataType: "json",
             data: {
                 action: "addObj",
                 objDto: JSON.stringify(dto)// to json word,
             },
             success: function (data) {
-
+                $("#add-objective").modal('hide');
+                buildPanelObject(data);
             },
             error: function () {
                 swal("Error!", "Could not connect to server", "error");
@@ -281,6 +282,7 @@ $(document).ready(function(){
     BuildUI();
     loadDetails();
     openPopopAddObjective();
+    addObjectiveToLesson();
 });
 
 

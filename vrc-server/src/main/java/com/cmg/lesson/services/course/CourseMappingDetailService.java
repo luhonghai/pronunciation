@@ -43,8 +43,7 @@ public class CourseMappingDetailService {
      * @param idLevel
      * @return
      */
-    public CourseDTO addMappingDetail(String idCourse, String idObjective, String idLevel, boolean isTest){
-        CourseDTO dto = new CourseDTO();
+    public String addMappingDetail(String idCourse, String idObjective, String idLevel, boolean isTest){
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         String message;
         try {
@@ -66,8 +65,8 @@ public class CourseMappingDetailService {
             message = ERROR +": An error has been occurred in server!" + e.getMessage();
             logger.error("can not add mapping because : " + e.getMessage());
         }
-        dto.setMessage(message);
-        return dto;
+
+        return message;
     }
 
     /**

@@ -8,9 +8,10 @@
 function getDtoAddObjective(){
     var idLevel = $("#yesadd").attr("id_level");
     var idCourse = $("#idCourse").val();
-    var nameObj = $("#").val();
-    var descriptionObj =  $("#").val();
-    var idLessons = $('#select-lesson option:selected').map(function(a, item){return item.value;});
+    var nameObj = $("#add-objective-name").val();
+    var descriptionObj =  $("#add-description").val();
+    var idLessons = [];
+    $('#select-lesson option:selected').map(function(a, item){ idLessons.push(item.value);});
     var dto = {
         idLevel : idLevel,
         idCourse: idCourse,

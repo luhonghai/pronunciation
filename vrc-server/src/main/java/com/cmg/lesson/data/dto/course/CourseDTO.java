@@ -1,5 +1,6 @@
 package com.cmg.lesson.data.dto.course;
 
+import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
