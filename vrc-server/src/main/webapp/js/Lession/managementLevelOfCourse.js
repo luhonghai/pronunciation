@@ -110,7 +110,7 @@ function clickLevel(e){
 }
 
 function clickObj(e){
-    var idObj   =  $(e).attr("id");
+    var idObj   =  $(e).attr("id_obj");
     var idLevel =  $(e).attr("id_lv");
     getLessonsForObj(idObj);
 }
@@ -162,7 +162,15 @@ function getLessonsForObj(idObject){
         },
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
-                
+                $("#"+idObject+" #collection_lesson_obj").html("");
+                var alertContent
+                $.each(data.data, function (idx, obj) {
+                    alertContent = '<div class="alert alert-info">'
+                    alertContent += '<a id="'+obj.id+'" class="close" title="close" aria-label="close" data-dismiss="alert" href="#">×</a>';
+                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '</div>';
+                    $("#"+idObject+" #collection_lesson_obj").append(alertContent);
+                });
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }

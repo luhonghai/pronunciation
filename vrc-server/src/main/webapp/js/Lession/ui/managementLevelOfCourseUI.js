@@ -98,7 +98,7 @@ function createPanelCollapseLv(item){
     $panel_body.addClass("panel-body");
 
     var $divRow = $("<div>");
-    $divRow.addClass("row");
+    $divRow.addClass("row row-button");
 
     var $divColLeft =  $("<div>");
     $divColLeft.addClass("col-sm-3");
