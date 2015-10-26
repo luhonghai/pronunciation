@@ -2,6 +2,7 @@ package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
+import com.cmg.lesson.services.lessons.LessonCollectionService;
 import com.cmg.lesson.services.objectives.ObjectiveMappingService;
 import com.cmg.lesson.services.objectives.ObjectiveService;
 import com.cmg.vrc.servlet.BaseServlet;
@@ -25,6 +26,7 @@ public class ObjectiveMappingServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         Gson gson = new Gson();
+        ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
         String action=(String) StringUtil.isNull(request.getParameter("action"), "");
         try {
             if(action.equalsIgnoreCase("addObj")){
@@ -36,7 +38,6 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("getLessonsForObj")){
                 String idObjective = (String) StringUtil.isNull(request.getParameter("idObj"), "");
-                ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
                 LessonCollectionDTO lessonCollectionDTO = objectiveMappingService.getAllLessonByObjective(idObjective);
                 String json = gson.toJson(lessonCollectionDTO);
                 response.getWriter().write(json);
@@ -44,6 +45,12 @@ public class ObjectiveMappingServlet extends BaseServlet {
             }else if(action.equalsIgnoreCase("getLessonForTest")){
 
 
+            }else if(action.equalsIgnoreCase("deleteLesson")){
+                String lessonId =  (String)StringUtil.isNull(request.getParameter("lessonId"),"");
+                String objectiveId =  (String)StringUtil.isNull(request.getParameter("objectiveId"),"");
+                ObjectiveMappingDTO objectiveMappingDTO = objectiveMappingService.updateDeleted(objectiveId,lessonId);
+                String json = gson.toJson(objectiveMappingDTO);
+                response.getWriter().write(json);
             }
         }catch (Exception e){
             e.printStackTrace();
