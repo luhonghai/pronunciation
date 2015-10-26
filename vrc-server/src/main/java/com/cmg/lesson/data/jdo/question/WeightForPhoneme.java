@@ -35,7 +35,17 @@ public class WeightForPhoneme implements Mirrorable{
 
     @Persistent
     private boolean isDeleted;
+    //lan add new column for ipa map
+    @Persistent
+    private String ipa;
 
+    public String getIpa() {
+        return ipa;
+    }
+
+    public void setIpa(String ipa) {
+        this.ipa = ipa;
+    }
 
     public boolean isDeleted() {
         return isDeleted;

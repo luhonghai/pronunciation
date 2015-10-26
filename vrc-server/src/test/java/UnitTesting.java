@@ -1,10 +1,12 @@
 
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
+import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
@@ -14,6 +16,7 @@ import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -97,8 +100,22 @@ public class UnitTesting {
                 System.out.println(list.get(0).getIdChild());
             }*/
 
-            CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
-            dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
+          //  CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+            //dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
+            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+            IpaMapArpabet ap = new IpaMapArpabet();
+            ap.setIpa("a");
+            ap.setArpabet("AE");
+            ap.setColor("#820c28");
+            ap.setDescription("As in jam.");
+            ap.setTip("To pronounce the phoneme, fully open your mouth, flatten your tongue and push the tip against your bottom teeth. Make a quick release of air from the back of the throat.");
+            ap.setType("vowel");
+            ap.setIndexingType(2);
+            ap.setWords("jam ham fan");
+            ap.setMp3Url("http://www.oxforddictionaries.com/media/english/uk_pron/h/hon/honk_/honk__gb_1_8.mp3");
+            ap.setDateCreated(new Date(System.currentTimeMillis()));
+            //dao.create(ap);
+            dao.listAll(0,10,"",0,"asc",new Date(),new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }

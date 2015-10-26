@@ -3,12 +3,14 @@ package com.cmg.lesson.services.calculation;
 import com.cmg.lesson.dao.history.PhonemeLessonScoreDAO;
 import com.cmg.lesson.dao.history.SessionScoreDAO;
 import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
+import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
 import com.cmg.lesson.data.jdo.history.SessionScore;
 import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.vrc.sphinx.SphinxResult;
+import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class ScoreService {
             String idWord = user.getIdWord();
             String idQuestion = user.getIdQuestion();
             WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
+            IpaMapArpabetDAO ipaDao = new IpaMapArpabetDAO();
             try {
                 List<WeightForPhoneme> weight = weightDao.listBy(idQuestion,idWord);
                 int totalWeight = 0;
@@ -49,6 +52,8 @@ public class ScoreService {
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
                             ph.setTotalScore(scorePhoneme*tempWeight);
+                            //set ipa to client;
+                            ph.setIpa((String)StringUtil.isNull(ipaDao.getByArpabet(ph.getName()),""));
                             logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme *tempWeight));
                             break;
                         }
