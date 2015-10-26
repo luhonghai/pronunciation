@@ -81,6 +81,19 @@ public class SphinxResult {
         private int version;
         private String userVoiceId;
         private List<PhonemeScoreUnit> phonemes;
+
+        private String ipa;
+
+        public String getIpa() {
+            return ipa;
+        }
+
+        public void setIpa(String ipa) {
+            this.ipa = ipa;
+        }
+
+
+
         public int getVersion() {
             return version;
         }

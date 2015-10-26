@@ -44,6 +44,7 @@
 		<class>com.cmg.lesson.data.jdo.objectives.ObjectiveMapping</class>
 		<class>com.cmg.lesson.data.jdo.test.Test</class>
 		<class>com.cmg.lesson.data.jdo.test.TestMapping</class>
+		<class>com.cmg.lesson.data.jdo.ipa.IpaMapArpabet</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->
