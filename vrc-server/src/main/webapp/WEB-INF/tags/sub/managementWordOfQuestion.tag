@@ -86,7 +86,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <button type="button" id="add-word-of-question" name="addCode">Add Word</button>
-          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to Management Question</a></span>
+          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to previous page</a></span>
           <script>
             function goBack() {
               window.history.back();

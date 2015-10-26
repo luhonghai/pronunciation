@@ -3,6 +3,16 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 
+<style>
+.panel .row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.row-button{
+  margin-bottom: 15px;
+}
+</style>>
 
 <div id="page-wrapper">
   <div class="row">
