@@ -62,6 +62,11 @@
 				<li>
 					<a href="#"><i class="fa fa-folder"></i> Lessons</a>
 					<ul>
+
+						<li>
+							<a href="management_ipa_map.jsp" ><i class="fa fa-file-word-o"></i> Management Ipa Map Arpabet </a>
+						</li>
+
 						<li>
 							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Management Word </a>
 						</li>

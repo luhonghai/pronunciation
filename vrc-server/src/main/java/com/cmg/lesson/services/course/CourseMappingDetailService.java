@@ -93,6 +93,29 @@ public class CourseMappingDetailService {
         return dto;
     }
 
+    /**
+     *
+     * @param idCourse
+     * @param idLevel
+     * @return
+     */
+    public String removeDetail(String idCourse, String idObjective){
+        CourseDTO dto = new CourseDTO();
+        CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
+        String message;
+        try {
+            if(dao.updateDeleted(idCourse, idObjective)){
+                message = SUCCESS;
+            }else{
+                message = ERROR +": An error has been occurred in server!";
+            }
+        }catch (Exception e){
+            message = ERROR +": An error has been occurred in server!";
+            logger.error("can not add mapping because : " + e);
+        }
+        return message;
+    }
+
 
     /**
      *

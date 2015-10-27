@@ -97,7 +97,8 @@ public class CourseMappingLevelService {
         String message;
         try {
             if(dao.removeLevel(idCourse,idLevel)){
-                message = SUCCESS;
+                CourseMappingDetailService service = new CourseMappingDetailService();
+                message = service.removeDetail(idCourse,idLevel);
             }else{
                 message = ERROR +": An error has been occurred in server!";
             }
