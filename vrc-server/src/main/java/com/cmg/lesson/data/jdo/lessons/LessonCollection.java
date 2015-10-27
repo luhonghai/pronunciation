@@ -32,7 +32,15 @@ public class LessonCollection implements Mirrorable {
     private int version;
 
     @NotPersistent
-    private boolean checked;
+    private boolean idChecked = false;
+
+    public boolean isIdChecked() {
+        return idChecked;
+    }
+
+    public void setIdChecked(boolean idChecked) {
+        this.idChecked = idChecked;
+    }
 
     public int getVersion() {
         return version;

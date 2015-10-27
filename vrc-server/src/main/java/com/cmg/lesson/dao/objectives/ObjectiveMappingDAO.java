@@ -56,16 +56,16 @@ public class ObjectiveMappingDAO extends DataAccess<ObjectiveMapping> {
 
     /**
      *
-     * @param idLessonCollection
+     * @param idObjective
      * @return
      */
-    public boolean updateDeleted(String idLessonCollection){
+    public boolean updateDeleted(String idObjective){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idLessonCollection=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idObjective=?");
         try {
-            q.execute(true,idLessonCollection);
+            q.execute(true,idObjective);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -82,6 +82,30 @@ public class ObjectiveService {
 
     /**
      *
+     * @param dto
+     * @return
+     */
+    public ObjectiveMappingDTO updateObjective(ObjectiveMappingDTO dto){
+        String idObjective = dto.getIdObjective();
+        ObjectiveDAO dao = new ObjectiveDAO();
+        String message="";
+        try {
+            boolean isUpdate = dao.updateObjective(idObjective, dto.getNameObj(), dto.getDescriptionObj());
+            if (isUpdate){
+                ObjectiveMappingService objMapSer = new ObjectiveMappingService();
+                objMapSer.updateDeleted(idObjective);
+                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+            }
+        } catch (Exception e) {
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("Can not update Objective : " +  dto.getNameObj() + " because : " + e.getMessage());
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
      * @param name
      * @return true if question was added to table.
      */
@@ -153,6 +177,25 @@ public class ObjectiveService {
             logger.error("Can not delete Objective id: " + id + " because : " + e.getMessage());
         }
         dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public ObjectiveDTO deleteObjectiveAndLesson(String id){
+        ObjectiveDTO dto = deleteObjective(id);
+        if (dto.getMessage().equalsIgnoreCase("success")){
+            ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
+            boolean isDelete = objectiveMappingService.updateDeleted(id);
+            if (isDelete) {
+                dto.setMessage(SUCCESS);
+            }else {
+                dto.setMessage(ERROR + ": can not delete lesson of objective id, "+id);
+            }
+        }
         return dto;
     }
 
