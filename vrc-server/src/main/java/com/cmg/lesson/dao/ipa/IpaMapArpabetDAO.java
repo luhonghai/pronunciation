@@ -79,7 +79,7 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() +
                 " SET description= ? , tip=?,color=? ," +
                 "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing +
-                "words='"+words+"' WHERE id='"+id+"'");
+                " ,words='"+words+"' WHERE id='"+id+"'");
         try {
             q.execute(description,tips,color);
             check=true;
@@ -102,7 +102,7 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + IpaMapArpabet.class.getCanonicalName());
-        q.setFilter("isDeleted==false");
+        q.setFilter("isDeleted=false");
         try {
             count = (Long) q.execute();
             return count.doubleValue();
@@ -120,7 +120,7 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
      * @throws Exception
      */
     public IpaMapArpabet getById(String id)throws Exception{
-        List<IpaMapArpabet> list = list(" WHERE id=? && isDeleted=?", id, false);
+        List<IpaMapArpabet> list = list(" WHERE id==:1 && isDeleted==:2", id, false);
         if(list!=null && list.size()>0){
             return list.get(0);
         }
@@ -146,16 +146,16 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         String a="(ipa.toLowerCase().indexOf(ipa.toLowerCase()) != -1)";
         String b="(ipa == null || ipa.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
 
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);
@@ -176,9 +176,9 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
             q.setOrdering("type desc,indexingType asc");
         }
         if (column==2 && order.equals("asc")) {
-            q.setOrdering("createdDate asc");
+            q.setOrdering("dateCreated asc");
         }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("createdDate desc");
+            q.setOrdering("dateCreated desc");
         }
         q.setRange(start, start + length);
 
@@ -192,6 +192,14 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         }
     }
 
+    /**
+     *
+     * @param search
+     * @param createDateFrom
+     * @param createDateTo
+     * @return
+     * @throws Exception
+     */
     public double getCountSearch(String search,Date createDateFrom,Date createDateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
@@ -201,17 +209,17 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         String b="(ipa == null || ipa.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(createdDate >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(createdDate <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
 
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(createdDate >= createDateFrom && createdDate <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
 
-        string.append("(isDeleted==0) &&");
+        string.append("(isDeleted==false) &&");
 
         if(search.length()>0){
             string.append(a);

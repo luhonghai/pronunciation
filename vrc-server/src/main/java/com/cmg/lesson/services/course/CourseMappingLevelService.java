@@ -97,7 +97,8 @@ public class CourseMappingLevelService {
         String message;
         try {
             if(dao.removeLevel(idCourse,idLevel)){
-                message = SUCCESS;
+                CourseMappingDetailService service = new CourseMappingDetailService();
+                message = service.removeDetail(idCourse,idLevel);
             }else{
                 message = ERROR +": An error has been occurred in server!";
             }
@@ -156,17 +157,18 @@ public class CourseMappingLevelService {
      */
     public List<Level> getLevelsByCourse(String idCourse){
         LevelService lvService = new LevelService();
-        CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+        //CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
         List<Level> listLv = new ArrayList<Level>();
         try {
-            List<CourseMappingLevel> temp = dao.getByIdCourse(idCourse);
+           /* List<CourseMappingLevel> temp = dao.getByIdCourse(idCourse);
             if(temp!=null && temp.size() > 0){
                 List<String> ids = new ArrayList<>();
                 for(CourseMappingLevel cm : temp){
                     ids.add(cm.getIdLevel());
                 }
-                listLv = lvService.listIn(ids);
-            }
+                listLv = lvService.listIn(idCourse);
+            }*/
+            listLv = lvService.listIn(idCourse);
         }catch (Exception e){
             logger.error("can not get all level : "  + e);
         }

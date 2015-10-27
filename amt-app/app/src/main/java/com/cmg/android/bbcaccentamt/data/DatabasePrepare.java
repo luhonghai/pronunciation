@@ -124,7 +124,7 @@ public class DatabasePrepare {
             if (willOverride) {
                 SimpleAppLog.info("Try to preload sqlite database");
                 try {
-                    FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
+                   // FileUtils.copyInputStreamToFile(context.getAssets().open("db/sentencesManager"), sentenceDb);
                     FileUtils.writeStringToFile(fileVersion, versionnew, "UTF-8", true);
                 } catch (Exception e) {
                     SimpleAppLog.error("Could not save database from asset",e);

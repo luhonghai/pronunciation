@@ -71,6 +71,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>UserProfileHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.UserProfileHandler</servlet-class>
     </servlet>
@@ -360,7 +369,15 @@
         <url-pattern>/ObjectiveMappingServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManageIpaMapArpabetServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManageIpaMapArpabetServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ManageIpaMapArpabetServlet</servlet-name>
+        <url-pattern>/ManageIpaMapArpabetServlet</url-pattern>
+    </servlet-mapping>
 
 
 
