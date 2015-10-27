@@ -30,7 +30,7 @@ public class DateSearchParse {
                 return d;
             }
         }catch(Exception e){
-            e.printStackTrace();
+           // e.printStackTrace();
         }
         return null;
     }

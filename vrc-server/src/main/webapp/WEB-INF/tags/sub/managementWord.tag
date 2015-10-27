@@ -68,7 +68,7 @@
                 <div>
                   <label class="col-xs-4  col-sm-3 control-label ">Word:</label>
                   <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                    <input type="text" id="addWord" name="addsentence" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
