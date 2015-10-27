@@ -94,7 +94,7 @@ function includeDataForm(data){
     $("#ipa").val(data.ipa);
     $("#description").val(data.description);
     $("#tip").val(data.tip);
-    $("#addColor").val(data.color);
+    $("#addColor").colorpicker('setValue', data.color);
     $("#mp3").val(data.mp3Url);
     $("#index_type").val(data.indexingType);
     $("#words").val(data.words);

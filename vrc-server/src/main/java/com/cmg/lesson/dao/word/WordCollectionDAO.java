@@ -163,7 +163,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         StringBuffer filter = new StringBuffer();
         Query q = pm.newQuery("SELECT FROM " + WordCollection.class.getCanonicalName());
         String a ="(word.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b ="(word == null || word.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b ="(word == null || word.toLowerCase().startWith(search.toLowerCase()) != -1)";
         if(search.length() == 0){
             filter.append(b);
         }else if(search.length() > 0){
