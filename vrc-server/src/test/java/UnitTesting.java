@@ -8,8 +8,10 @@ import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
+import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
+import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
@@ -102,7 +104,7 @@ public class UnitTesting {
 
           //  CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
             //dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
-            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+           /* IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
             IpaMapArpabet ap = new IpaMapArpabet();
             ap.setIpa("a");
             ap.setArpabet("AE");
@@ -115,7 +117,14 @@ public class UnitTesting {
             ap.setMp3Url("http://www.oxforddictionaries.com/media/english/uk_pron/h/hon/honk_/honk__gb_1_8.mp3");
             ap.setDateCreated(new Date(System.currentTimeMillis()));
             //dao.create(ap);
-            dao.listAll(0,10,"",0,"asc",new Date(),new Date());
+            dao.listAll(0,10,"",0,"asc",new Date(),new Date());*/
+            LevelService ser = new LevelService();
+            List<Level> list = ser.listIn("493acae7-1287-4912-b24a-1c1017f3b7ee");
+            if(list!=null && list.size() > 0){
+                for(Level lv : list){
+                    System.out.println(lv.getName());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
