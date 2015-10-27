@@ -312,7 +312,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
                     }
-                    lessonCollection.
+                    lessonCollection.setIdChecked(true);
                     listObjective.add(lessonCollection);
                 }
             }

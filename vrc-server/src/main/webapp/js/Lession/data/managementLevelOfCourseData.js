@@ -23,5 +23,18 @@ function getDtoAddObjective(){
 }
 
 function getDtoEditObjective(){
-
+    //var idLevel = $("#yesadd").attr("id_level");
+    //var idCourse = $("#idCourse").val();
+    var nameObj = $("#edit-objective-name").val();
+    var descriptionObj =  $("#edit-description").val();
+    var idObjective= $("#yesedit").attr("objtive_id");
+    var idLessons = [];
+    $('#select-lesson-edit option:selected').map(function(a, item){ idLessons.push(item.value);});
+    var dto = {
+        idObjective: idObjective,
+        nameObj : nameObj,
+        descriptionObj : descriptionObj,
+        idLessons : idLessons
+    };
+    return dto;
 }
