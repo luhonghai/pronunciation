@@ -369,7 +369,15 @@
         <url-pattern>/ObjectiveMappingServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManageIpaMapArpabetServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManageIpaMapArpabetServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>ManageIpaMapArpabetServlet</servlet-name>
+        <url-pattern>/ManageIpaMapArpabetServlet</url-pattern>
+    </servlet-mapping>
 
 
 
