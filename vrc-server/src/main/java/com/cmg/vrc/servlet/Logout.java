@@ -1,12 +1,5 @@
 package com.cmg.vrc.servlet;
 
-import com.cmg.vrc.data.UserProfile;
-import com.cmg.vrc.data.dao.impl.*;
-import com.cmg.vrc.data.jdo.*;
-import com.cmg.vrc.util.StringUtil;
-import com.cmg.vrc.util.UUIDGenerator;
-import com.google.gson.Gson;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 /**
  * Created by luhonghai on 2014-04-22.

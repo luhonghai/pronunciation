@@ -23,11 +23,8 @@
 		<class>com.cmg.vrc.data.jdo.ClientCode</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeCompany</class>
 		<class>com.cmg.vrc.data.jdo.PhonemeScoreDB</class>
-<<<<<<< HEAD
 		<class>com.cmg.vrc.data.jdo.LoginToken</class>
-=======
 		<class>com.cmg.vrc.data.jdo.AcousticModelVersion</class>
->>>>>>> f1ed315f044fb7047c6cd8d9be5e0c528cd1039d
 		<class>com.cmg.lesson.data.jdo.word.WordCollection</class>
 		<class>com.cmg.lesson.data.jdo.word.WordMappingPhonemes</class>
 		<class>com.cmg.lesson.data.jdo.question.Question</class>
