@@ -28,6 +28,7 @@ public class TranscriptionHandler extends BaseServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setHeader("Content-Type", "text/plain; charset=UTF-8");
         String action = req.getParameter("action");
         String data = req.getParameter("data");
         String versionClient=req.getParameter("version");

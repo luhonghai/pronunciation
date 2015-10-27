@@ -38,6 +38,7 @@ public class TranscriptionServlet extends HttpServlet {
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         TranscriptionDAO adminDAO = new TranscriptionDAO();
         TranscriptionActionService trService = new TranscriptionActionService();
         Transcription ad = new Transcription();

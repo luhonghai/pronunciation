@@ -33,10 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by luhonghai on 2014-04-22.
@@ -46,34 +43,64 @@ public class AuthHandler extends HttpServlet {
             .getName());
     private static String PARA_PROFILE = "profile";
     private static String PARA_TYPE = "type";
+    private class ResponseDataExt extends ResponseData<LoginToken> {
+        public LoginToken loginTokens;
+
+    }
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         try {
             String profile = request.getParameter(PARA_PROFILE);
+            final String uuid=UUIDGenerator.generateUUID();
+            final ResponseDataExt responseData = new ResponseDataExt();
             if (profile != null && profile.length() > 0) {
                 Gson gson = new Gson();
                 final UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "success";
+                responseData.setMessage("success");
+                responseData.setStatus(true);
+                String type = request.getParameter(PARA_TYPE);
                 if (user != null) {
-                    String type = request.getParameter(PARA_TYPE);
                     if (StringUtils.isEmpty(type)) {
+
                         UserDAO userDAO = new UserDAO();
                         if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
                             User u = userDAO.getUserByEmailPassword(user.getUsername(), StringUtil.md5(user.getPassword()));
                             if (u != null) {
                                 if (!u.isActivated()) {
-                                    message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
+                                    responseData.setMessage("account " + u.getUsername() + " is not activated. please contact support@accenteasy.com");
+                                    responseData.setStatus(false);
                                 }
                             } else {
-                                message = "invalid email address or password";
+                                responseData.setMessage("invalid email address or password");
+                                responseData.setStatus(false);
                             }
                         } else {
                             User u = userDAO.getUserByEmail(user.getUsername());
                             if (u != null && !u.isActivated()) {
-                                message = "account " + u.getUsername() + " is not activated. please contact support@accenteasy.com";
+                                responseData.setMessage("account " + u.getUsername() + " is not activated. please contact support@accenteasy.com");
+                                responseData.setStatus(false);
                             }
+                        }
+                        if(responseData.isStatus()==true){
+                            LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
+                            LoginToken loginToken=new LoginToken();
+                            UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
+                            try {
+                                loginToken.setUserName(user.getUsername());
+                                loginToken.setToken(uuid);
+                                //loginToken.setAppName(deviceInfo.);
+                                loginToken.setAppVersion(Integer.parseInt(deviceInfo.getAppVersion()));
+                                loginToken.setDeviceName(deviceInfo.getDeviceName());
+                                loginToken.setCreatedDate(new Date(System.currentTimeMillis()));
+                                loginToken.setAccessDate(new Date(System.currentTimeMillis()));
+                                loginTokenDAO.put(loginToken);
+                            } catch (Exception e) {
+                                logger.error("Error when gather user loginToken info. Message:: " + e.getMessage(), e);
+                            }
+                            responseData.loginTokens=loginTokenDAO.getByAccountAndDevice(user.getUsername(),deviceInfo.getDeviceName());
                         }
                         new Thread(new Runnable() {
                             @Override
@@ -96,6 +123,7 @@ public class AuthHandler extends HttpServlet {
                                 } catch (Exception e) {
                                     logger.error("Error when gather user security info. Message:: " + e.getMessage(), e);
                                 }
+
 
                                 try {
                                     UsageDAO usageDAO = new UsageDAO();
@@ -145,8 +173,14 @@ public class AuthHandler extends HttpServlet {
                     }
                 } else {
                     message = "No data found";
+                    responseData.setMessage("No data found");
+                    responseData.setStatus(false);
                 }
-                out.print(message);
+                if(type.equalsIgnoreCase("staff")) {
+                    out.print(message);
+                }else{
+                    out.print(responseData);
+                }
             } else {
                 out.print("No parameter found");
             }
