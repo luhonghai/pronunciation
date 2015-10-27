@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.lessons;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -29,6 +30,9 @@ public class LessonCollection implements Mirrorable {
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private boolean checked;
 
     public int getVersion() {
         return version;
