@@ -84,7 +84,7 @@ public class ObjectiveMappingDAO extends DataAccess<ObjectiveMapping> {
      * @param idLessonCollection
      * @return
      */
-    public boolean updateDeleted(String idLessonCollection, String idObjective){
+    public boolean updateDeleted(String idObjective, String idLessonCollection){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());

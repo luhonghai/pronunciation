@@ -166,7 +166,7 @@ function getLessonsForObj(idObject){
                 var alertContent
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
-                    alertContent += '<a id="'+obj.id+'" class="close" title="close" aria-label="close" data-dismiss="alert" href="#">×</a>';
+                    alertContent += '<a id="delete" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" objective-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
                     alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
                     alertContent += '</div>';
                     $("#"+idObject+" #collection_lesson_obj").append(alertContent);
@@ -179,6 +179,46 @@ function getLessonsForObj(idObject){
             swal("Error!", "Could not connect to server", "error");
         }
 
+    });
+}
+
+function openPopupDelete(){
+    $(document).on("click","#delete", function(){
+        $("#deletes").modal('show');
+        var lessonId=$(this).attr('leson-id');
+        var objectiveId=$(this).attr('objective-id');
+        $("#id-lesson-delete").val(lessonId);
+        $("#id-objective-delete").val(objectiveId);
+    });
+}
+
+function deleteLesson(){
+    $(document).on("click","#deleteItems", function(){
+        var lessonId =  $("#id-lesson-delete").val();
+        var objectiveId =  $("#id-objective-delete").val();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "deleteLesson",
+                lessonId: lessonId,
+                objectiveId: objectiveId
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    $("tbody").html("");
+                    $("#deletes").modal('hide');
+                    $("."+objectiveId+lessonId).parent().hide();
+                }else{
+                    swal("Could not delete lesson!", data.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
 }
 
@@ -286,7 +326,8 @@ $(document).ready(function(){
     BuildUI();
     openPopopAddObjective();
     addObjectiveToLesson();
-
+    openPopupDelete();
+    deleteLesson();
 });
 
 

@@ -137,15 +137,15 @@ public class ObjectiveMappingService {
     /**
      *
      * @param idLesson
-     * @param idQuestion
+     * @param idObjective
      * @return
      */
-    public ObjectiveMappingDTO updateDeleted(String idLesson, String idQuestion){
+    public ObjectiveMappingDTO updateDeleted(String idObjective, String idLesson){
         ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
         boolean isDelete = false;
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
-            isDelete = dao.updateDeleted(idLesson,idQuestion);
+            isDelete = dao.updateDeleted(idObjective,idLesson);
             if (isDelete){
                 dto.setMessage(SUCCESS);
             }else {

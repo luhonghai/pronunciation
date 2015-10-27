@@ -114,13 +114,13 @@
 
                 <div class="row">
                   <div class="col-xs-4  col-sm-3">
-                    <div class="row"><label class="control-label ">Question:</label></div>
+                    <div class="row"><label class="control-label ">Question Name:</label></div>
                   </div>
                   <div class="col-xs-5  col-sm-6">
                     <div class="row"><input  type="text" id="addQuestion" name="addQuestion" class=" form-control"></div>
                   </div>
                   <div class="col-xs-3  col-sm-2">
-                    <div class="row"><button type="button" name="loadQuestion" id="loadQuestion" class="btn btn-default" value="yes" >Load Question</button></div>
+                    <div class="row"><button type="button" name="loadQuestion" id="loadQuestion" class="btn btn-default" value="yes" >Search Question</button></div>
                   </div>
                 </div>
 

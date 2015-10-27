@@ -197,11 +197,12 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Word</h1>
+        <h1 class="modal-title" align="center">Delete Lesson</h1>
       </div>
       <form name="form-delete" >
         <div class="modal-body">
-          <input type="hidden" id="iddelete" name="iddelete">
+          <input type="hidden" id="id-lesson-delete" name="iddelete"/>
+          <input type="hidden" id="id-objective-delete" name="iddelete"/>
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">
