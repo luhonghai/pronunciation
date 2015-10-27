@@ -112,7 +112,7 @@
                 <div id="container-add-lesson">
                   <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
                   <img class="col-xs-8  col-sm-9">
-                    <img id="loading-lesson" src="http://i.imgur.com/m1fR7ef.gif" class="loading" />
+                    <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
                     <select style="display:none" multiple class="form-control" id="select-lesson">
                       <option>1</option>
                       <option>2</option>
@@ -139,45 +139,46 @@
 </div>
 
 
-
-<div id="edits" class="modal fade">
+<div id="edit-objective" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <div class="row">
-          <div class="col-xs-10 col-xs-offset-1">
+          <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-            <h1 align="center">Edit Word</h1>
-            <form name="Edit" class="form-horizontal"
-                  style="margin-top: 25px" id="editform">
-              <input type="hidden" id="idedit" name="idedit">
+            <h1 align="center">Edit Objective</h1>
+            <form name="edit-objective" class="form-horizontal"
+                  style="margin-top: 25px" id="edit-objective-form">
 
               <div class="form-group">
-                <div class="row">
-                  <div class="col-xs-4  col-sm-3">
-                    <div class="row"><label class="control-label ">Word:</label></div>
-                  </div>
-                  <div class="col-xs-5  col-sm-6">
-                    <div class="row"><input  type="text" id="editWord" name="editWord" class=" form-control"></div>
-                  </div>
-                  <div class="col-xs-3  col-sm-2">
-                    <div class="row"></div>
+
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Objective:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="edit-objective-name" name="edit-objective-name" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="col-xs-4 col-sm-3">
-                    <div class="row"><label class="control-label ">Phonemes:</label></div>
-                    <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <textarea   type="text" id="edit-description" name="add-description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
-                  <div class="col-xs-8 col-sm-9 group-phoneme-weight">
-                    <div class="row" id="listPhonmesEdit"></div>
-                    <div class="row" id="listWeightEdit"></div>
-                  </div>
+                </div>
+                <div id="container-edit-lesson">
+                  <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
+                  <img class="col-xs-8  col-sm-9">
+                  <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
+                  <select style="display:none" multiple class="form-control" id="select-lesson-edit">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Submit</button>
+                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
                 <button type="button" name="closeedit" id="closeedit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
 
               </div>
@@ -186,11 +187,13 @@
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
 </div>
 
-
+<!--popup delete lesson-->
 <div id="deletes" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -213,6 +216,29 @@
     </div>
   </div>
 </div>
+
+<div id="delete-objective" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <h1 class="modal-title" align="center">Delete Objective</h1>
+      </div>
+      <form name="form-delete" >
+        <div class="modal-body">
+          <input type="hidden" id="delete-objective-id" name="iddelete"/>
+          <h3>Do you want to delete ?</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="YesDelete" id="deleteItems-obj" class="btn btn-default" >Submit</button>
+          <button type="button" name="closedelete" id="closedelete-obj" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="<%=request.getContextPath() %>/js/Lession/ui/managementLevelOfCourseUI.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/data/managementLevelOfCourseData.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/managementLevelOfCourse.js"></script>

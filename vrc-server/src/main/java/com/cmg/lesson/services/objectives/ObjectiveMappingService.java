@@ -13,6 +13,7 @@ import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
 
+import com.cmg.lesson.services.lessons.LessonCollectionService;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -120,14 +121,14 @@ public class ObjectiveMappingService {
 
     /**
      *
-     * @param idLessonCollection
+     * @param idObjective
      * @return
      */
-    public boolean updateDeleted(String idLessonCollection){
+    public boolean updateDeleted(String idObjective){
         boolean isDelete = false;
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
-            isDelete = dao.updateDeleted(idLessonCollection);
+            isDelete = dao.updateDeleted(idObjective);
         }catch (Exception e){
             logger.debug("can not update delete in database because : " + e.getMessage());
         }
@@ -158,6 +159,12 @@ public class ObjectiveMappingService {
         return dto;
     }
 
+    /**
+     *
+     * @param lessonId
+     * @param objectiveId
+     * @return
+     */
     public ObjectiveMappingDTO addObjectiveMappingLesson(String lessonId, String objectiveId){
         ObjectiveMappingDTO dto = new ObjectiveMappingDTO();
         ObjectiveMapping obj = new ObjectiveMapping();
@@ -184,6 +191,12 @@ public class ObjectiveMappingService {
     }
 
 
+    /**
+     *
+     * @param idLessons
+     * @param idObj
+     * @return
+     */
     public String addObjMapLesson(List<String> idLessons, String idObj){
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         String message = "";
@@ -210,6 +223,11 @@ public class ObjectiveMappingService {
         return message;
     }
 
+    /**
+     *
+     * @param idObjective
+     * @return
+     */
     public LessonCollectionDTO getAllLessonByObjective(String idObjective){
         LessonCollectionDTO lessonCollectionDTO = new LessonCollectionDTO();
         ObjectiveMappingDAO objectiveMappingDAO = new ObjectiveMappingDAO();
@@ -234,5 +252,69 @@ public class ObjectiveMappingService {
             e.printStackTrace();
         }
         return lessonCollectionDTO;
+    }
+
+    /**
+     *
+     * @param idObjective
+     * @return
+     */
+    public LessonCollectionDTO getAllLessonNotInObjective(String idObjective){
+        LessonCollectionDTO lessonCollectionDTO = new LessonCollectionDTO();
+        ObjectiveMappingDAO objectiveMappingDAO = new ObjectiveMappingDAO();
+        LessonCollectionDAO lessonCollectionDAO = new LessonCollectionDAO();
+        List<String> lstLessonId = new ArrayList<String>();
+        try {
+            List<ObjectiveMapping> listObjectiveMappings = objectiveMappingDAO.getAllByIdObjective(idObjective);
+            if(listObjectiveMappings!=null && listObjectiveMappings.size()>0){
+                for(ObjectiveMapping om : listObjectiveMappings){
+                    lstLessonId.add(om.getIdLessonCollection());
+                }
+                List<LessonCollection> listObjectives = lessonCollectionDAO.listNotIn(lstLessonId);
+                lessonCollectionDTO.setData(listObjectives);
+                lessonCollectionDTO.setMessage(SUCCESS);
+            }else{
+                lessonCollectionDTO.setMessage(SUCCESS);
+                LessonCollectionService lessonCollectionService = new LessonCollectionService();
+                lessonCollectionDTO.setData(lessonCollectionService.getAll().getData());
+            }
+        } catch (Exception e) {
+            lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by objective because " + e.getMessage());
+            logger.error("Can not get list lesson by objective because : " + idObjective + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return lessonCollectionDTO;
+    }
+
+    /**
+     *
+     * @param idObjective
+     * @return
+     */
+    public LessonCollectionDTO getAllLessonSetChecked(String idObjective){
+        LessonCollectionDTO lessonCollectionDTOIn = new LessonCollectionDTO();
+        LessonCollectionDTO lessonCollectionDTONotIn = new LessonCollectionDTO();
+        lessonCollectionDTOIn = getAllLessonByObjective(idObjective);
+        lessonCollectionDTONotIn =getAllLessonNotInObjective(idObjective);
+        lessonCollectionDTOIn.getData().addAll(lessonCollectionDTONotIn.getData());
+        return lessonCollectionDTOIn;
+    }
+
+    /**
+     *
+     * @param idObjective
+     * @return
+     */
+    public ObjectiveMappingDTO getDataForUpdatePopup(String idObjective){
+        ObjectiveMappingDTO objectiveMappingDTO = new ObjectiveMappingDTO();
+        ObjectiveService objectiveService = new ObjectiveService();
+        Objective objective= objectiveService.getById(idObjective);
+        LessonCollectionDTO lessonCollectionDTO = getAllLessonSetChecked(idObjective);
+        objectiveMappingDTO.setIdObjective(objective.getId());
+        objectiveMappingDTO.setNameObj(objective.getName());
+        objectiveMappingDTO.setDescriptionObj(objective.getDescription());
+        objectiveMappingDTO.setData(lessonCollectionDTO.getData());
+        objectiveMappingDTO.setMessage(lessonCollectionDTO.getMessage());
+        return objectiveMappingDTO;
     }
 }

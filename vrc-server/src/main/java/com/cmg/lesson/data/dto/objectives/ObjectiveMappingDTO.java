@@ -1,5 +1,6 @@
 package com.cmg.lesson.data.dto.objectives;
 
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 
 import java.util.List;
@@ -15,6 +16,15 @@ public class ObjectiveMappingDTO {
     private String nameObj;
     private String descriptionObj;
     private List<String> idLessons;
+    private List<LessonCollection> data;
+
+    public List<LessonCollection> getData() {
+        return data;
+    }
+
+    public void setData(List<LessonCollection> data) {
+        this.data = data;
+    }
 
     public String getMessage() {
         return message;

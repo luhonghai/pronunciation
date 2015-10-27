@@ -1,6 +1,7 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
+import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.services.lessons.LessonCollectionService;
 import com.cmg.lesson.services.objectives.ObjectiveMappingService;
@@ -35,6 +36,24 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 ObjectiveService service = new ObjectiveService();
                 ObjectiveMappingDTO dtoToClient = service.addObjective(dto);
                 String json = gson.toJson(dtoToClient);
+                response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("loadUpdateObj")){
+                String idObjective = (String) StringUtil.isNull(request.getParameter("idObjective"), "");
+                ObjectiveMappingDTO objectiveMappingDTO = objectiveMappingService.getDataForUpdatePopup(idObjective);
+                String json = gson.toJson(objectiveMappingDTO);
+                response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("updateObj")){
+                String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
+                ObjectiveMappingDTO dto = gson.fromJson(jsonClient,ObjectiveMappingDTO.class);
+                ObjectiveService service = new ObjectiveService();
+                ObjectiveMappingDTO dtoToClient = service.updateObjective(dto);
+                String json = gson.toJson(dtoToClient);
+                response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("deleteObjective")){
+                String objectiveId = (String) StringUtil.isNull(request.getParameter("objectiveId"), "");
+                ObjectiveService objectiveService = new ObjectiveService();
+                ObjectiveDTO objectiveDTO = objectiveService.deleteObjectiveAndLesson(objectiveId);
+                String json = gson.toJson(objectiveDTO);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("getLessonsForObj")){
                 String idObjective = (String) StringUtil.isNull(request.getParameter("idObj"), "");
