@@ -8,10 +8,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lantb on 2015-10-13.
@@ -120,10 +117,22 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @throws Exception
      */
     public LessonCollection getById(String id) throws Exception{
-        boolean isExist = false;
         List<LessonCollection> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if(list!=null && list.size() > 0){
             return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public List<LessonCollection> getAll() throws Exception{
+        List<LessonCollection> list = list("WHERE isDeleted == :1 ", false);
+        if(list!=null && list.size() > 0){
+            return list;
         }
         return null;
     }
@@ -270,6 +279,52 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             q.closeAll();
             pm.close();
         }
+    }
+
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    public List<LessonCollection> listIn(List<String> ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where LessonCollection.ID in(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
+        }
+        List<LessonCollection> listObjective = new ArrayList<LessonCollection>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        whereClause = whereClause + ") and isDeleted=false " ;
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    LessonCollection lessonCollection = new LessonCollection();
+                    Object[] array = (Object[]) obj;
+                    lessonCollection.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lessonCollection.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        lessonCollection.setDescription(array[2].toString());
+                    }
+                    listObjective.add(lessonCollection);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listObjective;
+
     }
 
     /**

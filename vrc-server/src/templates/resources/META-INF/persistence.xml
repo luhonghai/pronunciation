@@ -23,10 +23,13 @@
 		<class>com.cmg.vrc.data.jdo.ClientCode</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCodeCompany</class>
 		<class>com.cmg.vrc.data.jdo.PhonemeScoreDB</class>
+<<<<<<< HEAD
 		<class>com.cmg.vrc.data.jdo.LoginToken</class>
+=======
+		<class>com.cmg.vrc.data.jdo.AcousticModelVersion</class>
+>>>>>>> f1ed315f044fb7047c6cd8d9be5e0c528cd1039d
 		<class>com.cmg.lesson.data.jdo.word.WordCollection</class>
 		<class>com.cmg.lesson.data.jdo.word.WordMappingPhonemes</class>
-		<class>com.cmg.vrc.data.jdo.AcousticModelVersion</class>
 		<class>com.cmg.lesson.data.jdo.question.Question</class>
 		<class>com.cmg.lesson.data.jdo.question.WordOfQuestion</class>
 		<class>com.cmg.lesson.data.jdo.question.WeightForPhoneme</class>
@@ -37,6 +40,15 @@
 		<class>com.cmg.lesson.data.jdo.course.CourseMappingLevel</class>
 		<class>com.cmg.lesson.data.jdo.course.CourseMappingDetail</class>
 		<class>com.cmg.lesson.data.jdo.country.Country</class>
+		<class>com.cmg.lesson.data.jdo.country.CountryMappingCourse</class>
+		<class>com.cmg.lesson.data.jdo.history.PhonemeLessonScore</class>
+		<class>com.cmg.lesson.data.jdo.history.SessionScore</class>
+		<class>com.cmg.lesson.data.jdo.history.UserLessonHistory</class>
+		<class>com.cmg.lesson.data.jdo.objectives.Objective</class>
+		<class>com.cmg.lesson.data.jdo.objectives.ObjectiveMapping</class>
+		<class>com.cmg.lesson.data.jdo.test.Test</class>
+		<class>com.cmg.lesson.data.jdo.test.TestMapping</class>
+		<class>com.cmg.lesson.data.jdo.ipa.IpaMapArpabet</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- ENABLE THESE FOR H2 -->

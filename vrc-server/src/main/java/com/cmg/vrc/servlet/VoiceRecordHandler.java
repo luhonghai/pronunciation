@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.lesson.services.ipa.IpaMapArpabetService;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
@@ -164,6 +165,9 @@ public class VoiceRecordHandler extends HttpServlet {
                     model.setVersionPhoneme(maxVersionPhoneme);
                     pScoreService.addPhonemeScore(model);
                 }
+                //set ipa for result phoneme send to client;
+                IpaMapArpabetService ipaService = new IpaMapArpabetService();
+                model = ipaService.setIpa(model);
                 String output = gson.toJson(model);
                 logger.info("json from server to client : " + output);
                 File jsonModel = new File(target, word + "_" + uuid + ".json");

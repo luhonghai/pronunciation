@@ -61,7 +61,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <button type="button" id="add-word-of-question" name="addCode">Add Question</button>
-          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to Management Lesson</a></span>
+          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to previous page</a></span>
           <script>
             function goBack() {
               window.history.back();
@@ -114,23 +114,19 @@
 
                 <div class="row">
                   <div class="col-xs-4  col-sm-3">
-                    <div class="row"><label class="control-label ">Question:</label></div>
+                    <div class="row"><label class="control-label ">Question Name:</label></div>
                   </div>
                   <div class="col-xs-5  col-sm-6">
                     <div class="row"><input  type="text" id="addQuestion" name="addQuestion" class=" form-control"></div>
                   </div>
                   <div class="col-xs-3  col-sm-2">
-                    <div class="row"><button type="button" name="loadQuestion" id="loadQuestion" class="btn btn-default" value="yes" >Load Question</button></div>
+                    <div class="row"><button type="button" name="loadQuestion" id="loadQuestion" class="btn btn-default" value="yes" >Search Question</button></div>
                   </div>
                 </div>
 
-                <div class="row">
+                <div id="box-select-question" class="row">
                     <label for="select-question">Select Question:</label>
                     <select class="form-control" id="select-question">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
                     </select>
                 </div>
 

@@ -86,7 +86,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <button type="button" id="add-word-of-question" name="addCode">Add Word</button>
-          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to Management Question</a></span>
+          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to previous page</a></span>
           <script>
             function goBack() {
               window.history.back();
@@ -144,7 +144,7 @@
                     <div class="row"><label class="control-label ">Word:</label></div>
                   </div>
                   <div class="col-xs-5  col-sm-6">
-                    <div class="row"><input  type="text" id="addQuestion" name="addWord" class=" form-control"></div>
+                    <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
                   </div>
                   <div class="col-xs-3  col-sm-2">
                     <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" value="yes" >Load Phonemes</button></div>

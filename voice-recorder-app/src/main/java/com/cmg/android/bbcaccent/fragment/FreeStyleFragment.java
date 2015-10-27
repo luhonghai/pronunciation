@@ -11,7 +11,6 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTabHost;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -21,11 +20,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
-import android.widget.TableLayout;
 
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
@@ -36,9 +32,9 @@ import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
-import com.cmg.android.bbcaccent.data.sqlite.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.sqlite.ScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
@@ -84,33 +80,16 @@ import be.tarsos.dsp.io.TarsosDSPAudioFormat;
 import be.tarsos.dsp.pitch.PitchDetectionHandler;
 import be.tarsos.dsp.pitch.PitchDetectionResult;
 import be.tarsos.dsp.pitch.PitchProcessor;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
  */
-public class FreeStyleFragment extends BaseFragment implements View.OnClickListener, RecordingView.OnAnimationListener, LocationListener {
-    /**
-     * Define all button state
-     */
-    enum ButtonState {
-        DEFAULT,
-        RECORDING,
-        PLAYING,
-        ORANGE,
-        RED,
-        GREEN,
-        DISABLED
-    }
-
-    enum AnalyzingState {
-        DEFAULT,
-        RECORDING,
-        ANALYZING,
-        WAIT_FOR_ANIMATION_MIN,
-        WAIT_FOR_ANIMATION_MAX
-    }
+public class FreeStyleFragment extends BaseFragment implements RecordingView.OnAnimationListener, LocationListener {
 
     /**
      * Recording
@@ -118,31 +97,44 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
     private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
 
     private static final long PITCH_TIMEOUT = 1000;
+
     private static final long START_TIMEOUT = 1000;
 
     private static final long RECORD_MAX_LENGTH = 6000;
 
-    private ButtonState lastState;
-
-    private View root;
-
-    private FragmentTabHost mTabHost;
-
-    private RecordingView recordingView;
-
     private AnalyzingState analyzingState = AnalyzingState.DEFAULT;
 
-    private ImageButton btnAnalyzing;
-    private ImageButton btnAudio;
+    private ButtonState lastState;
 
-    private AlwaysMarqueeTextView txtWord;
-    private AlwaysMarqueeTextView txtPhonemes;
+    @Bind(android.R.id.tabhost)
+    FragmentTabHost mTabHost;
 
-    private RelativeLayout rlVoiceExample;
+    @Bind(R.id.main_recording_view)
+    RecordingView recordingView;
 
-    private ImageButton imgHourGlass;
-    private ImageButton imgHelpHand;
+    @Bind(R.id.btnAnalyzing)
+    ImageButton btnAnalyzing;
 
+    @Bind(R.id.btnAudio)
+    ImageButton btnAudio;
+
+    @Bind(R.id.txtWord)
+    AlwaysMarqueeTextView txtWord;
+
+    @Bind(R.id.txtPhoneme)
+    AlwaysMarqueeTextView txtPhonemes;
+
+    @Bind(R.id.rlVoiceExample)
+    View rlVoiceExample;
+
+    @Bind(R.id.imgHourGlass)
+    ImageButton imgHourGlass;
+
+    @Bind(R.id.imgHelpHand)
+    ImageButton imgHelpHand;
+
+    @Bind(R.id.panelSlider)
+    SlidingUpPanelLayout panelSlider;
 
     private AndroidAudioInputStream audioStream;
     private AudioDispatcher dispatcher;
@@ -184,30 +176,15 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
     private int receiverListenerId;
 
-    private SlidingUpPanelLayout panelSlider;
-
-    class ViewState {
-
-        UserVoiceModel currentModel;
-
-        DictionaryItem dictionaryItem;
-
-        boolean willCollapseSlider = true;
-
-        boolean willSearchRandomWord = true;
-
-        boolean willShowHelpSearchWordAndSlider = false;
-    }
-
     private ViewState viewState;
 
     private ShowcaseHelper showcaseHelper;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Gson gson = new Gson();
-        root = inflater.inflate(R.layout.fragment_free_style, null);
+        View root = inflater.inflate(R.layout.fragment_free_style, null);
+        ButterKnife.bind(this, root);
         accountManager = new AccountManager(getActivity());
         initTabHost();
         initRecordingView();
@@ -236,7 +213,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 }
                 AppLog.logString("Start score animation");
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                willMoveToDetail = true;
             }
             @Override
             public void onHistoryAction(final UserVoiceModel model, String word, int type) {
@@ -314,6 +290,23 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         return root;
     }
 
+    private void initRecordingView() {
+        recordingView.setAnimationListener(this);
+        txtPhonemes.setText("");
+        txtWord.setText("");
+    }
+
+    private void initTabHost() {
+        if (mTabHost == null) return;
+        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        addTabImage(R.drawable.tab_graph,
+                GraphFragment.class, getString(R.string.tab_graph));
+        addTabImage(R.drawable.tab_history,
+                HistoryFragment.class, getString(R.string.tab_history));
+        addTabImage(R.drawable.tab_tip,
+                TipFragment.class, getString(R.string.tab_tip));
+    }
+
     private void displayDictionaryItem() {
         if (viewState.dictionaryItem != null) {
             txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
@@ -335,14 +328,13 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         layoutParams.height = halfHeight;
         rlSliderContent.setLayoutParams(layoutParams);
         txtPhonemes.setVisibility(View.INVISIBLE);
-        panelSlider = (SlidingUpPanelLayout) root.findViewById(R.id.panelSlider);
         panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 float test = (halfHeight - root.findViewById(R.id.btnSlider).getHeight()) / (float) halfHeight;
                 //SimpleAppLog.debug("Offset: " + slideOffset + ". Test: " + test);
-                if (slideOffset > test ) {
+                if (slideOffset > test) {
                     txtPhonemes.setVisibility(View.INVISIBLE);
                 } else {
                     txtPhonemes.setVisibility(View.VISIBLE);
@@ -373,8 +365,10 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    viewState.willCollapseSlider = false;
+                    if (panelSlider != null) {
+                        panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                        viewState.willCollapseSlider = false;
+                    }
                 }
             }, 2000);
         }
@@ -386,51 +380,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         fadeOut = AnimationUtils.loadAnimation(MainApplication.getContext(), android.R.anim.fade_out);
     }
 
-    private void initRecordingView() {
-        if (root == null) return;
-        rlVoiceExample = (RelativeLayout) root.findViewById(R.id.rlVoiceExample);
-        imgHelpHand = (ImageButton) root.findViewById(R.id.imgHelpHand);
-        imgHourGlass = (ImageButton) root.findViewById(R.id.imgHourGlass);
-        recordingView = (RecordingView) root.findViewById(R.id.main_recording_view);
-        btnAnalyzing = (ImageButton) root.findViewById(R.id.btnAnalyzing);
-        btnAnalyzing.setOnClickListener(this);
-        btnAudio = (ImageButton) root.findViewById(R.id.btnAudio);
-        btnAudio.setOnClickListener(this);
-        txtPhonemes = (AlwaysMarqueeTextView) root.findViewById(R.id.txtPhoneme);
-        txtPhonemes.setText("");
-        txtWord = (AlwaysMarqueeTextView) root.findViewById(R.id.txtWord);
-        txtWord.setText("");
-        txtPhonemes.setOnClickListener(this);
-        txtWord.setOnClickListener(this);
-        rlVoiceExample.setOnClickListener(this);
-        recordingView.setOnClickListener(this);
-        recordingView.setAnimationListener(this);
-    }
-
-    private void initTabHost() {
-        mTabHost = (FragmentTabHost) root.findViewById(android.R.id.tabhost);
-        if (mTabHost == null) return;
-        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
-        addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, getString(R.string.tab_graph));
-        addTabImage(R.drawable.tab_history,
-                HistoryFragment.class, getString(R.string.tab_history));
-        addTabImage(R.drawable.tab_tip,
-                TipFragment.class, getString(R.string.tab_tip));
-    }
-
     private void addTabImage(int drawableId, Class<?> c, String labelId) {
         TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
-        mTabHost.addTab(spec, c, null);
-
-    }
-
-    private void addTab(int drawableId, Class<?> c, String labelId) {
-        TabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-        View tabIndicator = LayoutInflater.from(MainApplication.getContext()).inflate(R.layout.tab_indicator, (TableLayout) root.findViewById(R.id.content), false);
-        ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-        icon.setImageResource(drawableId);
-        spec.setIndicator(tabIndicator);
         mTabHost.addTab(spec, c, null);
 
     }
@@ -442,6 +393,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
             viewState.dictionaryItem = null;
         }
         analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+        SimpleAppLog.debug("Complete get word. Wait for animation min");
         lastState = state;
         if (audioStream != null)
             audioStream.clearOldRecord();
@@ -779,6 +731,7 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
         }
         MainBroadcaster.getInstance().unregister(receiverListenerId);
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -831,53 +784,50 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         fetchSetting();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnAnalyzing:
-                if (((MainActivity) getActivity()).checkNetwork(false)) {
-                    if (isRecording) {
-                        stop();
-                        switchButtonStage(ButtonState.DISABLED);
-                        if (viewState.currentModel != null) {
-                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                            recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
-                        } else {
-                            analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
-                            recordingView.startPingAnimation(getActivity(), 1000, 100.0f, false, false);
-                        }
-                    } else {
-                        analyze();
-                    }
-                }
-                break;
-            case R.id.btnAudio:
-                if (isPlaying) {
-                    stopPlay();
-                } else {
-                    play();
-                }
-                break;
-            //case R.id.txtPhoneme:
-            //case R.id.txtWord:
-            case R.id.rlVoiceExample:
-                if (viewState.dictionaryItem != null) {
-                    play(viewState.dictionaryItem.getAudioFile());
-                }
-                break;
-            case R.id.main_recording_view:
-                viewState.willShowHelpSearchWordAndSlider = true;
-                handlerStartDetail.post(runnableStartDetail);
-                break;
+    @OnClick({R.id.txtPhoneme, R.id.txtWord, R.id.rlVoiceExample})
+    void playIPAVoice() {
+        if (viewState.dictionaryItem != null) {
+            play(viewState.dictionaryItem.getAudioFile());
+        }
+    }
+    @OnClick(R.id.main_recording_view)
+    void clickModelScore() {
+        viewState.willShowHelpSearchWordAndSlider = true;
+        handlerStartDetail.post(runnableStartDetail);
+    }
+
+    @OnClick(R.id.btnAudio)
+    void playRecordedVoice() {
+        if (isPlaying) {
+            stopPlay();
+        } else {
+            play();
         }
     }
 
+    @OnClick(R.id.btnAnalyzing)
+    void clickAnalyzeVoice() {
+        if (((MainActivity) getActivity()).checkNetwork(false)) {
+            if (isRecording) {
+                stop();
+                switchButtonStage(ButtonState.DISABLED);
+                if (viewState.currentModel != null) {
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                    recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
+                } else {
+                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
+                    recordingView.startPingAnimation(getActivity(), 1000, 100.0f, false, false);
+                }
+            } else {
+                analyze();
+            }
+        }
+    }
     private Handler handlerStartDetail = new Handler();
 
     private Runnable runnableStartDetail = new Runnable() {
         @Override
         public void run() {
-            willMoveToDetail = false;
             if (viewState.currentModel != null && viewState.dictionaryItem != null) {
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
@@ -1026,8 +976,6 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
         accountManager.stop();
     }
 
-    private boolean willMoveToDetail = false;
-
     private void uploadRecord() {
         try {
             AppLog.logString("Start Uploading");
@@ -1168,7 +1116,8 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            imgHourGlass.setVisibility(View.GONE);
+                            if (imgHourGlass != null)
+                                imgHourGlass.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -1267,5 +1216,39 @@ public class FreeStyleFragment extends BaseFragment implements View.OnClickListe
                 outState.putString(MainBroadcaster.Filler.Key.VIEW_STATE.toString(), gson.toJson(viewState));
             }
         }
+    }
+
+    /**
+     * Define all button state
+     */
+    enum ButtonState {
+        DEFAULT,
+        RECORDING,
+        PLAYING,
+        ORANGE,
+        RED,
+        GREEN,
+        DISABLED
+    }
+
+    enum AnalyzingState {
+        DEFAULT,
+        RECORDING,
+        ANALYZING,
+        WAIT_FOR_ANIMATION_MIN,
+        WAIT_FOR_ANIMATION_MAX
+    }
+
+    class ViewState {
+
+        UserVoiceModel currentModel;
+
+        DictionaryItem dictionaryItem;
+
+        boolean willCollapseSlider = true;
+
+        boolean willSearchRandomWord = true;
+
+        boolean willShowHelpSearchWordAndSlider = false;
     }
 }

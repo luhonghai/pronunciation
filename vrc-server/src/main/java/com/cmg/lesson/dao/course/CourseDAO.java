@@ -197,9 +197,7 @@ public class CourseDAO extends DataAccess<Course> {
         }else if(column==1 && order.equals("desc")) {
             q.setOrdering("timeCreated desc");
         }
-
         q.setRange(start, start + length);
-
         try {
             return detachCopyAllList(pm, q.executeWithMap(params));
         } catch (Exception e) {

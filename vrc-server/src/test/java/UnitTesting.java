@@ -1,7 +1,12 @@
 
+import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
+import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
+import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
@@ -11,6 +16,8 @@ import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 
 import java.io.File;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by cmg on 08/07/15.
@@ -76,21 +83,39 @@ public class UnitTesting {
                 for(WordCollection word : lis)
                 System.out.println(word.getWord());
             }*/
+          /* WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updatePhonemeOfWordToDatabase();*/
 
+          /*  CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
 
-            LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
-            LessonMappingQuestion lessonMappingQuestion = new LessonMappingQuestion();
-            lessonMappingQuestion.setIdLesson("00991e03-71a1-45b3-9877-8d5522889ff6");
-            lessonMappingQuestion.setIdQuestion("eeb5a178-380f-4910-837c-e0eebba67450");
-            lessonMappingQuestion.setIsDeleted(false);
-            lessonMappingQuestion.setVersion(lessonMappingQuestionService.getMaxVersion());
-            //lessonMappingQuestionService.addQuestionToLessonDB(lessonMappingQuestion);
+            CourseMappingDetail cmd = new CourseMappingDetail();
+            cmd.setIdLevel("idLevel");
+            cmd.setIdCourse("idCourse");
+            cmd.setIdChild("idchild");
+            cmd.setIsTest(false);
+            cmd.setVersion(1);
+            dao.create(cmd);
+            List<CourseMappingDetail> list = dao.getBy("idCourse","idLevel",false);
+            if(list.size()>0){
+                System.out.println(list.get(0).getIdChild());
+            }*/
 
-
-            WordMappingPhonemesService serv = new WordMappingPhonemesService();
-           // serv.updateDatabase();
-
-
+          //  CourseMappingLevelDAO dao = new CourseMappingLevelDAO();
+            //dao.getLatestIndex("1f68610d-cbb1-4952-8dd9-d0fa8ad492d6");
+            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+            IpaMapArpabet ap = new IpaMapArpabet();
+            ap.setIpa("a");
+            ap.setArpabet("AE");
+            ap.setColor("#820c28");
+            ap.setDescription("As in jam.");
+            ap.setTip("To pronounce the phoneme, fully open your mouth, flatten your tongue and push the tip against your bottom teeth. Make a quick release of air from the back of the throat.");
+            ap.setType("vowel");
+            ap.setIndexingType(2);
+            ap.setWords("jam ham fan");
+            ap.setMp3Url("http://www.oxforddictionaries.com/media/english/uk_pron/h/hon/honk_/honk__gb_1_8.mp3");
+            ap.setDateCreated(new Date(System.currentTimeMillis()));
+            //dao.create(ap);
+            dao.listAll(0,10,"",0,"asc",new Date(),new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }

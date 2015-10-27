@@ -15,7 +15,7 @@ import java.util.List;
  * Created by CMG Dev156 on 10/16/2015.
  */
 public class LessonMappingQuestionService {
-    private static final Logger logger = Logger.getLogger(LessonCollectionService.class.getName());
+    private static final Logger logger = Logger.getLogger(LessonMappingQuestionService.class.getName());
     private String SUCCESS = "success";
     private String ERROR = "error";
 

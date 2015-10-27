@@ -13,17 +13,11 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
 
 public abstract class BaseActivity extends FragmentActivity {
-
-    public static final String DICTIONARY_ITEM = "DICTIONARY_ITEM";
-
-    public static final String USER_VOICE_MODEL = "USER_VOICE_MODEL";
 
     private boolean isRunning = false;
 
@@ -37,18 +31,7 @@ public abstract class BaseActivity extends FragmentActivity {
         }
 
         Fabric.with(this, new Crashlytics());
-
-        if (!ImageLoader.getInstance().isInited()) {
-            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-        }
         //Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        if (ImageLoader.getInstance().isInited())
-//            ImageLoader.getInstance().destroy();
     }
 
     @Override

@@ -3,7 +3,8 @@ package com.cmg.android.bbcaccent.data;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
+import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -53,6 +54,7 @@ public class DatabasePrepare {
     }
 
     private void loadDatabase() {
+        MainApplication.getContext().initDatabase();
         WordDBAdapter wordDBAdapter = new WordDBAdapter();
         try {
             wordDBAdapter.checkWord();

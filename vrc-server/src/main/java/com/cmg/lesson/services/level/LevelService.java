@@ -107,8 +107,9 @@ public class LevelService {
         String message = null;
         try {
            String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
+            boolean oldDemo = dao.getById(id).isDemo();
             if(oldName.equalsIgnoreCase(name)){
-                if(isDemo && isDemoExisted()){
+                if(isDemo && isDemoExisted() && oldDemo == false){
                     message = ERROR + ":" + "There are only one level to be set to DEMO";
                     dto.setMessage(message);
                     return dto;
@@ -125,11 +126,10 @@ public class LevelService {
                 if(isExistedNewName){
                     message = ERROR + ":" + "This name already existed!";
                 }else{
-                    if(isDemo && isDemoExisted()){
+                    if(isDemo && isDemoExisted() && oldDemo == false){
                         message = ERROR + ":" + "There are only one level to be set to DEMO";
                         dto.setMessage(message);
                         return dto;
-
                     }
                     boolean check = dao.updateLevel(id, name, description, color, isDemo);
                     if(check){
@@ -367,7 +367,7 @@ public class LevelService {
                         lv.setDescription(array[2].toString());
                     }
                     if(array[3]!=null){
-                        lv.setIsDeleted(Boolean.parseBoolean(array[3].toString()));
+                        lv.setIsDemo(Boolean.parseBoolean(array[3].toString()));
                     }
                     if(array[4]!=null){
                         lv.setColor(array[4].toString());

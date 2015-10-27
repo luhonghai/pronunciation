@@ -1,10 +1,11 @@
 /**
  * Created by CMGT400 on 10/5/2015.
  */
+var attFunction = false;
 var myTable;
 var servletName="ManagementLevelOfCourseServlet";
-
-function listLevel(){
+var ObjectiveMappingServlet = "ObjectiveMappingServlet";
+function BuildUI(){
     var $selected=$("#level");
     var $listLevel=$("#accordion");
     var id=$("#idCourse").val();
@@ -18,44 +19,22 @@ function listLevel(){
             id:id
         },
         success:function(data){
-            var items=data.dataforDropdown;
-            var listLevel=data.data;
-            $(items).each(function(){
-                var newOption = '<option color="'+this.color+'" id="'+this.id+'" value="' + this.name + '">' + this.name + '</option>';
-                $selected.append(newOption);
-            });
-            $("#level").append($("#level option").remove().sort(function(a, b) {
-                var at = $(a).text(), bt = $(b).text();
-                return (at > bt)?1:((at < bt)?-1:0);
-            }));
+            var items= data.dataforDropdown;
+            var listLevel= data.data;
+            $("#accordion").empty();
+            if(items.length > 0 ){
+                $selected.empty();
+                $(items).each(function(){
+                    buildDropdown(this);
+                });
+                $("#contain_level_add").show();
+            }else{
+                $("#contain_level_add").hide();
+            }
+
             $(listLevel).each(function(){
-                var newOption = '  <div class="panel panel-default"> ' +
-                        '<div class="panel-heading" style="background-color: '+this.color+'"> ' +
-                            '<div class="row">' +
-                                '<div class="col-sm-3">' +
-                                    '<h4 class="panel-title"> ' +
-                                    '<button class="btn btn-default" data-toggle="collapse" data-target="#'+this.id+'">' +
-                                    ''+this.name+' </button> ' +
-                                    '</h4> ' +
-                                '</div>' +
-                                '<div class="col-sm-2 pull-right"><button type="button" name="removeLevel" id="removeLevel'+this.id+'" class="btn btn-default" value="yes" >Remove Level</button></div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div id="'+this.id+'" class="panel-collapse collapse"> ' +
-                            '<div class="panel-body">' +
-                                '<div class="row">' +
-                                    '<div class="col-sm-2"><button type="button" name="createObject" id="createObject" class="btn btn-default" value="yes" >Create Object</button></div>' +
-                                    '<div class="col-sm-2 pull-right"><button type="button" name="createTest" id="createTest" class="btn btn-default" value="yes" >Create Test</button></div>' +
-                               '</div>' +
-                                '<div id="testAndObject">' +
-                                '</div>'+
-                            '</div> ' +
-                        '</div> ' +
-                    '</div>';
-                $listLevel.append(newOption);
+                buildPanelLevel(this);
             });
-
-
         }
 
     });
@@ -77,8 +56,7 @@ function addLevel(){
             },
             success: function (data) {
                 if(data.message.indexOf("success")!=-1){
-                    $("#accordion").empty();
-                    listLevel();
+                    BuildUI();
                 }else{
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -93,24 +71,23 @@ function addLevel(){
     });
 
 }
-function removeLevel(){
-    $(document).on("click","#addlevel", function(){
-        var idLevel=$("#level option:selected").attr('id');
-        var idCourse=$("#idCourse").val();
 
+function removeLevel(){
+    $(document).on("click",".removelv", function(){
+        var idLevel=$(this).attr('id_lv');
+        var idCourse=$("#idCourse").val();
         $.ajax({
             url: servletName,
             type: "POST",
             dataType: "json",
             data: {
-                action: "addLevel",
+                action: "delete",
                 idLevel:idLevel,
                 idCourse:idCourse
             },
             success: function (data) {
                 if(data.message.indexOf("success")!=-1){
-                    $("#accordion").empty();
-                    listLevel();
+                    BuildUI();
                 }else{
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -126,14 +103,231 @@ function removeLevel(){
 
 }
 
-    //load phonemes click
+function clickLevel(e){
+    var idLevel = $(e).attr("data-target").split("#")[1];
+    var idCourse=$("#idCourse").val();
+    getObjAndTest(idLevel,idCourse);
+}
+
+function clickObj(e){
+    var idObj   =  $(e).attr("id_obj");
+    var idLevel =  $(e).attr("id_lv");
+    getLessonsForObj(idObj);
+}
+
+function getObjAndTest(idLevel,idCourse){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getObjAndTest",
+            idLevel:idLevel,
+            idCourse:idCourse
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                var listObj = data.listObjMap;
+                if(listObj.length > 0){
+                    $("#"+idLevel).find("#collection_objective").empty();
+                    $(listObj).each(function(){
+                        buildPanelObject(this);
+                    });
+
+                }
+                /*var test = data.test;
+                if(test!=""){
+                    $("#"+idLevel).find("#collection_test").empty();
+                }*/
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+
+function getLessonsForObj(idObject){
+    $.ajax({
+        url: ObjectiveMappingServlet,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getLessonsForObj",
+            idObj:idObject
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                $("#"+idObject+" #collection_lesson_obj").html("");
+                var alertContent
+                $.each(data.data, function (idx, obj) {
+                    alertContent = '<div class="alert alert-info">'
+                    alertContent += '<a id="delete" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" objective-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
+                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '</div>';
+                    $("#"+idObject+" #collection_lesson_obj").append(alertContent);
+                });
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+function openPopupDelete(){
+    $(document).on("click","#delete", function(){
+        $("#deletes").modal('show');
+        var lessonId=$(this).attr('leson-id');
+        var objectiveId=$(this).attr('objective-id');
+        $("#id-lesson-delete").val(lessonId);
+        $("#id-objective-delete").val(objectiveId);
+    });
+}
+
+function deleteLesson(){
+    $(document).on("click","#deleteItems", function(){
+        var lessonId =  $("#id-lesson-delete").val();
+        var objectiveId =  $("#id-objective-delete").val();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "deleteLesson",
+                lessonId: lessonId,
+                objectiveId: objectiveId
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    $("tbody").html("");
+                    $("#deletes").modal('hide');
+                    $("."+objectiveId+lessonId).parent().hide();
+                }else{
+                    swal("Could not delete lesson!", data.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
+
+
+
+
+function getLessonForTest(idTest){
+    $.ajax({
+        url: ObjectiveMappingServlet,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getLessonForTest",
+            idTest:idTest
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+
+function openPopopAddObjective(){
+    $(document).on("click",".createObj", function(){
+        $("#loading-lesson").show();
+        $("#add-objective").modal('show');
+        getAllLesson();
+        $("#addObjective").val("");
+        $("#addDescription").val("");
+        var idLevel = $(this).attr("id_lv");
+        $("#yesadd").attr("id_level",idLevel);
+        $("#yesadd").attr("disabled","disabled");
+        //alert(idLevel);
+    });
+}
+
+
+function getAllLesson(){
+    $.ajax({
+        url: servletName,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getAllLesson"
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                $("#select-lesson").empty();
+                $.each(data.data, function (idx, obj) {
+                    $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                });
+                $("#loading-lesson").hide();
+                $('#select-lesson').multiselect({ enableFiltering: true});
+                $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
+                $('#select-lesson').multiselect('refresh');
+                $("#yesadd").removeAttr("disabled");
+
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+function addObjectiveToLesson(){
+    $(document).on("click","#yesadd", function(){
+        var dto = getDtoAddObjective();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "addObj",
+                objDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
+                $("#add-objective").modal('hide');
+                buildPanelObject(data);
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
 
 
 
 $(document).ready(function(){
     removeLevel();
     addLevel();
-    listLevel();
+    BuildUI();
+    openPopopAddObjective();
+    addObjectiveToLesson();
+    openPopupDelete();
+    deleteLesson();
 });
 
 

@@ -1,6 +1,7 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.course.CourseDTO;
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
@@ -8,6 +9,8 @@ import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.services.course.CourseMappingLevelService;
+import com.cmg.lesson.services.lessons.LessonCollectionService;
+import com.cmg.lesson.services.objectives.ObjectiveService;
 import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.lesson.services.question.WordOfQuestionService;
 import com.cmg.lesson.services.word.WordCollectionService;
@@ -43,21 +46,29 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
             }else if(action.equalsIgnoreCase("addLevel")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
                 String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
-                CourseDTO dto = courseMappingLevelService.addMappingLevel(idCourse,idLevel);
+                CourseDTO dto = courseMappingLevelService.addMappingLevel(idCourse, idLevel);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 
-            }else if(request.getParameter("edit")!=null){
+            }else if(action.equalsIgnoreCase("getObjAndTest")){
+                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                ObjectiveService objectiveService = new ObjectiveService();
+                LevelDTO dto = objectiveService.getAllObjAndTest(idCourse, idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("getAllLesson")){
+                LessonCollectionService service = new LessonCollectionService();
+                LessonCollectionDTO dto = service.getAll();
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
 
-
-            }else if(request.getParameter("listPhonemes")!=null){
-
-
-            }else if(request.getParameter("listPhonemesEdit")!=null){
-
-
-            }else if(request.getParameter("delete")!=null){
-
+            }else if(action.equalsIgnoreCase("delete")){
+                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                CourseDTO dto = courseMappingLevelService.removeLevel(idCourse,idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
             }
         }catch (Exception e){
             e.printStackTrace();

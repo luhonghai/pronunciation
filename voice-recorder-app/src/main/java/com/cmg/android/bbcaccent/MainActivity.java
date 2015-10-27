@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,13 +32,9 @@ import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
-import com.cmg.android.bbcaccent.data.sqlite.WordDBAdapter;
-import com.cmg.android.bbcaccent.fragment.DetailFragment;
-import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
-import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
-import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
-import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
-import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.extra.FragmentState;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
@@ -54,85 +49,56 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Stack;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
         SearchView.OnSuggestionListener {
 
-    enum FragmentState {
-        NULL(null),
-        FREE_STYLE(FreeStyleFragment.class, ListMenuAdapter.MenuItem.FREESTYLE),
-        LESSON(FreeStyleFragment.class, ListMenuAdapter.MenuItem.LESSON),
-        HELP(HelpFragment.class, ListMenuAdapter.MenuItem.HELP),
-        SETTINGS(Preferences.class, ListMenuAdapter.MenuItem.SETTING),
-        ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
-        LICENCE(LicenceFragment.class, ListMenuAdapter.MenuItem.LICENCE),
-        FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK),
-        FREE_STYLE_DETAIL(DetailFragment.class, null)
-        ;
-        Class<?> clazz;
-
-        ListMenuAdapter.MenuItem menuItem;
-
-        FragmentState(Class<?> clazz) {
-            this.clazz = clazz;
-        }
-
-        FragmentState(Class<?> clazz, ListMenuAdapter.MenuItem menuItem) {
-            this.clazz = clazz;
-            this.menuItem = menuItem;
-        }
-
-        static FragmentState fromMenuItem(ListMenuAdapter.MenuItem menuItem) {
-            for (FragmentState state : values()) {
-                if (state.menuItem == menuItem) return state;
-            }
-            return NULL;
-        }
-
-        static FragmentState fromFragmentClassName(String className) {
-            for (FragmentState state : values()) {
-                if (state.clazz != null && state.clazz.getName().equals(className)) return state;
-            }
-            return NULL;
-        }
-
-        @Override
-        public String toString() {
-            return clazz == null ? "null" : clazz.getName();
-        }
-    }
-
     private FragmentState currentFragmentState = FragmentState.NULL;
 
-    private FragmentState lastFragmentState = FragmentState.NULL;
+    private Stack<FragmentState> fragmentStates = new Stack<FragmentState>();
 
-    private DrawerLayout drawerLayout;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @Bind(R.id.listMenu)
+    ListView listMenu;
+
+    @Bind(R.id.imgAvatar)
+    ImageView imgAvatar;
+
+    @Bind(R.id.imgAvatarCover)
+    ImageView imgAvatarCover;
+
+    @Bind(R.id.txtUserName)
+    TextView txtUserName;
+
+    @Bind(R.id.txtUserEmail)
+    TextView txtUserEmail;
+
+    private int listenerId;
 
     private boolean isDrawerOpened;
-
-    private MaterialMenuView materialMenu;
-
-    private ListView listMenu;
-
-    private AccountManager accountManager;
-
-    private SearchView searchView;
 
     private WordDBAdapter dbAdapter;
 
     private CursorAdapter adapter;
 
-    private ImageView imgAvatar;
+    private AccountManager accountManager;
+    /**
+     * Actionbar items
+     */
 
-    private ImageView imgAvatarCover;
+    private MaterialMenuView materialMenu;
 
-    private TextView txtUserName;
+    private TextView txtTitle;
 
-    private TextView txtUserEmail;
-
-    private int listenerId;
+    private SearchView searchView;
 
     public void syncService(){
         Gson gson = new Gson();
@@ -149,17 +115,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main);
-
-        imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
-        imgAvatarCover = (ImageView) findViewById(R.id.imgAvatarCover);
-        txtUserName = (TextView) findViewById(R.id.txtUserName);
-        txtUserEmail = (TextView) findViewById(R.id.txtUserEmail);
-
+        ButterKnife.bind(this);
         initListMenu();
         initCustomActionBar();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -211,52 +170,50 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         displayRandomBackground();
     }
 
+    @OnItemClick(R.id.listMenu)
+    public void clickListMenu(int position) {
+        ListMenuAdapter.MenuItem menuItem = ListMenuAdapter.MenuItem.values()[position];
+        switch (menuItem) {
+            case LOGOUT:
+                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+                d.setTitleText(getString(R.string.logout_account_message_title));
+                d.setContentText(getString(R.string.logout_account_message_content));
+                d.setConfirmText(getString(R.string.logout));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
+                        if (profile != null) {
+                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
+                        }
+                        accountManager.logout();
+                        MainActivity.this.finish();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                d.setCancelText(getString(R.string.dialog_no));
+                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+                break;
+            default:
+                switchFragment(menuItem, null, null);
+        }
+    }
+
     private void initListMenu() {
-        listMenu = (ListView) findViewById(R.id.listMenu);
         ListMenuAdapter adapter = new ListMenuAdapter(this);
         listMenu.setAdapter(adapter);
-        listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListMenuAdapter.MenuItem menuItem = ListMenuAdapter.MenuItem.values()[position];
-                switch (menuItem) {
-                    case LOGOUT:
-                        SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                        d.setTitleText(getString(R.string.logout_account_message_title));
-                        d.setContentText(getString(R.string.logout_account_message_content));
-                        d.setConfirmText(getString(R.string.logout));
-                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
-                                if (profile != null) {
-                                    AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
-                                }
-                                accountManager.logout();
-                                MainActivity.this.finish();
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                        d.setCancelText(getString(R.string.dialog_no));
-                        d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
-                            }
-                        });
-                        d.show();
-                        break;
-                    default:
-                        switchFragment(menuItem, null, null);
-                }
-            }
-        });
         adapter.notifyDataSetChanged();
     }
 
     private void onClickMenuButton() {
-        if (currentFragmentState == FragmentState.FREE_STYLE_DETAIL) {
+        if (fragmentStates.size() > 0) {
             popBackStackFragment();
         } else {
             if (isDrawerOpened) {
@@ -284,6 +241,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     onClickMenuButton();
                 }
             });
+            txtTitle = (TextView) actionBar.getCustomView().findViewById(R.id.txtTitle);
         }
     }
 
@@ -568,6 +526,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void popBackStackFragment() {
+        if (fragmentStates.size() == 0) return;
         if (android.app.Fragment.class.isAssignableFrom(currentFragmentState.clazz)) {
             findViewById(R.id.contentV4).setVisibility(View.GONE);
             findViewById(R.id.content).setVisibility(View.VISIBLE);
@@ -577,30 +536,27 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             findViewById(R.id.content).setVisibility(View.GONE);
             getSupportFragmentManager().popBackStackImmediate();
         }
-        currentFragmentState = lastFragmentState;
-        switch (currentFragmentState) {
-            case FREE_STYLE_DETAIL:
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
-                break;
-            default:
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                materialMenu.animateState(MaterialMenuDrawable.IconState.BURGER);
-                break;
+        currentFragmentState = fragmentStates.pop();
+        if (fragmentStates.size() > 0) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            materialMenu.setState(MaterialMenuDrawable.IconState.ARROW);
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            materialMenu.animateState(MaterialMenuDrawable.IconState.BURGER);
         }
         switch (currentFragmentState) {
             case FREE_STYLE:
-            case LESSON:
                 if (searchView != null) searchView.setVisibility(View.VISIBLE);
                 break;
             default:
                 if (searchView != null) {
                     if (!searchView.isIconified())
                         searchView.setIconified(true);
-                    searchView.setVisibility(View.INVISIBLE);
+                    searchView.setVisibility(View.GONE);
                 }
                 break;
         }
+        txtTitle.setText(currentFragmentState.getTitle());
     }
 
     private void switchFragment(Class<?> clazz, SwitchFragmentParameter parameter, Bundle args) {
@@ -610,20 +566,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             FragmentState state = FragmentState.fromFragmentClassName(clazz.getName());
             if (state != FragmentState.NULL) {
                 if (isDrawerOpened) {
-                    //materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
                     drawerLayout.closeDrawer(Gravity.LEFT);
                 }
                 if (state != currentFragmentState) {
                     switch (state) {
                         case FREE_STYLE:
-                        case LESSON:
                             if (searchView != null) searchView.setVisibility(View.VISIBLE);
                             break;
                         default:
                             if (searchView != null) {
                                 if (!searchView.isIconified())
                                     searchView.setIconified(true);
-                                searchView.setVisibility(View.INVISIBLE);
+                                searchView.setVisibility(View.GONE);
                             }
                             break;
                     }
@@ -661,17 +615,20 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         transaction.replace(R.id.contentV4, fragment, state.toString());
                         transaction.commit();
                     }
-                    switch (state) {
-                        case FREE_STYLE_DETAIL:
-                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-                            materialMenu.animateState(MaterialMenuDrawable.IconState.ARROW);
-                            break;
-                        default:
-                            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-                            materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
-                            break;
+                    if (parameter.isAddToBackStack())
+                        fragmentStates.push(currentFragmentState);
+
+                    if (fragmentStates.size() > 0) {
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                        materialMenu.animateState(MaterialMenuDrawable.IconState.ARROW);
+                    } else {
+                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                        materialMenu.setState(MaterialMenuDrawable.IconState.BURGER);
                     }
-                    lastFragmentState = currentFragmentState;
+                    if (parameter.getTitle() != null) {
+                        state.setTitle(parameter.getTitle());
+                    }
+                    txtTitle.setText(state.getTitle());
                     currentFragmentState = state;
                 }
             } else {
@@ -682,54 +639,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-    public static class SwitchFragmentParameter {
-
-        private boolean useAnimation = false;
-
-        private boolean addToBackStack = false;
-
-        private boolean createNew = false;
-
-        public SwitchFragmentParameter() {}
-
-        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack) {
-            this.useAnimation = useAnimation;
-            this.addToBackStack = addToBackStack;
-        }
-
-        public SwitchFragmentParameter(boolean useAnimation, boolean addToBackStack, boolean createNew) {
-            this(useAnimation, addToBackStack);
-            this.createNew = createNew;
-        }
-
-        public boolean isUseAnimation() {
-            return useAnimation;
-        }
-
-        public void setUseAnimation(boolean useAnimation) {
-            this.useAnimation = useAnimation;
-        }
-
-        public boolean isAddToBackStack() {
-            return addToBackStack;
-        }
-
-        public void setAddToBackStack(boolean addToBackStack) {
-            this.addToBackStack = addToBackStack;
-        }
-
-        public boolean isCreateNew() {
-            return createNew;
-        }
-
-        public void setCreateNew(boolean createNew) {
-            this.createNew = createNew;
-        }
-    }
-
     @Override
     public void onBackPressed() {
-        if (currentFragmentState == FragmentState.FREE_STYLE_DETAIL) {
+        if (fragmentStates.size() > 0) {
             popBackStackFragment();
             return;
         } else {

@@ -1,5 +1,6 @@
 package com.cmg.lesson.data.dto.level;
 
+import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.Question;
 
@@ -17,6 +18,8 @@ public class LevelDTO {
     private List<Level> dataforDropdown;
 
     private List<Level> data;
+
+    private List<ObjectiveMappingDTO> listObjMap;
 
     public int getDraw() {
         return draw;
@@ -65,5 +68,13 @@ public class LevelDTO {
 
     public void setDataforDropdown(List<Level> dataforDropdown) {
         this.dataforDropdown = dataforDropdown;
+    }
+
+    public List<ObjectiveMappingDTO> getListObjMap() {
+        return listObjMap;
+    }
+
+    public void setListObjMap(List<ObjectiveMappingDTO> listObjMap) {
+        this.listObjMap = listObjMap;
     }
 }

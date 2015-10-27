@@ -23,6 +23,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
@@ -52,7 +54,8 @@ public class SplashActivity extends BaseActivity implements
 
     private AccountManager accountManager;
 
-    private ImageView imgDog;
+    @Bind(R.id.imgDog)
+    ImageView imgDog;
 
     private int currentDogFrame = 1;
 
@@ -90,7 +93,7 @@ public class SplashActivity extends BaseActivity implements
         startTime = System.currentTimeMillis();
         AppLog.logString("Key hash: " + AndroidHelper.getKeyHash(getApplicationContext()));
         setContentView(R.layout.splashscreen);
-        imgDog = (ImageView) findViewById(R.id.imgDog);
+        ButterKnife.bind(this);
         if (checkNetwork()) {
             accountManager = new AccountManager(this);
             FacebookSdk.sdkInitialize(getApplicationContext());

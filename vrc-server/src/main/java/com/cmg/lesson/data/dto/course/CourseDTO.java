@@ -1,7 +1,10 @@
 package com.cmg.lesson.data.dto.course;
 
+import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.test.Test;
 
 import java.util.List;
 
@@ -15,6 +18,10 @@ public class CourseDTO {
     private String message;
 
     private List<Course> data;
+
+    private List<Objective> listObj;
+
+    private Test test;
 
     public int getDraw() {
         return draw;
@@ -54,5 +61,21 @@ public class CourseDTO {
 
     public void setData(List<Course> data) {
         this.data = data;
+    }
+
+    public List<Objective> getListObj() {
+        return listObj;
+    }
+
+    public void setListObj(List<Objective> listObj) {
+        this.listObj = listObj;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
     }
 }
