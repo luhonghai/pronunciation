@@ -1,5 +1,6 @@
 package com.cmg.android.bbcaccent.data.dto;
 
+import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.utils.MD5Util;
 
 /**
@@ -111,6 +112,14 @@ public class UserProfile {
         this.licenseCode = licenseCode;
     }
 
+    public Country getSelectedCountry() {
+        return selectedCountry;
+    }
+
+    public void setSelectedCountry(Country selectedCountry) {
+        this.selectedCountry = selectedCountry;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -211,6 +220,8 @@ public class UserProfile {
     private boolean isLogin = false;
 
     private String licenseCode;
+
+    private Country selectedCountry;
 
     public int getEnglishProficiency() {
         return englishProficiency;

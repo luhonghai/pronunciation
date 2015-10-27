@@ -3,10 +3,12 @@ package com.cmg.android.bbcaccent.data.sqlite.lesson;
 import android.database.Cursor;
 
 import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.data.sqlite.QueryHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
@@ -21,11 +23,11 @@ import java.util.List;
  */
 public class LessonDBAdapterService {
 
-    public List<Country> listAllCountry() {
+    public Cursor cursorAllCountry() {
         BaseDatabaseAdapter<Country> dbAdapter
                 = new BaseDatabaseAdapter<Country>(MainApplication.getContext().getLessonDatabaseHelper(), Country.class);
         try {
-            return dbAdapter.listAll();
+            return dbAdapter.rawQuery("SELECT ROWID as _id, * FROM " + dbAdapter.getTableName() + " ORDER BY [NAME] ASC", null);
         } catch (LiteDatabaseException e) {
             SimpleAppLog.error("Could not list all country",e);
         }
@@ -62,5 +64,47 @@ public class LessonDBAdapterService {
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_lesson_collection_by_objective.toString(),
                 new String[] {countryId, levelId, objectiveId});
-     }
+    }
+
+    public Cursor searchWord(String search) throws LiteDatabaseException {
+        BaseDatabaseAdapter<WordCollection> dbAdapter
+                = new BaseDatabaseAdapter<WordCollection>(MainApplication.getContext().getLessonDatabaseHelper(), WordCollection.class);
+        return dbAdapter.rawQuery(QueryHelper.search_word.toString(), new String[]{search + "%"});
+    }
+
+    public <T extends BaseLessonEntity> T findObject(String selection, String[] args, Class<T> clazz) throws LiteDatabaseException {
+        BaseDatabaseAdapter<T> dbAdapter
+                = new BaseDatabaseAdapter<T>(MainApplication.getContext().getLessonDatabaseHelper(), clazz);
+        Cursor cursor = dbAdapter.query(selection, args);
+        try {
+            if (cursor.moveToFirst())
+                return dbAdapter.toObject(cursor);
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return null;
+    }
+
+    public <T extends BaseLessonEntity> List<T> findObjects(String selection, String[] args, Class<T> clazz) throws LiteDatabaseException {
+        BaseDatabaseAdapter<T> dbAdapter
+                = new BaseDatabaseAdapter<T>(MainApplication.getContext().getLessonDatabaseHelper(), clazz);
+        Cursor cursor = dbAdapter.query(selection, args);
+        try {
+            if (cursor.moveToFirst())
+                return dbAdapter.toList(cursor);
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return null;
+    }
+
+    public <T extends BaseLessonEntity> T toObject(Cursor cursor, Class<T> clazz) throws LiteDatabaseException {
+        BaseDatabaseAdapter<T> dbAdapter = new BaseDatabaseAdapter<T>(MainApplication.getContext().getLessonDatabaseHelper(), clazz);
+        return dbAdapter.toObject(cursor);
+    }
+
+    public <T extends BaseLessonEntity> List<T> toList(Cursor cursor, Class<T> clazz) throws LiteDatabaseException {
+        BaseDatabaseAdapter<T> dbAdapter = new BaseDatabaseAdapter<T>(MainApplication.getContext().getLessonDatabaseHelper(), clazz);
+        return dbAdapter.toList(cursor);
+    }
 }

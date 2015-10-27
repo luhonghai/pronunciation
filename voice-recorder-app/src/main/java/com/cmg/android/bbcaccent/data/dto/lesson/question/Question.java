@@ -6,7 +6,7 @@ import com.luhonghai.litedb.annotation.LiteTable;
 
 import java.util.Date;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class Question extends BaseLessonEntity {
 
     @LiteColumn
@@ -21,5 +21,13 @@ public class Question extends BaseLessonEntity {
 
     public void setTimeCreated(Date timeCreated) {
         this.timeCreated = timeCreated;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

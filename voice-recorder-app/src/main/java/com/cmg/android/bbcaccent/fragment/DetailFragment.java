@@ -25,10 +25,13 @@ import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
+import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
@@ -102,6 +105,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private ShowcaseHelper showcaseHelper;
 
+    private LessonDBAdapterService dbAdapter;
+
     private void initDetailView(View root) {
         recordingView.setAnimationListener(this);
     }
@@ -110,6 +115,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
         ButterKnife.bind(this, root);
+        dbAdapter = new LessonDBAdapterService();
         Bundle bundle = getArguments();
         WordDBAdapter wordDBAdapter = new WordDBAdapter();
         mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
@@ -224,10 +230,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws LiteDatabaseException {
         model = userVoiceModel;
-        WordDBAdapter dbAdapter = new WordDBAdapter();
-        dbAdapter.open();
-        String pronunciation = dbAdapter.getPronunciation(model.getWord());
-        dbAdapter.close();
+        WordCollection wordCollection = dbAdapter.findObject("word = ?", new String[] {model.getWord()}, WordCollection.class);
+        String pronunciation = "";
+        if (wordCollection != null) pronunciation = wordCollection.getPronunciation();
         recordingView.setScore(model.getScore());
         txtPhonemes.setText(pronunciation);
         txtWord.setText(model.getWord());
@@ -346,7 +351,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
-                        DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainApplication.getContext()));
+                        DictionaryWalker walker = DictionaryWalkerFactory.getInstance();
                         walker.setListener(new DictionaryListener() {
                             @Override
                             public void onDetectWord(final DictionaryItem dItem) {

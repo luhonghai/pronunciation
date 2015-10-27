@@ -38,8 +38,10 @@ import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
+import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
@@ -223,7 +225,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
-                                    new MainActivity.SwitchFragmentParameter(true, true, true),
+                                    new SwitchFragmentParameter(true, true, true),
                                     bundle);
                         }
                         break;
@@ -409,7 +411,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         @Override
         protected Object doInBackground(Object[] params) {
             selectedWord = word;
-            DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainApplication.getContext()));
+            DictionaryWalker walker = DictionaryWalkerFactory.getInstance();
             walker.setListener(new DictionaryListener() {
                 @Override
                 public void onDetectWord(final DictionaryItem dItem) {
@@ -455,21 +457,21 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         if (isRecording) return;
         try {
             if (dbAdapter == null) dbAdapter = new WordDBAdapter();
-            if (!dbAdapter.isBeep(word)) {
-                AnalyticHelper.sendSelectWordNotInBeep(MainApplication.getContext(), word);
-                SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
-                d.setTitleText(getString(R.string.word_not_in_beep_title));
-                d.setContentText(getString(R.string.word_not_in_beep_message));
-                d.setConfirmText(getString(R.string.dialog_ok));
-                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                d.show();
-                return;
-            }
+//            if (!dbAdapter.isBeep(word)) {
+//                AnalyticHelper.sendSelectWordNotInBeep(MainApplication.getContext(), word);
+//                SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+//                d.setTitleText(getString(R.string.word_not_in_beep_title));
+//                d.setContentText(getString(R.string.word_not_in_beep_message));
+//                d.setConfirmText(getString(R.string.dialog_ok));
+//                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        sweetAlertDialog.dismissWithAnimation();
+//                    }
+//                });
+//                d.show();
+//                return;
+//            }
         } catch (Exception e) {
             SimpleAppLog.error("Could not check word " + word + " is beep or not", e);
         }
@@ -721,11 +723,6 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         handlerStartDetail.removeCallbacks(runnableStartDetail);
         stop();
         try {
-            dbAdapter.close();
-        } catch (Exception e) {
-
-        }
-        try {
             recordingView.recycle();
         } catch (Exception ex) {
 
@@ -834,7 +831,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
-                        new MainActivity.SwitchFragmentParameter(true, true, true),
+                        new SwitchFragmentParameter(true, true, true),
                         bundle);
             }
         }
@@ -1083,6 +1080,10 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     public void onAnimationMin() {
         try {
             if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MIN) {
+                if (recordingView == null) {
+                    analyzingState = AnalyzingState.DEFAULT;
+                    return;
+                }
                 AppLog.logString("On animation min");
                 recordingView.setScore(0.0f);
                 recordingView.stopPingAnimation();

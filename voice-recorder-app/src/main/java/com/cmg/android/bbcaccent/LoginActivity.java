@@ -130,10 +130,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private void initAuthDialog() {
         // Reset password dialog
-        dialogResetPassword = new Dialog(this, R.style.Theme_WhiteDialog);
-        prepareDialog(dialogResetPassword);
-        dialogResetPassword.setContentView(R.layout.dialog_reset_password);
-        initDialog(dialogResetPassword);
+        dialogResetPassword = createWhiteDialog(R.layout.dialog_reset_password);
         dialogResetPassword.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,10 +158,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         ((TextView)dialogResetPassword.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // Login dialog
-        dialogLogin = new Dialog(this, R.style.Theme_WhiteDialog);
-        prepareDialog(dialogLogin);
-        dialogLogin.setContentView(R.layout.dialog_login);
-        initDialog(dialogLogin);
+        dialogLogin = createWhiteDialog(R.layout.dialog_login);
         dialogLogin.findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,10 +206,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         ((TextView)dialogLogin.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
         // License dialog
-        dialogLicense = new Dialog(this, R.style.Theme_WhiteDialog);
-        prepareDialog(dialogLicense);
-        dialogLicense.setContentView(R.layout.dialog_license);
-        initDialog(dialogLicense);
+        dialogLicense = createWhiteDialog(R.layout.dialog_license);
         dialogLicense.setCancelable(false);
         dialogLicense.setCanceledOnTouchOutside(false);
         dialogLicense.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
@@ -275,10 +266,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
         ((TextView)dialogLicense.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
-        dialogRegister = new Dialog(this, R.style.Theme_WhiteDialog);
-        prepareDialog(dialogRegister);
-        dialogRegister.setContentView(R.layout.dialog_register);
-        initDialog(dialogRegister);
+        dialogRegister = createWhiteDialog(R.layout.dialog_register);
         dialogRegister.findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,10 +275,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         });
         ((TextView)dialogRegister.findViewById(R.id.txtTermAndCondition)).setMovementMethod(LinkMovementMethod.getInstance());
 
-        dialogValidation = new Dialog(this, R.style.Theme_WhiteDialog);
-        prepareDialog(dialogValidation);
-        dialogValidation.setContentView(R.layout.dialog_validation);
-        initDialog(dialogValidation);
+        dialogValidation = createWhiteDialog(R.layout.dialog_validation);
         dialogValidation.findViewById(R.id.btnConfirmCode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -709,39 +694,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
-    }
-
-    private void prepareDialog(final Dialog dialog) {
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        dialog.setTitle(null);
-        dialog.setCanceledOnTouchOutside(true);
-        dialog.setCancelable(true);
-    }
-
-    private void initDialog(final Dialog dialog) {
-        int fullWidth;
-        int fulHeight;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Display display = this.getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            fullWidth = size.x;
-            fulHeight = size.y;
-        } else {
-            Display display = this.getWindowManager().getDefaultDisplay();
-            fullWidth = display.getWidth();
-            fulHeight = display.getHeight();
-        }
-
-        final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources()
-                .getDisplayMetrics());
-
-        int w = fullWidth - padding;
-        //int h = dialog.getWindow().getAttributes().height;
-        int h = fulHeight - padding;
-        dialog.getWindow().setLayout(w, h);
-
     }
 
     @Override

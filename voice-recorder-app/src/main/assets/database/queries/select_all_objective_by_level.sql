@@ -1,4 +1,4 @@
-SELECT O.ID as _ID, O.NAME, O.DESCRIPTION, O.DATECREATED
+SELECT ROWID as _id,O.ID, O.NAME, O.DESCRIPTION, O.DATECREATED
 FROM
   ((countrymappingcourse AS CMC INNER JOIN coursemappingdetail as CMD on CMC.IDCOURSE)
     INNER JOIN objective as O on O.ID = CMD.IDCHILD)

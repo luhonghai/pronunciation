@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 
-import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 
@@ -220,7 +220,7 @@ public class MainBroadcaster {
             sendMessage(Filler.DATA_UPDATE, bundle);
         }
 
-        public void sendSwitchFragment(Class<?> fragmentClass, MainActivity.SwitchFragmentParameter parameter, Bundle bundle) {
+        public void sendSwitchFragment(Class<?> fragmentClass, SwitchFragmentParameter parameter, Bundle bundle) {
             if (bundle == null) bundle = new Bundle();
             Gson gson = new Gson();
             bundle.putString(Filler.Key.CLASS_NAME.toString(), fragmentClass.getName());

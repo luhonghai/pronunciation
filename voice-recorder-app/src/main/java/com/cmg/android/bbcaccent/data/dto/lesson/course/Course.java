@@ -6,7 +6,7 @@ import com.luhonghai.litedb.annotation.LiteTable;
 
 import java.util.Date;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class Course extends BaseLessonEntity {
 
     @LiteColumn

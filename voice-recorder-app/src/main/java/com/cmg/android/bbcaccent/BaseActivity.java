@@ -1,15 +1,23 @@
 package com.cmg.android.bbcaccent;
 
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.view.dialog.DefaultDialog;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -118,5 +126,9 @@ public abstract class BaseActivity extends FragmentActivity {
         }
         d.setConfirmClickListener(onConfirmListener);
         d.show();
+    }
+
+    public Dialog createWhiteDialog(int layoutId) {
+        return new DefaultDialog(this, layoutId);
     }
 }

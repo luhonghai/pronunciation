@@ -4,7 +4,7 @@ import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.luhonghai.litedb.annotation.LiteColumn;
 import com.luhonghai.litedb.annotation.LiteTable;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class WordMappingPhonemes extends BaseLessonEntity {
 
     @LiteColumn
@@ -15,14 +15,6 @@ public class WordMappingPhonemes extends BaseLessonEntity {
 
     @LiteColumn
     private int index;
-
-    public WordMappingPhonemes(String wordID, String phoneme,int index, boolean isDeleted, int version){
-        this.wordID = wordID;
-        this.phoneme = phoneme;
-        this.index = index;
-        setIsDeleted(isDeleted);
-        setVersion(version);
-    }
 
     public String getWordID() {
         return wordID;

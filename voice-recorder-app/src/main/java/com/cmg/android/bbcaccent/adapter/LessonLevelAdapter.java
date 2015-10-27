@@ -1,6 +1,5 @@
 package com.cmg.android.bbcaccent.adapter;
 
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.fragment.DetailFragment;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonObjectiveFragment;
 
 import java.util.Locale;
@@ -78,12 +76,12 @@ public class LessonLevelAdapter extends RecyclerView.Adapter<LessonLevelAdapter.
             public void onClick(View view) {
                 Level l = (Level) view.getTag();
                 if (l.active) {
-                    MainActivity.SwitchFragmentParameter parameter
-                            = new MainActivity.SwitchFragmentParameter(true, true, true);
+                    SwitchFragmentParameter parameter
+                            = new SwitchFragmentParameter(true, true, true);
                     parameter.setTitle(l.title);
                     MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                             LessonObjectiveFragment.class,
-                            new MainActivity.SwitchFragmentParameter(true, true, true),
+                            new SwitchFragmentParameter(true, true, true),
                             null);
                 }
             }

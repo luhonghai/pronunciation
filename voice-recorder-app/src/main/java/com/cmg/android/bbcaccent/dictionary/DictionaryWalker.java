@@ -1,12 +1,8 @@
 package com.cmg.android.bbcaccent.dictionary;
 
-import android.os.AsyncTask;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by luhonghai on 9/19/14.
@@ -104,7 +100,10 @@ public abstract class DictionaryWalker {
     public abstract void execute(String word);
 
     public File getTargetDir() {
-        return targetDir;
+        File dir = new File(targetDir, this.getClass().getName());
+        if (!dir.exists())
+            dir.mkdirs();
+        return dir;
     }
 
     public void setListener(DictionaryListener listener) {

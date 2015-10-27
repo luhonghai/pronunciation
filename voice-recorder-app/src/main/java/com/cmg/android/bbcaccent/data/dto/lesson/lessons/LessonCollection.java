@@ -1,12 +1,13 @@
 package com.cmg.android.bbcaccent.data.dto.lesson.lessons;
 
+import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.luhonghai.litedb.annotation.LiteColumn;
 import com.luhonghai.litedb.annotation.LiteTable;
 
 import java.util.Date;
 
-@LiteTable
-public class LessonCollection {
+@LiteTable(allowedParent = BaseLessonEntity.class)
+public class LessonCollection extends BaseLessonEntity {
 
     @LiteColumn
     private String name;
