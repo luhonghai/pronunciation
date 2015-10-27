@@ -312,6 +312,53 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
                     }
+                    lessonCollection.
+                    listObjective.add(lessonCollection);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listObjective;
+
+    }
+
+    /**
+     *
+     * @param ids
+     * @return
+     */
+    public List<LessonCollection> listNotIn(List<String> ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        clause.append(" Where LessonCollection.ID NOT IN(");
+        for(String id : ids){
+            clause.append("'"+id+"',");
+        }
+        List<LessonCollection> listObjective = new ArrayList<LessonCollection>();
+        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+        whereClause = whereClause + ") and isDeleted=false " ;
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    LessonCollection lessonCollection = new LessonCollection();
+                    Object[] array = (Object[]) obj;
+                    lessonCollection.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lessonCollection.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        lessonCollection.setDescription(array[2].toString());
+                    }
                     listObjective.add(lessonCollection);
                 }
             }
