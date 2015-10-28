@@ -5,6 +5,7 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by lantb on 2015-10-19.
@@ -29,11 +30,22 @@ public class Country implements Mirrorable {
 
     //lan add this field
     @Persistent
+    private Date timeCreated;
+    //lan add this field
+    @Persistent
     private boolean isDefault;
 
     //lan add this field
     @Persistent
     private String imageURL;
+
+    public Date getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(Date timeCreated) {
+        this.timeCreated = timeCreated;
+    }
 
     public String getImageURL() {
         return imageURL;
