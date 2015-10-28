@@ -77,29 +77,39 @@ function removeLevel(){
     $(document).on("click",".removelv", function(){
         var idLevel=$(this).attr('id_lv');
         var idCourse=$("#idCourse").val();
-        $.ajax({
-            url: ManagementLevelOfCourseServlet,
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: "delete",
-                idLevel:idLevel,
-                idCourse:idCourse
+        swal({
+                title: "Remove Level, Are you sure?",
+                text: "",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, remove it!",
+                closeOnConfirm: true
             },
-            success: function (data) {
-                if(data.message.indexOf("success")!=-1){
-                    BuildUI();
-                }else{
-                    swal("Error!", data.message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
+            function(){
+                $.ajax({
+                    url: ManagementLevelOfCourseServlet,
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        action: "delete",
+                        idLevel:idLevel,
+                        idCourse:idCourse
+                    },
+                    success: function (data) {
+                        if(data.message.indexOf("success")!=-1){
+                            BuildUI();
+                        }else{
+                            swal("Error!", data.message.split(":")[1], "error");
+                        }
+                    },
+                    error: function () {
+                        swal("Error!", "Could not connect to server", "error");
+                    }
+
+                });
             }
-
-        });
-
-
+        );
     });
 
 }
@@ -278,9 +288,11 @@ function deleteLesson(){
 
 function openPopupDeleteObjective(){
     $(document).on("click",".removeObj", function(){
-        $("#delete-objective").modal('show');
         var objectiveId=$(this).attr('id_obj');
+        var levelId=$(this).attr('id_lv');
         $("#delete-objective-id").val(objectiveId);
+        $("#deleteItems-obj").attr("id_lv",levelId);
+        $("#delete-objective").modal('show');
     });
 }
 
@@ -300,7 +312,7 @@ function deleteObjective(){
                     swal("delete success!", data.message.split(":")[1], "info");
                     $("#delete-objective").modal('hide');
                     //reload data
-                    getObjAndTest($(".removeObj").attr("id_lv"),$("#idCourse").val());
+                    getObjAndTest($("#deleteItems-obj").attr("id_lv"),$("#idCourse").val());
                 }else{
                     swal("Could not delete lesson!", data.message.split(":")[1], "error");
                 }
@@ -319,7 +331,9 @@ function openPopupEditObjtive(){
         $('#select-lesson-edit').multiselect('destroy');
         $(".loading-lesson").show();
         var idObjective = $(this).attr('id_obj');
+        var idLevel = $(this).attr('id_lv');
         $("#yesedit").attr("objtive_id",idObjective);
+        $("#yesedit").attr("level_id",idLevel);
         $.ajax({
             url: ObjectiveMappingServlet,
             type: "POST",
@@ -374,7 +388,7 @@ function editObjective(){
                     swal("update success!", data.message.split(":")[1], "info");
                     $("#edit-objective").modal('hide');
                     //reload data
-                    getObjAndTest($(".editObj").attr("id_lv"),$("#idCourse").val());
+                    getObjAndTest($("#yesedit").attr("level_id"),$("#idCourse").val());
                     //getLessonsForObj(data.idObjective);
                 }else{
                     swal("Could not delete lesson!", data.message.split(":")[1], "error");
@@ -414,8 +428,12 @@ function addObjectiveToLesson(){
                 objDto: JSON.stringify(dto)// to json word,
             },
             success: function (data) {
-                $("#add-objective").modal('hide');
-                buildPanelObject(data);
+                if (data.message.indexOf("success") !=-1) {
+                    $("#add-objective").modal('hide');
+                    buildPanelObject(data);
+                }else{
+                    swal("Could not add objective!", data.message.split(":")[1], "error");
+                }
             },
             error: function () {
                 swal("Error!", "Could not connect to server", "error");

@@ -1,14 +1,11 @@
 package com.cmg.lesson.services.objectives;
 
-import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
-import com.cmg.lesson.data.dto.course.CourseDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
-import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -54,7 +51,7 @@ public class ObjectiveService {
         String message;
         try{
             if(isUpdateLessonName) {
-                if (!isExistLessonName(name)) {
+                if (!isExistObjectiveName(name)) {
                     boolean isUpdate = dao.updateObjective(id, name, description);
                     if (isUpdate) {
                         message = SUCCESS;
@@ -113,7 +110,7 @@ public class ObjectiveService {
         ObjectiveDAO dao = new ObjectiveDAO();
         String message;
         try {
-            if(!isExistLessonName(name)) {
+            //if(!isExistObjectiveName(name)) {
                 Objective obj = new Objective();
                 obj.setId(id);
                 obj.setName(name);
@@ -123,9 +120,9 @@ public class ObjectiveService {
                 obj.setIsDeleted(false);
                 dao.create(obj);
                 message = SUCCESS;
-            }else{
-                message = ERROR + ":" + "Objective name is existed";
-            }
+            //}else{
+                //message = ERROR + ":" + "Objective name is existed";
+            //}
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
             logger.error("Can not add Objective : " + name + " because : " + e.getMessage());
@@ -204,7 +201,7 @@ public class ObjectiveService {
      * @param name
      * @return true is exits question name
      */
-    public boolean isExistLessonName(String name) throws Exception{
+    public boolean isExistObjectiveName(String name) throws Exception{
         boolean isExist = false;
         ObjectiveDAO dao = new ObjectiveDAO();
         isExist = dao.checkExist(name);

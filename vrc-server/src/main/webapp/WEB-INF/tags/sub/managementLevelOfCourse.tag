@@ -4,14 +4,29 @@
 <%@attribute name="pageTitle" required="true" %>
 
 <style>
-.panel .row{
-  margin-left: 0px;
-  margin-right: 0px;
-}
+  .panel .row{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 
-.row-button{
-  margin-bottom: 15px;
-}
+  .row-button{
+    margin-bottom: 15px;
+  }
+
+  .heading-col-left{
+    width: 20%;
+    float: left;
+  }
+
+  .heading-col-right{
+    width: 80%;
+    float: left;
+    text-align: right;
+  }
+
+  .heading-col-right .btn-default{
+    margin-left:10px;
+  }
 </style>>
 
 <div id="page-wrapper">
@@ -40,7 +55,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to Management Question</a></span>
+          <span class="back-wrapper"><a href="#" onclick="goBack()">Back to previous page</a></span>
           <script>
             function goBack() {
               window.history.back();
