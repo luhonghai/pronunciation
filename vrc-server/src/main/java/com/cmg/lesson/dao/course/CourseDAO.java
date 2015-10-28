@@ -8,10 +8,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lantb on 2015-10-20.
@@ -260,5 +257,6 @@ public class CourseDAO extends DataAccess<Course> {
         }
         return isUpdate;
     }
+
 }
 
