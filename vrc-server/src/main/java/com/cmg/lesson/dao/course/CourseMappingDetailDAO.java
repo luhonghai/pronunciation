@@ -82,6 +82,31 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
 
     /**
      *
+     * @param idChild
+     * @return
+     */
+    public boolean updateDeletedByIdidChild(String idChild){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idChild=?");
+        try {
+            q.execute(true,idChild);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+    /**
+     *
      * @param
      * @return
      */

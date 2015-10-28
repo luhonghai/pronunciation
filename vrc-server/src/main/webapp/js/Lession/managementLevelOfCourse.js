@@ -137,9 +137,9 @@ function getObjAndTest(idLevel,idCourse){
             idCourse:idCourse
         },
         success: function (data) {
-            if(data.message.indexOf("success")!=-1){
+            if(data.message.indexOf("success") != -1){
                 var listObj = data.listObjMap;
-                if(listObj.length > 0){
+                if(listObj.length >= 0){
                     $("#"+idLevel).find("#collection_objective").empty();
                     $(listObj).each(function(){
                         buildPanelObject(this);

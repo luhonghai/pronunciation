@@ -153,6 +153,59 @@
   </div>
 </div>
 
+<div id="add-test" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+            <h1 align="center">Add Test</h1>
+            <form name="add-test" class="form-horizontal"
+                  style="margin-top: 25px" id="add-test-form">
+
+              <div class="form-group">
+
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Test:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="add-test-name" name="add-test-name" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <textarea   type="text" id="add-test-description" name="add-test-description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
+                  </div>
+                </div>
+                <div id="container-test-lesson">
+                  <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
+                  <img class="col-xs-8  col-sm-9">
+                  <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
+                  <select style="display:none" multiple class="form-control" id="select-test-lesson">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" name="yesadd" id="yesadd-test" class="btn btn-default" value="yes" >Yes</button>
+                <button type="button" name="closeadd" id="closeadd-test" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
 
 <div id="edit-objective" class="modal fade">
   <div class="modal-dialog">
