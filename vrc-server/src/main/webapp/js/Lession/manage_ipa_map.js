@@ -82,15 +82,15 @@ function openEditForm(){
 
 
 function openPopupDelete(){
+    //open popup
     $(document).on("click","#delete", function(){
         var idd=$(this).attr('id-column');
         $("#iddelete").val(idd);
         $("#deletes").modal('show');
 
     });
-}
 
-function deleteMapping(){
+    //for delete
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
@@ -98,7 +98,7 @@ function deleteMapping(){
             type: "POST",
             dataType: "text",
             data: {
-                delete: "delete",
+                action: "delete",
                 id: id
             },
             success: function (data) {
@@ -118,8 +118,6 @@ function deleteMapping(){
         });
     });
 }
-
-
 
 function searchAdvanted(){
     $(document).on("click","#button-filter", function(){
