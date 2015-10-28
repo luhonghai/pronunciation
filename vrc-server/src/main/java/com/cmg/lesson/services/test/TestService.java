@@ -1,12 +1,12 @@
-package com.cmg.lesson.services.objectives;
+package com.cmg.lesson.services.test;
 
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
-import com.cmg.lesson.dao.objectives.ObjectiveDAO;
+import com.cmg.lesson.dao.test.TestDAO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
-import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
-import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
+import com.cmg.lesson.data.dto.test.TestDTO;
+import com.cmg.lesson.data.dto.test.TestMappingDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
-import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
@@ -18,8 +18,8 @@ import java.util.List;
 /**
  * Created by CMG Dev156 on 10/14/2015.
  */
-public class ObjectiveService {
-    private static final Logger logger = Logger.getLogger(ObjectiveService.class.getName());
+public class TestService {
+    private static final Logger logger = Logger.getLogger(TestService.class.getName());
     private String SUCCESS = "success";
     private String ERROR = "error";
 
@@ -29,7 +29,7 @@ public class ObjectiveService {
      */
     public int getMaxVersion(){
         int version = 0;
-        ObjectiveDAO dao = new ObjectiveDAO();
+        TestDAO dao = new TestDAO();
         try {
             version = dao.getLatestVersion();
         }catch (Exception e){
@@ -45,21 +45,21 @@ public class ObjectiveService {
      * @param description
      * @return
      */
-    public ObjectiveDTO updateObjective(String id, String name, String description, boolean isUpdateLessonName){
-        ObjectiveDTO dto = new ObjectiveDTO();
-        ObjectiveDAO dao = new ObjectiveDAO();
+    public TestDTO updateTest(String id, String name, String description, double percentPass, boolean isUpdateLessonName){
+        TestDTO dto = new TestDTO();
+        TestDAO dao = new TestDAO();
         String message;
         try{
             if(isUpdateLessonName) {
-                if (!isExistObjectiveName(name)) {
-                    boolean isUpdate = dao.updateObjective(id, name, description);
+                if (!isExistTestName(name)) {
+                    boolean isUpdate = dao.updateTest(id, name, description, percentPass);
                     if (isUpdate) {
                         message = SUCCESS;
                     } else {
                         message = ERROR + ":" + "An error has been occurred in server!";
                     }
                 } else {
-                    message = ERROR + ":" + "Objective name is existed";
+                    message = ERROR + ":" + "Test name is existed";
                 }
             }else {
                 boolean isUpdate = dao.updateDescription(id, description);
@@ -71,7 +71,7 @@ public class ObjectiveService {
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
-            logger.error("Can not update Objective : " + name + " because : " + e.getMessage());
+            logger.error("Can not update Test : " + name + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;
@@ -82,20 +82,20 @@ public class ObjectiveService {
      * @param dto
      * @return
      */
-    public ObjectiveMappingDTO updateObjective(ObjectiveMappingDTO dto){
-        String idObjective = dto.getIdObjective();
-        ObjectiveDAO dao = new ObjectiveDAO();
+    public TestMappingDTO updateTest(TestMappingDTO dto){
+        String idTest = dto.getIdTest();
+        TestDAO dao = new TestDAO();
         String message="";
         try {
-            boolean isUpdate = dao.updateObjective(idObjective, dto.getNameObj(), dto.getDescriptionObj());
+            boolean isUpdate = dao.updateTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
             if (isUpdate){
-                ObjectiveMappingService objMapSer = new ObjectiveMappingService();
-                objMapSer.updateDeleted(idObjective);
-                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+                TestMappingService objMapSer = new TestMappingService();
+                objMapSer.updateDeleted(idTest);
+                message =  objMapSer.addTestMapLesson(dto.getIdLessons(),dto.getIdTest());
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
-            logger.error("Can not update Objective : " +  dto.getNameObj() + " because : " + e.getMessage());
+            logger.error("Can not update test : " +  dto.getNameTest() + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;
@@ -106,15 +106,16 @@ public class ObjectiveService {
      * @param name
      * @return true if question was added to table.
      */
-    public String addObjective(String id,String name, String description){
-        ObjectiveDAO dao = new ObjectiveDAO();
+    public String addTest(String id,String name, String description, double percentPass){
+        TestDAO dao = new TestDAO();
         String message;
         try {
             //if(!isExistObjectiveName(name)) {
-                Objective obj = new Objective();
+                Test obj = new Test();
                 obj.setId(id);
                 obj.setName(name);
                 obj.setDescription(description);
+                obj.setPercentPass(percentPass);
                 obj.setVersion(getMaxVersion());
                 obj.setDateCreated(new Date(System.currentTimeMillis()));
                 obj.setIsDeleted(false);
@@ -125,7 +126,7 @@ public class ObjectiveService {
             //}
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
-            logger.error("Can not add Objective : " + name + " because : " + e.getMessage());
+            logger.error("Can not add Test : " + name + " because : " + e.getMessage());
         }
 
         return message;
@@ -137,16 +138,16 @@ public class ObjectiveService {
      * @param dto
      * @return
      */
-    public ObjectiveMappingDTO addObjective(ObjectiveMappingDTO dto){
-        String idObjective = UUIDGenerator.generateUUID();
-        String message = addObjective(idObjective,dto.getNameObj(),dto.getDescriptionObj());
+    public TestMappingDTO addTest(TestMappingDTO dto){
+        String idTest = UUIDGenerator.generateUUID();
+        String message = addTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
         if(message.equalsIgnoreCase(SUCCESS)){
-            dto.setIdObjective(idObjective);
-            ObjectiveMappingService objMapSer = new ObjectiveMappingService();
-            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+            dto.setIdTest(idTest);
+            TestMappingService testMapSer = new TestMappingService();
+            message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
             if(message.equalsIgnoreCase(SUCCESS)){
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdObjective(),dto.getIdLevel(),false);
+                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),false);
             }
         }
         dto.setMessage(message);
@@ -158,12 +159,12 @@ public class ObjectiveService {
      * @param id
      * @return
      */
-    public ObjectiveDTO deleteObjective(String id){
-        ObjectiveDTO dto = new ObjectiveDTO();
-        ObjectiveDAO dao = new ObjectiveDAO();
+    public TestDTO deleteTest(String id){
+        TestDTO dto = new TestDTO();
+        TestDAO dao = new TestDAO();
         String message;
         try{
-            boolean isDelete=dao.deletedObjective(id);
+            boolean isDelete=dao.deletedTest(id);
             if (isDelete){
                 message = SUCCESS;
             }else{
@@ -171,29 +172,30 @@ public class ObjectiveService {
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
-            logger.error("Can not delete Objective id: " + id + " because : " + e.getMessage());
+            logger.error("Can not delete Test id: " + id + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;
     }
+
 
     /**
      *
      * @param id
      * @return
      */
-    public ObjectiveDTO deleteObjectiveAndLesson(String id){
-        ObjectiveDTO dto = deleteObjective(id);
+    public TestDTO deleteTestAndLesson(String id){
+        TestDTO dto = deleteTest(id);
         if (dto.getMessage().equalsIgnoreCase("success")){
             CourseMappingDetailService courseMappingDetailService = new CourseMappingDetailService();
             String message = courseMappingDetailService.removeDetailByIdChild(id);
             if(message.equalsIgnoreCase("success")){
-                ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
-                boolean isDelete = objectiveMappingService.updateDeleted(id);
+                TestMappingService testMappingService = new TestMappingService();
+                boolean isDelete = testMappingService.updateDeleted(id);
                 if (isDelete) {
                     dto.setMessage(SUCCESS);
                 }else {
-                    dto.setMessage(ERROR + ": can not delete lesson of objective id, "+id);
+                    dto.setMessage(ERROR + ": can not delete lesson of test id, "+id);
                 }
             }else {
                 dto.setMessage(message);
@@ -207,9 +209,9 @@ public class ObjectiveService {
      * @param name
      * @return true is exits question name
      */
-    public boolean isExistObjectiveName(String name) throws Exception{
+    public boolean isExistTestName(String name) throws Exception{
         boolean isExist = false;
-        ObjectiveDAO dao = new ObjectiveDAO();
+        TestDAO dao = new TestDAO();
         isExist = dao.checkExist(name);
         return isExist;
     }
@@ -219,12 +221,12 @@ public class ObjectiveService {
      * @param id
      * @return
      */
-    public Objective getById(String id){
-        ObjectiveDAO dao = new ObjectiveDAO();
+    public Test getById(String id){
+        TestDAO dao = new TestDAO();
         try {
             return dao.getById(id);
         }catch (Exception e){
-            logger.info("can not get objective by id : " + id);
+            logger.info("can not get test by id : " + id);
         }
         return null;
     }
@@ -234,7 +236,7 @@ public class ObjectiveService {
      * @return total rows
      */
     public double getCount(){
-        ObjectiveDAO dao = new ObjectiveDAO();
+        TestDAO dao = new TestDAO();
         try{
             return dao.getCount();
         } catch (Exception e) {
@@ -244,7 +246,7 @@ public class ObjectiveService {
     }
 
 
-    public LevelDTO getAllObjAndTest(String idCourse, String idLevel){
+    /*public LevelDTO getAllObjAndTest(String idCourse, String idLevel){
         LevelDTO levelDTO = new LevelDTO();
         CourseMappingDetailDAO courseMappingDetailDAO = new CourseMappingDetailDAO();
         ObjectiveDAO objectiveDAO = new ObjectiveDAO();
@@ -286,6 +288,6 @@ public class ObjectiveService {
             e.printStackTrace();
         }
         return levelDTO;
-    }
+    }*/
 
 }
