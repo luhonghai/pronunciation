@@ -19,33 +19,33 @@ function openPopupAdd(){
 
 function submitForm(){
     $(document).on("click","#submitForm", function(){
-        var action = $(this).attr("action");
-        var dto = getDataForm();
-        $.ajax({
-            url: servletName,
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: action,
-                dto : JSON.stringify(dto)
-            },
-            success: function (data) {
-                if (data.message.indexOf("success") !=-1) {
-                    $("tbody").html("");
-                    myTable.fnDraw();
-                    $("#add").modal('hide');
-                    swal("Success!", "You have add mapping success!", "success");
-                }else{
-                    swal("Could not add mapping!", data.split(":")[1], "error");
+        if(validateForm()){
+            var action = $(this).attr("action");
+            var dto = getDataForm();
+            $.ajax({
+                url: servletName,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: action,
+                    dto : JSON.stringify(dto)
+                },
+                success: function (data) {
+                    if (data.message.indexOf("success") !=-1) {
+                        $("tbody").html("");
+                        myTable.fnDraw();
+                        $("#add").modal('hide');
+                        swal("Success!", "You have add mapping success!", "success");
+                    }else{
+                        swal("Could not add mapping!", data.message.split(":")[1], "error");
+                    }
+                },
+                error: function () {
+                    swal("Error!", "Could not connect to server", "error");
                 }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
-
-
+            });
+        }
     });
 
 }
@@ -82,15 +82,15 @@ function openEditForm(){
 
 
 function openPopupDelete(){
+    //open popup
     $(document).on("click","#delete", function(){
         var idd=$(this).attr('id-column');
         $("#iddelete").val(idd);
         $("#deletes").modal('show');
 
     });
-}
 
-function deleteMapping(){
+    //for delete
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
@@ -98,7 +98,7 @@ function deleteMapping(){
             type: "POST",
             dataType: "text",
             data: {
-                delete: "delete",
+                action: "delete",
                 id: id
             },
             success: function (data) {
@@ -108,7 +108,7 @@ function deleteMapping(){
                     $("#deletes").modal('hide');
                     swal("Success!", "You delete this mapping success!", "success");
                 }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
+                    swal("Could not delete question!", data.message.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -118,8 +118,6 @@ function deleteMapping(){
         });
     });
 }
-
-
 
 function searchAdvanted(){
     $(document).on("click","#button-filter", function(){

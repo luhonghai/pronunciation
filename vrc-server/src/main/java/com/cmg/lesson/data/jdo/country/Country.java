@@ -27,6 +27,29 @@ public class Country implements Mirrorable {
     @Persistent
     private int version;
 
+    //lan add this field
+    @Persistent
+    private boolean isDefault;
+
+    //lan add this field
+    @Persistent
+    private String imageURL;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
     @Override
     public String getId() {
         return this.id;

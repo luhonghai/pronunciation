@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.ipa;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -32,6 +33,7 @@ public class IpaMapArpabet implements Mirrorable{
     private String description;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String tip;
 
     @Persistent

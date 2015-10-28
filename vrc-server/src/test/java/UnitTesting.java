@@ -5,11 +5,13 @@ import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
@@ -118,11 +120,19 @@ public class UnitTesting {
             ap.setDateCreated(new Date(System.currentTimeMillis()));
             //dao.create(ap);
             dao.listAll(0,10,"",0,"asc",new Date(),new Date());*/
-            LevelService ser = new LevelService();
+           /* LevelService ser = new LevelService();
             List<Level> list = ser.listIn("493acae7-1287-4912-b24a-1c1017f3b7ee");
             if(list!=null && list.size() > 0){
                 for(Level lv : list){
                     System.out.println(lv.getName());
+                }
+            }*/
+
+            WordCollectionDAO dao =new WordCollectionDAO();
+            List<WordCollection> list = dao.search("Qu","asc",10,0);
+            if(list!=null && list.size()>0){
+                for(WordCollection wo : list){
+                    System.out.println(wo.getWord());
                 }
             }
         } catch (Exception e) {
