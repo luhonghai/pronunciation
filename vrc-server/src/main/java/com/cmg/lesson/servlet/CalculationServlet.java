@@ -118,7 +118,7 @@ public class CalculationServlet extends HttpServlet {
                     if (tmpFileIn.exists())
                         FileUtils.forceDelete(tmpFileIn);
                 } catch (Exception e) {}
-                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/lesson/" + fileTempName,
+                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() +"/" + fileTempName,
                         targetRaw);
                 UserLessonHistory model = new UserLessonHistory();
                 model.setId(UUIDGenerator.generateUUID());

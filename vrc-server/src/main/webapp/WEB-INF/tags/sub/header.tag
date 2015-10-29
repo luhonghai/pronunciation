@@ -83,6 +83,9 @@
 						<li>
 							<a href="ManagementCourse.jsp" ><i class="fa fa-table"></i> Management Course </a>
 						</li>
+						<li>
+							<a href="management_country.jsp" ><i class="fa fa-file-word-o"></i> Management Country </a>
+						</li>
 					</ul>
 				</li>
 

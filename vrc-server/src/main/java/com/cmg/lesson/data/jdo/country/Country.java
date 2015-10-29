@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.country;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -37,6 +38,7 @@ public class Country implements Mirrorable {
 
     //lan add this field
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String imageURL;
 
     public Date getTimeCreated() {

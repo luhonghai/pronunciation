@@ -2,6 +2,7 @@ package com.cmg.vrc.util;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.amazonaws.HttpMethod;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.policy.actions.ElasticBeanstalkActions;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
@@ -20,6 +21,7 @@ import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -60,6 +62,23 @@ public class AWSHelper {
     public String generatePresignedUrl(String keyName) {
         try {
             URL url = s3client.generatePresignedUrl(new GeneratePresignedUrlRequest(bucketName, keyName));
+            return url.toString();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public String generateUrl(String keyName) {
+        try {
+            java.util.Date expiration = new java.util.Date();
+            long milliSeconds = expiration.getTime();
+            milliSeconds += 1000 * 60 * 60 * 24 * 3650 ; // Add 10 years.
+            expiration.setTime(milliSeconds);
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucketName, keyName);
+            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
+            generatePresignedUrlRequest.setExpiration(expiration);
+            URL url = s3client.generatePresignedUrl(generatePresignedUrlRequest);
             return url.toString();
         } catch (Exception e) {
             return "";
@@ -108,6 +127,51 @@ public class AWSHelper {
         }
         return false;
     }
+
+    /**
+     *
+     * @param keyName
+     * @param file
+     * @return url
+     */
+    public String uploadAndGenerateURL(String keyName, File file) {
+        if (!ENABLE_AWS) return null;
+        try {
+            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            FileInputStream stream = new FileInputStream(file);
+            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+            return generateUrl(keyName);
+        } catch (AmazonServiceException ase) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("\n").append("Caught an AmazonServiceException, which " +
+                    "means your request made it " +
+                    "to Amazon S3, but was rejected with an error response" +
+                    " for some reason.");
+            sb.append("\n").append("Error Message:    " + ase.getMessage());
+            sb.append("\n").append("HTTP Status Code: " + ase.getStatusCode());
+            sb.append("\n").append("AWS Error Code:   " + ase.getErrorCode());
+            sb.append("\n").append("Error Type:       " + ase.getErrorType());
+            sb.append("\n").append("Request ID:       " + ase.getRequestId());
+            System.out.println(sb.toString());
+            logger.log(Level.SEVERE, sb.toString(), ase);
+        } catch (AmazonClientException ace) {
+            StringBuffer sb = new StringBuffer();
+            sb.append("\n").append("Caught an AmazonClientException, which " +
+                    "means the client encountered " +
+                    "an internal error while trying to " +
+                    "communicate with S3, " +
+                    "such as not being able to access the network.");
+            sb.append("\n").append("Error Message: " + ace.getMessage());
+            System.out.println(sb.toString());
+            logger.log(Level.SEVERE, sb.toString(), ace);
+        } catch (Exception e) {
+            System.out.println("Could not upload file to S3. Message: " + e.getMessage());
+            logger.log(Level.SEVERE, "Could not upload file to S3", e);
+        }
+        return null;
+    }
+
 
     public boolean upload(String keyName, File file) {
         if (!ENABLE_AWS) return false;
