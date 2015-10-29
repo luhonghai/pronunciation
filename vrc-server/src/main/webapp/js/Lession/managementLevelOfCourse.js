@@ -5,6 +5,21 @@ var attFunction = false;
 var myTable;
 var ManagementLevelOfCourseServlet="ManagementLevelOfCourseServlet";
 var ObjectiveMappingServlet = "ObjectiveMappingServlet";
+var maxlengthWeight=2;
+
+function isNumberKey(evt,e){
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    var inputValue = $(e).val();
+    //var maxlength = parseFloatCMG($(e).attr("length"));
+    if(inputValue.length >= maxlengthWeight){
+        return false;
+    }
+    return true;
+}
 
 function BuildUI(){
     var $selected=$("#level");
@@ -181,7 +196,7 @@ function getLessonsForObj(idObject){
                 var alertContent;
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
-                    alertContent += '<a id="delete" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" objective-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
+                    alertContent += '<a id="delete" action="lesson-obj" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
                     alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
                     alertContent += '</div>';
                     $("#"+idObject+" #collection_lesson_obj").append(alertContent);
@@ -243,39 +258,66 @@ function openPopupDeleteLesson(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
         var lessonId=$(this).attr('leson-id');
-        var objectiveId=$(this).attr('objective-id');
+        var objChildId=$(this).attr('obj-child-id');
         $("#id-lesson-delete").val(lessonId);
-        $("#id-objective-delete").val(objectiveId);
+        $("#id-obj-child-delete").val(objChildId);
+        $("#deleteItems").attr("action",$(this).attr('action'));
     });
 }
 
 function deleteLesson(){
     $(document).on("click","#deleteItems", function(){
         var lessonId =  $("#id-lesson-delete").val();
-        var objectiveId =  $("#id-objective-delete").val();
-        $.ajax({
-            url: ObjectiveMappingServlet,
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: "deleteLesson",
-                lessonId: lessonId,
-                objectiveId: objectiveId
-            },
-            success: function (data) {
-                if (data.message.indexOf("success") !=-1) {
-                    $("tbody").html("");
-                    $("#deletes").modal('hide');
-                    $("."+objectiveId+lessonId).parent().hide();
-                }else{
-                    swal("Could not delete lesson!", data.message.split(":")[1], "error");
+        var objChildId =  $("#id-obj-child-delete").val();
+        if ($("#deleteItems").attr("action").indexOf("lesson-test") !=-1){
+            $.ajax({
+                url: ObjectiveMappingServlet,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: "deleteLessonForTest",
+                    lessonId: lessonId,
+                    testId: objChildId
+                },
+                success: function (data) {
+                    if (data.message.indexOf("success") !=-1) {
+                        $("tbody").html("");
+                        $("#deletes").modal('hide');
+                        $("."+objChildId+lessonId).parent().hide();
+                    }else{
+                        swal("Could not delete lesson!", data.message.split(":")[1], "error");
+                    }
+                },
+                error: function () {
+                    swal("Error!", "Could not connect to server", "error");
                 }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
+            });
+        }else{
+            $.ajax({
+                url: ObjectiveMappingServlet,
+                type: "POST",
+                dataType: "json",
+                data: {
+                    action: "deleteLesson",
+                    lessonId: lessonId,
+                    objectiveId: objChildId
+                },
+                success: function (data) {
+                    if (data.message.indexOf("success") !=-1) {
+                        $("tbody").html("");
+                        $("#deletes").modal('hide');
+                        $("."+objChildId+lessonId).parent().hide();
+                    }else{
+                        swal("Could not delete lesson!", data.message.split(":")[1], "error");
+                    }
+                },
+                error: function () {
+                    swal("Error!", "Could not connect to server", "error");
+                }
+
+            });
+        }
     });
 }
 
@@ -459,7 +501,7 @@ function getLessonForTest(idTest){
                 var alertContent;
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
-                    alertContent += '<a id="delete-lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" test-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
+                    alertContent += '<a id="delete" action="lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
                     alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
                     alertContent += '</div>';
                     $("#"+idTest+" #collection_lesson_test").append(alertContent);
@@ -489,7 +531,7 @@ function openPopupAddTest(){
     });
 }
 
-function addLessonToTest(){
+function addTest(){
     $(document).on("click","#yesadd-test", function(){
         var dto = getDtoAddTest();
         $.ajax({
@@ -647,7 +689,7 @@ $(document).ready(function(){
     deleteObjective();
 
     openPopupAddTest();
-    addLessonToTest();
+    addTest();
     openPopupEditTest();
     editTest();
     openPopupDeleteTest();
