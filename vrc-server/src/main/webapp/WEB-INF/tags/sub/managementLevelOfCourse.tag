@@ -185,7 +185,7 @@
                 <div>
                   <label class="col-xs-4  col-sm-3 control-label ">Percent Pass:</label>
                   <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="add-percen-pass" name="add-percen-pass" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                    <input onkeypress="return isNumberKey(event,this)"  type="text" id="add-percen-pass" name="add-percen-pass" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div id="container-test-lesson">
@@ -299,7 +299,7 @@
                 <div>
                   <label class="col-xs-4  col-sm-3 control-label ">Percent Pass:</label>
                   <div class="col-xs-8  col-sm-9">
-                    <input  type="text" id="edit-percen-pass" name="add-percen-pass" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                    <input onkeypress="return isNumberKey(event,this)"  type="text" id="edit-percen-pass" name="add-percen-pass" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div id="container-edit-test-lesson">
@@ -343,7 +343,7 @@
       <form name="form-delete" >
         <div class="modal-body">
           <input type="hidden" id="id-lesson-delete" name="iddelete"/>
-          <input type="hidden" id="id-objective-delete" name="iddelete"/>
+          <input type="hidden" id="id-obj-child-delete" name="iddelete"/>
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">

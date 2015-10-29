@@ -286,7 +286,7 @@ function createPanelHeadingTest(obj){
     $buttonObj.attr("id_lv",obj.idLevel);
     $buttonObj.attr("id_test",obj.idTest);
     $buttonObj.attr("onclick","clickTest(this)");
-    $buttonObj.text(obj.nameTest + " ↓");
+    $buttonObj.text(obj.nameTest + " ↓" + " - PercentPass: "+ obj.percentPass);
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 
