@@ -147,7 +147,7 @@ public class TestService {
             message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
             if(message.equalsIgnoreCase(SUCCESS)){
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),false);
+                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
             }
         }
         dto.setMessage(message);

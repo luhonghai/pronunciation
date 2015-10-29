@@ -200,7 +200,7 @@ public class TestDAO extends DataAccess<Test> {
                         objTest.setDescription(array[2].toString());
                     }
                     if(array[3]!=null){
-                        objTest.setPercentPass(Double.parseDouble(array[2].toString()));
+                        objTest.setPercentPass(Double.parseDouble(array[3].toString()));
                     }
                     listObjective.add(objTest);
                 }

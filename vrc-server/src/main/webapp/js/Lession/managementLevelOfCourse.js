@@ -146,10 +146,15 @@ function getObjAndTest(idLevel,idCourse){
                     });
 
                 }
-                /*var test = data.test;
-                if(test!=""){
+
+                var listTest = data.listTestMap;
+                if(listTest.length >= 0){
                     $("#"+idLevel).find("#collection_test").empty();
-                }*/
+                    $(listTest).each(function(){
+                        buildPanelTest(this);
+                    });
+
+                }
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -173,7 +178,7 @@ function getLessonsForObj(idObject){
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
                 $("#"+idObject+" #collection_lesson_obj").html("");
-                var alertContent
+                var alertContent;
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" objective-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
@@ -192,30 +197,7 @@ function getLessonsForObj(idObject){
     });
 }
 
-function getLessonForTest(idTest){
-    $.ajax({
-        url: ObjectiveMappingServlet,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "getLessonForTest",
-            idTest:idTest
-        },
-        success: function (data) {
-            if(data.message.indexOf("success")!=-1){
-
-            }else{
-                swal("Error!", data.message.split(":")[1], "error");
-            }
-        },
-        error: function () {
-            swal("Error!", "Could not connect to server", "error");
-        }
-
-    });
-}
-
-function getAllLesson(){
+function getAllLesson(ObjType){
     $.ajax({
         url: ManagementLevelOfCourseServlet,
         type: "POST",
@@ -225,16 +207,27 @@ function getAllLesson(){
         },
         success: function (data) {
             if(data.message.indexOf("success")!=-1){
-                $("#select-lesson").empty();
-                $.each(data.data, function (idx, obj) {
-                    $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                });
-                $(".loading-lesson").hide();
-                $('#select-lesson').multiselect({ enableFiltering: true});
-                $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
-                $('#select-lesson').multiselect('refresh');
-                $("#yesadd").removeAttr("disabled");
-
+                if(ObjType.indexOf("Test") != -1){
+                    $("#select-test-lesson").empty();
+                    $.each(data.data, function (idx, obj) {
+                        $("#select-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                    });
+                    $(".loading-lesson").hide();
+                    $('#select-test-lesson').multiselect({ enableFiltering: true});
+                    $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
+                    $('#select-test-lesson').multiselect('refresh');
+                    $("#yesadd-test").removeAttr("disabled");
+                }else {
+                    $("#select-lesson").empty();
+                    $.each(data.data, function (idx, obj) {
+                        $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                    });
+                    $(".loading-lesson").hide();
+                    $('#select-lesson').multiselect({ enableFiltering: true});
+                    $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
+                    $('#select-lesson').multiselect('refresh');
+                    $("#yesadd").removeAttr("disabled");
+                }
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -406,7 +399,7 @@ function openPopopAddObjective(){
     $(document).on("click",".createObj", function(){
         $(".loading-lesson").show();
         $("#add-objective").modal('show');
-        getAllLesson();
+        getAllLesson("Objective");
         $("#add-objective-name").val("");
         $("#add-description").val("");
         var idLevel = $(this).attr("id_lv");
@@ -443,7 +436,202 @@ function addObjectiveToLesson(){
     });
 }
 
+/*function for Test
+*******************************************************************************************************************/
+function clickTest(e){
+    var idTest   =  $(e).attr("id_test");
+    var idLevel =  $(e).attr("id_lv");
+    getLessonForTest(idTest);
+}
 
+function getLessonForTest(idTest){
+    $.ajax({
+        url: ObjectiveMappingServlet,
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getLessonForTest",
+            idTest:idTest
+        },
+        success: function (data) {
+            if(data.message.indexOf("success")!=-1){
+                $("#"+idTest+" #collection_lesson_test").html("");
+                var alertContent;
+                $.each(data.data, function (idx, obj) {
+                    alertContent = '<div class="alert alert-info">'
+                    alertContent += '<a id="delete-lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" test-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
+                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '</div>';
+                    $("#"+idTest+" #collection_lesson_test").append(alertContent);
+                });
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+function openPopupAddTest(){
+    $(document).on("click",".createTest", function(){
+        $(".loading-lesson").show();
+        $("#add-test").modal('show');
+        getAllLesson("Test");
+        $("#add-test-name").val("");
+        $("#add-test-description").val("");
+        $("#add-percen-pass").val("");
+        var idLevel = $(this).attr("id_lv");
+        $("#yesadd-test").attr("id_level",idLevel);
+        //alert(idLevel);
+    });
+}
+
+function addLessonToTest(){
+    $(document).on("click","#yesadd-test", function(){
+        var dto = getDtoAddTest();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "addTest",
+                testDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    $("#add-test").modal('hide');
+                    buildPanelTest(data);
+                }else{
+                    swal("Could not add test!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
+
+function openPopupEditTest(){
+    $(document).on("click",".editTest", function() {
+        $("#edit-test").modal('show');
+        $('#select-edit-test-lesson').multiselect('destroy');
+        $(".loading-lesson").show();
+        var idTest = $(this).attr('id_test');
+        var idLevel = $(this).attr('id_lv');
+        $("#yesedit-test").attr("test_id",idTest);
+        $("#yesedit-test").attr("id_level",idLevel);
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "loadUpdateTest",
+                idTest: idTest
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    $("#edit-test-name").val(data.nameTest);
+                    $("#edit-test-description").val(data.descriptionTest);
+                    $("#edit-percen-pass").val(data.percentPass);
+
+                    $("#select-edit-test-lesson").empty();
+                    $.each(data.data, function (idx, obj) {
+                        if (obj.idChecked){
+                            $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
+                        }else{
+                            $("#select-edit-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                        }
+                    });
+                    $('#select-edit-test-lesson').multiselect({ enableFiltering: true});
+                    $('#select-edit-test-lesson').multiselect('refresh');
+                    $("#container-edit-test-lesson").find(".btn-group").css("padding-left","14px");
+                    $(".loading-lesson").hide();
+                }else{
+                    swal("Could not load edit test data!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+
+}
+
+function editTest(){
+    $(document).on("click","#yesedit-test", function(){
+        var dto = getDtoEditTest();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "updateTest",
+                objDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    swal("update success!", data.message.split(":")[1], "info");
+                    $("#edit-test").modal('hide');
+                    //reload data
+                    getObjAndTest($("#yesedit-test").attr("id_level"),$("#idCourse").val());
+                    //getLessonsForObj(data.idObjective);
+                }else{
+                    swal("Could not edit test!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
+
+function openPopupDeleteTest(){
+    $(document).on("click",".removeTest", function(){
+        var testId=$(this).attr('id_test');
+        var levelId=$(this).attr('id_lv');
+        $("#delete-test-id").val(testId);
+        $("#deleteItems-test").attr("id_lv",levelId);
+        $("#delete-test").modal('show');
+    });
+}
+
+function deleteTest(){
+    $(document).on("click","#deleteItems-test", function(){
+        var testId =  $("#delete-test-id").val();
+        $.ajax({
+            url: ObjectiveMappingServlet,
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "deleteTest",
+                testId: testId
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    swal("delete success!", data.message.split(":")[1], "info");
+                    $("#delete-test").modal('hide');
+                    //reload data
+                    getObjAndTest($("#deleteItems-test").attr("id_lv"),$("#idCourse").val());
+                }else{
+                    swal("Could not delete test!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
 
 $(document).ready(function(){
     removeLevel();
@@ -458,6 +646,12 @@ $(document).ready(function(){
     openPopupDeleteObjective();
     deleteObjective();
 
+    openPopupAddTest();
+    addLessonToTest();
+    openPopupEditTest();
+    editTest();
+    openPopupDeleteTest();
+    deleteTest();
 });
 
 
