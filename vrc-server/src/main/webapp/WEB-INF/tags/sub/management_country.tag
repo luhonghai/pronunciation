@@ -52,13 +52,9 @@
                             <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>TYPE</th>
-                                    <th>INDEX TYPE</th>
-                                    <th>IPA</th>
-                                    <th>ARPABET</th>
-                                    <th>Date Created</th>
-                                    <th>Color</th>
-                                    <th>VOICE</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
                                     <th></th>
                                 </tr>
                                 </thead>
