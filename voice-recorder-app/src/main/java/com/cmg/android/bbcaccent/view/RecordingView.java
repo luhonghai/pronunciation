@@ -51,6 +51,9 @@ public class RecordingView extends View {
     private static final ColorState STATE_RED_COLOR
             = new ColorState(Color.argb(255, 255, 72, 72), Color.argb(255, 255, 156, 156),
             Color.argb(255, 255, 217, 217), Color.argb(255, 255, 231, 231));
+    private static final ColorState STATE_GRAY_COLOR
+            = new ColorState(Color.argb(255, 134, 134, 134), Color.argb(255, 146, 146, 146),
+            Color.argb(255, 158, 158, 158), Color.argb(255, 170, 170, 170));
 
     public enum Stage {
         GREEN,
@@ -483,12 +486,22 @@ public class RecordingView extends View {
         float roadLength = innerCycleRadius + (maxRoadLength - pingRadiusLength);
         float colorRadio;
         if (roadRadio <= 0.5f) {
-            fromState = STATE_RED_COLOR;
-            toState = STATE_ORANGE_COLOR;
+            if (showBlank) {
+                fromState = STATE_GRAY_COLOR;
+                toState = STATE_GRAY_COLOR;
+            } else {
+                fromState = STATE_RED_COLOR;
+                toState = STATE_ORANGE_COLOR;
+            }
             colorRadio = (maxRoadLength - pingRadiusLength) / (globalRoadLength / 2);
         } else {
-            fromState = STATE_ORANGE_COLOR;
-            toState = STATE_GREEN_COLOR;
+            if (showBlank) {
+                fromState = STATE_GRAY_COLOR;
+                toState = STATE_GRAY_COLOR;
+            } else {
+                fromState = STATE_ORANGE_COLOR;
+                toState = STATE_GREEN_COLOR;
+            }
             colorRadio = (maxRoadLength - pingRadiusLength - globalRoadLength / 2) / (globalRoadLength / 2);
         }
         if (bufferedImage == null) return;
@@ -577,11 +590,20 @@ public class RecordingView extends View {
         startPingAnimation(activity, MAX_PING_CYCLE_TIME, 100.0f, false, true);
     }
 
+    private boolean showBlank = false;
+
     public void startPingAnimation(Activity activity, long maxPingCycleTime, float scoreRadio, boolean showScore, boolean validateMax) {
         stopPingAnimation();
         stopPingCycle();
         if (showScore) {
             this.score = Math.round(scoreRadio);
+        }
+        if (score < 0) {
+            showBlank = true;
+            score = 10;
+            showScore = false;
+        } else {
+            showBlank = false;
         }
         isMaxScore = false;
         animationRunable = new AnimationRunable(activity, maxPingCycleTime, scoreRadio, showScore, validateMax);

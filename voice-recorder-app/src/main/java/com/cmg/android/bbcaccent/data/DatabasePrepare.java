@@ -4,10 +4,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.cmg.android.bbcaccent.MainApplication;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by luhonghai on 4/10/15.
@@ -54,12 +60,41 @@ public class DatabasePrepare {
     }
 
     private void loadDatabase() {
-        MainApplication.getContext().initDatabase();
-        WordDBAdapter wordDBAdapter = new WordDBAdapter();
-        try {
-            wordDBAdapter.checkWord();
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not check database",e);
+        File databaseDir = new File(FileHelper.getApplicationDir(context), "databases");
+        String currentVersion= AndroidHelper.getVersionName(context);
+        File fileVersion = new File(databaseDir, "version");
+        if (!databaseDir.exists()) {
+            databaseDir.mkdirs();
         }
+        boolean willOverride = false;
+        File lessonDb = new File(databaseDir, "lesson");
+        SimpleAppLog.info("Current db version: " + currentVersion);
+        if (!lessonDb.exists()) willOverride = true;
+        if (fileVersion.exists()) {
+            try {
+                String oldVersion = FileUtils.readFileToString(fileVersion, "UTF-8");
+                SimpleAppLog.info("Old version: " + oldVersion);
+                if (!oldVersion.equalsIgnoreCase(currentVersion)) {
+                    willOverride = true;
+                }
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read old version",e);
+            }
+        } else {
+            willOverride = true;
+        }
+        SimpleAppLog.info("fileVersion :"+fileVersion);
+        if (willOverride) {
+            SimpleAppLog.info("Try to preload sqlite database");
+            try {
+                FileUtils.copyInputStreamToFile(context.getAssets().open("database/lesson.db"), lessonDb);
+                FileUtils.writeStringToFile(fileVersion, currentVersion, "UTF-8", true);
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not save database from asset",e);
+            }
+            SimpleAppLog.info("Save new version to :"+fileVersion);
+        }
+
+        MainApplication.getContext().initDatabase();
     }
 }

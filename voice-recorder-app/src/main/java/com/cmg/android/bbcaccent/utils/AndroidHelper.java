@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.utils;
 
+import android.animation.AnimatorInflater;
+import android.animation.StateListAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -15,12 +17,15 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 
@@ -405,5 +410,13 @@ public class AndroidHelper {
         textView.setFocusableInTouchMode(true);
         textView.setClickable(true);
         ((AlwaysMarqueeTextView) textView).setAlwaysMarquee(enable);
+    }
+
+    public static void enableLiftUpAnimation(final CardView cardView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(MainApplication.getContext(),
+                    R.anim.lift_up);
+            cardView.setStateListAnimator(stateListAnimator);
+        }
     }
 }

@@ -4,10 +4,12 @@ import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
+import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
 import com.cmg.android.bbcaccent.fragment.info.HelpFragment;
 import com.cmg.android.bbcaccent.fragment.info.LicenceFragment;
+import com.cmg.android.bbcaccent.fragment.lesson.LessonCollectionFragment;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonLevelFragment;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonObjectiveFragment;
 
@@ -17,8 +19,10 @@ import com.cmg.android.bbcaccent.fragment.lesson.LessonObjectiveFragment;
 public enum FragmentState {
     NULL(null),
     FREE_STYLE(FreeStyleFragment.class, ListMenuAdapter.MenuItem.FREESTYLE, ""),
-    LESSON(LessonLevelFragment.class, ListMenuAdapter.MenuItem.LESSON, ""),
+    LESSON_LEVEL(LessonLevelFragment.class, ListMenuAdapter.MenuItem.LESSON, ""),
+    LESSON_MAIN(LessonFragment.class, null, ""),
     LESSON_OBJECTIVE(LessonObjectiveFragment.class, null, ""),
+    LESSON_COLLECTION(LessonCollectionFragment.class, null, ""),
     HELP(HelpFragment.class, ListMenuAdapter.MenuItem.HELP),
     SETTINGS(Preferences.class, ListMenuAdapter.MenuItem.SETTING),
     ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
@@ -47,6 +51,7 @@ public enum FragmentState {
     }
 
     FragmentState(Class<?> clazz, String title) {
+        this.clazz = clazz;
         this.title = title;
     }
 

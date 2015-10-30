@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/history_list_item_padding">
     <RelativeLayout
@@ -41,22 +43,37 @@
             android:layout_height="match_parent">
         </RelativeLayout>
     </RelativeLayout>
-    <ImageButton
+    <android.support.v7.widget.CardView
         android:id="@+id/btnPlayItem"
-        android:background="@null"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
-        android:src="@drawable/p_audio_gray"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/button_list_default_size_half"
+        app:cardBackgroundColor="@color/app_gray"
+        android:stateListAnimator="@anim/lift_up"
         android:layout_marginLeft="@dimen/main_action_button_margin"
-        android:layout_marginStart="@dimen/main_action_button_margin"/>
-    <ImageButton
+        android:layout_marginStart="@dimen/main_action_button_margin">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:src="@drawable/ic_play" />
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
         android:id="@+id/btnRecordItem"
-        android:background="@null"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
-        android:src="@drawable/p_record_orange"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"/>
+        app:cardCornerRadius="@dimen/button_list_default_size_half"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+
+        app:cardBackgroundColor="@color/app_gray"
+        android:stateListAnimator="@anim/lift_up"
+        android:layout_marginLeft="@dimen/main_action_button_margin"
+        android:layout_marginStart="@dimen/main_action_button_margin">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:src="@drawable/ic_up" />
+    </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -87,6 +87,9 @@ public class SphinxResult {
         @LiteColumn(name = "phoneme")
         private String name;
 
+        @LiteColumn(name = "ipa")
+        private String ipa;
+
         @LiteColumn(name = "score")
         private float totalScore;
 
@@ -173,6 +176,14 @@ public class SphinxResult {
 
         public void setTimestamp(Date timestamp) {
             this.timestamp = timestamp;
+        }
+
+        public String getIpa() {
+            return ipa;
+        }
+
+        public void setIpa(String ipa) {
+            this.ipa = ipa;
         }
     }
 

@@ -30,6 +30,7 @@ import com.luhonghai.litedb.exception.InvalidAnnotationData;
 @LiteDatabase(
         name = "lesson",
         version = 1,
+        nameType = LiteDatabase.NameType.UPPERCASE,
         tables = {
                 //country
                 Country.class,

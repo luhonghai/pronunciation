@@ -2,19 +2,19 @@ package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -29,7 +29,7 @@ import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
-import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
+import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
@@ -53,6 +53,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -74,13 +75,10 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     RecordingView recordingView;
 
     @Bind(R.id.btnAudio)
-    ImageButton btnAudio;
+    CardView btnAudio;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;
-
-    @Bind(R.id.txtPhoneme)
-    AlwaysMarqueeTextView txtPhonemes;
 
     @Bind(R.id.listViewScore)
     HListView hListView;
@@ -106,13 +104,15 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         recordingView.setAnimationListener(this);
     }
 
+    private boolean isLesson;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
         ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
-        WordDBAdapter wordDBAdapter = new WordDBAdapter();
-        mapCMUvsIPA = wordDBAdapter.getPhonemeCMUvsIPA();
+        isLesson = bundle.containsKey(MainBroadcaster.Filler.LESSON.toString());
+        mapCMUvsIPA = new WordDBAdapter().getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
         initTabHost(root);
@@ -217,22 +217,17 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                if (panelSlider != null)
+                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         }, 1000);
     }
 
     private void showData(UserVoiceModel userVoiceModel, boolean showScore) throws LiteDatabaseException {
         model = userVoiceModel;
-        WordDBAdapter dbAdapter = new WordDBAdapter();
-        dbAdapter.open();
-        String pronunciation = dbAdapter.getPronunciation(model.getWord());
-        dbAdapter.close();
         recordingView.setScore(model.getScore());
-        txtPhonemes.setText(pronunciation);
         txtWord.setText(model.getWord());
         AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, model.getWord()));
-        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtPhonemes, pronunciation));
         if (model.getScore() >= 80.0) {
             lastState = ButtonState.GREEN;
         } else if (model.getScore() >= 45.0) {
@@ -259,12 +254,21 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     private void showPhonemesListView() {
         if (model == null || model.getResult() == null) return;
         List<SphinxResult.PhonemeScore> phonemeScores = model.getResult().getPhonemeScores();
-        SphinxResult.PhonemeScore[] scores = null;
+        SphinxResult.PhonemeScore[] scores;
         if (phonemeScores == null || phonemeScores.size() == 0) {
             //TODO validate if not contain any scores
         } else {
             scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
             phonemeScores.toArray(scores);
+            for (final SphinxResult.PhonemeScore score : scores) {
+                String ipa = "";
+                if (mapCMUvsIPA.containsKey(score.getName().toUpperCase())) {
+                    ipa = mapCMUvsIPA.get(score.getName().toUpperCase());
+                }
+                if (score.getIpa() == null || score.getIpa().length() == 0) {
+                    score.setIpa(ipa);
+                }
+            }
             PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(MainApplication.getContext(), scores, new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -318,6 +322,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         Bundle bundle = new Bundle();
+        if (isLesson) {
+            bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
+        }
         bundle.putString(MainBroadcaster.Filler.Key.WORD.toString(), model.getWord());
         Gson gson = new Gson();
         bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
@@ -326,8 +333,10 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 GraphFragmentParent.class, getString(R.string.tab_graph), bundle);
         addTabImage(R.drawable.tab_history,
                 HistoryFragment.class, getString(R.string.tab_history), bundle);
-        addTabImage(R.drawable.tab_tip,
-                TipFragment.class, getString(R.string.tab_tip), bundle);
+        if (!isLesson) {
+            addTabImage(R.drawable.tab_tip,
+                    TipFragment.class, getString(R.string.tab_tip), bundle);
+        }
     }
 
     private void addTabImage(int drawableId, Class<?> c, String labelId, Bundle bundle)
@@ -337,7 +346,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     }
 
-    @OnClick({R.id.rlVoiceExample, R.id.txtPhoneme, R.id.txtWord, R.id.btnAudio})
+    @OnClick({R.id.rlVoiceExample, R.id.txtWord, R.id.btnAudio})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rlVoiceExample:
@@ -346,7 +355,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... voids) {
-                        DictionaryWalker walker = new OxfordDictionaryWalker(FileHelper.getAudioDir(MainApplication.getContext()));
+                        DictionaryWalker walker = DictionaryWalkerFactory.getInstance();
                         walker.setListener(new DictionaryListener() {
                             @Override
                             public void onDetectWord(final DictionaryItem dItem) {
@@ -396,26 +405,17 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setContentView(R.layout.phone_info_dialog);
-        int sdk = android.os.Build.VERSION.SDK_INT;
-        Drawable drawable;
+        int color;
         if (totalScore >= 80.0f) {
-            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_green_dialog);
-            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_green_rev);
-            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_green_rev);
+            color = R.color.app_green;
         } else if (totalScore >= 45.0f) {
-            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_orange_dialog);
-            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_orange_rev);
-            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_orange_rev);
+            color = R.color.app_orange;
         } else {
-            drawable = getResources().getDrawable(R.drawable.rounded_corner_color_red_dialog);
-            ((ImageButton) dialog.findViewById(R.id.btnGraph)).setImageResource(R.drawable.p_graph_red_rev);
-            ((ImageButton) dialog.findViewById(R.id.btnAudioPhoneme)).setImageResource(R.drawable.p_audio_red_rev);
+            color = R.color.app_red;
         }
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            dialog.findViewById(R.id.content).setBackgroundDrawable(drawable);
-        } else {
-            dialog.findViewById(R.id.content).setBackground(drawable);
-        }
+        ((ImageView)((CardView) dialog.findViewById(R.id.btnGraph)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
+        ((ImageView)((CardView) dialog.findViewById(R.id.btnAudioPhoneme)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
+        ((CardView) dialog.findViewById(R.id.content)).setCardBackgroundColor(ColorHelper.getColor(color));
         dialog.findViewById(R.id.btnGraph).setTag(score.getName());
         dialog.findViewById(R.id.btnGraph).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,13 +424,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 dialog.dismiss();
             }
         });
-        ((TextView) dialog.findViewById(R.id.txtPhonemeScore)).setText(Math.round(totalScore) + "%");
+        ((TextView) dialog.findViewById(R.id.txtPhonemeScore)).setText(String.format(Locale.getDefault(), "%d%%", Math.round(totalScore)));
         String ipa = "";
         if (mapCMUvsIPA.containsKey(score.getName().toUpperCase())) {
             ipa = mapCMUvsIPA.get(score.getName().toUpperCase());
         }
-        ((TextView) dialog.findViewById(R.id.txtPhonemeReal)).setText(ipa);
-        ((TextView) dialog.findViewById(R.id.txtPhoneme)).setText(score.getName());
+        ((TextView) dialog.findViewById(R.id.txtPhoneme)).setText(ipa);
         dialog.findViewById(R.id.btnAudioPhoneme).setTag(score.getName());
         dialog.findViewById(R.id.btnAudioPhoneme).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -507,27 +506,27 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         switch (state) {
             case PLAYING:
                 btnAudio.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_close_red);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_close);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
                 break;
             case RED:
                 btnAudio.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_red);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
-                txtWord.setTextColor(ColorHelper.COLOR_RED);
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                txtWord.setTextColor(ColorHelper.getColor(R.color.app_red));
                 break;
             case ORANGE:
                 btnAudio.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_orange);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
-                txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
+                txtWord.setTextColor(ColorHelper.getColor(R.color.app_orange));
                 break;
             case GREEN:
                 btnAudio.setEnabled(true);
-                btnAudio.setImageResource(R.drawable.p_audio_green);
-                txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
                 break;
             default:
                 break;
@@ -536,7 +535,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             File audio = new File(model.getAudioFile());
             if (!audio.exists()) {
                 btnAudio.setEnabled(false);
-                btnAudio.setImageResource(R.drawable.p_audio_gray);
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
             }
         }
     }

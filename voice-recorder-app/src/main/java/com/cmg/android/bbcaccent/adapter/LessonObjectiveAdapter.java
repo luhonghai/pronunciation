@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.adapter;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +11,10 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.util.Locale;
 
@@ -17,24 +23,18 @@ import butterknife.ButterKnife;
 /**
  * Created by luhonghai on 22/10/2015.
  */
-public class LessonObjectiveAdapter extends RecyclerView.Adapter<LessonObjectiveAdapter.ViewHolder> {
+public class LessonObjectiveAdapter extends CursorRecyclerViewAdapter<LessonObjectiveAdapter.ViewHolder> {
 
-    enum Objective {
-        FINAL_CONSONANTS("final consonants", 19, true),
-        VOWEL_SOUNDS("vowel sounds", 47, true),
-        STRESS_PATTERNS("stress patterns", 87, true),
-        INTONATION("intonation", 0, false),
-        PACE_AND_SPEED("pace and speed", 47, true)
-        ;
-        String title;
-        int score;
-        boolean active;
-        Objective(){}
-        Objective(String title, int score, boolean active) {
-            this.title = title;
-            this.score = score;
-            this.active = active;
-        }
+    public interface OnSelectObjective {
+        void onSelectObjective(Objective objective);
+        Objective bindObjectiveData(Objective objective);
+    }
+
+    private final  OnSelectObjective onSelectObjective;
+
+    public LessonObjectiveAdapter(Context context, Cursor cursor, OnSelectObjective onSelectObjective) {
+        super(context, cursor);
+        this.onSelectObjective = onSelectObjective;
     }
 
     @Override
@@ -45,40 +45,38 @@ public class LessonObjectiveAdapter extends RecyclerView.Adapter<LessonObjective
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Objective level = Objective.values()[position];
-        holder.txtTitle.setText(level.title);
-        int bgColor = R.color.app_light_aqua;
-        int textColor = R.color.app_aqua;
-        int scoreBgColor = R.color.app_gray;
-        if (level.active) {
-            holder.txtScore.setText(String.format(Locale.getDefault(), "%d", level.score));
-            if (level.score >= 80) {
-                scoreBgColor = R.color.app_green;
-            } else if (level.score >= 45) {
-                scoreBgColor = R.color.app_orange;
-            } else {
-                scoreBgColor = R.color.app_red;
-            }
-        }
-        holder.cvItemContainer.setTag(level);
-        holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
-        holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));
-        holder.txtTitle.setTextColor(MainApplication.getContext().getResources().getColor(textColor));
-        holder.cvItemContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Objective l = (Objective) view.getTag();
-                if (l.active) {
-
+    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
+        try {
+            Objective objective = onSelectObjective.bindObjectiveData(
+                    LessonDBAdapterService.getInstance().toObject(cursor, Objective.class));
+            holder.txtTitle.setText(objective.getName());
+            int bgColor = R.color.app_light_aqua;
+            int textColor = R.color.app_aqua;
+            int scoreBgColor = R.color.app_gray;
+            if (objective.getScore() >= 0) {
+                holder.txtScore.setText(String.format(Locale.getDefault(), "%d", objective.getScore()));
+                if (objective.getScore() >= 80) {
+                    scoreBgColor = R.color.app_green;
+                } else if (objective.getScore() >= 45) {
+                    scoreBgColor = R.color.app_orange;
+                } else {
+                    scoreBgColor = R.color.app_red;
                 }
             }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return Objective.values().length;
+            holder.cvItemContainer.setTag(objective);
+            holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
+            holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));
+            holder.txtTitle.setTextColor(MainApplication.getContext().getResources().getColor(textColor));
+            holder.cvItemContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Objective l = (Objective) view.getTag();
+                    onSelectObjective.onSelectObjective(l);
+                }
+            });
+        } catch (LiteDatabaseException e) {
+            SimpleAppLog.error("Could not parse objective data",e);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

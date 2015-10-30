@@ -16,4 +16,6 @@
     <color name="app_light_aqua">#aeebe7</color>
     <color name="app_dark_gray">#6c6c6c</color>
     <color name="app_light_gray">#d0d0d0</color>
+
+    <color name="app_light_green">#9bdaa3</color>
 </resources>

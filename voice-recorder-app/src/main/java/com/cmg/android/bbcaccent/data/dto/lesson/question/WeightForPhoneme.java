@@ -4,7 +4,7 @@ import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.luhonghai.litedb.annotation.LiteColumn;
 import com.luhonghai.litedb.annotation.LiteTable;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class WeightForPhoneme extends BaseLessonEntity {
 
     @LiteColumn

@@ -56,7 +56,7 @@ public class PhoneScoreAdapter extends ArrayAdapter<SphinxResult.PhonemeScore> {
         }
         view.txtPhonemeScore.setTag(score);
 
-        view.txtPhonemeScore.setText(score.getName());
+        view.txtPhonemeScore.setText(score.getIpa());
         int sdk = android.os.Build.VERSION.SDK_INT;
         Drawable drawable;
         if (scoreVal >= 80.0f) {

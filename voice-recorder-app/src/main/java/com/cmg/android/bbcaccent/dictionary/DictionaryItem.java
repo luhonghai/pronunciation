@@ -15,6 +15,8 @@ public class DictionaryItem {
 
     private String audioFile;
 
+    private String definition;
+
     public DictionaryItem() {
 
     }
@@ -62,5 +64,14 @@ public class DictionaryItem {
 
     public void setAudioUrl(String audioUrl) {
         this.audioUrl = audioUrl;
+    }
+
+    public String getDefinition() {
+        if (definition == null) return "";
+        return definition;
+    }
+
+    public void setDefinition(String definition) {
+        this.definition = definition;
     }
 }

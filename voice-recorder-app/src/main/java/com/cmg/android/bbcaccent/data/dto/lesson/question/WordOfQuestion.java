@@ -4,7 +4,7 @@ import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.luhonghai.litedb.annotation.LiteColumn;
 import com.luhonghai.litedb.annotation.LiteTable;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class WordOfQuestion extends BaseLessonEntity {
 
     @LiteColumn
@@ -14,13 +14,6 @@ public class WordOfQuestion extends BaseLessonEntity {
     private String idWordCollection;
 
     public WordOfQuestion(){}
-
-    public WordOfQuestion(String idQuestion, String idWordCollection, int version, boolean isDeleted){
-        this.idQuestion = idQuestion;
-        this.idWordCollection = idWordCollection;
-        setVersion(version);
-        setIsDeleted(isDeleted);
-    }
 
     public String getIdQuestion() {
         return idQuestion;

@@ -6,7 +6,7 @@ import com.luhonghai.litedb.annotation.LiteTable;
 
 import java.util.Date;
 
-@LiteTable
+@LiteTable(allowedParent = BaseLessonEntity.class)
 public class Objective extends BaseLessonEntity{
 
     @LiteColumn
@@ -18,6 +18,8 @@ public class Objective extends BaseLessonEntity{
     @LiteColumn
     private Date dateCreated;
 
+    private int score;
+
     public String getName() {
         return name;
     }
@@ -27,6 +29,7 @@ public class Objective extends BaseLessonEntity{
     }
 
     public String getDescription() {
+        if (description == null) return "";
         return description;
     }
 
@@ -40,5 +43,13 @@ public class Objective extends BaseLessonEntity{
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

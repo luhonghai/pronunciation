@@ -149,6 +149,7 @@ public class Preferences extends PreferenceFragment implements
             profile.setEnglishProficiency(oldProfile.getEnglishProficiency());
             profile.setCountry(oldProfile.getCountry());
             profile.setIsSetup(oldProfile.isSetup());
+            profile.setSelectedCountry(oldProfile.getSelectedCountry());
             profile.setNativeEnglish(oldProfile.isNativeEnglish());
             profile.setHelpStatus(oldProfile.getHelpStatus());
         }
@@ -511,6 +512,10 @@ public class Preferences extends PreferenceFragment implements
 
     public static String getString(String key, Context context, String defaultValue) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
+    }
+
+    public static UserProfile getCurrentProfile() {
+        return getCurrentProfile(MainApplication.getContext());
     }
 
     public static UserProfile getCurrentProfile(Context context) {

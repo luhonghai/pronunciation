@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
@@ -32,7 +33,8 @@ import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.extra.FragmentState;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
@@ -40,6 +42,7 @@ import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -85,8 +88,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private boolean isDrawerOpened;
 
-    private WordDBAdapter dbAdapter;
-
     private CursorAdapter adapter;
 
     private AccountManager accountManager;
@@ -99,6 +100,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private TextView txtTitle;
 
     private SearchView searchView;
+
+    private Dialog dialogLanguage;
 
     public void syncService(){
         Gson gson = new Gson();
@@ -119,6 +122,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         ButterKnife.bind(this);
         initListMenu();
         initCustomActionBar();
+        materialMenu.setVisibility(View.INVISIBLE);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -149,7 +153,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         accountManager = new AccountManager(this);
         checkProfile();
         syncService();
-        switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
         listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
 
             @Override
@@ -168,6 +171,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
         });
         displayRandomBackground();
+        initDialogLanguage();
     }
 
     @OnItemClick(R.id.listMenu)
@@ -200,6 +204,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     }
                 });
                 d.show();
+                break;
+            case SUBSCRIPTION:
+                Intent i = new Intent(this, SubscriptionActivity.class);
+                startActivity(i);
                 break;
             default:
                 switchFragment(menuItem, null, null);
@@ -266,7 +274,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.performClick();
             searchView.requestFocus();
             searchView.setIconified(true);
-            dbAdapter = new WordDBAdapter();
             searchView.setQueryHint(getString(R.string.tint_search_word));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             //  searchView.setIconifiedByDefault(false);
@@ -274,10 +281,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.setOnSuggestionListener(this);
             adapter = new SimpleCursorAdapter(this, R.layout.search_word_item,
                         null,
-                        new String[]{"word", "pronunciation"},
+                        new String[]{"WORD", "PRONUNCIATION"},
                         new int[]{R.id.txtWord, R.id.txtPhoneme},
                         CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-             searchView.setSuggestionsAdapter(adapter);
+            searchView.setSuggestionsAdapter(adapter);
         }
         return true;
     }
@@ -317,7 +324,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void updateQuery() {
         try {
-            final Cursor c = (searchText != null && searchText.length() > 0)  ? dbAdapter.search(searchText) : null;
+            final Cursor c = (searchText != null && searchText.length() > 0)  ? LessonDBAdapterService.getInstance().searchWord(searchText) : null;
             runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -441,7 +448,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
-            String s = dbAdapter.toObject(cursor).getWord();
+            String s = LessonDBAdapterService.getInstance().toObject(cursor, WordCollection.class).getWord();
             searchView.setQuery(s, true);
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word", e);
@@ -564,6 +571,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             if (parameter == null) parameter = new SwitchFragmentParameter();
             SimpleAppLog.debug("Switch to fragment class " + clazz.getName());
             FragmentState state = FragmentState.fromFragmentClassName(clazz.getName());
+            materialMenu.setVisibility(View.VISIBLE);
             if (state != FragmentState.NULL) {
                 if (isDrawerOpened) {
                     drawerLayout.closeDrawer(Gravity.LEFT);
@@ -667,7 +675,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     img = "assets://" + dir + File.separator + files[index];
                 }
             }
-
         } catch (IOException e) {
             SimpleAppLog.error("could not display background", e);
         }
@@ -677,5 +684,23 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 .showImageOnFail(R.drawable.london_cover)
                 .build();
         ImageLoader.getInstance().displayImage(img, imgAvatarCover, options);
+    }
+
+    private void initDialogLanguage() {
+        if (searchView != null)
+            searchView.setVisibility(View.GONE);
+        dialogLanguage = new LanguageDialog(this);
+        UserProfile userProfile = Preferences.getCurrentProfile();
+        if (userProfile != null && userProfile.getSelectedCountry() == null) {
+            dialogLanguage.show();
+            dialogLanguage.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+                }
+            });
+        } else {
+            switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+        }
     }
 }

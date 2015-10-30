@@ -2,18 +2,13 @@ package com.cmg.android.bbcaccent.utils;
 
 import android.graphics.Color;
 
+import com.cmg.android.bbcaccent.MainApplication;
+
 public class ColorHelper {
 
-    public static int COLOR_GRAY = 0xff929292;
-    public static int COLOR_GREEN = 0xff579e11;
-    public static int COLOR_ORANGE = 0xffff7548;
-    public static int COLOR_RED = 0xffff3333;
-
-    public static String COLOR_GRAY_STRING = "#929292";
-    public static String COLOR_GREEN_STRING = "#579e11";
-    public static String COLOR_ORANGE_STRING = "#ff7548";
-    public static String COLOR_RED_STRING = "#ff3333";
-    public static String COLOR_DEFAULT_STRING = "#003da7";
+    public static int getColor(int colorId) {
+        return MainApplication.getContext().getResources().getColor(colorId);
+    }
 
 
     public static int generateGradient(float radio, int to, int from) {

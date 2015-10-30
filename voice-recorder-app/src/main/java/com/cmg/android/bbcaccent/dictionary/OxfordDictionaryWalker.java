@@ -31,12 +31,12 @@ public class OxfordDictionaryWalker extends DictionaryWalker {
 
     private static final String OXFORD_DICTIONARIES_ROOT = "http://www.oxforddictionaries.com/definition/";
 
-    public OxfordDictionaryWalker(File targetDir) {
+    protected OxfordDictionaryWalker(File targetDir) {
         super(targetDir);
         gson = new Gson();
     }
 
-    public OxfordDictionaryWalker(File targetDir, Language language) {
+    protected OxfordDictionaryWalker(File targetDir, Language language) {
         this(targetDir);
         this.language = language;
     }

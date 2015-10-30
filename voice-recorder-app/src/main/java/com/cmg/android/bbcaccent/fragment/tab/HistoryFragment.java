@@ -3,6 +3,7 @@ package com.cmg.android.bbcaccent.fragment.tab;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
@@ -51,9 +53,14 @@ public class HistoryFragment extends FragmentTab {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
         ButterKnife.bind(this, v);
         Bundle bundle =  getArguments();
+        boolean isLesson = bundle != null && bundle.containsKey(MainBroadcaster.Filler.LESSON.toString());
         if (bundle != null)
             word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
-        dbAdapter = new ScoreDBAdapter();
+        if (isLesson) {
+            dbAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
+        } else {
+            dbAdapter = new ScoreDBAdapter();
+        }
         HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), word != null && word.length() > 0);
         listView.setAdapter(historyAdapter);
         isLoadedView = true;
@@ -148,16 +155,16 @@ public class HistoryFragment extends FragmentTab {
                 RelativeLayout rlHistoryItem;
                 AlwaysMarqueeTextView txtWordItem;
                 TextView txtWordScore;
-                ImageButton btnPlayItem;
-                ImageButton btnRecordItem;
+                CardView btnPlayItem;
+                CardView btnRecordItem;
 
                 txtWordItem = (AlwaysMarqueeTextView) view.findViewById(R.id.txtWordItem);
                 txtWordItem.setOnClickListener(this);
                 txtWordScore = (TextView) view.findViewById(R.id.txtWordScore);
                 txtWordScore.setOnClickListener(this);
-                btnPlayItem = (ImageButton) view.findViewById(R.id.btnPlayItem);
+                btnPlayItem = (CardView) view.findViewById(R.id.btnPlayItem);
                 btnPlayItem.setOnClickListener(this);
-                btnRecordItem = (ImageButton) view.findViewById(R.id.btnRecordItem);
+                btnRecordItem = (CardView) view.findViewById(R.id.btnRecordItem);
                 btnRecordItem.setOnClickListener(this);
                 if (isDetail) {
                     btnPlayItem.setVisibility(View.GONE);
@@ -186,23 +193,18 @@ public class HistoryFragment extends FragmentTab {
                 }
                 txtWordScore.setText(
                         String.format(Locale.getDefault(), "%d%%", Math.round(scoreVal)));
-
+                int color;
                 if (scoreVal >= 80.0f) {
-                    txtWordItem.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtWordScore.setTextColor(ColorHelper.COLOR_GREEN);
-                    btnPlayItem.setImageResource(R.drawable.p_audio_green);
-                    btnRecordItem.setImageResource(R.drawable.p_arrow_up_green);
+                    color = ColorHelper.getColor(R.color.app_green);
                 } else if (scoreVal >= 45.0f) {
-                    txtWordItem.setTextColor(ColorHelper.COLOR_ORANGE);
-                    txtWordScore.setTextColor(ColorHelper.COLOR_ORANGE);
-                    btnPlayItem.setImageResource(R.drawable.p_audio_orange);
-                    btnRecordItem.setImageResource(R.drawable.p_arrow_up_orange);
+                    color = ColorHelper.getColor(R.color.app_orange);
                 } else {
-                    txtWordItem.setTextColor(ColorHelper.COLOR_RED);
-                    txtWordScore.setTextColor(ColorHelper.COLOR_RED);
-                    btnPlayItem.setImageResource(R.drawable.p_audio_red);
-                    btnRecordItem.setImageResource(R.drawable.p_arrow_up_red);
+                    color = ColorHelper.getColor(R.color.app_red);
                 }
+                txtWordItem.setTextColor(color);
+                txtWordScore.setTextColor(color);
+                btnPlayItem.setCardBackgroundColor(color);
+                btnRecordItem.setCardBackgroundColor(color);
             } catch (LiteDatabaseException e) {
                 SimpleAppLog.error("Could not cast cursor to object",e);
             }
