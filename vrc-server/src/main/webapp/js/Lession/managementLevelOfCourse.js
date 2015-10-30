@@ -154,7 +154,7 @@ function getObjAndTest(idLevel,idCourse){
         success: function (data) {
             if(data.message.indexOf("success") != -1){
                 var listObj = data.listObjMap;
-                if(listObj.length >= 0){
+                if(listObj !== undefined && listObj.length >= 0){
                     $("#"+idLevel).find("#collection_objective").empty();
                     $(listObj).each(function(){
                         buildPanelObject(this);
@@ -163,7 +163,7 @@ function getObjAndTest(idLevel,idCourse){
                 }
 
                 var listTest = data.listTestMap;
-                if(listTest.length >= 0){
+                if(listTest!== undefined && listTest.length >= 0){
                     $("#"+idLevel).find("#collection_test").empty();
                     $(listTest).each(function(){
                         buildPanelTest(this);
