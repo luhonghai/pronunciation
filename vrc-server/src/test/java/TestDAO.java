@@ -132,7 +132,7 @@ public class TestDAO {
            // clientCodeDAO.getCount();
             //lice.listAll(0,1,"com",1,"asb","nam","as",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
             //lice.getCountSearch("ads","fdf","dsa",new Date(10/12/2014),new Date(9/8/2015),new Date(10/12/2014),new Date(9/8/2015));
-           recorderDAO.listRecoder(1,10,"",1,"asc","",null,null,1,"","");
+           //recorderDAO.listRecoder(1,10,"",1,"asc","",null,null,1,"","");
         } catch (Exception e) {
             e.printStackTrace();
         }

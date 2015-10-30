@@ -8,6 +8,10 @@ function openPopupAdd(){
     $(document).on("click","#openAddMapping", function(){
         $("#submitForm").attr("action","add");
         getAllCourse("");
+        $('#image').fileinput({
+            showUpload : false,
+            allowedFileExtensions : ['jpg', 'png','gif'],
+        });
         $("#add").modal('show');
     });
 }
@@ -30,7 +34,7 @@ function submitForm(){
             type        : 'POST',
             success     : function(data, textStatus, jqXHR){
                 // Callback code
-                alert(data);
+
             }
         });
     });

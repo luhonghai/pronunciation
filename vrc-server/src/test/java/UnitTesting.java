@@ -128,13 +128,16 @@ public class UnitTesting {
                 }
             }*/
 
-            WordCollectionDAO dao =new WordCollectionDAO();
-            List<WordCollection> list = dao.search("Qu","asc",10,0);
-            if(list!=null && list.size()>0){
-                for(WordCollection wo : list){
-                    System.out.println(wo.getWord());
-                }
-            }
+           /* WordCollectionDAO dao =new WordCollectionDAO();
+            System.out.println("start list: " + new Date(System.currentTimeMillis()));
+            List<WordCollection> list = dao.search("","asc",10,0);
+            System.out.println("end list: " + new Date(System.currentTimeMillis()));
+            WordCollectionService service = new WordCollectionService();
+            System.out.println("start set arpabet: " + new Date(System.currentTimeMillis()));
+            list = service.setPhonemeArpabet(list);
+            System.out.println("end set arpabet: " + new Date(System.currentTimeMillis()));*/
+            WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updatePhonemeOfWordToDatabase();
         } catch (Exception e) {
             e.printStackTrace();
         }

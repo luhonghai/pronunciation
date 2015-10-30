@@ -1,6 +1,6 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-
+<link href="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/css/fileinput.min.css" type="text/css" rel="stylesheet"/>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
@@ -168,6 +168,8 @@
         </div>
     </div>
 </div>
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/js/fileinput.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/js/fileinput_locale_uk.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/data/manage_country_data.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/ui/manage_country_ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/manage_country.js"></script>

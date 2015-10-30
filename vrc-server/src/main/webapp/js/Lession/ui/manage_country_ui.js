@@ -4,6 +4,7 @@
 
 function buildSelectBox(data,idSelected){
     $('#select-course').empty();
+    $('#select-course').multiselect('destroy');
     $.each(data, function(i, item) {
         var $option = $("<option>");
         $option.attr("value",item.id);

@@ -170,7 +170,7 @@ public class WordCollectionService {
         ListWord client = new ListWord();
         double count = countSearch(start, length, search, order);
         List<WordCollection> listWord = searchWord(start,length,search,order);
-        listWord = setPhonemeArpabet(listWord);
+        //listWord = setPhonemeArpabet(listWord);
         client.setDraw(draw);
         client.setRecordsFiltered(count);
         client.setRecordsTotal(count);
@@ -179,7 +179,7 @@ public class WordCollectionService {
     }
 
     /**
-     *
+     * not used
      * @param temp
      * @return
      */
