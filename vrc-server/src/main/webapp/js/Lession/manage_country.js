@@ -8,6 +8,9 @@ function openPopupAdd(){
     $(document).on("click","#openAddMapping", function(){
         $("#submitForm").attr("action","add");
         getAllCourse("");
+        $('#image').fileinput({
+            allowedFileExtensions : ['jpg', 'png','gif'],
+        });
         $("#add").modal('show');
     });
 }
