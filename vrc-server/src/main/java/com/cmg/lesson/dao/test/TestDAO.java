@@ -174,46 +174,50 @@ public class TestDAO extends DataAccess<Test> {
      * @return
      */
     public List<Test> listIn(List<String> ids) throws Exception{
-        StringBuffer clause = new StringBuffer();
-        clause.append(" Where Test.ID in(");
-        for(String id : ids){
-            clause.append("'"+id+"',");
-        }
-        List<Test> listObjective = new ArrayList<Test>();
-        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        whereClause = whereClause + ") and isDeleted=false " ;
-
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,percentPass from " + metaRecorderSentence.getTable() + whereClause);
-        try {
-            List<Object> tmp = (List<Object>) q.execute();
-            if(tmp!=null && tmp.size() > 0){
-                for(Object obj : tmp){
-                    Test objTest = new Test();
-                    Object[] array = (Object[]) obj;
-                    objTest.setId(array[0].toString());
-                    if(array[1]!=null){
-                        objTest.setName(array[1].toString());
-                    }
-                    if(array[2]!=null){
-                        objTest.setDescription(array[2].toString());
-                    }
-                    if(array[3]!=null){
-                        objTest.setPercentPass(Double.parseDouble(array[3].toString()));
-                    }
-                    listObjective.add(objTest);
-                }
+        if(ids!=null && ids.size() > 0){
+            StringBuffer clause = new StringBuffer();
+            clause.append(" Where Test.ID in(");
+            for(String id : ids){
+                clause.append("'"+id+"',");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (q!= null)
-                q.closeAll();
-            pm.close();
+            List<Test> listObjective = new ArrayList<Test>();
+            String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+            whereClause = whereClause + ") and isDeleted=false " ;
+
+            PersistenceManager pm = PersistenceManagerHelper.get();
+            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
+            Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,percentPass from " + metaRecorderSentence.getTable() + whereClause);
+            try {
+                List<Object> tmp = (List<Object>) q.execute();
+                if(tmp!=null && tmp.size() > 0){
+                    for(Object obj : tmp){
+                        Test objTest = new Test();
+                        Object[] array = (Object[]) obj;
+                        objTest.setId(array[0].toString());
+                        if(array[1]!=null){
+                            objTest.setName(array[1].toString());
+                        }
+                        if(array[2]!=null){
+                            objTest.setDescription(array[2].toString());
+                        }
+                        if(array[3]!=null){
+                            objTest.setPercentPass(Double.parseDouble(array[3].toString()));
+                        }
+                        listObjective.add(objTest);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw e;
+            } finally {
+                if (q!= null)
+                    q.closeAll();
+                pm.close();
+            }
+            return listObjective;
         }
-        return listObjective;
+        return  new ArrayList<Test>();
+
 
     }
 }
