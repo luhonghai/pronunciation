@@ -247,6 +247,21 @@ public class ObjectiveService {
     }
 
 
+    public ObjectiveDTO getAddObjNotInCurrentLevel(String idCourse, String idLevel){
+        ObjectiveDTO objectiveDTO = new ObjectiveDTO();
+        ObjectiveDAO objectiveDAO = new ObjectiveDAO();
+        List<String> lstObjIdInCurrentLevel = new ArrayList<String>();
+        try{
+
+        }catch (Exception e){
+            objectiveDTO.setMessage(ERROR + " : can not get list objectives by level because " + e.getMessage());
+            logger.error("List object by id level : " + idLevel + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return objectiveDTO;
+    }
+
+
     /**
      *
      * @param idCourse

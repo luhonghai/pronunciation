@@ -72,23 +72,38 @@ function createPanelHeadingLevel(item){
     $divColRight.addClass("heading-col-right");
 
     //button create objective
+    var $btnCreateOldObj = $("<button>");
+    $btnCreateOldObj.addClass("btn btn-default createOldObj");
+    $btnCreateOldObj.text("Add Old Objective");
+    $btnCreateOldObj.attr("id_lv", item.id);
+
+    //button create objective
     var $btnCreateObj = $("<button>");
     $btnCreateObj.addClass("btn btn-default createObj");
     $btnCreateObj.text("Create Objective");
     $btnCreateObj.attr("id_lv", item.id);
 
     //buton create test
+    var $btnCreateOldTest = $("<button>");
+    $btnCreateOldTest.addClass("btn btn-default createOldTest");
+    $btnCreateOldTest.text("Add Old Test");
+    $btnCreateOldTest.attr("id_lv", item.id);
+
+    //buton create test
     var $btnCreateTest = $("<button>");
     $btnCreateTest.addClass("btn btn-default createTest");
     $btnCreateTest.text("Create Test");
     $btnCreateTest.attr("id_lv", item.id);
+
     //buton remove level
     var $buttonRemoveLv = $("<button>");
     $buttonRemoveLv.addClass("btn btn-default removelv");
     $buttonRemoveLv.attr("id_lv",item.id);
     $buttonRemoveLv.text("Remove Level");
 
+    //$divColRight.append($btnCreateOldObj);
     $divColRight.append($btnCreateObj);
+    //$divColRight.append($btnCreateOldTest);
     $divColRight.append($btnCreateTest);
     $divColRight.append($buttonRemoveLv);
 
@@ -164,7 +179,7 @@ function createPanelHeadingObject(obj){
 
     //for div col in left
     var $divColLeft =  $("<div>");
-    $divColLeft.addClass("col-sm-3");
+    $divColLeft.addClass("heading-col-left");
     //for title of panel
     var $h4 = $("<h4>");
     $h4.addClass("panel-title");
@@ -180,30 +195,27 @@ function createPanelHeadingObject(obj){
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 
-
-    //div contain remove level button
-    var $divColRightEdit =  $("<div>");
-    $divColRightEdit.addClass("col-sm-2");
+    //div contain add  & remove obj button
+    var $divColRight =  $("<div>");
+    $divColRight.addClass("heading-col-right");
+    //edit obj button
     var $buttonEditObj = $("<button>");
     $buttonEditObj.addClass("btn btn-default editObj");
     $buttonEditObj.attr("id_lv",obj.idLevel);
     $buttonEditObj.attr("id_obj",obj.idObjective);
-    $buttonEditObj.text("Edit Objective");
-    $divColRightEdit.append($buttonEditObj);
-
-    //div contain remove level button
-    var $divColRightRemoveObj =  $("<div>");
-    $divColRightRemoveObj.addClass("col-sm-2");
+    $buttonEditObj.text("Edit");
+    //remove obj button
     var $buttonRemoveObj = $("<button>");
     $buttonRemoveObj.addClass("btn btn-default removeObj");
     $buttonRemoveObj.attr("id_lv",obj.idLevel);
     $buttonRemoveObj.attr("id_obj",obj.idObjective);
-    $buttonRemoveObj.text("Remove Objective");
-    $divColRightRemoveObj.append($buttonRemoveObj);
+    $buttonRemoveObj.text("Remove");
+
+    $divColRight.append($buttonEditObj);
+    $divColRight.append($buttonRemoveObj);
 
     $divRow.append($divColLeft);
-    $divRow.append($divColRightEdit);
-    $divRow.append($divColRightRemoveObj);
+    $divRow.append($divColRight);
     $panel_heading.append($divRow);
     return $panel_heading;
 
@@ -274,7 +286,7 @@ function createPanelHeadingTest(obj){
 
     //for div col in left
     var $divColLeft =  $("<div>");
-    $divColLeft.addClass("col-sm-3");
+    $divColLeft.addClass("heading-col-left");
     //for title of panel
     var $h4 = $("<h4>");
     $h4.addClass("panel-title");
@@ -290,30 +302,25 @@ function createPanelHeadingTest(obj){
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 
-
-    //div contain remove level button
-    var $divColRightEdit =  $("<div>");
-    $divColRightEdit.addClass("col-sm-2");
+    //div contain edit & remove test button
+    var $divColRight =  $("<div>");
+    $divColRight.addClass("heading-col-right");
+    //button edit test
     var $buttonEditObj = $("<button>");
     $buttonEditObj.addClass("btn btn-default editTest");
     $buttonEditObj.attr("id_lv",obj.idLevel);
     $buttonEditObj.attr("id_test",obj.idTest);
-    $buttonEditObj.text("Edit Test");
-    $divColRightEdit.append($buttonEditObj);
-
-    //div contain remove level button
-    var $divColRightRemoveObj =  $("<div>");
-    $divColRightRemoveObj.addClass("col-sm-2");
+    $buttonEditObj.text("Edit");
+    //button remove test
     var $buttonRemoveObj = $("<button>");
     $buttonRemoveObj.addClass("btn btn-default removeTest");
     $buttonRemoveObj.attr("id_lv",obj.idLevel);
     $buttonRemoveObj.attr("id_test",obj.idTest);
-    $buttonRemoveObj.text("Remove Test");
-    $divColRightRemoveObj.append($buttonRemoveObj);
+    $buttonRemoveObj.text("Remove");
+    $divColRight.append($buttonRemoveObj);
 
     $divRow.append($divColLeft);
-    $divRow.append($divColRightEdit);
-    $divRow.append($divColRightRemoveObj);
+    $divRow.append($divColRight);
     $panel_heading.append($divRow);
     return $panel_heading;
 

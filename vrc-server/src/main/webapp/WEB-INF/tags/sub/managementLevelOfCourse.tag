@@ -157,6 +157,47 @@
   </div>
 </div>
 
+<div id="add-old-objective" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+            <h1 align="center">Select Objective</h1>
+            <form name="add-objective" class="form-horizontal"
+                  style="margin-top: 25px" id="add-old-objective-form">
+
+              <div class="form-group">
+                <div id="container-add-old-lesson">
+                  <label class="col-xs-4  col-sm-3 control-label ">Objective:</label>
+                  <img class="col-xs-8  col-sm-9">
+                  <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
+                  <select style="display:none" multiple class="form-control" id="select-old-lesson">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" name="yesadd" id="yesadd-old" class="btn btn-default" value="yes" >Yes</button>
+                <button type="button" name="closeadd" id="closeadd-old" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
 <div id="add-test" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
