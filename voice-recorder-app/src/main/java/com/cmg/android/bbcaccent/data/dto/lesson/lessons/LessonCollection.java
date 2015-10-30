@@ -18,6 +18,8 @@ public class LessonCollection extends BaseLessonEntity {
     @LiteColumn
     private Date dateCreated;
 
+    private int score;
+
     public String getName() {
         return name;
     }
@@ -40,5 +42,13 @@ public class LessonCollection extends BaseLessonEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

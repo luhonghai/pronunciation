@@ -24,6 +24,10 @@ public class LessonLevel extends BaseLessonEntity {
     @LiteColumn
     private String color;
 
+    private boolean active;
+
+    private int score;
+
     public String getColor() {
         return color;
     }
@@ -62,5 +66,21 @@ public class LessonLevel extends BaseLessonEntity {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

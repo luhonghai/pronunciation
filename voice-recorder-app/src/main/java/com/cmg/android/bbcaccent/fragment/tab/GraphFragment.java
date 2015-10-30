@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.view.CustomGraphView;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.PhonemeScoreDBAdapter;
@@ -28,6 +30,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class GraphFragment extends FragmentTab {
@@ -59,10 +62,22 @@ public class GraphFragment extends FragmentTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (dbAdapter == null)
-            dbAdapter = new ScoreDBAdapter();
-        if (phonemeScoreDBAdapter == null)
-            phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
+        Bundle bundle = getArguments();
+        boolean isLesson = bundle != null && bundle.containsKey(MainBroadcaster.Filler.LESSON.toString());
+        if (dbAdapter == null) {
+            if (isLesson) {
+                dbAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
+            } else {
+                dbAdapter = new ScoreDBAdapter();
+            }
+        }
+        if (phonemeScoreDBAdapter == null) {
+            if (isLesson) {
+                phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
+            } else {
+                phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
+            }
+        }
         View v = inflater.inflate(R.layout.fragment_graph, container, false);
         graph = (CustomGraphView) v.findViewById(R.id.graphScore);
 
@@ -105,7 +120,6 @@ public class GraphFragment extends FragmentTab {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScrollable(false);
-        Bundle bundle =  getArguments();
         if (bundle != null)
             word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
         loadScore();
@@ -114,7 +128,10 @@ public class GraphFragment extends FragmentTab {
 
     private void loadScore() {
         if (phoneme != null && phoneme.length() > 0) {
-            graph.setTintText(phoneme);
+            Map<String, String> map = new WordDBAdapter().getPhonemeCMUvsIPA();
+            if (map.containsKey(phoneme.toUpperCase())) {
+                graph.setTintText(map.get(phoneme.toUpperCase()));
+            }
             loadPhonemeScore();
         } else {
             graph.setTintText(word);
@@ -172,20 +189,22 @@ public class GraphFragment extends FragmentTab {
     private void loadWordScore() {
         Collection<PronunciationScore> scores = null;
         UserProfile profile = Preferences.getCurrentProfile(getActivity());
-        try {
-            dbAdapter.open();
-            if (word == null || word.length() == 0) {
-                scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
-            } else {
-                scores = dbAdapter.toList(dbAdapter.getByWord(word,profile.getUsername()));
-            }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not open database",e);
-        } finally {
+        if (profile != null) {
             try {
-                dbAdapter.close();
-            } catch (Exception ex) {
+                dbAdapter.open();
+                if (word == null || word.length() == 0) {
+                    scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
+                } else {
+                    scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
+                }
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not open database", e);
+            } finally {
+                try {
+                    dbAdapter.close();
+                } catch (Exception ex) {
 
+                }
             }
         }
         if (scores != null && scores.size() > 0) {
@@ -244,16 +263,16 @@ public class GraphFragment extends FragmentTab {
 
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
         series.setCustomPaint(paint);
+        int color;
         if (latestScore >= 80.0f) {
-            paint.setColor(ColorHelper.COLOR_GREEN);
-            series.setColor(ColorHelper.COLOR_GREEN);
+            color = ColorHelper.getColor(R.color.app_green);
         } else if (latestScore >= 45.0f) {
-            paint.setColor(ColorHelper.COLOR_ORANGE);
-            series.setColor(ColorHelper.COLOR_ORANGE);
+            color = ColorHelper.getColor(R.color.app_orange);
         } else {
-            paint.setColor(ColorHelper.COLOR_RED);
-            series.setColor(ColorHelper.COLOR_RED);
+            color = ColorHelper.getColor(R.color.app_red);
         }
+        paint.setColor(color);
+        series.setColor(color);
         //series.setDrawDataPoints(true);
         //series.setThickness(2);
         graph.removeAllSeries();

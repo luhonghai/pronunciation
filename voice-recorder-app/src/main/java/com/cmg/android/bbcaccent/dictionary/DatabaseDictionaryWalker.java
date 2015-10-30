@@ -27,12 +27,12 @@ public class DatabaseDictionaryWalker extends DictionaryWalker {
     public void execute(String word) {
         DictionaryItem dictionaryItem = new DictionaryItem();
         dictionaryItem.setWord(word);
-        LessonDBAdapterService dbAdapter = new LessonDBAdapterService();
         try {
-            WordCollection wordCollection = dbAdapter.findObject("word = ?", new String[]{word}, WordCollection.class);
+            WordCollection wordCollection = LessonDBAdapterService.getInstance().findObject("word = ?", new String[]{word}, WordCollection.class);
             if (wordCollection != null) {
                 SimpleAppLog.logJson(wordCollection);
                 dictionaryItem.setPronunciation(wordCollection.getPronunciation());
+                dictionaryItem.setDefinition(wordCollection.getDefinition());
                 if (isFetchAudio() && wordCollection.getMp3Path() != null && wordCollection.getMp3Path().length() > 0) {
                     dictionaryItem.setAudioUrl(wordCollection.getMp3Path());
                     if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {

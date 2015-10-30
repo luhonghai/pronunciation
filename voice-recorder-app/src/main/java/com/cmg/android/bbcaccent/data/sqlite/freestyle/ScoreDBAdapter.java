@@ -7,6 +7,7 @@ import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.LiteBaseDao;
+import com.luhonghai.litedb.LiteDatabaseHelper;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 /**
@@ -20,6 +21,10 @@ public class ScoreDBAdapter extends BaseDatabaseAdapter<PronunciationScore> {
      */
     public ScoreDBAdapter() {
         super(MainApplication.getContext().getFreestyleDatabaseHelper(), PronunciationScore.class);
+    }
+
+    public ScoreDBAdapter(LiteDatabaseHelper databaseHelper) {
+        super(databaseHelper, PronunciationScore.class);
     }
 
     public Cursor getAllTime() throws LiteDatabaseException {

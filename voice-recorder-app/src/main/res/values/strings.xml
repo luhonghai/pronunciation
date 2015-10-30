@@ -130,6 +130,7 @@
     <string name="menu_settings">settings</string>
     <string name="menu_licence">licence</string>
     <string name="menu_feedback">feedback</string>
+    <string name="menu_subscription">subscription</string>
     <string name="menu_logout">logout</string>
     <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
     <string name="help_search_icon_title">don\'t forget to try new words</string>

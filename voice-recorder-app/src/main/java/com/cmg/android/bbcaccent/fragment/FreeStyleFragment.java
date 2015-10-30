@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -20,8 +21,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
@@ -39,7 +42,6 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
-import com.cmg.android.bbcaccent.dictionary.OxfordDictionaryWalker;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
@@ -115,10 +117,10 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     RecordingView recordingView;
 
     @Bind(R.id.btnAnalyzing)
-    ImageButton btnAnalyzing;
+    CardView btnAnalyzing;
 
     @Bind(R.id.btnAudio)
-    ImageButton btnAudio;
+    CardView btnAudio;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;
@@ -137,6 +139,9 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
     @Bind(R.id.panelSlider)
     SlidingUpPanelLayout panelSlider;
+
+    @Bind(R.id.txtDefinition)
+    TextView txtDefinition;
 
     private AndroidAudioInputStream audioStream;
     private AudioDispatcher dispatcher;
@@ -296,6 +301,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         recordingView.setAnimationListener(this);
         txtPhonemes.setText("");
         txtWord.setText("");
+        txtDefinition.setText("");
     }
 
     private void initTabHost() {
@@ -313,6 +319,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         if (viewState.dictionaryItem != null) {
             txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
             txtWord.setText(viewState.dictionaryItem.getWord());
+            txtDefinition.setText(viewState.dictionaryItem.getDefinition());
         }
     }
 
@@ -508,6 +515,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
                 txtWord.setText(getString(R.string.searching));
                 txtPhonemes.setText(getString(R.string.please_wait));
+                txtDefinition.setText("");
                 viewState.dictionaryItem = null;
                 viewState.currentModel = null;
                 if (getWordAsync != null) {
@@ -848,26 +856,26 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             imgHelpHand.setVisibility(View.GONE);
             switch (state) {
                 case RECORDING:
-                    btnAudio.setImageResource(R.drawable.p_audio_gray);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
                     btnAudio.setEnabled(false);
-                    btnAnalyzing.startAnimation(fadeOut);
-                    btnAnalyzing.setImageResource(R.drawable.p_close_red);
-                    btnAnalyzing.startAnimation(fadeIn);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_close);
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
 
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
                     rlVoiceExample.setEnabled(false);
                     break;
                 case PLAYING:
-                    btnAudio.startAnimation(fadeOut);
-                    btnAudio.setImageResource(R.drawable.p_close_red);
-                    btnAudio.startAnimation(fadeIn);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_close);
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
                     btnAnalyzing.setEnabled(false);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
                     rlVoiceExample.setEnabled(false);
@@ -875,10 +883,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 case GREEN:
                     btnAudio.setEnabled(true);
                     btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_green);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_green));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -887,10 +897,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 case ORANGE:
                     btnAudio.setEnabled(true);
                     btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_orange);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_orange);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_ORANGE);
-                    txtWord.setTextColor(ColorHelper.COLOR_ORANGE);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_orange));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_orange));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -899,10 +911,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 case RED:
                     btnAudio.setEnabled(true);
                     btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_red);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_red);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_RED);
-                    txtWord.setTextColor(ColorHelper.COLOR_RED);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_red));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_red));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -911,10 +925,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 case DISABLED:
                     btnAudio.setEnabled(false);
                     btnAnalyzing.setEnabled(false);
-                    btnAudio.setImageResource(R.drawable.p_audio_gray);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_gray);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GRAY);
-                    txtWord.setTextColor(ColorHelper.COLOR_GRAY);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
                     break;
@@ -922,10 +938,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 default:
                     btnAudio.setEnabled(true);
                     btnAnalyzing.setEnabled(true);
-                    btnAudio.setImageResource(R.drawable.p_audio_green);
-                    btnAnalyzing.setImageResource(R.drawable.p_record_green);
-                    txtPhonemes.setTextColor(ColorHelper.COLOR_GREEN);
-                    txtWord.setTextColor(ColorHelper.COLOR_GREEN);
+                    ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                    ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                    txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_green));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -936,7 +954,8 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             MainBroadcaster.getInstance().getSender().sendUpdateData(null, isProcess ? FragmentTab.TYPE_DISABLE_VIEW : FragmentTab.TYPE_ENABLE_VIEW);
             if (!checkAudioExist()) {
                 btnAudio.setEnabled(false);
-                btnAudio.setImageResource(R.drawable.p_audio_gray);
+                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not update screen state", e);
@@ -1037,9 +1056,8 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
                 AppLog.logString("On animation max");
                 recordingView.stopPingAnimation();
-                isRecording = false;
+
                 if (viewState.currentModel != null) {
-                    viewState.currentModel.setAudioFile(audioStream.getFilename());
                     float score = viewState.currentModel.getScore();
                     if (score >= 80.0) {
                         lastState = ButtonState.GREEN;
@@ -1048,13 +1066,17 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     } else {
                         lastState = ButtonState.RED;
                     }
-                    // Call other view update
-                    Gson gson = new Gson();
-                    MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(viewState.currentModel), FragmentTab.TYPE_RELOAD_DATA);
                     switchButtonStage();
-                    showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
-                            new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
-                            new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
+                    if (isRecording) {
+                        viewState.currentModel.setAudioFile(audioStream.getFilename());
+                        // Call other view update
+                        Gson gson = new Gson();
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(viewState.currentModel), FragmentTab.TYPE_RELOAD_DATA);
+                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
+                                new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
+                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
+                        isRecording = false;
+                    }
                 } else {
                     switchButtonStage(ButtonState.RED);
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
@@ -1073,6 +1095,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not complete animation", e);
+            isRecording = false;
         }
     }
 
@@ -1140,6 +1163,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     if (viewState.dictionaryItem != null) {
                         txtWord.setText(viewState.dictionaryItem.getWord());
                         txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
+                        txtDefinition.setText(viewState.dictionaryItem.getDefinition());
                         txtWord.setEnabled(true);
                         txtPhonemes.setEnabled(true);
                         rlVoiceExample.setEnabled(true);
@@ -1153,6 +1177,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     } else {
                         txtWord.setText(getString(R.string.not_found));
                         txtPhonemes.setText(getString(R.string.please_try_again));
+                        txtDefinition.setText("");
                     }
                 }
             }

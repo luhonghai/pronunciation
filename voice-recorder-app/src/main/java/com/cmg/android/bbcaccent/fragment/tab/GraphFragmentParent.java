@@ -10,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.fragment.DetailFragment;
-import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.utils.AppLog;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -60,10 +59,12 @@ public class GraphFragmentParent extends Fragment {
                                 if (model != null && mViewPager != null) {
                                     AppLog.logString("Select phoneme: " + data);
                                     List<String> phonemeScoreList = model.getResult().getCorrectPhonemes();
-                                    for (int i = 0; i < phonemeScoreList.size(); i ++) {
-                                        if (data.equalsIgnoreCase(phonemeScoreList.get(i))) {
-                                            mViewPager.setCurrentItem(i + 1);
-                                            break;
+                                    if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
+                                        for (int i = 0; i < phonemeScoreList.size(); i++) {
+                                            if (data.equalsIgnoreCase(phonemeScoreList.get(i))) {
+                                                mViewPager.setCurrentItem(i + 1);
+                                                break;
+                                            }
                                         }
                                     }
                                 }

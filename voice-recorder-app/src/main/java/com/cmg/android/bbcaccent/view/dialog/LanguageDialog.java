@@ -24,17 +24,15 @@ import com.luhonghai.litedb.exception.LiteDatabaseException;
 /**
  * Created by luhonghai on 27/10/2015.
  */
-public class LanguageDialog extends DefaultDialog {
+public class LanguageDialog extends DefaultCenterDialog {
 
     private final RecyclerView recyclerView;
 
-    private final LessonDBAdapterService dbAdapterService;
 
     public LanguageDialog(Context context) {
         super(context, R.layout.choose_language);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        dbAdapterService = new LessonDBAdapterService();
-        Cursor cursor = dbAdapterService.cursorAllCountry();
+        Cursor cursor = LessonDBAdapterService.getInstance().cursorAllCountry();
         if (cursor != null) {
             SimpleAppLog.info("Number of supported country " + cursor.getCount());
         }
@@ -53,7 +51,7 @@ public class LanguageDialog extends DefaultDialog {
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
             try {
-                Country country = dbAdapterService.toObject(cursor, Country.class);
+                Country country = LessonDBAdapterService.getInstance().toObject(cursor, Country.class);
                 if (country.getName().equalsIgnoreCase("thailand")) {
                     viewHolder.imgCountry.setImageResource(R.drawable.th_round);
                     viewHolder.txtTitle.setText("ประเทศไทย");

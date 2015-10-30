@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="20dp">
-    <LinearLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content_box"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@drawable/rounded_corner_color_orange">
+        android:background="@drawable/rounded_corner_color_orange"
+        android:padding="8dp">
         <ImageButton
             android:id="@+id/tv_dismiss"
             android:background="@null"
@@ -19,7 +16,7 @@
             android:layout_height="25dp"
             android:layout_gravity="end"/>
         <RelativeLayout
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="240dp">
             <ImageView
                 android:layout_width="120dp"
@@ -34,5 +31,4 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </RelativeLayout>
-    </LinearLayout>
-</FrameLayout>
+</LinearLayout>

@@ -88,8 +88,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private boolean isDrawerOpened;
 
-    private LessonDBAdapterService dbAdapter;
-
     private CursorAdapter adapter;
 
     private AccountManager accountManager;
@@ -124,6 +122,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         ButterKnife.bind(this);
         initListMenu();
         initCustomActionBar();
+        materialMenu.setVisibility(View.INVISIBLE);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
@@ -206,6 +205,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 });
                 d.show();
                 break;
+            case SUBSCRIPTION:
+                Intent i = new Intent(this, SubscriptionActivity.class);
+                startActivity(i);
+                break;
             default:
                 switchFragment(menuItem, null, null);
         }
@@ -271,7 +274,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             searchView.performClick();
             searchView.requestFocus();
             searchView.setIconified(true);
-            dbAdapter = new LessonDBAdapterService();
             searchView.setQueryHint(getString(R.string.tint_search_word));
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
             //  searchView.setIconifiedByDefault(false);
@@ -282,7 +284,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         new String[]{"WORD", "PRONUNCIATION"},
                         new int[]{R.id.txtWord, R.id.txtPhoneme},
                         CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-             searchView.setSuggestionsAdapter(adapter);
+            searchView.setSuggestionsAdapter(adapter);
         }
         return true;
     }
@@ -322,7 +324,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private void updateQuery() {
         try {
-            final Cursor c = (searchText != null && searchText.length() > 0)  ? dbAdapter.searchWord(searchText) : null;
+            final Cursor c = (searchText != null && searchText.length() > 0)  ? LessonDBAdapterService.getInstance().searchWord(searchText) : null;
             runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -446,7 +448,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         try {
             AppLog.logString("Select suggestion: " + index);
             Cursor cursor = (Cursor) adapter.getItem(index);
-            String s = dbAdapter.toObject(cursor, WordCollection.class).getWord();
+            String s = LessonDBAdapterService.getInstance().toObject(cursor, WordCollection.class).getWord();
             searchView.setQuery(s, true);
         } catch (Exception e) {
             SimpleAppLog.error("Could not select suggestion word", e);
@@ -569,6 +571,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             if (parameter == null) parameter = new SwitchFragmentParameter();
             SimpleAppLog.debug("Switch to fragment class " + clazz.getName());
             FragmentState state = FragmentState.fromFragmentClassName(clazz.getName());
+            materialMenu.setVisibility(View.VISIBLE);
             if (state != FragmentState.NULL) {
                 if (isDrawerOpened) {
                     drawerLayout.closeDrawer(Gravity.LEFT);
@@ -684,6 +687,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void initDialogLanguage() {
+        if (searchView != null)
+            searchView.setVisibility(View.GONE);
         dialogLanguage = new LanguageDialog(this);
         UserProfile userProfile = Preferences.getCurrentProfile();
         if (userProfile != null && userProfile.getSelectedCountry() == null) {
@@ -691,11 +696,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             dialogLanguage.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-                    switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
+                    switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
                 }
             });
         } else {
-            switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
+            switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
         }
     }
 }

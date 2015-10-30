@@ -5,7 +5,10 @@ import android.app.Application;
 import com.cmg.android.bbcaccent.data.sqlite.FreestyleDatabaseHelper;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.sqlite.LessonDatabaseHelper;
+import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -19,6 +22,10 @@ public class MainApplication  extends Application {
     private FreestyleDatabaseHelper freestyleDatabaseHelper;
 
     private LessonDatabaseHelper lessonDatabaseHelper;
+
+    private LessonHistoryDatabaseHelper lessonHistoryDatabaseHelper;
+
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public void onCreate() {
@@ -45,6 +52,14 @@ public class MainApplication  extends Application {
                 SimpleAppLog.error("Could not init lesson database", e);
             }
         }
+        if (lessonHistoryDatabaseHelper == null) {
+            try {
+                lessonHistoryDatabaseHelper = new LessonHistoryDatabaseHelper();
+                lessonHistoryDatabaseHelper.open();
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not init lesson history database",e);
+            }
+        }
     }
 
     @Override
@@ -54,6 +69,9 @@ public class MainApplication  extends Application {
             freestyleDatabaseHelper.close();
         if (lessonDatabaseHelper != null)
             lessonDatabaseHelper.close();
+        if (lessonHistoryDatabaseHelper != null) {
+            lessonHistoryDatabaseHelper.close();
+        }
         MainBroadcaster.getInstance().destroy();
         ImageLoader.getInstance().destroy();
     }
@@ -68,5 +86,17 @@ public class MainApplication  extends Application {
 
     public LessonDatabaseHelper getLessonDatabaseHelper() {
         return lessonDatabaseHelper;
+    }
+
+    public LessonHistoryDatabaseHelper getLessonHistoryDatabaseHelper() {
+        return lessonHistoryDatabaseHelper;
+    }
+
+    public static String toJson(Object object) {
+        return gson.toJson(object);
+    }
+
+    public static <T extends Object> T fromJson(String json, Class<T> clazz) {
+        return gson.fromJson(json, clazz);
     }
 }

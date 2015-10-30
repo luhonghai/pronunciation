@@ -15,6 +15,7 @@ public enum QueryHelper {
     select_all_objective_by_level("select_all_objective_by_level"),
     select_all_test_by_level("select_all_test_by_level"),
     select_all_lesson_collection_by_objective("select_all_lesson_collection_by_objective"),
+    select_all_lesson_collection_by_test("select_all_lesson_collection_by_test"),
     select_all_question_by_lesson_collection("select_all_question_by_lesson_collection"),
     select_all_words_by_question("select_all_words_by_question"),
     search_word("search_word")

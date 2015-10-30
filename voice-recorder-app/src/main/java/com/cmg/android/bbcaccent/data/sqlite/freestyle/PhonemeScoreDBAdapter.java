@@ -6,6 +6,7 @@ import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.luhonghai.litedb.LiteDatabaseHelper;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.sql.SQLException;
@@ -22,6 +23,13 @@ public class PhonemeScoreDBAdapter extends BaseDatabaseAdapter<SphinxResult.Phon
      */
     public PhonemeScoreDBAdapter() {
         super(MainApplication.getContext().getFreestyleDatabaseHelper(), SphinxResult.PhonemeScore.class);
+    }
+
+    /**
+     * Constructor
+     */
+    public PhonemeScoreDBAdapter(LiteDatabaseHelper databaseHelper) {
+        super(databaseHelper, SphinxResult.PhonemeScore.class);
     }
 
     public long insert(SphinxResult.PhonemeScore score, String username, int version) throws LiteDatabaseException {

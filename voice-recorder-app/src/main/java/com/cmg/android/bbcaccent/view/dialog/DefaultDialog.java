@@ -61,6 +61,6 @@ public class DefaultDialog extends Dialog {
         int w = fullWidth - padding;
         //int h = dialog.getWindow().getAttributes().height;
         int h = fulHeight - padding;
-        this.getWindow().setLayout(w, h);
+        this.getWindow().setLayout(w, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 }

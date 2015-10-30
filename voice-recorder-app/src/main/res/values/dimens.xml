@@ -3,7 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="button_default_size">70dp</dimen>
+    <dimen name="button_default_size">60dp</dimen>
+    <dimen name="button_default_size_half">30dp</dimen>
 
     <dimen name="button_login_width">252dp</dimen>
     <dimen name="button_login_height">44dp</dimen>
@@ -25,7 +26,9 @@
     <dimen name="detail_score_padding">15dp</dimen>
 
     <!-- History list -->
-    <dimen name="button_list_default_size">50dp</dimen>
+    <dimen name="button_list_default_size">46dp</dimen>
+    <dimen name="button_list_default_size_half">23dp</dimen>
+
     <dimen name="history_list_item_padding">10dp</dimen>
 
     <!-- Tip view -->

@@ -3,16 +3,26 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:padding="8dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp">
     <android.support.v7.widget.CardView
         android:id="@+id/cvItemContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardElevation="0dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardBackgroundColor="@color/app_light_aqua"
+        app:cardElevation="0dp"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/app_light_gray"
+        android:stateListAnimator="@anim/lift_up"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,14 +36,14 @@
                 android:textSize="25sp"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:textColor="@color/app_aqua"/>
+                android:textColor="@color/app_gray"/>
             <android.support.v7.widget.CardView
                 android:id="@+id/cvScoreContainer"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                card_view:cardElevation="0dp"
-                card_view:cardCornerRadius="24dp"
-                card_view:cardBackgroundColor="@color/app_green"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/app_gray"
                 >
                 <TextView
                     android:id="@+id/txtScore"

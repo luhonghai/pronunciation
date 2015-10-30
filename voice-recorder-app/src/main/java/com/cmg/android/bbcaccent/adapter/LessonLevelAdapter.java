@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.adapter;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,9 +11,10 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
-import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
-import com.cmg.android.bbcaccent.fragment.lesson.LessonObjectiveFragment;
+import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.util.Locale;
 
@@ -20,25 +23,18 @@ import butterknife.ButterKnife;
 /**
  * Created by luhonghai on 22/10/2015.
  */
-public class LessonLevelAdapter extends RecyclerView.Adapter<LessonLevelAdapter.ViewHolder> {
+public class LessonLevelAdapter extends CursorRecyclerViewAdapter<LessonLevelAdapter.ViewHolder> {
 
-    enum Level {
-        DEMO("demo", 99, true),
-        COUNTRY("country", 70, true),
-        FOUNDATION("foundation", 23, true),
-        LOWER_INTERMEDIATE("lower intermediate", 0, false),
-        UPPER_INTERMEDIATE("upper intermediate", 0, false),
-        ADVANCED("advanced", 0, false)
-        ;
-        String title;
-        int score;
-        boolean active;
-        Level(){}
-        Level(String title, int score, boolean active) {
-            this.title = title;
-            this.score = score;
-            this.active = active;
-        }
+    public interface OnSelectLevel {
+        void onSelectLevel(LessonLevel level);
+        LessonLevel bindLevelData(LessonLevel level);
+    }
+
+    private final OnSelectLevel onSelectLevel;
+
+    public LessonLevelAdapter(Context context, Cursor cursor, OnSelectLevel onSelectLevel) {
+        super(context, cursor);
+        this.onSelectLevel = onSelectLevel;
     }
 
     @Override
@@ -49,48 +45,44 @@ public class LessonLevelAdapter extends RecyclerView.Adapter<LessonLevelAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Level level = Level.values()[position];
-        holder.txtTitle.setText(level.title);
-        int bgColor = R.color.app_light_gray;
-        int textColor = R.color.app_gray;
-        int scoreBgColor = R.color.app_gray;
-        if (level.active) {
-            bgColor = R.color.app_light_aqua;
-            textColor = R.color.app_aqua;
-            holder.txtScore.setText(String.format(Locale.getDefault(), "%d", level.score));
-            if (level.score >= 80) {
-                scoreBgColor = R.color.app_green;
-            } else if (level.score >= 45) {
-                scoreBgColor = R.color.app_orange;
-            } else {
-                scoreBgColor = R.color.app_red;
-            }
-        }
-        holder.cvItemContainer.setTag(level);
-        holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
-        holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));
-        holder.txtTitle.setTextColor(MainApplication.getContext().getResources().getColor(textColor));
-        holder.cvItemContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Level l = (Level) view.getTag();
-                if (l.active) {
-                    SwitchFragmentParameter parameter
-                            = new SwitchFragmentParameter(true, true, true);
-                    parameter.setTitle(l.title);
-                    MainBroadcaster.getInstance().getSender().sendSwitchFragment(
-                            LessonObjectiveFragment.class,
-                            new SwitchFragmentParameter(true, true, true),
-                            null);
+    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
+        try {
+            LessonLevel level = onSelectLevel.bindLevelData(
+                    LessonDBAdapterService.getInstance().toObject(cursor, LessonLevel.class));
+            holder.txtTitle.setText(level.getName());
+            int bgColor = R.color.app_light_gray;
+            int textColor = R.color.app_gray;
+            int scoreBgColor = R.color.app_gray;
+            if (level.isActive() || level.isDemo()) {
+                bgColor = R.color.app_light_aqua;
+                textColor = R.color.app_aqua;
+                if (level.getScore() >= 0) {
+                    holder.txtScore.setText(String.format(Locale.getDefault(), "%d", level.getScore()));
+                    if (level.getScore() >= 80) {
+                        scoreBgColor = R.color.app_green;
+                    } else if (level.getScore() >= 45) {
+                        scoreBgColor = R.color.app_orange;
+                    } else {
+                        scoreBgColor = R.color.app_red;
+                    }
                 }
             }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return Level.values().length;
+            holder.cvItemContainer.setTag(level);
+            holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
+            holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));
+            holder.txtTitle.setTextColor(MainApplication.getContext().getResources().getColor(textColor));
+            holder.cvItemContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LessonLevel l = (LessonLevel) view.getTag();
+                    if (l.isActive() || l.isDemo()) {
+                        onSelectLevel.onSelectLevel(l);
+                    }
+                }
+            });
+        } catch (LiteDatabaseException e) {
+            SimpleAppLog.error("Could not get lesson level from database",e);
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

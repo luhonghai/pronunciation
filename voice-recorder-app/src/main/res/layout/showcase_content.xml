@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
+            android:gravity="center_horizontal"
             android:textSize="@dimen/show_case_text_size"
             android:textColor="@android:color/white"/>
     </LinearLayout>
