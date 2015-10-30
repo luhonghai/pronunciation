@@ -331,7 +331,7 @@ public class QuestionDAO extends DataAccess<Question> {
         List<Question> listQuestions = new ArrayList<Question>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
-            whereClause = whereClause + ") and name like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
+            whereClause = whereClause + ") and question.NAME COLLATE UTF8_GENERAL_CI like '%"+wordSearch.toLowerCase()+"%' and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
@@ -388,7 +388,7 @@ public class QuestionDAO extends DataAccess<Question> {
             clause.append(" Where ");
             whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + " name like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + " question.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + " isDeleted=false order by name asc" ;
             }
@@ -400,7 +400,7 @@ public class QuestionDAO extends DataAccess<Question> {
             }
             whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + ") and name like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + ") and question.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + ") and isDeleted=false order by name asc" ;
             }
