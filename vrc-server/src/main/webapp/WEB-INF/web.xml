@@ -379,6 +379,25 @@
         <url-pattern>/ManageIpaMapArpabetServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManageCountryServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManageCountryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManageCountryServlet</servlet-name>
+        <url-pattern>/ManageCountryServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoadDataForCountryServlet</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.LoadDataForCountryServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoadDataForCountryServlet</servlet-name>
+        <url-pattern>/LoadDataForCountryServlet</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>

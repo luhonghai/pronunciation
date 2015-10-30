@@ -90,7 +90,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-                        <h1 align="center">Add Level</h1>
+                        <h1 align="center">Add Mapping</h1>
                         <form name="add" class="form-horizontal"
                               style="margin-top: 25px" id="addform">
 
@@ -135,7 +135,7 @@
                                 <div>
                                     <label class="col-xs-4  col-sm-3 control-label ">Index :</label>
                                     <div class="col-xs-8  col-sm-9">
-                                        <input type="text" id="index_type" name="index_type" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                                        <input type="text" id="index_type" onkeypress="return isNumberKey(event,this)" name="index_type" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div>

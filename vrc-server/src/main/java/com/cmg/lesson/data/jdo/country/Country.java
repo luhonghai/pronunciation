@@ -2,9 +2,11 @@ package com.cmg.lesson.data.jdo.country;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by lantb on 2015-10-19.
@@ -27,6 +29,41 @@ public class Country implements Mirrorable {
     @Persistent
     private int version;
 
+    //lan add this field
+    @Persistent
+    private Date timeCreated;
+    //lan add this field
+    @Persistent
+    private boolean isDefault;
+
+    //lan add this field
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
+    private String imageURL;
+
+    public Date getTimeCreated() {
+        return timeCreated;
+    }
+
+    public void setTimeCreated(Date timeCreated) {
+        this.timeCreated = timeCreated;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
     @Override
     public String getId() {
         return this.id;

@@ -214,6 +214,32 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
+    /**
+     *
+     * @param idWord
+     * @param definition
+     * @param mp3Path
+     * @return true if update success
+     */
+    public boolean updateArpabet(String idWord,String arpabet){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET arpabet= ? WHERE id = ?");
+        try {
+            q.execute(arpabet,idWord);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return check;
+    }
+
 
     /**
      *

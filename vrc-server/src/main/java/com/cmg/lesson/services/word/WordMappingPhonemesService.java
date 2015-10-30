@@ -123,7 +123,8 @@ public class WordMappingPhonemesService {
     public String addMapping(String wordID, List<String> phonemes,int version,boolean isDeleted){
         String messageError = "";
         if(checkExist(wordID)){
-            updateDeleted(wordID,true);
+            return "";
+            //updateDeleted(wordID,true);
         }
         WordMappingPhonemesDAO dao = new WordMappingPhonemesDAO();
         ArrayList<WordMappingPhonemes> list = new ArrayList<WordMappingPhonemes>();
@@ -218,6 +219,7 @@ public class WordMappingPhonemesService {
      */
     public void updatePhonemeOfWordToDatabase(){
         WordCollectionService wcSer = new WordCollectionService();
+        WordCollectionDAO dao =new WordCollectionDAO();
         String word = null;
         try {
             List<WordCollection> list = wcSer.listAll(false);
@@ -234,7 +236,10 @@ public class WordMappingPhonemesService {
                     int version = getMaxVersion();
                     logger.info("add mapping word " + wc.getWord());
                     addMapping(wc.getId(), phonemes, version, false);
-                    logger.info("==add success mapping word " + wc.getWord() +"====");
+                    logger.info("==add success mapping word " + wc.getWord() + "====");
+                    logger.info("update aparbet word " + wc.getWord());
+                    dao.updateArpabet(wc.getId(),parseList(phonemes));
+                    logger.info("==success update arpabet to word " + wc.getWord() + "====");
                 }else{
                     logger.info("this word : " + word + " not in Beep Dictionary");
                 }
@@ -242,6 +247,14 @@ public class WordMappingPhonemesService {
         }catch (Exception e){
             logger.error("can not check word :"+word+ " in beep cause : " + e.getMessage());
         }
+    }
+
+    public String parseList(List<String> phonemes){
+        StringBuffer bf = new StringBuffer();
+        for(String ph : phonemes){
+            bf.append(ph + " ");
+        }
+        return bf.toString().substring(0,bf.length()-1);
     }
 
 }

@@ -10,6 +10,7 @@ import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,25 @@ public class CourseService {
         return version +1;
     }
 
-
+    public CourseDTO listAll(){
+        CourseDAO dao = new CourseDAO();
+        CourseDTO dto = new CourseDTO();
+        try {
+            List<Course> list = dao.listAll();
+            if(list!=null && list.size()>0){
+                dto.setMessage(SUCCESS);
+                dto.setData(list);
+            }else{
+                dto.setMessage(SUCCESS);
+               dto.setData(new ArrayList<Course>());
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": can not list all because " + e.getMessage());
+            logger.error("can not list all : " + e);
+        }
+        dto.setMessage(SUCCESS);
+        return dto;
+    }
     /**
      *
      * @param name, description,color
@@ -62,7 +81,7 @@ public class CourseService {
             }
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
-            logger.error("can not add level : " + name + " because : " + e.getMessage());
+            logger.error("can not add course : " + name + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;

@@ -32,7 +32,7 @@ public class WordCollection implements Mirrorable{
     @Persistent
     private int version;
 
-    @NotPersistent
+    @Persistent
     private String arpabet;
 
     public WordCollection(){}

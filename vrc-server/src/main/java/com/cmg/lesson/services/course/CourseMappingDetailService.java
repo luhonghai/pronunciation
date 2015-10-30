@@ -96,7 +96,7 @@ public class CourseMappingDetailService {
     /**
      *
      * @param idCourse
-     * @param idLevel
+     * @param idObjective
      * @return
      */
     public String removeDetail(String idCourse, String idObjective){
@@ -127,6 +127,27 @@ public class CourseMappingDetailService {
         String message;
         try {
             if(dao.updateDeleted(idLevel)){
+                message = SUCCESS;
+            }else{
+                message = ERROR +": An error has been occurred in server!";
+            }
+        }catch (Exception e){
+            message = ERROR +": An error has been occurred in server!" + e.getMessage();
+            logger.error("can not add mapping because : " + e.getMessage());
+        }
+        return message;
+    }
+
+    /**
+     *
+     * @param idChild
+     * @return
+     */
+    public String removeDetailByIdChild( String idChild){
+        CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
+        String message;
+        try {
+            if(dao.updateDeletedByIdidChild(idChild)){
                 message = SUCCESS;
             }else{
                 message = ERROR +": An error has been occurred in server!";

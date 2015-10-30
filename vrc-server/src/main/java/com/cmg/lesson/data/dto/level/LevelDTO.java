@@ -1,6 +1,7 @@
 package com.cmg.lesson.data.dto.level;
 
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
+import com.cmg.lesson.data.dto.test.TestMappingDTO;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.Question;
 
@@ -20,6 +21,16 @@ public class LevelDTO {
     private List<Level> data;
 
     private List<ObjectiveMappingDTO> listObjMap;
+
+    private List<TestMappingDTO> listTestMap;
+
+    public List<TestMappingDTO> getListTestMap() {
+        return listTestMap;
+    }
+
+    public void setListTestMap(List<TestMappingDTO> listTestMap) {
+        this.listTestMap = listTestMap;
+    }
 
     public int getDraw() {
         return draw;

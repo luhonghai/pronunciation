@@ -13,9 +13,13 @@ public class Constant {
 
     public static String FOLDER_REOCORDED_VOICES_AMT = "amt_voices";
 
+    public static String FOLDER_RECORDED_VOICES_LESSON = "voices_lesson";
+
     public static String FOLDER_FEEDBACK = "feedback";
 
     public static String FOLDER_ACOUSTIC_MODEL = "acoustic_model";
+
+    public static String FOLDER_IMAGE_COUNTRY = "image_country";
 
     public static String FOLDER_GRAMMAR = "grammar";
 

@@ -53,7 +53,7 @@ function createPanelHeadingLevel(item){
 
     //for div col in left
     var $divColLeft =  $("<div>");
-    $divColLeft.addClass("col-sm-3");
+    $divColLeft.addClass("heading-col-left");
     //for title of panel
     var $h4 = $("<h4>");
     $h4.addClass("panel-title");
@@ -63,17 +63,33 @@ function createPanelHeadingLevel(item){
     $buttonLv.attr("data-toggle","collapse");
     $buttonLv.attr("data-target","#"+item.id);
     $buttonLv.attr("onclick","clickLevel(this);");
-    $buttonLv.text(item.name);
+    $buttonLv.text(item.name + " ↓");
     $h4.append($buttonLv);
     $divColLeft.append($h4);
 
     //div contain remove level button
     var $divColRight =  $("<div>");
-    $divColRight.addClass("col-sm-2 pull-right");
+    $divColRight.addClass("heading-col-right");
+
+    //button create objective
+    var $btnCreateObj = $("<button>");
+    $btnCreateObj.addClass("btn btn-default createObj");
+    $btnCreateObj.text("Create Objective");
+    $btnCreateObj.attr("id_lv", item.id);
+
+    //buton create test
+    var $btnCreateTest = $("<button>");
+    $btnCreateTest.addClass("btn btn-default createTest");
+    $btnCreateTest.text("Create Test");
+    $btnCreateTest.attr("id_lv", item.id);
+    //buton remove level
     var $buttonRemoveLv = $("<button>");
     $buttonRemoveLv.addClass("btn btn-default removelv");
     $buttonRemoveLv.attr("id_lv",item.id);
     $buttonRemoveLv.text("Remove Level");
+
+    $divColRight.append($btnCreateObj);
+    $divColRight.append($btnCreateTest);
     $divColRight.append($buttonRemoveLv);
 
 
@@ -97,26 +113,6 @@ function createPanelCollapseLv(item){
     var $panel_body = $("<div>");
     $panel_body.addClass("panel-body");
 
-    var $divRow = $("<div>");
-    $divRow.addClass("row row-button");
-
-    var $divColLeft =  $("<div>");
-    $divColLeft.addClass("col-sm-3");
-    var $btnCreateObj = $("<button>");
-    $btnCreateObj.addClass("btn btn-default createObj");
-    $btnCreateObj.text("Create Objective");
-    $btnCreateObj.attr("id_lv", item.id);
-    $divColLeft.append($btnCreateObj);
-
-    var $divColRight =  $("<div>");
-    $divColRight.addClass("col-sm-3");
-    var $btnCreateTest = $("<button>");
-    $btnCreateTest.addClass("btn btn-default");
-    $btnCreateTest.text("Create Test");
-    $btnCreateTest.attr("id_lv", item.id);
-    $divColRight.append($btnCreateTest);
-
-
     var $divObjectives = $("<div>");
     $divObjectives.addClass("row");
     $divObjectives.attr("id","collection_objective");
@@ -125,9 +121,6 @@ function createPanelCollapseLv(item){
     $divTests.addClass("row");
     $divTests.attr("id","collection_test");
 
-    $divRow.append($divColLeft);
-    $divRow.append($divColRight);
-    $panel_body.append($divRow);
     $panel_body.append($divObjectives);
     $panel_body.append($divTests)
     $collapse.append($panel_body);
@@ -183,7 +176,7 @@ function createPanelHeadingObject(obj){
     $buttonObj.attr("id_lv",obj.idLevel);
     $buttonObj.attr("id_obj",obj.idObjective);
     $buttonObj.attr("onclick","clickObj(this)");
-    $buttonObj.text(obj.nameObj);
+    $buttonObj.text(obj.nameObj + " ↓");
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 
@@ -245,3 +238,113 @@ function createPanelCollapseObject(obj){
 }
 
 //----------------------------end ui object------------------//
+
+
+
+/**
+ *
+ * @param idLevel
+ * @param obj
+ */
+function buildPanelTest(obj){
+    var $panel_default = $("<div>");
+    $panel_default.addClass("panel panel-default");
+    var $panel_heading = createPanelHeadingTest(obj);
+    var $collapse = createPanelCollapseTest(obj);
+    $panel_default.append($panel_heading);
+    $panel_default.append($collapse);
+    $("#"+obj.idLevel).find("#collection_test").append($panel_default);
+}
+
+/**
+ *
+ * @param idLevel
+ * @param obj
+ * @returns {*|jQuery|HTMLElement}
+ */
+function createPanelHeadingTest(obj){
+    var $panel_heading = $("<div>");
+    $panel_heading.addClass("panel-heading");
+    $panel_heading.css("background-color", "#D46752");
+
+    //for div row in heading
+    var $divRow = $("<div>");
+    $divRow.addClass("row");
+
+
+    //for div col in left
+    var $divColLeft =  $("<div>");
+    $divColLeft.addClass("col-sm-3");
+    //for title of panel
+    var $h4 = $("<h4>");
+    $h4.addClass("panel-title");
+    //button for level show up
+    var $buttonObj = $("<button>");
+    $buttonObj.addClass("btn btn-default");
+    $buttonObj.attr("data-toggle","collapse");
+    $buttonObj.attr("data-target","#"+obj.idTest);
+    $buttonObj.attr("id_lv",obj.idLevel);
+    $buttonObj.attr("id_test",obj.idTest);
+    $buttonObj.attr("onclick","clickTest(this)");
+    $buttonObj.text(obj.nameTest + " ↓" + " - PercentPass: "+ obj.percentPass);
+    $h4.append($buttonObj);
+    $divColLeft.append($h4);
+
+
+    //div contain remove level button
+    var $divColRightEdit =  $("<div>");
+    $divColRightEdit.addClass("col-sm-2");
+    var $buttonEditObj = $("<button>");
+    $buttonEditObj.addClass("btn btn-default editTest");
+    $buttonEditObj.attr("id_lv",obj.idLevel);
+    $buttonEditObj.attr("id_test",obj.idTest);
+    $buttonEditObj.text("Edit Test");
+    $divColRightEdit.append($buttonEditObj);
+
+    //div contain remove level button
+    var $divColRightRemoveObj =  $("<div>");
+    $divColRightRemoveObj.addClass("col-sm-2");
+    var $buttonRemoveObj = $("<button>");
+    $buttonRemoveObj.addClass("btn btn-default removeTest");
+    $buttonRemoveObj.attr("id_lv",obj.idLevel);
+    $buttonRemoveObj.attr("id_test",obj.idTest);
+    $buttonRemoveObj.text("Remove Test");
+    $divColRightRemoveObj.append($buttonRemoveObj);
+
+    $divRow.append($divColLeft);
+    $divRow.append($divColRightEdit);
+    $divRow.append($divColRightRemoveObj);
+    $panel_heading.append($divRow);
+    return $panel_heading;
+
+}
+
+/**
+ *
+ * @param idLevel
+ * @param obj
+ * @returns {*|jQuery|HTMLElement}
+ */
+function createPanelCollapseTest(obj){
+    var $collapse = $("<div>");
+    $collapse.addClass("panel-collapse collapse panelTest");
+    $collapse.attr("id",obj.idTest);
+    $collapse.attr("id_lv",obj.idLevel);
+    $collapse.attr("type","getLessonTest");
+    var $panel_body = $("<div>");
+    $panel_body.addClass("panel-body");
+
+    var $divRow = $("<div>");
+    $divRow.addClass("row");
+
+    var $divObjectives = $("<div>");
+    $divObjectives.addClass("row");
+    $divObjectives.attr("id","collection_lesson_test");
+
+    $divRow.append($divObjectives);
+    $panel_body.append($divRow);
+    $collapse.append($panel_body);
+    return $collapse;
+}
+
+//----------------------------end ui test------------------//

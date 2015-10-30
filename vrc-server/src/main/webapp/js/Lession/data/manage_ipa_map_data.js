@@ -35,7 +35,13 @@ function initDate(){
         format: 'DD/MM/YYYY'
     });
 }
-
+function isNumberKey(evt,e) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+}
 
 /**
  * clear all field
@@ -49,6 +55,20 @@ function clearForm(){
     $("#type").empty();
     $("#ipa").removeAttr("readonly");
     $("#submitForm").removeAttr("id_mapping");
+}
+
+function validateForm(){
+    var arpabet = $("#arpabet").val();
+    var ipa = $("#ipa").val();
+    if(typeof ipa == undefined || ipa=="" || ipa.length == 0){
+        swal("Warning!", "Please enter value for IPA", "warning");
+        return false;
+    }
+    if(typeof arpabet == undefined || arpabet == "" || arpabet.length == 0){
+        swal("Warning!", "Please enter value for Arpabet", "warning");
+        return false;
+    }
+    return true;
 }
 /**
  * get data form
@@ -94,7 +114,7 @@ function includeDataForm(data){
     $("#ipa").val(data.ipa);
     $("#description").val(data.description);
     $("#tip").val(data.tip);
-    $("#addColor").val(data.color);
+    $("#addColor").colorpicker('setValue', data.color);
     $("#mp3").val(data.mp3Url);
     $("#index_type").val(data.indexingType);
     $("#words").val(data.words);
