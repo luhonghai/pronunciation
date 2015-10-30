@@ -1,6 +1,6 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-
+<link href="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/css/fileinput.min.css" type="text/css" rel="stylesheet"/>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">

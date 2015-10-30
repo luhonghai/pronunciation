@@ -23,7 +23,6 @@ function getAllCourse(idSelected){
         },
         success: function (obj) {
             if (obj.message.indexOf("success") !=-1) {
-                alert(idSelected);
                 buildSelectBox(obj.data,idSelected);
             }else{
                 swal("Could not get courses!", obj.split(":")[1], "error");
