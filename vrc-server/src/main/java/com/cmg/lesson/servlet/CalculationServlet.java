@@ -11,6 +11,7 @@ import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
@@ -63,6 +64,7 @@ public class CalculationServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         PrintWriter out = response.getWriter();
         AWSHelper awsHelper = new AWSHelper();
         ServletFileUpload upload = new ServletFileUpload();
@@ -77,12 +79,32 @@ public class CalculationServlet extends HttpServlet {
             String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
             String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             //create a new Map<String,String> to store all parameter
-            Map<String, String> storePara  = getMap(request,targetDir,tmpFile);
+            Map<String, String> storePara = new HashMap<String, String>();
+            FileItemIterator iter = null;
+            iter = upload.getItemIterator(request);
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+                String name = item.getFieldName();
+                InputStream stream = item.openStream();
+                if (item.isFormField()) {
+                    logger.info(name);
+                    String value = Streams.asString(stream);
+                    storePara.put(name, value);
+                }else{
+                    String getName = item.getName();
+                    logger.info("getname = :" +getName);
+                    // Process the input stream
+                    if(getName.endsWith(".wav")){
+                        FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
+                        //FileHelper.saveFile(tmpDir, tmpFile, stream);
+                    }
+                }
+            }
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
-            String idWord = storePara.get(PARA_WORD_ID);
-            String idQuestion = storePara.get(PARA_QUESTION_ID);
-            String idCountry = storePara.get(PARA_COUNTRY_ID);
+            String idWord =(String) StringUtil.isNull(storePara.get(PARA_WORD_ID),"");
+            String idQuestion = (String) StringUtil.isNull(storePara.get(PARA_QUESTION_ID), "");
+            String idCountry = (String) StringUtil.isNull(storePara.get(PARA_COUNTRY_ID), "");
 
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
@@ -95,11 +117,11 @@ public class CalculationServlet extends HttpServlet {
                 String uuid = UUIDGenerator.generateUUID();
                 String fileTempName  = word + "_" + uuid + "_raw" + ".wav";
                 File targetRaw = new File(target, fileTempName);
-                FileUtils.moveFile(tmpFileIn, targetRaw);
                 try {
+                    FileUtils.moveFile(tmpFileIn, targetRaw);
                     if (tmpFileIn.exists())
                         FileUtils.forceDelete(tmpFileIn);
-                } catch (Exception e) {}
+                } catch (Exception e) {e.printStackTrace();}
                 awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() +"/" + fileTempName,
                         targetRaw);
                 UserLessonHistory model = new UserLessonHistory();
@@ -127,6 +149,7 @@ public class CalculationServlet extends HttpServlet {
                     service.addSessionScore(model);
                 }
                 String output = gson.toJson(model);
+                logger.info("json to client : " + output);
                 out.print(output);
             }
 
@@ -161,9 +184,10 @@ public class CalculationServlet extends HttpServlet {
                 }else{
                     String getName = item.getName();
                     logger.info("file name : " + getName);
-                    if(getName.endsWith(".png") || getName.endsWith(".jpg")){
-                        FileUtils.copyInputStreamToFile(stream, new File(targetDir, tempName));
-                        storePara.put("file",new File(targetDir, tempName).getAbsolutePath());
+                    if(getName.endsWith(".wav")){
+                        File temp = new File(targetDir,tempName);
+                        FileUtils.copyInputStreamToFile(stream, temp);
+                        storePara.put("file",temp.getAbsolutePath());
                     }
                 }
             }

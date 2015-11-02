@@ -32,15 +32,15 @@ public class ScoreService {
     public UserLessonHistory reCalculateBaseOnWeight(UserLessonHistory user){
         logger.info("=====Start calculate result of word : " + user.getWord() + " with weight form admin =======");
         if(user.getResult().getPhonemeScores() != null && user.getResult().getPhonemeScores().size() > 0){
-            String idWord = user.getIdWord();
-            String idQuestion = user.getIdQuestion();
+            String idWord = "e93563dd-9791-45aa-b112-2e2150c27220";//user.getIdWord();
+            String idQuestion = "252b4dc5-db57-4677-b24b-85dc0bf4cd57";//user.getIdQuestion();
             WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
             IpaMapArpabetDAO ipaDao = new IpaMapArpabetDAO();
             try {
                 List<WeightForPhoneme> weight = weightDao.listBy(idQuestion,idWord);
                 int totalWeight = 0;
-                double totalscore = user.getScore();
-                logger.info("total score base on sphinx : "  + totalscore);
+                float totalscore = 0.0f;
+                logger.info("total score base on sphinx : "  + user.getResult().getScore());
                 List<SphinxResult.PhonemeScore> scores = user.getResult().getPhonemeScores();
                 for(SphinxResult.PhonemeScore ph : scores){
                     float scorePhoneme = ph.getTotalScore();
@@ -52,15 +52,18 @@ public class ScoreService {
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
                             ph.setTotalScore(scorePhoneme*tempWeight);
-                            //set ipa to client;
-                            ph.setIpa((String)StringUtil.isNull(ipaDao.getByArpabet(ph.getName()),""));
-                            logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme *tempWeight));
+                            logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme * tempWeight));
+                            ph.setIpa((String) StringUtil.isNull(ipaDao.getByArpabet(ph.getName()), ""));
                             break;
                         }
                     }
                 }
-                logger.info("total score base on weight : "  + totalscore);
-                user.setScore(totalscore/totalWeight);
+                logger.info("total weight : "  + totalWeight);
+                logger.info("total score : " + totalscore);
+                logger.info("total score base on weight : " + totalscore / totalWeight);
+                float finalScore = totalscore/totalWeight;
+                user.setScore(finalScore);
+                user.getResult().setScore(finalScore);
             }catch (Exception e){
                 logger.error("can not get weight of each phoneme for this word : " + user.getWord());
             }
