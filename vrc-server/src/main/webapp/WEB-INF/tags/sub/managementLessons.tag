@@ -55,6 +55,7 @@
                 <thead>
                 <tr>
                   <th>Lessons</th>
+                  <th>Title</th>
                   <th>Description</th>
                   <th>Created date</th>
                   <th></th>
@@ -93,11 +94,17 @@
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
-
                 <div>
                   <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Title:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="addTitle" name="addTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
@@ -140,6 +147,12 @@
                   <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="editLesson" name="editLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-3 control-label ">Title:</label>
+                  <div class="col-xs-8  col-sm-9">
+                    <input  type="text" id="editTitle" name="editTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>

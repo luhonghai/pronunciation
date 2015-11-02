@@ -3,6 +3,7 @@ package com.cmg.lesson.services.question;
 import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
+import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.Question;
@@ -117,6 +118,8 @@ public class QuestionService {
             boolean isDelete=dao.deteleQuestion(id);
             if (isDelete){
                 message = SUCCESS;
+                //make sure you also delete mapping
+                deleteMapping(id);
             }else{
                 message = ERROR + ": " + "an error has been occurred in server!";
             }
@@ -126,6 +129,17 @@ public class QuestionService {
         }
         dto.setMessage(message);
         return dto;
+    }
+
+    public void deleteMapping(String id){
+        try {
+            LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();
+            dao.updateDeletedByQuestion(id);
+            WeightForPhonemeDAO weightForPhonemeDAO = new WeightForPhonemeDAO();
+            weightForPhonemeDAO.updateDeletedByIdQuestion(id);
+        }catch (Exception e){
+            logger.debug("can not delete mapping : " + e);
+        }
     }
 
     /**

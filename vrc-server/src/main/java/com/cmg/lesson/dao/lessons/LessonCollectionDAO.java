@@ -50,13 +50,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateLesson(String id, String name, String description) throws Exception{
+    public boolean updateLesson(String id, String name,String title, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET nameUnique=?, description=? , name=? WHERE id='"+id+"'");
         try {
-            q.execute(name,description,id);
+            q.execute(name,description,title);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,13 +75,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateDescription(String id, String description) throws Exception{
+    public boolean updateDescription(String id,String title, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, name=? WHERE id=?");
         try {
-            q.execute(description,id);
+            q.execute(description,title,id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,7 +103,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      */
     public boolean checkExist(String name) throws Exception{
         boolean isExist = false;
-        List<LessonCollection> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
+        List<LessonCollection> list = list("WHERE nameUnique == :1 && isDeleted == :2 ", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }
