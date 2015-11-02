@@ -232,8 +232,18 @@ public class CountryDAO extends DataAccess<Country> {
             q.setOrdering("name desc");
         }
         if (column==1 && order.equals("asc")) {
-            q.setOrdering("timeCreated asc");
+            q.setOrdering("description asc");
         }else if(column==1 && order.equals("desc")) {
+            q.setOrdering("description desc");
+        }
+        if (column==2 && order.equals("asc")) {
+            q.setOrdering("imageURL asc");
+        }else if(column==2 && order.equals("desc")) {
+            q.setOrdering("imageURL desc");
+        }
+        if (column==3 && order.equals("asc")) {
+            q.setOrdering("timeCreated asc");
+        }else if(column==3 && order.equals("desc")) {
             q.setOrdering("timeCreated desc");
         }
 

@@ -17,5 +17,5 @@ function buildSelectBox(data,idSelected){
     $('.loading').hide();
     $('#select-course').show();
     $('#select-course').multiselect();
-
+    $("#container-add-lesson").find(".btn-group").css({"padding-left":"14px","margin-top":"5px"});
 }

@@ -55,6 +55,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Image</th>
+                                    <th>Created date</th>
                                     <th></th>
                                 </tr>
                                 </thead>

@@ -154,22 +154,31 @@ public class CountryService {
      * @param isDefault
      * @return
      */
-    public boolean add(String id,String name, String description, String linkImage, boolean isDefault){
+    public CountryDTO add(String id,String name, String description, String linkImage, boolean isDefault){
         CountryDAO dao = new CountryDAO();
+        CountryDTO dto = new CountryDTO();
         try {
-            Country country = new Country();
-            country.setId(id);
-            country.setName(name);
-            country.setDescription(description);
-            country.setImageURL(linkImage);
-            country.setIsDeleted(false);
-            country.setVersion(getMaxVersion());
-            country.setIsDefault(isDefault);
-            return dao.create(country);
+            if(!checkExistedName(name)) {
+                Country country = new Country();
+                country.setId(id);
+                country.setName(name);
+                country.setDescription(description);
+                country.setImageURL(linkImage);
+                country.setTimeCreated(new Date(System.currentTimeMillis()));
+                country.setIsDeleted(false);
+                country.setVersion(getMaxVersion());
+                country.setIsDefault(isDefault);
+                dao.create(country);
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage ( ERROR + ":" + "country name is existed");
+            }
+
         }catch (Exception e){
+            dto.setMessage ( ERROR + ":" + "country name is existed");
             logger.error("can not add country to database because : " + e);
         }
-        return false;
+        return dto;
     }
 
     /**
@@ -205,12 +214,14 @@ public class CountryService {
     public CountryDTO addCountry(String name, String description, String idCourse, String linkS3, boolean isDefault){
         CountryDTO dto = new CountryDTO();
         String idCountry = UUIDGenerator.generateUUID().toString();
-        boolean condition1 = add(idCountry, name, description, linkS3, isDefault);
-        boolean condition2 = addMapping(idCountry,idCourse);
-        if(condition1 && condition2){
-            dto.setMessage(SUCCESS);
-        }else{
-            dto.setMessage(ERROR +": an error has been occurred in server!");
+        dto = add(idCountry, name, description, linkS3, isDefault);
+        if(dto.getMessage().equalsIgnoreCase("success")){
+            boolean condition2 = addMapping(idCountry,idCourse);
+            if(condition2){
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR +": an error has been occurred in server!");
+            }
         }
         return dto;
     }
