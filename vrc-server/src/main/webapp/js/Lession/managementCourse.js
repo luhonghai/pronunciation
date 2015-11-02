@@ -3,9 +3,7 @@
  */
 var myTable;
 var servletName="ManagementCourseServlet";
-var lessonName;
-var isDemos=false;
-function listLevels(){
+function listCourse(){
 
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -77,7 +75,7 @@ function openPopupAdd(){
     });
 }
 
-function addLevel(){
+function addCourse(){
     $(document).on("click","#yesadd", function(){
         var course = $("#addCourse").val();
         var description = $("#addDescription").val();
@@ -100,7 +98,6 @@ function addLevel(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
-                    isDemos=false;
                 }else{
                     swal("Could not add Level!", data.split(":")[1], "error");
                 }
@@ -124,7 +121,7 @@ function openPopupDelete(){
     });
 }
 
-function deleteLevel(){
+function deleteCourse(){
     $(document).on("click","#deleteItems", function(){
         var id=  $("#iddelete").val();
         $.ajax({
@@ -161,25 +158,19 @@ function openPopupEdit(){
         $("#editCourse").val(course);
         $("#editDescription").val(description);
         $("#idedit").val(idd);
-        lessonName = level;
     });
 
 }
 
-function editLevel(){
+function editCourse(){
     $(document).on("click","#yesedit", function(){
-
-        var isUpdateLessonName=true;
         var id = $("#idedit").val();
         var course = $("#editCourse").val();
         var description = $("#editDescription").val();
         if (course == null || typeof course == "undefined" || course.length == 0){
             $("#editCourse").focus();
-            swal("Warning!", "Lesson not null!", "warning");
+            swal("Warning!", "Course not null!", "warning");
             return;
-        }
-        if(course == lessonName){
-            isUpdateLessonName = false;
         }
         $.ajax({
             url: servletName,
@@ -189,15 +180,13 @@ function editLevel(){
                 action: "edit",
                 id: id,
                 course: course,
-                description:description,
-                isUpdateLessonName: isUpdateLessonName
+                description:description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
-                    isDemos=false;
                 }else{
                     swal("Could not update lesson!", data.split(":")[1], "error");
                 }
@@ -242,12 +231,12 @@ $(document).ready(function(){
     dateFrom();
     dateTo();
     openPopupAdd();
-    addLevel();
+    addCourse();
     openPopupEdit();
-    editLevel();
+    editCourse();
     openPopupDelete();
-    deleteLevel();
-    listLevels();
+    deleteCourse();
+    listCourse();
     searchAdvanted();
 });
 
