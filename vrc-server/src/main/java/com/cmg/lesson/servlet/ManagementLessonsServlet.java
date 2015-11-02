@@ -44,16 +44,18 @@ public class ManagementLessonsServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String lesson =  (String)StringUtil.isNull(request.getParameter("lesson"),"");
+                String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
-                String message = lessonCollectionService.addLesson(lesson,description).getMessage();
+                String message = lessonCollectionService.addLesson(lesson,title,description).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
                 String lessonId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String lesson = (String)StringUtil.isNull(request.getParameter("lesson"),"");
+                String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
-                String message = lessonCollectionService.updateLesson(lessonId,lesson,description, isUpdateLessonName).getMessage();
+                String message = lessonCollectionService.updateLesson(lessonId,lesson,title,description, isUpdateLessonName).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){

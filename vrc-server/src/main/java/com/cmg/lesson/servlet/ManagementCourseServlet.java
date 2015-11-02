@@ -48,7 +48,6 @@ public class ManagementCourseServlet extends BaseServlet {
                 String courseId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String course = (String)StringUtil.isNull(request.getParameter("course"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
-                boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
                 String message = courseService.updateCourse(courseId, course, description).getMessage();
                 response.getWriter().write(message);
 

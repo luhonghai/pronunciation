@@ -2,6 +2,8 @@ package com.cmg.lesson.services.lessons;
 
 import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
+import com.cmg.lesson.dao.objectives.ObjectiveMappingDAO;
+import com.cmg.lesson.dao.test.TestMappingDAO;
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import org.apache.log4j.Logger;
@@ -39,24 +41,24 @@ public class LessonCollectionService {
      * @param description
      * @return
      */
-    public LessonCollectionDTO updateLesson(String id, String name, String description, boolean isUpdateLessonName){
+    public LessonCollectionDTO updateLesson(String id, String name,String title, String description, boolean isUpdateLessonName){
         LessonCollectionDTO dto = new LessonCollectionDTO();
         LessonCollectionDAO dao = new LessonCollectionDAO();
         String message;
         try{
             if(isUpdateLessonName) {
                 if (!isExistLessonName(name)) {
-                    boolean isUpdate = dao.updateLesson(id, name, description);
+                    boolean isUpdate = dao.updateLesson(id, name,title, description);
                     if (isUpdate) {
                         message = SUCCESS;
                     } else {
                         message = ERROR + ":" + "An error has been occurred in server!";
                     }
                 } else {
-                    message = ERROR + ":" + "LessionCollection name is existed";
+                    message = ERROR + ":" + "Lesson name is existed";
                 }
             }else {
-                boolean isUpdate = dao.updateDescription(id, description);
+                boolean isUpdate = dao.updateDescription(id,title, description);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
@@ -76,13 +78,14 @@ public class LessonCollectionService {
      * @param name
      * @return true if question was added to table.
      */
-    public LessonCollectionDTO addLesson(String name, String description){
+    public LessonCollectionDTO addLesson(String nameUnique,String name, String description){
         LessonCollectionDAO dao = new LessonCollectionDAO();
         LessonCollectionDTO dto = new LessonCollectionDTO();
         String message;
         try {
-            if(!isExistLessonName(name)) {
+            if(!isExistLessonName(nameUnique)) {
                 LessonCollection l = new LessonCollection();
+                l.setNameUnique(nameUnique);
                 l.setName(name);
                 l.setDescription(description);
                 l.setVersion(getMaxVersion());
@@ -114,6 +117,8 @@ public class LessonCollectionService {
             boolean isDelete=dao.deletedLesson(id);
             if (isDelete){
                 message = SUCCESS;
+                //function for  delete mapping lesson with objective and test
+                deleteMapping(id);
             }else{
                 message = ERROR + ": " + "An error has been occurred in server!";
             }
@@ -123,6 +128,21 @@ public class LessonCollectionService {
         }
         dto.setMessage(message);
         return dto;
+    }
+
+    /**
+     *
+     * @param id
+     */
+    public void deleteMapping(String id){
+        try {
+            ObjectiveMappingDAO daoObj = new ObjectiveMappingDAO();
+            daoObj.updateDeletedByLesson(id);
+            TestMappingDAO daoTest = new TestMappingDAO();
+            daoTest.updateDeletedByLesson(id);
+        }catch (Exception e){
+            logger.debug("can not delete mapping : " + e.getMessage());
+        }
     }
 
     /**

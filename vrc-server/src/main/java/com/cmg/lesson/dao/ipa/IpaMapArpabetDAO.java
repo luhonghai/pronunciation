@@ -28,9 +28,9 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
      * @throws Exception
      */
     public String getByArpabet(String arpabet) throws Exception{
-        List<IpaMapArpabet> temp = list("WHERE arpabet=? and isDeleted=?",arpabet,false);
+        List<IpaMapArpabet> temp = list("WHERE arpabet == :1 && isDeleted == :2",arpabet,false);
         if(temp!=null && temp.size() > 0){
-            return temp.get(0).getArpabet();
+            return temp.get(0).getIpa();
         }
         return null;
     }

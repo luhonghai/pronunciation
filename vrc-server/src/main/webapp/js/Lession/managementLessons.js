@@ -26,16 +26,21 @@ function listLessons(){
             }
         },
 
-        "columns": [{
-            "sWidth": "25%",
+        "columns": [
+            {
+                "sWidth": "25%",
+                "data": "nameUnique",
+                "sDefaultContent": ""
+            },{
+            "sWidth": "15%",
             "data": "name",
             "sDefaultContent": ""
         }, {
-            "sWidth": "25%",
+            "sWidth": "15%",
             "data": "description",
             "sDefaultContent": ""
         }, {
-            "sWidth": "20%",
+            "sWidth": "15%",
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
@@ -46,7 +51,8 @@ function listLessons(){
             "mRender": function (data, type, full) {
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
                 $button.attr("id-column", data.id);
-                $button.attr("lesson", data.name);
+                $button.attr("lesson", data.nameUnique);
+                $button.attr("title", data.name);
                 $button.attr("description", data.description);
                 return $("<div/>").append($button).html();
             }
@@ -73,6 +79,7 @@ function openPopupAdd(){
     $(document).on("click","#openAddLesson", function(){
         $("#add").modal('show');
         $("#addLesson").val("");
+        $("#addTitle").val("");
         $("#addDescription").val("");
     });
 }
@@ -80,10 +87,16 @@ function openPopupAdd(){
 function addLesson(){
     $(document).on("click","#yesadd", function(){
         var lesson = $("#addLesson").val();
+        var title = $("#addTitle").val();
         var description = $("#addDescription").val();
         if (lesson == null || typeof lesson == "undefined" || lesson.length == 0){
             $("#addLesson").focus();
             swal("Warning!", "Lesson not null!", "warning");
+            return;
+        }
+        if (title == null || typeof title == "undefined" || title.length == 0){
+            $("#addTitle").focus();
+            swal("Warning!", "Title not null!", "warning");
             return;
         }
         $.ajax({
@@ -93,6 +106,7 @@ function addLesson(){
             data: {
                 add: "add",
                 lesson: lesson,
+                title: title,
                 description:description
             },
             success: function (data) {
@@ -156,9 +170,11 @@ function openPopupEdit(){
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
         var lesson = $(this).attr('lesson');
+        var title = $(this).attr('title');
         var description = $(this).attr('description');
         $("#editLesson").val(lesson);
         $("#editDescription").val(description);
+        $("#editTitle").val(title);
         $("#idedit").val(idd);
         lessonName = lesson;
     });
@@ -172,9 +188,15 @@ function editLesson(){
         var id = $("#idedit").val();
         var lesson = $("#editLesson").val();
         var description = $("#editDescription").val();
+        var title = $("#editTitle").val();
         if (lesson == null || typeof lesson == "undefined" || lesson.length == 0){
-            $("#addquestion").focus();
+            $("#editLesson").focus();
             swal("Warning!", "Lesson not null!", "warning");
+            return;
+        }
+        if (title == null || typeof title == "undefined" || title.length == 0){
+            $("#editTitle").focus();
+            swal("Warning!", "Title not null!", "warning");
             return;
         }
         if(lesson == lessonName){
@@ -188,6 +210,7 @@ function editLesson(){
                 edit: "edit",
                 id: id,
                 lesson: lesson,
+                title: title,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
             },

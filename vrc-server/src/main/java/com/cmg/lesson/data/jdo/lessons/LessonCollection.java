@@ -17,6 +17,9 @@ public class LessonCollection implements Mirrorable {
     private String id;
 
     @Persistent
+    private String nameUnique;
+
+    @Persistent
     private String name;
 
     @Persistent
@@ -33,6 +36,15 @@ public class LessonCollection implements Mirrorable {
 
     @NotPersistent
     private boolean idChecked = false;
+
+
+    public String getNameUnique() {
+        return nameUnique;
+    }
+
+    public void setNameUnique(String nameUnique) {
+        this.nameUnique = nameUnique;
+    }
 
     public boolean isIdChecked() {
         return idChecked;

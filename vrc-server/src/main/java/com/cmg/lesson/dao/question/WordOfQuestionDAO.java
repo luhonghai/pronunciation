@@ -94,6 +94,31 @@ public class WordOfQuestionDAO extends DataAccess<WordOfQuestion> {
     /**
      *
      * @param idQuestion
+     * @return true if update deleted success
+     */
+    public boolean deleteMappingWord(String idWord){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idWordCollection=?");
+        try {
+            q.execute(true,idWord);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return check;
+    }
+
+
+    /**
+     *
+     * @param idQuestion
      * @return
      */
     public List<WordOfQuestion> listByIdQuestion(String idQuestion) throws Exception{

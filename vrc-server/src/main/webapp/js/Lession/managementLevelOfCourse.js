@@ -154,22 +154,31 @@ function getObjAndTest(idLevel,idCourse){
         success: function (data) {
             if(data.message.indexOf("success") != -1){
                 var listObj = data.listObjMap;
-                if(listObj.length >= 0){
+                try{
+                    if(typeof listObj !== undefined && listObj.length >= 0){
+                        $("#"+idLevel).find("#collection_objective").empty();
+                        $(listObj).each(function(){
+                            buildPanelObject(this);
+                        });
+                    }
+                }catch(e){
                     $("#"+idLevel).find("#collection_objective").empty();
-                    $(listObj).each(function(){
-                        buildPanelObject(this);
-                    });
-
                 }
 
-                var listTest = data.listTestMap;
-                if(listTest.length >= 0){
+
+
+                try{
+                    var listTest = data.listTestMap;
+                    if(typeof listTest !== undefined && listTest.length >= 0){
+                        $("#"+idLevel).find("#collection_test").empty();
+                        $(listTest).each(function(){
+                            buildPanelTest(this);
+                        });
+                    }
+                }catch(e){
                     $("#"+idLevel).find("#collection_test").empty();
-                    $(listTest).each(function(){
-                        buildPanelTest(this);
-                    });
-
                 }
+
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -665,91 +674,6 @@ function deleteTest(){
                     getObjAndTest($("#deleteItems-test").attr("id_lv"),$("#idCourse").val());
                 }else{
                     swal("Could not delete test!", data.message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
-    });
-}
-
-/*function for add old objective and test
- *******************************************************************************************************************/
-function getAllObjective(ObjType){
-    $.ajax({
-        url: ManagementLevelOfCourseServlet,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "getAllObjective"
-        },
-        success: function (data) {
-            if(data.message.indexOf("success")!=-1){
-                if(ObjType.indexOf("Test") != -1){
-                    $("#select-test-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
-                    $(".loading-lesson").hide();
-                    $('#select-test-lesson').multiselect({ enableFiltering: true});
-                    $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
-                    $('#select-test-lesson').multiselect('refresh');
-                    $("#yesadd-test").removeAttr("disabled");
-                }else {
-                    $("#select-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
-                    $(".loading-lesson").hide();
-                    $('#select-lesson').multiselect({ enableFiltering: true});
-                    $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
-                    $('#select-lesson').multiselect('refresh');
-                    $("#yesadd").removeAttr("disabled");
-                }
-            }else{
-                swal("Error!", data.message.split(":")[1], "error");
-            }
-        },
-        error: function () {
-            swal("Error!", "Could not connect to server", "error");
-        }
-
-    });
-}
-
-function openPopopAddOldObjective(){
-    $(document).on("click",".createObj", function(){
-        $(".loading-lesson").show();
-        $("#add-objective").modal('show');
-        getAllLesson("Objective");
-        $("#add-objective-name").val("");
-        $("#add-description").val("");
-        var idLevel = $(this).attr("id_lv");
-        $("#yesadd").attr("id_level",idLevel);
-        $("#yesadd").attr("disabled","disabled");
-        //alert(idLevel);
-    });
-}
-
-function addOldObjective(){
-    $(document).on("click","#yesadd", function(){
-        var dto = getDtoAddObjective();
-        $.ajax({
-            url: ObjectiveMappingServlet,
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: "addObj",
-                objDto: JSON.stringify(dto)// to json word,
-            },
-            success: function (data) {
-                if (data.message.indexOf("success") !=-1) {
-                    $("#add-objective").modal('hide');
-                    buildPanelObject(data);
-                }else{
-                    swal("Could not add objective!", data.message.split(":")[1], "error");
                 }
             },
             error: function () {

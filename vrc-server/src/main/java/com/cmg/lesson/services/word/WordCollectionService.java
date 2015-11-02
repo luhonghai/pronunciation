@@ -1,5 +1,6 @@
 package com.cmg.lesson.services.word;
 
+import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.dto.word.ListWord;
 import com.cmg.lesson.data.dto.word.WordDTO;
@@ -337,9 +338,23 @@ public class WordCollectionService {
         if(message.startsWith(SUCCESS)){
             WordMappingPhonemesService wpService = new WordMappingPhonemesService();
             message = wpService.updateDeleted(wordID,true);
+            deleteMapping(wordID);
         }
         dto.setMessage(message);
         return dto;
+    }
+
+    /**
+     *
+     * @param wordID
+     */
+    public void deleteMapping(String wordID){
+        try {
+            WordOfQuestionDAO dao = new WordOfQuestionDAO();
+            dao.deleteMappingWord(wordID);
+        }catch (Exception e){
+            logger.debug("can not delete mapping : " + e);
+        }
     }
 
     /**
