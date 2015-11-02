@@ -205,6 +205,20 @@ public class CourseDAO extends DataAccess<Course> {
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public List<Course> listAll() throws Exception{
+        boolean isExist = false;
+        List<Course> list = list("WHERE isDeleted == :1 ", false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 
     /**
      *
@@ -234,8 +248,7 @@ public class CourseDAO extends DataAccess<Course> {
      *
      * @param id
      * @param description
-     * @param color
-     * @param isDemo
+     * @param name
      * @return
      * @throws Exception
      */

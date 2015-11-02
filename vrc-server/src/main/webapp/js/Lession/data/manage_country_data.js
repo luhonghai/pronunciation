@@ -19,7 +19,7 @@ function getAllCourse(idSelected){
         type: "POST",
         dataType: "json",
         data: {
-            action: "getAllCourse",
+            action: "getAllCourse"
         },
         success: function (obj) {
             if (obj.message.indexOf("success") !=-1) {
