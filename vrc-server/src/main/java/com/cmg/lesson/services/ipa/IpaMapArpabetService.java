@@ -35,7 +35,8 @@ public class IpaMapArpabetService {
         if(model.getResult() !=null){
             for(SphinxResult.PhonemeScore ph : model.getResult().getPhonemeScores()){
                 try {
-                    ph.setIpa(dao.getByArpabet(ph.getName()));
+                    String ipa = dao.getByArpabet(ph.getName());
+                    ph.setIpa(ipa);
                 }catch (Exception e){
                     ph.setIpa("");
                 }

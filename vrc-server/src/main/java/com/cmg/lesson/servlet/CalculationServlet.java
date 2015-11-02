@@ -15,6 +15,7 @@ import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
@@ -76,26 +77,7 @@ public class CalculationServlet extends HttpServlet {
             String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
             String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             //create a new Map<String,String> to store all parameter
-            Map<String, String> storePara = new HashMap<String, String>();
-            FileItemIterator iter = upload.getItemIterator(request);
-            while (iter.hasNext()) {
-                FileItemStream item = iter.next();
-                String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    logger.info(name);
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                }else{
-                    String getName = item.getName();
-                    logger.info("getname = :" +getName);
-                    // Process the input stream
-                    if(getName.endsWith(".wav")){
-                        FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
-
-                    }
-                }
-            }
+            Map<String, String> storePara  = getMap(request,targetDir,tmpFile);
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
             String idWord = storePara.get(PARA_WORD_ID);
@@ -156,5 +138,40 @@ public class CalculationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
+    }
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    private Map<String, String> getMap(HttpServletRequest request,String targetDir, String tempName){
+        Map<String, String> storePara = new HashMap<String, String>();
+        ServletFileUpload upload = new ServletFileUpload();
+        try {
+            FileItemIterator iter = upload.getItemIterator(request);
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+                String name = item.getFieldName();
+                InputStream stream = item.openStream();
+                if (item.isFormField()) {
+                    String value = Streams.asString(stream);
+                    logger.info(name + "-" + value);
+                    storePara.put(name, value);
+                }else{
+                    String getName = item.getName();
+                    logger.info("file name : " + getName);
+                    if(getName.endsWith(".png") || getName.endsWith(".jpg")){
+                        FileUtils.copyInputStreamToFile(stream, new File(targetDir, tempName));
+                        storePara.put("file",new File(targetDir, tempName).getAbsolutePath());
+                    }
+                }
+            }
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return storePara;
     }
 }

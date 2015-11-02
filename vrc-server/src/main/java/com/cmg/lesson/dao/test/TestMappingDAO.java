@@ -81,6 +81,31 @@ public class TestMappingDAO extends DataAccess<TestMapping> {
 
     /**
      *
+     * @param idTest
+     * @return
+     */
+    public boolean updateDeletedByLesson(String idLesson){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TestMapping.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idLessonCollection=?");
+        try {
+            q.execute(true,idLesson);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+    /**
+     *
      * @param idLessonCollection
      * @return
      */

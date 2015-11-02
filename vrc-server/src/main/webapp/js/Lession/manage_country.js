@@ -77,6 +77,7 @@ function dateTo(){
 
 function openPopupAdd(){
     $(document).on("click","#openAddMapping", function(){
+        clearForm();
         $("#submitForm").attr("action","add");
         getAllCourse("");
         $('#image').fileinput({
