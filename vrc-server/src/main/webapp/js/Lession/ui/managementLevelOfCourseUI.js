@@ -317,6 +317,7 @@ function createPanelHeadingTest(obj){
     $buttonRemoveObj.attr("id_lv",obj.idLevel);
     $buttonRemoveObj.attr("id_test",obj.idTest);
     $buttonRemoveObj.text("Remove");
+    $divColRight.append($buttonEditObj);
     $divColRight.append($buttonRemoveObj);
 
     $divRow.append($divColLeft);

@@ -140,7 +140,7 @@ public class TestMappingService {
         boolean isDelete = false;
         TestMappingDAO dao = new TestMappingDAO();
         try{
-            isDelete = dao.updateDeleted(idTest,idLesson);
+            isDelete = dao.updateDeleted(idTest, idLesson);
             if (isDelete){
                 dto.setMessage(SUCCESS);
             }else {
@@ -270,7 +270,13 @@ public class TestMappingService {
             }else{
                 lessonCollectionDTO.setMessage(SUCCESS);
                 LessonCollectionService lessonCollectionService = new LessonCollectionService();
-                lessonCollectionDTO.setData(lessonCollectionService.getAll().getData());
+                LessonCollectionDTO temp = lessonCollectionService.getAll();
+                if(temp.getData()!=null && temp.getData().size()>0){
+                    lessonCollectionDTO.setData(lessonCollectionService.getAll().getData());
+                }else{
+                    lessonCollectionDTO.setData(new ArrayList<LessonCollection>());
+                }
+
             }
         } catch (Exception e) {
             lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by test because " + e.getMessage());
