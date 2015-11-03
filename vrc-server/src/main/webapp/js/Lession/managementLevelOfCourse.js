@@ -174,9 +174,13 @@ function getObjAndTest(idLevel,idCourse){
                         $(listTest).each(function(){
                             buildPanelTest(this);
                         });
+                        //$("button.createTest[id_lv='"+idLevel+"']").hide();
+                    }else{
+                       // $("button.createTest[id_lv='"+idLevel+"']").show();
                     }
                 }catch(e){
                     $("#"+idLevel).find("#collection_test").empty();
+                   // $("button.createTest[id_lv='"+idLevel+"']").show();
                 }
 
             }else{
