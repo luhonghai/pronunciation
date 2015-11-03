@@ -1160,7 +1160,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         try {
             AppLog.logString("Start Uploading");
             analyzingState = AnalyzingState.ANALYZING;
-            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_weight_url));
+            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_url));
             Map<String, String> params = new HashMap<String, String>();
             String fileName = audioStream.getFilename();
             File tmp = new File(fileName);

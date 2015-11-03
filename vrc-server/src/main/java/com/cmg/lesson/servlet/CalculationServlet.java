@@ -69,6 +69,7 @@ public class CalculationServlet extends HttpServlet {
         AWSHelper awsHelper = new AWSHelper();
         ServletFileUpload upload = new ServletFileUpload();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        ScoreService service = new ScoreService();
         try {
             File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "voices");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
@@ -142,15 +143,15 @@ public class CalculationServlet extends HttpServlet {
                 }
                 if(result!=null){
                     model.setResult(result);
-                    ScoreService service = new ScoreService();
                     service.reCalculateBaseOnWeight(model);
-                    service.addUserLessonHistory(model);
-                    service.addPhonemeScore(model);
-                    service.addSessionScore(model);
                 }
                 String output = gson.toJson(model);
                 logger.info("json to client : " + output);
                 out.print(output);
+                //start add to db
+                service.addUserLessonHistory(model);
+                service.addPhonemeScore(model);
+                service.addSessionScore(model);
             }
 
         }catch (Exception e){

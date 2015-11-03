@@ -32,8 +32,8 @@ public class ScoreService {
     public UserLessonHistory reCalculateBaseOnWeight(UserLessonHistory user){
         logger.info("=====Start calculate result of word : " + user.getWord() + " with weight form admin =======");
         if(user.getResult().getPhonemeScores() != null && user.getResult().getPhonemeScores().size() > 0){
-            String idWord = "e93563dd-9791-45aa-b112-2e2150c27220";//user.getIdWord();
-            String idQuestion = "252b4dc5-db57-4677-b24b-85dc0bf4cd57";//user.getIdQuestion();
+            String idWord = user.getIdWord();
+            String idQuestion = user.getIdQuestion();
             WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
             IpaMapArpabetDAO ipaDao = new IpaMapArpabetDAO();
             try {
