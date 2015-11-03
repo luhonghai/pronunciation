@@ -146,7 +146,7 @@ public class ObjectiveMappingService {
         boolean isDelete = false;
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         try{
-            isDelete = dao.updateDeleted(idObjective,idLesson);
+            isDelete = dao.updateDeleted(idObjective, idLesson);
             if (isDelete){
                 dto.setMessage(SUCCESS);
             }else {
@@ -276,7 +276,13 @@ public class ObjectiveMappingService {
             }else{
                 lessonCollectionDTO.setMessage(SUCCESS);
                 LessonCollectionService lessonCollectionService = new LessonCollectionService();
-                lessonCollectionDTO.setData(lessonCollectionService.getAll().getData());
+                LessonCollectionDTO temp = lessonCollectionService.getAll();
+                if(temp.getData()!=null && temp.getData().size() > 0 ){
+                    lessonCollectionDTO.setData(temp.getData());
+                }else{
+                    lessonCollectionDTO.setData(new ArrayList<LessonCollection>());
+                }
+
             }
         } catch (Exception e) {
             lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by objective because " + e.getMessage());
@@ -295,7 +301,7 @@ public class ObjectiveMappingService {
         LessonCollectionDTO lessonCollectionDTOIn = new LessonCollectionDTO();
         LessonCollectionDTO lessonCollectionDTONotIn = new LessonCollectionDTO();
         lessonCollectionDTOIn = getAllLessonByObjective(idObjective);
-        lessonCollectionDTONotIn =getAllLessonNotInObjective(idObjective);
+        lessonCollectionDTONotIn = getAllLessonNotInObjective(idObjective);
         lessonCollectionDTOIn.getData().addAll(lessonCollectionDTONotIn.getData());
         return lessonCollectionDTOIn;
     }
