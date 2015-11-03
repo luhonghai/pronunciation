@@ -233,9 +233,13 @@ function getAllLesson(ObjType){
             if(data.message.indexOf("success")!=-1){
                 if(ObjType.indexOf("Test") != -1){
                     $("#select-test-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
+                    try{
+                        if(typeof data.data !== undefined ) {
+                            $.each(data.data, function (idx, obj) {
+                                $("#select-test-lesson").append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                            });
+                        }
+                    }catch(e){}
                     $(".loading-lesson").hide();
                     $('#select-test-lesson').multiselect({ enableFiltering: true});
                     $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
@@ -243,9 +247,13 @@ function getAllLesson(ObjType){
                     $("#yesadd-test").removeAttr("disabled");
                 }else {
                     $("#select-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
+                    try{
+                        if(typeof data.data !== undefined ) {
+                            $.each(data.data, function (idx, obj) {
+                                $("#select-lesson").append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                            });
+                        }
+                    }catch(e){}
                     $(".loading-lesson").hide();
                     $('#select-lesson').multiselect({ enableFiltering: true});
                     $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
@@ -390,15 +398,16 @@ function openPopupEditObjtive(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#edit-objective-name").val(data.nameObj);
                     $("#edit-description").val(data.descriptionObj);
-
                     $("#select-lesson-edit").empty();
-                    $.each(data.data, function (idx, obj) {
-                        if (obj.idChecked){
-                            $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
-                        }else{
-                            $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                        }
-                    });
+                    try{
+                        $.each(data.data, function (idx, obj) {
+                            if (obj.idChecked){
+                                $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
+                            }else{
+                                $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                            }
+                        });
+                    }catch(e){}
                     $('#select-lesson-edit').multiselect({ enableFiltering: true});
                     $('#select-lesson-edit').multiselect('refresh');
                     $("#container-edit-lesson").find(".btn-group").css("padding-left","14px");

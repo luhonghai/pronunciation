@@ -56,9 +56,11 @@ public class VoiceRecordHandler extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         PrintWriter out = response.getWriter();
         AWSHelper awsHelper = new AWSHelper();
-        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+
+        response.setCharacterEncoding("UTF-8");
         //DENP-238 : call service
         UserVoiceModelService uVoiceService = new UserVoiceModelService();
         PhonemeScoreService pScoreService = new PhonemeScoreService();

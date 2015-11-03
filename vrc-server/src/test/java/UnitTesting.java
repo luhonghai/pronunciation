@@ -139,7 +139,7 @@ public class UnitTesting {
           /*  WordMappingPhonemesService service = new WordMappingPhonemesService();
             service.updatePhonemeOfWordToDatabase();*/
             IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
-            String ipa = dao.getByArpabet("CH");
+            String ipa = dao.getByArpabet("UH");
             System.out.println(ipa);
         } catch (Exception e) {
             e.printStackTrace();

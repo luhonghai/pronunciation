@@ -55,8 +55,8 @@
                 <thead>
                 <tr>
                   <th>Lessons</th>
-                  <th>Title</th>
-                  <th>Description</th>
+                  <th>Short Description</th>
+                  <th>Long Description</th>
                   <th>Created date</th>
                   <th></th>
                 </tr>
@@ -94,23 +94,23 @@
                   style="margin-top: 25px" id="addform">
 
               <div class="form-group">
-                <div>
+                <div class="row">
                   <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
 
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Title:</label>
+                <div class="row">
+                  <label class="col-xs-4  col-sm-3 control-label ">Short description:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="addTitle" name="addTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
-                <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                <div class="row">
+                  <label class="col-xs-4  col-sm-3 control-label ">Long description:</label>
                   <div class="col-xs-8  col-sm-9">
-                    <textarea   type="text" id="addDescription" name="addDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
+                    <textarea type="text" id="addDescription" name="addDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
               </div>
@@ -150,13 +150,13 @@
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Title:</label>
+                  <label class="col-xs-4  col-sm-3 control-label ">Short Description:</label>
                   <div class="col-xs-8  col-sm-9">
                     <input  type="text" id="editTitle" name="editTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                  <label class="col-xs-4  col-sm-3 control-label ">Long Description:</label>
                   <div class="col-xs-8  col-sm-9">
                     <textarea   type="text" id="editDescription" name="editDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>

@@ -49,6 +49,9 @@ public class WordOfQuestionService {
             boolean isDelete=dao.deleteWordofQuestion(idQuestion, idWord);
             if (isDelete){
                 message = SUCCESS;
+                //must delete mapping
+                WeightForPhonemeService wfService = new WeightForPhonemeService();
+                wfService.updateDeleted(idQuestion,idWord);
             }else{
                 message = ERROR + ":" + "an error has been occurred in server!";
             }
