@@ -95,21 +95,21 @@
 
               <div class="form-group">
                 <div class="row">
-                  <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Lesson:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
 
                 <div class="row">
-                  <label class="col-xs-4  col-sm-3 control-label ">Short description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Short description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="addTitle" name="addTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-xs-4  col-sm-3 control-label ">Long description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Long description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <textarea type="text" id="addDescription" name="addDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
@@ -144,20 +144,20 @@
 
               <div class="form-group">
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Lesson:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Lesson:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="editLesson" name="editLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Short Description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Short Description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="editTitle" name="editTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Long Description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Long Description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <textarea   type="text" id="editDescription" name="editDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>

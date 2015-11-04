@@ -22,6 +22,7 @@ import java.io.IOException;
 @WebServlet(name = "ManagementLessonsServlet")
 public class ManagementLessonsServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         LessonCollectionService lessonCollectionService = new LessonCollectionService();
         LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
         QuestionService questionService = new QuestionService();

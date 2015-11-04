@@ -45,10 +45,10 @@
         LessonCollectionService lcr = new LessonCollectionService();
         LessonCollection lc = lcr.getById(id);
         if(lc!=null){
-          name = lc.getName();
+          name = lc.getNameUnique();
         }
       %>
-      <h1 class="page-header">Question Of Lesson: <%=name%></h1>
+      <h1 class="page-header"><%=name%></h1>
     </div>
     <!-- /.col-lg-12 -->
     <div class="col-lg-12">

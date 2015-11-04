@@ -106,7 +106,9 @@ public class CalculationServlet extends HttpServlet {
             String idWord =(String) StringUtil.isNull(storePara.get(PARA_WORD_ID),"");
             String idQuestion = (String) StringUtil.isNull(storePara.get(PARA_QUESTION_ID), "");
             String idCountry = (String) StringUtil.isNull(storePara.get(PARA_COUNTRY_ID), "");
-
+            String idLessonCollection = (String) StringUtil.isNull(storePara.get(PARA_LESSON_COLLECTION_ID), "");
+            String type = (String) StringUtil.isNull(storePara.get(PARA_TYPE), "");
+            String session = (String) StringUtil.isNull(storePara.get(PARA_SESSION_ID), "");
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -134,6 +136,9 @@ public class CalculationServlet extends HttpServlet {
                 model.setIdQuestion(idQuestion);
                 model.setIdCountry(idCountry);
                 model.setRecordedFile(fileTempName);
+                model.setType(type);
+                model.setIdLessonCollection(idLessonCollection);
+                model.setSessionID(session);
                 SphinxResult result = null;
                 PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
                 try {
