@@ -57,6 +57,7 @@ public class SubscriptionActivity extends Activity {
             @Override
             public void onProductPurchased(String productId, TransactionDetails details) {
 				showToast("onProductPurchased: " + productId);
+                Log.d(LOG_TAG, "purchaseToken: " + details.purchaseToken);
                 updateTextViews();
             }
             @Override
