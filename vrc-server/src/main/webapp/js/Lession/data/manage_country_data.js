@@ -10,6 +10,7 @@ function clearForm(){
     $("form").find(".form-control").each(function(){
        $(this).val("");
     });
+    $("form").find("#image").fileinput('destroy');
     $("form").find("input:checkbox").attr('checked',false);
 }
 
