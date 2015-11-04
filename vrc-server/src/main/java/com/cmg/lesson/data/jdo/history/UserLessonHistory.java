@@ -29,6 +29,10 @@ public class UserLessonHistory implements Mirrorable{
     @Persistent
     private double score;
 
+    //Nam add colunm
+    @Persistent
+    private String country;
+
     @Persistent
     private String recordedFile;
 
@@ -179,5 +183,12 @@ public class UserLessonHistory implements Mirrorable{
 
     public void setIdWord(String idWord) {
         this.idWord = idWord;
+    }
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

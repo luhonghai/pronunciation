@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="upload_url">http://192.168.1.15:8090/VoiceRecordHandler</string>
-    <string name="upload_weight_url">http://192.168.1.15:8090/CalculationServlet</string>
-    <string name="sync_data_url">http://192.168.1.15:8090/syncData</string>
-    <string name="auth_url">http://192.168.1.15:8090/AuthHandler</string>
-    <string name="user_profile_url">http://192.168.1.15:8090/userprofile</string>
-    <string name="register_url">http://192.168.1.15:8090/RegisterHandler</string>
-    <string name="activation_url">http://192.168.1.15:8090/activate</string>
-    <string name="feedback_url">http://192.168.1.15:8090/FeedbackHandler</string>
-    <string name="license_url">http://192.168.1.15:8090/LicenseHandler</string>
-    <string name="reset_password_url">http://192.168.1.15:8090/ResetPasswordHandler</string>
+    <string name="upload_url">http://accenteasytomcat-sat.elasticbeanstalk.com/VoiceRecordHandler</string>
+    <string name="sync_data_url">http://accenteasytomcat-sat.elasticbeanstalk.com/syncData</string>
+    <string name="auth_url">http://accenteasytomcat-sat.elasticbeanstalk.com/AuthHandler</string>
+    <string name="user_profile_url">http://accenteasytomcat-sat.elasticbeanstalk.com/userprofile</string>
+    <string name="register_url">http://accenteasytomcat-sat.elasticbeanstalk.com/RegisterHandler</string>
+    <string name="activation_url">http://accenteasytomcat-sat.elasticbeanstalk.com/activate</string>
+    <string name="feedback_url">http://accenteasytomcat-sat.elasticbeanstalk.com/FeedbackHandler</string>
+    <string name="license_url">http://accenteasytomcat-sat.elasticbeanstalk.com/LicenseHandler</string>
+    <string name="reset_password_url">http://accenteasytomcat-sat.elasticbeanstalk.com/ResetPasswordHandler</string>
 </resources>
