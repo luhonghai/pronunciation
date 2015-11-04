@@ -48,7 +48,23 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      * @throws Exception
      */
     public boolean checkExist(String idCourse, String idObjectiveOrTest, String idLevel) throws Exception{
-        List<CourseMappingDetail> list = list("WHERE idCourse==:1 && idChild== :2 && idLevel==:3 && isDeleted==:4", idCourse,idObjectiveOrTest,idLevel,false);
+        List<CourseMappingDetail> list = list("WHERE idCourse ==: 1 && idChild == :2 && idLevel == :3 && isDeleted == :4", idCourse,idObjectiveOrTest,idLevel,false);
+        if(list!=null && list.size() > 0){
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     *
+     * @param idCourse
+     * * @param idLevel
+     * @return true if question exist
+     * @throws Exception
+     */
+    public boolean checkExistTest(String idCourse, String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idCourse == :1 && idLevel == :2 && isTest == true && isDeleted == :4", idCourse,idLevel, false);
         if(list!=null && list.size() > 0){
             return true;
         }

@@ -1,7 +1,9 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.country.CountryDTO;
+import com.cmg.lesson.data.dto.country.CountryMappingCourseDTO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
+import com.cmg.lesson.services.country.CountryMappingCourseService;
 import com.cmg.lesson.services.country.CountryService;
 import com.cmg.lesson.services.course.CourseService;
 import com.cmg.vrc.common.Constant;
@@ -45,6 +47,12 @@ public class LoadDataForCountryServlet extends BaseServlet {
             if(action.equalsIgnoreCase("getAllCourse")){
                 CourseService service = new CourseService();
                 CourseDTO dto = service.listAll();
+                String json = gson.toJson(dto);
+                response.getWriter().print(json);
+            }else if (action.equalsIgnoreCase("getAllCourseForUpdate")){
+                String idCountry = (String) StringUtil.isNull(request.getParameter("idCountry"),"");
+                CountryMappingCourseService service = new CountryMappingCourseService();
+                CountryMappingCourseDTO dto = service.getListByIdCountry(idCountry);
                 String json = gson.toJson(dto);
                 response.getWriter().print(json);
             }else if(action.equalsIgnoreCase("listCountry")){

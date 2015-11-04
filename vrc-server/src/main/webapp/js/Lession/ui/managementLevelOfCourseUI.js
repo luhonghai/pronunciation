@@ -59,7 +59,7 @@ function createPanelHeadingLevel(item){
     $h4.addClass("panel-title");
     //button for level show up
     var $buttonLv = $("<button>");
-    $buttonLv.addClass("btn btn-default");
+    $buttonLv.addClass("btn btn-default btn-success");
     $buttonLv.attr("data-toggle","collapse");
     $buttonLv.attr("data-target","#"+item.id);
     $buttonLv.attr("onclick","clickLevel(this);");
@@ -79,7 +79,7 @@ function createPanelHeadingLevel(item){
 
     //button create objective
     var $btnCreateObj = $("<button>");
-    $btnCreateObj.addClass("btn btn-default createObj");
+    $btnCreateObj.addClass("btn btn-default btn-info createObj");
     $btnCreateObj.text("Create Objective");
     $btnCreateObj.attr("id_lv", item.id);
 
@@ -91,13 +91,13 @@ function createPanelHeadingLevel(item){
 
     //buton create test
     var $btnCreateTest = $("<button>");
-    $btnCreateTest.addClass("btn btn-default createTest");
+    $btnCreateTest.addClass("btn btn-default btn-info createTest");
     $btnCreateTest.text("Create Test");
     $btnCreateTest.attr("id_lv", item.id);
 
     //buton remove level
     var $buttonRemoveLv = $("<button>");
-    $buttonRemoveLv.addClass("btn btn-default removelv");
+    $buttonRemoveLv.addClass("btn btn-default btn-danger removelv");
     $buttonRemoveLv.attr("id_lv",item.id);
     $buttonRemoveLv.text("Remove Level");
 
@@ -185,7 +185,7 @@ function createPanelHeadingObject(obj){
     $h4.addClass("panel-title");
     //button for level show up
     var $buttonObj = $("<button>");
-    $buttonObj.addClass("btn btn-default");
+    $buttonObj.addClass("btn btn-default btn-info");
     $buttonObj.attr("data-toggle","collapse");
     $buttonObj.attr("data-target","#"+obj.idObjective);
     $buttonObj.attr("id_lv",obj.idLevel);
@@ -200,13 +200,13 @@ function createPanelHeadingObject(obj){
     $divColRight.addClass("heading-col-right");
     //edit obj button
     var $buttonEditObj = $("<button>");
-    $buttonEditObj.addClass("btn btn-default editObj");
+    $buttonEditObj.addClass("btn btn-default btn-info editObj");
     $buttonEditObj.attr("id_lv",obj.idLevel);
     $buttonEditObj.attr("id_obj",obj.idObjective);
     $buttonEditObj.text("Edit");
     //remove obj button
     var $buttonRemoveObj = $("<button>");
-    $buttonRemoveObj.addClass("btn btn-default removeObj");
+    $buttonRemoveObj.addClass("btn btn-default btn-info removeObj");
     $buttonRemoveObj.attr("id_lv",obj.idLevel);
     $buttonRemoveObj.attr("id_obj",obj.idObjective);
     $buttonRemoveObj.text("Remove");
@@ -292,7 +292,7 @@ function createPanelHeadingTest(obj){
     $h4.addClass("panel-title");
     //button for level show up
     var $buttonObj = $("<button>");
-    $buttonObj.addClass("btn btn-default");
+    $buttonObj.addClass("btn btn-default btn-info");
     $buttonObj.attr("data-toggle","collapse");
     $buttonObj.attr("data-target","#"+obj.idTest);
     $buttonObj.attr("id_lv",obj.idLevel);
@@ -307,16 +307,17 @@ function createPanelHeadingTest(obj){
     $divColRight.addClass("heading-col-right");
     //button edit test
     var $buttonEditObj = $("<button>");
-    $buttonEditObj.addClass("btn btn-default editTest");
+    $buttonEditObj.addClass("btn btn-default btn-info editTest");
     $buttonEditObj.attr("id_lv",obj.idLevel);
     $buttonEditObj.attr("id_test",obj.idTest);
     $buttonEditObj.text("Edit");
     //button remove test
     var $buttonRemoveObj = $("<button>");
-    $buttonRemoveObj.addClass("btn btn-default removeTest");
+    $buttonRemoveObj.addClass("btn btn-default btn-info removeTest");
     $buttonRemoveObj.attr("id_lv",obj.idLevel);
     $buttonRemoveObj.attr("id_test",obj.idTest);
     $buttonRemoveObj.text("Remove");
+    $divColRight.append($buttonEditObj);
     $divColRight.append($buttonRemoveObj);
 
     $divRow.append($divColLeft);
