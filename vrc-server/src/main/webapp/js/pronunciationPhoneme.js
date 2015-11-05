@@ -32,8 +32,9 @@ function listScore(){
 
         },{
             "sWidth": "15%",
-            "data": "phonemes",
-            "sDefaultContent":""
+            "data": "phoneme",
+            "sDefaultContent":"",
+            "bSortable": false
         }, {
             "sWidth": "10%",
             "data": "score",
@@ -97,8 +98,6 @@ function filter(){
 }
 
 $(document).ready(function(){
-
-
     dateFrom();
     dateTo();
     filter();
