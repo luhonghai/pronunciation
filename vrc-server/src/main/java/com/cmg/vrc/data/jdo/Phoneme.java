@@ -11,7 +11,7 @@ public class Phoneme {
 
     private long serverTime;
 
-    private double score;
+    private float score;
 
     private String phoneme;
 
@@ -51,11 +51,11 @@ public class Phoneme {
         this.serverTime = serverTime;
     }
 
-    public double getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(float score) {
         this.score = score;
     }
 

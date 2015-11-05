@@ -30,7 +30,7 @@ public class ScoreService {
      * @return re calculate base on the weight admin set to each phonemes of the word in the question
      */
     public UserLessonHistory reCalculateBaseOnWeight(UserLessonHistory user){
-        logger.info("=====Start calculate result of word : " + user.getWord() + " with weight form admin =======");
+        logger.info("=====Start calculate result of word : " + user.getWord() + " with weight from admin =======");
         if(user.getResult().getPhonemeScores() != null && user.getResult().getPhonemeScores().size() > 0){
             String idWord = user.getIdWord();
             String idQuestion = user.getIdQuestion();
