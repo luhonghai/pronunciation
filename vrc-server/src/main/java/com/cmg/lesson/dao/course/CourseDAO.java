@@ -205,6 +205,20 @@ public class CourseDAO extends DataAccess<Course> {
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public List<Course> listAll() throws Exception{
+        boolean isExist = false;
+        List<Course> list = list("WHERE isDeleted == :1 ", false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 
     /**
      *
@@ -234,15 +248,14 @@ public class CourseDAO extends DataAccess<Course> {
      *
      * @param id
      * @param description
-     * @param color
-     * @param isDemo
+     * @param name
      * @return
      * @throws Exception
      */
     public boolean updateCourse(String id, String name,String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, name=?  WHERE id=?");
         try {
             q.execute(description,name,id);

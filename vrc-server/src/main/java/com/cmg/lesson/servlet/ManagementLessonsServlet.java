@@ -22,6 +22,7 @@ import java.io.IOException;
 @WebServlet(name = "ManagementLessonsServlet")
 public class ManagementLessonsServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         LessonCollectionService lessonCollectionService = new LessonCollectionService();
         LessonMappingQuestionService lessonMappingQuestionService = new LessonMappingQuestionService();
         QuestionService questionService = new QuestionService();
@@ -44,16 +45,18 @@ public class ManagementLessonsServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){
                 String lesson =  (String)StringUtil.isNull(request.getParameter("lesson"),"");
+                String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
-                String message = lessonCollectionService.addLesson(lesson,description).getMessage();
+                String message = lessonCollectionService.addLesson(lesson,title,description).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
                 String lessonId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String lesson = (String)StringUtil.isNull(request.getParameter("lesson"),"");
+                String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
-                String message = lessonCollectionService.updateLesson(lessonId,lesson,description, isUpdateLessonName).getMessage();
+                String message = lessonCollectionService.updateLesson(lessonId,lesson,title,description, isUpdateLessonName).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){

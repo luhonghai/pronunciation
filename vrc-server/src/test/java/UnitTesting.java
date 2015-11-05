@@ -136,8 +136,11 @@ public class UnitTesting {
             System.out.println("start set arpabet: " + new Date(System.currentTimeMillis()));
             list = service.setPhonemeArpabet(list);
             System.out.println("end set arpabet: " + new Date(System.currentTimeMillis()));*/
-            WordMappingPhonemesService service = new WordMappingPhonemesService();
-            service.updatePhonemeOfWordToDatabase();
+          /*  WordMappingPhonemesService service = new WordMappingPhonemesService();
+            service.updatePhonemeOfWordToDatabase();*/
+            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+            String ipa = dao.getByArpabet("UH");
+            System.out.println(ipa);
         } catch (Exception e) {
             e.printStackTrace();
         }

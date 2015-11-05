@@ -176,5 +176,16 @@ public class CourseMappingDetailService {
         return check;
     }
 
+    public boolean checkExistTest(String idCourse, String idLevel){
+        CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
+        try {
+            return dao.checkExistTest(idCourse,idLevel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }

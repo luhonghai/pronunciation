@@ -1,4 +1,5 @@
 var myTable;
+var avg;
 function listScore(){
     myTable=$('#dataTables-example').dataTable({
         "retrieve": true,
@@ -14,7 +15,12 @@ function listScore(){
                 list:"list",
                 username:$("#username").val(),
                 word:$("#word").val(),
-                uuid:$("#uuid").val()
+                score:$("#score").val(),
+                type:$("#type").val(),
+                dateFrom:$("#dateFrom").val(),
+                dateTo:$("#dateTo").val()
+
+
             }
         },
 
@@ -31,26 +37,20 @@ function listScore(){
             "sWidth": "10%",
             "data": "score",
             "sDefaultContent":""
-        }, {
-            "sWidth": "25%",
-            "data": null,
-            "bSortable": false,
-            "sDefaultContent":"",
-            "mRender": function (data, type, full) {
-                if(data.uuid!=null) {
-                    return '<i type="button" emeis='+data.uuid+' id="emei"  class="fa fa-mobile fa-2x"  style="color: red; margin-right:10px;">'+'</i>' +  data.uuid;
-                }
-            }
         },{
             "sWidth": "20%",
             "data": null,
             "bSortable": true,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                if (data.time != 0) {
-                    return new Date(data.time);
+                if (data.serverTime != 0) {
+                    return new Date(data.serverTime);
                 }
             }
+        }, {
+            "sWidth": "10%",
+            "data": "type",
+            "sDefaultContent":""
         },{
             "sWidth": "5%",
             "data": null,
@@ -66,6 +66,17 @@ function listScore(){
 
 }
 
+function dateFrom(){
+    $('#dateFrom').datetimepicker({
+        format: 'YYYY/MM/DD'
+    });
+}
+function dateTo(){
+    $('#dateTo').datetimepicker({
+        format: 'YYYY/MM/DD'
+    });
+}
+
 function filter(){
     $(document).on("click","#buttonFilter",function(){
         myTable.fnSettings().ajax = {
@@ -73,10 +84,13 @@ function filter(){
             "type": "POST",
             "dataType":"json",
             "data": {
-                list: "list",
-                username: $("#username").val(),
-                word: $("#word").val(),
-                uuid: $("#uuid").val()
+                list:"list",
+                username:$("#username").val(),
+                word:$("#word").val(),
+                score:$("#score").val(),
+                type:$("#type").val(),
+                dateFrom:$("#dateFrom").val(),
+                dateTo:$("#dateTo").val()
             }
         };
         $("tbody").html("");
@@ -150,14 +164,18 @@ function drawMap(){
         "data":{
             draw:"draw",
             username:$("#username").val(),
-            word:$("#word").val(),
-            uuid:$("#uuid").val(),
+            country:$("#country").val(),
+            score:$("#score").val(),
+            type:$("#type").val(),
+            dateFrom:$("#dateFrom").val(),
+            dateTo:$("#dateTo").val(),
             search:$(".table-responsive input[type=search]").val()
         },
         success:function(data){
             if(data.status==true) {
                 drawChart(data.sc);
                 google.setOnLoadCallback(drawChart);
+                $("#avg").text(avg);
 
             }
             if(data.status==false){
@@ -178,12 +196,17 @@ function drawMap(){
 
 google.load('visualization', '1', {packages: ['controls', 'charteditor']});
 function drawChart(sc) {
+    var sum=0;
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'date');
     data.addColumn('number', 'Score');
     for(j=0;j<sc.length;j++){
         data.addRow([new Date(sc[j][0]), sc[j][1]]);
+        sum+=sc[j][1];
     }
+    avg=sum/(sc.length);
+
+
 
 
 
@@ -230,49 +253,51 @@ function drawChart(sc) {
     dash.draw(data);
 }
 
-function detailemei(){
-    $(document).on("click", "#emei", function () {
-        $('#emeimodal').modal('show');
-        var emei=$("#emei").attr('emeis');
-        $.ajax({
-            url:"Pronunciations",
-            type:"POST",
-            dataType:"json",
-            data:{
-                emei:emei,
-                detailmodal:"detailmodal"
-            },
-            success:function(data){
-                if(data!=null) {
-                    $("#emeipopup").text(data.imei);
-                    $("#devicenamepopup").text(data.deviceName);
-                    $("#modelpopup").text(data.model);
-                    $("#osversionpopup").text(data.osVersion);
-                    $("#osapilevelpopup").text(data.osApiLevel);
-                    $("#attacheddatepopup").text(data.attachedDate);
-                }else {
-                    $("#emeipopup").text("");
-                    $("#devicenamepopup").text("");
-                    $("#modelpopup").text("");
-                    $("#osversionpopup").text("");
-                    $("#osapilevelpopup").text("");
-                    $("#attacheddatepopup").text("");
-                }
-            },
-            error:function(){
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
-
-
-
-    });
-}
+//function detailemei(){
+//    $(document).on("click", "#emei", function () {
+//        $('#emeimodal').modal('show');
+//        var emei=$("#emei").attr('emeis');
+//        $.ajax({
+//            url:"Pronunciations",
+//            type:"POST",
+//            dataType:"json",
+//            data:{
+//                emei:emei,
+//                detailmodal:"detailmodal"
+//            },
+//            success:function(data){
+//                if(data!=null) {
+//                    $("#emeipopup").text(data.imei);
+//                    $("#devicenamepopup").text(data.deviceName);
+//                    $("#modelpopup").text(data.model);
+//                    $("#osversionpopup").text(data.osVersion);
+//                    $("#osapilevelpopup").text(data.osApiLevel);
+//                    $("#attacheddatepopup").text(data.attachedDate);
+//                }else {
+//                    $("#emeipopup").text("");
+//                    $("#devicenamepopup").text("");
+//                    $("#modelpopup").text("");
+//                    $("#osversionpopup").text("");
+//                    $("#osapilevelpopup").text("");
+//                    $("#attacheddatepopup").text("");
+//                }
+//            },
+//            error:function(){
+//                swal("Error!", "Could not connect to server", "error");
+//            }
+//
+//        });
+//
+//
+//
+//    });
+//}
 
 $(document).ready(function(){
 
-    detailemei();
+    //detailemei();
+    dateFrom();
+    dateTo();
     maps();
     filter();
     listScore();

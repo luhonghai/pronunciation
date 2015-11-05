@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.word;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -29,6 +30,17 @@ public class WordMappingPhonemes implements Mirrorable{
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private String ipa;
+
+    public String getIpa() {
+        return ipa;
+    }
+
+    public void setIpa(String ipa) {
+        this.ipa = ipa;
+    }
 
     public WordMappingPhonemes(String wordID, String phoneme,int index, boolean isDeleted, int version){
         this.wordID = wordID;

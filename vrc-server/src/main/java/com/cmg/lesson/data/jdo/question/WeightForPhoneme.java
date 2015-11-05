@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.question;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -35,8 +36,9 @@ public class WeightForPhoneme implements Mirrorable{
 
     @Persistent
     private boolean isDeleted;
+
     //lan add new column for ipa map
-    @Persistent
+    @NotPersistent
     private String ipa;
 
     public String getIpa() {

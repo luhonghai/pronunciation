@@ -2,6 +2,8 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.dao.impl.UserVoiceModelPhonemeDAO;
+import com.cmg.vrc.data.jdo.Phoneme;
 import com.cmg.vrc.data.jdo.Score;
 import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
@@ -15,20 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by CMGT400 on 6/4/2015.
  */
-public class Pronunciations extends HttpServlet{
+public class PronunciationPhoneme extends HttpServlet{
     class pronunciation{
         public int draw;
         public Double recordsTotal;
         public Double recordsFiltered;
 
-        List<Score> data;
+        List<Phoneme> data;
 
     }
 
@@ -36,7 +37,7 @@ public class Pronunciations extends HttpServlet{
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
+        UserVoiceModelPhonemeDAO userVoiceModelPhonemeDAO=new UserVoiceModelPhonemeDAO();
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
@@ -58,7 +59,8 @@ public class Pronunciations extends HttpServlet{
             int  draw= Integer.parseInt(d);
             Double count;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
-            String word =(String) StringUtil.isNull(request.getParameter("word"), "");
+            String phoneme =(String) StringUtil.isNull(request.getParameter("phoneme"), "");
+            String country =(String) StringUtil.isNull(request.getParameter("country"), "");
             int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
             String type =(String)StringUtil.isNull(request.getParameter("type"), "");
             String dateFrom =(String) StringUtil.isNull(request.getParameter("dateFrom"), "");
@@ -83,20 +85,13 @@ public class Pronunciations extends HttpServlet{
             }
 
             try {
-                Pronunciations.pronunciation pronunciation=new pronunciation();
-
-//                if(search.length()>0||username.length()>0||word.length()>0||dateFrom1!=null||dateTo1!=null){
-//                    List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-//                    count=(double)scores1.size();
-//                }else {
-//                     count = userVoiceModelDAO.getCount();
-//                }
-                List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-                count=(double)scores1.size();
+                PronunciationPhoneme.pronunciation pronunciation=new pronunciation();
+                List<Phoneme> phonemes=userVoiceModelPhonemeDAO.getCountSearch(search,col,oder,username,phoneme,country,scores,type,dateFrom1,dateTo1);
+                count=(double)phonemes.size();
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
-                pronunciation.data = userVoiceModelDAO.listAll(start, length, search, col, oder, username,word,scores,type,dateFrom1,dateTo1);
+                pronunciation.data = userVoiceModelPhonemeDAO.listAll(start, length, search, col, oder, username,phoneme,country,scores,type,dateFrom1,dateTo1);
                 Gson gson = new Gson();
                 String score = gson.toJson(pronunciation);
                 response.getWriter().write(score);
@@ -105,21 +100,6 @@ public class Pronunciations extends HttpServlet{
                 response.getWriter().write("error");
                 e.printStackTrace();
             }
-        }
-
-        if(request.getParameter("detailmodal")!=null){
-            String emei=request.getParameter("emei");
-            try {
-                    userDevice=userDeviceDAO.getDeviceByIMEI(emei);
-                    Gson gson = new Gson();
-                    String user1 = gson.toJson(userDevice);
-                    response.getWriter().write(user1);
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-
         }
 
 

@@ -3,6 +3,7 @@ package com.cmg.lesson.dao.country;
 import com.cmg.lesson.data.jdo.country.Country;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -83,9 +84,61 @@ public class CountryDAO extends DataAccess<Country> {
     /**
      *
      * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateCountry(String id, String name, String description, boolean isDefault) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Country.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=?, isDefault="+isDefault+" WHERE id=?");
+        try {
+            q.execute(name, description,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateCountry(String id, String name, String description, String linkS3, boolean isDefault) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Country.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=?, imageURL=?, isDefault="+isDefault+" WHERE id='"+id+"'");
+        try {
+            q.execute(name, description,linkS3);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
+     * @param id
      * @return true if update deleted success
      */
-    public boolean updateDeleted(String id){
+    public boolean updateDeleted(String id) throws Exception{
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Country.class.getCanonicalName());
@@ -232,8 +285,18 @@ public class CountryDAO extends DataAccess<Country> {
             q.setOrdering("name desc");
         }
         if (column==1 && order.equals("asc")) {
-            q.setOrdering("timeCreated asc");
+            q.setOrdering("description asc");
         }else if(column==1 && order.equals("desc")) {
+            q.setOrdering("description desc");
+        }
+        if (column==2 && order.equals("asc")) {
+            q.setOrdering("imageURL asc");
+        }else if(column==2 && order.equals("desc")) {
+            q.setOrdering("imageURL desc");
+        }
+        if (column==3 && order.equals("asc")) {
+            q.setOrdering("timeCreated asc");
+        }else if(column==3 && order.equals("desc")) {
             q.setOrdering("timeCreated desc");
         }
 

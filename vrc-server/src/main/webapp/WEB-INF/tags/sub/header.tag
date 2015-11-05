@@ -96,6 +96,10 @@
 				</li>
 
 				<li>
+					<a href="PronunciationPhoneme.jsp"><i class="glyphicon glyphicon-heart"></i> Phoneme Score </a>
+				</li>
+
+				<li>
 					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
 
 					<!-- /.nav-second-level -->
@@ -108,6 +112,8 @@
 				<li>
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
+
+
 
 				<li>
 					<a href="logout.jsp" style="color: red"><i class="fa fa-sign-out fa-fw"></i> Logout</a>

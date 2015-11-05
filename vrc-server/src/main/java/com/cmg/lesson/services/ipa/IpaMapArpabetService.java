@@ -35,7 +35,8 @@ public class IpaMapArpabetService {
         if(model.getResult() !=null){
             for(SphinxResult.PhonemeScore ph : model.getResult().getPhonemeScores()){
                 try {
-                    ph.setIpa(dao.getByArpabet(ph.getName()));
+                    String ipa = dao.getByArpabet(ph.getName());
+                    ph.setIpa(ipa);
                 }catch (Exception e){
                     ph.setIpa("");
                 }
@@ -195,6 +196,20 @@ public class IpaMapArpabetService {
         return dto;
     }
 
+    /**
+     *
+     * @param arpabet
+     * @return
+     */
+    public String getIpaByArpabet(String arpabet){
+        IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+        try {
+            return dao.getByArpabet(arpabet);
+        }catch (Exception e){
+            logger.debug("get ipa by arpabet has trouble :" + e.getMessage());
+        }
+        return "";
+    }
 
 
 

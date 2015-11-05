@@ -62,9 +62,25 @@ public class ManageCountryServlet extends BaseServlet {
                 String json = gson.toJson(dto);
                 response.getWriter().print(json);
             }else if(action.equalsIgnoreCase("edit")){
+                String idCountry = (String)StringUtil.isNull(storePara.get("idCountry"),"");
+                String name = (String)StringUtil.isNull(storePara.get(PARA_NAME),"");
+                String description = (String)StringUtil.isNull(storePara.get(PARA_DESCRIPTION),"");
+                String idCourse = (String)StringUtil.isNull(storePara.get(PARA_COURSE_ID),"");
+                boolean isUpdateImg = Boolean.parseBoolean(storePara.get("isUpdateImg"));
+                String linkImageS3="";
+                if (isUpdateImg){
+                    linkImageS3 = uploadS3AndGetLink(new File(storePara.get("file")));
+                }
+                boolean isDefault = parseIsDefault((String)StringUtil.isNull(storePara.get(PARA_IS_DEFAULT),""));
+                CountryDTO dto = service.update(idCountry,name, description, idCourse, linkImageS3, isDefault, isUpdateImg);
+                String json = gson.toJson(dto);
+                response.getWriter().print(json);
 
             }else if(action.equalsIgnoreCase("delete")){
-
+                String idCountry = (String)StringUtil.isNull(storePara.get("idCountry"),"");
+                CountryDTO dto = service.detele(idCountry);
+                String json = gson.toJson(dto);
+                response.getWriter().print(json);
             }
         }catch (Exception e){
             response.getWriter().print("Error : " + e.getMessage());
@@ -90,7 +106,7 @@ public class ManageCountryServlet extends BaseServlet {
                 String name = item.getFieldName();
                 InputStream stream = item.openStream();
                 if (item.isFormField()) {
-                    String value = Streams.asString(stream);
+                    String value = Streams.asString(stream,"UTF-8");
                     logger.info(name + "-" + value);
                     storePara.put(name, value);
                 }else{

@@ -8,6 +8,7 @@ import com.cmg.lesson.data.dto.test.TestMappingDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
+import com.cmg.lesson.services.course.CourseMappingLevelService;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
@@ -139,18 +140,23 @@ public class TestService {
      * @return
      */
     public TestMappingDTO addTest(TestMappingDTO dto){
-        String idTest = UUIDGenerator.generateUUID();
-        String message = addTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
-        if(message.equalsIgnoreCase(SUCCESS)){
-            dto.setIdTest(idTest);
-            TestMappingService testMapSer = new TestMappingService();
-            message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
+        CourseMappingDetailService courseMappingDetailService = new CourseMappingDetailService();
+        if (!courseMappingDetailService.checkExistTest(dto.getIdCourse(), dto.getIdLevel())){
+            String idTest = UUIDGenerator.generateUUID();
+            String message = addTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
             if(message.equalsIgnoreCase(SUCCESS)){
-                CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
+                dto.setIdTest(idTest);
+                TestMappingService testMapSer = new TestMappingService();
+                message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
+                if(message.equalsIgnoreCase(SUCCESS)){
+                    CourseMappingDetailService cmdSer = new CourseMappingDetailService();
+                    message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
+                }
             }
+            dto.setMessage(message);
+        }else {
+            dto.setMessage(ERROR + ": only one Test for Level");
         }
-        dto.setMessage(message);
         return dto;
     }
 

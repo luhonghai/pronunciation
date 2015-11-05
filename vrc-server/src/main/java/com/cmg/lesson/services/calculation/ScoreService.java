@@ -39,8 +39,8 @@ public class ScoreService {
             try {
                 List<WeightForPhoneme> weight = weightDao.listBy(idQuestion,idWord);
                 int totalWeight = 0;
-                double totalscore = user.getScore();
-                logger.info("total score base on sphinx : "  + totalscore);
+                float totalscore = 0.0f;
+                logger.info("total score base on sphinx : "  + user.getResult().getScore());
                 List<SphinxResult.PhonemeScore> scores = user.getResult().getPhonemeScores();
                 for(SphinxResult.PhonemeScore ph : scores){
                     float scorePhoneme = ph.getTotalScore();
@@ -52,15 +52,18 @@ public class ScoreService {
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
                             ph.setTotalScore(scorePhoneme*tempWeight);
-                            //set ipa to client;
-                            ph.setIpa((String)StringUtil.isNull(ipaDao.getByArpabet(ph.getName()),""));
-                            logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme *tempWeight));
+                            logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme * tempWeight));
+                            ph.setIpa((String) StringUtil.isNull(ipaDao.getByArpabet(ph.getName()), ""));
                             break;
                         }
                     }
                 }
-                logger.info("total score base on weight : "  + totalscore);
-                user.setScore(totalscore/totalWeight);
+                logger.info("total weight : "  + totalWeight);
+                logger.info("total score : " + totalscore);
+                logger.info("total score base on weight : " + totalscore / totalWeight);
+                float finalScore = totalscore/totalWeight;
+                user.setScore(finalScore);
+                user.getResult().setScore(finalScore);
             }catch (Exception e){
                 logger.error("can not get weight of each phoneme for this word : " + user.getWord());
             }

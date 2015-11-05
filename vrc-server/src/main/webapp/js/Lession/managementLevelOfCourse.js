@@ -154,22 +154,35 @@ function getObjAndTest(idLevel,idCourse){
         success: function (data) {
             if(data.message.indexOf("success") != -1){
                 var listObj = data.listObjMap;
-                if(listObj.length >= 0){
+                try{
+                    if(typeof listObj !== undefined && listObj.length >= 0){
+                        $("#"+idLevel).find("#collection_objective").empty();
+                        $(listObj).each(function(){
+                            buildPanelObject(this);
+                        });
+                    }
+                }catch(e){
                     $("#"+idLevel).find("#collection_objective").empty();
-                    $(listObj).each(function(){
-                        buildPanelObject(this);
-                    });
-
                 }
 
-                var listTest = data.listTestMap;
-                if(listTest.length >= 0){
+
+
+                try{
+                    var listTest = data.listTestMap;
+                    if(typeof listTest !== undefined && listTest.length >= 0){
+                        $("#"+idLevel).find("#collection_test").empty();
+                        $(listTest).each(function(){
+                            buildPanelTest(this);
+                        });
+                        //$("button.createTest[id_lv='"+idLevel+"']").hide();
+                    }else{
+                       // $("button.createTest[id_lv='"+idLevel+"']").show();
+                    }
+                }catch(e){
                     $("#"+idLevel).find("#collection_test").empty();
-                    $(listTest).each(function(){
-                        buildPanelTest(this);
-                    });
-
+                   // $("button.createTest[id_lv='"+idLevel+"']").show();
                 }
+
             }else{
                 swal("Error!", data.message.split(":")[1], "error");
             }
@@ -197,7 +210,7 @@ function getLessonsForObj(idObject){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-obj" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '<a title="'+obj.name+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idObject+" #collection_lesson_obj").append(alertContent);
                 });
@@ -224,9 +237,13 @@ function getAllLesson(ObjType){
             if(data.message.indexOf("success")!=-1){
                 if(ObjType.indexOf("Test") != -1){
                     $("#select-test-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
+                    try{
+                        if(typeof data.data !== undefined ) {
+                            $.each(data.data, function (idx, obj) {
+                                $("#select-test-lesson").append("<option value='" + obj.id + "'>" + obj.nameUnique + "</option>");
+                            });
+                        }
+                    }catch(e){}
                     $(".loading-lesson").hide();
                     $('#select-test-lesson').multiselect({ enableFiltering: true});
                     $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
@@ -234,9 +251,13 @@ function getAllLesson(ObjType){
                     $("#yesadd-test").removeAttr("disabled");
                 }else {
                     $("#select-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
+                    try{
+                        if(typeof data.data !== undefined ) {
+                            $.each(data.data, function (idx, obj) {
+                                $("#select-lesson").append("<option value='" + obj.id + "'>" + obj.nameUnique + "</option>");
+                            });
+                        }
+                    }catch(e){}
                     $(".loading-lesson").hide();
                     $('#select-lesson').multiselect({ enableFiltering: true});
                     $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
@@ -381,15 +402,16 @@ function openPopupEditObjtive(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#edit-objective-name").val(data.nameObj);
                     $("#edit-description").val(data.descriptionObj);
-
                     $("#select-lesson-edit").empty();
-                    $.each(data.data, function (idx, obj) {
-                        if (obj.idChecked){
-                            $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
-                        }else{
-                            $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                        }
-                    });
+                    try{
+                        $.each(data.data, function (idx, obj) {
+                            if (obj.idChecked){
+                                $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.nameUnique+"</option>");
+                            }else{
+                                $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.nameUnique+"</option>");
+                            }
+                        });
+                    }catch(e){}
                     $('#select-lesson-edit').multiselect({ enableFiltering: true});
                     $('#select-lesson-edit').multiselect('refresh');
                     $("#container-edit-lesson").find(".btn-group").css("padding-left","14px");
@@ -502,7 +524,7 @@ function getLessonForTest(idTest){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idTest+" #collection_lesson_test").append(alertContent);
                 });
@@ -562,6 +584,8 @@ function openPopupEditTest(){
     $(document).on("click",".editTest", function() {
         $("#edit-test").modal('show');
         $('#select-edit-test-lesson').multiselect('destroy');
+        $("#select-edit-test-lesson").empty();
+        $("#select-edit-test-lesson").hide();
         $(".loading-lesson").show();
         var idTest = $(this).attr('id_test');
         var idLevel = $(this).attr('id_lv');
@@ -580,15 +604,14 @@ function openPopupEditTest(){
                     $("#edit-test-name").val(data.nameTest);
                     $("#edit-test-description").val(data.descriptionTest);
                     $("#edit-percen-pass").val(data.percentPass);
-
-                    $("#select-edit-test-lesson").empty();
                     $.each(data.data, function (idx, obj) {
                         if (obj.idChecked){
-                            $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
+                            $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                         }else{
-                            $("#select-edit-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                            $("#select-edit-test-lesson").append("<option value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                         }
                     });
+                    $("#select-edit-test-lesson").show();
                     $('#select-edit-test-lesson').multiselect({ enableFiltering: true});
                     $('#select-edit-test-lesson').multiselect('refresh');
                     $("#container-edit-test-lesson").find(".btn-group").css("padding-left","14px");
@@ -665,91 +688,6 @@ function deleteTest(){
                     getObjAndTest($("#deleteItems-test").attr("id_lv"),$("#idCourse").val());
                 }else{
                     swal("Could not delete test!", data.message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
-    });
-}
-
-/*function for add old objective and test
- *******************************************************************************************************************/
-function getAllObjective(ObjType){
-    $.ajax({
-        url: ManagementLevelOfCourseServlet,
-        type: "POST",
-        dataType: "json",
-        data: {
-            action: "getAllObjective"
-        },
-        success: function (data) {
-            if(data.message.indexOf("success")!=-1){
-                if(ObjType.indexOf("Test") != -1){
-                    $("#select-test-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
-                    $(".loading-lesson").hide();
-                    $('#select-test-lesson').multiselect({ enableFiltering: true});
-                    $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
-                    $('#select-test-lesson').multiselect('refresh');
-                    $("#yesadd-test").removeAttr("disabled");
-                }else {
-                    $("#select-lesson").empty();
-                    $.each(data.data, function (idx, obj) {
-                        $("#select-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
-                    });
-                    $(".loading-lesson").hide();
-                    $('#select-lesson').multiselect({ enableFiltering: true});
-                    $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
-                    $('#select-lesson').multiselect('refresh');
-                    $("#yesadd").removeAttr("disabled");
-                }
-            }else{
-                swal("Error!", data.message.split(":")[1], "error");
-            }
-        },
-        error: function () {
-            swal("Error!", "Could not connect to server", "error");
-        }
-
-    });
-}
-
-function openPopopAddOldObjective(){
-    $(document).on("click",".createObj", function(){
-        $(".loading-lesson").show();
-        $("#add-objective").modal('show');
-        getAllLesson("Objective");
-        $("#add-objective-name").val("");
-        $("#add-description").val("");
-        var idLevel = $(this).attr("id_lv");
-        $("#yesadd").attr("id_level",idLevel);
-        $("#yesadd").attr("disabled","disabled");
-        //alert(idLevel);
-    });
-}
-
-function addOldObjective(){
-    $(document).on("click","#yesadd", function(){
-        var dto = getDtoAddObjective();
-        $.ajax({
-            url: ObjectiveMappingServlet,
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: "addObj",
-                objDto: JSON.stringify(dto)// to json word,
-            },
-            success: function (data) {
-                if (data.message.indexOf("success") !=-1) {
-                    $("#add-objective").modal('hide');
-                    buildPanelObject(data);
-                }else{
-                    swal("Could not add objective!", data.message.split(":")[1], "error");
                 }
             },
             error: function () {

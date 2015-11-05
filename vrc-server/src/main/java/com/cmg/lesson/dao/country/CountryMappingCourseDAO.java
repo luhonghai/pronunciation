@@ -42,12 +42,39 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
         return version;
     }
 
+
     /**
      *
-     * @param id
+     * @param idCountry
+     * @param idCourse
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateIdCourseByIdCountry(String idCountry, String idCourse) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CountryMappingCourse.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET idCourse=? WHERE idCountry=?");
+        try {
+            q.execute(idCourse,idCountry);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
+     * @param idCountry
      * @return true if update deleted success
      */
-    public boolean updateDeleted(String idCountry){
+    public boolean updateDeleted(String idCountry)  throws Exception {
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CountryMappingCourse.class.getCanonicalName());
@@ -71,7 +98,7 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
      * @param idCountry,idCourse
      * @return true if update deleted success
      */
-    public boolean updateDeleted(String idCountry, String idCourse){
+    public boolean updateDeleted(String idCountry, String idCourse)  throws Exception{
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CountryMappingCourse.class.getCanonicalName());
@@ -88,6 +115,51 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
             pm.close();
         }
         return check;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public CountryMappingCourse getById(String id) throws Exception{
+        boolean isExist = false;
+        List<CountryMappingCourse> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param idCountry
+     * @return
+     * @throws Exception
+     */
+    public List<CountryMappingCourse> getlistByIdCountry(String idCountry) throws Exception{
+        boolean isExist = false;
+        List<CountryMappingCourse> list = list("WHERE idCountry == :1 && isDeleted == :2 ", idCountry, false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public CountryMappingCourse getById(String idCountry, String idCourse) throws Exception{
+        boolean isExist = false;
+        List<CountryMappingCourse> list = list("WHERE idCountry == :1 && idCourse == :2 && isDeleted == :3 ", idCountry,idCourse, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
     }
 
     /**
@@ -159,7 +231,7 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
      * @return
      * @throws Exception
      */
-    public Course getByIdCountry(String idCountry) throws Exception{
+    /*public Course getByIdCountry(String idCountry) throws Exception{
         List<Course> listCourse = new ArrayList<Course>();
         PersistenceManager pm = PersistenceManagerHelper.get();
         String filter = " Where id in (Select idCourse from CountryMappingCourse where idCountry='"+idCountry+"')";
@@ -190,5 +262,6 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
             pm.close();
         }
         return null;
-    }
+    }*/
+
 }

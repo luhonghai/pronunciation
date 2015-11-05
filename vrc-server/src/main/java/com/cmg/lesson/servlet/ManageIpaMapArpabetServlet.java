@@ -38,6 +38,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
                 IpaMapDTO dto = service.search(start,length,search,column,order,createDateFrom,createDateTo,draw);
                 String json = gson.toJson(dto);
+                System.out.println("json form list : " + json);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("add")){
                 String clientData = (String) StringUtil.isNull(request.getParameter("dto"),"");

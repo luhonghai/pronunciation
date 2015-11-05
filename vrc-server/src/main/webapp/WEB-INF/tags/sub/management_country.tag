@@ -55,6 +55,7 @@
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Image</th>
+                                    <th>Created date</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -86,7 +87,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-                        <h1 align="center">Add Country</h1>
+                        <h1 align="center" id="title-modal">Add Country</h1>
                         <form name="add" class="form-horizontal"
                               style="margin-top: 25px" id="addform">
                             <div class="form-group">
@@ -108,11 +109,12 @@
                                 <div>
                                     <label class="col-xs-4  col-sm-3 control-label ">Image :</label>
                                     <div class="col-xs-8  col-sm-9">
-                                        <input type="file" id="image" name="image" class="form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                                        <div id="wrap-img-edit"><img src="" id="img-edit"/> <a href="#" id="btn-img-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
+                                        <div id="wrap-img-add"><input type="file" id="image" name="image" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>
 
-                                <div id="container-add-lesson">
+                                <div id="container-add-lesson" style="clear: both;">
                                     <label class="col-xs-4  col-sm-3 control-label ">Course :</label>
                                     <img style="display:block" class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
                                     <select style="display:none" name="course" class="form-control" id="select-course">
@@ -153,7 +155,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">&times;</button>
-                <h1 class="modal-title" align="center">Delete Mapping</h1>
+                <h1 class="modal-title" align="center">Delete Country</h1>
             </div>
             <form name="form-delete" >
                 <div class="modal-body">

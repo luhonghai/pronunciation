@@ -38,21 +38,6 @@ public class CountryService {
         return version +1;
     }
 
-    /**
-     *  use for get max version
-     * @return max version in table
-     */
-    public int getMaxVersionMapping(){
-        int version = 0;
-        CountryMappingCourseDAO dao = new CountryMappingCourseDAO();
-        try {
-            version = dao.getLatestVersion();
-        }catch (Exception e){
-            logger.info("can not get max version in table mapping because : " + e.getMessage());
-        }
-        return version +1;
-    }
-
 
     /**
      *
@@ -154,43 +139,31 @@ public class CountryService {
      * @param isDefault
      * @return
      */
-    public boolean add(String id,String name, String description, String linkImage, boolean isDefault){
+    public CountryDTO add(String id,String name, String description, String linkImage, boolean isDefault){
         CountryDAO dao = new CountryDAO();
+        CountryDTO dto = new CountryDTO();
         try {
-            Country country = new Country();
-            country.setId(id);
-            country.setName(name);
-            country.setDescription(description);
-            country.setImageURL(linkImage);
-            country.setIsDeleted(false);
-            country.setVersion(getMaxVersion());
-            country.setIsDefault(isDefault);
-            return dao.create(country);
+            if(!checkExistedName(name)) {
+                Country country = new Country();
+                country.setId(id);
+                country.setName(name);
+                country.setDescription(description);
+                country.setImageURL(linkImage);
+                country.setTimeCreated(new Date(System.currentTimeMillis()));
+                country.setIsDeleted(false);
+                country.setVersion(getMaxVersion());
+                country.setIsDefault(isDefault);
+                dao.create(country);
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage ( ERROR + ":" + "country name is existed");
+            }
+
         }catch (Exception e){
+            dto.setMessage ( ERROR + ":" + "country name is existed");
             logger.error("can not add country to database because : " + e);
         }
-        return false;
-    }
-
-    /**
-     *
-     * @param idCountry
-     * @param idCourse
-     * @return
-     */
-    public boolean addMapping(String idCountry, String idCourse){
-        CountryMappingCourseDAO dao = new CountryMappingCourseDAO();
-        try {
-            CountryMappingCourse map = new CountryMappingCourse();
-            map.setIdCourse(idCourse);
-            map.setIdCountry(idCountry);
-            map.setIsDeleted(false);
-            map.setVersion(getMaxVersionMapping());
-            return dao.create(map);
-        }catch (Exception e){
-            logger.error("can not add mapping country with course because : "  + e);
-        }
-        return false;
+        return dto;
     }
 
     /**
@@ -205,19 +178,96 @@ public class CountryService {
     public CountryDTO addCountry(String name, String description, String idCourse, String linkS3, boolean isDefault){
         CountryDTO dto = new CountryDTO();
         String idCountry = UUIDGenerator.generateUUID().toString();
-        boolean condition1 = add(idCountry, name, description, linkS3, isDefault);
-        boolean condition2 = addMapping(idCountry,idCourse);
-        if(condition1 && condition2){
-            dto.setMessage(SUCCESS);
-        }else{
-            dto.setMessage(ERROR +": an error has been occurred in server!");
+        dto = add(idCountry, name, description, linkS3, isDefault);
+        if(dto.getMessage().equalsIgnoreCase("success")){
+            CountryMappingCourseService service = new CountryMappingCourseService();
+            boolean condition2 = service.addMapping(idCountry, idCourse);
+            if(condition2){
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR +": an error has been occurred in server!");
+            }
         }
         return dto;
     }
 
 
+    /**
+     *
+     * @param id
+     * @param name
+     * @param description
+     * @param linkS3
+     * @param isDefault
+     * @param isUpdateImg
+     * @return
+     */
+    public CountryDTO updateCountry(String id, String name, String description, String linkS3, boolean isDefault, boolean isUpdateImg){
+        CountryDTO dto = new CountryDTO();
+        CountryDAO dao = new CountryDAO();
+        try{
+            if(isUpdateImg){
+                dao.updateCountry(id, name, description, linkS3,isDefault);
+            }else {
+                dao.updateCountry(id, name, description,isDefault);
+            }
+            dto.setMessage(SUCCESS);
+        }catch (Exception e){
+            dto.setMessage ( ERROR + ":" + "can not update country, because " + e.getMessage());
+            logger.error("can not update country to database because : " + e.getMessage());
+        }
+        return dto;
+    }
 
+    /**
+     *
+     * @param idCountry
+     * @param name
+     * @param description
+     * @param idCourse
+     * @param linkS3
+     * @param isDefault
+     * @param isUpdateImg
+     * @return
+     */
+    public CountryDTO update(String idCountry, String name, String description, String idCourse, String linkS3, boolean isDefault, boolean isUpdateImg){
+        CountryDTO dto = new CountryDTO();
+        dto = updateCountry(idCountry, name, description, linkS3, isDefault, isUpdateImg);
+        if(dto.getMessage().equalsIgnoreCase("success")){
+            CountryMappingCourseService service = new CountryMappingCourseService();
+            boolean condition2 = service.updateIdCourseByIdCountry(idCountry, idCourse);
+            if(condition2){
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR +": an error has been occurred in server!");
+            }
+        }
+        return dto;
+    }
 
+    public CountryDTO detele(String idCountry){
+        CountryDTO dto = new CountryDTO();
+        Boolean isDelete = updateDeleted(idCountry);
+        if(isDelete){
+            CountryMappingCourseService service = new CountryMappingCourseService();
+            boolean isDeleteMapping = service.updateDeletedByIdCountry(idCountry);
+            if(isDeleteMapping){
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR +": an error has been occurred in server!");
+            }
+        }
+        return dto;
+    }
 
+    public boolean updateDeleted(String id){
+        CountryDAO dao = new CountryDAO();
+        try {
+            return dao.updateDeleted(id);
+        }catch (Exception e){
+            logger.info("delete country error : " + e);
+        }
+        return false;
+    }
 
 }

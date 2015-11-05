@@ -11,10 +11,12 @@ import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
+import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
@@ -62,10 +64,12 @@ public class CalculationServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         PrintWriter out = response.getWriter();
         AWSHelper awsHelper = new AWSHelper();
         ServletFileUpload upload = new ServletFileUpload();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+        ScoreService service = new ScoreService();
         try {
             File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "voices");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
@@ -77,7 +81,8 @@ public class CalculationServlet extends HttpServlet {
             String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
-            FileItemIterator iter = upload.getItemIterator(request);
+            FileItemIterator iter = null;
+            iter = upload.getItemIterator(request);
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
@@ -92,16 +97,18 @@ public class CalculationServlet extends HttpServlet {
                     // Process the input stream
                     if(getName.endsWith(".wav")){
                         FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
-
+                        //FileHelper.saveFile(tmpDir, tmpFile, stream);
                     }
                 }
             }
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
-            String idWord = storePara.get(PARA_WORD_ID);
-            String idQuestion = storePara.get(PARA_QUESTION_ID);
-            String idCountry = storePara.get(PARA_COUNTRY_ID);
-
+            String idWord =(String) StringUtil.isNull(storePara.get(PARA_WORD_ID),"");
+            String idQuestion = (String) StringUtil.isNull(storePara.get(PARA_QUESTION_ID), "");
+            String idCountry = (String) StringUtil.isNull(storePara.get(PARA_COUNTRY_ID), "");
+            String idLessonCollection = (String) StringUtil.isNull(storePara.get(PARA_LESSON_COLLECTION_ID), "");
+            String type = (String) StringUtil.isNull(storePara.get(PARA_TYPE), "");
+            String session = (String) StringUtil.isNull(storePara.get(PARA_SESSION_ID), "");
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
@@ -113,11 +120,11 @@ public class CalculationServlet extends HttpServlet {
                 String uuid = UUIDGenerator.generateUUID();
                 String fileTempName  = word + "_" + uuid + "_raw" + ".wav";
                 File targetRaw = new File(target, fileTempName);
-                FileUtils.moveFile(tmpFileIn, targetRaw);
                 try {
+                    FileUtils.moveFile(tmpFileIn, targetRaw);
                     if (tmpFileIn.exists())
                         FileUtils.forceDelete(tmpFileIn);
-                } catch (Exception e) {}
+                } catch (Exception e) {e.printStackTrace();}
                 awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() +"/" + fileTempName,
                         targetRaw);
                 UserLessonHistory model = new UserLessonHistory();
@@ -129,6 +136,9 @@ public class CalculationServlet extends HttpServlet {
                 model.setIdQuestion(idQuestion);
                 model.setIdCountry(idCountry);
                 model.setRecordedFile(fileTempName);
+                model.setType(type);
+                model.setIdLessonCollection(idLessonCollection);
+                model.setSessionID(session);
                 SphinxResult result = null;
                 PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
                 try {
@@ -138,14 +148,15 @@ public class CalculationServlet extends HttpServlet {
                 }
                 if(result!=null){
                     model.setResult(result);
-                    ScoreService service = new ScoreService();
                     service.reCalculateBaseOnWeight(model);
-                    service.addUserLessonHistory(model);
-                    service.addPhonemeScore(model);
-                    service.addSessionScore(model);
                 }
                 String output = gson.toJson(model);
+                logger.info("json to client : " + output);
                 out.print(output);
+                //start add to db
+                service.addUserLessonHistory(model);
+                service.addPhonemeScore(model);
+                service.addSessionScore(model);
             }
 
         }catch (Exception e){
@@ -156,5 +167,41 @@ public class CalculationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
+    }
+
+    /**
+     *
+     * @param request
+     * @return
+     */
+    private Map<String, String> getMap(HttpServletRequest request,String targetDir, String tempName){
+        Map<String, String> storePara = new HashMap<String, String>();
+        ServletFileUpload upload = new ServletFileUpload();
+        try {
+            FileItemIterator iter = upload.getItemIterator(request);
+            while (iter.hasNext()) {
+                FileItemStream item = iter.next();
+                String name = item.getFieldName();
+                InputStream stream = item.openStream();
+                if (item.isFormField()) {
+                    String value = Streams.asString(stream);
+                    logger.info(name + "-" + value);
+                    storePara.put(name, value);
+                }else{
+                    String getName = item.getName();
+                    logger.info("file name : " + getName);
+                    if(getName.endsWith(".wav")){
+                        File temp = new File(targetDir,tempName);
+                        FileUtils.copyInputStreamToFile(stream, temp);
+                        storePara.put("file",temp.getAbsolutePath());
+                    }
+                }
+            }
+        } catch (FileUploadException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return storePara;
     }
 }
