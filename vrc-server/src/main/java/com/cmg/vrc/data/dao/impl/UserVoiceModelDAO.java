@@ -41,10 +41,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -101,7 +101,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -146,10 +146,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -206,7 +206,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -382,10 +382,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -422,7 +422,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -467,10 +467,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -506,7 +506,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -714,10 +714,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -773,7 +773,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -818,10 +818,10 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and word LIKE '" + word1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and (score >=0 and score<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and (score >=51 and score<=100)");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
@@ -877,7 +877,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            score.setScore((double) array[3]);
                         } else {
                             score.setScore(0);
                         }
@@ -925,12 +925,12 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and serverTime >= '" + dateFrom + "'");
             }
             if(score1==1){
-                first.append(" and 0 <= score <=50");
-                second.append(" and 0 <= score <=50");
+                first.append(" and (score >=0 and score<=50)");
+                second.append(" and (score >=0 and score<=50)");
             }
             if(score1==2){
-                first.append(" and 51 <= score <=100");
-                second.append(" and 51 <= score <=100");
+                first.append(" and (score >=51 and score<=100)");
+                second.append(" and (score >=51 and score<=100)");
             }
             if (dateFrom==null && dateTo!=null) {
                 first.append(" and serverTime <= '" + dateTo + "'");
