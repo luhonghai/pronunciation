@@ -86,8 +86,8 @@ public class PronunciationPhoneme extends HttpServlet{
 
             try {
                 PronunciationPhoneme.pronunciation pronunciation=new pronunciation();
-                List<Score> scores1=userVoiceModelPhonemeDAO.getCountSearch(search,col,oder,username,phoneme,country,scores,type,dateFrom1,dateTo1);
-                count=(double)scores1.size();
+                List<Phoneme> phonemes=userVoiceModelPhonemeDAO.getCountSearch(search,col,oder,username,phoneme,country,scores,type,dateFrom1,dateTo1);
+                count=(double)phonemes.size();
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;

@@ -31,11 +31,11 @@ function listScore(){
             "sDefaultContent":""
 
         },{
-            "sWidth": "20%",
+            "sWidth": "15%",
             "data": "phonemes",
             "sDefaultContent":""
         }, {
-            "sWidth": "5%",
+            "sWidth": "10%",
             "data": "score",
             "sDefaultContent":""
         }, {
@@ -53,7 +53,7 @@ function listScore(){
                 }
             }
         }, {
-            "sWidth": "5%",
+            "sWidth": "10%",
             "data": "type",
             "sDefaultContent":""
         }]
