@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.cmg.android.bbcaccent.BaseActivity;
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 /**
@@ -37,25 +38,11 @@ public class BaseFragment extends Fragment {
 
     @Override
     public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        Animation animation = super.onCreateAnimation(transit, enter, nextAnim);
-        if (animation != null) {
-            animation.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
+        if (!MainApplication.enablePopbackFragmentAnimation) {
+            Animation a = new Animation() {};
+            a.setDuration(0);
+            return a;
         }
-        return animation;
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 }

@@ -8,7 +8,6 @@
         android:id="@+id/imgCountry"
         android:scaleType="fitXY"
         android:layout_width="50dp"
-        android:src="@drawable/gb_round"
         android:layout_height="50dp" />
     <TextView
         android:id="@+id/txtTitle"
@@ -19,5 +18,5 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
-        android:text="English"/>
+        android:text=""/>
 </LinearLayout>
