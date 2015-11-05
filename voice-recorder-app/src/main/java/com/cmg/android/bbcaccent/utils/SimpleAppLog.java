@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.utils;
 
 import android.util.Log;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,9 +24,15 @@ public class SimpleAppLog {
     }
 
     public static void logJson(Object obj) {
-        if (obj ==  null) return;
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        info(gson.toJson(obj));
+        logJson("", obj);
+    }
+
+    public static void logJson(String message, Object obj) {
+        if (obj != null) {
+            info(message + ". " + MainApplication.toJson(obj));
+        } else {
+            info(message + ". null");
+        }
     }
 
     public static void debug(String log) {

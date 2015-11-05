@@ -58,7 +58,7 @@ public class LessonDBAdapterService {
                 = new BaseDatabaseAdapter<LessonLevel>(MainApplication.getContext().getLessonDatabaseHelper(), LessonLevel.class);
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_level_by_country.toString(),
-                new String[] { countryId });
+                new String[]{countryId});
     }
 
     public Cursor cursorAllObjective(String countryId, String levelId) throws LiteDatabaseException {
@@ -66,7 +66,7 @@ public class LessonDBAdapterService {
                 = new BaseDatabaseAdapter<Objective>(MainApplication.getContext().getLessonDatabaseHelper(), Objective.class);
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_objective_by_level.toString(),
-                new String[] { countryId, levelId});
+                new String[]{countryId, levelId});
     }
 
     public List<Question> listAllQuestionByLessonCollection(String lessonCollectionId) throws LiteDatabaseException {
@@ -82,7 +82,7 @@ public class LessonDBAdapterService {
                 = new BaseDatabaseAdapter<Objective>(MainApplication.getContext().getLessonDatabaseHelper(), Objective.class);
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_test_by_level.toString(),
-                new String[] { countryId, levelId});
+                new String[]{countryId, levelId});
     }
 
     public Cursor cursorLessonCollectionByObjective(String countryId, String levelId, String objectiveId) throws LiteDatabaseException {
@@ -90,7 +90,7 @@ public class LessonDBAdapterService {
                 = new BaseDatabaseAdapter<LessonCollection>(MainApplication.getContext().getLessonDatabaseHelper(), LessonCollection.class);
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_lesson_collection_by_objective.toString(),
-                new String[] {countryId, levelId, objectiveId});
+                new String[]{countryId, levelId, objectiveId});
     }
 
     public Cursor cursorLessonCollectionByTest(String countryId, String levelId, String testId) throws LiteDatabaseException {
@@ -98,7 +98,7 @@ public class LessonDBAdapterService {
                 = new BaseDatabaseAdapter<LessonCollection>(MainApplication.getContext().getLessonDatabaseHelper(), LessonCollection.class);
         return dbAdapter.rawQuery(
                 QueryHelper.select_all_lesson_collection_by_test.toString(),
-                new String[] {countryId, levelId, testId});
+                new String[]{countryId, levelId, testId});
     }
 
     public List<WordCollection> getAllWordsOfQuestion(String questionId) throws LiteDatabaseException {
@@ -111,6 +111,20 @@ public class LessonDBAdapterService {
         BaseDatabaseAdapter<WordCollection> dbAdapter
                 = new BaseDatabaseAdapter<WordCollection>(MainApplication.getContext().getLessonDatabaseHelper(), WordCollection.class);
         return dbAdapter.rawQuery(QueryHelper.search_word.toString(), new String[]{search + "%"});
+    }
+
+    public LessonLevel getPrevLevelOfLevel(String countryId, String levelId) throws LiteDatabaseException {
+        BaseDatabaseAdapter<LessonLevel> dbAdapter = new BaseDatabaseAdapter<>(MainApplication.getContext().getLessonDatabaseHelper(), LessonLevel.class);
+        Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_prev_level_of_level.toString(), new String[] {countryId, countryId, levelId});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                return dbAdapter.toObject(cursor);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
     }
 
     public <T extends BaseLessonEntity> T findObject(String selection, String[] args, Class<T> clazz) throws LiteDatabaseException {

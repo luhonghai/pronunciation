@@ -44,6 +44,7 @@ public class VoiceRecordHandler extends HttpServlet {
             .getName());
     private static String PARA_PROFILE = "profile";
     private static String PARA_WORD = "word";
+    private static String PARA_COUNTRY = "country";
 
     @Override
     public void init() throws ServletException {
@@ -102,6 +103,7 @@ public class VoiceRecordHandler extends HttpServlet {
 
             String profile = storePara.get(PARA_PROFILE);
             String word = storePara.get(PARA_WORD);
+            String countryId = storePara.get(PARA_COUNTRY);
             logger.info("word : " + word);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 Gson gson = new Gson();

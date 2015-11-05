@@ -37,11 +37,11 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
         TypeMetadata metaPhonemeLessonScore = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeLessonScore.class.getCanonicalName());
         if(type!=null && type.length()>0) {
             if(type.equalsIgnoreCase("F")) {
-                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.score, userVoice.country, userVoice.serverTime,  from  " + metaUserVoiceModel.getTable()
+                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,  from  " + metaUserVoiceModel.getTable()
                         + " userVoice inner join " + metaPhonemeScoreDB.getTable()
                         + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
                 query.append(firstQuery);
-                query.append(" (userVoice.username LIKE '%" + search + "%' or  phonemeScore.phonemeWord LIKE '%" + search + "%' or phonemeScore.score LIKE '%" + search + "%')");
+                query.append(" (userVoice.username LIKE '%" + search + "%' or  phonemeScore.phonemeWord LIKE '%" + search + "%' or phonemeScore.totalScore LIKE '%" + search + "%')");
 
                 if (username1.length() > 0) {
                     query.append(" and userVoice.username LIKE '%" + username1 + "%'");
@@ -53,10 +53,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userVoice.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeScore.score <=50");
+                    query.append(" and 0 <= phonemeScore.totalScore <=50");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeScore.score <=100");
+                    query.append(" and 51 <= phonemeScore.totalScore <=100");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and userVoice.serverTime >= '" + dateFrom + "'");
@@ -80,9 +80,9 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" ORDER BY phonemeScore.phonemeWord DESC");
                 }
                 if (column == 2 && order.equals("asc")) {
-                    query.append(" ORDER BY phonemeScore.score ASC");
+                    query.append(" ORDER BY phonemeScore.totalScore ASC");
                 } else if (column == 2 && order.equals("desc")) {
-                    query.append(" ORDER BY phonemeScore.score DESC");
+                    query.append(" ORDER BY phonemeScore.totalScore DESC");
                 }
                 if (column == 3 && order.equals("asc")) {
                     query.append(" ORDER BY userVoice.country ASC");
@@ -146,11 +146,11 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
 
             }else{
-                String firstQuery = "select userLesson.id, userLesson.username , phonemeLessonScore.phoneme, phonemeLessonScore.score, userLesson.country, userLesson.serverTime, userLesson.type  from  " + metaUserLessonHistory.getTable() +
+                String firstQuery = "select userLesson.id, userLesson.username , phonemeLessonScore.phoneme, phonemeLessonScore.totalScore, userLesson.country, userLesson.serverTime, userLesson.type  from  " + metaUserLessonHistory.getTable() +
                         " userLesson inner join " + metaPhonemeLessonScore.getTable()
                         + " phonemeLessonScore on phonemeLessonScore.idUserLessonHistory=userLesson.id where ";
                 query.append(firstQuery);
-                query.append(" ( userLesson.username LIKE '%" + search + "%' or phonemeLessonScore.phoneme LIKE '%" + search + "%' or phonemeLessonScore.score LIKE '%" + search + "%' or userLesson.country LIKE '%" + search + "%')");
+                query.append(" ( userLesson.username LIKE '%" + search + "%' or phonemeLessonScore.phoneme LIKE '%" + search + "%' or phonemeLessonScore.totalScore LIKE '%" + search + "%' or userLesson.country LIKE '%" + search + "%')");
 
                 if (username1.length() > 0) {
                     query.append(" and  userLesson.username LIKE '%" + username1 + "%'");
@@ -163,10 +163,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userLesson.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeLessonScore.score <=50");
+                    query.append(" and 0 <= phonemeLessonScore.totalScore <=50");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeLessonScore.score <=100");
+                    query.append(" and 51 <= phonemeLessonScore.totalScore <=100");
                 }
                 if (dateFrom!=null && dateTo==null) {
                     query.append(" and userLesson.serverTime >= '" + dateFrom + "'");
@@ -190,9 +190,9 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" ORDER BY phonemeLessonScore.phoneme DESC");
                 }
                 if (column == 2 && order.equals("asc")) {
-                    query.append(" ORDER BY phonemeLessonScore.score ASC");
+                    query.append(" ORDER BY phonemeLessonScore.totalScore ASC");
                 } else if (column == 2 && order.equals("desc")) {
-                    query.append(" ORDER BY phonemeLessonScore.score DESC");
+                    query.append(" ORDER BY phonemeLessonScore.totalScore DESC");
                 }
                 if (column == 3 && order.equals("asc")) {
                     query.append(" ORDER BY userLesson.country ASC");
@@ -260,44 +260,50 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
             }
         }else {
-            String firstQuery = "select id, username , word, score, serverTime, 'F' as type, latitude, longitude  from  " + metaUserVoiceModel.getTable() + " where";
-            String secondQuery = "select id, username , word, score, serverTime, type, 0 as latitude, 0 as longitude from  " + metaUserLessonHistory.getTable() + " where";
+            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
+                    + " userVoice inner join " + metaPhonemeScoreDB.getTable()
+                    + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
+
+            String secondQuery = "select userLesson.id, userLesson.username , phonemeLessonScore.phoneme, phonemeLessonScore.totalScore, userLesson.country, userLesson.serverTime, userLesson.type  from  " + metaUserLessonHistory.getTable() +
+                    " userLesson inner join " + metaPhonemeLessonScore.getTable()
+                    + " phonemeLessonScore on phonemeLessonScore.idUserLessonHistory=userLesson.id where ";
+
             first.append(firstQuery);
             second.append(secondQuery);
-            first.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
-            second.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
+            first.append(" (userVoice.username LIKE '%" + search + "%' or  phonemeScore.phonemeWord LIKE '%" + search + "%' or phonemeScore.totalScore LIKE '%" + search + "%')");
+            second.append(" (userLesson.username LIKE '%" + search + "%' or phonemeLessonScore.phoneme LIKE '%" + search + "%' or phonemeLessonScore.totalScore LIKE '%" + search + "%')");
             if (username1.length() > 0) {
-                first.append(" and username LIKE '%" + username1 + "%'");
-                second.append(" and username LIKE '%" + username1 + "%'");
+                first.append(" and userVoice.username LIKE '%" + username1 + "%'");
+                second.append(" and userLesson.username LIKE '%" + username1 + "%'");
             }
             if (phoneme1.length() > 0) {
-                first.append(" and word LIKE '" + phoneme1 + "'");
-                second.append(" and word LIKE '" + phoneme1 + "'");
+                first.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
+                second.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
             }
             if (country1.length() > 0) {
-                first.append(" and word LIKE '" + country1 + "'");
-                second.append(" and word LIKE '" + phoneme1 + "'");
+                first.append(" and userVoice.country LIKE '" + country1 + "'");
+                second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
             }
             if (dateFrom!=null && dateTo==null) {
-                first.append(" and serverTime >= '" + dateFrom + "'");
-                second.append(" and serverTime >= '" + dateFrom + "'");
+                first.append(" and userVoice.serverTime >= '" + dateFrom + "'");
+                second.append(" and userLesson.serverTime >= '" + dateFrom + "'");
             }
             if(score1==1){
-                first.append(" and 0 <= score <=50");
-                second.append(" and 0 <= score <=50");
+                first.append(" and 0 <= phonemeScore.totalScore <=50");
+                second.append(" and 0 <= phonemeLessonScore.totalScore <=50");
             }
             if(score1==2){
-                first.append(" and 51 <= score <=100");
-                second.append(" and 51 <= score <=100");
+                first.append(" and 51 <= phonemeScore.totalScore <=100");
+                second.append(" and 51 <= phonemeLessonScore.totalScore <=100");
             }
             if (dateFrom==null && dateTo!=null) {
-                first.append(" and serverTime <= '" + dateTo + "'");
-                second.append(" and serverTime <= '" + dateTo + "'");
+                first.append(" and userVoice.serverTime <= '" + dateTo + "'");
+                second.append(" and userLesson.serverTime <= '" + dateTo + "'");
             }
 
             if (dateFrom!=null && dateTo!=null) {
-                first.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
-                second.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
+                first.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
+                second.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
             }
             query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
 
@@ -306,15 +312,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
             } else if (column == 0 && order.equals("desc")) {
                 query.append(" ORDER BY tmp.username DESC");
             }
-            if (column == 1 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.word ASC");
-            } else if (column == 1 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.word DESC");
-            }
             if (column == 2 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.score ASC");
+                query.append(" ORDER BY tmp.totalScore ASC");
             } else if (column == 2 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.score DESC");
+                query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
                 query.append(" ORDER BY tmp.serverTime ASC");
@@ -355,12 +356,17 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                         phoneme.setScore(0);
                     }
                     if (array[4] != null) {
-                        phoneme.setServerTime((long) array[4]);
+                        phoneme.setCountry(array[4].toString());
+                    } else {
+                        phoneme.setCountry(null);
+                    }
+                    if (array[5] != null) {
+                        phoneme.setServerTime((long) array[5]);
                     } else {
                         phoneme.setServerTime(0);
                     }
-                    if(array[5]!=null){
-                        phoneme.setType(array[5].toString());
+                    if(array[6]!=null){
+                        phoneme.setType(array[6].toString());
                     } else {
                         phoneme.setType(null);
                     }
@@ -381,7 +387,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
 
 
-    public List<Score> getCountSearch(String search,int column,String order,String username1,String phoneme1, String country1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Phoneme> getCountSearch(String search,int column,String order,String username1,String phoneme1, String country1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
@@ -389,103 +395,108 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
         StringBuffer second = new StringBuffer();
 
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
+        TypeMetadata metaPhonemeScoreDB = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeScoreDB.class.getCanonicalName());
         TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
+        TypeMetadata metaPhonemeLessonScore = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeLessonScore.class.getCanonicalName());
         if(type!=null && type.length()>0) {
             if(type.equalsIgnoreCase("F")) {
-                String firstQuery = "select id, username , word, score, serverTime, latitude, longitude  from  " + metaUserVoiceModel.getTable() + " where";
+                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,  from  " + metaUserVoiceModel.getTable()
+                        + " userVoice inner join " + metaPhonemeScoreDB.getTable()
+                        + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
                 query.append(firstQuery);
-                query.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
+                query.append(" (userVoice.username LIKE '%" + search + "%' or  phonemeScore.phonemeWord LIKE '%" + search + "%' or phonemeScore.totalScore LIKE '%" + search + "%')");
 
                 if (username1.length() > 0) {
-                    query.append(" and username LIKE '%" + username1 + "%'");
+                    query.append(" and userVoice.username LIKE '%" + username1 + "%'");
                 }
                 if (phoneme1.length() > 0) {
-                    query.append(" and word LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and word LIKE '" + country1 + "'");
+                    query.append(" and userVoice.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and 0 <= phonemeScore.totalScore <=50");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and 51 <= phonemeScore.totalScore <=100");
                 }
                 if (dateFrom!=null && dateTo==null) {
-                    query.append(" and serverTime >= '" + dateFrom + "'");
+                    query.append(" and userVoice.serverTime >= '" + dateFrom + "'");
                 }
                 if (dateFrom==null && dateTo!=null) {
-                    query.append(" and serverTime <= '" + dateTo + "'");
+                    query.append(" and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
                 if (dateFrom!=null && dateTo!=null) {
-                    query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
+                    query.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
                 if (column == 0 && order.equals("asc")) {
-                    query.append(" ORDER BY username ASC");
+                    query.append(" ORDER BY userVoice.username ASC");
                 } else if (column == 0 && order.equals("desc")) {
-                    query.append(" ORDER BY username DESC");
+                    query.append(" ORDER BY userVoice.username DESC");
                 }
                 if (column == 1 && order.equals("asc")) {
-                    query.append(" ORDER BY word ASC");
+                    query.append(" ORDER BY phonemeScore.phonemeWord ASC");
                 } else if (column == 1 && order.equals("desc")) {
-                    query.append(" ORDER BY word DESC");
+                    query.append(" ORDER BY phonemeScore.phonemeWord DESC");
                 }
                 if (column == 2 && order.equals("asc")) {
-                    query.append(" ORDER BY score ASC");
+                    query.append(" ORDER BY phonemeScore.totalScore ASC");
                 } else if (column == 2 && order.equals("desc")) {
-                    query.append(" ORDER BY score DESC");
+                    query.append(" ORDER BY phonemeScore.totalScore DESC");
                 }
                 if (column == 3 && order.equals("asc")) {
-                    query.append(" ORDER BY serverTime ASC");
+                    query.append(" ORDER BY userVoice.country ASC");
                 } else if (column == 3 && order.equals("desc")) {
-                    query.append(" ORDER BY serverTime DESC");
+                    query.append(" ORDER BY userVoice.country DESC");
                 }
+                if (column == 4 && order.equals("asc")) {
+                    query.append(" ORDER BY userVoice.serverTime ASC");
+                } else if (column == 4 && order.equals("desc")) {
+                    query.append(" ORDER BY userVoice.serverTime DESC");
+                }
+
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-                List<Score> list = new ArrayList<Score>();
+                List<Phoneme> list = new ArrayList<Phoneme>();
                 try {
                     List<Object> tmp = (List<Object>) q.execute();
                     for (Object obj : tmp) {
-                        Score score = new Score();
+                        Phoneme phoneme = new Phoneme();
                         Object[] array = (Object[]) obj;
                         if (array[0].toString().length() > 0) {
-                            score.setId(array[0].toString());
+                            phoneme.setId(array[0].toString());
                         } else {
-                            score.setId(null);
+                            phoneme.setId(null);
                         }
                         if (array[1] != null) {
-                            score.setUsername(array[1].toString());
+                            phoneme.setUsername(array[1].toString());
                         } else {
-                            score.setUsername(null);
+                            phoneme.setUsername(null);
                         }
                         if (array[2] != null) {
-                            score.setWord(array[2].toString());
+                            phoneme.setPhoneme(array[2].toString());
                         } else {
-                            score.setWord(null);
+                            phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            phoneme.setScore((int) array[3]);
                         } else {
-                            score.setScore(0);
+                            phoneme.setScore(0);
                         }
                         if (array[4] != null) {
-                            score.setServerTime((long) array[4]);
+                            phoneme.setCountry(array[4].toString());
                         } else {
-                            score.setServerTime(0);
+                            phoneme.setCountry(null);
                         }
                         if (array[5] != null) {
-                            score.setLatitude((double) array[5]);
+                            phoneme.setServerTime((long) array[5]);
                         } else {
-                            score.setLatitude(0);
+                            phoneme.setServerTime(0);
                         }
-                        if (array[6] != null) {
-                            score.setLongitude((double) array[6]);
-                        } else {
-                            score.setLongitude(0);
-                        }
-                        score.setType("F");
-                        list.add(score);
+                        phoneme.setType("F");
+                        list.add(phoneme);
                     }
 
                     return list;
@@ -498,97 +509,107 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
 
             }else{
-                String firstQuery = "select id, username , word, score, serverTime, type  from  " + metaUserLessonHistory.getTable() + " where";
+                String firstQuery = "select userLesson.id, userLesson.username , phonemeLessonScore.phoneme, phonemeLessonScore.totalScore, userLesson.country, userLesson.serverTime, userLesson.type  from  " + metaUserLessonHistory.getTable() +
+                        " userLesson inner join " + metaPhonemeLessonScore.getTable()
+                        + " phonemeLessonScore on phonemeLessonScore.idUserLessonHistory=userLesson.id where ";
                 query.append(firstQuery);
-                query.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
+                query.append(" ( userLesson.username LIKE '%" + search + "%' or phonemeLessonScore.phoneme LIKE '%" + search + "%' or phonemeLessonScore.totalScore LIKE '%" + search + "%' or userLesson.country LIKE '%" + search + "%')");
 
                 if (username1.length() > 0) {
-                    query.append(" and username LIKE '%" + username1 + "%'");
+                    query.append(" and  userLesson.username LIKE '%" + username1 + "%'");
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (phoneme1.length() > 0) {
-                    query.append(" and word LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and word LIKE '" + country1 + "'");
+                    query.append(" and userLesson.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= score <=50");
+                    query.append(" and 0 <= phonemeLessonScore.totalScore <=50");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= score <=100");
+                    query.append(" and 51 <= phonemeLessonScore.totalScore <=100");
                 }
                 if (dateFrom!=null && dateTo==null) {
-                    query.append(" and serverTime >= '" + dateFrom + "'");
+                    query.append(" and userLesson.serverTime >= '" + dateFrom + "'");
                 }
                 if (dateFrom==null && dateTo!=null) {
-                    query.append(" and serverTime <= '" + dateTo + "'");
+                    query.append(" and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
                 if (dateFrom!=null && dateTo!=null) {
-                    query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
+                    query.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
                 if (column == 0 && order.equals("asc")) {
-                    query.append(" ORDER BY username ASC");
+                    query.append(" ORDER BY  userLesson.username ASC");
                 } else if (column == 0 && order.equals("desc")) {
-                    query.append(" ORDER BY username DESC");
+                    query.append(" ORDER BY  userLesson.username DESC");
                 }
                 if (column == 1 && order.equals("asc")) {
-                    query.append(" ORDER BY word ASC");
+                    query.append(" ORDER BY phonemeLessonScore.phoneme ASC");
                 } else if (column == 1 && order.equals("desc")) {
-                    query.append(" ORDER BY word DESC");
+                    query.append(" ORDER BY phonemeLessonScore.phoneme DESC");
                 }
                 if (column == 2 && order.equals("asc")) {
-                    query.append(" ORDER BY score ASC");
+                    query.append(" ORDER BY phonemeLessonScore.totalScore ASC");
                 } else if (column == 2 && order.equals("desc")) {
-                    query.append(" ORDER BY score DESC");
+                    query.append(" ORDER BY phonemeLessonScore.totalScore DESC");
                 }
                 if (column == 3 && order.equals("asc")) {
-                    query.append(" ORDER BY serverTime ASC");
+                    query.append(" ORDER BY userLesson.country ASC");
                 } else if (column == 3 && order.equals("desc")) {
-                    query.append(" ORDER BY serverTime DESC");
+                    query.append(" ORDER BY userLesson.country DESC");
+                }
+                if (column == 4 && order.equals("asc")) {
+                    query.append(" ORDER BY userLesson.serverTime ASC");
+                } else if (column == 4 && order.equals("desc")) {
+                    query.append(" ORDER BY userLesson.serverTime DESC");
                 }
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-                List<Score> list = new ArrayList<Score>();
+                List<Phoneme> list = new ArrayList<Phoneme>();
                 try {
                     List<Object> tmp = (List<Object>) q.execute();
                     for (Object obj : tmp) {
-                        Score score = new Score();
+                        Phoneme phoneme = new Phoneme();
                         Object[] array = (Object[]) obj;
                         if (array[0].toString().length() > 0) {
-                            score.setId(array[0].toString());
+                            phoneme.setId(array[0].toString());
                         } else {
-                            score.setId(null);
+                            phoneme.setId(null);
                         }
                         if (array[1] != null) {
-                            score.setUsername(array[1].toString());
+                            phoneme.setUsername(array[1].toString());
                         } else {
-                            score.setUsername(null);
+                            phoneme.setUsername(null);
                         }
                         if (array[2] != null) {
-                            score.setWord(array[2].toString());
+                            phoneme.setPhoneme(array[2].toString());
                         } else {
-                            score.setWord(null);
+                            phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((int) array[3]);
+                            phoneme.setScore((int) array[3]);
                         } else {
-                            score.setScore(0);
+                            phoneme.setScore(0);
                         }
                         if (array[4] != null) {
-                            score.setServerTime((long) array[4]);
+                            phoneme.setCountry(array[4].toString());
                         } else {
-                            score.setServerTime(0);
+                            phoneme.setCountry(null);
                         }
-                        score.setLatitude(0);
-                        score.setLongitude(0);
-                        if(array[5]!=null){
-                            score.setType(array[5].toString());
+                        if (array[5] != null) {
+                            phoneme.setServerTime((long) array[5]);
+                        } else {
+                            phoneme.setServerTime(0);
+                        }
+                        if(array[6]!=null){
+                            phoneme.setType(array[6].toString());
                         }else {
-                            score.setType(null);
+                            phoneme.setType(null);
                         }
-                        list.add(score);
+                        list.add(phoneme);
                     }
 
                     return list;
@@ -601,44 +622,50 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
             }
         }else {
-            String firstQuery = "select id, username , word, score, serverTime, 'F' as type, latitude, longitude  from  " + metaUserVoiceModel.getTable() + " where";
-            String secondQuery = "select id, username , word, score, serverTime, type, 0 as latitude, 0 as longitude from  " + metaUserLessonHistory.getTable() + " where";
+            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
+                    + " userVoice inner join " + metaPhonemeScoreDB.getTable()
+                    + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
+
+            String secondQuery = "select userLesson.id, userLesson.username , phonemeLessonScore.phoneme, phonemeLessonScore.totalScore, userLesson.country, userLesson.serverTime, userLesson.type  from  " + metaUserLessonHistory.getTable() +
+                    " userLesson inner join " + metaPhonemeLessonScore.getTable()
+                    + " phonemeLessonScore on phonemeLessonScore.idUserLessonHistory=userLesson.id where ";
+
             first.append(firstQuery);
             second.append(secondQuery);
-            first.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
-            second.append(" (username LIKE '%" + search + "%' or word LIKE '%" + search + "%' or score LIKE '%" + search + "%')");
+            first.append(" (userVoice.username LIKE '%" + search + "%' or  phonemeScore.phonemeWord LIKE '%" + search + "%' or phonemeScore.totalScore LIKE '%" + search + "%')");
+            second.append(" ( userLesson.username LIKE '%" + search + "%' or phonemeLessonScore.phoneme LIKE '%" + search + "%' or phonemeLessonScore.totalScore LIKE '%" + search + "%')");
             if (username1.length() > 0) {
-                first.append(" and username LIKE '%" + username1 + "%'");
-                second.append(" and username LIKE '%" + username1 + "%'");
+                first.append(" and userVoice.username LIKE '%" + username1 + "%'");
+                second.append(" and userLesson.username LIKE '%" + username1 + "%'");
             }
             if (phoneme1.length() > 0) {
-                first.append(" and word LIKE '" + phoneme1 + "'");
-                second.append(" and word LIKE '" + phoneme1 + "'");
+                first.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
+                second.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
             }
             if (country1.length() > 0) {
-                first.append(" and word LIKE '" + country1 + "'");
-                second.append(" and word LIKE '" + phoneme1 + "'");
+                first.append(" and userVoice.country LIKE '" + country1 + "'");
+                second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
             }
             if (dateFrom!=null && dateTo==null) {
-                first.append(" and serverTime >= '" + dateFrom + "'");
-                second.append(" and serverTime >= '" + dateFrom + "'");
+                first.append(" and userVoice.serverTime >= '" + dateFrom + "'");
+                second.append(" and userLesson.serverTime >= '" + dateFrom + "'");
             }
             if(score1==1){
-                first.append(" and 0 <= score <=50");
-                second.append(" and 0 <= score <=50");
+                first.append(" and 0 <= phonemeScore.totalScore <=50");
+                second.append(" and 0 <= phonemeLessonScore.totalScore <=50");
             }
             if(score1==2){
-                first.append(" and 51 <= score <=100");
-                second.append(" and 51 <= score <=100");
+                first.append(" and 51 <= phonemeScore.totalScore <=100");
+                second.append(" and 51 <= phonemeLessonScore.totalScore <=100");
             }
             if (dateFrom==null && dateTo!=null) {
-                first.append(" and serverTime <= '" + dateTo + "'");
-                second.append(" and serverTime <= '" + dateTo + "'");
+                first.append(" and userVoice.serverTime <= '" + dateTo + "'");
+                second.append(" and userLesson.serverTime <= '" + dateTo + "'");
             }
 
             if (dateFrom!=null && dateTo!=null) {
-                first.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
-                second.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
+                first.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
+                second.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
             }
             query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
 
@@ -647,15 +674,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
             } else if (column == 0 && order.equals("desc")) {
                 query.append(" ORDER BY tmp.username DESC");
             }
-            if (column == 1 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.word ASC");
-            } else if (column == 1 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.word DESC");
-            }
             if (column == 2 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.score ASC");
+                query.append(" ORDER BY tmp.totalScore ASC");
             } else if (column == 2 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.score DESC");
+                query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
                 query.append(" ORDER BY tmp.serverTime ASC");
@@ -668,54 +690,49 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 query.append(" ORDER BY tmp.type DESC");
             }
             Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-            List<Score> list = new ArrayList<Score>();
+            List<Phoneme> list = new ArrayList<Phoneme>();
             try {
                 List<Object> tmp = (List<Object>) q.execute();
                 for (Object obj : tmp) {
-                    Score score = new Score();
+                    Phoneme phoneme = new Phoneme();
                     Object[] array = (Object[]) obj;
                     if (array[0].toString().length() > 0) {
-                        score.setId(array[0].toString());
+                        phoneme.setId(array[0].toString());
                     } else {
-                        score.setId(null);
+                        phoneme.setId(null);
                     }
                     if (array[1] != null) {
-                        score.setUsername(array[1].toString());
+                        phoneme.setUsername(array[1].toString());
                     } else {
-                        score.setUsername(null);
+                        phoneme.setUsername(null);
                     }
                     if (array[2] != null) {
-                        score.setWord(array[2].toString());
+                        phoneme.setPhoneme(array[2].toString());
                     } else {
-                        score.setWord(null);
+                        phoneme.setPhoneme(null);
                     }
                     if (array[3] != null) {
-                        score.setScore((double) array[3]);
+                        phoneme.setScore((double) array[3]);
                     } else {
-                        score.setScore(0);
+                        phoneme.setScore(0);
                     }
                     if (array[4] != null) {
-                        score.setServerTime((long) array[4]);
+                        phoneme.setCountry(array[4].toString());
                     } else {
-                        score.setServerTime(0);
+                        phoneme.setCountry(null);
                     }
-                    if(array[5]!=null){
-                        score.setType(array[5].toString());
+                    if (array[5] != null) {
+                        phoneme.setServerTime((long) array[5]);
                     } else {
-                        score.setType(null);
+                        phoneme.setServerTime(0);
                     }
-                    if (array[6] != null) {
-                        score.setLatitude((double) array[6]);
+                    if(array[6]!=null){
+                        phoneme.setType(array[6].toString());
                     } else {
-                        score.setLatitude(0);
-                    }
-                    if (array[7] != null) {
-                        score.setLongitude((double) array[7]);
-                    } else {
-                        score.setLongitude(0);
+                        phoneme.setType(null);
                     }
 
-                    list.add(score);
+                    list.add(phoneme);
                 }
 
                 return list;
