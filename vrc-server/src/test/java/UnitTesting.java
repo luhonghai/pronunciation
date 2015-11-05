@@ -1,12 +1,16 @@
 
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
+import com.cmg.lesson.dao.history.PhonemeLessonScoreDAO;
+import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
 import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
+import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
@@ -138,9 +142,25 @@ public class UnitTesting {
             System.out.println("end set arpabet: " + new Date(System.currentTimeMillis()));*/
           /*  WordMappingPhonemesService service = new WordMappingPhonemesService();
             service.updatePhonemeOfWordToDatabase();*/
-            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
-            String ipa = dao.getByArpabet("UH");
-            System.out.println(ipa);
+//            IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+//            String ipa = dao.getByArpabet("UH");
+           // System.out.println(ipa);
+//            UserLessonHistory userLessonHistory=new UserLessonHistory();
+//            UserLessonHistoryDAO userLessonHistoryDAO=new UserLessonHistoryDAO();
+//            userLessonHistory.setCountry("Viet Nam");
+//            userLessonHistory.setType("T");
+//            userLessonHistory.setUsername("nam.bui@c-mg.com");
+//            userLessonHistory.setServerTime(1437473382287l);
+//            userLessonHistory.setWord("hello");
+//            userLessonHistory.setScore(100);
+//            userLessonHistoryDAO.put(userLessonHistory);
+            PhonemeLessonScoreDAO phonemeLessonScoreDAO=new PhonemeLessonScoreDAO();
+            PhonemeLessonScore phonemeLessonScore=new PhonemeLessonScore();
+            phonemeLessonScore.setPhoneme("OW");
+            phonemeLessonScore.setIdUserLessonHistory("733d95a8-cdbc-4eb4-aaac-7901fada2f5f");
+            phonemeLessonScore.setTotalScore(100);
+            phonemeLessonScoreDAO.put(phonemeLessonScore);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

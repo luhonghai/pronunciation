@@ -260,7 +260,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
             }
         }else {
-            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
+            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord as phoneme, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
                     + " userVoice inner join " + metaPhonemeScoreDB.getTable()
                     + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
 
@@ -351,7 +351,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                         phoneme.setPhoneme(null);
                     }
                     if (array[3] != null) {
-                        phoneme.setScore((double) array[3]);
+                        phoneme.setScore((float) array[3]);
                     } else {
                         phoneme.setScore(0);
                     }
@@ -622,7 +622,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
             }
         }else {
-            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
+            String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord as phoneme, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,'F' as type  from  " + metaUserVoiceModel.getTable()
                     + " userVoice inner join " + metaPhonemeScoreDB.getTable()
                     + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
 
@@ -712,7 +712,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                         phoneme.setPhoneme(null);
                     }
                     if (array[3] != null) {
-                        phoneme.setScore((double) array[3]);
+                        phoneme.setScore((float) array[3]);
                     } else {
                         phoneme.setScore(0);
                     }
