@@ -13,6 +13,12 @@ public class Country extends BaseLessonEntity {
     @LiteColumn
     private String description;
 
+    @LiteColumn
+    private String imageUrl;
+
+    @LiteColumn
+    private boolean isDefault;
+
     public String getName() {
         return name;
     }
@@ -27,5 +33,21 @@ public class Country extends BaseLessonEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(boolean isDefault) {
+        this.isDefault = isDefault;
     }
 }

@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
@@ -54,6 +55,7 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
+import com.cmg.android.bbcaccent.extra.BreakDownAction;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.DetailFragment;
@@ -70,7 +72,9 @@ import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.utils.UUIDGenerator;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
@@ -214,6 +218,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
     private boolean isLesson;
 
+    private BreakDownAction breakDownAction;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Gson gson = new Gson();
@@ -229,6 +235,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 viewState = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.VIEW_STATE.toString()), ViewState.class);
             }
         }
+
         if (viewState == null) {
             viewState = new ViewState();
             Bundle bundle = getArguments();
@@ -246,6 +253,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     viewState.lessonCollection = MainApplication.fromJson(bundle.getString(LessonCollection.class.getName()), LessonCollection.class);
                 }
             }
+        } else {
+            breakDownAction = MainApplication.getBreakDownAction();
+            MainApplication.setBreakDownAction(null);
         }
         isLesson = viewState.objective != null;
         scoreDBAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
@@ -272,6 +282,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         if (word == null || word.length() == 0) {
                             Bundle bundle = new Bundle();
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
+                            bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
@@ -368,10 +379,32 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 SimpleAppLog.error("Could not list all question of lesson collection id " + viewState.lessonCollection.getId(), e);
             }
         }
+        if (breakDownAction != null && breakDownAction.getType() == BreakDownAction.Type.SELECT_REDO) {
+            viewState.sessionId = UUIDGenerator.generateUUID();
+            viewState.selectedQuestionIndex = 0;
+            for (int i = 0; i < viewState.questions.size(); i++) {
+                final Question  question = viewState.questions.get(i);
+                question.setEnabled(i == 0);
+                question.setRecorded(false);
+            }
+        }
         recyclerView.setAdapter(questionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         questionAdapter.notifyDataSetChanged();
-        selectQuestion(viewState.selectedQuestionIndex);
+        int selectedIndex = viewState.selectedQuestionIndex;
+        if (breakDownAction != null && breakDownAction.getType() == BreakDownAction.Type.SELECT_QUESTION) {
+            Question selectedQuestion = (Question) breakDownAction.getData();
+            if (selectedQuestion != null) {
+                for (int i = 0;  i < viewState.questions.size(); i++) {
+                    if (viewState.questions.get(i).getId().equals(selectedQuestion.getId())) {
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+        txtDefinition.setText(viewState.lessonCollection.getName());
+        selectQuestion(selectedIndex);
 
     }
 
@@ -383,7 +416,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         final Question question = viewState.questions.get(index);
         if (question != null) {
-            txtDefinition.setText(question.getName());
+
+            viewState.selectedQuestionIndex = index;
             if (question.isRecorded()) {
                 viewState.dictionaryItem = question.getDictionaryItem();
                 viewState.currentModel = question.getUserVoiceModel();
@@ -393,10 +427,12 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                 recordingView.startPingAnimation(getActivity(), 0, question.getScore(), true, false);
             } else {
-                viewState.selectedQuestionIndex = index;
+                viewState.currentModel = null;
+                viewState.dictionaryItem = null;
                 try {
                     List<WordCollection> wordCollections = LessonDBAdapterService.getInstance().getAllWordsOfQuestion(question.getId());
                     String selectedWord = "";
+                    List<String> words = new ArrayList<>();
                     if (wordCollections != null && wordCollections.size() > 0) {
                         for (WordCollection wordCollection : wordCollections) {
                             String cWord = wordCollection.getWord();
@@ -407,18 +443,20 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                     if (word != null && cWord.equalsIgnoreCase(word)) {
                                         SimpleAppLog.debug("Word " + cWord + " is exist if question list. Skip by default. Question id " + question.getId());
                                         exist = true;
-                                        break;
                                     }
                                 }
-                                if (!exist) {
-                                    selectedWord = cWord;
+                                if (!exist && !words.contains(cWord)) {
+                                    words.add(cWord);
                                 }
                             }
                         }
                     }
+                    if (words.size() > 0)
+                        selectedWord = words.get(RandomHelper.getRandomIndex(words.size()));
                     if (selectedWord.length() > 0) {
                         getWord(selectedWord);
                     } else {
+                        getWord("not found");
                         SimpleAppLog.error("No word found for question id " + question.getId());
                     }
                 } catch (LiteDatabaseException e) {
@@ -432,7 +470,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     public void clickTipIcon() {
         if (viewState.lessonCollection != null) {
             final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.showcase_content);
-            ((HtmlTextView) dialog.findViewById(R.id.tv_content)).setHtmlFromString(viewState.lessonCollection.getDescription(), true);
+            ((HtmlTextView) dialog.findViewById(R.id.tv_content)).setHtmlFromString(
+                    viewState.lessonCollection.getDescription(), true);
             dialog.show();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -715,13 +754,13 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     private boolean checkAudioExist() {
         String fileName = getCurrentRecordedFileName();
         if (fileName != null && fileName.length() > 0) {
-            return new File(audioStream.getFilename()).exists();
+            return new File(fileName).exists();
         }
         return false;
     }
 
     private String getCurrentRecordedFileName() {
-        if (viewState.currentModel != null) {
+        if (viewState != null && viewState.currentModel != null) {
             return viewState.currentModel.getAudioFile();
         }
         return "";
@@ -995,6 +1034,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 Bundle bundle = new Bundle();
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
                 bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
+                bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),
@@ -1121,6 +1161,23 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
                 ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
             }
+
+            boolean isEnabled = state != ButtonState.DISABLED;
+            int count = recyclerView.getChildCount();
+            if (count > 0) {
+                for (int i = 0; i < count; i++) {
+                    View item = recyclerView.getChildAt(i);
+                    item.findViewById(R.id.cvItemContainer).setEnabled(isEnabled);
+                }
+            }
+            cvTip.setEnabled(isEnabled);
+
+            // Only record a question one time
+            Question currentQuestion = viewState.getCurrentQuestion();
+            if (currentQuestion != null && !isLesson && currentQuestion.isRecorded()) {
+                ((ImageView) btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+            }
         } catch (Exception e) {
             SimpleAppLog.error("Could not update screen state", e);
         }
@@ -1160,7 +1217,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         try {
             AppLog.logString("Start Uploading");
             analyzingState = AnalyzingState.ANALYZING;
-            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_url));
+            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_weight_url));
             Map<String, String> params = new HashMap<String, String>();
             String fileName = audioStream.getFilename();
             File tmp = new File(fileName);
@@ -1181,8 +1238,22 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
                     params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
+                    params.put("idWord", viewState.dictionaryItem.getWordId());
+                    params.put("idQuestion", viewState.getCurrentQuestion().getId());
+                    params.put("idCountry", Preferences.getCurrentProfile().getSelectedCountry().getId());
+                    params.put("session", viewState.sessionId);
+                    params.put("idLessonCollection", viewState.lessonCollection.getId());
+                    if (isLesson) {
+                        params.put("type", "Q");
+                        params.put("itemId", viewState.objective.getId());
+                    } else {
+                        params.put("type", "T");
+                        params.put("itemId", viewState.lessonTest.getId());
+                    }
+                    params.put("levelId", viewState.lessonLevel.getId());
                     params.put("profile", gson.toJson(profile));
                     params.put("word", selectedWord);
+
                     uploadTask.execute(params);
                 } else {
                     AppLog.logString("Could not get user profile");
@@ -1233,7 +1304,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 recordingView.stopPingAnimation();
                 if (viewState.currentModel != null) {
                     if (isRecording) {
-                        viewState.currentModel.setAudioFile(audioStream.getFilename());
+                        //viewState.currentModel.setAudioFile(audioStream.getFilename());
                         int score = Math.round(viewState.currentModel.getScore());
 
                         // Call other view update
@@ -1353,7 +1424,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                 new ShowcaseHelper.HelpState(btnAnalyzing, "<b>Press</b> to <b>test</b> your pronunciation"));
 
                         final Question question = viewState.questions.get(viewState.selectedQuestionIndex);
-                        question.setDictionaryItem(viewState.dictionaryItem);
+                        question.setDictionaryItem(MainApplication.fromJson(MainApplication.toJson(viewState.dictionaryItem), DictionaryItem.class));
                         question.setWord(viewState.dictionaryItem.getWord());
                     } else {
                         txtWord.setText(getString(R.string.not_found));
@@ -1376,28 +1447,67 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 @Override
                 protected Void doInBackground(Void... voids) {
                     try {
+
+                        AnalyticHelper.sendAnalyzingWord(getActivity(), viewState.currentModel.getWord(), Math.round(viewState.currentModel.getScore()));
+                        File pronScoreDir = FileHelper.getPronunciationScoreDir(MainApplication.getContext());
+                        PronunciationScore score = new PronunciationScore();
+                        // Get ID from server
+                        String dataId = viewState.currentModel.getId();
+                        score.setDataId(dataId);
+                        score.setScore(viewState.currentModel.getScore());
+                        score.setWord(viewState.currentModel.getWord());
+                        score.setTimestamp(new Date(System.currentTimeMillis()));
+                        //DENP-238
+                        score.setUsername(viewState.currentModel.getUsername());
+                        score.setVersion(viewState.currentModel.getVersion());
+                        // Save recorded file
+                        File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
+                        FileUtils.copyFile(recordedFile, savedFile);
+                        // Save json data
+                        Gson gson = new Gson();
+                        viewState.currentModel.setAudioFile(savedFile.getAbsolutePath());
+                        FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(viewState.currentModel), "UTF-8");
+                        scoreDBAdapter.insert(score);
+                        if (viewState.currentModel.getResult() != null) {
+                            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
+                            List<SphinxResult.PhonemeScore> phonemeScoreList = viewState.currentModel.getResult().getPhonemeScores();
+                            if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
+                                for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
+                                    phonemeScore.setTime(System.currentTimeMillis());
+                                    phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
+                                    phonemeScore.setUserVoiceId(dataId);
+                                    phonemeScoreDBAdapter.insert(phonemeScore, viewState.currentModel.getUsername(), viewState.currentModel.getVersionPhoneme());
+                                }
+                            }
+                        }
+
                         int qScore = Math.round(viewState.currentModel.getScore());
                         final Question question = viewState.questions.get(viewState.selectedQuestionIndex);
-                        question.setUserVoiceModel(viewState.currentModel);
                         question.setScore(qScore);
                         question.getScoreHistory().add(qScore);
                         question.setRecorded(true);
                         boolean isFinished = true;
                         int totalScore = 0;
+                        int totalQuestions = 0;
                         for (Question q : viewState.questions) {
                             if (q.isRecorded()) {
+                                totalQuestions++;
                                 int totalQuestionScore = 0;
                                 for (Integer i : q.getScoreHistory()) {
                                     totalQuestionScore += i;
                                 }
                                 totalScore += Math.round((float) totalQuestionScore / q.getScoreHistory().size());
                             } else {
-                                isFinished = false;
-                                break;
+                                if (!isLesson) {
+                                    // Only lesson score will be tracked if not complete all questions
+                                    isFinished = false;
+                                    break;
+                                }
                             }
                         }
                         if (isFinished) {
-                            int avgScore = Math.round((float) totalScore / viewState.questions.size());
+                            SimpleAppLog.debug("Number of complete question " + totalQuestions + ". Total score: " + totalScore);
+                            int avgScore = Math.round((float) totalScore / totalQuestions);
                             UserProfile userProfile = Preferences.getCurrentProfile();
                             if (viewState.objective != null) {
                                 // Is object lesson test
@@ -1427,43 +1537,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                 );
                             }
                         }
-                        AnalyticHelper.sendAnalyzingWord(getActivity(), viewState.currentModel.getWord(), Math.round(viewState.currentModel.getScore()));
-                        File pronScoreDir = FileHelper.getPronunciationScoreDir(MainApplication.getContext());
-                        PronunciationScore score = new PronunciationScore();
-                        // Get ID from server
-                        String dataId = viewState.currentModel.getId();
-                        score.setDataId(dataId);
-                        score.setScore(viewState.currentModel.getScore());
-                        score.setWord(viewState.currentModel.getWord());
-                        score.setTimestamp(new Date(System.currentTimeMillis()));
-                        //DENP-238
-                        score.setUsername(viewState.currentModel.getUsername());
-                        score.setVersion(viewState.currentModel.getVersion());
-                        // Save recorded file
-                        File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
-                        FileUtils.copyFile(recordedFile, savedFile);
-                        // Save json data
-                        Gson gson = new Gson();
-                        viewState.currentModel.setAudioFile(savedFile.getAbsolutePath());
-                        FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(viewState.currentModel), "UTF-8");
-                        scoreDBAdapter.open();
-                        scoreDBAdapter.insert(score);
-                        scoreDBAdapter.close();
-                        if (viewState.currentModel.getResult() != null) {
-                            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
-                            phonemeScoreDBAdapter.open();
-                            List<SphinxResult.PhonemeScore> phonemeScoreList = viewState.currentModel.getResult().getPhonemeScores();
-                            if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
-                                for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                                    phonemeScore.setTime(System.currentTimeMillis());
-                                    phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
-                                    phonemeScore.setUserVoiceId(dataId);
-                                    phonemeScoreDBAdapter.insert(phonemeScore, viewState.currentModel.getUsername(), viewState.currentModel.getVersionPhoneme());
-                                }
-                            }
-                            phonemeScoreDBAdapter.close();
-                        }
-
+                        question.setUserVoiceModel(MainApplication.fromJson(MainApplication.toJson(viewState.currentModel), UserVoiceModel.class));
                     } catch (Exception e) {
                         SimpleAppLog.error("Could not save score to database",e);
                     }
@@ -1506,27 +1580,34 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         WAIT_FOR_ANIMATION_MAX
     }
 
-    class ViewState {
+    public class ViewState {
 
-        List<Question> questions = new ArrayList<Question>();
+        public String sessionId = UUIDGenerator.generateUUID();
 
-        int selectedQuestionIndex;
+        public List<Question> questions = new ArrayList<Question>();
 
-        LessonLevel lessonLevel;
+        public int selectedQuestionIndex;
 
-        Objective objective;
+        public LessonLevel lessonLevel;
 
-        LessonTest lessonTest;
+        public Objective objective;
 
-        LessonCollection lessonCollection;
+        public LessonTest lessonTest;
 
-        UserVoiceModel currentModel;
+        public LessonCollection lessonCollection;
 
-        DictionaryItem dictionaryItem;
+        public UserVoiceModel currentModel;
 
-        boolean willCollapseSlider = true;
+        public DictionaryItem dictionaryItem;
 
-        boolean willShowHelpSearchWordAndSlider = false;
+        public boolean willCollapseSlider = true;
+
+        public boolean willShowHelpSearchWordAndSlider = false;
+
+        public Question getCurrentQuestion() {
+            if (questions == null || questions.size() == 0) return null;
+            return questions.get(selectedQuestionIndex);
+        }
     }
 
     class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
@@ -1555,7 +1636,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 });
                 if (question.isRecorded()) {
-                    text = String.format(Locale.getDefault(), "%d", question.getScore());
                     if (question.getScore() >= 80) {
                         bgColor = R.color.app_green;
                     } else if (question.getScore() >= 45) {
@@ -1566,8 +1646,14 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 } else {
                     bgColor = R.color.app_purple;
                 }
-            } else {
-
+            }
+            if (question.getScoreHistory().size() > 0) {
+                int totalScore = 0;
+                for (Integer score : question.getScoreHistory()) {
+                    totalScore += score;
+                }
+                int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
+                text = String.format(Locale.getDefault(), "%d", avgScore);
             }
             holder.txtScore.setText(text);
             holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
@@ -1576,19 +1662,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         @Override
         public int getItemCount() {
             return viewState.questions.size();
-        }
-    }
-
-    public static class QuestionViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cardView;
-
-        TextView txtScore;
-
-        public QuestionViewHolder(View itemView) {
-            super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.cvItemContainer);
-            txtScore = (TextView) itemView.findViewById(R.id.txtScore);
         }
     }
 }

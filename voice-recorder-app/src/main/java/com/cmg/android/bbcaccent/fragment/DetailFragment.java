@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -16,20 +18,25 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
+import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.question.Question;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
+import com.cmg.android.bbcaccent.extra.BreakDownAction;
+import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
@@ -86,6 +93,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     @Bind(R.id.panelSlider)
     SlidingUpPanelLayout panelSlider;
 
+    @Bind(R.id.rlBottomAction)
+    RelativeLayout rlBottomAction;
+
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+
     private UserVoiceModel model;
 
     private PlayerHelper player;
@@ -106,12 +119,15 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private boolean isLesson;
 
+    private LessonFragment.ViewState viewState;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
         ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
         isLesson = bundle.containsKey(MainBroadcaster.Filler.LESSON.toString());
+
         mapCMUvsIPA = new WordDBAdapter().getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
@@ -166,6 +182,14 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         });
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
+        rlBottomAction.setVisibility(isLesson ? View.VISIBLE : View.INVISIBLE);
+        if (isLesson) {
+            if (bundle.containsKey(LessonFragment.ViewState.class.getName())) {
+                viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
+                recyclerView.setAdapter(new QuestionAdapter());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            }
+        }
         return root;
     }
 
@@ -618,6 +642,82 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         ORANGE,
         GREEN,
         PLAYING
+    }
+
+    class QuestionAdapter extends RecyclerView.Adapter<QuestionViewHolder> {
+
+        @Override
+        public QuestionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.question_item, parent, false);
+            return new QuestionViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
+            if (viewState == null || viewState.questions.size() == 0) return;
+            final Question question = viewState.questions.get(position);
+            int bgColor = R.color.app_gray;
+            String prefix = viewState.objective != null ? "Q" : "T";
+            String text = String.format(Locale.getDefault(), prefix + "%d", position + 1);
+            if (question.isEnabled()) {
+                holder.cardView.setTag(position);
+                holder.cardView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (question.isEnabled()) {
+                            MainApplication.setBreakDownAction(new BreakDownAction<Question>(BreakDownAction.Type.SELECT_QUESTION, question));
+                            closeDetail();
+                        }
+                    }
+                });
+                if (question.isRecorded()) {
+                    int totalScore = 0;
+                    for (Integer score : question.getScoreHistory()) {
+                        totalScore += score;
+                    }
+                    int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
+                    text = String.format(Locale.getDefault(), "%d", avgScore);
+                    if (question.getScore() >= 80) {
+                        bgColor = R.color.app_green;
+                    } else if (question.getScore() >= 45) {
+                        bgColor = R.color.app_orange;
+                    } else {
+                        bgColor = R.color.app_red;
+                    }
+                } else {
+                    bgColor = R.color.app_purple;
+                }
+            } else {
+
+            }
+            holder.txtScore.setText(text);
+            holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
+        }
+
+        @Override
+        public int getItemCount() {
+            return viewState == null ? 0 : viewState.questions.size();
+        }
+    }
+
+    @OnClick(R.id.cvMenu)
+    public void clickMenuAction() {
+//        MainApplication.setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_MENU));
+//        closeDetail();
+        MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(2);
+    }
+
+    @OnClick(R.id.cvRefresh)
+    public void clickRedoAction() {
+        MainApplication.setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_REDO));
+        closeDetail();
+    }
+
+    @OnClick(R.id.cvNext)
+    public void clickNextAction() {
+        MainApplication.setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_NEXT));
+        closeDetail();
     }
 
 }

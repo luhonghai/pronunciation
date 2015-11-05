@@ -58,7 +58,8 @@ public class MainBroadcaster {
             CLASS_NAME("class_name"),
             SWITCH_FRAGMENT_PARAMETER("switch_fragment_parameter"),
             DICTIONARY_ITEM("dictionary_item"),
-            VIEW_STATE("view_state")
+            VIEW_STATE("view_state"),
+            COUNT("count")
             ;
             String name;
             Key(String name) {this.name = name;}
@@ -230,7 +231,13 @@ public class MainBroadcaster {
         }
 
         public void sendPopBackStackFragment() {
-            sendMessage(Filler.POP_BACK_STACK_FRAGMENT, null);
+            sendPopBackStackFragment(0);
+        }
+
+        public void sendPopBackStackFragment(int count) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Filler.Key.COUNT.toString(), count);
+            sendMessage(Filler.POP_BACK_STACK_FRAGMENT, bundle);
         }
 
         public void sendMessage(Filler key, Bundle bundle) {

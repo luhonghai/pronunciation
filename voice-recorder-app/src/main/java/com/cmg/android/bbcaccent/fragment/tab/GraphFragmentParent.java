@@ -98,6 +98,7 @@ public class GraphFragmentParent extends Fragment {
         @Override
         public Fragment getItem(int position) {
             GraphFragment graphFragment = new GraphFragment();
+            graphFragment.setArguments(getArguments());
             if (position == 0) {
                 graphFragment.setWord(word);
             } else {

@@ -252,6 +252,7 @@ function addWord(){
                         $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
                         $("#listPhonmes").css({"width":(idx+1)*35});
                         $("#listWeight").css({"width":(idx+1)*35});
+                        $("#listIpa").css({"width":(idx+1)*35});
                     });
                     $("#yesadd").attr("disabled", false);
                 }else{

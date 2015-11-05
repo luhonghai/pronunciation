@@ -19,6 +19,9 @@ public class WordCollection extends BaseLessonEntity {
     @LiteColumn
     private String mp3Path;
 
+    @LiteColumn
+    private String arpabet;
+
     public WordCollection(){}
 
     public String getMp3Path() {
@@ -50,5 +53,13 @@ public class WordCollection extends BaseLessonEntity {
 
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+
+    public String getArpabet() {
+        return arpabet;
+    }
+
+    public void setArpabet(String arpabet) {
+        this.arpabet = arpabet;
     }
 }
