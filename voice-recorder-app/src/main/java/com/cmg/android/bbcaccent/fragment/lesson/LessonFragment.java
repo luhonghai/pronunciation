@@ -257,7 +257,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             breakDownAction = MainApplication.getBreakDownAction();
             MainApplication.setBreakDownAction(null);
         }
-        isLesson = viewState.objective != null;
+        isLesson = viewState.objective != null && viewState.lessonTest == null;
         scoreDBAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
         dbAdapter = new WordDBAdapter();
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
@@ -354,8 +354,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         if (isLesson) {
             cvTip.setVisibility(View.VISIBLE);
+            txtDefinition.setVisibility(View.VISIBLE);
         } else {
             cvTip.setVisibility(View.INVISIBLE);
+            txtDefinition.setVisibility(View.INVISIBLE);
         }
         drawQuestionList();
         return root;

@@ -16,19 +16,19 @@ public class AlwaysMarqueeTextView extends TextView {
     public AlwaysMarqueeTextView(Context context)
     {
         super(context);
-        a = false;
+        setAlwaysMarquee(true);
     }
 
     public AlwaysMarqueeTextView(Context context, AttributeSet attributeset)
     {
         super(context, attributeset);
-        a = false;
+        setAlwaysMarquee(true);
     }
 
     public AlwaysMarqueeTextView(Context context, AttributeSet attributeset, int i)
     {
         super(context, attributeset, i);
-        a = false;
+        setAlwaysMarquee(true);
     }
 
     public boolean isFocused()
