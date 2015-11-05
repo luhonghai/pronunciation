@@ -29,7 +29,6 @@ public class LanguageDialog extends DefaultCenterDialog {
 
     private final RecyclerView recyclerView;
 
-
     public LanguageDialog(Context context) {
         super(context, R.layout.choose_language);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -53,6 +52,11 @@ public class LanguageDialog extends DefaultCenterDialog {
         public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
             try {
                 Country country = LessonDBAdapterService.getInstance().toObject(cursor, Country.class);
+                UserProfile userProfile = Preferences.getCurrentProfile();
+                if (userProfile.getSelectedCountry() == null && country.isDefault()) {
+                    userProfile.setSelectedCountry(country);
+                    Preferences.updateProfile(MainApplication.getContext(), userProfile);
+                }
                 ImageLoader.getInstance().displayImage(country.getImageUrl(), viewHolder.imgCountry);
                 viewHolder.txtTitle.setText(country.getName());
                 viewHolder.llContainer.setTag(country);
