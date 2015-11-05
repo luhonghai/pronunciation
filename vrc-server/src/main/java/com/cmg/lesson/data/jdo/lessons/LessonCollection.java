@@ -2,10 +2,7 @@ package com.cmg.lesson.data.jdo.lessons;
 
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 import java.util.Date;
 
 /**
@@ -23,6 +20,7 @@ public class LessonCollection implements Mirrorable {
     private String name;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String description;
 
     @Persistent
