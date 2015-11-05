@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 @WebServlet(name = "ManagementQuestionServlet")
 public class ManagementQuestionServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         QuestionService questionService = new QuestionService();
         QuestionDTO questionDTO = new QuestionDTO();
         Gson gson = new Gson();
