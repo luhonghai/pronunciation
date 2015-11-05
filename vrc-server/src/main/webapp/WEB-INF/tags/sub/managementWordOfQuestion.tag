@@ -41,6 +41,11 @@
     margin: 5px 5px 5px 0;
   }
 
+  #listIpa input,
+  #listIpaEdit input{
+    margin: 5px 5px 5px 0;
+  }
+
   #listWeight input,
   #listWeightEdit input{
     margin: 0px 5px 5px 0;
@@ -72,7 +77,7 @@
           name = wc.getName();
         }
       %>
-      <h1 class="page-header">Word Of Question: <%=name%></h1>
+      <h1 class="page-header"><%=name%></h1>
     </div>
     <!-- /.col-lg-12 -->
     <div class="col-lg-12">
@@ -154,10 +159,12 @@
                 <div class="row">
                   <div class="col-xs-4 col-sm-3">
                     <div class="row"><label class="control-label phoneme-lable"></label></div>
+                    <div class="row"><label class="control-label ipa-lable"></label></div>
                     <div class="row"><label class="control-label weight-lable"></label></div>
                   </div>
                   <div class="col-xs-8 col-sm-9 group-phoneme-weight">
                     <div class="row" id="listPhonmes"></div>
+                    <div class="row" id="listIpa"></div>
                     <div class="row" id="listWeight"></div>
                   </div>
                 </div>
@@ -209,11 +216,13 @@
 
                 <div class="row">
                   <div class="col-xs-4 col-sm-3">
-                    <div class="row"><label class="control-label ">Phonemes:</label></div>
-                    <div class="row"><label class="control-label ">WeightPhonemes:</label></div>
+                    <div class="row"><label style="padding-top : 10px" class="control-label">Arpabet:</label></div>
+                    <div class="row"><label style="padding-top : 10px" class="control-label">Ipa:</label></div>
+                    <div class="row"><label style="padding-top : 15px" class="control-label">Weight:</label></div>
                   </div>
                   <div class="col-xs-8 col-sm-9 group-phoneme-weight">
                     <div class="row" id="listPhonmesEdit"></div>
+                    <div class="row" id="listIpaEdit"></div>
                     <div class="row" id="listWeightEdit"></div>
                   </div>
                 </div>

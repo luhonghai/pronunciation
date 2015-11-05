@@ -196,6 +196,20 @@ public class IpaMapArpabetService {
         return dto;
     }
 
+    /**
+     *
+     * @param arpabet
+     * @return
+     */
+    public String getIpaByArpabet(String arpabet){
+        IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
+        try {
+            return dao.getByArpabet(arpabet);
+        }catch (Exception e){
+            logger.debug("get ipa by arpabet has trouble :" + e.getMessage());
+        }
+        return "";
+    }
 
 
 

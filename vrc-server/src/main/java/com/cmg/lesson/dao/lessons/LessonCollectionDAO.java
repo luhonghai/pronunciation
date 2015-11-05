@@ -170,8 +170,8 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + LessonCollection.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String a="(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(nameUnique == null || nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(timeCreated >= createDateFrom) &&");
         }
@@ -225,8 +225,8 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + LessonCollection.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String a="(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(nameUnique == null || nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");
@@ -252,20 +252,25 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {
-            q.setOrdering("name asc");
+            q.setOrdering("nameUnique asc");
         }else if(column==0 && order.equals("desc")) {
+            q.setOrdering("nameUnique desc");
+        }
+        if (column==1 && order.equals("asc")) {
+            q.setOrdering("name asc");
+        }else if(column==1 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
 
-        if (column==1 && order.equals("asc")) {
+        if (column==2 && order.equals("asc")) {
             q.setOrdering("description asc");
-        }else if(column==1 && order.equals("desc")) {
+        }else if(column==2 && order.equals("desc")) {
             q.setOrdering("description desc");
         }
 
-        if (column==2 && order.equals("asc")) {
+        if (column==3 && order.equals("asc")) {
             q.setOrdering("dateCreated asc");
-        }else if(column==1 && order.equals("desc")) {
+        }else if(column==3 && order.equals("desc")) {
             q.setOrdering("dateCreated desc");
         }
 
@@ -298,7 +303,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
@@ -311,6 +316,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     }
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        lessonCollection.setNameUnique(array[3].toString());
                     }
                     lessonCollection.setIdChecked(true);
                     listObjective.add(lessonCollection);
@@ -345,7 +353,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
@@ -358,6 +366,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     }
                     if(array[2]!=null){
                         lessonCollection.setDescription(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        lessonCollection.setNameUnique(array[3].toString());
                     }
                     listObjective.add(lessonCollection);
                 }

@@ -6,6 +6,7 @@ import com.cmg.lesson.data.dto.question.WeightDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
 import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
+import com.cmg.lesson.services.ipa.IpaMapArpabetService;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -48,6 +49,11 @@ public class WeightForPhonemeService {
         try {
             List<WeightForPhoneme> list = dao.listBy(idQuestion,idWord);
             if(list!=null && list.size() > 0){
+                IpaMapArpabetService ipaService = new IpaMapArpabetService();
+                for(WeightForPhoneme wfp : list){
+                    String ipa = ipaService.getIpaByArpabet(wfp.getPhoneme());
+                    wfp.setIpa(ipa);
+                }
                 dto.setListWeightPhoneme(list);
                 dto.setMessage(SUCCESS);
             }else{

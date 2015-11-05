@@ -155,8 +155,10 @@ function openPopupAdd(){
         $("#addWord").val("");
         $("#listPhonmes").html("");
         $("#listWeight").html("");
+        $("#listIpa").html("");
         $(".phoneme-lable").html("");
         $(".weight-lable").html("");
+        $(".ipa-lable").html("");
         $("#yesadd").attr("disabled", true);
         $("#loadPhonemes").attr("disabled",false)
         $("#addWord").attr("disabled",false);
@@ -234,16 +236,19 @@ function addWord(){
                 if(message.indexOf("success") != -1){
                     $("#addWord").attr("idWord", data.id);
                     //$("#loadPhonemes").attr("disabled",true);
-                    $(".phoneme-lable").html("Phonemes:");
-                    $(".weight-lable").html("WeightPhonemes:");
+                    $(".phoneme-lable").html("Arpabet:").css("padding-top","10px");;
+                    $(".weight-lable").html("Weight:").css("padding-top","15px");;
+                    $(".ipa-lable").html("Ipa:").css("padding-top","10px");;
                     $("#listPhonmes").html("");
                     $("#listWeight").html("");
+                    $("#listIpa").html("");
                     //$("#addWord").attr("readonly","readonly");
                     $("#addWord").attr("disabled",true);
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
                         $("#listPhonmes").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
+                        $("#listIpa").append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
                         $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
                         $("#listPhonmes").css({"width":(idx+1)*35});
                         $("#listWeight").css({"width":(idx+1)*35});
@@ -328,6 +333,7 @@ function openPopupEdit(){
                 if(message.indexOf("success") != -1){
                     $("#editWord").attr("idWord", idWord);
                     $("#listPhonmesEdit").html("");
+                    $("#listIpaEdit").html("");
                     $("#listWeightEdit").html("");
                     $("#editWord").attr("readonly","readonly");
                     $.each(data.listWeightPhoneme, function (idx, obj) {
@@ -336,6 +342,7 @@ function openPopupEdit(){
                         //alert(jsonItem);
 
                         $("#listPhonmesEdit").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+                        $("#listIpaEdit").append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
                         $("#listWeightEdit").append('<input onkeypress="return isNumberKey(event,this)" id="weight-edit'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
                         $("#listPhonmesEdit").css({"width":(idx+1)*35});
                         $("#listWeightEdit").css({"width":(idx+1)*35});

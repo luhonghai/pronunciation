@@ -21,7 +21,7 @@ function getIdLesson(){
     lessonId = getUrlVars()["id"];
 }
 
-function listWordOfQuestion(){
+function listQuestion(){
 
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -42,8 +42,16 @@ function listWordOfQuestion(){
 
         "columns": [{
             "sWidth": "80%",
-            "data": "name",
-            "sDefaultContent": ""
+            "data": null,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                //$button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
+                var $a = $('</a>');
+                $a.attr("href", "ManagementWordOfQuestion.jsp?id="+ data.id);
+                $a.text(data.name);
+                var html = "<a href='ManagementWordOfQuestion.jsp?id="+data.id+"'>"+data.name+"</a>";
+                return $("<div/>").append(html).html();
+            }
 
         },{
             "sWidth": "20%",
@@ -219,7 +227,7 @@ $(document).ready(function(){
     addQuestion();
     openPopupDeletes();
     deleteQuestion();
-    listWordOfQuestion();
+    listQuestion();
 });
 
 
