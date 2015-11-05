@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp">
+    <LinearLayout
+        android:id="@+id/content_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_corner_color_orange"
+        android:padding="8dp">
+        <ImageButton
+            android:id="@+id/tv_dismiss"
+            android:background="@null"
+            android:src="@drawable/ic_close_dialog"
+            android:scaleType="fitXY"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="end"/>
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/show_case_text_size"
+            android:textColor="@android:color/white"/>
+        <RelativeLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <com.cmg.android.bbcaccent.view.RecordingView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/main_recording_view" />
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
