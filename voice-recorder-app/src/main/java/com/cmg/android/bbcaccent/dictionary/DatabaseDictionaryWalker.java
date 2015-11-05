@@ -31,6 +31,7 @@ public class DatabaseDictionaryWalker extends DictionaryWalker {
             WordCollection wordCollection = LessonDBAdapterService.getInstance().findObject("word = ?", new String[]{word}, WordCollection.class);
             if (wordCollection != null) {
                 SimpleAppLog.logJson(wordCollection);
+                dictionaryItem.setWordId(wordCollection.getId());
                 dictionaryItem.setPronunciation(wordCollection.getPronunciation());
                 dictionaryItem.setDefinition(wordCollection.getDefinition());
                 if (isFetchAudio() && wordCollection.getMp3Path() != null && wordCollection.getMp3Path().length() > 0) {

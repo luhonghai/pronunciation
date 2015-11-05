@@ -72,6 +72,7 @@ import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.utils.UUIDGenerator;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
@@ -1186,7 +1187,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         try {
             AppLog.logString("Start Uploading");
             analyzingState = AnalyzingState.ANALYZING;
-            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_url));
+            uploadTask = new UploaderAsync(getActivity(), getActivity().getResources().getString(R.string.upload_weight_url));
             Map<String, String> params = new HashMap<String, String>();
             String fileName = audioStream.getFilename();
             File tmp = new File(fileName);
@@ -1207,6 +1208,19 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
                     params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
+                    params.put("idWord", viewState.dictionaryItem.getWordId());
+                    params.put("idQuestion", viewState.getCurrentQuestion().getId());
+                    params.put("idCountry", Preferences.getCurrentProfile().getSelectedCountry().getId());
+                    params.put("session", viewState.sessionId);
+                    params.put("idLessonCollection", viewState.lessonCollection.getId());
+                    if (isLesson) {
+                        params.put("type", "Q");
+                        params.put("itemId", viewState.objective.getId());
+                    } else {
+                        params.put("type", "T");
+                        params.put("itemId", viewState.lessonTest.getId());
+                    }
+                    params.put("levelId", viewState.lessonLevel.getId());
                     params.put("profile", gson.toJson(profile));
                     params.put("word", selectedWord);
 
@@ -1538,6 +1552,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
     class ViewState {
 
+        String sessionId = UUIDGenerator.generateUUID();
 
         List<Question> questions = new ArrayList<Question>();
 

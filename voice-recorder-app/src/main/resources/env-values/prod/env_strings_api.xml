@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="upload_url">http://reg.accenteasy.com/VoiceRecordHandler</string>
+    <string name="upload_weight_url">http://reg.accenteasy.com/CalculationServlet</string>
     <string name="sync_data_url">http://reg.accenteasy.com/syncData</string>
     <string name="auth_url">http://reg.accenteasy.com/AuthHandler</string>
     <string name="user_profile_url">http://reg.accenteasy.com/userprofile</string>
