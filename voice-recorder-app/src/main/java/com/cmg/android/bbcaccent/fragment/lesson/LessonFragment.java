@@ -32,6 +32,7 @@ import android.widget.TextView;
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
@@ -54,6 +55,7 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
+import com.cmg.android.bbcaccent.extra.BreakDownAction;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.DetailFragment;
@@ -80,7 +82,6 @@ import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.drive.internal.q;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nineoldandroids.animation.Animator;
@@ -217,6 +218,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
     private boolean isLesson;
 
+    private BreakDownAction breakDownAction;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Gson gson = new Gson();
@@ -232,6 +235,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 viewState = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.VIEW_STATE.toString()), ViewState.class);
             }
         }
+
         if (viewState == null) {
             viewState = new ViewState();
             Bundle bundle = getArguments();
@@ -249,6 +253,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     viewState.lessonCollection = MainApplication.fromJson(bundle.getString(LessonCollection.class.getName()), LessonCollection.class);
                 }
             }
+        } else {
+            breakDownAction = MainApplication.getBreakDownAction();
+            MainApplication.setBreakDownAction(null);
         }
         isLesson = viewState.objective != null;
         scoreDBAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
@@ -275,6 +282,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         if (word == null || word.length() == 0) {
                             Bundle bundle = new Bundle();
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
+                            bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
@@ -371,10 +379,32 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 SimpleAppLog.error("Could not list all question of lesson collection id " + viewState.lessonCollection.getId(), e);
             }
         }
+        if (breakDownAction != null && breakDownAction.getType() == BreakDownAction.Type.SELECT_REDO) {
+            viewState.sessionId = UUIDGenerator.generateUUID();
+            viewState.selectedQuestionIndex = 0;
+            for (int i = 0; i < viewState.questions.size(); i++) {
+                final Question  question = viewState.questions.get(i);
+                question.setEnabled(i == 0);
+                question.setRecorded(false);
+            }
+        }
         recyclerView.setAdapter(questionAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         questionAdapter.notifyDataSetChanged();
-        selectQuestion(viewState.selectedQuestionIndex);
+        int selectedIndex = viewState.selectedQuestionIndex;
+        if (breakDownAction != null && breakDownAction.getType() == BreakDownAction.Type.SELECT_QUESTION) {
+            Question selectedQuestion = (Question) breakDownAction.getData();
+            if (selectedQuestion != null) {
+                for (int i = 0;  i < viewState.questions.size(); i++) {
+                    if (viewState.questions.get(i).getId().equals(selectedQuestion.getId())) {
+                        selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+        txtDefinition.setText(viewState.lessonCollection.getName());
+        selectQuestion(selectedIndex);
 
     }
 
@@ -386,7 +416,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         final Question question = viewState.questions.get(index);
         if (question != null) {
-            txtDefinition.setText(question.getName());
+
             viewState.selectedQuestionIndex = index;
             if (question.isRecorded()) {
                 viewState.dictionaryItem = question.getDictionaryItem();
@@ -441,8 +471,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         if (viewState.lessonCollection != null) {
             final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.showcase_content);
             ((HtmlTextView) dialog.findViewById(R.id.tv_content)).setHtmlFromString(
-                    "<p>" + viewState.lessonCollection.getName() + "</p>" +
-                            "<p>" + viewState.lessonCollection.getDescription() + "</p>", true);
+                    viewState.lessonCollection.getDescription(), true);
             dialog.show();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -1005,6 +1034,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 Bundle bundle = new Bundle();
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
                 bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
+                bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),
@@ -1550,29 +1580,29 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         WAIT_FOR_ANIMATION_MAX
     }
 
-    class ViewState {
+    public class ViewState {
 
-        String sessionId = UUIDGenerator.generateUUID();
+        public String sessionId = UUIDGenerator.generateUUID();
 
-        List<Question> questions = new ArrayList<Question>();
+        public List<Question> questions = new ArrayList<Question>();
 
-        int selectedQuestionIndex;
+        public int selectedQuestionIndex;
 
-        LessonLevel lessonLevel;
+        public LessonLevel lessonLevel;
 
-        Objective objective;
+        public Objective objective;
 
-        LessonTest lessonTest;
+        public LessonTest lessonTest;
 
-        LessonCollection lessonCollection;
+        public LessonCollection lessonCollection;
 
-        UserVoiceModel currentModel;
+        public UserVoiceModel currentModel;
 
-        DictionaryItem dictionaryItem;
+        public DictionaryItem dictionaryItem;
 
-        boolean willCollapseSlider = true;
+        public boolean willCollapseSlider = true;
 
-        boolean willShowHelpSearchWordAndSlider = false;
+        public boolean willShowHelpSearchWordAndSlider = false;
 
         public Question getCurrentQuestion() {
             if (questions == null || questions.size() == 0) return null;
@@ -1606,12 +1636,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 });
                 if (question.isRecorded()) {
-                    int totalScore = 0;
-                    for (Integer score : question.getScoreHistory()) {
-                        totalScore += score;
-                    }
-                    int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
-                    text = String.format(Locale.getDefault(), "%d", avgScore);
                     if (question.getScore() >= 80) {
                         bgColor = R.color.app_green;
                     } else if (question.getScore() >= 45) {
@@ -1622,8 +1646,14 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 } else {
                     bgColor = R.color.app_purple;
                 }
-            } else {
-
+            }
+            if (question.getScoreHistory().size() > 0) {
+                int totalScore = 0;
+                for (Integer score : question.getScoreHistory()) {
+                    totalScore += score;
+                }
+                int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
+                text = String.format(Locale.getDefault(), "%d", avgScore);
             }
             holder.txtScore.setText(text);
             holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
@@ -1632,19 +1662,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         @Override
         public int getItemCount() {
             return viewState.questions.size();
-        }
-    }
-
-    public static class QuestionViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cardView;
-
-        TextView txtScore;
-
-        public QuestionViewHolder(View itemView) {
-            super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.cvItemContainer);
-            txtScore = (TextView) itemView.findViewById(R.id.txtScore);
         }
     }
 }

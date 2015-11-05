@@ -6,6 +6,7 @@ import com.cmg.android.bbcaccent.data.sqlite.FreestyleDatabaseHelper;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.sqlite.LessonDatabaseHelper;
 import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
+import com.cmg.android.bbcaccent.extra.BreakDownAction;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,6 +27,10 @@ public class MainApplication  extends Application {
     private LessonHistoryDatabaseHelper lessonHistoryDatabaseHelper;
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    private static BreakDownAction lastBreakDownAction;
+
+    public static boolean enablePopbackFragmentAnimation = true;
 
     @Override
     public void onCreate() {
@@ -98,5 +103,13 @@ public class MainApplication  extends Application {
 
     public static <T extends Object> T fromJson(String json, Class<T> clazz) {
         return gson.fromJson(json, clazz);
+    }
+
+    public static void setBreakDownAction(BreakDownAction breakDownAction) {
+        lastBreakDownAction = breakDownAction;
+    }
+
+    public static BreakDownAction getBreakDownAction() {
+        return lastBreakDownAction;
     }
 }

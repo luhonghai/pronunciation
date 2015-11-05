@@ -20,6 +20,7 @@ import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by luhonghai on 27/10/2015.
@@ -52,16 +53,8 @@ public class LanguageDialog extends DefaultCenterDialog {
         public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
             try {
                 Country country = LessonDBAdapterService.getInstance().toObject(cursor, Country.class);
-                if (country.getName().equalsIgnoreCase("thailand")) {
-                    viewHolder.imgCountry.setImageResource(R.drawable.th_round);
-                    viewHolder.txtTitle.setText("ประเทศไทย");
-                } else if (country.getName().equalsIgnoreCase("vietnamese")) {
-                    viewHolder.imgCountry.setImageResource(R.drawable.vn_round);
-                    viewHolder.txtTitle.setText("Tiếng Việt");
-                } else {
-                    viewHolder.imgCountry.setImageResource(R.drawable.gb_round);
-                    viewHolder.txtTitle.setText("English");
-                }
+                ImageLoader.getInstance().displayImage(country.getImageUrl(), viewHolder.imgCountry);
+                viewHolder.txtTitle.setText(country.getName());
                 viewHolder.llContainer.setTag(country);
                 viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {
                     @Override

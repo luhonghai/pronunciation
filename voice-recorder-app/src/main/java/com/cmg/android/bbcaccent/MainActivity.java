@@ -168,7 +168,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     }
                     switchFragment(className, parameter, bundle);
                 } else if (filler == MainBroadcaster.Filler.POP_BACK_STACK_FRAGMENT) {
-                    popBackStackFragment();
+                    int count = 0;
+                    if (bundle.containsKey(MainBroadcaster.Filler.Key.COUNT.toString())) {
+                        count = bundle.getInt(MainBroadcaster.Filler.Key.COUNT.toString());
+                    }
+                    popBackStackFragment(count);
                 }
             }
         });
@@ -533,6 +537,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } catch (ClassNotFoundException e) {
             SimpleAppLog.error("Could not found fragment class " + className,e);
         }
+    }
+
+    private void popBackStackFragment(int count) {
+        if (count <= 1) popBackStackFragment();
+        for (int i = 0; i < count - 1; i++) {
+            MainApplication.enablePopbackFragmentAnimation = false;
+            popBackStackFragment();
+            MainApplication.enablePopbackFragmentAnimation = true;
+            lastPopbackPress = 0;
+        }
+        popBackStackFragment();
     }
 
     private void popBackStackFragment() {
