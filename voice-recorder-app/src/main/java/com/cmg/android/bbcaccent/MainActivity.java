@@ -103,6 +103,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private Dialog dialogLanguage;
 
+    private long lastPopbackPress;
+
     public void syncService(){
         Gson gson = new Gson();
         UserProfile profile = Preferences.getCurrentProfile(this);
@@ -172,6 +174,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         });
         displayRandomBackground();
         initDialogLanguage();
+
     }
 
     @OnItemClick(R.id.listMenu)
@@ -205,10 +208,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 });
                 d.show();
                 break;
-            case SUBSCRIPTION:
-                Intent i = new Intent(this, SubscriptionActivity.class);
-                startActivity(i);
-                break;
+//            case SUBSCRIPTION:
+//                Intent i = new Intent(this, SubscriptionActivity.class);
+//                startActivity(i);
+//                break;
             default:
                 switchFragment(menuItem, null, null);
         }
@@ -533,7 +536,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void popBackStackFragment() {
+        long now = System.currentTimeMillis();
+        if (lastPopbackPress != 0 && now - lastPopbackPress < getResources().getInteger(android.R.integer.config_mediumAnimTime)) return;
         if (fragmentStates.size() == 0) return;
+        lastPopbackPress = now;
         if (android.app.Fragment.class.isAssignableFrom(currentFragmentState.clazz)) {
             findViewById(R.id.contentV4).setVisibility(View.GONE);
             findViewById(R.id.content).setVisibility(View.VISIBLE);

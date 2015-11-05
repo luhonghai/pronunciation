@@ -75,7 +75,7 @@ public class LessonLevelAdapter extends CursorRecyclerViewAdapter<LessonLevelAda
                 @Override
                 public void onClick(View view) {
                     LessonLevel l = (LessonLevel) view.getTag();
-                    if (l.isActive() || l.isDemo()) {
+                    if (l != null && (l.isActive() || l.isDemo())) {
                         onSelectLevel.onSelectLevel(l);
                     }
                 }
