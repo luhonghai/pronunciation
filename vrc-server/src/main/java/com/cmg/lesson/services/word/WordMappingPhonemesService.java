@@ -1,10 +1,12 @@
 package com.cmg.lesson.services.word;
 
+import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.dao.word.WordMappingPhonemesDAO;
 import com.cmg.lesson.data.dto.word.WordDTO;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.data.jdo.word.WordMappingPhonemes;
+import com.cmg.lesson.services.ipa.IpaMapArpabetService;
 import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 
@@ -95,6 +97,11 @@ public class WordMappingPhonemesService {
             if(wc!=null){
                 List<WordMappingPhonemes> list = wmpDao.getByWordID(wc.getId());
                 if(list!=null && list.size() > 0){
+                    IpaMapArpabetService ipaService = new IpaMapArpabetService();
+                    for(WordMappingPhonemes p : list){
+                        String ipa = ipaService.getIpaByArpabet(p.getPhoneme());
+                        p.setIpa(ipa);
+                    }
                     dto.setPhonemes(list);
                     dto.setMessage(SUCCESS);
                     dto.setId(wc.getId());

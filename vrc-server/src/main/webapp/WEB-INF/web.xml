@@ -206,6 +206,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>PronunciationPhoneme</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.PronunciationPhoneme</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PronunciationPhoneme</servlet-name>
+        <url-pattern>/PronunciationPhoneme</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>Pronunciationss</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.Pronunciationss</servlet-class>
     </servlet>

@@ -5,6 +5,8 @@ package com.cmg.android.bbcaccent.dictionary;
  */
 public class DictionaryItem {
 
+    private String wordId;
+
     private String word;
 
     private String pronunciation;
@@ -73,5 +75,13 @@ public class DictionaryItem {
 
     public void setDefinition(String definition) {
         this.definition = definition;
+    }
+
+    public String getWordId() {
+        return wordId;
+    }
+
+    public void setWordId(String wordId) {
+        this.wordId = wordId;
     }
 }

@@ -103,6 +103,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     private Dialog dialogLanguage;
 
+    private long lastPopbackPress;
+
     public void syncService(){
         Gson gson = new Gson();
         UserProfile profile = Preferences.getCurrentProfile(this);
@@ -166,12 +168,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     }
                     switchFragment(className, parameter, bundle);
                 } else if (filler == MainBroadcaster.Filler.POP_BACK_STACK_FRAGMENT) {
-                    popBackStackFragment();
+                    int count = 0;
+                    if (bundle.containsKey(MainBroadcaster.Filler.Key.COUNT.toString())) {
+                        count = bundle.getInt(MainBroadcaster.Filler.Key.COUNT.toString());
+                    }
+                    popBackStackFragment(count);
                 }
             }
         });
         displayRandomBackground();
         initDialogLanguage();
+
     }
 
     @OnItemClick(R.id.listMenu)
@@ -205,10 +212,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 });
                 d.show();
                 break;
-            case SUBSCRIPTION:
-                Intent i = new Intent(this, SubscriptionActivity.class);
-                startActivity(i);
-                break;
+//            case SUBSCRIPTION:
+//                Intent i = new Intent(this, SubscriptionActivity.class);
+//                startActivity(i);
+//                break;
             default:
                 switchFragment(menuItem, null, null);
         }
@@ -532,8 +539,22 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
+    private void popBackStackFragment(int count) {
+        if (count <= 1) popBackStackFragment();
+        for (int i = 0; i < count - 1; i++) {
+            MainApplication.enablePopbackFragmentAnimation = false;
+            popBackStackFragment();
+            MainApplication.enablePopbackFragmentAnimation = true;
+            lastPopbackPress = 0;
+        }
+        popBackStackFragment();
+    }
+
     private void popBackStackFragment() {
+        long now = System.currentTimeMillis();
+        if (lastPopbackPress != 0 && now - lastPopbackPress < getResources().getInteger(android.R.integer.config_mediumAnimTime)) return;
         if (fragmentStates.size() == 0) return;
+        lastPopbackPress = now;
         if (android.app.Fragment.class.isAssignableFrom(currentFragmentState.clazz)) {
             findViewById(R.id.contentV4).setVisibility(View.GONE);
             findViewById(R.id.content).setVisibility(View.VISIBLE);

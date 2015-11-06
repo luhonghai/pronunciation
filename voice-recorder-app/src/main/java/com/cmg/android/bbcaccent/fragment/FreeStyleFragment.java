@@ -1017,6 +1017,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     params.put(FileCommon.PARA_FILE_NAME, tmp.getName());
                     params.put(FileCommon.PARA_FILE_PATH, tmp.getAbsolutePath());
                     params.put(FileCommon.PARA_FILE_TYPE, "audio/wav");
+                    params.put("country", Preferences.getCurrentProfile().getSelectedCountry().getId());
                     params.put("profile", gson.toJson(profile));
                     params.put("word", selectedWord);
                     uploadTask.execute(params);

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/sl_background">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/content_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginBottom="100dp">
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Well done, your scored"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"/>
+            <com.cmg.android.bbcaccent.view.RecordingView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_height="0dp"
+                android:id="@+id/main_recording_view" />
+            <TextView
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Unlock next level at"
+                android:textSize="24sp"
+                android:textColor="@android:color/black"/>
+            <com.cmg.android.bbcaccent.view.RecordingView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_height="0dp"
+                android:id="@+id/main_recording_view_passed" />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="160dp"
+            android:src="@drawable/berty_antialias_clear"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            />
+    </RelativeLayout>
+</FrameLayout>

@@ -14,6 +14,7 @@ function buildSelectBox(data,idSelected, isSingleSelected){
     $.each(data, function(i, item) {
         var $option = $("<option>");
         $option.attr("value",item.id);
+        $option.attr("count",i);
         $option.text(item.name);
         if(item.id === idSelected){
             $option.attr("selected","selected");
@@ -22,6 +23,9 @@ function buildSelectBox(data,idSelected, isSingleSelected){
     });
     $('.loading').hide();
     $('#select-course').show();
-    $('#select-course').multiselect();
+    $('#select-course').multiselect({
+        enableFiltering: true,
+        disableIfEmpty: true
+    });
     $("#container-add-lesson").find(".btn-group").css({"padding-left":"14px","margin-top":"5px"});
 }

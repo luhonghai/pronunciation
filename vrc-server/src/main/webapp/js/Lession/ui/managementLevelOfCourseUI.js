@@ -154,6 +154,7 @@ function createPanelCollapseLv(item){
 function buildPanelObject(obj){
     var $panel_default = $("<div>");
     $panel_default.addClass("panel panel-default");
+    $panel_default.css({"margin":"0 auto","width" : "80%"});
     var $panel_heading = createPanelHeadingObject(obj);
     var $collapse = createPanelCollapseObject(obj);
     $panel_default.append($panel_heading);
@@ -261,6 +262,7 @@ function createPanelCollapseObject(obj){
 function buildPanelTest(obj){
     var $panel_default = $("<div>");
     $panel_default.addClass("panel panel-default");
+    $panel_default.css({"margin":"0 auto","width" : "80%"});
     var $panel_heading = createPanelHeadingTest(obj);
     var $collapse = createPanelCollapseTest(obj);
     $panel_default.append($panel_heading);

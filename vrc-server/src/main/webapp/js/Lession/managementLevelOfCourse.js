@@ -210,7 +210,7 @@ function getLessonsForObj(idObject){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-obj" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '<a title="'+obj.name+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idObject+" #collection_lesson_obj").append(alertContent);
                 });
@@ -240,7 +240,7 @@ function getAllLesson(ObjType){
                     try{
                         if(typeof data.data !== undefined ) {
                             $.each(data.data, function (idx, obj) {
-                                $("#select-test-lesson").append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                                $("#select-test-lesson").append("<option value='" + obj.id + "'>" + obj.nameUnique + "</option>");
                             });
                         }
                     }catch(e){}
@@ -254,7 +254,7 @@ function getAllLesson(ObjType){
                     try{
                         if(typeof data.data !== undefined ) {
                             $.each(data.data, function (idx, obj) {
-                                $("#select-lesson").append("<option value='" + obj.id + "'>" + obj.name + "</option>");
+                                $("#select-lesson").append("<option value='" + obj.id + "'>" + obj.nameUnique + "</option>");
                             });
                         }
                     }catch(e){}
@@ -406,9 +406,9 @@ function openPopupEditObjtive(){
                     try{
                         $.each(data.data, function (idx, obj) {
                             if (obj.idChecked){
-                                $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
+                                $("#select-lesson-edit").append("<option selected='selected' value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                             }else{
-                                $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                                $("#select-lesson-edit").append("<option value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                             }
                         });
                     }catch(e){}
@@ -524,7 +524,7 @@ function getLessonForTest(idTest){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.name+'</a>';
+                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idTest+" #collection_lesson_test").append(alertContent);
                 });
@@ -584,6 +584,8 @@ function openPopupEditTest(){
     $(document).on("click",".editTest", function() {
         $("#edit-test").modal('show');
         $('#select-edit-test-lesson').multiselect('destroy');
+        $("#select-edit-test-lesson").empty();
+        $("#select-edit-test-lesson").hide();
         $(".loading-lesson").show();
         var idTest = $(this).attr('id_test');
         var idLevel = $(this).attr('id_lv');
@@ -602,15 +604,14 @@ function openPopupEditTest(){
                     $("#edit-test-name").val(data.nameTest);
                     $("#edit-test-description").val(data.descriptionTest);
                     $("#edit-percen-pass").val(data.percentPass);
-
-                    $("#select-edit-test-lesson").empty();
                     $.each(data.data, function (idx, obj) {
                         if (obj.idChecked){
-                            $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.name+"</option>");
+                            $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                         }else{
-                            $("#select-edit-test-lesson").append("<option value='"+obj.id+"'>"+obj.name+"</option>");
+                            $("#select-edit-test-lesson").append("<option value='"+obj.id+"'>"+obj.nameUnique+"</option>");
                         }
                     });
+                    $("#select-edit-test-lesson").show();
                     $('#select-edit-test-lesson').multiselect({ enableFiltering: true});
                     $('#select-edit-test-lesson').multiselect('refresh');
                     $("#container-edit-test-lesson").find(".btn-group").css("padding-left","14px");

@@ -2,8 +2,10 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.jdo.Score;
 import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -26,7 +28,7 @@ public class Pronunciations extends HttpServlet{
         public Double recordsTotal;
         public Double recordsFiltered;
 
-        List<UserVoiceModel> data;
+        List<Score> data;
 
     }
 
@@ -38,6 +40,7 @@ public class Pronunciations extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
 
         if (request.getParameter("list") != null) {
@@ -54,21 +57,45 @@ public class Pronunciations extends HttpServlet{
             int col= Integer.parseInt(column);
             int  draw= Integer.parseInt(d);
             Double count;
-            String username = request.getParameter("username");
-            String word = request.getParameter("word");
-            String uuid = request.getParameter("uuid");
+            String username =(String) StringUtil.isNull(request.getParameter("username"), "");
+            String word =(String) StringUtil.isNull(request.getParameter("word"), "");
+            int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
+            String type =(String)StringUtil.isNull(request.getParameter("type"), "");
+            String dateFrom =(String) StringUtil.isNull(request.getParameter("dateFrom"), "");
+            String dateTo =(String) StringUtil.isNull(request.getParameter("dateTo"), "");
+            Date dateFrom1=null;
+            Date dateTo1=null;
+
+
+            if(dateFrom.length()>0){
+                try {
+                    dateFrom1=df.parse(dateFrom);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
+            }
+            if(dateTo.length()>0){
+                try {
+                    dateTo1=df.parse(dateTo);
+                }catch (Exception e){
+                    e.getStackTrace();
+                }
+            }
+
             try {
                 Pronunciations.pronunciation pronunciation=new pronunciation();
 
-                if(search.length()>0||username.length()>0||word.length()>0||uuid.length()>0){
-                    count=userVoiceModelDAO.getCountSearch(search,username,word,uuid);
+                if(search.length()>0||username.length()>0||word.length()>0||dateFrom1!=null||dateTo1!=null){
+                    List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
+                    count=(double)scores1.size();
                 }else {
                      count = userVoiceModelDAO.getCount();
                 }
+
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
-                pronunciation.data = userVoiceModelDAO.listAll(start, length, search, col, oder, username, word, uuid);
+                pronunciation.data = userVoiceModelDAO.listAll(start, length, search, col, oder, username,word,scores,type,dateFrom1,dateTo1);
                 Gson gson = new Gson();
                 String score = gson.toJson(pronunciation);
                 response.getWriter().write(score);

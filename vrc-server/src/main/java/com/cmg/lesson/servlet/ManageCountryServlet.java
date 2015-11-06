@@ -106,7 +106,7 @@ public class ManageCountryServlet extends BaseServlet {
                 String name = item.getFieldName();
                 InputStream stream = item.openStream();
                 if (item.isFormField()) {
-                    String value = Streams.asString(stream);
+                    String value = Streams.asString(stream,"UTF-8");
                     logger.info(name + "-" + value);
                     storePara.put(name, value);
                 }else{

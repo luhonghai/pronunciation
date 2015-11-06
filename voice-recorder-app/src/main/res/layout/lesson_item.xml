@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:padding="4dp">
-            <TextView
+            <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
                 android:id="@+id/txtTitle"
                 android:layout_weight="1"
                 android:layout_width="0dp"
