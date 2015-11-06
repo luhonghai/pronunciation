@@ -2,9 +2,15 @@
  * Created by CMGT400 on 10/8/2015.
  */
 
-function buildSelectBox(data,idSelected){
+function buildSelectBox(data,idSelected, isSingleSelected){
     $('#select-course').empty();
     $('#select-course').multiselect('destroy');
+    if(isSingleSelected){
+        var $optionNone = $("<option>");
+        $optionNone.attr("value","null");
+        $optionNone.text("None selected");
+        $('#select-course').append($optionNone);
+    }
     $.each(data, function(i, item) {
         var $option = $("<option>");
         $option.attr("value",item.id);

@@ -85,7 +85,7 @@ function openPopupAdd(){
         $("#submitForm").attr("action","add");
         $("#wrap-img-edit").hide();
         $("#wrap-img-add").show();
-        getAllCourse("");
+        getAllCourse("",true);
         $('#image').fileinput({
             showUpload : false,
             allowedFileExtensions : ['jpg', 'png','gif']
