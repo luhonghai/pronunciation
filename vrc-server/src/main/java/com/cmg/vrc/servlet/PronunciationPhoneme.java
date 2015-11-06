@@ -41,7 +41,7 @@ public class PronunciationPhoneme extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
 
         if (request.getParameter("list") != null) {
@@ -71,14 +71,16 @@ public class PronunciationPhoneme extends HttpServlet{
 
             if(dateFrom.length()>0){
                 try {
-                    dateFrom1=df.parse(dateFrom);
+                  dateFrom1=df.parse(dateFrom);
+
                 }catch (Exception e){
                     e.getStackTrace();
                 }
             }
             if(dateTo.length()>0){
                 try {
-                    dateTo1=df.parse(dateTo);
+                   dateTo1=df.parse(dateTo);
+
                 }catch (Exception e){
                     e.getStackTrace();
                 }

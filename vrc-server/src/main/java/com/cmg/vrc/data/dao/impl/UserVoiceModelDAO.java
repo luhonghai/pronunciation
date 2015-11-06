@@ -19,13 +19,24 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
     public UserVoiceModelDAO() {
         super(UserVoiceModel.class);
     }
-    public List<Score> listAll(int start, int length,String search,int column,String order,String username1,String word1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Score> listAll(int start, int length,String search,int column,String order,String username1,String word1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
-
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
         TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
         if(type!=null && type.length()>0) {
@@ -46,14 +57,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
 
@@ -151,14 +162,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
 
@@ -249,10 +260,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and word LIKE '" + word1 + "'");
                 second.append(" and word LIKE '" + word1 + "'");
             }
-            if (dateFrom!=null && dateTo==null) {
-                first.append(" and serverTime >= '" + dateFrom + "'");
-                second.append(" and serverTime >= '" + dateFrom + "'");
-            }
+
             if(score1==1){
                 first.append(" and 0 <= score <=50");
                 second.append(" and 0 <= score <=50");
@@ -261,12 +269,16 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and 51 <= score <=100");
                 second.append(" and 51 <= score <=100");
             }
-            if (dateFrom==null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo==0) {
+                first.append(" and serverTime >= '" + dateFrom + "'");
+                second.append(" and serverTime >= '" + dateFrom + "'");
+            }
+            if (dateFrom==0 && dateTo!=0) {
                 first.append(" and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime <= '" + dateTo + "'");
             }
 
-            if (dateFrom!=null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo!=0) {
                 first.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
             }
@@ -360,13 +372,24 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
         }
     }
 
-    public List<Score> listAllScore(String search, String username1,String word1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Score> listAllScore(String search, String username1,String word1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
-
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
         TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
         if(type!=null && type.length()>0) {
@@ -387,14 +410,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
                 query.append(" ORDER BY serverTime DESC");
@@ -472,14 +495,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
                 query.append(" ORDER BY serverTime DESC");
@@ -549,10 +572,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and word LIKE '" + word1 + "'");
                 second.append(" and word LIKE '" + word1 + "'");
             }
-            if (dateFrom!=null && dateTo==null) {
-                first.append(" and serverTime >= '" + dateFrom + "'");
-                second.append(" and serverTime >= '" + dateFrom + "'");
-            }
+
             if(score1==1){
                 first.append(" and 0 <= score <=50");
                 second.append(" and 0 <= score <=50");
@@ -561,12 +581,16 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and 51 <= score <=100");
                 second.append(" and 51 <= score <=100");
             }
-            if (dateFrom==null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo==0) {
+                first.append(" and serverTime >= '" + dateFrom + "'");
+                second.append(" and serverTime >= '" + dateFrom + "'");
+            }
+            if (dateFrom==0 && dateTo!=0) {
                 first.append(" and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime <= '" + dateTo + "'");
             }
 
-            if (dateFrom!=null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo!=0) {
                 first.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
             }
@@ -692,12 +716,24 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
 //        }
 //    }
 
-    public List<Score> getCountSearch(String search,int column,String order,String username1,String word1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Score> getCountSearch(String search,int column,String order,String username1,String word1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
 
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
         TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
@@ -719,14 +755,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
 
@@ -823,14 +859,14 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 if(score1==2){
                     query.append(" and (score >=51 and score<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
 
@@ -920,10 +956,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and word LIKE '" + word1 + "'");
                 second.append(" and word LIKE '" + word1 + "'");
             }
-            if (dateFrom!=null && dateTo==null) {
-                first.append(" and serverTime >= '" + dateFrom + "'");
-                second.append(" and serverTime >= '" + dateFrom + "'");
-            }
+
             if(score1==1){
                 first.append(" and (score >=0 and score<=50)");
                 second.append(" and (score >=0 and score<=50)");
@@ -932,12 +965,16 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and (score >=51 and score<=100)");
                 second.append(" and (score >=51 and score<=100)");
             }
-            if (dateFrom==null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo==0) {
+                first.append(" and serverTime >= '" + dateFrom + "'");
+                second.append(" and serverTime >= '" + dateFrom + "'");
+            }
+            if (dateFrom==0 && dateTo!=0) {
                 first.append(" and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime <= '" + dateTo + "'");
             }
 
-            if (dateFrom!=null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo!=0) {
                 first.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 second.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
             }

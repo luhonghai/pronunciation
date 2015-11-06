@@ -70,6 +70,7 @@ function dateFrom(){
 function dateTo(){
     $('#dateTo').datetimepicker({
         format: 'YYYY/MM/DD'
+        //format:'YYYY-MM-DD hh:mm:ss.SSS'
     });
 }
 

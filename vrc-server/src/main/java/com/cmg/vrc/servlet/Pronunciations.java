@@ -40,7 +40,7 @@ public class Pronunciations extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
 
         if (request.getParameter("list") != null) {
@@ -85,14 +85,13 @@ public class Pronunciations extends HttpServlet{
             try {
                 Pronunciations.pronunciation pronunciation=new pronunciation();
 
-//                if(search.length()>0||username.length()>0||word.length()>0||dateFrom1!=null||dateTo1!=null){
-//                    List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-//                    count=(double)scores1.size();
-//                }else {
-//                     count = userVoiceModelDAO.getCount();
-//                }
-                List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-                count=(double)scores1.size();
+                if(search.length()>0||username.length()>0||word.length()>0||dateFrom1!=null||dateTo1!=null){
+                    List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
+                    count=(double)scores1.size();
+                }else {
+                     count = userVoiceModelDAO.getCount();
+                }
+
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
