@@ -103,7 +103,7 @@
     <div class="row" id="scoreavg" style="margin-bottom: -10px; margin-top: 20px">
 
       <label class="col-sm-2" style="text-align: right; margin-left: 40px">Score average: </label>
-      <label class="col-sm-2" id="avg"></label>
+      <label class="col-sm-2" id="avg" style="padding-left: 0px;"></label>
     </div>
     <div class="row" style="margin-top: 5px;">
       <div id="dashboard">
