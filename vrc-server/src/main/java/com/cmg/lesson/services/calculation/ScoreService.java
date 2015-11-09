@@ -65,7 +65,7 @@ public class ScoreService {
                 user.setScore(finalScore);
                 user.getResult().setScore(finalScore);
             }catch (Exception e){
-                logger.error("can not get weight of each phoneme for this word : " + user.getWord());
+                logger.error("can not get ``` of each phoneme for this word : " + user.getWord());
             }
         }else{
             logger.info("===== Admin have not set weight for this word : " +user.getWord() + "=======");
