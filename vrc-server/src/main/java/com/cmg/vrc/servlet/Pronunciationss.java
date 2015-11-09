@@ -38,11 +38,11 @@ public class Pronunciationss extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
         if(request.getParameter("draw")!=null) {
             Pronunciationss.score score = new score();
-            String search =(String) StringUtil.isNull(request.getParameter("search"), "");
+            String search = (String) StringUtil.isNull(request.getParameter("search"), "");
             Double count;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
             String word =(String) StringUtil.isNull(request.getParameter("word"), "");
