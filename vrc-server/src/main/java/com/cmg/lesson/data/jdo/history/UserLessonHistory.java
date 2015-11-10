@@ -63,6 +63,28 @@ public class UserLessonHistory implements Mirrorable{
     @NotPersistent
     private String idLessonCollection;
 
+    @NotPersistent
+    private String idItem;
+
+    @NotPersistent
+    private String idLevel;
+
+    public String getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(String idItem) {
+        this.idItem = idItem;
+    }
+
+    public String getIdLevel() {
+        return idLevel;
+    }
+
+    public void setIdLevel(String idLevel) {
+        this.idLevel = idLevel;
+    }
+
     public String getIdLessonCollection() {
         return idLessonCollection;
     }

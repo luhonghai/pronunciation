@@ -372,7 +372,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
         }
     }
 
-    public List<Score> listAllScore(String search, String username1,String word1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
+    public List<Score> listAllScore(String search, String username1,String word1,int score1,int count, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
@@ -421,7 +421,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
                 query.append(" ORDER BY serverTime DESC");
-
+                query.append(" limit " + count);
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
                 List<Score> list = new ArrayList<Score>();
                 try {

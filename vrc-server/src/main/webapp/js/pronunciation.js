@@ -169,7 +169,8 @@ function drawMap(){
             type:$("#type").val(),
             dateFrom:$("#dateFrom").val(),
             dateTo:$("#dateTo").val(),
-            search:$(".table-responsive input[type=search]").val()
+            search:$(".table-responsive input[type=search]").val(),
+            count:$(".table-responsive .input-sm").val()
         },
         success:function(data){
             if(data.status==true) {

@@ -143,6 +143,8 @@ public class CalculationServlet extends HttpServlet {
                 model.setType(type);
                 model.setIdLessonCollection(idLessonCollection);
                 model.setSessionID(session);
+                model.setIdItem(idItem);
+                model.setIdLevel(idLevel);
                 SphinxResult result = null;
                 PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
                 try {

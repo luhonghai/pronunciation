@@ -48,6 +48,7 @@ public class Pronunciationss extends HttpServlet{
             String word =(String) StringUtil.isNull(request.getParameter("word"), "");
             int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
             String type =(String)StringUtil.isNull(request.getParameter("type"), "");
+            int counts =Integer.parseInt(StringUtil.isNull(request.getParameter("count"), "").toString());
             String dateFrom =(String) StringUtil.isNull(request.getParameter("dateFrom"), "");
             String dateTo =(String) StringUtil.isNull(request.getParameter("dateTo"), "");
             Date dateFrom1=null;
@@ -76,11 +77,11 @@ public class Pronunciationss extends HttpServlet{
 //                }else {
 //                    count = userVoiceModelDAO.getCount();
 //                }
-                List<Score> scoress=userVoiceModelDAO.listAllScore(search,username,word,scores,type,dateFrom1,dateTo1);
+                List<Score> scoress=userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
                 count=(double)scoress.size();
 
                 if(count<10000) {
-                    List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,type,dateFrom1,dateTo1);
+                    List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
                     List<List<Object>> list = new ArrayList<>();
                     for (int i = 0; i < scores1.size(); i++) {
                         List<Object> item = new ArrayList<>();
