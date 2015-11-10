@@ -154,13 +154,14 @@ public class UnitTesting {
 //            userLessonHistory.setWord("hello");
 //            userLessonHistory.setScore(100);
 //            userLessonHistoryDAO.put(userLessonHistory);
-            PhonemeLessonScoreDAO phonemeLessonScoreDAO=new PhonemeLessonScoreDAO();
-            PhonemeLessonScore phonemeLessonScore=new PhonemeLessonScore();
-            phonemeLessonScore.setPhoneme("OW");
-            phonemeLessonScore.setIdUserLessonHistory("733d95a8-cdbc-4eb4-aaac-7901fada2f5f");
-            phonemeLessonScore.setTotalScore(100);
-            phonemeLessonScoreDAO.put(phonemeLessonScore);
-
+//            PhonemeLessonScoreDAO phonemeLessonScoreDAO=new PhonemeLessonScoreDAO();
+//            PhonemeLessonScore phonemeLessonScore=new PhonemeLessonScore();
+//            phonemeLessonScore.setPhoneme("OW");
+//            phonemeLessonScore.setIdUserLessonHistory("733d95a8-cdbc-4eb4-aaac-7901fada2f5f");
+//            phonemeLessonScore.setTotalScore(100);
+//            phonemeLessonScoreDAO.put(phonemeLessonScore);
+            WordCollectionService service = new WordCollectionService();
+            service.loadWordToDataBase(new File("D:\\pronunciation"));
         } catch (Exception e) {
             e.printStackTrace();
         }
