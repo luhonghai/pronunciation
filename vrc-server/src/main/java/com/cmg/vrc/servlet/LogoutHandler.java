@@ -33,7 +33,6 @@ public class LogoutHandler extends HttpServlet {
         PrintWriter out = response.getWriter();
         try {
             LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
-            LoginToken loginToken=new LoginToken();
             String profile = request.getParameter(PARA_PROFILE);
             String token = request.getParameter(PARA_TOKEN);
             final ResponseDataExt responseData = new ResponseDataExt();
@@ -44,16 +43,10 @@ public class LogoutHandler extends HttpServlet {
                 if (user != null) {
                    if(token!=null){
                        String username=user.getUsername();
-                       LoginToken loginTokens=loginTokenDAO.getByAccountAndToken(username, token);
-                       loginTokenDAO.delete(loginTokens);
-                       loginToken.setUserName(user.getUsername());
-                       loginToken.setToken(token);
-                       loginToken.setAppVersion(Float.parseFloat(deviceInfo.getAppVersion()));
-                       loginToken.setDeviceName(deviceInfo.getDeviceName());
-                       loginTokenDAO.put(loginToken);
+                       LoginToken loginToken=loginTokenDAO.getByAccountAndToken(username, token);
+                       loginTokenDAO.delete(loginToken);
                        responseData.setMessage("success");
                        responseData.setStatus(true);
-
                    }else {
                        responseData.setMessage("error");
                        responseData.setStatus(false);
