@@ -239,13 +239,14 @@ function getAllLesson(ObjType){
                     $("#select-test-lesson").empty();
                     try{
                         if(typeof data.data !== undefined ) {
+                            $("#select-test-lesson").append("<option value='null'>None selected</option>");
                             $.each(data.data, function (idx, obj) {
                                 $("#select-test-lesson").append("<option value='" + obj.id + "'>" + obj.nameUnique + "</option>");
                             });
                         }
                     }catch(e){}
                     $(".loading-lesson").hide();
-                    $('#select-test-lesson').multiselect({ enableFiltering: true});
+                    $('#select-test-lesson').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                     $("#container-test-lesson").find(".btn-group").css("padding-left","14px");
                     $('#select-test-lesson').multiselect('refresh');
                     $("#yesadd-test").removeAttr("disabled");
@@ -259,7 +260,7 @@ function getAllLesson(ObjType){
                         }
                     }catch(e){}
                     $(".loading-lesson").hide();
-                    $('#select-lesson').multiselect({ enableFiltering: true});
+                    $('#select-lesson').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                     $("#container-add-lesson").find(".btn-group").css("padding-left","14px");
                     $('#select-lesson').multiselect('refresh');
                     $("#yesadd").removeAttr("disabled");
@@ -412,7 +413,7 @@ function openPopupEditObjtive(){
                             }
                         });
                     }catch(e){}
-                    $('#select-lesson-edit').multiselect({ enableFiltering: true});
+                    $('#select-lesson-edit').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                     $('#select-lesson-edit').multiselect('refresh');
                     $("#container-edit-lesson").find(".btn-group").css("padding-left","14px");
                     $(".loading-lesson").hide();
@@ -604,6 +605,7 @@ function openPopupEditTest(){
                     $("#edit-test-name").val(data.nameTest);
                     $("#edit-test-description").val(data.descriptionTest);
                     $("#edit-percen-pass").val(data.percentPass);
+                    $("#select-edit-test-lesson").append("<option value='null'>None selected</option>");
                     $.each(data.data, function (idx, obj) {
                         if (obj.idChecked){
                             $("#select-edit-test-lesson").append("<option selected='selected' value='"+obj.id+"'>"+obj.nameUnique+"</option>");
@@ -612,7 +614,7 @@ function openPopupEditTest(){
                         }
                     });
                     $("#select-edit-test-lesson").show();
-                    $('#select-edit-test-lesson').multiselect({ enableFiltering: true});
+                    $('#select-edit-test-lesson').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                     $('#select-edit-test-lesson').multiselect('refresh');
                     $("#container-edit-test-lesson").find(".btn-group").css("padding-left","14px");
                     $(".loading-lesson").hide();

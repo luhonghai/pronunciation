@@ -31,7 +31,7 @@
   #collection_test{
     margin-top: 20px;
   }
-</style>>
+</style>
 
 <div id="page-wrapper">
   <div class="row">
@@ -347,7 +347,7 @@
                   <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
                   <img class="col-xs-8  col-sm-9">
                   <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
-                  <select style="display:none" multiple class="form-control" id="select-edit-test-lesson">
+                  <select style="display:none" class="form-control" id="select-edit-test-lesson">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
