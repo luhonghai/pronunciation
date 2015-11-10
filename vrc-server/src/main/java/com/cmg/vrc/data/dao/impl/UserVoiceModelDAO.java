@@ -506,6 +506,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
                 query.append(" ORDER BY serverTime DESC");
+                query.append(" limit " + count);
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
                 List<Score> list = new ArrayList<Score>();
                 try {
@@ -596,6 +597,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
             }
             query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
             query.append(" ORDER BY tmp.serverTime DESC");
+            query.append(" limit " + count);
             Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
             List<Score> list = new ArrayList<Score>();
             try {

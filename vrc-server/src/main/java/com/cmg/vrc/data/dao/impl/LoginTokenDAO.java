@@ -16,7 +16,13 @@ public class LoginTokenDAO extends DataAccess<LoginToken> {
     }
 
     public LoginToken getByAccountAndDevice(String account, String device) throws Exception {
-        List<LoginToken> loginTokens = list("WHERE username == :1 && deviceName == :2", account, device);
+        List<LoginToken> loginTokens = list("WHERE userName == :1 && deviceName == :2", account, device);
+        if (loginTokens != null && loginTokens.size() > 0)
+            return loginTokens.get(0);
+        return null;
+    }
+    public LoginToken getByAccountAndToken(String account, String token) throws Exception {
+        List<LoginToken> loginTokens = list("WHERE userName == :1 && token == :2", account, token);
         if (loginTokens != null && loginTokens.size() > 0)
             return loginTokens.get(0);
         return null;
