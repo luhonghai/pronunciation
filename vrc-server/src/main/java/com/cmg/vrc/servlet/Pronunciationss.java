@@ -43,7 +43,7 @@ public class Pronunciationss extends HttpServlet{
         if(request.getParameter("draw")!=null) {
             Pronunciationss.score score = new score();
             String search = (String) StringUtil.isNull(request.getParameter("search"), "");
-            Double count;
+            Double count=0d;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
             String word =(String) StringUtil.isNull(request.getParameter("word"), "");
             int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
@@ -78,16 +78,21 @@ public class Pronunciationss extends HttpServlet{
 //                    count = userVoiceModelDAO.getCount();
 //                }
                 List<Score> scoress=userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
-                count=(double)scoress.size();
+                if(scoress!=null) {
+                    count = (double) scoress.size();
+                }
 
                 if(count<10000) {
                     List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
                     List<List<Object>> list = new ArrayList<>();
-                    for (int i = 0; i < scores1.size(); i++) {
-                        List<Object> item = new ArrayList<>();
-                        item.add(scores1.get(i).getServerTime());
-                        item.add(scores1.get(i).getScore());
-                        list.add(item);
+                    list=null;
+                    if(scores1!=null) {
+                        for (int i = 0; i < scores1.size(); i++) {
+                            List<Object> item = new ArrayList<>();
+                            item.add(scores1.get(i).getServerTime());
+                            item.add(scores1.get(i).getScore());
+                            list.add(item);
+                        }
                     }
                     score.mess="success";
                     score.status=true;
@@ -119,11 +124,13 @@ public class Pronunciationss extends HttpServlet{
             try {
                     List<UserVoiceModel> userVoiceModels = userVoiceModelDAO.listAllScore();
                     List<List<Object>> list = new ArrayList<>();
-                    for (int i = 0; i < userVoiceModels.size(); i++) {
-                        List<Object> item = new ArrayList<>();
-                        item.add(userVoiceModels.get(i).getServerTime());
-                        item.add(userVoiceModels.get(i).getScore());
-                        list.add(item);
+                    if(userVoiceModels!=null) {
+                        for (int i = 0; i < userVoiceModels.size(); i++) {
+                            List<Object> item = new ArrayList<>();
+                            item.add(userVoiceModels.get(i).getServerTime());
+                            item.add(userVoiceModels.get(i).getScore());
+                            list.add(item);
+                        }
                     }
                     score.mess="success";
                     score.status=true;

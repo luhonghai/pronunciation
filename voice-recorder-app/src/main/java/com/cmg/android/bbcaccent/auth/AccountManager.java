@@ -165,7 +165,7 @@ public class AccountManager {
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
-                  String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
+                    String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
                     ResponseData<LoginToken> responseData = gson.fromJson(message, ResponseData.class);
                     if (responseData.isStatus()) {
                         authListener.onSuccess();

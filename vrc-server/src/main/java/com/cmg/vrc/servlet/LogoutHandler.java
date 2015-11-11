@@ -39,7 +39,6 @@ public class LogoutHandler extends HttpServlet {
             if (profile != null && profile.length() > 0) {
                 Gson gson = new Gson();
                 final UserProfile user = gson.fromJson(profile, UserProfile.class);
-                UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();
                 if (user != null) {
                    if(token!=null){
                        String username=user.getUsername();
