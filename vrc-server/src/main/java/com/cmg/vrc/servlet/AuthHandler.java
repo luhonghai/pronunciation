@@ -168,6 +168,7 @@ public class AuthHandler extends HttpServlet {
                         } else {
                             message = "invalid email address or password";
                         }
+
                     } else {
                         message = "Invalid type";
                     }
