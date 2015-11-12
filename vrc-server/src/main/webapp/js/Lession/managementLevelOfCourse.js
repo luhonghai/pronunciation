@@ -432,6 +432,12 @@ function openPopupEditObjtive(){
 
 function editObjective(){
     $(document).on("click","#yesedit", function(){
+        var nameObj = $("#edit-objective-name").val();
+        if (nameObj == null || typeof nameObj == "undefined" || nameObj.length == 0){
+            $("#edit-objective-name").focus();
+            swal("Warning!", "Please enter an objective name!", "warning");
+            return;
+        }
         var dto = getDtoEditObjective();
         $.ajax({
             url: ObjectiveMappingServlet,
@@ -476,6 +482,12 @@ function openPopopAddObjective(){
 
 function addObjectiveToLesson(){
     $(document).on("click","#yesadd", function(){
+        var nameObj = $("#add-objective-name").val();
+        if (nameObj == null || typeof nameObj == "undefined" || nameObj.length == 0){
+            $("#add-objective-name").focus();
+            swal("Warning!", "Please enter an objective name!", "warning");
+            return;
+        }
         var dto = getDtoAddObjective();
         $.ajax({
             url: ObjectiveMappingServlet,
@@ -556,6 +568,12 @@ function openPopupAddTest(){
 
 function addTest(){
     $(document).on("click","#yesadd-test", function(){
+        var nameTest = $("#add-test-name").val();
+        if (nameTest == null || typeof nameTest == "undefined" || nameTest.length == 0){
+            $("#add-test-name").focus();
+            swal("Warning!", "Please enter a test name!", "warning");
+            return;
+        }
         var dto = getDtoAddTest();
         $.ajax({
             url: ObjectiveMappingServlet,
@@ -633,6 +651,12 @@ function openPopupEditTest(){
 
 function editTest(){
     $(document).on("click","#yesedit-test", function(){
+        var nameTest = $("#edit-test-name").val();
+        if (nameTest == null || typeof nameTest == "undefined" || nameTest.length == 0){
+            $("#edit-test-name").focus();
+            swal("Warning!", "Please enter a test name!", "warning");
+            return;
+        }
         var dto = getDtoEditTest();
         $.ajax({
             url: ObjectiveMappingServlet,

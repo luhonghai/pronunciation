@@ -81,7 +81,7 @@ function addCourse(){
         var description = $("#addDescription").val();
         if (course == null || typeof course == "undefined" || course.length == 0){
             $("#addCourse").focus();
-            swal("Warning!", "Level not null!", "warning");
+            swal("Warning!", "Please enter a course name!", "warning");
             return;
         }
         $.ajax({
@@ -169,7 +169,7 @@ function editCourse(){
         var description = $("#editDescription").val();
         if (course == null || typeof course == "undefined" || course.length == 0){
             $("#editCourse").focus();
-            swal("Warning!", "Course not null!", "warning");
+            swal("Warning!", "Please enter a course name!", "warning");
             return;
         }
         $.ajax({

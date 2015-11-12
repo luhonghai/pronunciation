@@ -41,8 +41,15 @@ public class UnitTesting {
     private static String s3Path = "sphinx-data/dict/cmg-beep-1.0";
     public static void main(String[] args) {
         try {
-           WordCollectionService ser = new WordCollectionService();
-            ser.loadWordToDataBase(new File("D:\\check.json"));
+          /* WordCollectionService ser = new WordCollectionService();
+            ser.loadWordToDataBase(new File("D:\\check.json"));*/
+            /*WordMappingPhonemesService se = new WordMappingPhonemesService();
+            se.updatePhonemeOfWordToDatabase();*/
+            File fWords = new File("D:\\", "brit-a-z.txt");
+            if (!fWords.exists()) {
+                AWSHelper awsHelper = new AWSHelper();
+                awsHelper.download("sphinx-data/dict/brit-a-z.txt", fWords);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
