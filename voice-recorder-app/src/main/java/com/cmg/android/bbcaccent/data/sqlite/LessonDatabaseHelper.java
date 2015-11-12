@@ -16,6 +16,7 @@ import com.cmg.android.bbcaccent.data.dto.lesson.question.WeightForPhoneme;
 import com.cmg.android.bbcaccent.data.dto.lesson.question.WordOfQuestion;
 import com.cmg.android.bbcaccent.data.dto.lesson.test.LessonTest;
 import com.cmg.android.bbcaccent.data.dto.lesson.test.TestMapping;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordMappingPhonemes;
 import com.luhonghai.litedb.LiteDatabaseHelper;
@@ -56,7 +57,9 @@ import com.luhonghai.litedb.exception.InvalidAnnotationData;
                 TestMapping.class,
                 //word
                 WordCollection.class,
-                WordMappingPhonemes.class
+                WordMappingPhonemes.class,
+                // IPA Arpabet
+                IPAMapArpabet.class
         })
 public class LessonDatabaseHelper extends LiteDatabaseHelper {
 

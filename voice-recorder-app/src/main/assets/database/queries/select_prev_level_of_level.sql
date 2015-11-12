@@ -1,9 +1,11 @@
-SELECT L.ROWID as _id,L.id, L.NAME, L.ISDEMO, L.DESCRIPTION, L.DATECREATED, L.COLOR
+SELECT L.ROWID AS _id,L.id, L.NAME, L.ISDEMO, L.DESCRIPTION, L.DATECREATED, L.COLOR
 FROM
-  ((countrymappingcourse AS CMC INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE)
-    INNER JOIN level as L on L.ID = CML.IDLEVEL)
-WHERE CMC.IDCOUNTRY = ? and CML.[index] < (
-  select CML.[index] from (countrymappingcourse AS CMC INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE)
-    where CMC.IDCOUNTRY = ? and CML.IDLEVEL = ?
+  countrymappingcourse AS CMC
+    INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE
+    INNER JOIN level AS L ON L.ID = CML.IDLEVEL
+WHERE CMC.IDCOUNTRY = ? AND CML.[index] < (
+  SELECT CML.[index]
+  FROM countrymappingcourse AS CMC INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE
+  WHERE CMC.IDCOUNTRY = ? AND CML.IDLEVEL = ?
 )
-ORDER BY CML.[index] DESC limit 1;
+ORDER BY CML.[index] DESC LIMIT 1;

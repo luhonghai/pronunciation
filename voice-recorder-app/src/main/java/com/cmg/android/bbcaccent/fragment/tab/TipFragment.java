@@ -87,7 +87,6 @@ public class TipFragment extends FragmentTab {
                 break;
             case R.id.txtWordTip:
                 if (!isLoadedTip) {
-                    tipsContainer.load();
                     updateModelTip(userVoiceModel);
                 }
                 break;
@@ -106,14 +105,8 @@ public class TipFragment extends FragmentTab {
     private Runnable mUpdateTipRunnable = new Runnable() {
         @Override
         public void run() {
-            if (tipsContainer != null && tipsContainer.isLoaded()) {
+            if (tipsContainer != null) {
                 displayTip(tipsContainer.getTip(userVoiceModel));
-            } else {
-                if ((System.currentTimeMillis() - startTime) < MAX_UPDATE_TIMEOUT) {
-                    mUpdateTipHandler.postDelayed(mUpdateTipRunnable, 1000);
-                } else {
-                    displayTip(null);
-                }
             }
         }
     };
@@ -141,6 +134,7 @@ public class TipFragment extends FragmentTab {
             txtText.setText(getString(R.string.no_tip_found));
             txtWord.setText(getString(R.string.tap_to_reload));
             txtWord.setVisibility(View.VISIBLE);
+            isLoadedTip = false;
         }
     }
 

@@ -212,10 +212,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 });
                 d.show();
                 break;
-//            case SUBSCRIPTION:
-//                Intent i = new Intent(this, SubscriptionActivity.class);
-//                startActivity(i);
-//                break;
+            case SUBSCRIPTION:
+                Intent i = new Intent(this, SubscriptionActivity.class);
+                startActivity(i);
+                break;
             default:
                 switchFragment(menuItem, null, null);
         }
@@ -304,7 +304,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 onClickMenuButton();
                 break;
             case R.id.menu_feedback:
-                switchFragment(FragmentState.FEEDBACK, null, null);
+                switchFragment(FragmentState.FEEDBACK, new SwitchFragmentParameter(false, true, true), null);
+                break;
+            case R.id.menu_ipa_information:
+                switchFragment(FragmentState.IPA_INFORMATION, new SwitchFragmentParameter(false, true, true), null);
                 break;
         }
         return true;

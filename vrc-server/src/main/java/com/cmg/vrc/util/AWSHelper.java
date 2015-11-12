@@ -272,10 +272,24 @@ public class AWSHelper {
         ;
     }
 
+    public void publicObject(String key) {
+        s3client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
+    }
+
+    public void updateContentType(String key, String contentType) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(contentType);
+        final CopyObjectRequest request = new CopyObjectRequest(bucketName, key, bucketName, key)
+                .withSourceBucketName( bucketName )
+                .withSourceKey(key)
+                .withNewObjectMetadata(metadata);
+        s3client.copyObject(request);
+    }
+
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
         //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
-        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
+//        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
         //awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
         //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
         //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
@@ -293,5 +307,26 @@ public class AWSHelper {
         //awsHelper.download("", new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID()));
 //        System.out.println("
 // downloading & unzip");
+        File input = new File("/Users/cmg/Desktop/File path audio.txt");
+        File output = new File("/Users/cmg/Desktop/File path audio url.txt");
+
+        try {
+            if (output.exists()) FileUtils.forceDelete(output);
+            List<String> strings = FileUtils.readLines(input);
+            for (String line : strings) {
+                line = line.trim();
+                if (line.length() > 0) {
+                    String key = line.split(" ")[0] + ".mp3";
+                    System.out.println(key);
+                    awsHelper.updateContentType(key, "audio/mpeg");
+                    awsHelper.publicObject(key);
+                    //String url = awsHelper.generateUrl(key);
+                    //url = url.substring(0, url.lastIndexOf("?"));
+                    //FileUtils.write(output, line + " " + url + "\n", "UTF-8", true);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

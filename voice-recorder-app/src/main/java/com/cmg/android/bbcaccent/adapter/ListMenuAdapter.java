@@ -28,7 +28,7 @@ public class ListMenuAdapter extends BaseAdapter {
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),
         LICENCE(R.string.menu_licence, R.drawable.p_menu_license),
         FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
-//        SUBSCRIPTION(R.string.menu_subscription, R.drawable.p_menu_feedback),
+        SUBSCRIPTION(R.string.menu_subscription, R.drawable.p_menu_feedback),
         LOGOUT(R.string.menu_logout, R.drawable.p_logout_red)
         ;
         int stringId;
