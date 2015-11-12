@@ -1,6 +1,21 @@
 /**
  * Created by CMGT400 on 10/8/2015.
  */
+function loadAudio(){
+    $('.cp-jplayer').each(function() {
+        var id = $(this).attr('id');
+        var audioUrl = $(this).attr('audioUrl');
+        new CirclePlayer("#" + id,
+            {
+                mp3: audioUrl + "&type=mp3",
+                wav: audioUrl + "&type=wav"
+            }, {
+                cssSelectorAncestor: '#' + id + 's'
+            });
+
+    });
+
+}
 function buildTable(){
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
@@ -8,7 +23,9 @@ function buildTable(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
-
+        "fnDrawCallback": function( oSettings ) {
+            loadAudio();
+        },
         "ajax": {
             "url": servletName,
             "type": "POST",
