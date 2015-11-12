@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,7 +166,43 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
-                    if (message.equalsIgnoreCase("success")) {
+                    ResponseData<LoginToken> responseData = gson.fromJson(message, ResponseData.class);
+                    if (responseData.isStatus()) {
+                        authListener.onSuccess();
+                    } else {
+                        if (message.toLowerCase().contains("<html>")) {
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                        } else {
+                            if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                message = context.getString(R.string.invalid_email_address_or_password);
+                            }
+                            authListener.onError(message, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void logoutToken(final UserProfile profile,final String token, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                data.put("profile", gson.toJson(profile));
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                data.put("token", token);
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.logout_url));
+                    ResponseData<LoginToken> responseData = gson.fromJson(message, ResponseData.class);
+                    if (responseData.isStatus()) {
                         authListener.onSuccess();
                     } else {
                         if (message.toLowerCase().contains("<html>")) {
@@ -352,8 +389,20 @@ public class AccountManager {
 
     public void logout() {
         LoginManager.getInstance().logOut();
+
         UserProfile profile = Preferences.getCurrentProfile(context);
         if (profile != null) {
+            logoutToken(profile, "", new AuthListener() {
+                @Override
+                public void onError(String message, Throwable e) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+            });
             profile.setIsLogin(false);
             Preferences.addProfile(context, profile);
         }
@@ -364,3 +413,89 @@ public class AccountManager {
         }
     }
 }
+class LoginToken {
+    private String id;
+
+    private String userName;
+
+    private String deviceName;
+
+    private String token;
+
+    private int appVersion;
+
+
+    private String appName;
+
+    private Date createdDate;
+
+
+    private Date accessDate;
+
+
+    public String getId() {
+        return id;
+    }
+
+
+    public void setId(String id) {
+        this.id=id;
+    }
+    public String getUserName(){
+        if (userName != null) userName = userName.toLowerCase();
+        return userName;
+    }
+    public  void setUserName(String userName){
+        if (userName != null) userName = userName.toLowerCase();
+        this.userName=userName;
+    }
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public int getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(int appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getAccessDate() {
+        return accessDate;
+    }
+
+    public void setAccessDate(Date accessDate) {
+        this.accessDate = accessDate;
+    }
+}
+

@@ -11,6 +11,9 @@ import com.cmg.vrc.sphinx.DictionaryHelper;
 import org.apache.log4j.Logger;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,7 +113,7 @@ public class WordMappingPhonemesService {
                 }
 
             }else{
-                dto.setMessage(ERROR + ": this word does not exist in database" );
+                dto.setMessage(ERROR + ": this word does not exist in database");
             }
         }catch (Exception e){
             dto.setMessage(ERROR + ": an error has been occurred in server");
@@ -225,6 +228,7 @@ public class WordMappingPhonemesService {
      * update database mapping phonemes
      */
     public void updatePhonemeOfWordToDatabase(){
+        List<WordCollection> temp  = new ArrayList<>();
         WordCollectionService wcSer = new WordCollectionService();
         WordCollectionDAO dao =new WordCollectionDAO();
         String word = null;
@@ -245,14 +249,39 @@ public class WordMappingPhonemesService {
                     addMapping(wc.getId(), phonemes, version, false);
                     logger.info("==add success mapping word " + wc.getWord() + "====");
                     logger.info("update aparbet word " + wc.getWord());
-                    dao.updateArpabet(wc.getId(),parseList(phonemes));
+                    dao.updateArpabet(wc.getId(), parseList(phonemes));
+                    wc.setArpabet(parseList(phonemes));
+                    temp.add(wc);
                     logger.info("==success update arpabet to word " + wc.getWord() + "====");
                 }else{
+                    dao.deleteWord(wc.getId());
                     logger.info("this word : " + word + " not in Beep Dictionary");
                 }
             }
+            writeFile(temp,"D:\\cmg-beep.dic");
         }catch (Exception e){
             logger.error("can not check word :"+word+ " in beep cause : " + e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param list
+     * @param filePath
+     */
+    public void writeFile(List<WordCollection> list,String filePath){
+        File file = new File(filePath);
+        try {
+            if(file.exists()){
+                file.delete();
+            }
+            PrintWriter pw = new PrintWriter(new FileWriter(file.getAbsolutePath()));
+            for(WordCollection w : list){
+                pw.println(w.getWord() + " " + w.getArpabet());
+            }
+            pw.close();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

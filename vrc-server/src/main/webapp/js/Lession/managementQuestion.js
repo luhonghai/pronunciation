@@ -65,7 +65,7 @@ function addquestion(){
         var question = $("#addquestion").val();
         if (question == null || typeof question == "undefined" || question.length == 0){
             $("#addquestion").focus();
-            swal("Warning!", "Question not null!", "warning");
+            swal("Warning!", "Please enter a question name!", "warning");
             return;
         }
         $.ajax({
@@ -163,7 +163,7 @@ function EditQuestion(){
         var question = $("#editquestion").val();
         if (question == null || typeof question == "undefined" || question.length == 0){
             $("#addquestion").focus();
-            swal("Warning!", "Question not null!", "warning");
+            swal("Warning!", "Please enter a question name!", "warning");
             return;
         }
         $.ajax({

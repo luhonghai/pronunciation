@@ -57,6 +57,7 @@ function listScore(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
+                console.log(data);
                 if (data.latitude != 0 && data.longitude != 0) {
                     return '<button type="button" scouse=' + data.score + ' id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
                 }
@@ -169,7 +170,8 @@ function drawMap(){
             type:$("#type").val(),
             dateFrom:$("#dateFrom").val(),
             dateTo:$("#dateTo").val(),
-            search:$(".table-responsive input[type=search]").val()
+            search:$(".table-responsive input[type=search]").val(),
+            count:$(".table-responsive .input-sm").val()
         },
         success:function(data){
             if(data.status==true) {
@@ -200,11 +202,14 @@ function drawChart(sc) {
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'date');
     data.addColumn('number', 'Score');
-    for(j=0;j<sc.length;j++){
-        data.addRow([new Date(sc[j][0]), sc[j][1]]);
-        sum+=sc[j][1];
+    if(sc!=null && sc.length>0) {
+        for (j = 0; j < sc.length; j++) {
+            data.addRow([new Date(sc[j][0]), sc[j][1]]);
+            sum += sc[j][1];
+        }
+        avg=sum/(sc.length);
     }
-    avg=sum/(sc.length);
+
 
 
 

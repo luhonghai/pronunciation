@@ -101,6 +101,8 @@ public class ScoreService {
             s.setSessionID(model.getSessionID());
             s.setIdQuestion(model.getIdQuestion());
             s.setIdLessonCollection(model.getIdLessonCollection());
+            s.setIdLevel(model.getIdLevel());
+            s.setItemID(model.getIdItem());
             dao.create(s);
         }catch (Exception e){
             logger.error("there are something wrong with function add session score : " + e);

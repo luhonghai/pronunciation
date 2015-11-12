@@ -1,5 +1,7 @@
 package com.cmg.vrc.dictionary;
 
+import com.cmg.lesson.services.word.WordCollectionService;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -73,7 +75,10 @@ public abstract class DictionaryWalker {
         }
         for (String word: words) {
             try {
-                execute(word);
+                WordCollectionService ser = new WordCollectionService();
+                if(!ser.checkWordExist(word)){
+                    execute(word);
+                }
             } catch (Exception ex) {
                 onError(new DictionaryItem(word),"Could not execute word: " + word , ex);
             }

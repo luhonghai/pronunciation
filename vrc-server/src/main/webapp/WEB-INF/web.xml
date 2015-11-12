@@ -71,13 +71,14 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Logout</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.Logout</servlet-class>
+        <servlet-name>LogoutHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.LogoutHandler</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Logout</servlet-name>
-        <url-pattern>/Logout</url-pattern>
+        <servlet-name>LogoutHandler</servlet-name>
+        <url-pattern>/LogoutHandler</url-pattern>
     </servlet-mapping>
+
 
     <servlet>
         <servlet-name>UserProfileHandler</servlet-name>

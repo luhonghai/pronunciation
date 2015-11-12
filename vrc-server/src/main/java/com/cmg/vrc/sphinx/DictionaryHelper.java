@@ -47,6 +47,8 @@ public class DictionaryHelper {
 
     private static final String DEFAULT_BEEP_S3_PATH = "sphinx-data/dict/beep-1.0";
 
+    private static final String CMG_BEEP_S3_PATH = "sphinx-data/dict/cmg-beep-1.0";
+
     private static Map<String, Map<String, List<String>>> BEEP_CACHE = new ConcurrentHashMap<String, Map<String, List<String>>>();
 
     private static final Map<String, String> UK_VS_US_SPELLING = new HashMap<String, String>();
@@ -57,7 +59,7 @@ public class DictionaryHelper {
 
     private final Type type;
 
-    private String s3Path = DEFAULT_BEEP_S3_PATH;
+    private String s3Path = CMG_BEEP_S3_PATH;
 
     public DictionaryHelper(Type type) {
         this.type = type;

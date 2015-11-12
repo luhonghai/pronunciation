@@ -14,7 +14,7 @@ function clearForm(){
     $("form").find("input:checkbox").attr('checked',false);
 }
 
-function getAllCourse(idSelected){
+function getAllCourse(idSelected, isSingleSelected){
     $.ajax({
         url: LoadDataForCountryServlet,
         type: "POST",
@@ -24,7 +24,7 @@ function getAllCourse(idSelected){
         },
         success: function (obj) {
             if (obj.message.indexOf("success") !=-1) {
-                buildSelectBox(obj.data,idSelected);
+                buildSelectBox(obj.data,idSelected, isSingleSelected);
             }else{
                 swal("Could not get courses!", obj.split(":")[1], "error");
             }
@@ -53,8 +53,12 @@ function getAllCourseForUpdate(idCountry){
                         idSelected = obj.idCourse;
                     }
                 });
-                if (idSelected != null || idSelected != "undefined"){
-                    getAllCourse(idSelected);
+                if (idSelected != "undefined"){
+                    //if(idSelected == "null"){
+                        getAllCourse(idSelected,true);
+                    //}else{
+                       // getAllCourse(idSelected,false);
+                    //}
                 }else{
                     swal("Could not get courses!", obj.split(":")[1], "error");
                 }

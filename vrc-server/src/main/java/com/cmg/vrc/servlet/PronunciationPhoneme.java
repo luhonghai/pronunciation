@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class PronunciationPhoneme extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
 
         if (request.getParameter("list") != null) {
@@ -57,7 +58,7 @@ public class PronunciationPhoneme extends HttpServlet{
             int length = Integer.parseInt(l);
             int col= Integer.parseInt(column);
             int  draw= Integer.parseInt(d);
-            Double count;
+            Double count=0d;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
             String phoneme =(String) StringUtil.isNull(request.getParameter("phoneme"), "");
             String country =(String) StringUtil.isNull(request.getParameter("country"), "");
@@ -71,14 +72,16 @@ public class PronunciationPhoneme extends HttpServlet{
 
             if(dateFrom.length()>0){
                 try {
-                    dateFrom1=df.parse(dateFrom);
+                  dateFrom1=df.parse(dateFrom);
+
                 }catch (Exception e){
                     e.getStackTrace();
                 }
             }
             if(dateTo.length()>0){
                 try {
-                    dateTo1=df.parse(dateTo);
+                   dateTo1=df.parse(dateTo);
+
                 }catch (Exception e){
                     e.getStackTrace();
                 }
@@ -87,11 +90,18 @@ public class PronunciationPhoneme extends HttpServlet{
             try {
                 PronunciationPhoneme.pronunciation pronunciation=new pronunciation();
                 List<Phoneme> phonemes=userVoiceModelPhonemeDAO.getCountSearch(search,col,oder,username,phoneme,country,scores,type,dateFrom1,dateTo1);
-                count=(double)phonemes.size();
+                if(phonemes!=null && phonemes.size()>0) {
+                    count = (double) phonemes.size();
+                }
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
-                pronunciation.data = userVoiceModelPhonemeDAO.listAll(start, length, search, col, oder, username,phoneme,country,scores,type,dateFrom1,dateTo1);
+                List<Phoneme> phonemeList=userVoiceModelPhonemeDAO.listAll(start, length, search, col, oder, username,phoneme,country,scores,type,dateFrom1,dateTo1);
+                if(phonemeList!=null && phonemeList.size()>0) {
+                    pronunciation.data =phonemeList;
+                }else{
+                    pronunciation.data = new ArrayList<Phoneme>();
+                }
                 Gson gson = new Gson();
                 String score = gson.toJson(pronunciation);
                 response.getWriter().write(score);

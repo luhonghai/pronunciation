@@ -38,16 +38,17 @@ public class Pronunciationss extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
         if(request.getParameter("draw")!=null) {
             Pronunciationss.score score = new score();
-            String search =(String) StringUtil.isNull(request.getParameter("search"), "");
-            Double count;
+            String search = (String) StringUtil.isNull(request.getParameter("search"), "");
+            Double count=0d;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
             String word =(String) StringUtil.isNull(request.getParameter("word"), "");
             int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
             String type =(String)StringUtil.isNull(request.getParameter("type"), "");
+            int counts =Integer.parseInt(StringUtil.isNull(request.getParameter("count"), "").toString());
             String dateFrom =(String) StringUtil.isNull(request.getParameter("dateFrom"), "");
             String dateTo =(String) StringUtil.isNull(request.getParameter("dateTo"), "");
             Date dateFrom1=null;
@@ -76,17 +77,22 @@ public class Pronunciationss extends HttpServlet{
 //                }else {
 //                    count = userVoiceModelDAO.getCount();
 //                }
-                List<Score> scoress=userVoiceModelDAO.listAllScore(search,username,word,scores,type,dateFrom1,dateTo1);
-                count=(double)scoress.size();
+                List<Score> scoress=userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
+                if(scoress!=null) {
+                    count = (double) scoress.size();
+                }
 
                 if(count<10000) {
-                    List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,type,dateFrom1,dateTo1);
+                    List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
                     List<List<Object>> list = new ArrayList<>();
-                    for (int i = 0; i < scores1.size(); i++) {
-                        List<Object> item = new ArrayList<>();
-                        item.add(scores1.get(i).getServerTime());
-                        item.add(scores1.get(i).getScore());
-                        list.add(item);
+                    list=null;
+                    if(scores1!=null) {
+                        for (int i = 0; i < scores1.size(); i++) {
+                            List<Object> item = new ArrayList<>();
+                            item.add(scores1.get(i).getServerTime());
+                            item.add(scores1.get(i).getScore());
+                            list.add(item);
+                        }
                     }
                     score.mess="success";
                     score.status=true;
@@ -118,11 +124,13 @@ public class Pronunciationss extends HttpServlet{
             try {
                     List<UserVoiceModel> userVoiceModels = userVoiceModelDAO.listAllScore();
                     List<List<Object>> list = new ArrayList<>();
-                    for (int i = 0; i < userVoiceModels.size(); i++) {
-                        List<Object> item = new ArrayList<>();
-                        item.add(userVoiceModels.get(i).getServerTime());
-                        item.add(userVoiceModels.get(i).getScore());
-                        list.add(item);
+                    if(userVoiceModels!=null) {
+                        for (int i = 0; i < userVoiceModels.size(); i++) {
+                            List<Object> item = new ArrayList<>();
+                            item.add(userVoiceModels.get(i).getServerTime());
+                            item.add(userVoiceModels.get(i).getScore());
+                            list.add(item);
+                        }
                     }
                     score.mess="success";
                     score.status=true;

@@ -66,7 +66,7 @@ public class TestDAO {
 
 
         try {
-            userVoiceModelDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com","dash",62,"",new Date(10/12/2014),new Date(9/8/2015));
+            //userVoiceModelDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com","dash",62,"",new Date(10/12/2014),new Date(9/8/2015));
 
             //clientCodeDAO.put(clientCode);
 

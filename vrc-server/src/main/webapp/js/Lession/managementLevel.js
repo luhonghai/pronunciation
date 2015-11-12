@@ -97,7 +97,7 @@ function addLevel(){
         var isDemo = isDemoAdd();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#addLevel").focus();
-            swal("Warning!", "Level not null!", "warning");
+            swal("Warning!", "Please enter a level name!", "warning");
             return;
         }
         $.ajax({
@@ -203,7 +203,7 @@ function editLevel(){
         var isDemo = isDemoEdit();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#editLevel").focus();
-            swal("Warning!", "Lesson not null!", "warning");
+            swal("Warning!", "Please enter level name!", "warning");
             return;
         }
         if(level == lessonName){

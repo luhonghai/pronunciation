@@ -40,7 +40,7 @@ public class Pronunciations extends HttpServlet{
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
         UserDevice userDevice=new UserDevice();
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
 
         if (request.getParameter("list") != null) {
@@ -56,7 +56,7 @@ public class Pronunciations extends HttpServlet{
             int length = Integer.parseInt(l);
             int col= Integer.parseInt(column);
             int  draw= Integer.parseInt(d);
-            Double count;
+            Double count=0d;
             String username =(String) StringUtil.isNull(request.getParameter("username"), "");
             String word =(String) StringUtil.isNull(request.getParameter("word"), "");
             int scores =Integer.parseInt(StringUtil.isNull(request.getParameter("score"), "").toString());
@@ -84,19 +84,20 @@ public class Pronunciations extends HttpServlet{
 
             try {
                 Pronunciations.pronunciation pronunciation=new pronunciation();
-
-//                if(search.length()>0||username.length()>0||word.length()>0||dateFrom1!=null||dateTo1!=null){
-//                    List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-//                    count=(double)scores1.size();
-//                }else {
-//                     count = userVoiceModelDAO.getCount();
-//                }
                 List<Score> scores1=userVoiceModelDAO.getCountSearch(search,col,oder,username,word,scores,type,dateFrom1,dateTo1);
-                count=(double)scores1.size();
+                if(scores1!=null && scores1.size()>0) {
+                    count = (double) scores1.size();
+                }
+
+                 List<Score> scoreList=userVoiceModelDAO.listAll(start, length, search, col, oder, username,word,scores,type,dateFrom1,dateTo1);
                 pronunciation.draw=draw;
                 pronunciation.recordsTotal=count;
                 pronunciation.recordsFiltered=count;
-                pronunciation.data = userVoiceModelDAO.listAll(start, length, search, col, oder, username,word,scores,type,dateFrom1,dateTo1);
+                if(scoreList!=null && scoreList.size()>0) {
+                    pronunciation.data =scoreList;
+                }else {
+                    pronunciation.data = new ArrayList<Score>();
+                }
                 Gson gson = new Gson();
                 String score = gson.toJson(pronunciation);
                 response.getWriter().write(score);

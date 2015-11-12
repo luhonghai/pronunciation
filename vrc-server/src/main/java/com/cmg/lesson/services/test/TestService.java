@@ -90,9 +90,15 @@ public class TestService {
         try {
             boolean isUpdate = dao.updateTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
             if (isUpdate){
-                TestMappingService objMapSer = new TestMappingService();
-                objMapSer.updateDeleted(idTest);
-                message =  objMapSer.addTestMapLesson(dto.getIdLessons(),dto.getIdTest());
+                if( ! dto.getIdLessons().get(0).equalsIgnoreCase("null")){
+                    TestMappingService objMapSer = new TestMappingService();
+                    objMapSer.updateDeleted(idTest);
+                    message =  objMapSer.addTestMapLesson(dto.getIdLessons(),dto.getIdTest());
+                }else {
+                    TestMappingService objMapSer = new TestMappingService();
+                    objMapSer.updateDeleted(idTest);
+                    message = SUCCESS;
+                }
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
@@ -146,11 +152,13 @@ public class TestService {
             String message = addTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
             if(message.equalsIgnoreCase(SUCCESS)){
                 dto.setIdTest(idTest);
-                TestMappingService testMapSer = new TestMappingService();
-                message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
+                CourseMappingDetailService cmdSer = new CourseMappingDetailService();
+                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
                 if(message.equalsIgnoreCase(SUCCESS)){
-                    CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                    message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
+                    if( ! dto.getIdLessons().get(0).equalsIgnoreCase("null")){
+                        TestMappingService testMapSer = new TestMappingService();
+                        message =  testMapSer.addTestMapLesson(dto.getIdLessons(), dto.getIdTest());
+                    }
                 }
             }
             dto.setMessage(message);

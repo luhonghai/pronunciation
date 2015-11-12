@@ -15,6 +15,9 @@ import javax.jdo.metadata.TypeMetadata;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
+import java.sql.Timestamp;
+import java.util.TimeZone;
 
 /**
  * Created by luhonghai on 9/30/14.
@@ -24,20 +27,31 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
     public UserVoiceModelPhonemeDAO() {
         super(UserVoiceModel.class);
     }
-    public List<Phoneme> listAll(int start, int length,String search,int column,String order,String username1,String phoneme1,String country1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Phoneme> listAll(int start, int length,String search,int column,String order,String username1,String phoneme1,String country1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
-
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
         TypeMetadata metaPhonemeScoreDB = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeScoreDB.class.getCanonicalName());
         TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
         TypeMetadata metaPhonemeLessonScore = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeLessonScore.class.getCanonicalName());
         if(type!=null && type.length()>0) {
             if(type.equalsIgnoreCase("F")) {
-                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,  from  " + metaUserVoiceModel.getTable()
+                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime  from  " + metaUserVoiceModel.getTable()
                         + " userVoice inner join " + metaPhonemeScoreDB.getTable()
                         + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
                 query.append(firstQuery);
@@ -53,19 +67,19 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userVoice.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeScore.totalScore <=50");
+                    query.append(" and (totalScore >=0 and totalScore<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeScore.totalScore <=100");
+                    query.append(" and (totalScore >=51 and totalScore<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and userVoice.serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
@@ -118,7 +132,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                             phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            phoneme.setScore((int) array[3]);
+                            phoneme.setScore((float) array[3]);
                         } else {
                             phoneme.setScore(0);
                         }
@@ -138,7 +152,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                  return null;
                 } finally {
 
                     q.closeAll();
@@ -163,19 +177,19 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userLesson.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeLessonScore.totalScore <=50");
+                    query.append(" and (totalScore >=0 and totalScore<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeLessonScore.totalScore <=100");
+                    query.append(" and (totalScore >=51 and totalScore<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and userLesson.serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
@@ -228,7 +242,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                             phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            phoneme.setScore((int) array[3]);
+                            phoneme.setScore((float) array[3]);
                         } else {
                             phoneme.setScore(0);
                         }
@@ -252,7 +266,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -284,24 +298,25 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and userVoice.country LIKE '" + country1 + "'");
                 second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
             }
-            if (dateFrom!=null && dateTo==null) {
+
+            if(score1==1){
+                first.append(" and (totalScore >=0 and totalScore<=50)");
+                second.append(" and (totalScore >=0 and totalScore<=50)");
+            }
+            if(score1==2){
+                first.append(" and (totalScore >=51 and totalScore<=100)");
+                second.append(" and (totalScore >=51 and totalScore<=100)");
+            }
+            if (dateFrom!=0 && dateTo==0) {
                 first.append(" and userVoice.serverTime >= '" + dateFrom + "'");
                 second.append(" and userLesson.serverTime >= '" + dateFrom + "'");
             }
-            if(score1==1){
-                first.append(" and 0 <= phonemeScore.totalScore <=50");
-                second.append(" and 0 <= phonemeLessonScore.totalScore <=50");
-            }
-            if(score1==2){
-                first.append(" and 51 <= phonemeScore.totalScore <=100");
-                second.append(" and 51 <= phonemeLessonScore.totalScore <=100");
-            }
-            if (dateFrom==null && dateTo!=null) {
+            if (dateFrom==0 && dateTo!=0) {
                 first.append(" and userVoice.serverTime <= '" + dateTo + "'");
                 second.append(" and userLesson.serverTime <= '" + dateTo + "'");
             }
 
-            if (dateFrom!=null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo!=0) {
                 first.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
                 second.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
             }
@@ -376,7 +391,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                 return list;
             } catch (Exception e) {
-                throw e;
+                return null;
             } finally {
 
                 q.closeAll();
@@ -387,12 +402,24 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
 
 
-    public List<Phoneme> getCountSearch(String search,int column,String order,String username1,String phoneme1, String country1,int score1, String type, Date dateFrom, Date dateTo) throws Exception {
+    public List<Phoneme> getCountSearch(String search,int column,String order,String username1,String phoneme1, String country1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
 
         TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
         TypeMetadata metaPhonemeScoreDB = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeScoreDB.class.getCanonicalName());
@@ -400,7 +427,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
         TypeMetadata metaPhonemeLessonScore = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeLessonScore.class.getCanonicalName());
         if(type!=null && type.length()>0) {
             if(type.equalsIgnoreCase("F")) {
-                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime,  from  " + metaUserVoiceModel.getTable()
+                String firstQuery = "select userVoice.id, userVoice.username , phonemeScore.phonemeWord, phonemeScore.totalScore, userVoice.country, userVoice.serverTime  from  " + metaUserVoiceModel.getTable()
                         + " userVoice inner join " + metaPhonemeScoreDB.getTable()
                         + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
                 query.append(firstQuery);
@@ -416,19 +443,19 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userVoice.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeScore.totalScore <=50");
+                    query.append(" and (totalScore >=0 and totalScore<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeScore.totalScore <=100");
+                    query.append(" and (totalScore >=51 and totalScore<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and userVoice.serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
                 }
 
@@ -481,7 +508,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                             phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            phoneme.setScore((int) array[3]);
+                            phoneme.setScore((float) array[3]);
                         } else {
                             phoneme.setScore(0);
                         }
@@ -501,7 +528,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -526,19 +553,19 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userLesson.country LIKE '" + country1 + "'");
                 }
                 if(score1==1){
-                    query.append(" and 0 <= phonemeLessonScore.totalScore <=50");
+                    query.append(" and (totalScore >=0 and totalScore<=50)");
                 }
                 if(score1==2){
-                    query.append(" and 51 <= phonemeLessonScore.totalScore <=100");
+                    query.append(" and (totalScore >=51 and totalScore<=100)");
                 }
-                if (dateFrom!=null && dateTo==null) {
+                if (dateFrom!=0 && dateTo==0) {
                     query.append(" and userLesson.serverTime >= '" + dateFrom + "'");
                 }
-                if (dateFrom==null && dateTo!=null) {
+                if (dateFrom==0 && dateTo!=0) {
                     query.append(" and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
-                if (dateFrom!=null && dateTo!=null) {
+                if (dateFrom!=0 && dateTo!=0) {
                     query.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
                 }
 
@@ -590,7 +617,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                             phoneme.setPhoneme(null);
                         }
                         if (array[3] != null) {
-                            phoneme.setScore((int) array[3]);
+                            phoneme.setScore((float) array[3]);
                         } else {
                             phoneme.setScore(0);
                         }
@@ -614,7 +641,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -646,24 +673,25 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 first.append(" and userVoice.country LIKE '" + country1 + "'");
                 second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
             }
-            if (dateFrom!=null && dateTo==null) {
+
+            if(score1==1){
+                first.append(" and (totalScore >=0 and totalScore<=50)");
+                second.append(" and (totalScore >=0 and totalScore<=50)");
+            }
+            if(score1==2){
+                first.append(" and (totalScore >=51 and totalScore<=100)");
+                second.append(" and (totalScore >=51 and totalScore<=100)");
+            }
+            if (dateFrom!=0 && dateTo==0) {
                 first.append(" and userVoice.serverTime >= '" + dateFrom + "'");
                 second.append(" and userLesson.serverTime >= '" + dateFrom + "'");
             }
-            if(score1==1){
-                first.append(" and 0 <= phonemeScore.totalScore <=50");
-                second.append(" and 0 <= phonemeLessonScore.totalScore <=50");
-            }
-            if(score1==2){
-                first.append(" and 51 <= phonemeScore.totalScore <=100");
-                second.append(" and 51 <= phonemeLessonScore.totalScore <=100");
-            }
-            if (dateFrom==null && dateTo!=null) {
+            if (dateFrom==0 && dateTo!=0) {
                 first.append(" and userVoice.serverTime <= '" + dateTo + "'");
                 second.append(" and userLesson.serverTime <= '" + dateTo + "'");
             }
 
-            if (dateFrom!=null && dateTo!=null) {
+            if (dateFrom!=0 && dateTo!=0) {
                 first.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
                 second.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
             }
@@ -737,7 +765,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                 return list;
             } catch (Exception e) {
-                throw e;
+                return null;
             } finally {
 
                 q.closeAll();

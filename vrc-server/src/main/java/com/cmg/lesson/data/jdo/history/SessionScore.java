@@ -30,6 +30,28 @@ public class SessionScore implements Mirrorable {
     @Persistent
     private String idLessonCollection;
 
+    @Persistent
+    private String idLevel;
+
+    @Persistent
+    private String itemID;
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
+
+    public String getIdLevel() {
+        return idLevel;
+    }
+
+    public void setIdLevel(String idLevel) {
+        this.idLevel = idLevel;
+    }
+
     public String getIdUserLessonHistory() {
         return idUserLessonHistory;
     }
