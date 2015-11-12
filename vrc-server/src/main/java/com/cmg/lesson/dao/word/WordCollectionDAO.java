@@ -214,6 +214,25 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
+    public boolean loadWordFromSql(String sqlInsert){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", sqlInsert);
+        try {
+            q.execute();
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return check;
+    }
+
     /**
      *
      * @param idWord

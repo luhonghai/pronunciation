@@ -72,13 +72,13 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
      * @return
      * @throws Exception
      */
-    public boolean updateMap(String id, String arphabet, String description, String color, String tips, String type, int indexing, String words) throws Exception{
+    public boolean updateMap(String id, String arphabet,String mp3Url, String description, String color, String tips, String type, int indexing, String words) throws Exception{
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(IpaMapArpabet.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() +
                 " SET description= ? , tip=?,color=? ," +
-                "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing +
+                "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing + ", mp3Url="+ mp3Url +
                 " ,words='"+words+"' WHERE id='"+id+"'");
         try {
             q.execute(description,tips,color);
