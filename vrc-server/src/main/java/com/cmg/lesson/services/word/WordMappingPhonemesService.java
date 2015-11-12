@@ -258,12 +258,17 @@ public class WordMappingPhonemesService {
                     logger.info("this word : " + word + " not in Beep Dictionary");
                 }
             }
-            writeFile(temp,"");
+            writeFile(temp,"D:\\cmg-beep.dic");
         }catch (Exception e){
             logger.error("can not check word :"+word+ " in beep cause : " + e.getMessage());
         }
     }
 
+    /**
+     *
+     * @param list
+     * @param filePath
+     */
     public void writeFile(List<WordCollection> list,String filePath){
         File file = new File(filePath);
         try {

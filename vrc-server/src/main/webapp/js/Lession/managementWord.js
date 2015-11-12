@@ -138,7 +138,7 @@ function addWord(){
 
             });
         }else{
-            swal("Warning!", "Word not null!", "warning");
+            swal("Warning!", "Please enter a word!", "warning");
         }
 
 
@@ -246,7 +246,7 @@ function edit(){
 
         });
         }else{
-            swal("Warning!", "Word not null!", "warning");
+            swal("Warning!", "Please enter a word!", "warning");
         }
 
     });
