@@ -77,11 +77,11 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(IpaMapArpabet.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() +
-                " SET description= ? , tip=?,color=? ," +
-                "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing + ", mp3Url="+ mp3Url +
-                " ,words='"+words+"' WHERE id='"+id+"'");
+                " SET description=?,tip=?,color='"+color+"' ," +
+                "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing + ", mp3Url=?"+
+                ",words='"+words+"' WHERE id='"+id+"'");
         try {
-            q.execute(description,tips,color);
+            q.execute(description,tips,mp3Url);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
