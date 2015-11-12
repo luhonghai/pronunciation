@@ -50,12 +50,11 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <android.support.v7.widget.CardView
+                        <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_width="@dimen/button_default_size"
                             android:layout_height="@dimen/button_default_size"
-                            app:cardCornerRadius="@dimen/button_default_size_half"
                             android:id="@+id/cvTip"
                             app:cardElevation="0dp"
                             android:clickable="true"
@@ -66,7 +65,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/ic_lesson_tip"/>
-                        </android.support.v7.widget.CardView>
+                        </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_marginTop="20dp"

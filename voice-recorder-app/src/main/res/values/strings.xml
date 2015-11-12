@@ -73,7 +73,7 @@
     <string name="never">never</string>
     <string name="yes">yes</string>
     <string name="menu_about">about</string>\
-    <string name="example_phoneme">TH</string>
+    <string name="example_phoneme">n</string>
     <string name="example_phoneme_ipa">ɛ</string>
     <string name="example_phoneme_score">56%</string>
     <string name="example_word">necessarily</string>

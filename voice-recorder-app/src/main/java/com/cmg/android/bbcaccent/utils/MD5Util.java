@@ -24,7 +24,7 @@ public class MD5Util {
         } catch (NoSuchAlgorithmException e) {
         } catch (UnsupportedEncodingException e) {
         }
-        return null;
+        return UUIDGenerator.generateUUID();
     }
 
     public static void main(String[] args) {

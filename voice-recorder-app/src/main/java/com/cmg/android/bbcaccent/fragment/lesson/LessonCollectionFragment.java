@@ -61,7 +61,6 @@ public class LessonCollectionFragment extends BaseFragment {
     private void initData() {
         final UserProfile userProfile = Preferences.getCurrentProfile();
         if (userProfile != null && userProfile.getSelectedCountry() != null) {
-
             final Bundle bundle = getArguments();
             if (bundle != null) {
                 if (bundle.containsKey(LessonLevel.class.getName())) {
@@ -91,6 +90,8 @@ public class LessonCollectionFragment extends BaseFragment {
                             SwitchFragmentParameter parameter
                                     = new SwitchFragmentParameter(true, true, true);
                             b.putString(LessonCollection.class.getName(), MainApplication.toJson(lessonCollection));
+                            b.putString(MainBroadcaster.Filler.Key.TYPE.toString(), Objective.class.getName());
+                            MainApplication.getContext().setLessonViewState(null);
                             LessonHistoryDBAdapterService.getInstance().emptyHistory();
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     LessonFragment.class,

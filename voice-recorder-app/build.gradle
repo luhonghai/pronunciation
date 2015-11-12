@@ -104,10 +104,9 @@ dependencies {
     compile('com.jjoe64:graphview:4.0.0') {
         exclude module: 'appcompat-v7'
     }
-    compile 'com.google.android.gms:play-services-ads:8.1.0'
-    compile 'com.google.android.gms:play-services-analytics:8.1.0'
-    compile 'com.google.android.gms:play-services-plus:8.1.0'
-    compile 'com.google.android.gms:play-services-identity:8.1.0'
+    compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.google.android.gms:play-services-plus:8.3.0'
+    compile 'com.google.android.gms:play-services-identity:8.3.0'
     compile 'com.pkmmte.view:circularimageview:1.1'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.1@aar'
@@ -119,8 +118,8 @@ dependencies {
     compile "cz.msebera.android:httpclient:4.4.1.1"
     compile 'com.luhonghai:litedb:1.1.8'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.cocosw:bottomsheet:1.+@aar'
-    compile 'com.anjlab.android.iab.v3:library:1.0.+@aar'
+    compile 'com.cocosw:bottomsheet:1.2.0@aar'
+    compile 'com.anjlab.android.iab.v3:library:1.0.28@aar'
 }
 
 task copyFiles(type: Copy)
@@ -130,7 +129,7 @@ copyFiles {
     if (project.hasProperty('env')) {
         from "src/main/resources/env-values/${env}"
     } else {
-        from "src/main/resources/env-values/dev"
+        from "src/main/resources/env-values/sat"
     }
     into 'src/main/res/values'
     include('**/*')

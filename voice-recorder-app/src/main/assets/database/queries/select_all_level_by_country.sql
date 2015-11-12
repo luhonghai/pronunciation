@@ -1,6 +1,7 @@
 SELECT L.ROWID as _id,L.id, L.NAME, L.ISDEMO, L.DESCRIPTION, L.DATECREATED, L.COLOR
 FROM
-  ((countrymappingcourse AS CMC INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE)
-    INNER JOIN level as L on L.ID = CML.IDLEVEL)
+  countrymappingcourse AS CMC
+    INNER JOIN coursemappinglevel AS CML ON CMC.IDCOURSE = CML.IDCOURSE
+    INNER JOIN level as L on L.ID = CML.IDLEVEL
 WHERE CMC.IDCOUNTRY = ?
 ORDER BY CML.[index] ASC

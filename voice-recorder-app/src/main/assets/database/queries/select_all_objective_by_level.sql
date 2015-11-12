@@ -1,5 +1,6 @@
 SELECT O.ROWID as _id,O.ID, O.NAME, O.DESCRIPTION, O.DATECREATED
 FROM
-  ((countrymappingcourse AS CMC INNER JOIN coursemappingdetail as CMD on CMC.IDCOURSE = CMD.IDCOURSE)
-    INNER JOIN objective as O on O.ID = CMD.IDCHILD)
+  countrymappingcourse AS CMC
+    INNER JOIN coursemappingdetail as CMD on CMC.IDCOURSE = CMD.IDCOURSE
+    INNER JOIN objective as O on O.ID = CMD.IDCHILD
 WHERE CMC.IDCOUNTRY = ? AND CMD.IDLEVEL = ? AND CMD.ISTEST = '\0'

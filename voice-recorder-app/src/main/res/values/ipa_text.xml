@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ipa_information">[aɪ phiː eɪ]</string>
+    <string name="ipa_rp">RP</string>
+    <string name="ipa_rp_title">re|ceived pro|nun¦ci|ation</string>
+    <string name="ipa_rp_content">
+        RP for short, is the instantly recognisable accent often described as
+        \'typically British\'. It is the standard form of British English pronunciation,
+        based on educated speech in southern England, widely accepted as a standard
+        else where. It is the accent on which phonemic transcriptions in dictionaries
+        are based, and it is widely used for teaching English as a foreign language.
+        RP is still often associated with good education and social status.
+    </string>
+
+    <string name="ipa_vowels">vowels</string>
+    <string name="ipa_vowels_title">vowels</string>
+
+    <string name="ipa_consonant">consonant</string>
+    <string name="ipa_consonant_title">con|son¦ant</string>
+</resources>

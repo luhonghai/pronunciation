@@ -35,10 +35,12 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
@@ -109,7 +111,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
@@ -216,8 +217,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
     private QuestionAdapter questionAdapter;
 
-    private boolean isLesson;
-
     private BreakDownAction breakDownAction;
 
     @Override
@@ -230,15 +229,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         initRecordingView();
         initAnimation();
         switchButtonStage(ButtonState.DISABLED);
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(MainBroadcaster.Filler.Key.VIEW_STATE.toString())) {
-                viewState = gson.fromJson(savedInstanceState.getString(MainBroadcaster.Filler.Key.VIEW_STATE.toString()), ViewState.class);
-            }
-        }
-
+        viewState = MainApplication.getContext().getLessonViewState();
+        Bundle bundle = getArguments();
         if (viewState == null) {
             viewState = new ViewState();
-            Bundle bundle = getArguments();
             if (bundle != null) {
                 if (bundle.containsKey(LessonLevel.class.getName())) {
                     viewState.lessonLevel = MainApplication.fromJson(bundle.getString(LessonLevel.class.getName()), LessonLevel.class);
@@ -254,10 +248,19 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         } else {
-            breakDownAction = MainApplication.getBreakDownAction();
-            MainApplication.setBreakDownAction(null);
+            breakDownAction = MainApplication.getContext().getBreakDownAction();
+            MainApplication.getContext().setBreakDownAction(null);
         }
-        isLesson = viewState.objective != null && viewState.lessonTest == null;
+
+        boolean isLesson = false;
+        if (bundle != null && bundle.containsKey(MainBroadcaster.Filler.Key.TYPE.toString())) {
+            String typeClass = bundle.getString(MainBroadcaster.Filler.Key.TYPE.toString());
+            if (typeClass != null && typeClass.equalsIgnoreCase(Objective.class.getName())) {
+                isLesson = true;
+            }
+        }
+        viewState.isLesson = isLesson;
+
         scoreDBAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
         dbAdapter = new WordDBAdapter();
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
@@ -311,48 +314,12 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         });
-//        if (viewState.currentModel == null) {
-//            if (viewState.willSearchRandomWord || viewState.dictionaryItem == null) {
-//                String[] words = getResources().getStringArray(R.array.random_words);
-//                if (words != null && words.length > 0) {
-//                    getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
-//                } else {
-//                    getWord(getString(R.string.example_word));
-//                }
-//                viewState.willSearchRandomWord = false;
-//            } else {
-//                displayDictionaryItem();
-//                switchButtonStage(ButtonState.DEFAULT);
-//                recordingView.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        recordingView.recycleView();
-//                    }
-//                }, 100);
-//            }
-//        } else {
-//            displayDictionaryItem();
-//            recordingView.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    recordingView.recycleView();
-//                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-//                    recordingView.startPingAnimation(getActivity(), 0, viewState.currentModel.getScore(), true, false);
-//                }
-//            }, 100);
-//        }
-
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
         if (viewState.willShowHelpSearchWordAndSlider) {
-            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
-                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
-                            "Don't forget to try new words by searching for them by pressing the magnifying glass"),
-                    new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
-                            "Swipe up or tap to track progress, view past words and tips"));
             viewState.willShowHelpSearchWordAndSlider = false;
         }
-        if (isLesson) {
+        if (viewState.isLesson) {
             cvTip.setVisibility(View.VISIBLE);
             txtDefinition.setVisibility(View.VISIBLE);
         } else {
@@ -364,6 +331,24 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void drawQuestionList() {
+        if (breakDownAction != null && breakDownAction.getType() == BreakDownAction.Type.SELECT_NEXT) {
+            SimpleAppLog.debug("Detect break down action type SELECT_NEXT. Current lesson ID " + viewState.lessonCollection.getId());
+            try {
+                LessonCollection nextLesson = LessonDBAdapterService.getInstance().getNextLessonOnCurrentObjective(
+                        Preferences.getCurrentProfile().getSelectedCountry().getId(),
+                        viewState.lessonLevel.getId(),
+                        viewState.objective.getId(),
+                        viewState.lessonCollection.getId()
+                );
+                if (nextLesson != null) {
+                    SimpleAppLog.debug("Found next lesson " + nextLesson.getName() + ". ID: " + nextLesson.getId());
+                    viewState.lessonCollection = nextLesson;
+                    viewState.questions = null;
+                }
+            } catch (LiteDatabaseException e) {
+                SimpleAppLog.error("could not get next lesson",e);
+            }
+        }
         questionAdapter = new QuestionAdapter();
         if (viewState.questions == null || viewState.questions.size() == 0) {
             try {
@@ -523,6 +508,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
+                if (txtPhonemes == null) return;
                 float test = (halfHeight - root.findViewById(R.id.btnSlider).getHeight()) / (float) halfHeight;
                 //SimpleAppLog.debug("Offset: " + slideOffset + ". Test: " + test);
                 if (slideOffset > test) {
@@ -1036,6 +1022,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 Bundle bundle = new Bundle();
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
                 bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
+                MainApplication.getContext().setLessonViewState(viewState);
                 bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
@@ -1164,7 +1151,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
             }
 
-            boolean isEnabled = state != ButtonState.DISABLED;
+            boolean isEnabled = state != ButtonState.DISABLED && state != ButtonState.PLAYING && state != ButtonState.RECORDING;
             int count = recyclerView.getChildCount();
             if (count > 0) {
                 for (int i = 0; i < count; i++) {
@@ -1175,10 +1162,12 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             cvTip.setEnabled(isEnabled);
 
             // Only record a question one time
-            Question currentQuestion = viewState.getCurrentQuestion();
-            if (currentQuestion != null && !isLesson && currentQuestion.isRecorded()) {
-                ((ImageView) btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
-                btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+            if (viewState != null) {
+                Question currentQuestion = viewState.getCurrentQuestion();
+                if (currentQuestion != null && ! viewState.isLesson && currentQuestion.isRecorded()) {
+                    ((ImageView) btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
+                    btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                }
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not update screen state", e);
@@ -1245,7 +1234,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     params.put("idCountry", Preferences.getCurrentProfile().getSelectedCountry().getId());
                     params.put("session", viewState.sessionId);
                     params.put("idLessonCollection", viewState.lessonCollection.getId());
-                    if (isLesson) {
+                    if (viewState.isLesson) {
                         params.put("type", "Q");
                         params.put("itemId", viewState.objective.getId());
                     } else {
@@ -1327,6 +1316,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         }
                         questionAdapter.notifyDataSetChanged();
                         isRecording = false;
+                        handlerStartDetail.post(runnableStartDetail);
                     }
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1500,7 +1490,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                 }
                                 totalScore += Math.round((float) totalQuestionScore / q.getScoreHistory().size());
                             } else {
-                                if (!isLesson) {
+                                if (!viewState.isLesson) {
                                     // Only lesson score will be tracked if not complete all questions
                                     isFinished = false;
                                     break;
@@ -1511,7 +1501,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                             SimpleAppLog.debug("Number of complete question " + totalQuestions + ". Total score: " + totalScore);
                             int avgScore = Math.round((float) totalScore / totalQuestions);
                             UserProfile userProfile = Preferences.getCurrentProfile();
-                            if (viewState.objective != null) {
+                            if (viewState.isLesson) {
                                 // Is object lesson test
                                 SimpleAppLog.debug("Save objective id "  + viewState.objective.getId() +" lesson id " +
                                         viewState.lessonCollection.getId() +
@@ -1525,7 +1515,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                         viewState.lessonCollection.getId(),
                                         avgScore
                                 );
-                            } else if (viewState.lessonTest != null) {
+                            } else {
                                 SimpleAppLog.debug("Save test id " + viewState.lessonTest.getId() + " lesson id " +
                                         viewState.lessonCollection.getId() +
                                         " score " + totalScore);
@@ -1552,13 +1542,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Gson gson = new Gson();
-        if (outState != null) {
-            // Save last user voice model
-            if (viewState != null) {
-                outState.putString(MainBroadcaster.Filler.Key.VIEW_STATE.toString(), gson.toJson(viewState));
-            }
-        }
+        SimpleAppLog.debug("on save instance state for lesson fragment");
+        MainApplication.getContext().setLessonViewState(viewState);
     }
 
     /**
@@ -1583,6 +1568,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     public class ViewState {
+
+        public boolean isLesson;
 
         public String sessionId = UUIDGenerator.generateUUID();
 
@@ -1625,8 +1612,17 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
             final Question question = viewState.questions.get(position);
             int bgColor = R.color.app_gray;
-            String prefix = isLesson ? "Q" : "T";
+            int avgScore = 0;
+            String prefix = viewState.isLesson ? "Q" : "T";
             String text = String.format(Locale.getDefault(), prefix + "%d", position + 1);
+            if (question.getScoreHistory().size() > 0) {
+                int totalScore = 0;
+                for (Integer score : question.getScoreHistory()) {
+                    totalScore += score;
+                }
+                avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
+                text = String.format(Locale.getDefault(), "%d", avgScore);
+            }
             if (question.isEnabled()) {
                 holder.cardView.setTag(position);
                 holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -1638,9 +1634,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 });
                 if (question.isRecorded()) {
-                    if (question.getScore() >= 80) {
+                    if (avgScore >= 80) {
                         bgColor = R.color.app_green;
-                    } else if (question.getScore() >= 45) {
+                    } else if (avgScore >= 45) {
                         bgColor = R.color.app_orange;
                     } else {
                         bgColor = R.color.app_red;
@@ -1649,14 +1645,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     bgColor = R.color.app_purple;
                 }
             }
-            if (question.getScoreHistory().size() > 0) {
-                int totalScore = 0;
-                for (Integer score : question.getScoreHistory()) {
-                    totalScore += score;
-                }
-                int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
-                text = String.format(Locale.getDefault(), "%d", avgScore);
-            }
+
             holder.txtScore.setText(text);
             holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
         }

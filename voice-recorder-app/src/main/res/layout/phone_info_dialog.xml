@@ -6,36 +6,33 @@
     android:layout_width="240dp"
     android:layout_height="240dp"
     app:cardElevation="0dp"
-    app:cardPreventCornerOverlap="false"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="10dp"
-    app:cardBackgroundColor="@color/app_light_gray">
+    app:cardCornerRadius="@dimen/popup_corner_radius"
+    app:cardBackgroundColor="@color/app_green">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <RelativeLayout
-            android:layout_weight="1.3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp">
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp">
             <TextView
                 android:id="@+id/txtPhonemeScore"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:gravity="bottom|end"
-                android:textSize="32sp"
+                android:gravity="end"
+                android:textSize="28sp"
                 android:textColor="@android:color/white"
                 android:text="@string/example_phoneme_score"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_weight="0.8"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top|center_horizontal">
+            android:layout_height="0dp"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,12 +40,17 @@
                 android:textSize="110sp"
                 android:textColor="@android:color/white"
                 android:text="@string/example_phoneme"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_centerInParent="true"
                 android:id="@+id/txtPhoneme" />
         </RelativeLayout>
         <RelativeLayout
-            android:layout_weight="1.1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="0dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,47 +60,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|start">
-                    <android.support.v7.widget.CardView
+                    android:gravity="center_vertical|start"
+                    >
+                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                         android:id="@+id/btnAudioPhoneme"
                         android:layout_width="@dimen/button_list_default_size"
                         android:layout_height="@dimen/button_list_default_size"
-                        app:cardCornerRadius="@dimen/button_list_default_size_half"
                         app:cardElevation="0dp"
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         app:cardBackgroundColor="@android:color/white"
-                        android:stateListAnimator="@anim/lift_up"
-                        android:layout_marginLeft="@dimen/main_action_button_margin"
-                        android:layout_marginStart="@dimen/main_action_button_margin">
+                        android:stateListAnimator="@anim/lift_up">
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" android:src="@drawable/ic_play" />
-                    </android.support.v7.widget.CardView>
+                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|end">
-                    <android.support.v7.widget.CardView
+                    android:gravity="center_vertical|end"
+                    >
+                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                         android:id="@+id/btnGraph"
                         android:layout_width="@dimen/button_list_default_size"
                         android:layout_height="@dimen/button_list_default_size"
-                        app:cardCornerRadius="@dimen/button_list_default_size_half"
                         app:cardElevation="0dp"
                         android:clickable="true"
                         android:foreground="?android:attr/selectableItemBackground"
                         app:cardBackgroundColor="@android:color/white"
-                        android:stateListAnimator="@anim/lift_up"
-                        android:layout_marginEnd="@dimen/main_action_button_margin"
-                        android:layout_marginRight="@dimen/main_action_button_margin">
+                        android:stateListAnimator="@anim/lift_up">
                         <ImageView
                             android:layout_margin="5dp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent" android:src="@drawable/ic_graph" />
-                    </android.support.v7.widget.CardView>
+                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

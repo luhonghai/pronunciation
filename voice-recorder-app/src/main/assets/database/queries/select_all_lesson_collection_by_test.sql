@@ -1,6 +1,7 @@
 SELECT LC.ROWID as _id,LC.ID, LC.NAME, LC.DESCRIPTION, LC.DATECREATED
 FROM
-  ((countrymappingcourse AS CMC INNER JOIN coursemappingdetail as CMD on CMC.IDCOURSE)
-    INNER JOIN testmapping AS OM on OM.IDTEST = CMD.IDCHILD)
+  countrymappingcourse AS CMC
+    INNER JOIN coursemappingdetail as CMD on CMC.IDCOURSE
+    INNER JOIN testmapping AS OM on OM.IDTEST = CMD.IDCHILD
     INNER JOIN lessoncollection AS LC ON LC.ID = OM.IDLESSONCOLLECTION
 WHERE CMC.IDCOUNTRY = ? AND CMD.IDLEVEL = ? AND CMD.IDCHILD = ? AND CMD.ISTEST != '\0'

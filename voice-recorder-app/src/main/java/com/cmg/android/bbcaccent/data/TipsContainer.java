@@ -77,20 +77,17 @@ public class TipsContainer {
 
     private final Context context;
 
-    private static PronunciationTip[] tips;
+    private PronunciationTip[] tips;
 
-    private static Map<String, List<Integer>> tipIndex;
+    private Map<String, List<Integer>> tipIndex;
 
-    private static final Object lock = new Object();
-
-    private static boolean isLoaded;
+    private boolean isLoaded;
 
     public TipsContainer(Context context) {
         this.context = context;
     }
 
     public void loadSync() {
-        synchronized (lock) {
         if (tips == null)
             tips = new PronunciationTip[0];
             File tipFile = FileHelper.getSavedTipFile(context);
@@ -127,9 +124,8 @@ public class TipsContainer {
                 }
             }
             isLoaded = true;
-        }
     }
-
+    @Deprecated
     public void load() {
         isLoaded = false;
         AsyncTask<Void,Void,Void> asyncTask = new AsyncTask<Void, Void, Void>() {
@@ -142,11 +138,13 @@ public class TipsContainer {
         asyncTask.execute();
     }
 
+    @Deprecated
     public boolean isLoaded() {
         return isLoaded;
     }
 
     public PronunciationTip getTip(UserVoiceModel model) {
+        loadSync();
         if (tips != null && tips.length > 0) {
             if (model != null) {
                 SphinxResult result = model.getResult();
