@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="upload_url">http://192.168.1.18:8090/VoiceRecordHandler</string>
-    <string name="upload_weight_url">http://192.168.1.18:8090/CalculationServlet</string>
-    <string name="sync_data_url">http://192.168.1.18:8090/syncData</string>
-    <string name="auth_url">http://192.168.1.18:8090/AuthHandler</string>
-    <string name="user_profile_url">http://192.168.1.18:8090/userprofile</string>
-    <string name="register_url">http://192.168.1.18:8090/RegisterHandler</string>
-    <string name="activation_url">http://192.168.1.18:8090/activate</string>
-    <string name="feedback_url">http://192.168.1.18:8090/FeedbackHandler</string>
-    <string name="license_url">http://192.168.1.18:8090/LicenseHandler</string>
-    <string name="reset_password_url">http://192.168.1.18:8090/ResetPasswordHandler</string>
+    <string name="upload_url">http://192.168.1.45:8080/VoiceRecordHandler</string>
+    <string name="upload_weight_url">http://192.168.1.45:8080/CalculationServlet</string>
+    <string name="sync_data_url">http://192.168.1.45:8080/syncData</string>
+    <string name="auth_url">http://192.168.1.45:8080/AuthHandler</string>
+    <string name="logout_url">http://192.168.1.45:8080/LogoutHandler</string>
+    <string name="user_profile_url">http://192.168.1.45:8080/userprofile</string>
+    <string name="register_url">http://192.168.1.45:8080/RegisterHandler</string>
+    <string name="activation_url">http://192.168.1.45:8080/activate</string>
+    <string name="feedback_url">http://192.168.1.45:8080/FeedbackHandler</string>
+    <string name="license_url">http://192.168.1.45:8080/LicenseHandler</string>
+    <string name="reset_password_url">http://192.168.1.45:8080/ResetPasswordHandler</string>
 </resources>

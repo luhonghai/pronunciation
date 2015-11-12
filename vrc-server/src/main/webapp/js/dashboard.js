@@ -169,7 +169,9 @@ function drawMap(){
         },
         success:function(data){
             if(data.status==true) {
-                drawChart(data.sc);
+                if(data.sc!=null){
+                    drawChart(data.sc);
+                }
                 google.setOnLoadCallback(drawChart);
 
             }
@@ -191,8 +193,10 @@ function drawChart(sc) {
     var data = new google.visualization.DataTable();
     data.addColumn('datetime', 'date');
     data.addColumn('number', 'Score');
-    for(j=0;j<sc.length;j++){
-        data.addRow([new Date(sc[j][0]), sc[j][1]]);
+    if(sc!=null && sc.length>0) {
+        for (j = 0; j < sc.length; j++) {
+            data.addRow([new Date(sc[j][0]), sc[j][1]]);
+        }
     }
 
 

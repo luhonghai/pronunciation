@@ -91,7 +91,6 @@ public abstract class BaseServlet extends HttpServlet {
 	protected boolean isEmptyOrNull(String value) {
 		return value == null || value.trim().length() == 0;
 	}
-
 	protected void printMessage(HttpServletResponse resp, String message) {
 		try {
 			PrintWriter out = resp.getWriter();

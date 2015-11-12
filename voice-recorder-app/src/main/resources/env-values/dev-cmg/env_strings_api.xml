@@ -4,6 +4,7 @@
     <string name="upload_weight_url">http://c-mg.vn/CalculationServlet</string>
     <string name="sync_data_url">http://c-mg.vn/vrc/syncData</string>
     <string name="auth_url">http://c-mg.vn/vrc/AuthHandler</string>
+    <string name="logout_url">http://c-mg.vn/vrc/LogoutHandler</string>
     <string name="user_profile_url">http://c-mg.vn/vrc/userprofile</string>
     <string name="register_url">http://c-mg.vn/vrc/RegisterHandler</string>
     <string name="activation_url">http://c-mg.vn/vrc/activate</string>

@@ -152,7 +152,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                  return null;
                 } finally {
 
                     q.closeAll();
@@ -266,7 +266,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -391,7 +391,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                 return list;
             } catch (Exception e) {
-                throw e;
+                return null;
             } finally {
 
                 q.closeAll();
@@ -528,7 +528,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -641,7 +641,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                     return list;
                 } catch (Exception e) {
-                    throw e;
+                    return null;
                 } finally {
 
                     q.closeAll();
@@ -765,7 +765,7 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
 
                 return list;
             } catch (Exception e) {
-                throw e;
+                return null;
             } finally {
 
                 q.closeAll();
