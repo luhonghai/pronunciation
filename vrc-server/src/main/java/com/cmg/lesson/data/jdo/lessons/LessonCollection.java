@@ -35,6 +35,13 @@ public class LessonCollection implements Mirrorable {
     @NotPersistent
     private boolean idChecked = false;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @Persistent
     private String title;

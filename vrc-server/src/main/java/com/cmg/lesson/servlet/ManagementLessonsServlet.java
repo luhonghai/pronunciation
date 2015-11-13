@@ -46,17 +46,19 @@ public class ManagementLessonsServlet extends BaseServlet {
             }else if(request.getParameter("add")!=null){
                 String lesson =  (String)StringUtil.isNull(request.getParameter("lesson"),"");
                 String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
+                String shortDescription =  (String)StringUtil.isNull(request.getParameter("shortDescription"),"");
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
-                String message = lessonCollectionService.addLesson(lesson,title,description).getMessage();
+                String message = lessonCollectionService.addLesson(lesson,title,shortDescription,description).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
                 String lessonId = (String)StringUtil.isNull( request.getParameter("id"),"");
                 String lesson = (String)StringUtil.isNull(request.getParameter("lesson"),"");
                 String title =  (String)StringUtil.isNull(request.getParameter("title"),"");
+                String shortDescription =  (String)StringUtil.isNull(request.getParameter("shortDescription"),"");
                 String description = (String)StringUtil.isNull(request.getParameter("description"),"");
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
-                String message = lessonCollectionService.updateLesson(lessonId,lesson,title,description, isUpdateLessonName).getMessage();
+                String message = lessonCollectionService.updateLesson(lessonId,lesson,title,shortDescription,description, isUpdateLessonName).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){

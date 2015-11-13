@@ -98,7 +98,7 @@ public class LessonMappingQuestionDAO extends DataAccess<LessonMappingQuestion> 
 
     /**
      *
-     * @param idLesson
+     * @param idQuestion
      * @return
      */
     public boolean updateDeletedByQuestion(String idQuestion){
