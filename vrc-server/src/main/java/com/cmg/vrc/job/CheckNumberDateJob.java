@@ -8,9 +8,10 @@ import com.cmg.vrc.service.MailService;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.quartz.*;
+import org.quartz.Calendar;
 import org.quartz.impl.StdSchedulerFactory;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -59,13 +60,18 @@ public class CheckNumberDateJob {
             String message = null;
             try {
                 List<User> users=userDAO.users();
-                DateTime date=new DateTime(System.currentTimeMillis());
+                Date date=new Date(System.currentTimeMillis());
                 int number=numberDateDAO.numberDate().getNumberDate();
+                java.util.Calendar cal1 = java.util.Calendar.getInstance();
+                cal1.setTime(date);
+                java.util.Calendar cal2 = java.util.Calendar.getInstance();
+
                 if(users!=null){
                     for(Object user:users){
                         Object[] array = (Object[]) user;
-                        int x=Days.daysBetween(date, (DateTime)array[2]).getDays();
-                        if(x>number){
+                        cal2.setTime((Date)array[2]);
+                        cal2.add(java.util.Calendar.DATE, number);
+                        if(cal2.before(cal1)){
                             recipients.add(array[1].toString());
                         }
                     }
