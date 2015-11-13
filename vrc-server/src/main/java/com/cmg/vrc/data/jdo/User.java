@@ -1,10 +1,12 @@
 package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
+import org.joda.time.DateTime;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by luhonghai on 4/13/15.
@@ -65,6 +67,9 @@ public class User implements Mirrorable {
 
     @Persistent
     private String resetPasswordCode;
+
+    @Persistent
+    private DateTime createdDate;
 
     @Override
     public String getId() {
@@ -211,5 +216,12 @@ public class User implements Mirrorable {
 
     public void setActivationLocked(boolean activationLocked) {
         this.activationLocked = activationLocked;
+    }
+    public DateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(DateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }

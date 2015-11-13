@@ -13,6 +13,7 @@
             </div>
             <!-- /.row -->
             <input type="hidden" id="id" name="id">
+            <input type="hidden" id="idnumber" name="id">
             <div class="row" style="margin-top: 30px;">
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -26,6 +27,12 @@
                                 Registration
                             </label>
                         </div>
+                    </div>
+                    <div class="form-group">
+                            <label style="font-weight: 500">
+                                Number Date:
+                                <input type="number"  value="1" min="1" max="20" id="numberDate">
+                            </label>
                     </div>
 
                 </div>
