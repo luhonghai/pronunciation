@@ -28,22 +28,26 @@ function listLessons(){
 
         "columns": [
             {
-                "sWidth": "25%",
+                "sWidth": "15%",
                 "data": "nameUnique",
+                "sDefaultContent": ""
+            },{
+                "sWidth": "15%",
+                "data": "title",
                 "sDefaultContent": ""
             },{
             "sWidth": "15%",
             "data": "name",
             "sDefaultContent": ""
-        }, {
+            }, {
             "sWidth": "15%",
             "data": "description",
             "sDefaultContent": ""
-        }, {
-            "sWidth": "15%",
+             }, {
+            "sWidth": "10%",
             "data": "dateCreated",
             "sDefaultContent": ""
-        }, {
+            }, {
             "sWidth": "30%",
             "data": null,
             "bSortable": false,
@@ -52,8 +56,9 @@ function listLessons(){
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("lesson", data.nameUnique);
-                $button.attr("title", data.name);
+                $button.attr("title", data.title);
                 $button.attr("description", data.description);
+                $button.attr("shortDescription", data.name);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -88,6 +93,7 @@ function addLesson(){
     $(document).on("click","#yesadd", function(){
         var lesson = $("#addLesson").val();
         var title = $("#addTitle").val();
+        var shortDescription = $("#shortDescription").val();
         var description = $("#addDescription").val();
         if (lesson == null || typeof lesson == "undefined" || lesson.length == 0){
             $("#addLesson").focus();
@@ -107,6 +113,7 @@ function addLesson(){
                 add: "add",
                 lesson: lesson,
                 title: title,
+                shortDescription:shortDescription,
                 description:description
             },
             success: function (data) {
@@ -171,8 +178,10 @@ function openPopupEdit(){
         var idd = $(this).attr('id-column');
         var lesson = $(this).attr('lesson');
         var title = $(this).attr('title');
+        var shortDescription = $(this).attr('shortDescription');
         var description = $(this).attr('description');
         $("#editLesson").val(lesson);
+        $("#editShortDescription").val(shortDescription);
         $("#editDescription").val(description);
         $("#editTitle").val(title);
         $("#idedit").val(idd);
@@ -188,6 +197,7 @@ function editLesson(){
         var id = $("#idedit").val();
         var lesson = $("#editLesson").val();
         var description = $("#editDescription").val();
+        var shortDescription = $("#editShortDescription").val();
         var title = $("#editTitle").val();
         if (lesson == null || typeof lesson == "undefined" || lesson.length == 0){
             $("#editLesson").focus();
@@ -211,6 +221,7 @@ function editLesson(){
                 id: id,
                 lesson: lesson,
                 title: title,
+                shortDescription:shortDescription,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
             },

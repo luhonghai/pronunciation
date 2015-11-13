@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        android:id="@+id/content_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/popup_corner_radius"
+        app:cardBackgroundColor="@color/app_orange">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <ImageButton
+                android:id="@+id/tv_dismiss"
+                android:background="@null"
+                android:src="@drawable/ic_close_dialog"
+                android:scaleType="fitXY"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="end"/>
+            <TextView
+                android:id="@+id/txtPhoneme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="38sp"/>
+            <TextView
+                android:id="@+id/txtDefinition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <org.sufficientlysecure.htmltextview.HtmlTextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/show_case_text_size"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="15dp"/>
+
+            <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                android:id="@+id/btnAudio"
+                android:layout_width="@dimen/button_list_default_size"
+                android:layout_height="@dimen/button_list_default_size"
+                app:cardElevation="0dp"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/app_green"
+                android:stateListAnimator="@anim/lift_up"
+                android:layout_marginEnd="@dimen/detail_score_padding"
+                android:layout_marginRight="@dimen/detail_score_padding">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:src="@drawable/ic_play" />
+            </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

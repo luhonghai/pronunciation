@@ -6,6 +6,8 @@
     <dimen name="button_default_size">60dp</dimen>
     <dimen name="button_default_size_half">30dp</dimen>
 
+    <dimen name="ipa_item_size">55dp</dimen>
+
     <dimen name="button_big_size">70dp</dimen>
     <dimen name="button_big_size_half">35dp</dimen>
 
@@ -39,4 +41,5 @@
 
     <dimen name="show_case_text_size">18sp</dimen>
 
+    <dimen name="popup_corner_radius">9dp</dimen>
 </resources>

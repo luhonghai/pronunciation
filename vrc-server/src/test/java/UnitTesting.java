@@ -26,6 +26,7 @@ import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
 import edu.cmu.sphinx.linguist.dictionary.Word;
+import org.apache.commons.io.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,10 +46,16 @@ public class UnitTesting {
             ser.loadWordToDataBase(new File("D:\\check.json"));*/
             /*WordMappingPhonemesService se = new WordMappingPhonemesService();
             se.updatePhonemeOfWordToDatabase();*/
-            File fWords = new File("D:\\", "brit-a-z.txt");
+           /* File fWords = new File("D:\\", "brit-a-z.txt");
             if (!fWords.exists()) {
                 AWSHelper awsHelper = new AWSHelper();
                 awsHelper.download("sphinx-data/dict/brit-a-z.txt", fWords);
+            }*/
+            File sql = new File("C:\\", "wordcollection.sql");
+            List<String> listSql = FileUtils.readLines(sql,"UTF-8");
+            WordCollectionDAO dao = new WordCollectionDAO();
+            for(String insertSql : listSql){
+                dao.loadWordFromSql(insertSql);
             }
         } catch (Exception e) {
             e.printStackTrace();

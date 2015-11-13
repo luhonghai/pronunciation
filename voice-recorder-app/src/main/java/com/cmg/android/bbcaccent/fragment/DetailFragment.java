@@ -125,8 +125,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         recordingView.setAnimationListener(this);
     }
 
-    private boolean isLesson;
-
     private LessonFragment.ViewState viewState;
 
     @Override
@@ -134,7 +132,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         View root = inflater.inflate(R.layout.detail, null);
         ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
-        isLesson = bundle.containsKey(MainBroadcaster.Filler.LESSON.toString());
 
         mapCMUvsIPA = new WordDBAdapter().getPhonemeCMUvsIPA();
         Gson gson = new Gson();
@@ -190,8 +187,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         });
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
-        rlBottomAction.setVisibility(isLesson ? View.VISIBLE : View.INVISIBLE);
-        if (isLesson) {
+
+
             if (bundle.containsKey(LessonFragment.ViewState.class.getName())) {
                 viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
                 recyclerView.setAdapter(new QuestionAdapter());
@@ -204,7 +201,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 }
                 if (isCompleted) {
-                    if (viewState.objective != null) {
+                    if (viewState.isLesson) {
                         rlActionContainer.setVisibility(View.VISIBLE);
                     }
                     int totalScore = 0;
@@ -223,7 +220,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                     if (totalQuestions == viewState.questions.size()) {
                         final int avgScore = Math.round((float) totalScore / totalQuestions);
-                        if (viewState.objective != null && viewState.lessonTest == null) {
+                        if (viewState.isLesson) {
                             final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
                             TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
                             textView.setText("Your overall score for " + viewState.lessonCollection.getName() + " is ");
@@ -333,8 +330,13 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 }
             }
-        }
+        rlBottomAction.setVisibility(viewState != null ? View.VISIBLE : View.INVISIBLE);
         return root;
+    }
+
+    @OnClick(R.id.main_recording_view)
+    public void onClickScoreView() {
+        closeDetail();
     }
 
     private void initSlider(final View root) {
@@ -490,7 +492,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         Bundle bundle = new Bundle();
-        if (isLesson) {
+        if (viewState != null) {
             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
         }
         bundle.putString(MainBroadcaster.Filler.Key.WORD.toString(), model.getWord());
@@ -501,7 +503,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 GraphFragmentParent.class, getString(R.string.tab_graph), bundle);
         addTabImage(R.drawable.tab_history,
                 HistoryFragment.class, getString(R.string.tab_history), bundle);
-        if (!isLesson) {
+        if (viewState == null) {
             addTabImage(R.drawable.tab_tip,
                     TipFragment.class, getString(R.string.tab_tip), bundle);
         }
@@ -802,7 +804,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             if (viewState == null || viewState.questions.size() == 0) return;
             final Question question = viewState.questions.get(position);
             int bgColor = R.color.app_gray;
-            String prefix = viewState.objective != null ? "Q" : "T";
+            String prefix = viewState.isLesson ? "Q" : "T";
             String text = String.format(Locale.getDefault(), prefix + "%d", position + 1);
             if (question.isEnabled()) {
                 holder.cardView.setTag(position);
@@ -810,7 +812,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     @Override
                     public void onClick(View view) {
                         if (question.isEnabled()) {
-                            MainApplication.setBreakDownAction(new BreakDownAction<Question>(BreakDownAction.Type.SELECT_QUESTION, question));
+                            MainApplication.getContext().setBreakDownAction(new BreakDownAction<Question>(BreakDownAction.Type.SELECT_QUESTION, question));
                             closeDetail();
                         }
                     }
@@ -822,9 +824,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                     int avgScore = Math.round((float) totalScore / question.getScoreHistory().size());
                     text = String.format(Locale.getDefault(), "%d", avgScore);
-                    if (question.getScore() >= 80) {
+                    if (avgScore >= 80) {
                         bgColor = R.color.app_green;
-                    } else if (question.getScore() >= 45) {
+                    } else if (avgScore >= 45) {
                         bgColor = R.color.app_orange;
                     } else {
                         bgColor = R.color.app_red;
@@ -832,8 +834,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 } else {
                     bgColor = R.color.app_purple;
                 }
-            } else {
-
             }
             holder.txtScore.setText(text);
             holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
@@ -854,13 +854,13 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     @OnClick(R.id.cvRefresh)
     public void clickRedoAction() {
-        MainApplication.setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_REDO));
+        MainApplication.getContext().setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_REDO));
         closeDetail();
     }
 
     @OnClick(R.id.cvNext)
     public void clickNextAction() {
-        MainApplication.setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_NEXT));
+        MainApplication.getContext().setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_NEXT));
         closeDetail();
     }
 

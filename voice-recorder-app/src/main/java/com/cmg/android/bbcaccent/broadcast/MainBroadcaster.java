@@ -129,13 +129,13 @@ public class MainBroadcaster {
     public int register(ReceiverListener listener) {
         int id = currentId++;
         listeners.put(id, listener);
-        SimpleAppLog.info("Register new listener id " + id + ". Current size: " + listeners.size());
+        SimpleAppLog.debug("Register new listener id " + id + ". Current size: " + listeners.size());
         return id;
     }
 
     public void unregister(int id) {
         listeners.remove(id);
-        SimpleAppLog.info("Unregister listener id " + id + ". Current size: " + listeners.size());
+        SimpleAppLog.debug("Unregister listener id " + id + ". Current size: " + listeners.size());
     }
 
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {

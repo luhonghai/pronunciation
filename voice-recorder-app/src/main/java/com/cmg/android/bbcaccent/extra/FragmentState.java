@@ -4,6 +4,9 @@ import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.fragment.FreeStyleFragment;
+import com.cmg.android.bbcaccent.fragment.info.ipa.IPAInformationFragment;
+import com.cmg.android.bbcaccent.fragment.info.ipa.IPAPhoneticFragment;
+import com.cmg.android.bbcaccent.fragment.info.ipa.IPARPFragment;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.fragment.info.AboutFragment;
@@ -28,7 +31,10 @@ public enum FragmentState {
     ABOUT(AboutFragment.class, ListMenuAdapter.MenuItem.ABOUT),
     LICENCE(LicenceFragment.class, ListMenuAdapter.MenuItem.LICENCE),
     FEEDBACK(FeedbackFragment.class, ListMenuAdapter.MenuItem.FEEDBACK),
-    FREE_STYLE_DETAIL(DetailFragment.class, "")
+    FREE_STYLE_DETAIL(DetailFragment.class, ""),
+    IPA_INFORMATION(IPAInformationFragment.class, ""),
+    IPA_PHONETIC(IPAPhoneticFragment.class, ""),
+    IPA_RP(IPARPFragment.class, ""),
     ;
     public Class<?> clazz;
 

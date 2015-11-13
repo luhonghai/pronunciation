@@ -9,6 +9,7 @@ import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
 import com.cmg.android.bbcaccent.data.dto.lesson.question.Question;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.data.sqlite.QueryHelper;
@@ -20,8 +21,10 @@ import com.luhonghai.litedb.meta.LiteColumnMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by luhonghai on 23/10/2015.
@@ -113,12 +116,49 @@ public class LessonDBAdapterService {
         return dbAdapter.rawQuery(QueryHelper.search_word.toString(), new String[]{search + "%"});
     }
 
+    public Map<String, IPAMapArpabet> getMapIPAArpabet() throws LiteDatabaseException {
+        List<IPAMapArpabet> list =  findObjects(null, null, IPAMapArpabet.class);
+        if (list != null && list.size() > 0) {
+            Map<String, IPAMapArpabet> map = new HashMap<>();
+            for (IPAMapArpabet item : list) {
+                String arpabet = item.getArpabet().toUpperCase();
+                if (!map.containsKey(arpabet)) {
+                    map.put(arpabet, item);
+                }
+            }
+            return map;
+        }
+        return null;
+    }
+
+    public Cursor cursorAllIPAMapArpabetByType(IPAMapArpabet.IPAType type) throws LiteDatabaseException {
+        BaseDatabaseAdapter<IPAMapArpabet> dbAdapter
+                = new BaseDatabaseAdapter<>(MainApplication.getContext().getLessonDatabaseHelper(), IPAMapArpabet.class);
+        return dbAdapter.query(
+                "[TYPE] = ?", new String[] {type.toString()}
+                , null, null, "[INDEXINGTYPE] ASC");
+    }
+
     public LessonLevel getPrevLevelOfLevel(String countryId, String levelId) throws LiteDatabaseException {
         BaseDatabaseAdapter<LessonLevel> dbAdapter = new BaseDatabaseAdapter<>(MainApplication.getContext().getLessonDatabaseHelper(), LessonLevel.class);
         Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_prev_level_of_level.toString(), new String[] {countryId, countryId, levelId});
         try {
             if (cursor != null && cursor.moveToFirst()) {
-                return dbAdapter.toObject(cursor);
+                return dbAdapter.toObject(cursor, fieldValueParser);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    public LessonCollection getNextLessonOnCurrentObjective(String countryId, String levelId, String objectiveId, String lessonId) throws LiteDatabaseException {
+        BaseDatabaseAdapter<LessonCollection> dbAdapter = new BaseDatabaseAdapter<LessonCollection>(MainApplication.getContext().getLessonDatabaseHelper(), LessonCollection.class);
+        Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_next_lesson_on_current_objective.toString(), new String[] {countryId, levelId, objectiveId, lessonId});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                return dbAdapter.toObject(cursor, fieldValueParser);
             }
         } finally {
             if (cursor != null)
@@ -176,7 +216,7 @@ public class LessonDBAdapterService {
                 SimpleAppLog.debug("Field name " + fieldName + ". Raw value = '" + rawValue +"'");
                 return (rawValue == null || rawValue.trim().length() == 0 || rawValue.trim().equalsIgnoreCase("1"));
             } else if (columnMeta.getFieldType() == LiteFieldType.DATE) {
-                // date
+                // ignore date value
                 return new Date();
             }
             return null;

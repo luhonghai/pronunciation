@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cmg.android.bbcaccent.view.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+<com.cmg.android.bbcaccent.view.SlidingUpPanelLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/panelSlider"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:gravity="bottom"
-    sothree:umanoFadeColor="@android:color/transparent"
-    sothree:umanoPanelHeight="25dp"
-    sothree:umanoOverlay="true"
-    sothree:umanoInitialState="expanded"
-    sothree:umanoShadowHeight="0dp"
-    sothree:umanoDragView="@+id/btnSlider">
+    app:umanoFadeColor="@android:color/transparent"
+    app:umanoPanelHeight="25dp"
+    app:umanoOverlay="true"
+    app:umanoInitialState="expanded"
+    app:umanoShadowHeight="0dp"
+    app:umanoDragView="@+id/btnSlider">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -47,22 +46,21 @@
                                 android:layout_marginStart="@dimen/detail_score_padding"
                                 android:layout_marginLeft="@dimen/detail_score_padding"/>
                         </RelativeLayout>
-                        <android.support.v7.widget.CardView
+                        <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                             android:id="@+id/btnAudio"
                             android:layout_width="@dimen/button_default_size"
                             android:layout_height="@dimen/button_default_size"
-                            sothree:cardElevation="0dp"
+                            app:cardElevation="0dp"
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
-                            sothree:cardCornerRadius="@dimen/button_default_size_half"
-                            sothree:cardBackgroundColor="@color/app_gray"
+                            app:cardBackgroundColor="@color/app_gray"
                             android:stateListAnimator="@anim/lift_up"
                             android:layout_marginEnd="@dimen/detail_score_padding"
                             android:layout_marginRight="@dimen/detail_score_padding">
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent" android:src="@drawable/ic_play" />
-                        </android.support.v7.widget.CardView>
+                        </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                     </LinearLayout>
                 </RelativeLayout>
                 <RelativeLayout
@@ -132,57 +130,55 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <android.support.v7.widget.CardView
+                            <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                                 android:layout_width="@dimen/button_big_size"
                                 android:layout_height="@dimen/button_big_size"
-                                sothree:cardCornerRadius="@dimen/button_big_size_half"
                                 android:id="@+id/cvMenu"
-                                sothree:cardElevation="0dp"
+                                app:cardElevation="0dp"
                                 android:clickable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
-                                sothree:cardBackgroundColor="@color/app_purple"
+                                app:cardBackgroundColor="@color/app_purple"
                                 android:stateListAnimator="@anim/lift_up">
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/ic_menu"/>
-                            </android.support.v7.widget.CardView>
+                            </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                             <RelativeLayout
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content">
-                                <android.support.v7.widget.CardView
+                                <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                                     android:layout_centerInParent="true"
                                     android:layout_width="@dimen/button_big_size"
                                     android:layout_height="@dimen/button_big_size"
-                                    sothree:cardCornerRadius="@dimen/button_big_size_half"
                                     android:id="@+id/cvRefresh"
-                                    sothree:cardElevation="0dp"
+                                    app:cardElevation="0dp"
                                     android:clickable="true"
                                     android:foreground="?android:attr/selectableItemBackground"
-                                    sothree:cardBackgroundColor="@color/app_purple"
+                                    app:cardBackgroundColor="@color/app_purple"
                                     android:stateListAnimator="@anim/lift_up">
                                     <ImageView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:src="@drawable/ic_redo"/>
-                                </android.support.v7.widget.CardView>
+                                </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                             </RelativeLayout>
-                            <android.support.v7.widget.CardView
+                            <com.cmg.android.bbcaccent.view.cardview.CycleCardView
                                 android:layout_width="@dimen/button_big_size"
                                 android:layout_height="@dimen/button_big_size"
-                                sothree:cardCornerRadius="@dimen/button_big_size_half"
+
                                 android:id="@+id/cvNext"
-                                sothree:cardElevation="0dp"
+                                app:cardElevation="0dp"
                                 android:clickable="true"
                                 android:foreground="?android:attr/selectableItemBackground"
-                                sothree:cardBackgroundColor="@color/app_purple"
+                                app:cardBackgroundColor="@color/app_purple"
                                 android:stateListAnimator="@anim/lift_up">
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/ic_next"/>
-                            </android.support.v7.widget.CardView>
+                            </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
                         </LinearLayout>
                     </RelativeLayout>
                     <RelativeLayout

@@ -92,7 +92,7 @@ public class IpaMapArpabetService {
         IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
         IpaMapDTO dto = new IpaMapDTO();
         try {
-            dao.updateMap(map.getId(),map.getArpabet(),map.getDescription(),map.getColor(),
+            dao.updateMap(map.getId(),map.getArpabet(),map.getMp3Url(),map.getDescription(),map.getColor(),
                     map.getTip(),map.getType(),map.getIndexingType(),map.getWords());
             dto.setMessage(SUCCESS);
         }catch (Exception e){

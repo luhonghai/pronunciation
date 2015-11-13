@@ -50,13 +50,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateLesson(String id, String name,String title, String description) throws Exception{
+    public boolean updateLesson(String id, String name,String title,String shortDescription, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET nameUnique=?, description=? , name=? WHERE id='"+id+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET nameUnique=? ,title=?, name=?, description='"+description+"' WHERE id='"+id+"'");
         try {
-            q.execute(name,description,title);
+            q.execute(name,title,shortDescription);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,13 +75,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateDescription(String id,String title, String description) throws Exception{
+    public boolean updateDescription(String id,String title, String shortDescription,String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET description=?, name=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET title=?, name=?, description=?  WHERE id='"+id+"'");
         try {
-            q.execute(description,title,id);
+            q.execute(title,shortDescription,description);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -303,7 +303,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
@@ -319,6 +319,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     }
                     if(array[3]!=null){
                         lessonCollection.setNameUnique(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        lessonCollection.setTitle(array[4].toString());
                     }
                     lessonCollection.setIdChecked(true);
                     listObjective.add(lessonCollection);
@@ -353,7 +356,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique from " + metaRecorderSentence.getTable() + whereClause);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
@@ -369,6 +372,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
                     }
                     if(array[3]!=null){
                         lessonCollection.setNameUnique(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        lessonCollection.setTitle(array[4].toString());
                     }
                     listObjective.add(lessonCollection);
                 }

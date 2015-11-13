@@ -7,6 +7,7 @@ import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.sqlite.LessonDatabaseHelper;
 import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
 import com.cmg.android.bbcaccent.extra.BreakDownAction;
+import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,9 +29,11 @@ public class MainApplication  extends Application {
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    private static BreakDownAction lastBreakDownAction;
+    private BreakDownAction lastBreakDownAction;
 
     public static boolean enablePopbackFragmentAnimation = true;
+
+    private LessonFragment.ViewState lessonViewState;
 
     @Override
     public void onCreate() {
@@ -105,11 +108,19 @@ public class MainApplication  extends Application {
         return gson.fromJson(json, clazz);
     }
 
-    public static void setBreakDownAction(BreakDownAction breakDownAction) {
+    public void setBreakDownAction(BreakDownAction breakDownAction) {
         lastBreakDownAction = breakDownAction;
     }
 
-    public static BreakDownAction getBreakDownAction() {
+    public BreakDownAction getBreakDownAction() {
         return lastBreakDownAction;
+    }
+
+    public LessonFragment.ViewState getLessonViewState() {
+        return lessonViewState;
+    }
+
+    public void setLessonViewState(LessonFragment.ViewState lessonViewState) {
+        this.lessonViewState = lessonViewState;
     }
 }

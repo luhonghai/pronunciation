@@ -7,7 +7,10 @@ import android.os.Environment;
 
 import com.cmg.android.bbcaccent.MainApplication;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.net.URL;
 
 /**
  * Created by luhonghai on 12/22/14.
@@ -25,6 +28,8 @@ public class FileHelper {
     private static final String PRONUNCIATION_SCORE_DIR = "score";
 
     private static final String IPA_CACHE_DIR = "ipa";
+
+    private static final String DOWNLOAD_CACHE_DIR = "downloads";
 
     private static final String TIPS_JSON_FILE = "tips.json" + JSON_EXTENSION;
 
@@ -78,5 +83,17 @@ public class FileHelper {
         if (!folder.exists() || !folder.isDirectory())
             folder.mkdirs();
         return folder.getAbsolutePath();
+    }
+
+    public static String getCachedFilePath(String url) {
+        File file = new File(getFolderPath(DOWNLOAD_CACHE_DIR, MainApplication.getContext()), MD5Util.md5Hex(url));
+        if (!file.exists()) {
+            try {
+                FileUtils.copyURLToFile(new URL(url), file, 30000, 30000);
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not download url " + url + " to file " + file.getAbsolutePath(),e);
+            }
+        }
+        return file.getAbsolutePath();
     }
 }
