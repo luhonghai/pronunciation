@@ -36,6 +36,10 @@ public class LessonCollection implements Mirrorable {
     private boolean idChecked = false;
 
 
+    @Persistent
+    private String title;
+
+
     public String getNameUnique() {
         return nameUnique;
     }
