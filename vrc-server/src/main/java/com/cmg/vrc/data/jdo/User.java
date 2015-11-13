@@ -69,7 +69,7 @@ public class User implements Mirrorable {
     private String resetPasswordCode;
 
     @Persistent
-    private DateTime createdDate;
+    private Date createdDate;
 
     @Override
     public String getId() {
@@ -217,11 +217,12 @@ public class User implements Mirrorable {
     public void setActivationLocked(boolean activationLocked) {
         this.activationLocked = activationLocked;
     }
-    public DateTime getCreatedDate() {
+
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(DateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 }

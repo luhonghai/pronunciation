@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by CMGT400 on 11/13/2015.
@@ -31,11 +33,11 @@ public class CheckNumberDate extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        User user1=new User();
+        User user1;
         UserDAO userDAO=new UserDAO();
         NumberDateDAO numberDateDAO=new NumberDateDAO();
         try {
-            DateTime date=new DateTime(System.currentTimeMillis());
+            Date date=new Date(System.currentTimeMillis());
             String profile = request.getParameter(PARA_PROFILE);
             final ResponseDataExt responseData = new ResponseDataExt();
             int number=numberDateDAO.numberDate().getNumberDate();
@@ -44,8 +46,12 @@ public class CheckNumberDate extends HttpServlet {
                 final UserProfile user = gson.fromJson(profile, UserProfile.class);
                 if(user!=null){
                     user1=userDAO.getUserByEmail(user.getUsername());
-                    int x= Days.daysBetween(date, user1.getCreatedDate()).getDays();
-                    if(x>number){
+                    Calendar cal1 = Calendar.getInstance();
+                    cal1.setTime(date);
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.setTime(user1.getCreatedDate());
+                    cal2.add(Calendar.DATE, number);
+                    if(cal2.before(cal1)){
                         responseData.setMessage("out of date");
                         responseData.setStatus(false);
                     }else {
