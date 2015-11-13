@@ -7,8 +7,8 @@ function loadAudio(){
         var audioUrl = $(this).attr('audioUrl');
         new CirclePlayer("#" + id,
             {
-                mp3: audioUrl + "&type=mp3",
-                wav: audioUrl + "&type=wav"
+                mp3: audioUrl,
+                wav: audioUrl
             }, {
                 cssSelectorAncestor: '#' + id + 's'
             });

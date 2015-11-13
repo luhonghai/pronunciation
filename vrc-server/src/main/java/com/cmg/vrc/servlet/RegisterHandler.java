@@ -8,6 +8,7 @@ import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -62,6 +64,8 @@ public class RegisterHandler extends BaseServlet {
                         cUser.setEnglishProficiency(user.getEnglishProficiency());
                         cUser.setDob(user.getDob());
                         cUser.setGender(user.isGender());
+                        cUser.setCreatedDate(new DateTime(System.currentTimeMillis()));
+                        cUser.setActivationLocked(false);
                         //cUser.setRawJsonData(profile);
                         cUser.setLoginType(user.getLoginType());
                         cUser.setName(user.getName());

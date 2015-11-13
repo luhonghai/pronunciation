@@ -12,6 +12,7 @@
         <class>com.cmg.vrc.data.jdo.Security</class>
         <class>com.cmg.vrc.data.jdo.Usage</class>
         <class>com.cmg.vrc.data.jdo.AppDetail</class>
+		<class>com.cmg.vrc.data.jdo.NumberDate</class>
 		<class>com.cmg.vrc.data.jdo.Feedback</class>
 		<class>com.cmg.vrc.data.jdo.LicenseCode</class>
 		<class>com.cmg.vrc.data.jdo.Admin</class>

@@ -79,7 +79,6 @@
         <url-pattern>/LogoutHandler</url-pattern>
     </servlet-mapping>
 
-
     <servlet>
         <servlet-name>UserProfileHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.UserProfileHandler</servlet-class>
@@ -157,6 +156,16 @@
     <servlet-mapping>
         <servlet-name>Users</servlet-name>
         <url-pattern>/Users</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>CheckNumberDate</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.CheckNumberDate</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckNumberDate</servlet-name>
+        <url-pattern>/CheckNumberDate</url-pattern>
     </servlet-mapping>
 
 

@@ -6,18 +6,23 @@ function appDetail(){
         data:{
             list:"list"
         },
-        success:function(result){
-
-                $("#noAccessMessage").val(result[0].noAccessMessage);
-                $("#id").val(result[0].id);
-                if(result[0].registration==true){
-                    $("#checkbox").attr('checked',"checked");
+        success:function(result) {
+            if (result.valueOf() != null) {
+                $("#noAccessMessage").val(result.noAccessMessage);
+                $("#id").val(result.idAppDetail);
+                $("#idnumber").val(result.idNumberDate);
+                $("#numberDate").val(result.numberDate);
+                if (result.registration == true) {
+                    $("#checkbox").attr('checked', "checked");
                 }
-                if(result[0].registration==false){
+                if (result.registration == false) {
                     $("#checkbox").removeAttr('checked');
 
                 }
+            }else{
+                swal("Error!", "Could not edit information", "error");
             }
+        }
 
     });
 
@@ -26,6 +31,8 @@ function save(){
     $(document).on("click","#save",function(){
         var message=$("#noAccessMessage").val();
         var id=$("#id").val();
+        var idnumber=$("#idnumber").val();
+        var numberDate=$("#numberDate").val();
         var regis;
         if($("#checkbox").is(':checked')){
             regis=true;
@@ -40,8 +47,11 @@ function save(){
             data: {
                 save: "save",
                 id: id,
+                idnumber:idnumber,
                 message: message,
-                regis: regis
+                regis: regis,
+                numberDate:numberDate
+
             },
             success:function(data){
                 if(data=="success"){

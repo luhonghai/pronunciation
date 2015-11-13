@@ -55,6 +55,7 @@
                 <thead>
                 <tr>
                   <th>Lessons</th>
+                  <th>Title</th>
                   <th>Short Description</th>
                   <th>Long Description</th>
                   <th>Created date</th>
@@ -100,11 +101,16 @@
                     <input  type="text" id="addLesson" name="addLesson" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
-
+                <div class="row">
+                  <label class="col-xs-4  col-sm-4 control-label ">Title:</label>
+                  <div class="col-xs-8  col-sm-8">
+                    <input  type="text" id="addTitle" name="addTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
                 <div class="row">
                   <label class="col-xs-4  col-sm-4 control-label ">Short description:</label>
                   <div class="col-xs-8  col-sm-8">
-                    <input  type="text" id="addTitle" name="addTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                    <input  type="text" id="shortDescription" name="shortDescription" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div class="row">
@@ -150,9 +156,15 @@
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-4 control-label ">Short Description:</label>
+                  <label class="col-xs-4  col-sm-4 control-label ">Title:</label>
                   <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="editTitle" name="editTitle" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-4 control-label ">Short Description:</label>
+                  <div class="col-xs-8  col-sm-8">
+                    <input  type="text" id="editShortDescription" name="editShortDescription" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>

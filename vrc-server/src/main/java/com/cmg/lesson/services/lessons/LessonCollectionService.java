@@ -41,14 +41,14 @@ public class LessonCollectionService {
      * @param description
      * @return
      */
-    public LessonCollectionDTO updateLesson(String id, String name,String title, String description, boolean isUpdateLessonName){
+    public LessonCollectionDTO updateLesson(String id, String name,String title, String shortDescription,String description, boolean isUpdateLessonName){
         LessonCollectionDTO dto = new LessonCollectionDTO();
         LessonCollectionDAO dao = new LessonCollectionDAO();
         String message;
         try{
             if(isUpdateLessonName) {
                 if (!isExistLessonName(name)) {
-                    boolean isUpdate = dao.updateLesson(id, name,title, description);
+                    boolean isUpdate = dao.updateLesson(id, name,title,shortDescription, description);
                     if (isUpdate) {
                         message = SUCCESS;
                     } else {
@@ -58,7 +58,7 @@ public class LessonCollectionService {
                     message = ERROR + ":" + "Lesson name is existed";
                 }
             }else {
-                boolean isUpdate = dao.updateDescription(id,title, description);
+                boolean isUpdate = dao.updateDescription(id,title,shortDescription,description);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
@@ -78,7 +78,7 @@ public class LessonCollectionService {
      * @param name
      * @return true if question was added to table.
      */
-    public LessonCollectionDTO addLesson(String nameUnique,String name, String description){
+    public LessonCollectionDTO addLesson( String name,String title,String nameUnique,String description){
         LessonCollectionDAO dao = new LessonCollectionDAO();
         LessonCollectionDTO dto = new LessonCollectionDTO();
         String message;
@@ -88,6 +88,7 @@ public class LessonCollectionService {
                 l.setNameUnique(nameUnique);
                 l.setName(name);
                 l.setDescription(description);
+                l.setTitle(title);
                 l.setVersion(getMaxVersion());
                 l.setDateCreated(new Date(System.currentTimeMillis()));
                 l.setIsDeleted(false);
