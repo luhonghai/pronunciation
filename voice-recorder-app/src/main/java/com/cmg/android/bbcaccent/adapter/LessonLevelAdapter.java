@@ -14,6 +14,7 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.util.Locale;
@@ -87,7 +88,7 @@ public class LessonLevelAdapter extends CursorRecyclerViewAdapter<LessonLevelAda
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cvItemContainer;
-        CardView cvScoreContainer;
+        CircleCardView cvScoreContainer;
         TextView txtTitle;
         TextView txtScore;
         public ViewHolder(View itemView) {

@@ -14,6 +14,7 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.util.Locale;
@@ -49,7 +50,7 @@ public class LessonCollectionAdapter extends CursorRecyclerViewAdapter<LessonCol
         try {
             LessonCollection lessonCollection = onSelectLessonCollection.bindLessonCollectionData(
                     LessonDBAdapterService.getInstance().toObject(cursor, LessonCollection.class));
-            holder.txtTitle.setText(lessonCollection.getName());
+            holder.txtTitle.setText(lessonCollection.getTitle());
             int bgColor = R.color.app_light_aqua;
             int textColor = R.color.app_aqua;
             int scoreBgColor = R.color.app_gray;
@@ -81,7 +82,7 @@ public class LessonCollectionAdapter extends CursorRecyclerViewAdapter<LessonCol
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cvItemContainer;
-        CardView cvScoreContainer;
+        CircleCardView cvScoreContainer;
         TextView txtTitle;
         TextView txtScore;
         public ViewHolder(View itemView) {

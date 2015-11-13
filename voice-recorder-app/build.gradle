@@ -116,7 +116,7 @@ dependencies {
         transitive = true;
     }
     compile "cz.msebera.android:httpclient:4.4.1.1"
-    compile 'com.luhonghai:litedb:1.1.8'
+    compile 'com.luhonghai:litedb:1.1.9'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.cocosw:bottomsheet:1.2.0@aar'
     compile 'com.anjlab.android.iab.v3:library:1.0.28@aar'

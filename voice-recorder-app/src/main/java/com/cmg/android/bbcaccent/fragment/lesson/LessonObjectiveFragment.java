@@ -29,6 +29,7 @@ import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.RecordingView;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.util.Locale;
@@ -49,7 +50,7 @@ public class LessonObjectiveFragment extends BaseFragment {
     CardView cvItemContainer;
 
     @Bind(R.id.cvScoreContainer)
-    CardView cvScoreContainer;
+    CircleCardView cvScoreContainer;
 
     @Bind(R.id.txtTitle)
     TextView txtTitle;

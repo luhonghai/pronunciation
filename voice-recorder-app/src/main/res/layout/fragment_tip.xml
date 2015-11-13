@@ -65,19 +65,21 @@
             android:layout_marginRight="@dimen/button_tip_margin"
             android:layout_marginEnd="@dimen/button_tip_margin"/>
     </LinearLayout>
-    <android.support.v7.widget.CardView
+    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
         android:id="@+id/btnRecordTip"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
         app:cardElevation="0dp"
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/button_list_default_size_half"
         app:cardBackgroundColor="@color/app_green"
         android:stateListAnimator="@anim/lift_up"
         android:layout_gravity="center_horizontal|center_vertical">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:src="@drawable/ic_up" />
-    </android.support.v7.widget.CardView>
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_up"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
 </LinearLayout>

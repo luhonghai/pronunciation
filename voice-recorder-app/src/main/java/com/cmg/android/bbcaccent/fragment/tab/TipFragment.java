@@ -14,6 +14,7 @@ import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.TipsContainer;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.google.gson.Gson;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -48,7 +49,7 @@ public class TipFragment extends FragmentTab {
     ImageButton btnNext;
 
     @Bind(R.id.btnRecordTip)
-    CardView btnRecord;
+    CircleCardView btnRecord;
 
     @Bind(R.id.txtWordTip)
     TextView txtWord;

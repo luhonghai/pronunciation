@@ -53,6 +53,7 @@ import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.cocosw.bottomsheet.BottomSheetHelper;
@@ -87,7 +88,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     RecordingView recordingView;
 
     @Bind(R.id.btnAudio)
-    CardView btnAudio;
+    CircleCardView btnAudio;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;
@@ -223,7 +224,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         if (viewState.isLesson) {
                             final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
                             TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
-                            textView.setText("Your overall score for " + viewState.lessonCollection.getName() + " is ");
+                            textView.setText(String.format(Locale.getDefault(),"Your overall score for %s is", viewState.lessonCollection.getTitle()));
                             final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
                             recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
                                 @Override
@@ -239,7 +240,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                             recordingView.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    recordingView.startPingAnimation(getActivity(), 1000, avgScore, true, false);
+                                    recordingView.startPingAnimation(getActivity(), 2000, avgScore, true, false);
                                 }
                             }, 100);
                             new Handler().postDelayed(new Runnable() {
@@ -267,7 +268,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                             recordingView.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    recordingView.startPingAnimation(getActivity(), 1000, avgScore, true, false);
+                                    recordingView.startPingAnimation(getActivity(), 1000, avgScore, true, true);
                                 }
                             }, 100);
 
@@ -309,7 +310,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                 recordingViewPassed.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        recordingViewPassed.startPingAnimation(getActivity(), 1000, Math.round(viewState.lessonTest.getPercentPass()), true, false);
+                                        recordingViewPassed.startPingAnimation(getActivity(), 2000, Math.round(viewState.lessonTest.getPercentPass()), true, true);
                                     }
                                 }, 100);
                             }
@@ -583,8 +584,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         } else {
             color = R.color.app_red;
         }
-        ((ImageView)((CardView) dialog.findViewById(R.id.btnGraph)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
-        ((ImageView)((CardView) dialog.findViewById(R.id.btnAudioPhoneme)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
+        ((ImageView)((CircleCardView) dialog.findViewById(R.id.btnGraph)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
+        ((ImageView)((CircleCardView) dialog.findViewById(R.id.btnAudioPhoneme)).getChildAt(0)).setColorFilter(ColorHelper.getColor(color));
         ((CardView) dialog.findViewById(R.id.content)).setCardBackgroundColor(ColorHelper.getColor(color));
         dialog.findViewById(R.id.btnGraph).setTag(score.getName());
         dialog.findViewById(R.id.btnGraph).setOnClickListener(new View.OnClickListener() {

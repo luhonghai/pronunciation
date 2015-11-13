@@ -43,7 +43,7 @@
             android:layout_height="match_parent">
         </RelativeLayout>
     </RelativeLayout>
-    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
         android:id="@+id/btnPlayItem"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
@@ -56,9 +56,12 @@
         android:layout_marginStart="@dimen/main_action_button_margin">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:src="@drawable/ic_play" />
-    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
-    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_play"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
+    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
         android:id="@+id/btnRecordItem"
         android:layout_width="@dimen/button_list_default_size"
         android:layout_height="@dimen/button_list_default_size"
@@ -72,6 +75,9 @@
         android:layout_marginStart="@dimen/main_action_button_margin">
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:src="@drawable/ic_up" />
-    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_up"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal|center_vertical"/>
+    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
 </LinearLayout>

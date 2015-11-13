@@ -63,6 +63,7 @@ import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
@@ -117,10 +118,10 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     RecordingView recordingView;
 
     @Bind(R.id.btnAnalyzing)
-    CardView btnAnalyzing;
+    CircleCardView btnAnalyzing;
 
     @Bind(R.id.btnAudio)
-    CardView btnAudio;
+    CircleCardView btnAudio;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;

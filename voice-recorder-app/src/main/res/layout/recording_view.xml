@@ -15,7 +15,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
-                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                         android:id="@+id/btnAudio"
                         android:layout_width="@dimen/button_default_size"
                         android:layout_height="@dimen/button_default_size"
@@ -28,8 +28,12 @@
                         android:layout_marginLeft="@dimen/detail_score_padding">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" android:src="@drawable/ic_play" />
-                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_play"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            />
+                    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                     <RelativeLayout
                         android:layout_height="match_parent"
                         android:layout_width="0dp"
@@ -68,7 +72,7 @@
                             android:visibility="gone"
                             />
                     </RelativeLayout>
-                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                         android:id="@+id/btnAnalyzing"
                         android:layout_width="@dimen/button_default_size"
                         android:layout_height="@dimen/button_default_size"
@@ -82,8 +86,12 @@
                         android:layout_marginRight="@dimen/detail_score_padding">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" android:src="@drawable/ic_record" />
-                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_record"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            />
+                    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout

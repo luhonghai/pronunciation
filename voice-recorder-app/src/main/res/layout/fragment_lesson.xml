@@ -50,7 +50,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                        <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                        <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_width="@dimen/button_default_size"
@@ -64,8 +64,10 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_lesson_tip"/>
-                        </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                                android:src="@drawable/ic_lesson_tip"
+                                android:scaleType="fitXY"
+                                android:layout_gravity="center_horizontal|center_vertical"/>
+                        </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                     </RelativeLayout>
                     <RelativeLayout
                         android:layout_marginTop="20dp"

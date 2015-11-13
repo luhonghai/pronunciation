@@ -81,6 +81,7 @@ import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -139,10 +140,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     RecordingView recordingView;
 
     @Bind(R.id.btnAnalyzing)
-    CardView btnAnalyzing;
+    CircleCardView btnAnalyzing;
 
     @Bind(R.id.btnAudio)
-    CardView btnAudio;
+    CircleCardView btnAudio;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;
@@ -169,7 +170,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     RecyclerView recyclerView;
 
     @Bind(R.id.cvTip)
-    CardView cvTip;
+    CircleCardView cvTip;
 
     private AndroidAudioInputStream audioStream;
     private AudioDispatcher dispatcher;
@@ -566,11 +567,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void completeGetWord(DictionaryItem item, ButtonState state) {
-        if (item != null) {
-            viewState.dictionaryItem = item;
-        } else {
-            viewState.dictionaryItem = null;
-        }
+        viewState.dictionaryItem = item;
         analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
         SimpleAppLog.debug("Complete get word. Wait for animation min");
         lastState = state;
@@ -596,6 +593,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                SimpleAppLog.logJson("Dictionary item", dItem);
                                 completeGetWord(dItem, ButtonState.DEFAULT);
                             }
                         });
@@ -1404,6 +1402,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     if (viewState.dictionaryItem != null) {
                         txtWord.setText(viewState.dictionaryItem.getWord());
                         txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
+                        txtPhonemes.setVisibility(View.VISIBLE);
                         txtWord.setEnabled(true);
                         txtPhonemes.setEnabled(true);
                         rlVoiceExample.setEnabled(true);

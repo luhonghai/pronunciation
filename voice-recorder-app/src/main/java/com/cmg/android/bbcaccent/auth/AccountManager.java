@@ -3,6 +3,7 @@ package com.cmg.android.bbcaccent.auth;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
@@ -16,6 +17,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -166,21 +168,34 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
-                    ResponseData<LoginToken> responseData = gson.fromJson(message, ResponseData.class);
-                    if (responseData.isStatus()) {
-                        authListener.onSuccess();
-                    } else {
-                        if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                    try {
+                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, ResponseData.class);
+                        if (responseData.isStatus()) {
+                            if (responseData.getData() != null)
+                                profile.setToken(responseData.getData().getToken());
+                            authListener.onSuccess();
                         } else {
-                            if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
-                                message = context.getString(R.string.invalid_email_address_or_password);
+                            if (responseData.getMessage().equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                responseData.setMessage(context.getString(R.string.invalid_email_address_or_password));
                             }
-                            authListener.onError(message, null);
+                            authListener.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        if (message.equalsIgnoreCase("success")) {
+                            authListener.onSuccess();
+                        } else {
+                            if (message.toLowerCase().contains("<html>")) {
+                                authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                            } else {
+                                if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                    message = context.getString(R.string.invalid_email_address_or_password);
+                                }
+                                authListener.onError(message, null);
+                            }
                         }
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    SimpleAppLog.error("could not connect to server", e);
                     authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
@@ -188,7 +203,7 @@ public class AccountManager {
         }.execute();
     }
 
-    public void logoutToken(final UserProfile profile,final String token, final AuthListener authListener) {
+    public void logoutToken(final UserProfile profile, final String token, final AuthListener authListener) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -201,21 +216,33 @@ public class AccountManager {
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.logout_url));
-                    ResponseData<LoginToken> responseData = gson.fromJson(message, ResponseData.class);
-                    if (responseData.isStatus()) {
-                        authListener.onSuccess();
-                    } else {
-                        if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                    try {
+                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, ResponseData.class);
+                        if (responseData.isStatus()) {
+                            authListener.onSuccess();
                         } else {
-                            if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
-                                message = context.getString(R.string.invalid_email_address_or_password);
+                            if (responseData.getMessage().equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                responseData.setMessage(context.getString(R.string.invalid_email_address_or_password));
                             }
-                            authListener.onError(message, null);
+                            authListener.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        if (message.equalsIgnoreCase("success")) {
+                            authListener.onSuccess();
+                        } else {
+                            if (message.toLowerCase().contains("<html>")) {
+                                authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                            } else {
+                                if (message.equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                    message = context.getString(R.string.invalid_email_address_or_password);
+                                }
+                                authListener.onError(message, null);
+                            }
                         }
                     }
+
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    SimpleAppLog.error("could not connect to server",e);
                     authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
@@ -389,10 +416,9 @@ public class AccountManager {
 
     public void logout() {
         LoginManager.getInstance().logOut();
-
         UserProfile profile = Preferences.getCurrentProfile(context);
         if (profile != null) {
-            logoutToken(profile, "", new AuthListener() {
+            logoutToken(profile, profile.getToken(), new AuthListener() {
                 @Override
                 public void onError(String message, Throwable e) {
 

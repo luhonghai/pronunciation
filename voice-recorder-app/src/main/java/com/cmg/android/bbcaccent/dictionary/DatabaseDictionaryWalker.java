@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.dictionary;
 
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
+import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 import org.apache.commons.io.FileUtils;
@@ -30,20 +31,15 @@ public class DatabaseDictionaryWalker extends DictionaryWalker {
         try {
             WordCollection wordCollection = LessonDBAdapterService.getInstance().findObject("word = ?", new String[]{word}, WordCollection.class);
             if (wordCollection != null) {
-                SimpleAppLog.logJson(wordCollection);
+                //SimpleAppLog.logJson(wordCollection);
                 dictionaryItem.setWordId(wordCollection.getId());
                 dictionaryItem.setPronunciation(wordCollection.getPronunciation());
                 dictionaryItem.setDefinition(wordCollection.getDefinition());
                 if (isFetchAudio() && wordCollection.getMp3Path() != null && wordCollection.getMp3Path().length() > 0) {
                     dictionaryItem.setAudioUrl(wordCollection.getMp3Path());
-                    if (!getTargetDir().exists() || !getTargetDir().isDirectory()) {
-                        getTargetDir().mkdirs();
-                    }
-                    File saveFile = new File(getTargetDir(), word + ".mp3");
-                    if (saveFile.exists()) {
-                    } else {
+                    File saveFile = new File(FileHelper.getCachedFilePath(wordCollection.getMp3Path()));
+                    if (!saveFile.exists()) {
                         FileUtils.copyURLToFile(new URL(dictionaryItem.getAudioUrl()), saveFile);
-
                     }
                     dictionaryItem.setAudioFile(saveFile.getAbsolutePath());
                 }

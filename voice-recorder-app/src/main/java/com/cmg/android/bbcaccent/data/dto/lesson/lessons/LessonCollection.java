@@ -10,6 +10,9 @@ import java.util.Date;
 public class LessonCollection extends BaseLessonEntity {
 
     @LiteColumn
+    private String title;
+
+    @LiteColumn
     private String name;
 
     @LiteColumn
@@ -50,5 +53,14 @@ public class LessonCollection extends BaseLessonEntity {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getTitle() {
+        if (title == null) return "";
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
