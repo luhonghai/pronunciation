@@ -38,7 +38,7 @@ public class ScoreService {
             IpaMapArpabetDAO ipaDao = new IpaMapArpabetDAO();
             try {
                 List<WeightForPhoneme> weight = weightDao.listBy(idQuestion,idWord);
-                int totalWeight = 0;
+                float totalWeight = 0;
                 float totalscore = 0.0f;
                 logger.info("total score base on sphinx : "  + user.getResult().getScore());
                 List<SphinxResult.PhonemeScore> scores = user.getResult().getPhonemeScores();
@@ -48,7 +48,7 @@ public class ScoreService {
                     logger.info("phoneme : " + phoneme + " with score base on sphinx : " + scorePhoneme);
                     for(WeightForPhoneme w : weight){
                         if(w.getPhoneme().equalsIgnoreCase(phoneme.toLowerCase())){
-                            int tempWeight = w.getWeight();
+                            float tempWeight = w.getWeight();
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
                             ph.setTotalScore(scorePhoneme*tempWeight);

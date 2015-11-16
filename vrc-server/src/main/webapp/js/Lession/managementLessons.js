@@ -44,11 +44,11 @@ function listLessons(){
             "data": "description",
             "sDefaultContent": ""
              }, {
-            "sWidth": "10%",
+            "sWidth": "15%",
             "data": "dateCreated",
             "sDefaultContent": ""
             }, {
-            "sWidth": "30%",
+            "sWidth": "25%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
@@ -86,6 +86,7 @@ function openPopupAdd(){
         $("#addLesson").val("");
         $("#addTitle").val("");
         $("#addDescription").val("");
+        $("#shortDescription").val("");
     });
 }
 

@@ -6,13 +6,13 @@ package com.cmg.lesson.data.dto.question;
 public class WeightDTO {
     private String phoneme;
     private int index;
-    private int weight;
+    private float weight;
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 

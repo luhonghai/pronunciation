@@ -83,6 +83,7 @@ public class QuestionService {
         try{
             String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
             if(oldName.equalsIgnoreCase(questionName)){
+                dao.updateQuestion(id, questionName);
                 message = SUCCESS;
                 dto.setMessage(message);
                 return dto;
