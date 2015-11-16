@@ -2,13 +2,9 @@ package com.cmg.vrc.job;
 
 import com.cmg.vrc.data.dao.impl.NumberDateDAO;
 import com.cmg.vrc.data.dao.impl.UserDAO;
-import com.cmg.vrc.data.jdo.NumberDate;
 import com.cmg.vrc.data.jdo.User;
 import com.cmg.vrc.service.MailService;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 import org.quartz.*;
-import org.quartz.Calendar;
 import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.*;

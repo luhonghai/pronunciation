@@ -512,6 +512,27 @@
         <url-pattern>/dictionary_upload</url-pattern>
     </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>DatabaseDataHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DatabaseDataHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatabaseDataHandler</servlet-name>
+        <url-pattern>/database</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DatabaseUploadHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.DatabaseUploadHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DatabaseUploadHandler</servlet-name>
+        <url-pattern>/database_upload</url-pattern>
+    </servlet-mapping>
+
+
+
     <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
