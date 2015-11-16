@@ -29,7 +29,7 @@ public class WeightForPhoneme implements Mirrorable{
     private int index;
 
     @Persistent
-    private int weight;
+    private float weight;
 
     @Persistent
     private int version;
@@ -81,11 +81,11 @@ public class WeightForPhoneme implements Mirrorable{
         this.index = index;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
