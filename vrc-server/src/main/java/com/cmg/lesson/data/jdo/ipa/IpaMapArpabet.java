@@ -51,6 +51,73 @@ public class IpaMapArpabet implements Mirrorable{
     @Persistent
     private Date dateCreated;
 
+    @Persistent
+    private String imgTongue;
+
+    @Persistent
+    private String textTongue;
+
+    @Persistent
+    private String imgLip;
+
+    @Persistent
+    private String textLip;
+
+    @Persistent
+    private String imgJaw;
+
+    @Persistent
+    private String textJaw;
+
+
+    public String getImgTongue() {
+        return imgTongue;
+    }
+
+    public void setImgTongue(String imgTongue) {
+        this.imgTongue = imgTongue;
+    }
+
+    public String getTextTongue() {
+        return textTongue;
+    }
+
+    public void setTextTongue(String textTongue) {
+        this.textTongue = textTongue;
+    }
+
+    public String getImgLip() {
+        return imgLip;
+    }
+
+    public void setImgLip(String imgLip) {
+        this.imgLip = imgLip;
+    }
+
+    public String getTextLip() {
+        return textLip;
+    }
+
+    public void setTextLip(String textLip) {
+        this.textLip = textLip;
+    }
+
+    public String getImgJaw() {
+        return imgJaw;
+    }
+
+    public void setImgJaw(String imgJaw) {
+        this.imgJaw = imgJaw;
+    }
+
+    public String getTextJaw() {
+        return textJaw;
+    }
+
+    public void setTextJaw(String textJaw) {
+        this.textJaw = textJaw;
+    }
+
     public Date getDateCreated() {
         return dateCreated;
     }
