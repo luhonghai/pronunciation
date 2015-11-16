@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
 import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
+import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
@@ -41,7 +43,7 @@ public class DatabaseUploadHandler extends BaseServlet {
             return;
         }
         AWSHelper awsHelper = new AWSHelper();
-        DictionaryVersionDAO dictionaryVersionDAO = new DictionaryVersionDAO();
+        DatabaseVersionDAO databaseVersionDAO = new DatabaseVersionDAO();
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
@@ -51,7 +53,7 @@ public class DatabaseUploadHandler extends BaseServlet {
             FileItemIterator iter = null;
             iter = upload.getItemIterator(request);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "dictionary_data");
+            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "database_data");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
                 voiceRecordDir.mkdirs();
             }
@@ -73,20 +75,20 @@ public class DatabaseUploadHandler extends BaseServlet {
                 }
             }
             if (dictFile.exists()) {
-                int version = dictionaryVersionDAO.getMaxVersion();
+                int version = databaseVersionDAO.getMaxVersion();
                 version++;
                 String fileName = "database-v" + version + ".dict";
-                DictionaryVersion dictionaryVersion = new DictionaryVersion();
-                dictionaryVersion.setSelected(true);
-                dictionaryVersion.setAdmin(admin);
+                DatabaseVersion databaseVersion = new DatabaseVersion();
+                databaseVersion.setSelected(true);
+                databaseVersion.setAdmin(admin);
                 Date now = new Date(System.currentTimeMillis());
-                dictionaryVersion.setSelectedDate(now);
-                dictionaryVersion.setCreatedDate(now);
-                dictionaryVersion.setFileName(fileName);
-                dictionaryVersion.setVersion(version);
+                databaseVersion.setSelectedDate(now);
+                databaseVersion.setCreatedDate(now);
+                databaseVersion.setFileName(fileName);
+                databaseVersion.setVersion(version);
                 awsHelper.upload(Constant.FOLDER_DATABASE + "/" + fileName, dictFile);
-                dictionaryVersionDAO.removeSelected();
-                dictionaryVersionDAO.createObj(dictionaryVersion);
+                databaseVersionDAO.removeSelected();
+                databaseVersionDAO.createObj(databaseVersion);
                 out.print("success");
             } else {
                 out.print("no file found");

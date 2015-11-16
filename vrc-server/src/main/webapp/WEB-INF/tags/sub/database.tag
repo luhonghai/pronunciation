@@ -26,7 +26,7 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Dictionary management</h1>
+      <h1 class="page-header">Database management</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -78,7 +78,7 @@
       <div class="modal-header">
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
-              <h1 align="center">Upload dictionary</h1>
+              <h1 align="center">Upload database</h1>
               <div id="fileuploader">Upload</div>
               <div class="modal-footer">
                 <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>

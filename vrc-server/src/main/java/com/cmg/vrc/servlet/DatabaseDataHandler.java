@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
 import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
+import com.cmg.vrc.data.jdo.DatabaseVersion;
 import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +33,7 @@ public class DatabaseDataHandler extends BaseServlet {
 
         public Double recordsFiltered;
 
-        List<DictionaryVersion> data;
+        List<DatabaseVersion> data;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -45,14 +48,14 @@ public class DatabaseDataHandler extends BaseServlet {
         }
         try {
             if (!StringUtils.isEmpty(action)) {
-                final DictionaryVersionDAO dao = new DictionaryVersionDAO();
+                final DatabaseVersionDAO dao = new DatabaseVersionDAO();
                 final AWSHelper awsHelper = new AWSHelper();
                 if (action.equalsIgnoreCase("load")) {
 
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {
-                        DictionaryVersion model = dao.getById(id);
+                        DatabaseVersion model = dao.getById(id);
                         if (model != null) {
                             out.write(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
                                     + "/"
@@ -66,7 +69,7 @@ public class DatabaseDataHandler extends BaseServlet {
                 } else if (action.equalsIgnoreCase("select")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {
-                        DictionaryVersion model = dao.getById(id);
+                        DatabaseVersion model = dao.getById(id);
                         if (model != null) {
                             dao.removeSelected();
                             model.setSelectedDate(new Date(System.currentTimeMillis()));
@@ -94,6 +97,7 @@ public class DatabaseDataHandler extends BaseServlet {
                     double count;
                     Gson gson = new Gson();
                     ResponseData responseData = new ResponseData();
+                    List<DatabaseVersion> databaseVersions= dao.listAll(start, length, search, col, oder);
                     responseData.draw = draw;
                     try {
                         if (search.length() > 0) {
@@ -103,7 +107,11 @@ public class DatabaseDataHandler extends BaseServlet {
                         }
                         responseData.recordsFiltered = count;
                         responseData.recordsTotal = count;
-                        responseData.data = dao.listAll(start, length, search, col, oder);
+                        if(databaseVersions!=null && databaseVersions.size()>0) {
+                            responseData.data = dao.listAll(start, length, search, col, oder);
+                        }else{
+                            responseData.data=new ArrayList<DatabaseVersion>();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {

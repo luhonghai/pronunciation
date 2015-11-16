@@ -18,6 +18,7 @@
 		<class>com.cmg.vrc.data.jdo.Admin</class>
 		<class>com.cmg.vrc.data.jdo.LanguageModelVersion</class>
 		<class>com.cmg.vrc.data.jdo.DictionaryVersion</class>
+		<class>com.cmg.vrc.data.jdo.DatabaseVersion</class>
 		<class>com.cmg.vrc.data.jdo.RecordedSentenceHistory</class>
 		<class>com.cmg.vrc.data.jdo.RecordedSentence</class>
 		<class>com.cmg.vrc.data.jdo.Transcription</class>
