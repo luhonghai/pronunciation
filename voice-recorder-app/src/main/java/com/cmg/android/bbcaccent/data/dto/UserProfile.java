@@ -120,6 +120,14 @@ public class UserProfile {
         this.selectedCountry = selectedCountry;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -222,6 +230,8 @@ public class UserProfile {
     private String licenseCode;
 
     private Country selectedCountry;
+
+    private String token;
 
     public int getEnglishProficiency() {
         return englishProficiency;

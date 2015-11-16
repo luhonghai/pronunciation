@@ -62,7 +62,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
                     >
-                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                         android:id="@+id/btnAudioPhoneme"
                         android:layout_width="@dimen/button_list_default_size"
                         android:layout_height="@dimen/button_list_default_size"
@@ -73,8 +73,11 @@
                         android:stateListAnimator="@anim/lift_up">
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" android:src="@drawable/ic_play" />
-                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_play"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center_horizontal|center_vertical"/>
+                    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -83,7 +86,7 @@
                     android:layout_weight="1"
                     android:gravity="center_vertical|end"
                     >
-                    <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                    <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                         android:id="@+id/btnGraph"
                         android:layout_width="@dimen/button_list_default_size"
                         android:layout_height="@dimen/button_list_default_size"
@@ -95,8 +98,11 @@
                         <ImageView
                             android:layout_margin="5dp"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" android:src="@drawable/ic_graph" />
-                    </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_graph"
+                            android:scaleType="fitXY"
+                            android:layout_gravity="center_horizontal|center_vertical"/>
+                    </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>

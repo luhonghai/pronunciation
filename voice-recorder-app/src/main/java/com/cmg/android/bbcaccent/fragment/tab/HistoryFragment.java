@@ -24,6 +24,7 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
 import java.text.SimpleDateFormat;
@@ -155,16 +156,16 @@ public class HistoryFragment extends FragmentTab {
                 RelativeLayout rlHistoryItem;
                 AlwaysMarqueeTextView txtWordItem;
                 TextView txtWordScore;
-                CardView btnPlayItem;
-                CardView btnRecordItem;
+                CircleCardView btnPlayItem;
+                CircleCardView btnRecordItem;
 
                 txtWordItem = (AlwaysMarqueeTextView) view.findViewById(R.id.txtWordItem);
                 txtWordItem.setOnClickListener(this);
                 txtWordScore = (TextView) view.findViewById(R.id.txtWordScore);
                 txtWordScore.setOnClickListener(this);
-                btnPlayItem = (CardView) view.findViewById(R.id.btnPlayItem);
+                btnPlayItem = ButterKnife.findById(view, R.id.btnPlayItem);
                 btnPlayItem.setOnClickListener(this);
-                btnRecordItem = (CardView) view.findViewById(R.id.btnRecordItem);
+                btnRecordItem = ButterKnife.findById(view, R.id.btnRecordItem);
                 btnRecordItem.setOnClickListener(this);
                 if (isDetail) {
                     btnPlayItem.setVisibility(View.GONE);

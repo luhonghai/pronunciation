@@ -46,7 +46,7 @@
                                 android:layout_marginStart="@dimen/detail_score_padding"
                                 android:layout_marginLeft="@dimen/detail_score_padding"/>
                         </RelativeLayout>
-                        <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                        <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                             android:id="@+id/btnAudio"
                             android:layout_width="@dimen/button_default_size"
                             android:layout_height="@dimen/button_default_size"
@@ -59,8 +59,10 @@
                             android:layout_marginRight="@dimen/detail_score_padding">
                             <ImageView
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent" android:src="@drawable/ic_play" />
-                        </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                                android:layout_height="match_parent" android:src="@drawable/ic_play"
+                                android:scaleType="fitXY"
+                                android:layout_gravity="center_horizontal|center_vertical"/>
+                        </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                     </LinearLayout>
                 </RelativeLayout>
                 <RelativeLayout
@@ -130,7 +132,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
-                            <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                            <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                                 android:layout_width="@dimen/button_big_size"
                                 android:layout_height="@dimen/button_big_size"
                                 android:id="@+id/cvMenu"
@@ -142,13 +144,15 @@
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/ic_menu"/>
-                            </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                                    android:src="@drawable/ic_menu"
+                                    android:scaleType="fitXY"
+                                    android:layout_gravity="center_horizontal|center_vertical"/>
+                            </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                             <RelativeLayout
                                 android:layout_weight="1"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content">
-                                <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                                <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                                     android:layout_centerInParent="true"
                                     android:layout_width="@dimen/button_big_size"
                                     android:layout_height="@dimen/button_big_size"
@@ -161,10 +165,12 @@
                                     <ImageView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:src="@drawable/ic_redo"/>
-                                </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                                        android:src="@drawable/ic_redo"
+                                        android:scaleType="fitXY"
+                                        android:layout_gravity="center_horizontal|center_vertical"/>
+                                </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                             </RelativeLayout>
-                            <com.cmg.android.bbcaccent.view.cardview.CycleCardView
+                            <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                                 android:layout_width="@dimen/button_big_size"
                                 android:layout_height="@dimen/button_big_size"
 
@@ -177,8 +183,10 @@
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/ic_next"/>
-                            </com.cmg.android.bbcaccent.view.cardview.CycleCardView>
+                                    android:src="@drawable/ic_next"
+                                    android:scaleType="fitXY"
+                                    android:layout_gravity="center_horizontal|center_vertical"/>
+                            </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
                         </LinearLayout>
                     </RelativeLayout>
                     <RelativeLayout

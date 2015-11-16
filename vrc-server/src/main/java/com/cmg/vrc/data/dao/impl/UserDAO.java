@@ -1,15 +1,15 @@
 package com.cmg.vrc.data.dao.impl;
 
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.vrc.data.dao.DataAccess;
+import com.cmg.vrc.data.jdo.LicenseCode;
 import com.cmg.vrc.data.jdo.User;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.jdo.metadata.TypeMetadata;
+import java.util.*;
 
 /**
  * Created by luhonghai on 4/13/15.
@@ -47,6 +47,24 @@ public class UserDAO extends DataAccess<User> {
             return userList.get(0);
         return null;
     }
+
+    public List<User> users(){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaUser = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(User.class.getCanonicalName());
+        TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
+        List<User> users=new ArrayList<User>();
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, username, createdDate FROM " + metaUser + "WHERE USERNAME not IN (select DISTINCT ACCOUNT AS username FROM" + metaLicenseCode + "where ACCOUNT is not null)");
+        try {
+            users=(List<User>)q.execute();
+            return users;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
     public List<User> listAll(int start, int length,String search,int column,String order,String user,String fullname, String gender,String country,String acti,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
