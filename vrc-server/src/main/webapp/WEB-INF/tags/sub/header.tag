@@ -87,7 +87,7 @@
 							<a href="management_country.jsp" ><i class="fa fa-file-word-o"></i> Management Country </a>
 						</li>
 						<li>
-							<a href="Database.jsp" ><i class="fa fa-database"></i> Databse management </a>
+							<a href="Database.jsp" ><i class="fa fa-database"></i> Database management </a>
 						</li>
 					</ul>
 				</li>
