@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -96,6 +97,7 @@ public class DatabaseDataHandler extends BaseServlet {
                     double count;
                     Gson gson = new Gson();
                     ResponseData responseData = new ResponseData();
+                    List<DatabaseVersion> databaseVersions= dao.listAll(start, length, search, col, oder);
                     responseData.draw = draw;
                     try {
                         if (search.length() > 0) {
@@ -105,7 +107,11 @@ public class DatabaseDataHandler extends BaseServlet {
                         }
                         responseData.recordsFiltered = count;
                         responseData.recordsTotal = count;
-                        responseData.data = dao.listAll(start, length, search, col, oder);
+                        if(databaseVersions!=null && databaseVersions.size()>0) {
+                            responseData.data = dao.listAll(start, length, search, col, oder);
+                        }else{
+                            responseData.data=new ArrayList<DatabaseVersion>();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {

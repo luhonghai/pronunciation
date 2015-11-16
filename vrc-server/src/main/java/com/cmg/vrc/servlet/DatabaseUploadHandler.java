@@ -53,7 +53,7 @@ public class DatabaseUploadHandler extends BaseServlet {
             FileItemIterator iter = null;
             iter = upload.getItemIterator(request);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "dictionary_data");
+            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "database_data");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
                 voiceRecordDir.mkdirs();
             }
