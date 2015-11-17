@@ -138,6 +138,9 @@ function openEditForm(){
                     $("#wrap-imgTongue-add").hide();
                     $("#wrap-imgLips-add").hide();
                     $("#wrap-imgJaw-add").hide();
+                    $("#wrap-imgTongue-edit").show();
+                    $("#wrap-imgLips-edit").show();
+                    $("#wrap-imgJaw-edit").show();
                 }
             },
             error: function () {
@@ -152,7 +155,6 @@ function openEditForm(){
             showUpload : false,
             allowedFileExtensions : ['jpg', 'png','gif']
         });
-        //$("#imgTongue-edit").attr("src","");
     });
     $("#btn-imgLips-edit").click(function(){
         $("#wrap-imgLips-add").show();
@@ -160,7 +162,6 @@ function openEditForm(){
             showUpload : false,
             allowedFileExtensions : ['jpg', 'png','gif']
         });
-        //$("#imgLips-edit").attr("src","");
     });
     $("#btn-imgJaw-edit").click(function(){
         $("#wrap-imgJaw-add").show();
@@ -168,7 +169,6 @@ function openEditForm(){
             showUpload : false,
             allowedFileExtensions : ['jpg', 'png','gif']
         });
-        //$("#imgJaw-edit").attr("src","");
     });
 
 }
