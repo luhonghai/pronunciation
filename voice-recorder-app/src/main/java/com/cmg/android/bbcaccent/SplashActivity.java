@@ -370,8 +370,9 @@ public class SplashActivity extends BaseActivity implements
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        if (bp != null) bp.release();
         handlerDogAnimation.removeCallbacks(runnableDogAnimation);
+        super.onDestroy();
     }
 
     @Override
