@@ -110,6 +110,9 @@ function getDataForm(){
 function includeDataForm(data){
     $("#submitForm").attr("action","edit");
     $("#submitForm").attr("id_mapping",data.id);
+    $("#submitForm").attr("imgTongue",data.imgTongue);
+    $("#submitForm").attr("imgLips",data.imgLip);
+    $("#submitForm").attr("imgJaw",data.imgJaw);
     $("#arpabet").val(data.arpabet);
     $("#ipa").val(data.ipa);
     $("#description").val(data.description);
@@ -118,6 +121,12 @@ function includeDataForm(data){
     $("#mp3").val(data.mp3Url);
     $("#index_type").val(data.indexingType);
     $("#words").val(data.words);
+    $("#tongueText").val(data.textTongue);
+    $("#lipsText").val(data.textLip);
+    $("#jawText").val(data.textJaw);
+    $("#imgTongue-edit").attr("src",data.imgTongue);
+    $("#imgLips-edit").attr("src",data.imgLip);
+    $("#imgJaw-edit").attr("src",data.imgJaw);
     $("#ipa").attr("readonly","true");
     initSelect(data.type);
 }

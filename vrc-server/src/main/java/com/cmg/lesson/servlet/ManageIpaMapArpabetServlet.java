@@ -35,32 +35,35 @@ import java.util.UUID;
 @WebServlet(name = "ManageIpaMapArpabetServlet")
 public class ManageIpaMapArpabetServlet extends BaseServlet {
     private static String PARA_ACTION = "action";
+    private String PARA_ID = "id";
     private String PARA_DESCRIPTION = "description";
     private String PARA_TYPE = "type";
     private String PARA_ARPABET = "arpabet";
     private String PARA_IPA = "ipa";
-    private String PARA_COLOR = "color";
+    private String PARA_COLOR = "addColor";
     private String PARA_TIP = "tip";
     private String PARA_WORDS = "words";
-    private String PARA_MP3 = "mp3Url";
-    private String PARA_INDEX_TYPE = "indexingType";
-    private String PARA_TEXT_TONGUE = "textTongue";
-    private String PARA_IMG_TONGUE = "imgTongue";
-    private String PARA_TEXT_LIP = "textLip";
-    private String PARA_IMG_LIP = "imgLip";
-    private String PARA_TEXT_JAW = "textJaw";
-    private String PARA_IMG_JAW = "imgJaw";
+    private String PARA_MP3 = "mp3";
+    private String PARA_INDEX_TYPE = "index_type";
+    private String PARA_TEXT_TONGUE = "tongueText";
+    private String PARA_IMG_TONGUE = "imageTongue";
+    private String PARA_TEXT_LIP = "lipsText";
+    private String PARA_IMG_LIP = "imageLips";
+    private String PARA_TEXT_JAW = "jawText";
+    private String PARA_IMG_JAW = "imageJaw";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
-       // String action= (String)StringUtil.isNull(request.getParameter("action"),"");
+        String loadData= (String)StringUtil.isNull(request.getParameter("loadData"),"");
+        String getById= (String)StringUtil.isNull(request.getParameter("getById"),"");
+        String delete= (String)StringUtil.isNull(request.getParameter("delete"),"");
         Gson gson = new Gson();
         IpaMapArpabetService service = new IpaMapArpabetService();
         String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
         try {
             Map<String, String> storePara = getMap(request,tmpDir);
             String action = (String)StringUtil.isNull(storePara.get(PARA_ACTION),"");
-            if(action.equalsIgnoreCase("list")){
+            if(loadData.equalsIgnoreCase("list")){
                 int start = Integer.parseInt(StringUtil.isNull(request.getParameter("start"), 0).toString());
                 int length = Integer.parseInt(StringUtil.isNull(request.getParameter("length"), 0).toString());
                 int draw = Integer.parseInt(StringUtil.isNull(request.getParameter("draw"), 0).toString());
@@ -76,23 +79,23 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
             }else if(action.equalsIgnoreCase("add")){
                 //String clientData = (String) StringUtil.isNull(request.getParameter("dto"),"");
                 //IpaMapArpabet map = gson.fromJson(clientData,IpaMapArpabet.class);
-                IpaMapArpabet map = convertByMap(storePara);
+                IpaMapArpabet map = convertByMap(storePara,false);
                 IpaMapDTO dto = service.addMapping(map);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("edit")){
                 //String clientData = (String) StringUtil.isNull(request.getParameter("dto"),"");
                 //IpaMapArpabet map = gson.fromJson(clientData,IpaMapArpabet.class);
-                IpaMapArpabet map = convertByMap(storePara);
-                IpaMapDTO dto = service.update(map);
-                String json = gson.toJson(dto);
-                response.getWriter().write(json);
-            }else if(action.equalsIgnoreCase("getById")){
+                 IpaMapArpabet map = convertByMap(storePara,true);
+                 IpaMapDTO dto = service.update(map);
+                 String json = gson.toJson(dto);
+                 response.getWriter().write(json);
+            }else if(getById.equalsIgnoreCase("getById")){
                 String id = (String)StringUtil.isNull(request.getParameter("id"),"");
                 IpaMapArpabet map = service.getById(id);
                 String json = gson.toJson(map);
                 response.getWriter().write(json);
-            }else if(action.equalsIgnoreCase("delete")){
+            }else if(delete.equalsIgnoreCase("delete")){
                 String id = (String)StringUtil.isNull(request.getParameter("id"),"");
                 IpaMapDTO dto = service.delete(id);
                 String json = gson.toJson(dto);
@@ -132,6 +135,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
                     if(getName.endsWith(".png") || getName.endsWith(".jpg")){
                         String filename = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
                         FileUtils.copyInputStreamToFile(stream, new File(targetDir, filename));
+                        logger.info(name + "-" + new File(targetDir, filename).getAbsolutePath());
                         storePara.put(name,new File(targetDir, filename).getAbsolutePath());
                     }
                 }
@@ -172,24 +176,62 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
      * @param map
      * @return
      */
-    private IpaMapArpabet convertByMap(Map<String, String> map){
+    private IpaMapArpabet convertByMap(Map<String, String> map, boolean acction){
         if(map!=null && map.size() > 0){
             IpaMapArpabet obj = new IpaMapArpabet();
-            obj.setIpa(map.get(PARA_IPA));
-            obj.setArpabet(map.get(PARA_ARPABET));
-            obj.setType(map.get(PARA_TYPE));
-            obj.setIndexingType(Integer.parseInt(map.get(PARA_INDEX_TYPE)));
-            obj.setDescription(map.get(PARA_DESCRIPTION));
-            obj.setColor(map.get(PARA_COLOR));
-            obj.setMp3Url(map.get(PARA_MP3));
-            obj.setImgTongue(uploadS3AndGetLink(new File(map.get(PARA_IMG_TONGUE))));
-            obj.setTextTongue(map.get(PARA_TEXT_TONGUE));
-            obj.setImgLip(uploadS3AndGetLink(new File(map.get(PARA_IMG_LIP))));
-            obj.setTextLip(map.get(PARA_TEXT_LIP));
-            obj.setImgJaw(uploadS3AndGetLink(new File(map.get(PARA_IMG_JAW))));
-            obj.setTextJaw(map.get(PARA_TEXT_JAW));
+            obj.setIpa((String) StringUtil.isNull(map.get(PARA_IPA), ""));
+            obj.setArpabet((String) StringUtil.isNull(map.get(PARA_ARPABET), ""));
+            obj.setType((String) StringUtil.isNull(map.get(PARA_TYPE), ""));
+            obj.setIndexingType(Integer.parseInt(StringUtil.isNull(map.get(PARA_INDEX_TYPE), "").toString()));
+            obj.setDescription((String) StringUtil.isNull(map.get(PARA_DESCRIPTION), ""));
+            obj.setColor((String) StringUtil.isNull(map.get(PARA_COLOR), ""));
+            obj.setMp3Url((String) StringUtil.isNull(map.get(PARA_MP3), ""));
+
+            if(map.get(PARA_IMG_TONGUE)==null) {
+                if(acction){
+                    obj.setImgTongue(map.get("imgTongue"));
+                }else {
+                    obj.setImgTongue(null);
+                }
+            }else{
+                obj.setImgTongue(uploadS3AndGetLink(new File(map.get(PARA_IMG_TONGUE))));
+
+            }
+
+            obj.setTextTongue((String) StringUtil.isNull(map.get(PARA_TEXT_TONGUE), ""));
+
+            if(map.get(PARA_IMG_LIP)==null) {
+                if(acction){
+                    obj.setImgLip(map.get("imgLips"));
+                }else {
+                    obj.setImgLip(null);
+                }
+
+            }else{
+                obj.setImgLip(uploadS3AndGetLink(new File(map.get(PARA_IMG_LIP))));
+
+            }
+            obj.setTextLip((String) StringUtil.isNull(map.get(PARA_TEXT_LIP), ""));
+
+            if(map.get(PARA_IMG_JAW)==null) {
+                if(acction){
+                    obj.setImgJaw(map.get("imgJaw"));
+                }else {
+                    obj.setImgJaw(null);
+                }
+            }else {
+                obj.setImgJaw(uploadS3AndGetLink(new File(map.get(PARA_IMG_JAW))));
+            }
+
+            obj.setTextJaw((String) StringUtil.isNull(map.get(PARA_TEXT_JAW), ""));
+            obj.setWords((String) StringUtil.isNull(map.get(PARA_WORDS), ""));
+            obj.setTip((String) StringUtil.isNull(map.get(PARA_TIP), ""));
+            if(acction) {
+                obj.setId(map.get(PARA_ID));
+            }
             return obj;
         }
         return null;
     }
+
 }

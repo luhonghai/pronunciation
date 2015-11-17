@@ -72,16 +72,18 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
      * @return
      * @throws Exception
      */
-    public boolean updateMap(String id, String arphabet,String mp3Url, String description, String color, String tips, String type, int indexing, String words) throws Exception{
+    public boolean updateMap(String id, String arphabet,String mp3Url, String description, String color, String tips, String type, int indexing, String words, String textTongue, String imgTongue, String textLip, String imgLip, String textJaw, String imgJaw) throws Exception{
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(IpaMapArpabet.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() +
-                " SET description=?,tip=?,color='"+color+"' ," +
-                "arpabet='"+arphabet+"', type='"+type+"' , indexingType=" +indexing + ", mp3Url=?"+
-                ",words='"+words+"' WHERE id='"+id+"'");
+                " SET description='"+description+"',tip='"+tips+"',color='"+color+"' ," +
+                "arpabet='"+arphabet+"', type='"+type+"' , indexingType="+indexing+
+                ", textTongue='"+textTongue+"', imgTongue='"+imgTongue+"', textLip='"+textLip+"', " +
+                "imgLip='"+imgLip+"', textJaw='"+textJaw+"', imgJaw='"+imgJaw+"', mp3Url='"+mp3Url+"' ," +
+                "words='"+words+"' WHERE id='"+id+"'");
         try {
-            q.execute(description,tips,mp3Url);
+            q.execute();
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,7 +145,7 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + IpaMapArpabet.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(ipa.toLowerCase().indexOf(ipa.toLowerCase()) != -1)";
+        String a="(ipa.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(ipa == null || ipa.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");

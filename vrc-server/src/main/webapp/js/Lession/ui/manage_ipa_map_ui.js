@@ -17,6 +17,7 @@ function loadAudio(){
 
 }
 function buildTable(){
+
     myTable = $('#dataTables-example').dataTable({
         "retrieve": true,
         "destroy": true,
@@ -31,7 +32,7 @@ function buildTable(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                action: "list",
+                loadData: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

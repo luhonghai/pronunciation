@@ -52,18 +52,21 @@ public class IpaMapArpabet implements Mirrorable{
     private Date dateCreated;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String imgTongue;
 
     @Persistent
     private String textTongue;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String imgLip;
 
     @Persistent
     private String textLip;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String imgJaw;
 
     @Persistent
