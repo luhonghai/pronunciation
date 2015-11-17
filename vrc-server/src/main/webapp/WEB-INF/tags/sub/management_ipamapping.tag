@@ -152,7 +152,7 @@
                                 </div>
 
                                 <div class="row" style="margin-bottom: 5px;">
-                                    <label class="col-xs-4  col-sm-4 control-label " style="text-align: left;">Tongue image:</label>
+                                    <label class="col-xs-4  col-sm-4 control-label ">Tongue image:</label>
                                     <div class="col-xs-8  col-sm-8">
                                         <div id="wrap-imgTongue-edit"><img src="" id="imgTongue-edit"/> <a href="#" id="btn-imgTongue-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-imgTongue-add"><input type="file" id="imageTongue" name="imageTongue" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
