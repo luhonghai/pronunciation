@@ -64,6 +64,7 @@ import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
+import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
@@ -288,6 +289,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
                             bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
+                            MainApplication.getContext().setSelectedWord(model.getWord());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
                                     new SwitchFragmentParameter(true, true, true),
@@ -414,6 +416,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 recordingView.recycleView();
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                 recordingView.startPingAnimation(getActivity(), 0, question.getScore(), true, false);
+                MainBroadcaster.getInstance().getSender().sendUpdateData(question.getDictionaryItem().getWord(), FragmentTab.TYPE_CHANGE_SELECTED_WORD);
             } else {
                 viewState.currentModel = null;
                 viewState.dictionaryItem = null;
@@ -480,7 +483,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         if (mTabHost == null) return;
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, getString(R.string.tab_graph));
+                GraphFragmentParent.class, getString(R.string.tab_graph));
         addTabImage(R.drawable.tab_history,
                 HistoryFragment.class, getString(R.string.tab_history));
     }
@@ -504,7 +507,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         final int halfHeight = (displayMetrics.heightPixels - actionBarHeight) / 2;
         layoutParams.height = halfHeight;
         rlSliderContent.setLayoutParams(layoutParams);
-        txtPhonemes.setVisibility(View.INVISIBLE);
         panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -540,6 +542,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             }
         });
         if (viewState.willCollapseSlider) {
+            txtPhonemes.setVisibility(View.INVISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1022,6 +1025,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
                 MainApplication.getContext().setLessonViewState(viewState);
                 bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
+                MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),
@@ -1300,9 +1304,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         Gson gson = new Gson();
                         MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(viewState.currentModel), FragmentTab.TYPE_RELOAD_DATA);
                         swapButtonState(score);
-                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
-                                new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
-                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
+
+//                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
+//                                new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
+//                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
 
                         if (viewState.selectedQuestionIndex < viewState.questions.size() - 1) {
                             // Move to next question
@@ -1314,7 +1319,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         }
                         questionAdapter.notifyDataSetChanged();
                         isRecording = false;
-                        handlerStartDetail.post(runnableStartDetail);
+                        handlerStartDetail.postDelayed(runnableStartDetail, 1000);
                     }
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1417,9 +1422,13 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         final Question question = viewState.questions.get(viewState.selectedQuestionIndex);
                         question.setDictionaryItem(MainApplication.fromJson(MainApplication.toJson(viewState.dictionaryItem), DictionaryItem.class));
                         question.setWord(viewState.dictionaryItem.getWord());
+                        MainApplication.getContext().setSelectedWord(viewState.dictionaryItem.getWord());
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(viewState.dictionaryItem.getWord(), FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     } else {
                         txtWord.setText(getString(R.string.not_found));
                         txtPhonemes.setText(getString(R.string.please_try_again));
+                        MainApplication.getContext().setSelectedWord(null);
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
                 }
             }

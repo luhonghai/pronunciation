@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.data.jdo.DatabaseVersion;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import java.io.PrintWriter;
 /**
  * Created by CMGT400 on 11/16/2015.
  */
-@WebServlet(name = "CheckVesion")
+@WebServlet(name = "CheckVersion")
 public class CheckVesion extends HttpServlet {
     private static final Logger logger = Logger.getLogger(AuthHandler.class
             .getName());
@@ -21,6 +22,7 @@ public class CheckVesion extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         String message="success";
+        DatabaseVersion db;
 
         out.print(message);
 

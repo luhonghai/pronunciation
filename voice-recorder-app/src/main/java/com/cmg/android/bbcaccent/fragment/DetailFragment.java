@@ -1,7 +1,9 @@
 package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -54,6 +56,7 @@ import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
+import com.cmg.android.bbcaccent.view.dialog.CenterFullPaddingDialog;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.cocosw.bottomsheet.BottomSheetHelper;
@@ -137,14 +140,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         mapCMUvsIPA = new WordDBAdapter().getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
-        initTabHost(root);
-        initDetailView(root);
-        try {
-            showData(model, false);
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not open database",e);
-        }
-
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
             @Override
             public void onDataUpdate(String data, int type) {
@@ -188,149 +183,170 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         });
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
-
-
-            if (bundle.containsKey(LessonFragment.ViewState.class.getName())) {
-                viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
-                recyclerView.setAdapter(new QuestionAdapter());
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                boolean isCompleted = true;
-                for (Question question : viewState.questions) {
-                    if (!question.isRecorded()) {
-                        isCompleted = false;
+        if (bundle.containsKey(LessonFragment.ViewState.class.getName())) {
+            viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
+            recyclerView.setAdapter(new QuestionAdapter());
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            boolean isCompleted = true;
+            for (Question question : viewState.questions) {
+                if (!question.isRecorded()) {
+                    isCompleted = false;
+                    break;
+                }
+            }
+            if (isCompleted) {
+                if (viewState.isLesson) {
+                    rlActionContainer.setVisibility(View.VISIBLE);
+                }
+                int totalScore = 0;
+                int totalQuestions = 0;
+                for (Question q : viewState.questions) {
+                    if (q.isRecorded()) {
+                        totalQuestions++;
+                        int totalQuestionScore = 0;
+                        for (Integer i : q.getScoreHistory()) {
+                            totalQuestionScore += i;
+                        }
+                        totalScore += Math.round((float) totalQuestionScore / q.getScoreHistory().size());
+                    } else {
                         break;
                     }
                 }
-                if (isCompleted) {
+                if (totalQuestions == viewState.questions.size()) {
+                    final int avgScore = Math.round((float) totalScore / totalQuestions);
                     if (viewState.isLesson) {
-                        rlActionContainer.setVisibility(View.VISIBLE);
-                    }
-                    int totalScore = 0;
-                    int totalQuestions = 0;
-                    for (Question q : viewState.questions) {
-                        if (q.isRecorded()) {
-                            totalQuestions++;
-                            int totalQuestionScore = 0;
-                            for (Integer i : q.getScoreHistory()) {
-                                totalQuestionScore += i;
+                        final Dialog dialog = new CenterFullPaddingDialog(getActivity(), R.layout.dialog_overall_score);
+                        TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
+                        textView.setText(String.format(Locale.getDefault(), "Your overall score for %s is", viewState.lessonCollection.getTitle()));
+                        final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
+                        recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
+                            @Override
+                            public void onAnimationMax() {
+                                recordingView.stopPingAnimation();
                             }
-                            totalScore += Math.round((float) totalQuestionScore / q.getScoreHistory().size());
-                        } else {
-                            break;
-                        }
-                    }
-                    if (totalQuestions == viewState.questions.size()) {
-                        final int avgScore = Math.round((float) totalScore / totalQuestions);
-                        if (viewState.isLesson) {
-                            final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
-                            TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
-                            textView.setText(String.format(Locale.getDefault(),"Your overall score for %s is", viewState.lessonCollection.getTitle()));
-                            final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
-                            recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
-                                @Override
-                                public void onAnimationMax() {
-                                    recordingView.stopPingAnimation();
-                                }
 
-                                @Override
-                                public void onAnimationMin() {
+                            @Override
+                            public void onAnimationMin() {
 
-                                }
-                            });
-                            recordingView.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    recordingView.startPingAnimation(getActivity(), 2000, avgScore, true, false);
-                                }
-                            }, 100);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialog.show();
-                                }
-                            }, 1900);
-                        } else {
-                            final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_passed_test);
-                            dialog.setCancelable(false);
-                            dialog.setCanceledOnTouchOutside(false);
-                            final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
-                            recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
-                                @Override
-                                public void onAnimationMax() {
-                                    recordingView.stopPingAnimation();
-                                }
-
-                                @Override
-                                public void onAnimationMin() {
-
-                                }
-                            });
-                            recordingView.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    recordingView.startPingAnimation(getActivity(), 1000, avgScore, true, true);
-                                }
-                            }, 100);
-
-                            if (avgScore >= viewState.lessonTest.getPercentPass()) {
-                                ImageView imageView = (ImageView) dialog.findViewById(R.id.btnShare);
-                                if (imageView != null) {
-                                    imageView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            getShareActions(
-                                                    String.format(
-                                                            Locale.getDefault(), "I scored %d in my pronunciation test for speaking English with a good accent. " +
-                                                                    "How did you do? https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent",
-                                                            avgScore)).show();
-                                        }
-                                    });
-                                    UserProfile userProfile = Preferences.getCurrentProfile();
-                                    if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
-                                        imageView.setImageResource(R.drawable.ic_share_default);
-                                    } else if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_FACEBOOK)) {
-                                        imageView.setImageResource(R.drawable.ic_share_facebook);
-                                    } else if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_GOOGLE_PLUS)) {
-                                        imageView.setImageResource(R.drawable.ic_share_google_plus);
-                                    }
-                                }
-                            } else {
-                                final RecordingView recordingViewPassed = ButterKnife.findById(dialog, R.id.main_recording_view_passed);
-                                recordingViewPassed.setAnimationListener(new RecordingView.OnAnimationListener() {
-                                    @Override
-                                    public void onAnimationMax() {
-                                        recordingViewPassed.stopPingAnimation();
-                                    }
-
-                                    @Override
-                                    public void onAnimationMin() {
-
-                                    }
-                                });
-                                recordingViewPassed.postDelayed(new Runnable() {
+                            }
+                        });
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.show();
+                                recordingView.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        recordingViewPassed.startPingAnimation(getActivity(), 2000, Math.round(viewState.lessonTest.getPercentPass()), true, true);
+                                        recordingView.startPingAnimation(getActivity(), 2000, avgScore, true, false);
                                     }
-                                }, 100);
+                                });
+                            }
+                        }, 1900);
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
+                            }
+                        });
+                    } else {
+                        boolean isPassed = avgScore >= viewState.lessonTest.getPercentPass();
+                        int layoutId = isPassed ? R.layout.dialog_passed_test : R.layout.dialog_failed_test;
+                        final Dialog dialog = new CenterFullPaddingDialog(getActivity(), layoutId);
+                        dialog.setCancelable(false);
+                        dialog.setCanceledOnTouchOutside(false);
+                        final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
+                            }
+                        });
+                        recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
+                            @Override
+                            public void onAnimationMax() {
+                                recordingView.stopPingAnimation();
+                            }
+
+                            @Override
+                            public void onAnimationMin() {
+
+                            }
+                        });
+
+                        if (isPassed) {
+                            CircleCardView btnShare = (CircleCardView) dialog.findViewById(R.id.btnShare);
+                            if (btnShare != null) {
+                                btnShare.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        getShareActions(
+                                                String.format(
+                                                        Locale.getDefault(), "I scored %d in my pronunciation test for speaking English with a good accent. " +
+                                                                "How did you do? https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent",
+                                                        avgScore)).show();
+                                    }
+                                });
+                                AndroidHelper.updateShareButton(btnShare);
                             }
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     dialog.show();
+                                    recordingView.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            recordingView.startPingAnimation(getActivity(), 2000, avgScore, true, true);
+                                        }
+                                    });
                                 }
                             }, 1900);
+                        } else {
+                            final RecordingView recordingViewPassed = ButterKnife.findById(dialog, R.id.main_recording_view_passed);
+                            recordingViewPassed.setAnimationListener(new RecordingView.OnAnimationListener() {
+                                @Override
+                                public void onAnimationMax() {
+                                    recordingViewPassed.stopPingAnimation();
+                                }
+
+                                @Override
+                                public void onAnimationMin() {
+
+                                }
+                            });
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    dialog.dismiss();
-                                    MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
+                                    dialog.show();
+                                    recordingView.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            recordingView.startPingAnimation(getActivity(), 2000, avgScore, true, true);
+                                        }
+                                    });
+                                    recordingViewPassed.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            recordingViewPassed.startPingAnimation(getActivity(), 2000, Math.round(viewState.lessonTest.getPercentPass()), true, true);
+                                        }
+                                    });
                                 }
-                            }, 10000);
+                            }, 1900);
                         }
+
+
                     }
                 }
             }
+        }
+
+        initTabHost(root);
+        initDetailView(root);
+        try {
+            showData(model, false);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not open database",e);
+        }
+
         rlBottomAction.setVisibility(viewState != null ? View.VISIBLE : View.INVISIBLE);
         return root;
     }
@@ -756,9 +772,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             AppLog.logString("On animation max");
             recordingView.stopPingAnimation();
             displayingState = DisplayingState.DEFAULT;
-            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.DETAIL_SELECT_PHONEME,
-                    new ShowcaseHelper.HelpState(getViewByPosition(0, hListView), "<b>Press</b> a phoneme for even more detail"),
-                    new ShowcaseHelper.HelpState(recordingView, "<b>Press</> the score to return to previous screen"));
+//            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.DETAIL_SELECT_PHONEME,
+//                    new ShowcaseHelper.HelpState(getViewByPosition(0, hListView), "<b>Press</b> a phoneme for even more detail"),
+//                    new ShowcaseHelper.HelpState(recordingView, "<b>Press</> the score to return to previous screen"));
         }
     }
 

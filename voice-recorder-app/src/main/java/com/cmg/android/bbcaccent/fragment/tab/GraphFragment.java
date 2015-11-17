@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +14,23 @@ import android.view.ViewGroup;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
-import com.cmg.android.bbcaccent.fragment.Preferences;
-import com.cmg.android.bbcaccent.view.CustomGraphView;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.PhonemeScoreDBAdapter;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.PhonemeScoreDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.freestyle.ScoreDBAdapter;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.CustomGraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 
 public class GraphFragment extends FragmentTab {
@@ -43,7 +43,7 @@ public class GraphFragment extends FragmentTab {
 
     private String word;
 
-    private String phoneme;
+    private IPAMapArpabet phoneme;
 
     @Override
     public void onDestroyView() {
@@ -55,7 +55,7 @@ public class GraphFragment extends FragmentTab {
         this.word = word;
     }
 
-    public void setPhoneme(String phoneme) {
+    public void setPhoneme(IPAMapArpabet phoneme) {
         this.phoneme = phoneme;
     }
 
@@ -120,18 +120,18 @@ public class GraphFragment extends FragmentTab {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScrollable(false);
-        if (bundle != null)
-            word = bundle.getString(MainBroadcaster.Filler.Key.WORD.toString());
-        loadScore();
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadScore();
+    }
+
     private void loadScore() {
-        if (phoneme != null && phoneme.length() > 0) {
-            Map<String, String> map = new WordDBAdapter().getPhonemeCMUvsIPA();
-            if (map.containsKey(phoneme.toUpperCase())) {
-                graph.setTintText(map.get(phoneme.toUpperCase()));
-            }
+        if (phoneme != null) {
+            graph.setTintText(phoneme.getIpa());
             loadPhonemeScore();
         } else {
             graph.setTintText(word);
@@ -152,85 +152,139 @@ public class GraphFragment extends FragmentTab {
 
 
     private void loadPhonemeScore() {
-        Collection<SphinxResult.PhonemeScore> scores = null;
-        try {
-            phonemeScoreDBAdapter.open();
-            if (phoneme == null || phoneme.length() == 0) {
-                scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getAll());
-            } else {
-                scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getByPhoneme(phoneme));
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Collection<SphinxResult.PhonemeScore> scores = null;
+                try {
+                    phonemeScoreDBAdapter.open();
+                    if (phoneme == null) {
+                        scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getAll());
+                    } else {
+                        scores = phonemeScoreDBAdapter.toList(phonemeScoreDBAdapter.getByPhoneme(phoneme.getArpabet().toUpperCase()));
+                    }
+                } catch (Exception e) {
+                    SimpleAppLog.error("Could not open database",e);
+                } finally {
+                    try {
+                        phonemeScoreDBAdapter.close();
+                    } catch (Exception ex) {
+                    }
+                }
+                if (scores != null && scores.size() > 0) {
+                    int size = scores.size();
+                    final DataPoint[] points = new DataPoint[size];
+                    Iterator<SphinxResult.PhonemeScore> scoreIterator = scores.iterator();
+                    int i = 0;
+                    float latestScore = -1;
+                    while (scoreIterator.hasNext()) {
+                        SphinxResult.PhonemeScore score = scoreIterator.next();
+                        if (latestScore == -1)
+                            latestScore = score.getTotalScore();
+                        DataPoint dataPoint = new DataPoint(size - 1 - i, score.getTotalScore());
+                        points[size - 1 - i] = dataPoint;
+                        i++;
+                    }
+                    final float score = latestScore;
+                    if (getActivity() != null)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                drawData(points, score);
+                                graph.setDrawChart(true);
+                                graph.invalidate();
+                            }
+                        });
+
+                } else {
+                    if (getActivity() != null)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                graph.setDrawChart(false);
+                                graph.invalidate();
+                            }
+                        });
+                }
+                return null;
             }
-        } catch (Exception e) {
-            SimpleAppLog.error("Could not open database",e);
-        } finally {
-            try {
-                phonemeScoreDBAdapter.close();
-            } catch (Exception ex) {
-            }
-        }
-        if (scores != null && scores.size() > 0) {
-            int size = scores.size();
-            DataPoint[] points = new DataPoint[size];
-            Iterator<SphinxResult.PhonemeScore> scoreIterator = scores.iterator();
-            int i = 0;
-            float latestScore = -1;
-            while (scoreIterator.hasNext()) {
-                SphinxResult.PhonemeScore score = scoreIterator.next();
-                if (latestScore == -1)
-                    latestScore = score.getTotalScore();
-                DataPoint dataPoint = new DataPoint(size - 1 - i, score.getTotalScore());
-                points[size - 1 - i] = dataPoint;
-                i++;
-            }
-            drawData(points, latestScore);
-        }
+        }.execute();
+
     }
 
     private void loadWordScore() {
-        Collection<PronunciationScore> scores = null;
-        UserProfile profile = Preferences.getCurrentProfile(getActivity());
-        if (profile != null) {
-            try {
-                dbAdapter.open();
-                if (word == null || word.length() == 0) {
-                    scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
-                } else {
-                    scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
-                }
-            } catch (Exception e) {
-                SimpleAppLog.error("Could not open database", e);
-            } finally {
-                try {
-                    dbAdapter.close();
-                } catch (Exception ex) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Collection<PronunciationScore> scores = null;
+                UserProfile profile = Preferences.getCurrentProfile(getActivity());
+                if (profile != null) {
+                    try {
+                        dbAdapter.open();
+                        if (word == null || word.length() == 0) {
+                            scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
+                        } else {
+                            scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
+                        }
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not open database", e);
+                    } finally {
+                        try {
+                            dbAdapter.close();
+                        } catch (Exception ex) {
 
+                        }
+                    }
                 }
+                if (scores != null && scores.size() > 0) {
+                    int size = scores.size();
+                    final DataPoint[] points = new DataPoint[size];
+                    Iterator<PronunciationScore> scoreIterator = scores.iterator();
+                    int i = 0;
+                    float latestScore = -1;
+                    while (scoreIterator.hasNext()) {
+                        PronunciationScore score = scoreIterator.next();
+                        if (latestScore == -1)
+                            latestScore = score.getScore();
+                        DataPoint dataPoint = new DataPoint(size - 1 - i, score.getScore());
+                        points[size - 1 - i] = dataPoint;
+                        i++;
+                    }
+                    final float score = latestScore;
+                    if (getActivity() != null)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                drawData(points, score);
+                                graph.setDrawChart(true);
+                                graph.invalidate();
+                            }
+                        });
+
+                } else {
+                    if (getActivity() != null)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                graph.setDrawChart(false);
+                                graph.invalidate();
+                            }
+                        });
+                }
+                return null;
             }
-        }
-        if (scores != null && scores.size() > 0) {
-            int size = scores.size();
-            DataPoint[] points = new DataPoint[size];
-            Iterator<PronunciationScore> scoreIterator = scores.iterator();
-            int i = 0;
-            float latestScore = -1;
-            while (scoreIterator.hasNext()) {
-                PronunciationScore score = scoreIterator.next();
-                if (latestScore == -1)
-                    latestScore = score.getScore();
-                DataPoint dataPoint = new DataPoint(size - 1 - i, score.getScore());
-                points[size - 1 - i] = dataPoint;
-                i++;
-            }
-            drawData(points, latestScore);
-        }
+        }.execute();
+
     }
 
     private void drawData(DataPoint[] points, float latestScore) {
+        if (getActivity() == null) return;
         LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(points);
         series.setDrawDataPoints(true);
 
 
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.STROKE);
 
 
@@ -262,7 +316,6 @@ public class GraphFragment extends FragmentTab {
         }
 
         paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        series.setCustomPaint(paint);
         int color;
         if (latestScore >= 80.0f) {
             color = ColorHelper.getColor(R.color.app_green);
@@ -272,6 +325,7 @@ public class GraphFragment extends FragmentTab {
             color = ColorHelper.getColor(R.color.app_red);
         }
         paint.setColor(color);
+        series.setCustomPaint(paint);
         series.setColor(color);
         //series.setDrawDataPoints(true);
         //series.setThickness(2);

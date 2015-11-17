@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -22,11 +23,15 @@ import android.util.Base64;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 
 import java.io.File;
@@ -417,6 +422,20 @@ public class AndroidHelper {
             StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(MainApplication.getContext(),
                     R.anim.lift_up);
             cardView.setStateListAnimator(stateListAnimator);
+        }
+    }
+
+    public static void updateShareButton(CircleCardView btnShare) {
+        UserProfile userProfile = Preferences.getCurrentProfile();
+        if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
+            btnShare.setCardBackgroundColor(ColorHelper.getColor(R.color.app_purple));
+            ((ImageView)btnShare.getChildAt(0)).setImageResource(R.drawable.ic_share_white);
+        } else if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_FACEBOOK)) {
+            btnShare.setCardBackgroundColor(Color.parseColor("#3b5998"));
+            ((ImageView)btnShare.getChildAt(0)).setImageResource(R.drawable.ic_facebook_white);
+        } else if (userProfile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_GOOGLE_PLUS)) {
+            btnShare.setCardBackgroundColor(Color.parseColor("#d34836"));
+            ((ImageView)btnShare.getChildAt(0)).setImageResource(R.drawable.ic_google_plus_white);
         }
     }
 }

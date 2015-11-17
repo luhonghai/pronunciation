@@ -35,4 +35,7 @@
 
     <!-- Tip view -->
     <dimen name="button_tip_margin">10dp</dimen>
+
+    <dimen name="activate_title_text_size">25sp</dimen>
+    <dimen name="activate_description_text_size">16sp</dimen>
 </resources>

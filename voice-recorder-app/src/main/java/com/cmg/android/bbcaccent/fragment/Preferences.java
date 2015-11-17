@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -27,6 +28,7 @@ import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
 import com.google.gson.Gson;
 
 import com.cmg.android.bbcaccent.preferences.DatePreference;
@@ -62,6 +64,7 @@ public class Preferences extends PreferenceFragment implements
     public static final String KEY_AUDIO_CHANEL = "audio_chanel";
     public static final String KEY_AUDIO_SAMPLE_RATE = "audio_sample_rate";
     public static final String KEY_AUDIO_AUTO_STOP_RECORDING = "auto_stop_recording";
+    public static final String KEY_LANGUAGE = "language";
 
     public static final String PREF_USERNAMES = "PREF_USERNAMES";
 
@@ -81,6 +84,8 @@ public class Preferences extends PreferenceFragment implements
     private PreferenceScreen screenSelectUsername;
     private YesNoPreference confirmDelete;
     private Preference prefVersion;
+
+    private Preference prefLanguage;
     private Gson gson = new Gson();
 
     private boolean isChanged = false;
@@ -89,15 +94,40 @@ public class Preferences extends PreferenceFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        prefVersion = (Preference) getPreferenceScreen().findPreference("version");
+        prefLanguage = (Preference) getPreferenceScreen().findPreference(KEY_LANGUAGE);
+        if (prefLanguage != null) {
+            prefLanguage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Dialog languageDialog = new LanguageDialog(getActivity());
+                    languageDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            updateLanguage();
+                        }
+                    });
+                    languageDialog.show();
+                    return false;
+                }
+            });
+            updateLanguage();
+        }
         initPreferences();
         initUsername();
-        prefVersion = (Preference) getPreferenceScreen().findPreference("version");
         if (prefVersion != null) {
             try {
                 prefVersion.setSummary(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
             } catch (PackageManager.NameNotFoundException e) {
                 prefVersion.setSummary("Unknown");
             }
+        }
+    }
+
+    private void updateLanguage() {
+        UserProfile profile = getCurrentProfile();
+        if (profile != null && profile.getSelectedCountry() != null) {
+            prefLanguage.setSummary(profile.getSelectedCountry().getName());
         }
     }
 

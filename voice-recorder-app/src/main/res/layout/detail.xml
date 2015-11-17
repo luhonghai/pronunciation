@@ -52,7 +52,7 @@
                             android:layout_height="@dimen/button_default_size"
                             app:cardElevation="0dp"
                             android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
+                            android:foreground="@android:color/transparent"
                             app:cardBackgroundColor="@color/app_gray"
                             android:stateListAnimator="@anim/lift_up"
                             android:layout_marginEnd="@dimen/detail_score_padding"
@@ -138,7 +138,7 @@
                                 android:id="@+id/cvMenu"
                                 app:cardElevation="0dp"
                                 android:clickable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
+                                android:foreground="@android:color/transparent"
                                 app:cardBackgroundColor="@color/app_purple"
                                 android:stateListAnimator="@anim/lift_up">
                                 <ImageView
@@ -159,7 +159,7 @@
                                     android:id="@+id/cvRefresh"
                                     app:cardElevation="0dp"
                                     android:clickable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
+                                    android:foreground="@android:color/transparent"
                                     app:cardBackgroundColor="@color/app_purple"
                                     android:stateListAnimator="@anim/lift_up">
                                     <ImageView
@@ -177,7 +177,7 @@
                                 android:id="@+id/cvNext"
                                 app:cardElevation="0dp"
                                 android:clickable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
+                                android:foreground="@android:color/transparent"
                                 app:cardBackgroundColor="@color/app_purple"
                                 android:stateListAnimator="@anim/lift_up">
                                 <ImageView

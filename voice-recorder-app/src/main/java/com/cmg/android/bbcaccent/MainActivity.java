@@ -40,9 +40,14 @@ import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.service.SyncDataService;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
+import com.cmg.android.bbcaccent.view.dialog.FullscreenDialog;
 import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
+import com.cocosw.bottomsheet.BottomSheet;
+import com.cocosw.bottomsheet.BottomSheetHelper;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -51,6 +56,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
 
@@ -183,7 +189,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @OnItemClick(R.id.listMenu)
     public void clickListMenu(int position) {
-        ListMenuAdapter.MenuItem menuItem = ListMenuAdapter.MenuItem.values()[position];
+        ListMenuAdapter.MenuItem menuItem = ((ListMenuAdapter)listMenu.getAdapter()).getMenuItems()[position];
         switch (menuItem) {
             case LOGOUT:
                 SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
@@ -212,6 +218,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 });
                 d.show();
                 break;
+            case ACTIVATE_SUBSCRIPTION:
+                showActiveFullVersionDialog();
+                break;
             case SUBSCRIPTION:
                 Intent i = new Intent(this, SubscriptionActivity.class);
                 startActivity(i);
@@ -219,6 +228,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             default:
                 switchFragment(menuItem, null, null);
         }
+    }
+
+    protected void showActiveFullVersionDialog() {
+        Dialog dialog = new FullscreenDialog(this, R.layout.active_subscription);
+        AndroidHelper.updateShareButton((CircleCardView)dialog.findViewById(R.id.btnShare));
+        dialog.findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showShareAction();
+            }
+        });
+        dialog.show();
     }
 
     private void initListMenu() {
@@ -309,8 +330,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             case R.id.menu_ipa_information:
                 switchFragment(FragmentState.IPA_INFORMATION, new SwitchFragmentParameter(false, true, true), null);
                 break;
+            case R.id.menu_share:
+                showShareAction();
+                break;
         }
         return true;
+    }
+
+    private void showShareAction() {
+        getShareActions("I thought you might find this app useful to help you with English pronunciation" +
+                " https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent").show();
     }
 
     @Override
@@ -726,5 +755,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         } else {
             switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
         }
+    }
+
+    public BottomSheet.Builder getShareActions(String text) {
+        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        return BottomSheetHelper.shareAction(this, shareIntent);
     }
 }

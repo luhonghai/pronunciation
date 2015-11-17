@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="0dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:foreground="@android:color/transparent"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="10dp"
@@ -43,6 +43,7 @@
                 android:layout_height="48dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="@color/app_gray"
+                android:foreground="@android:color/transparent"
                 >
                 <RelativeLayout
                     android:layout_width="match_parent"

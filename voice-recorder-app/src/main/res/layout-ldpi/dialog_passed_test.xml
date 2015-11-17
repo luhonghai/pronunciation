@@ -3,53 +3,92 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@drawable/sl_background">
+    android:background="@drawable/sl_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/content_box"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
+                <ImageButton
+                    android:id="@+id/tv_dismiss"
+                    android:background="@null"
+                    android:src="@drawable/ic_close_dialog"
+                    android:tint="@android:color/black"
+                    android:scaleType="fitXY"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end"/>
+            </LinearLayout>
             <TextView
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="Congratulations you passed"
+                android:textStyle="bold"
                 android:textSize="37sp"
                 android:textColor="@android:color/black"/>
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="200dp"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:src="@drawable/berty_head_antialias_alpha"
-                    />
-                <com.cmg.android.bbcaccent.view.RecordingView
-                    android:layout_weight="1"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="30dp"
+                >
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_height="0dp"
-                    android:id="@+id/main_recording_view" />
-            </LinearLayout>
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:src="@drawable/berty_head_antialias_alpha"
+                        android:layout_marginBottom="-20dp"
+                        />
+                    <com.cmg.android.bbcaccent.view.RecordingView
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:layout_height="0dp"
+                        android:id="@+id/main_recording_view" />
+                </LinearLayout>
+            </RelativeLayout>
+
         </LinearLayout>
-        <ImageView
+        <com.cmg.android.bbcaccent.view.cardview.CircleCardView
             android:id="@+id/btnShare"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@drawable/ic_share_default"
-            android:scaleType="fitXY"
+            android:layout_width="@dimen/button_big_size"
+            android:layout_height="@dimen/button_big_size"
+            android:clickable="true"
+            android:foreground="@android:color/transparent"
+            app:cardBackgroundColor="#d34836"
+            android:stateListAnimator="@anim/lift_up"
+            android:layout_marginStart="@dimen/detail_score_padding"
+            android:layout_marginLeft="@dimen/detail_score_padding"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="20dp"/>
+            android:layout_margin="10dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_google_plus_white"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="5dp"
+                />
+        </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
     </RelativeLayout>
 
 </FrameLayout>

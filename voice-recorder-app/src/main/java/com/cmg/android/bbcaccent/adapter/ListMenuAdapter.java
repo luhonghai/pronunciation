@@ -20,10 +20,22 @@ import java.util.List;
  */
 public class ListMenuAdapter extends BaseAdapter {
 
+    public static final MenuItem[] DEFAULT_MENU_ITEMS = new MenuItem[] {
+            MenuItem.FREESTYLE,
+            MenuItem.LESSON,
+            MenuItem.ACTIVATE_SUBSCRIPTION,
+            MenuItem.SETTING,
+            MenuItem.ABOUT,
+            MenuItem.LICENCE,
+            MenuItem.FEEDBACK,
+            MenuItem.LOGOUT,
+    };
+
     public enum MenuItem {
         FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_freestyle),
         LESSON(R.string.menu_lesson, R.drawable.p_menu_lesson),
         HELP(R.string.menu_help, R.drawable.p_menu_help),
+        ACTIVATE_SUBSCRIPTION(R.string.menu_subscription, R.drawable.p_menu_help),
         SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),
         LICENCE(R.string.menu_licence, R.drawable.p_menu_license),
@@ -57,24 +69,36 @@ public class ListMenuAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
+    private MenuItem[] menuItems;
+
     public ListMenuAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
+        menuItems = DEFAULT_MENU_ITEMS;
+    }
+
+    public ListMenuAdapter(Context context, MenuItem[] menuItems) {
+        this(context);
+        this.menuItems = menuItems;
+    }
+
+    public MenuItem[] getMenuItems() {
+        return this.menuItems;
     }
 
     @Override
     public int getCount() {
-        return MenuItem.values().length;
+        return menuItems.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return MenuItem.values()[position];
+        return menuItems[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return MenuItem.values()[position].stringId;
+        return menuItems[position].stringId;
     }
 
     @Override
@@ -90,7 +114,7 @@ public class ListMenuAdapter extends BaseAdapter {
             view = (ViewHolder) convertView.getTag();
 
         }
-        MenuItem item = MenuItem.values()[position];
+        MenuItem item = menuItems[position];
         view.textView.setText(item.toString());
         if (item == MenuItem.LOGOUT) {
             view.textView.setTextColor(context.getResources().getColor(R.color.app_red));

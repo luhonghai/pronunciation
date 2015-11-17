@@ -5,45 +5,37 @@
     android:background="@drawable/sl_background">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:layout_weight=".1">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical">
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="60dp"
-            android:paddingEnd="60dp"
-            android:src="@drawable/sl_accent_easy_tm"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/accenteasy_icon_text"
             />
     </RelativeLayout>
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".2">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/sl_title_beta"
-                android:gravity="center_horizontal|center_vertical"
-                />
-        </RelativeLayout>
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="50sp"
+        android:text="accent\ntraining"/>
     <RelativeLayout
-        android:layout_weight="0.7"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:gravity="center_horizontal|center_vertical"
-        android:paddingTop="@dimen/login_botton_layout_container_padding_top">
+        android:layout_margin="@dimen/login_button_layout_container_padding">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/login_button_layout_container_padding"
-            android:background="@android:color/white">
+            android:gravity="center_horizontal"
+            android:background="@android:color/white"
+            android:padding="10dp">
             <ImageButton
                 android:id="@+id/sign_in_button"
                 android:background="@null"
