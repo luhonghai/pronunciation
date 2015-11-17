@@ -97,92 +97,92 @@
                             <div class="form-group">
 
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">IPA:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">IPA:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input  type="text" id="ipa" name="ipa" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">ARPABET:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">ARPABET:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input  type="text" id="arpabet" name="arpabet" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Description:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <textarea   type="text" id="description" name="description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Tip:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Tip:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <textarea  type="text" id="tip" name="tip" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Words:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Words:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="words" name="words" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Color:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Color:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="addColor" name="addColor" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Index:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Index:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="index_type" onkeypress="return isNumberKey(event,this)" name="index_type" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">MP3 URL:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">MP3 URL:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="mp3" name="mp3" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Text tongue:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Text tongue:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="tongueText" name="tongueText" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
 
                                 <div class="row" style="margin-bottom: 5px;">
-                                    <label class="col-xs-4  col-sm-3 control-label " style="text-align: left;">Tongue image:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label " style="text-align: left;">Tongue image:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <div id="wrap-imgTongue-edit"><img src="" id="imgTongue-edit"/> <a href="#" id="btn-imgTongue-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-imgTongue-add"><input type="file" id="imageTongue" name="imageTongue" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Text lips:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Text lips:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="lipsText" name="lipsText" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
 
                                 <div class="row" style="margin-bottom: 5px;">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Lips image:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Lips image:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <div id="wrap-imgLips-edit"><img src="" id="imgLips-edit"/> <a href="#" id="btn-imgLips-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-imgLips-add"><input type="file" id="imageLips" name="imageLips" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Text jaw:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Text jaw:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="jawText" name="jawText" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
 
                                 <div class="row" style="margin-bottom: 5px;">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Jaw image:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Jaw image:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <div id="wrap-imgJaw-edit"><img src="" id="imgJaw-edit"/> <a href="#" id="btn-imgJaw-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-imgJaw-add"><input type="file" id="imageJaw" name="imageJaw" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
@@ -190,8 +190,8 @@
 
 
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Type:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Type:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <select name="type" id="type">
                                             <option value="vowel">vowel</option>
                                             <option value="consonant">consonant</option>
