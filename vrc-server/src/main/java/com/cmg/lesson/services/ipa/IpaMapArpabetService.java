@@ -92,8 +92,26 @@ public class IpaMapArpabetService {
         IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
         IpaMapDTO dto = new IpaMapDTO();
         try {
-            dao.updateMap(map.getId(),map.getArpabet(),map.getMp3Url(),map.getDescription(),map.getColor(),
-                    map.getTip(),map.getType(),map.getIndexingType(),map.getWords());
+            //dao.updateMap(map.getId(),map.getArpabet(),map.getMp3Url(),map.getDescription(),map.getColor(),
+                    //map.getTip(),map.getType(),map.getIndexingType(),map.getWords(),map.getTextTongue(),map.getImgTongue(),map.getTextLip(),map.getImgLip(),map.getTextJaw(),map.getImgJaw());
+           IpaMapArpabet temp = dao.getById(map.getId());
+            temp.setArpabet(map.getArpabet());
+            temp.setIpa(map.getIpa());
+            temp.setColor(map.getColor());
+            temp.setType(map.getType());
+            temp.setDescription(map.getDescription());
+            temp.setTip(map.getTip());
+            temp.setWords(map.getWords());
+            temp.setMp3Url(map.getMp3Url());
+            temp.setIndexingType(map.getIndexingType());
+            temp.setImgTongue(map.getImgTongue());
+            temp.setTextTongue(map.getTextTongue());
+            temp.setImgLip(map.getImgLip());
+            temp.setTextLip(map.getTextLip());
+            temp.setImgJaw(map.getImgJaw());
+            temp.setTextJaw(map.getTextJaw());
+            dao.put(temp);
+           // dao.create(map);
             dto.setMessage(SUCCESS);
         }catch (Exception e){
             dto.setMessage(ERROR + " : can not update mapping because  " + e.getMessage());
@@ -111,7 +129,10 @@ public class IpaMapArpabetService {
         IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
         IpaMapDTO dto = new IpaMapDTO();
         try {
-            dao.updateDeleted(id);
+            IpaMapArpabet temp = dao.getById(id);
+            temp.setIsDeleted(true);
+            dao.put(temp);
+//            dao.updateDeleted(id);
             dto.setMessage(SUCCESS);
         }catch (Exception e){
             logger.error("can not delete ipa map arpabet because : " + e);
