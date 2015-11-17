@@ -67,7 +67,7 @@ public class WordCollectionService {
      * @param isDeleted
      * @return id if add success and error message if add false
      */
-    public String addWordToDb(String word , String pronunciation, String definition,String mp3Path, boolean isDeleted){
+    public String addWordToDb(String word ,String arpabet, String pronunciation, String definition,String mp3Path, boolean isDeleted){
         WordCollectionDAO dao = new WordCollectionDAO();
         String messageError ="";
         try {
@@ -75,9 +75,10 @@ public class WordCollectionService {
                 int version = getMaxVersion();
                 WordCollection wc = new WordCollection(word,pronunciation,definition, mp3Path,isDeleted,version);
                 String id = UUIDGenerator.generateUUID();
+                wc.setArpabet(arpabet);
                 wc.setId(id);
                 dao.create(wc);
-                return SUCCESS + id;
+                return SUCCESS + ":"+ id;
             }else{
                 return ERROR + "word is existed";
             }
@@ -206,7 +207,7 @@ public class WordCollectionService {
      */
     public WordDTO addWord(String word , String pronunciation, String definition,String mp3Path,List<String> phonemes){
         WordDTO dto = new WordDTO();
-        String message = addWordToDb(word, pronunciation, definition, mp3Path, false);
+        String message = addWordToDb(word,parseFromList(phonemes), pronunciation, definition, mp3Path, false);
         if(message.startsWith(SUCCESS)) {
             String id = message.split(":")[1];
             WordMappingPhonemesService wpService = new WordMappingPhonemesService();
@@ -228,7 +229,7 @@ public class WordCollectionService {
      */
     public WordDTO addWordPhonemes(String word , String pronunciation, String definition,String mp3Path,List<WordMappingPhonemes> phonemes){
         WordDTO dto = new WordDTO();
-        String message = addWordToDb(word, pronunciation, definition, mp3Path, false);
+        String message = addWordToDb(word, parseStringFromList(phonemes),pronunciation, definition, mp3Path, false);
         if(message.startsWith(SUCCESS)) {
             if(phonemes!=null && phonemes.size() > 0){
                 String id = message.split(":")[1];
@@ -248,11 +249,11 @@ public class WordCollectionService {
      * @param mp3Path
      * @return
      */
-    public String updateWordInformation(String wordID, String definition, String mp3Path){
+    public String updateWordInformation(String wordID, String definition, String mp3Path, String arpabet){
         String messageError = "";
         WordCollectionDAO dao = new WordCollectionDAO();
         try {
-            boolean check = dao.updateWordInformation(wordID,definition,mp3Path);
+            boolean check = dao.updateWordInformation(wordID,definition,mp3Path,arpabet);
             if(check){
                 return SUCCESS;
             }else{
@@ -276,7 +277,7 @@ public class WordCollectionService {
      */
     public WordDTO updateWord(String wordID , String definition,String mp3Path,List<String> phonemes){
         WordDTO dto = new WordDTO();
-        String message = updateWordInformation(wordID,definition,mp3Path);
+        String message = updateWordInformation(wordID,definition,mp3Path,parseFromList(phonemes));
         if(message.startsWith(SUCCESS)){
             WordMappingPhonemesService wpService = new WordMappingPhonemesService();
             int version = wpService.getMaxVersion();
@@ -296,7 +297,7 @@ public class WordCollectionService {
      */
     public WordDTO updateWordPhonemes(String wordID , String definition,String mp3Path,List<WordMappingPhonemes> phonemes){
         WordDTO dto = new WordDTO();
-        String message = updateWordInformation(wordID,definition,mp3Path);
+        String message = updateWordInformation(wordID,definition,mp3Path,parseStringFromList(phonemes));
         if(message.startsWith(SUCCESS)){
             if(phonemes!=null && phonemes.size() > 0) {
                 WordMappingPhonemesService wpService = new WordMappingPhonemesService();
@@ -387,6 +388,24 @@ public class WordCollectionService {
         }
     }
 
+    public String parseStringFromList(List<WordMappingPhonemes> phonemes){
+        String temp = "";
+        if(phonemes!=null && phonemes.size()>0){
+            for(int i = 0 ; i < phonemes.size(); i++){
+                temp = temp + " " + phonemes.get(i).getPhoneme()+ " ";
+            }
+        }
+        return temp;
+    }
 
+    public String parseFromList(List<String> phonemes){
+        String temp = "";
+        if(phonemes!=null && phonemes.size()>0){
+            for(int i = 0 ; i < phonemes.size(); i++){
+                temp = temp + " " + phonemes.get(i)+ " ";
+            }
+        }
+        return temp;
+    }
 
 }

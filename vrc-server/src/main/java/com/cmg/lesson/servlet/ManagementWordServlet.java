@@ -34,7 +34,6 @@ public class ManagementWordServlet extends HttpServlet {
                 ListWord list = wordCollectionService.searchWord(search,order,start,length,draw);
                 String json = gson.toJson(list);
                 response.getWriter().write(json);
-
             }else if(request.getParameter("add")!=null){
                 String wordAdd = request.getParameter("word");
                 WordDTO word = gson.fromJson(wordAdd, WordDTO.class);
@@ -42,7 +41,6 @@ public class ManagementWordServlet extends HttpServlet {
                         word.getDefinition(), word.getMp3Path(), word.getPhonemes());
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
-
             }else if(request.getParameter("edit")!=null){
                 String phonemes = request.getParameter("word");
                 WordDTO word = gson.fromJson(phonemes, WordDTO.class);
