@@ -68,6 +68,9 @@ public class LessonLevelFragment extends BaseFragment {
                                 level.setScore(levelScore.getScore());
                                 level.setActive(levelScore.isEnable());
                             } else {
+                                level.setScore(-1);
+                            }
+                            if(!level.isDemo() && !level.isActive()) {
                                 // Check prev level for active current level
                                 LessonLevel prevLevel = LessonDBAdapterService.getInstance().getPrevLevelOfLevel(userProfile.getSelectedCountry().getId(), level.getId());
                                 if (prevLevel != null) {
@@ -80,7 +83,6 @@ public class LessonLevelFragment extends BaseFragment {
                                         level.setActive(true);
                                     }
                                 }
-                                level.setScore(-1);
                             }
                         } catch (LiteDatabaseException e) {
                             SimpleAppLog.error("could not get level score",e);

@@ -57,6 +57,7 @@ public class IPAMapArpabet extends BaseLessonEntity {
     private String words;
 
     public String getArpabet() {
+        if (arpabet == null) return "";
         return arpabet;
     }
 

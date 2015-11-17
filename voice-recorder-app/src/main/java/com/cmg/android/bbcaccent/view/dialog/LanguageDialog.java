@@ -20,6 +20,7 @@ import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
@@ -29,8 +30,17 @@ public class LanguageDialog extends DefaultCenterDialog {
 
     private final RecyclerView recyclerView;
 
+    private DisplayImageOptions displayImageOptions;
+
     public LanguageDialog(Context context) {
         super(context, R.layout.choose_language);
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .showImageOnLoading(R.drawable.global_bg)
+                .showImageOnFail(R.drawable.global_bg)
+                .showImageForEmptyUri(R.drawable.global_bg)
+                .build();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         Cursor cursor = LessonDBAdapterService.getInstance().cursorAllCountry();
         if (cursor != null) {
@@ -57,7 +67,7 @@ public class LanguageDialog extends DefaultCenterDialog {
                     userProfile.setSelectedCountry(country);
                     Preferences.updateProfile(MainApplication.getContext(), userProfile);
                 }
-                ImageLoader.getInstance().displayImage(country.getImageUrl(), viewHolder.imgCountry);
+                ImageLoader.getInstance().displayImage(country.getImageUrl(), viewHolder.imgCountry, displayImageOptions);
                 viewHolder.txtTitle.setText(country.getName());
                 viewHolder.llContainer.setTag(country);
                 viewHolder.llContainer.setOnClickListener(new View.OnClickListener() {

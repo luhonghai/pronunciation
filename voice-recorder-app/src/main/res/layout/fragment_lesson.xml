@@ -58,7 +58,7 @@
                             android:id="@+id/cvTip"
                             app:cardElevation="0dp"
                             android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
+                            android:foreground="@android:color/transparent"
                             app:cardBackgroundColor="@color/app_orange"
                             android:stateListAnimator="@anim/lift_up">
                             <ImageView

@@ -17,3 +17,4 @@ temp/**
 .project
 .checkstyle
 log/**
+*.log

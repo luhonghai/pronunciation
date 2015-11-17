@@ -68,7 +68,7 @@
                         android:layout_height="@dimen/button_list_default_size"
                         app:cardElevation="0dp"
                         android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
+                        android:foreground="@android:color/transparent"
                         app:cardBackgroundColor="@android:color/white"
                         android:stateListAnimator="@anim/lift_up">
                         <ImageView
@@ -92,7 +92,7 @@
                         android:layout_height="@dimen/button_list_default_size"
                         app:cardElevation="0dp"
                         android:clickable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
+                        android:foreground="@android:color/transparent"
                         app:cardBackgroundColor="@android:color/white"
                         android:stateListAnimator="@anim/lift_up">
                         <ImageView

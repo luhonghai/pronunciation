@@ -38,29 +38,27 @@ public class DefaultDialog extends Dialog {
         initDialog();
     }
 
-    private void initDialog() {
-        int fullWidth;
-        int fulHeight;
+    protected Point getSize() {
+        Point size = new Point();
+        Display display = ((WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Display display = ((WindowManager) getContext()
-                    .getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            Point size = new Point();
             display.getSize(size);
-            fullWidth = size.x;
-            fulHeight = size.y;
         } else {
-            Display display = ((WindowManager) getContext()
-                    .getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-            fullWidth = display.getWidth();
-            fulHeight = display.getHeight();
+            size.x = display.getWidth();
+            size.y = display.getHeight();
         }
+        return size;
+    }
 
+    protected void initDialog() {
+        Point size = getSize();
         final int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources()
                 .getDisplayMetrics());
 
-        int w = fullWidth - padding;
+        int w = size.x - padding;
         //int h = dialog.getWindow().getAttributes().height;
-        int h = fulHeight - padding;
+        int h = size.y - padding;
         this.getWindow().setLayout(w, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 }

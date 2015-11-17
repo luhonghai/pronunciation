@@ -36,6 +36,8 @@ public class CustomGraphView extends GraphView {
 
     private Point tintTextPoint;
 
+    private boolean drawChart = true;
+
     private void initPaint() {
         tintPaint = new Paint();
         tintPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -43,6 +45,10 @@ public class CustomGraphView extends GraphView {
         tintPaint.setTypeface(Typeface.DEFAULT_BOLD);
 
         tintPaint.setColor(getContext().getResources().getColor(R.color.app_tint));
+    }
+
+    public void setDrawChart(boolean drawChart) {
+        this.drawChart = drawChart;
     }
 
     public void setTintTextPoint(Point tintTextPoint) {
@@ -69,7 +75,8 @@ public class CustomGraphView extends GraphView {
                 canvas.drawText(tintText, getWidth() - 50, getHeight() - 60, tintPaint);
             }
         }
-        super.onDraw(canvas);
+        if (drawChart)
+            super.onDraw(canvas);
     }
 
 

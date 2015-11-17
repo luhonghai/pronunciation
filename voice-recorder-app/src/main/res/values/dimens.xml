@@ -42,4 +42,7 @@
     <dimen name="show_case_text_size">18sp</dimen>
 
     <dimen name="popup_corner_radius">9dp</dimen>
+
+    <dimen name="activate_title_text_size">32sp</dimen>
+    <dimen name="activate_description_text_size">20sp</dimen>
 </resources>

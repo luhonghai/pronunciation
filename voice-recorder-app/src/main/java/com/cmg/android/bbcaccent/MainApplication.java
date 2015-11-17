@@ -35,6 +35,8 @@ public class MainApplication  extends Application {
 
     private LessonFragment.ViewState lessonViewState;
 
+    private String selectedWord;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -122,5 +124,13 @@ public class MainApplication  extends Application {
 
     public void setLessonViewState(LessonFragment.ViewState lessonViewState) {
         this.lessonViewState = lessonViewState;
+    }
+
+    public String getSelectedWord() {
+        return selectedWord;
+    }
+
+    public void setSelectedWord(String selectedWord) {
+        this.selectedWord = selectedWord;
     }
 }

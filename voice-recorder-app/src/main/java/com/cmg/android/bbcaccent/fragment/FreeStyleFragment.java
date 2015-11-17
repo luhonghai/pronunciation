@@ -46,6 +46,7 @@ import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
+import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
@@ -165,12 +166,6 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
     private String selectedWord;
 
-    /**
-     * Animation
-     */
-    private Animation fadeIn;
-    private Animation fadeOut;
-
     private UploaderAsync uploadTask;
 
     /**
@@ -196,7 +191,6 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         accountManager = new AccountManager(getActivity());
         initTabHost();
         initRecordingView();
-        initAnimation();
         switchButtonStage(ButtonState.DISABLED);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(MainBroadcaster.Filler.Key.VIEW_STATE.toString())) {
@@ -229,6 +223,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         if (word == null || word.length() == 0) {
                             Bundle bundle = new Bundle();
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
+                            MainApplication.getContext().setSelectedWord(model.getWord());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
                                     new SwitchFragmentParameter(true, true, true),
@@ -288,12 +283,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
         if (viewState.willShowHelpSearchWordAndSlider) {
-            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
-                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
-                            "Don't forget to try new words by searching for them by pressing the magnifying glass"),
-                    new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
-                            "Swipe up or tap to track progress, view past words and tips"));
-            viewState.willShowHelpSearchWordAndSlider = false;
+//            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
+//                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
+//                            "Don't forget to try new words by searching for them by pressing the magnifying glass"),
+//                    new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
+//                            "Swipe up or tap to track progress, view past words and tips"));
+//            viewState.willShowHelpSearchWordAndSlider = false;
         }
         return root;
     }
@@ -309,7 +304,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         if (mTabHost == null) return;
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
         addTabImage(R.drawable.tab_graph,
-                GraphFragment.class, getString(R.string.tab_graph));
+                GraphFragmentParent.class, getString(R.string.tab_graph));
         addTabImage(R.drawable.tab_history,
                 HistoryFragment.class, getString(R.string.tab_history));
         addTabImage(R.drawable.tab_tip,
@@ -384,16 +379,9 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         }
 
     }
-
-    private void initAnimation() {
-        fadeIn = AnimationUtils.loadAnimation(MainApplication.getContext(), android.R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(MainApplication.getContext(), android.R.anim.fade_out);
-    }
-
     private void addTabImage(int drawableId, Class<?> c, String labelId) {
         TabHost.TabSpec spec = mTabHost.newTabSpec(labelId).setIndicator(null, getResources().getDrawable(drawableId));
         mTabHost.addTab(spec, c, null);
-
     }
 
     private void completeGetWord(DictionaryItem item, ButtonState state) {
@@ -838,6 +826,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
+                MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),
@@ -863,7 +852,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
                     ((ImageView)btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_close);
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
-
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
@@ -877,6 +866,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setEnabled(false);
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
                     rlVoiceExample.setEnabled(false);
@@ -890,6 +880,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -904,6 +895,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_orange));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_orange));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_orange));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -918,6 +910,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_red));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_red));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_red));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -932,6 +925,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_gray));
                     txtPhonemes.setEnabled(false);
                     txtWord.setEnabled(false);
                     break;
@@ -945,6 +939,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
+                    txtDefinition.setTextColor(ColorHelper.getColor(R.color.app_green));
                     txtPhonemes.setEnabled(true);
                     txtWord.setEnabled(true);
                     rlVoiceExample.setEnabled(true);
@@ -1074,10 +1069,11 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         // Call other view update
                         Gson gson = new Gson();
                         MainBroadcaster.getInstance().getSender().sendUpdateData(gson.toJson(viewState.currentModel), FragmentTab.TYPE_RELOAD_DATA);
-                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
-                                new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
-                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
+//                        showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SELECT_SCORE,
+//                                new ShowcaseHelper.HelpState(btnAudio, "<b>Press</b> to <b>hear</b> your last attempt"),
+//                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
                         isRecording = false;
+                        handlerStartDetail.postDelayed(runnableStartDetail, 1000);
                     }
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1174,12 +1170,16 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         //txtPhonemes.setSelected(true);
                         //txtWord.setSelected(true);
                         showcaseHelper.showHelp(ShowcaseHelper.HelpKey.ANALYZING_WORD,
-                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> <i>\"" + viewState.dictionaryItem.getWord() + "\"</i> to hear the word"),
+                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> the word to hear it"),
                                 new ShowcaseHelper.HelpState(btnAnalyzing, "<b>Press</b> to <b>test</b> your pronunciation"));
+                        MainApplication.getContext().setSelectedWord(viewState.dictionaryItem.getWord());
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(viewState.dictionaryItem.getWord(), FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     } else {
                         txtWord.setText(getString(R.string.not_found));
                         txtPhonemes.setText(getString(R.string.please_try_again));
                         txtDefinition.setText("");
+                        MainApplication.getContext().setSelectedWord(null);
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
                 }
             }
@@ -1191,45 +1191,55 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
     private void saveToDatabase() throws Exception {
         if (audioStream == null) return;
-        String tmpFile = audioStream.getFilename();
-        File recordedFile = new File(tmpFile);
+        final String tmpFile = audioStream.getFilename();
+        final File recordedFile = new File(tmpFile);
         if (recordedFile.exists() && viewState.currentModel != null) {
-            AnalyticHelper.sendAnalyzingWord(getActivity(), viewState.currentModel.getWord(), Math.round(viewState.currentModel.getScore()));
-            File pronScoreDir = FileHelper.getPronunciationScoreDir(MainApplication.getContext());
-            PronunciationScore score = new PronunciationScore();
-            // Get ID from server
-            String dataId = viewState.currentModel.getId();
-            score.setDataId(dataId);
-            score.setScore(viewState.currentModel.getScore());
-            score.setWord(viewState.currentModel.getWord());
-            score.setTimestamp(new Date(System.currentTimeMillis()));
-            //DENP-238
-            score.setUsername(viewState.currentModel.getUsername());
-            score.setVersion(viewState.currentModel.getVersion());
-            // Save recorded file
-            File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
-            FileUtils.copyFile(recordedFile, savedFile);
-            // Save json data
-            Gson gson = new Gson();
-            viewState.currentModel.setAudioFile(savedFile.getAbsolutePath());
-            FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(viewState.currentModel), "UTF-8");
-            scoreDBAdapter.open();
-            scoreDBAdapter.insert(score);
-            scoreDBAdapter.close();
-            if (viewState.currentModel.getResult() != null) {
-                PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
-                phonemeScoreDBAdapter.open();
-                List<SphinxResult.PhonemeScore> phonemeScoreList = viewState.currentModel.getResult().getPhonemeScores();
-                if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
-                    for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
-                        phonemeScore.setTime(System.currentTimeMillis());
-                        phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
-                        phonemeScore.setUserVoiceId(dataId);
-                        phonemeScoreDBAdapter.insert(phonemeScore, viewState.currentModel.getUsername(),viewState.currentModel.getVersionPhoneme());
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        AnalyticHelper.sendAnalyzingWord(getActivity(), viewState.currentModel.getWord(), Math.round(viewState.currentModel.getScore()));
+                        File pronScoreDir = FileHelper.getPronunciationScoreDir(MainApplication.getContext());
+                        PronunciationScore score = new PronunciationScore();
+                        // Get ID from server
+                        String dataId = viewState.currentModel.getId();
+                        score.setDataId(dataId);
+                        score.setScore(viewState.currentModel.getScore());
+                        score.setWord(viewState.currentModel.getWord());
+                        score.setTimestamp(new Date(System.currentTimeMillis()));
+                        //DENP-238
+                        score.setUsername(viewState.currentModel.getUsername());
+                        score.setVersion(viewState.currentModel.getVersion());
+                        // Save recorded file
+                        File savedFile = new File(pronScoreDir, dataId + FileHelper.WAV_EXTENSION);
+                        FileUtils.copyFile(recordedFile, savedFile);
+                        // Save json data
+                        Gson gson = new Gson();
+                        viewState.currentModel.setAudioFile(savedFile.getAbsolutePath());
+                        FileUtils.writeStringToFile(new File(pronScoreDir, dataId + FileHelper.JSON_EXTENSION), gson.toJson(viewState.currentModel), "UTF-8");
+                        scoreDBAdapter.open();
+                        scoreDBAdapter.insert(score);
+                        scoreDBAdapter.close();
+                        if (viewState.currentModel.getResult() != null) {
+                            PhonemeScoreDBAdapter phonemeScoreDBAdapter = new PhonemeScoreDBAdapter();
+                            phonemeScoreDBAdapter.open();
+                            List<SphinxResult.PhonemeScore> phonemeScoreList = viewState.currentModel.getResult().getPhonemeScores();
+                            if (phonemeScoreList != null && phonemeScoreList.size() > 0) {
+                                for (SphinxResult.PhonemeScore phonemeScore : phonemeScoreList) {
+                                    phonemeScore.setTime(System.currentTimeMillis());
+                                    phonemeScore.setTimestamp(new Date(System.currentTimeMillis()));
+                                    phonemeScore.setUserVoiceId(dataId);
+                                    phonemeScoreDBAdapter.insert(phonemeScore, viewState.currentModel.getUsername(), viewState.currentModel.getVersionPhoneme());
+                                }
+                            }
+                            phonemeScoreDBAdapter.close();
+                        }
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not save model to database",e);
                     }
+                    return null;
                 }
-                phonemeScoreDBAdapter.close();
-            }
+            }.execute();
 
         }
     }

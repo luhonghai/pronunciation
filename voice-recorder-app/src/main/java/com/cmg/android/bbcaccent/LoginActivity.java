@@ -517,24 +517,27 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
             public void onError(final String message, Throwable e) {
-                if (e != null)
-                    e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        dialogProgress.dismissWithAnimation();
-                        dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
-                        if (profile.isLogin() && isRunning()) {
-                            if (!dialogLicense.isShowing())
-                                dialogLicense.show();
-                        }
-                    }
-                });
+//                if (e != null)
+//                    e.printStackTrace();
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        dialogProgress.dismissWithAnimation();
+//                        dialogLicense.findViewById(R.id.btnActivateLicense).setEnabled(true);
+//                        if (profile.isLogin() && isRunning()) {
+//                            if (!dialogLicense.isShowing())
+//                                dialogLicense.show();
+//                        }
+//                    }
+//                });
+                profile.setIsActivatedLicence(false);
+                Preferences.addProfile(LoginActivity.this, profile);
+                doGetProfile(profile);
             }
 
             @Override
             public void onSuccess() {
-
+                profile.setIsActivatedLicence(true);
                 Preferences.addProfile(LoginActivity.this, profile);
                 doGetProfile(profile);
             }

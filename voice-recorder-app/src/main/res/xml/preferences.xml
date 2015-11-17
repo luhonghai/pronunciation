@@ -28,6 +28,10 @@
                 <!--android:summary=""-->
                 <!--android:title="Delete current profile"/>-->
         <!--</PreferenceScreen>-->
+        <Preference
+            android:title="select language"
+            android:key="language"
+            />
         <ListPreference
             android:defaultValue="5"
             android:dialogTitle="English proficiency"

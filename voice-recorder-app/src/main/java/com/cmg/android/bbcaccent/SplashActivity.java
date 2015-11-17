@@ -8,14 +8,18 @@ import android.text.SpannableString;
 import android.text.util.Linkify;
 import android.widget.ImageView;
 
-import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -23,12 +27,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.fabric.sdk.android.Fabric;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by luhonghai on 3/17/15.
@@ -47,7 +52,8 @@ public class SplashActivity extends BaseActivity implements
         GOOGLE_PLUS,
         ACCENT_EASY,
         DATABASE,
-        SETTING
+        SETTING,
+        SUBSCRIPTION,
     }
 
     private final List<LoadItem> loadStatus = new ArrayList<LoadItem>();
@@ -86,6 +92,12 @@ public class SplashActivity extends BaseActivity implements
 
     private long startTime;
 
+    private BillingProcessor bp;
+
+    private boolean isSubscription = false;
+
+    private boolean isActivatedLicence = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +114,7 @@ public class SplashActivity extends BaseActivity implements
             loadStatus.add(LoadItem.FACEBOOK);
             loadStatus.add(LoadItem.GOOGLE_PLUS);
             loadStatus.add(LoadItem.DATABASE);
+            loadStatus.add(LoadItem.SUBSCRIPTION);
             new DatabasePrepare(this, this).prepare();
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -121,11 +134,30 @@ public class SplashActivity extends BaseActivity implements
             if (profile != null && profile.isLogin()) {
                 isLogin = true;
             }
+            bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
+                @Override
+                public void onProductPurchased(String productId, TransactionDetails details) {
+
+                }
+                @Override
+                public void onBillingError(int errorCode, Throwable error) {
+
+                }
+                @Override
+                public void onBillingInitialized() {
+                    bp.loadOwnedPurchasesFromGoogle();
+                    isSubscription = bp.isSubscribed(IAPFactory.Subscription.MONTHLY.toString());
+                    SimpleAppLog.debug("Is subscription: " + isSubscription);
+                    loadStatus.remove(LoadItem.SUBSCRIPTION);
+                    validateCallback();
+                }
+                @Override
+                public void onPurchaseHistoryRestored() {
+
+                }
+            });
         }
     }
-
-
-
 
     private void validateCallback() {
         if (loadStatus.isEmpty()) {
@@ -222,6 +254,8 @@ public class SplashActivity extends BaseActivity implements
             @Override
             public void onSuccess() {
                 AnalyticHelper.sendUserReturn(SplashActivity.this, profile.getUsername());
+                profile.setIsSubscription(isSubscription);
+                profile.setIsActivatedLicence(isActivatedLicence);
                 Preferences.updateProfile(SplashActivity.this, profile);
                 goToActivity(MainActivity.class);
             }
@@ -232,46 +266,49 @@ public class SplashActivity extends BaseActivity implements
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
             public void onError(final String message, Throwable e) {
-                AnalyticHelper.sendUserLoginError(SplashActivity.this, profile.getUsername());
-                final SpannableString s = new SpannableString(message);
-                Linkify.addLinks(s, Linkify.ALL);
-                if (e != null) e.printStackTrace();
-                handlerDogAnimation.removeCallbacks(runnableDogAnimation);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isRunning()) {
-                            if (profile.getLicenseCode() != null && profile.getLicenseCode().length() > 0) {
-
-                                SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.WARNING_TYPE);
-                                d.setTitleText(getString(R.string.invalid_licence));
-                                d.setContentText(message);
-                                d.setConfirmText(getString(R.string.enter_licence_code));
-                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        accountManager.logout();
-                                        goToActivity(LoginActivity.class);
-                                    }
-                                });
-                                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        SplashActivity.this.finish();
-                                    }
-                                });
-                                d.setCancelText(getString(R.string.dialog_close));
-                                d.show();
-                            } else {
-                                goToActivity(LoginActivity.class);
-                            }
-                        }
-                    }
-                });
+//                AnalyticHelper.sendUserLoginError(SplashActivity.this, profile.getUsername());
+//                final SpannableString s = new SpannableString(message);
+//                Linkify.addLinks(s, Linkify.ALL);
+//                if (e != null) e.printStackTrace();
+//                handlerDogAnimation.removeCallbacks(runnableDogAnimation);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (isRunning()) {
+//                            if (profile.getLicenseCode() != null && profile.getLicenseCode().length() > 0) {
+//
+//                                SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.WARNING_TYPE);
+//                                d.setTitleText(getString(R.string.invalid_licence));
+//                                d.setContentText(message);
+//                                d.setConfirmText(getString(R.string.enter_licence_code));
+//                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                                        accountManager.logout();
+//                                        goToActivity(LoginActivity.class);
+//                                    }
+//                                });
+//                                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                                    @Override
+//                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                                        SplashActivity.this.finish();
+//                                    }
+//                                });
+//                                d.setCancelText(getString(R.string.dialog_close));
+//                                d.show();
+//                            } else {
+//                                goToActivity(LoginActivity.class);
+//                            }
+//                        }
+//                    }
+//                });
+                isActivatedLicence = false;
+                doGetProfile(profile);
             }
 
             @Override
             public void onSuccess() {
+                isActivatedLicence = true;
                 doGetProfile(profile);
             }
         });

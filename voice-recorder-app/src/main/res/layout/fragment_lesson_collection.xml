@@ -20,11 +20,9 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:stateListAnimator="@anim/lift_up"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:foreground="@android:color/transparent"
             app:cardElevation="0dp"
             app:cardCornerRadius="10dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true"
             app:cardBackgroundColor="@color/app_light_green"
             >
             <LinearLayout
@@ -46,6 +44,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:cardElevation="0dp"
+                    android:foreground="@android:color/transparent"
                     app:cardBackgroundColor="@color/app_green">
                     <ImageView
                         android:layout_width="match_parent"

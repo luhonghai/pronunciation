@@ -71,7 +71,7 @@
         android:layout_height="@dimen/button_list_default_size"
         app:cardElevation="0dp"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:foreground="@android:color/transparent"
         app:cardBackgroundColor="@color/app_green"
         android:stateListAnimator="@anim/lift_up"
         android:layout_gravity="center_horizontal|center_vertical">

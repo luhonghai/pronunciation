@@ -65,7 +65,6 @@ public class HistoryFragment extends FragmentTab {
         HistoryAdapter historyAdapter = new HistoryAdapter(getActivity(), word != null && word.length() > 0);
         listView.setAdapter(historyAdapter);
         isLoadedView = true;
-        loadScore();
         return v;
     }
 
@@ -73,6 +72,12 @@ public class HistoryFragment extends FragmentTab {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadScore();
     }
 
     @Override

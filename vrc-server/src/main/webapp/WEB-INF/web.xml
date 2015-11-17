@@ -169,12 +169,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>CheckVesion</servlet-name>
+        <servlet-name>CheckVersion</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.CheckVesion</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>CheckVesion</servlet-name>
-        <url-pattern>/CheckVesion</url-pattern>
+        <servlet-name>CheckVersion</servlet-name>
+        <url-pattern>/CheckVersion</url-pattern>
     </servlet-mapping>
 
 

@@ -24,4 +24,9 @@
         android:icon="@android:drawable/ic_menu_info_details"
         android:showAsAction="never"
         android:title="IPA Symbols"/>
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@android:drawable/ic_menu_share"
+        android:showAsAction="never"
+        android:title="Share"/>
 </menu>
