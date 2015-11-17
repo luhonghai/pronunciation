@@ -78,17 +78,17 @@ public class LessonCollectionService {
      * @param name
      * @return true if question was added to table.
      */
-    public LessonCollectionDTO addLesson( String name,String title,String nameUnique,String description){
+    public LessonCollectionDTO addLesson( String name,String title,String shortDescription,String longDescription){
         LessonCollectionDAO dao = new LessonCollectionDAO();
         LessonCollectionDTO dto = new LessonCollectionDTO();
         String message;
         try {
-            if(!isExistLessonName(nameUnique)) {
+            if(!isExistLessonName(name)) {
                 LessonCollection l = new LessonCollection();
-                l.setNameUnique(nameUnique);
-                l.setName(name);
-                l.setDescription(description);
+                l.setNameUnique(name);
                 l.setTitle(title);
+                l.setName(shortDescription);
+                l.setDescription(longDescription);
                 l.setVersion(getMaxVersion());
                 l.setDateCreated(new Date(System.currentTimeMillis()));
                 l.setIsDeleted(false);
