@@ -89,6 +89,7 @@ function listTranscription(){
                 $button.attr("pronunciation", data.pronunciation);
                 $button.attr("definition", data.definition);
                 $button.attr("mp3Path", data.mp3Path);
+                $button.attr("arpabet", data.arpabet);
                 return $("<div/>").append($button).html();
             }
         }]

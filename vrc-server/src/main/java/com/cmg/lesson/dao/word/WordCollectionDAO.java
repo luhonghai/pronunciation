@@ -195,13 +195,14 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @param mp3Path
      * @return true if update success
      */
-    public boolean updateWordInformation(String idWord,String definition,String mp3Path){
+    public boolean updateWordInformation(String idWord,String definition,String mp3Path, String arpabet){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET definition= ?, mp3Path=? WHERE id='" + idWord + "'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() +
+                " SET definition= ?, mp3Path=?, arpabet=? WHERE id='" + idWord + "'");
         try {
-            q.execute(definition,mp3Path);
+            q.execute(definition,mp3Path,arpabet);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
