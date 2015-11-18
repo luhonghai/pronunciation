@@ -93,7 +93,7 @@ public class WordOfQuestionDAO extends DataAccess<WordOfQuestion> {
 
     /**
      *
-     * @param idQuestion
+     * @param idWord
      * @return true if update deleted success
      */
     public boolean deleteMappingWord(String idWord){

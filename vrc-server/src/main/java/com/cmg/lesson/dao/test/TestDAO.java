@@ -177,7 +177,7 @@ public class TestDAO extends DataAccess<Test> {
         if(ids!=null && ids.size() > 0){
             StringBuffer clause = new StringBuffer();
             TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
-            clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
+            clause.append(" Where ID in(");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }

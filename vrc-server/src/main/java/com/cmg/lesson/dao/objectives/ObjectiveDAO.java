@@ -177,7 +177,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         if(ids!=null && ids.size() > 0){
             StringBuffer clause = new StringBuffer();
             TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
-            clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
+            clause.append(" Where ID in(");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
@@ -225,7 +225,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         if(ids!=null && ids.size() > 0){
             TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
             StringBuffer clause = new StringBuffer();
-            clause.append(" Where "+metaRecorderSentence.getTable()+".ID NOT IN (");
+            clause.append(" Where ID NOT IN (");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
