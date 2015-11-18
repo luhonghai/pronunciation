@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by lantb on 2015-10-26.
  */
-@PersistenceCapable(table = "IpaMapArpabet", detachable = "true")
+@PersistenceCapable(table = "IPAMAPARPABET", detachable = "true")
 public class IpaMapArpabet implements Mirrorable{
 
     @PrimaryKey

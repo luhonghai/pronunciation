@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-01.
  */
-@PersistenceCapable(table = "WordMappingPhonemes", detachable = "true")
+@PersistenceCapable(table = "WORDMAPPINGPHONEMES", detachable = "true")
 public class WordMappingPhonemes implements Mirrorable{
 
     @PrimaryKey

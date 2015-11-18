@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-19.
  */
-@PersistenceCapable(table = "ObjectiveMapping", detachable = "true")
+@PersistenceCapable(table = "OBJECTIVEMAPPING", detachable = "true")
 public class ObjectiveMapping implements Mirrorable {
 
     @PrimaryKey
