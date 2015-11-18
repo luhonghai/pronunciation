@@ -7,7 +7,7 @@ import javax.jdo.annotations.*;
 /**
  * Created by lantb on 2015-10-01.
  */
-@PersistenceCapable(table = "WordCollection", detachable = "true")
+@PersistenceCapable(table = "WORDCOLLECTION", detachable = "true")
 public class WordCollection implements Mirrorable{
 
     @PrimaryKey

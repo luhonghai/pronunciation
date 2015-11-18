@@ -11,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-16.
  */
-@PersistenceCapable(table = "UserLessonHistory", detachable = "true")
+@PersistenceCapable(table = "USERLESSONHISTORY", detachable = "true")
 public class UserLessonHistory implements Mirrorable{
 
     @PrimaryKey

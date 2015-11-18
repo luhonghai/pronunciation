@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-16.
  */
-@PersistenceCapable(table = "PhonemeLessonScore", detachable = "true")
+@PersistenceCapable(table = "PHONEMELESSONSCORE", detachable = "true")
 public class PhonemeLessonScore implements Mirrorable {
 
     @PrimaryKey

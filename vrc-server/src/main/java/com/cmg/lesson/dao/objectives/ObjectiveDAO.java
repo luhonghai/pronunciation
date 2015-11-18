@@ -176,7 +176,8 @@ public class ObjectiveDAO extends DataAccess<Objective> {
     public List<Objective> listIn(List<String> ids) throws Exception{
         if(ids!=null && ids.size() > 0){
             StringBuffer clause = new StringBuffer();
-            clause.append(" Where Objective.ID in(");
+            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
+            clause.append(" Where ID in(");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
@@ -184,7 +185,6 @@ public class ObjectiveDAO extends DataAccess<Objective> {
             String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             whereClause = whereClause + ") and isDeleted=false " ;
             PersistenceManager pm = PersistenceManagerHelper.get();
-            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
             Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
             try {
                 List<Object> tmp = (List<Object>) q.execute();
@@ -223,8 +223,9 @@ public class ObjectiveDAO extends DataAccess<Objective> {
      */
     public List<Objective> listNotIn(List<String> ids) throws Exception{
         if(ids!=null && ids.size() > 0){
+            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
             StringBuffer clause = new StringBuffer();
-            clause.append(" Where Objective.ID NOT IN (");
+            clause.append(" Where ID NOT IN (");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
@@ -232,7 +233,6 @@ public class ObjectiveDAO extends DataAccess<Objective> {
             String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             whereClause = whereClause + ") and isDeleted=false " ;
             PersistenceManager pm = PersistenceManagerHelper.get();
-            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
             Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
             try {
                 List<Object> tmp = (List<Object>) q.execute();

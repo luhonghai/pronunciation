@@ -293,7 +293,8 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      */
     public List<LessonCollection> listIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where LessonCollection.ID in(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        clause.append(" Where LESSONCOLLECTION.ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -302,7 +303,6 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         whereClause = whereClause + ") and isDeleted=false " ;
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -346,7 +346,8 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      */
     public List<LessonCollection> listNotIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where LessonCollection.ID NOT IN(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        clause.append(" Where LESSONCOLLECTION.ID NOT IN(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -355,7 +356,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         whereClause = whereClause + ") and isDeleted=false " ;
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();

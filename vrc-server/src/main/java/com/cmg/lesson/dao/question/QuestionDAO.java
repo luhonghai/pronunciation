@@ -66,6 +66,12 @@ public class QuestionDAO extends DataAccess<Question> {
         return isUpdate;
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
     public boolean deteleQuestion(String id) throws Exception{
         boolean isDelete=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -276,10 +282,21 @@ public class QuestionDAO extends DataAccess<Question> {
         return check;
     }
 
+    /**
+     *
+     * @param ids
+     * @param wordSearch
+     * @param order
+     * @param start
+     * @param length
+     * @return
+     * @throws Exception
+     */
     public int getCountListIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
         int count = 0;
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where Question.ID in(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -296,7 +313,6 @@ public class QuestionDAO extends DataAccess<Question> {
             whereClause = whereClause + "order by name asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select COUNT(id) from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
@@ -324,7 +340,8 @@ public class QuestionDAO extends DataAccess<Question> {
     public List<Question> listIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
     //public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where Question.ID in(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
+        clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -342,7 +359,6 @@ public class QuestionDAO extends DataAccess<Question> {
             whereClause = whereClause + "order by name asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
@@ -382,32 +398,32 @@ public class QuestionDAO extends DataAccess<Question> {
     public List<Question> searchName(List<String> ids, String questionName) throws Exception{
         //public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
         StringBuffer clause = new StringBuffer();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         List<Question> listQuestions = new ArrayList<Question>();
         String whereClause;
         if (ids.isEmpty()){
             clause.append(" Where ");
             whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + " question.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + " QUESTION.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + " isDeleted=false order by name asc" ;
             }
         }
         else {
-            clause.append(" Where Question.ID NOT IN(");
+            clause.append(" Where "+metaRecorderSentence.getTable()+".ID NOT IN(");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
             whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + ") and question.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + ") and QUESTION.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + ") and isDeleted=false order by name asc" ;
             }
         }
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(0,10);
         try {

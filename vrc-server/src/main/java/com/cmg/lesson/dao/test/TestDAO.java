@@ -176,7 +176,8 @@ public class TestDAO extends DataAccess<Test> {
     public List<Test> listIn(List<String> ids) throws Exception{
         if(ids!=null && ids.size() > 0){
             StringBuffer clause = new StringBuffer();
-            clause.append(" Where Test.ID in(");
+            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
+            clause.append(" Where ID in(");
             for(String id : ids){
                 clause.append("'"+id+"',");
             }
@@ -185,7 +186,6 @@ public class TestDAO extends DataAccess<Test> {
             whereClause = whereClause + ") and isDeleted=false " ;
 
             PersistenceManager pm = PersistenceManagerHelper.get();
-            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
             Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,percentPass from " + metaRecorderSentence.getTable() + whereClause);
             try {
                 List<Object> tmp = (List<Object>) q.execute();
