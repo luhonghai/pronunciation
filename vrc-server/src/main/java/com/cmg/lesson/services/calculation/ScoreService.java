@@ -51,7 +51,7 @@ public class ScoreService {
                             float tempWeight = w.getWeight();
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
-                            ph.setTotalScore(scorePhoneme*tempWeight);
+                            //ph.setTotalScore(scorePhoneme*tempWeight);
                             logger.info("phoneme : " + phoneme + " with score base on sphinx with added weight : " + (scorePhoneme * tempWeight));
                             ph.setIpa((String) StringUtil.isNull(ipaDao.getByArpabet(ph.getName()), ""));
                             break;
