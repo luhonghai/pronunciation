@@ -84,8 +84,7 @@ public class Pronunciationss extends HttpServlet{
 
                 if(count<10000) {
                     List<Score> scores1 = userVoiceModelDAO.listAllScore(search,username,word,scores,counts,type,dateFrom1,dateTo1);
-                    List<List<Object>> list = new ArrayList<>();
-                    list=null;
+                    List<List<Object>> list = new ArrayList<List<Object>>();
                     if(scores1!=null) {
                         for (int i = 0; i < scores1.size(); i++) {
                             List<Object> item = new ArrayList<>();
@@ -93,10 +92,13 @@ public class Pronunciationss extends HttpServlet{
                             item.add(scores1.get(i).getScore());
                             list.add(item);
                         }
+                        score.sc = list;
+                    }else {
+                        score.sc = null;
                     }
                     score.mess="success";
                     score.status=true;
-                    score.sc = list;
+
                     Gson gson = new Gson();
                     String sc = gson.toJson(score);
                     response.getWriter().write(sc);
@@ -123,7 +125,7 @@ public class Pronunciationss extends HttpServlet{
             Pronunciationss.score score = new score();
             try {
                     List<UserVoiceModel> userVoiceModels = userVoiceModelDAO.listAllScore();
-                    List<List<Object>> list = new ArrayList<>();
+                    List<List<Object>> list = new ArrayList<List<Object>>();
                     if(userVoiceModels!=null) {
                         for (int i = 0; i < userVoiceModels.size(); i++) {
                             List<Object> item = new ArrayList<>();
@@ -131,10 +133,13 @@ public class Pronunciationss extends HttpServlet{
                             item.add(userVoiceModels.get(i).getScore());
                             list.add(item);
                         }
+                        score.sc = list;
+                    }else {
+                        score.sc=null;
                     }
                     score.mess="success";
                     score.status=true;
-                    score.sc = list;
+
                     Gson gson = new Gson();
                     String sc = gson.toJson(score);
                     response.getWriter().write(sc);

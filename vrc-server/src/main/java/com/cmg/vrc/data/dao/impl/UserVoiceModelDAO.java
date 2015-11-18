@@ -112,7 +112,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -217,7 +217,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -333,7 +333,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                         score.setWord(null);
                     }
                     if (array[3] != null) {
-                        score.setScore((double) array[3]);
+                        score.setScore(Double.parseDouble(array[3].toString()));
                     } else {
                         score.setScore(0);
                     }
@@ -445,7 +445,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -530,7 +530,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -621,7 +621,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                         score.setWord(null);
                     }
                     if (array[3] != null) {
-                        score.setScore((double) array[3]);
+                        score.setScore(Double.parseDouble(array[3].toString()));
                     } else {
                         score.setScore(0);
                     }
@@ -811,7 +811,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -915,7 +915,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                             score.setWord(null);
                         }
                         if (array[3] != null) {
-                            score.setScore((double) array[3]);
+                            score.setScore(Double.parseDouble(array[3].toString()));
                         } else {
                             score.setScore(0);
                         }
@@ -1030,7 +1030,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                         score.setWord(null);
                     }
                     if (array[3] != null) {
-                        score.setScore((double) array[3]);
+                        score.setScore(Double.parseDouble(array[3].toString()));
                     } else {
                         score.setScore(0);
                     }
