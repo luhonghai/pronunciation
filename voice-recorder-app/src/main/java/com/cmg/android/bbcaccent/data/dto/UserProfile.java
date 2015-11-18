@@ -253,6 +253,10 @@ public class UserProfile {
 
     private boolean isSubscription;
 
+    public boolean isPro() {
+        return isSubscription || isActivatedLicence;
+    }
+
     public int getEnglishProficiency() {
         return englishProficiency;
     }

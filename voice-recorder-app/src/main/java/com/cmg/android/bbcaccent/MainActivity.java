@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -26,7 +27,10 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.balysv.materialmenu.MaterialMenuView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
@@ -39,15 +43,25 @@ import com.cmg.android.bbcaccent.extra.FragmentState;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.service.SyncDataService;
+import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
+import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.cmg.android.bbcaccent.view.dialog.FullscreenDialog;
 import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.cocosw.bottomsheet.BottomSheetHelper;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
+import com.google.android.gms.plus.PlusShare;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -56,7 +70,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
 
@@ -110,6 +123,182 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private Dialog dialogLanguage;
 
     private long lastPopbackPress;
+
+    private BillingProcessor bp;
+
+    private Dialog dialogSubscription;
+
+    private Dialog chooseActivateType;
+
+    private Dialog dialogLicence;
+
+    private SweetAlertDialog dialogProgress;
+
+    private boolean willCloseAfterSubscription = false;
+
+    private boolean doubleBackToExitPressedOnce = false;
+
+    CallbackManager callbackManager;
+
+    ShareDialog shareDialog;
+
+    private void showProcessDialog() {
+        dialogProgress = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        dialogProgress.setTitleText(getString(R.string.processing));
+        dialogProgress.setCancelable(false);
+        dialogProgress.show();
+    }
+
+    private void hideProcessDialog() {
+        if (dialogProgress != null && dialogProgress.isShowing())
+            dialogProgress.dismissWithAnimation();
+    }
+
+    public void showActiveFullVersionDialog() {
+        if (dialogSubscription == null) {
+            dialogSubscription = new FullscreenDialog(this, R.layout.active_subscription);
+            dialogSubscription.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    if (willCloseAfterSubscription) {
+                        MainActivity.this.finish();
+                    }
+                }
+            });
+            AndroidHelper.updateShareButton((CircleCardView) dialogSubscription.findViewById(R.id.btnShare));
+            dialogSubscription.findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showShareAction();
+                }
+            });
+            dialogSubscription.findViewById(R.id.btnActivate).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (chooseActivateType == null) {
+                        chooseActivateType = new DefaultCenterDialog(MainActivity.this, R.layout.dialog_subscription);
+                        chooseActivateType.findViewById(R.id.btnMonthly).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (bp.isInitialized()) {
+                                    bp.subscribe(MainActivity.this, IAPFactory.Subscription.MONTHLY.toString());
+                                }
+                            }
+                        });
+                        chooseActivateType.findViewById(R.id.btnYearly).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (bp.isInitialized()) {
+                                    bp.subscribe(MainActivity.this, IAPFactory.Subscription.YEARLY.toString());
+                                }
+                            }
+                        });
+                        chooseActivateType.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (dialogLicence == null) {
+                                    dialogLicence = new DefaultCenterDialog(MainActivity.this, R.layout.dialog_license_subscription);
+                                    dialogLicence.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            doActivateLicence();
+                                        }
+                                    });
+                                }
+                                if (!dialogLicence.isShowing())
+                                    dialogLicence.show();
+                            }
+                        });
+
+                    }
+                    if (!chooseActivateType.isShowing())
+                        chooseActivateType.show();
+                }
+            });
+        }
+        if (!dialogSubscription.isShowing())
+            dialogSubscription.show();
+    }
+
+    private void doUpdateFullVersion() {
+        initListMenu();
+        willCloseAfterSubscription = false;
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.UPDATE_FULL_VERSION, null);
+    }
+
+    private void doActivateLicence() {
+        final UserProfile profile = Preferences.getCurrentProfile(this);
+        if (profile != null) {
+            profile.setLicenseCode(((TextView) dialogLicence.findViewById(R.id.txtCode)).getText().toString());
+            SimpleAppLog.error("Start active license: " + profile.getLicenseCode());
+            if (profile.getLicenseCode().length() > 0) {
+                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(false);
+                showProcessDialog();
+                accountManager.activeLicense(profile, new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                                hideProcessDialog();
+                                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText(getString(R.string.could_not_activate_licence_code));
+                                d.setContentText(message);
+                                d.setConfirmText(getString(R.string.dialog_ok));
+                                d.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        profile.setIsActivatedLicence(true);
+                        Preferences.updateProfile(MainActivity.this, profile);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doUpdateFullVersion();
+                                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                                hideProcessDialog();
+                                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                d.setTitleText(getString(R.string.product_purchased_title));
+                                d.setContentText(getString(R.string.product_purchased_message));
+                                d.setConfirmText(getString(R.string.dialog_ok));
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                        if (dialogLicence != null && dialogLicence.isShowing())
+                                            dialogLicence.dismiss();
+                                        if (chooseActivateType != null && chooseActivateType.isShowing())
+                                            chooseActivateType.dismiss();
+                                        if (dialogSubscription != null && dialogSubscription.isShowing())
+                                            dialogSubscription.dismiss();
+                                    }
+                                });
+                                d.show();
+                            }
+                        });
+                    }
+                });
+            } else {
+                SweetAlertDialog d = new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE);
+                d.setTitleText(getString(R.string.missing_licence_code));
+                d.setContentText(getString(R.string.please_enter_licence_code));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+            }
+        } else {
+            SimpleAppLog.error("No profile found");
+        }
+    }
 
     public void syncService(){
         Gson gson = new Gson();
@@ -185,6 +374,77 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         displayRandomBackground();
         initDialogLanguage();
 
+        bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
+            @Override
+            public void onProductPurchased(String productId, TransactionDetails details) {
+                UserProfile userProfile = Preferences.getCurrentProfile();
+                userProfile.setIsSubscription(true);
+                Preferences.updateProfile(MainActivity.this, userProfile);
+                doUpdateFullVersion();
+                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                d.setTitleText(getString(R.string.product_purchased_title));
+                d.setContentText(getString(R.string.product_purchased_message));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                        if (chooseActivateType != null && chooseActivateType.isShowing())
+                            chooseActivateType.dismiss();
+                        if (dialogSubscription != null && dialogSubscription.isShowing())
+                            dialogSubscription.dismiss();
+                    }
+                });
+                d.show();
+            }
+
+            @Override
+            public void onBillingError(int errorCode, Throwable error) {
+                SimpleAppLog.error("could not complete purchase. Error code: " + errorCode,error);
+                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+                d.setTitleText(getString(R.string.could_not_purchase_title));
+                d.setContentText(getString(R.string.could_not_purchase_message));
+                d.setConfirmText(getString(R.string.dialog_ok));
+                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+                d.show();
+            }
+
+            @Override
+            public void onBillingInitialized() {
+
+            }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+
+            }
+        });
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+        // this part is optional
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
     }
 
     @OnItemClick(R.id.listMenu)
@@ -230,20 +490,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-    protected void showActiveFullVersionDialog() {
-        Dialog dialog = new FullscreenDialog(this, R.layout.active_subscription);
-        AndroidHelper.updateShareButton((CircleCardView)dialog.findViewById(R.id.btnShare));
-        dialog.findViewById(R.id.btnShare).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showShareAction();
-            }
-        });
-        dialog.show();
-    }
-
     private void initListMenu() {
-        ListMenuAdapter adapter = new ListMenuAdapter(this);
+        UserProfile userProfile = Preferences.getCurrentProfile();
+        ListMenuAdapter.MenuItem[] menuItems = userProfile.isPro() ? ListMenuAdapter.FULL_MENU_ITEMS : ListMenuAdapter.LITE_MENU_ITEMS;
+        ListMenuAdapter adapter = new ListMenuAdapter(this, menuItems);
         listMenu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -337,11 +587,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         return true;
     }
 
-    private void showShareAction() {
-        getShareActions("I thought you might find this app useful to help you with English pronunciation" +
-                " https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent").show();
-    }
-
     @Override
     public boolean onQueryTextSubmit(final String s) {
         if (s.length() > 0) {
@@ -391,6 +636,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onDestroy() {
+        if (bp != null) bp.release();
         super.onDestroy();
         MainBroadcaster.getInstance().unregister(listenerId);
         updateQueryHandler.removeCallbacksAndMessages(null);
@@ -706,7 +952,25 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             popBackStackFragment();
             return;
         } else {
-            super.onBackPressed();
+            UserProfile userProfile = Preferences.getCurrentProfile();
+            if (userProfile.isPro()) {
+                if (doubleBackToExitPressedOnce) {
+                    this.finish();
+                    return;
+                }
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+                return;
+            } else {
+                willCloseAfterSubscription = true;
+                showActiveFullVersionDialog();
+            }
         }
     }
 
@@ -757,10 +1021,50 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-    public BottomSheet.Builder getShareActions(String text) {
+    public BottomSheet.Builder getShareActions(String title, String text) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TITLE, title);
         shareIntent.putExtra(Intent.EXTRA_TEXT, text);
         return BottomSheetHelper.shareAction(this, shareIntent);
+    }
+
+    public void share(String title, String description, String url) {
+        switch(Preferences.getCurrentProfile().getLoginType()) {
+            case UserProfile.TYPE_EASYACCENT:
+                getShareActions(title, description +
+                        " " + url).show();
+                break;
+            case UserProfile.TYPE_FACEBOOK:
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setContentTitle(title)
+                            .setContentDescription(
+                                    description)
+                            .setContentUrl(Uri.parse(url))
+                            .build();
+
+                    shareDialog.show(linkContent);
+                }
+                break;
+            case UserProfile.TYPE_GOOGLE_PLUS:
+                Intent shareIntent = new PlusShare.Builder(this)
+                        .setType("text/plain")
+                        .setText(description)
+                        .setContentUrl(Uri.parse(url))
+                        .getIntent();
+                startActivityForResult(shareIntent, 0);
+                break;
+        }
+    }
+
+    private void showShareAction() {
+        share("accenteasy - English pronunciation app", "I thought you might find this app useful to help you with English pronunciation", "https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

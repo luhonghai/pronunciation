@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.utils.ColorHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,10 +21,19 @@ import java.util.List;
  */
 public class ListMenuAdapter extends BaseAdapter {
 
-    public static final MenuItem[] DEFAULT_MENU_ITEMS = new MenuItem[] {
+    public static final MenuItem[] LITE_MENU_ITEMS = new MenuItem[] {
+            MenuItem.ACTIVATE_SUBSCRIPTION,
+            MenuItem.LESSON,
+            MenuItem.SETTING,
+            MenuItem.ABOUT,
+            MenuItem.LICENCE,
+            MenuItem.FEEDBACK,
+            MenuItem.LOGOUT,
+    };
+
+    public static final MenuItem[] FULL_MENU_ITEMS = new MenuItem[] {
             MenuItem.FREESTYLE,
             MenuItem.LESSON,
-            MenuItem.ACTIVATE_SUBSCRIPTION,
             MenuItem.SETTING,
             MenuItem.ABOUT,
             MenuItem.LICENCE,
@@ -35,19 +45,25 @@ public class ListMenuAdapter extends BaseAdapter {
         FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_freestyle),
         LESSON(R.string.menu_lesson, R.drawable.p_menu_lesson),
         HELP(R.string.menu_help, R.drawable.p_menu_help),
-        ACTIVATE_SUBSCRIPTION(R.string.menu_subscription, R.drawable.p_menu_help),
+        ACTIVATE_SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy, ColorHelper.getColor(R.color.app_purple)),
         SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),
         LICENCE(R.string.menu_licence, R.drawable.p_menu_license),
         FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
-        SUBSCRIPTION(R.string.menu_subscription, R.drawable.p_menu_feedback),
-        LOGOUT(R.string.menu_logout, R.drawable.p_logout_red)
+        SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy),
+        LOGOUT(R.string.menu_logout, R.drawable.p_logout_red, ColorHelper.getColor(R.color.app_red))
         ;
         int stringId;
         int drawableId;
+        int textColor = ColorHelper.getColor(android.R.color.black);
         MenuItem(int stringId, int drawableId) {
             this.stringId = stringId;
             this.drawableId = drawableId;
+        }
+
+        MenuItem(int stringId, int drawableId, int textColor) {
+            this(stringId, drawableId);
+            this.textColor = textColor;
         }
 
         public static MenuItem fromName(String name) {
@@ -74,7 +90,7 @@ public class ListMenuAdapter extends BaseAdapter {
     public ListMenuAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-        menuItems = DEFAULT_MENU_ITEMS;
+        menuItems = LITE_MENU_ITEMS;
     }
 
     public ListMenuAdapter(Context context, MenuItem[] menuItems) {
@@ -116,9 +132,7 @@ public class ListMenuAdapter extends BaseAdapter {
         }
         MenuItem item = menuItems[position];
         view.textView.setText(item.toString());
-        if (item == MenuItem.LOGOUT) {
-            view.textView.setTextColor(context.getResources().getColor(R.color.app_red));
-        }
+        view.textView.setTextColor(item.textColor);
         view.imageButton.setImageResource(item.drawableId);
         return convertView;
     }

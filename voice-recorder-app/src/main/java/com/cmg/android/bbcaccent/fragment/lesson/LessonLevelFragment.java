@@ -70,7 +70,7 @@ public class LessonLevelFragment extends BaseFragment {
                             } else {
                                 level.setScore(-1);
                             }
-                            if(!level.isDemo() && !level.isActive()) {
+                            if(!level.isDemo() && !level.isActive() && Preferences.getCurrentProfile().isPro()) {
                                 // Check prev level for active current level
                                 LessonLevel prevLevel = LessonDBAdapterService.getInstance().getPrevLevelOfLevel(userProfile.getSelectedCountry().getId(), level.getId());
                                 if (prevLevel != null) {
@@ -98,6 +98,13 @@ public class LessonLevelFragment extends BaseFragment {
             SimpleAppLog.error("No user profile or country found");
         }
         return root;
+    }
+
+    @Override
+    protected void onUpdateFullVersion() {
+        if (recyclerView != null && recyclerView.getAdapter() != null) {
+            recyclerView.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override

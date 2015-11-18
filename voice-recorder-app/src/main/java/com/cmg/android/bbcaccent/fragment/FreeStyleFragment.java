@@ -223,7 +223,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         if (word == null || word.length() == 0) {
                             Bundle bundle = new Bundle();
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
-                            MainApplication.getContext().setSelectedWord(model.getWord());
+                            //MainApplication.getContext().setSelectedWord(model.getWord());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
                                     new SwitchFragmentParameter(true, true, true),
@@ -283,11 +283,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
         if (viewState.willShowHelpSearchWordAndSlider) {
-//            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
-//                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
-//                            "Don't forget to try new words by searching for them by pressing the magnifying glass"),
+            showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
+                    new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
+                            "Don't forget to try new words by searching for them by pressing the magnifying glass")
 //                    new ShowcaseHelper.HelpState(root.findViewById(R.id.btnSlider),
-//                            "Swipe up or tap to track progress, view past words and tips"));
+//                            "Swipe up or tap to track progress, view past words and tips")
+                    );
 //            viewState.willShowHelpSearchWordAndSlider = false;
         }
         return root;
@@ -826,7 +827,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 Gson gson = new Gson();
                 Bundle bundle = new Bundle();
                 bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(viewState.currentModel));
-                MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
+                //MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),

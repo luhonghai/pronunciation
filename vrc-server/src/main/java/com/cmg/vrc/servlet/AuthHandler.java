@@ -84,7 +84,7 @@ public class AuthHandler extends HttpServlet {
                                 responseData.setStatus(false);
                             }
                         }
-                        if(responseData.isStatus()==true){
+                        if(responseData.isStatus()){
                             LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
                             LoginToken loginToken=new LoginToken();
                             UserProfile.DeviceInfo deviceInfo = user.getDeviceInfo();

@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
@@ -242,12 +243,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                 });
                             }
                         }, 1900);
-                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
-                            }
-                        });
                     } else {
                         boolean isPassed = avgScore >= viewState.lessonTest.getPercentPass();
                         int layoutId = isPassed ? R.layout.dialog_passed_test : R.layout.dialog_failed_test;
@@ -259,6 +254,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
+                                if (getActivity() != null) {
+                                    ((MainActivity) getActivity()).showActiveFullVersionDialog();
+                                }
                             }
                         });
                         recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
@@ -279,11 +277,10 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                 btnShare.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        getShareActions(
-                                                String.format(
-                                                        Locale.getDefault(), "I scored %d in my pronunciation test for speaking English with a good accent. " +
-                                                                "How did you do? https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent",
-                                                        avgScore)).show();
+                                        ((MainActivity)getActivity()).share("accenteasy - English pronunciation app", String.format(
+                                                Locale.getDefault(), "I scored %d in my pronunciation test for speaking English with a good accent. " +
+                                                        "How did you do?",
+                                                avgScore), "https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent");
                                     }
                                 });
                                 AndroidHelper.updateShareButton(btnShare);
@@ -881,10 +878,4 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         closeDetail();
     }
 
-    private BottomSheet.Builder getShareActions(String text) {
-        final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-        return BottomSheetHelper.shareAction(getActivity(), shareIntent);
-    }
 }

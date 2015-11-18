@@ -3,13 +3,11 @@ package com.cmg.android.bbcaccent.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 
 import com.cmg.android.bbcaccent.BaseActivity;
 import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 /**
@@ -17,10 +15,25 @@ import com.cmg.android.bbcaccent.utils.SimpleAppLog;
  */
 public class BaseFragment extends Fragment {
 
-    @Nullable
+    int listenerId;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
+            @Override
+            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.UPDATE_FULL_VERSION) {
+                    onUpdateFullVersion();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        MainBroadcaster.getInstance().unregister(listenerId);
     }
 
     public boolean checkNetwork(boolean closeApp) {
@@ -44,5 +57,9 @@ public class BaseFragment extends Fragment {
             return a;
         }
         return super.onCreateAnimation(transit, enter, nextAnim);
+    }
+
+    protected void onUpdateFullVersion() {
+
     }
 }

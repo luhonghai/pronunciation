@@ -18,4 +18,8 @@
     <color name="app_light_gray">#d0d0d0</color>
 
     <color name="app_light_green">#9bdaa3</color>
+
+    <color name="app_light_blue">#e1f7f8</color>
+    <color name="app_light_blue_border">#daedf3</color>
+    <color name="app_blur_light_blue">#f0fcfc</color>
 </resources>

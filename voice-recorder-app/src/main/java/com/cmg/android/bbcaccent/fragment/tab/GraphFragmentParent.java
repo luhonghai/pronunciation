@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
@@ -35,7 +36,6 @@ public class GraphFragmentParent extends Fragment {
 
     private GraphPageAdapter pageAdapter;
 
-
     private int listenerId;
 
     private Map<String, IPAMapArpabet> phonemes = new HashMap<>();
@@ -50,7 +50,13 @@ public class GraphFragmentParent extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_graph_parent, container, false);
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
-        updateWord(MainApplication.getContext().getSelectedWord());
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(MainBroadcaster.Filler.USER_VOICE_MODEL.toString())) {
+            UserVoiceModel model = MainApplication.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
+            updateWord(model.getWord());
+        } else {
+            updateWord(MainApplication.getContext().getSelectedWord());
+        }
         listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
             @Override
             public void onDataUpdate(final String data,final int type) {
