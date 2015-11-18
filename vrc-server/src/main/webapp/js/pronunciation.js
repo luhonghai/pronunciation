@@ -185,7 +185,7 @@ function drawMap(){
             }
             if(data.mess=="Error Sever")
             {
-                $("#dashboard").append("<b style='font-size: 25px; color: red;'>Error.</b>");
+                swal("Error!", "Could not connect to server", "error");
             }
 
         },
