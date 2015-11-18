@@ -207,6 +207,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             @Override
             public void onUserModelFetched(UserVoiceModel model) {
                 viewState.currentModel = model;
+                //if (viewState.currentModel != null) viewState.currentModel.setScore(99.0f);
                 try {
                     saveToDatabase();
                 } catch (Exception e) {

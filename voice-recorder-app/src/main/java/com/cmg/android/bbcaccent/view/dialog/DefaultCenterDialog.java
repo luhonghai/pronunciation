@@ -12,5 +12,7 @@ public class DefaultCenterDialog extends DefaultDialog {
         super(context, layoutId);
         Window window = this.getWindow();
         window.setGravity(Gravity.CENTER);
+        setCancelable(true);
+        setCanceledOnTouchOutside(true);
     }
 }

@@ -879,6 +879,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     switch (state) {
                         case FREE_STYLE:
                             if (searchView != null) searchView.setVisibility(View.VISIBLE);
+                            MainApplication.getContext().setSelectedWord(null);
                             break;
                         default:
                             if (searchView != null) {

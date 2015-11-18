@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,8 +45,6 @@ public class GraphFragmentParent extends Fragment {
 
     private String word = "";
 
-    private boolean doNotifyDataSetChangedOnce = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_graph_parent, container, false);
@@ -78,7 +77,7 @@ public class GraphFragmentParent extends Fragment {
                                 }
                                 break;
                             case FragmentTab.TYPE_CHANGE_SELECTED_WORD:
-                                updateWord(MainApplication.getContext().getSelectedWord());
+                                updateWord(data);
                                 break;
                         }
                     }
@@ -90,12 +89,12 @@ public class GraphFragmentParent extends Fragment {
 
     protected void updateWord(final String word) {
         if (word == null || word.length() == 0) {
-            phonemeList.clear();
-            phonemes.clear();
-            this.word = "";
-            doNotifyDataSetChangedOnce = true;
-            if (mViewPager != null && mViewPager.getAdapter() != null)
-                mViewPager.getAdapter().notifyDataSetChanged();
+//            phonemeList.clear();
+//            phonemes.clear();
+//            this.word = "";
+//            doNotifyDataSetChangedOnce = true;
+//            if (mViewPager != null && mViewPager.getAdapter() != null)
+//                mViewPager.getAdapter().notifyDataSetChanged();
         } else {
             this.word = word;
             new AsyncTask<Void, Void, Void>() {
@@ -127,7 +126,6 @@ public class GraphFragmentParent extends Fragment {
                                 if (mViewPager != null) {
                                     if (mViewPager.getAdapter() == null) {
                                         pageAdapter = new GraphPageAdapter(getChildFragmentManager());
-                                        doNotifyDataSetChangedOnce = true;
                                         mViewPager.setAdapter(pageAdapter);
                                     }
                                     mViewPager.getAdapter().notifyDataSetChanged();
@@ -140,6 +138,13 @@ public class GraphFragmentParent extends Fragment {
                 }
             }.execute();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mViewPager != null && mViewPager.getAdapter() != null)
+            mViewPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -175,15 +180,16 @@ public class GraphFragmentParent extends Fragment {
 
         @Override
         public int getCount() {
-            if (doNotifyDataSetChangedOnce) {
-                doNotifyDataSetChangedOnce = false;
-                this.notifyDataSetChanged();
-            }
             try {
                 return phonemeList.size() + 1;
             } catch (NullPointerException npe) {
                 return 1;
             }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
         }
     }
 }

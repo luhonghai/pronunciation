@@ -95,6 +95,7 @@ public class LessonObjectiveFragment extends BaseFragment {
                     bundle.putString(MainBroadcaster.Filler.Key.TYPE.toString(), LessonTest.class.getName());
                     LessonHistoryDBAdapterService.getInstance().emptyHistory();
                     MainApplication.getContext().setLessonViewState(null);
+                    MainApplication.getContext().setSelectedWord(null);
                     MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                             LessonFragment.class,
                             parameter,

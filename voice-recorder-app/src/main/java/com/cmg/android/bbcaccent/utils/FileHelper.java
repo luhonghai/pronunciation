@@ -89,6 +89,7 @@ public class FileHelper {
         File file = new File(getFolderPath(DOWNLOAD_CACHE_DIR, MainApplication.getContext()), MD5Util.md5Hex(url));
         if (!file.exists()) {
             try {
+                SimpleAppLog.debug("Download url " + url + " to cached file " + file.getAbsolutePath());
                 FileUtils.copyURLToFile(new URL(url), file, 30000, 30000);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not download url " + url + " to file " + file.getAbsolutePath(),e);

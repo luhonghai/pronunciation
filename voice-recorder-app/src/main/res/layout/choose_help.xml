@@ -29,8 +29,8 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/question_gray"/>
             </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            <ListView
+                android:id="@+id/listView"
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

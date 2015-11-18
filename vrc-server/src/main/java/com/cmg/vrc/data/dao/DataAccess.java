@@ -92,7 +92,7 @@ public class DataAccess<T> implements InDataAccess<T> {
 	 * @throws DataAccessException
 	 */
 	protected void verifyObject(final Object obj) throws DataAccessException {
-		if (obj instanceof Mirrorable) {
+		if (obj instanceof Mirrorable || Mirrorable.class.isAssignableFrom(obj.getClass())) {
 			if (((Mirrorable) obj).getId() == null || ((Mirrorable) obj).getId().length() == 0)
 				((Mirrorable) obj).setId(UUIDGenerator.generateUUID());
 		} else {

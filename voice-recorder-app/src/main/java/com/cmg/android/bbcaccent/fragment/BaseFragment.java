@@ -3,6 +3,9 @@ package com.cmg.android.bbcaccent.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.Animation;
 
 import com.cmg.android.bbcaccent.BaseActivity;
@@ -14,6 +17,41 @@ import com.cmg.android.bbcaccent.utils.SimpleAppLog;
  * Created by luhonghai on 12/10/2015.
  */
 public class BaseFragment extends Fragment {
+
+    final GestureDetector gesture = new GestureDetector(getActivity(),
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                                       float velocityY) {
+                    SimpleAppLog.debug("onFling has been called");
+                    final int SWIPE_MIN_DISTANCE = 120;
+                    final int SWIPE_MAX_OFF_PATH = 250;
+                    final int SWIPE_THRESHOLD_VELOCITY = 200;
+                    try {
+                        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
+                            return false;
+                        if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                            SimpleAppLog.debug( "Right to Left");
+                            onSwipeRightToLeft();
+                        } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                            SimpleAppLog.debug("Left to Right");
+                            onSwipeLeftToRight();
+                        }
+                    } catch (Exception e) {
+                        // nothing
+                    }
+                    return super.onFling(e1, e2, velocityX, velocityY);
+                }
+            });
+
 
     int listenerId;
 
@@ -60,6 +98,27 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onUpdateFullVersion() {
+
+    }
+
+    protected void onSwipeLeftToRight() {
+
+    }
+
+    protected void onSwipeRightToLeft() {
+
+    }
+
+    protected void registerGestureSwipe(View view) {
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gesture.onTouchEvent(event);
+            }
+        });
+    }
+
+    protected void showHelp() {
 
     }
 }

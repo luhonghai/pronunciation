@@ -35,7 +35,9 @@ import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.question.Question;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
@@ -120,8 +122,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private boolean isPlaying = false;
 
-    private Map<String, String> mapCMUvsIPA;
-
     private int receiverListenerId;
 
     private ShowcaseHelper showcaseHelper;
@@ -137,8 +137,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         View root = inflater.inflate(R.layout.detail, null);
         ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
-
-        mapCMUvsIPA = new WordDBAdapter().getPhonemeCMUvsIPA();
         Gson gson = new Gson();
         model = gson.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
@@ -254,7 +252,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                             @Override
                             public void onDismiss(DialogInterface dialog) {
                                 MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
-                                if (getActivity() != null) {
+                                if (getActivity() != null && !Preferences.getCurrentProfile().isPro()) {
                                     ((MainActivity) getActivity()).showActiveFullVersionDialog();
                                 }
                             }
@@ -345,6 +343,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         }
 
         rlBottomAction.setVisibility(viewState != null ? View.VISIBLE : View.INVISIBLE);
+        registerGestureSwipe(root);
         return root;
     }
 
@@ -445,13 +444,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             scores = new SphinxResult.PhonemeScore[phonemeScores.size()];
             phonemeScores.toArray(scores);
             for (final SphinxResult.PhonemeScore score : scores) {
-                String ipa = "";
-                if (mapCMUvsIPA.containsKey(score.getName().toUpperCase())) {
-                    ipa = mapCMUvsIPA.get(score.getName().toUpperCase());
+                String ipa = score.getIpa();
+                if (ipa == null || ipa.length() == 0) {
+                    IPAMapArpabet ipaMapArpabet = getIpaByArpabet(score.getName().toUpperCase());
+                    if (ipaMapArpabet != null) ipa = ipaMapArpabet.getIpa();
                 }
-                if (score.getIpa() == null || score.getIpa().length() == 0) {
-                    score.setIpa(ipa);
-                }
+                score.setIpa(ipa);
             }
             PhoneScoreAdapter scoreAdapter = new PhoneScoreAdapter(MainApplication.getContext(), scores, new View.OnClickListener() {
                 @Override
@@ -462,6 +460,15 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             hListView.setAdapter(scoreAdapter);
             scoreAdapter.notifyDataSetChanged();
         }
+    }
+
+    private IPAMapArpabet getIpaByArpabet(String arpabet) {
+         try {
+             return LessonDBAdapterService.getInstance().findObject("arpabet = ?", new String[]{arpabet.toUpperCase()}, IPAMapArpabet.class);
+        } catch (LiteDatabaseException e) {
+            SimpleAppLog.error("could not load ipa from database",e);
+        }
+        return null;
     }
 
     @Override
@@ -609,29 +616,18 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             }
         });
         ((TextView) dialog.findViewById(R.id.txtPhonemeScore)).setText(String.format(Locale.getDefault(), "%d%%", Math.round(totalScore)));
-        String ipa = "";
-        if (mapCMUvsIPA.containsKey(score.getName().toUpperCase())) {
-            ipa = mapCMUvsIPA.get(score.getName().toUpperCase());
+        String ipa = score.getIpa();
+        final IPAMapArpabet ipaMapArpabet = getIpaByArpabet(score.getName().toUpperCase());
+        if (ipa == null || ipa.length() == 0) {
+            if (ipaMapArpabet != null) ipa = ipaMapArpabet.getIpa();
         }
         ((TextView) dialog.findViewById(R.id.txtPhoneme)).setText(ipa);
         dialog.findViewById(R.id.btnAudioPhoneme).setTag(score.getName());
         dialog.findViewById(R.id.btnAudioPhoneme).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File ipaAudio = new File(FileHelper.getIPACacheDir(MainApplication.getContext()), v.getTag().toString() + ".mp3");
-                try {
-                    if (ipaAudio.exists())
-                        FileUtils.forceDelete(ipaAudio);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (!ipaAudio.exists()) {
-                    try {
-                        FileUtils.copyInputStreamToFile(MainApplication.getContext().getAssets().open("ipa-help/" + v.getTag().toString().toUpperCase() + ".mp3"), ipaAudio);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                if (ipaMapArpabet == null || ipaMapArpabet.getMp3Url() == null || ipaMapArpabet.getMp3Url().length() == 0 ) return;
+                File ipaAudio = new File(FileHelper.getCachedFilePath(ipaMapArpabet.getMp3Url()));
                 playFile(ipaAudio);
             }
         });
@@ -878,4 +874,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         closeDetail();
     }
 
+    @Override
+    protected void onSwipeLeftToRight() {
+        closeDetail();
+    }
 }
