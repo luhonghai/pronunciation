@@ -17,16 +17,12 @@
         android:layout_height="50dp"
         android:foreground="@android:color/transparent"
         >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="33sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:text="Q"
-            android:layout_gravity="center_horizontal|center_vertical"
-            />
-
+        <ImageView
+            android:layout_width="match_parent "
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:tint="@android:color/white"
+            android:src="@drawable/p_tip_blue"/>
     </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
     <TextView
         android:id="@+id/txtTitle"
