@@ -154,8 +154,8 @@ public class QuestionDAO extends DataAccess<Question> {
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + Question.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
-        String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
-        String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String a=" (name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b=" (name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(timeCreated >= createDateFrom) &&");
         }
@@ -173,7 +173,6 @@ public class QuestionDAO extends DataAccess<Question> {
         if(search.length()==0){
             string.append(b);
         }
-        q.setRange(start, start +length);
         q.setFilter(string.toString());
         q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -184,6 +183,7 @@ public class QuestionDAO extends DataAccess<Question> {
             count = (Long) q.executeWithMap(params);
             return count.doubleValue();
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         } finally {
             q.closeAll();
