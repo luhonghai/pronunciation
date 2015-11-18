@@ -294,7 +294,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
     public List<LessonCollection> listIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
+        clause.append(" Where LESSONCOLLECTION.ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -347,7 +347,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
     public List<LessonCollection> listNotIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        clause.append(" Where "+metaRecorderSentence.getTable()+".ID NOT IN(");
+        clause.append(" Where LESSONCOLLECTION.ID NOT IN(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }

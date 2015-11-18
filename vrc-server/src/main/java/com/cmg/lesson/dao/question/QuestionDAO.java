@@ -405,7 +405,7 @@ public class QuestionDAO extends DataAccess<Question> {
             clause.append(" Where ");
             whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + " "+metaRecorderSentence.getTable()+".NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + " QUESTION.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + " isDeleted=false order by name asc" ;
             }
@@ -417,7 +417,7 @@ public class QuestionDAO extends DataAccess<Question> {
             }
             whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + ") and "+metaRecorderSentence.getTable()+".NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + ") and QUESTION.NAME COLLATE UTF8_GENERAL_CI like '%"+questionName.toLowerCase()+"%' and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + ") and isDeleted=false order by name asc" ;
             }

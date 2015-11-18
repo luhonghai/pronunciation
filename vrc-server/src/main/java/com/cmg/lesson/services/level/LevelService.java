@@ -292,7 +292,7 @@ public class LevelService {
      */
     public List<Level> listIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where Level.ID in(");
+        clause.append(" Where LEVEL.ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -338,13 +338,13 @@ public class LevelService {
 
     /**
      *
-     * @param ids
+     * @param idCourse
      * @return list level
      */
     public List<Level> listIn(String idCourse) throws Exception{
         List<Level> listLv = new ArrayList<Level>();
         PersistenceManager pm = PersistenceManagerHelper.get();
-        String join = " as lv inner join coursemappinglevel as map on map.IDLEVEL = lv.id where map.IDCOURSE = ? and map.ISDELETED=false and lv.ISDELETED=false order by map.`INDEX`";
+        String join = " as lv inner join COURSEMAPPINGLEVEL as map on map.IDLEVEL = lv.id where map.IDCOURSE = ? and map.ISDELETED=false and lv.ISDELETED=false order by map.`INDEX`";
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select lv.id,lv.name,lv.description,lv.isDemo,lv.color from " + metaRecorderSentence.getTable() + join);
         try {
@@ -388,7 +388,7 @@ public class LevelService {
      */
     public List<Level> listNotIn(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where Level.ID not in(");
+        clause.append(" Where LEVEL.ID not in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
