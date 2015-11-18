@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by lantb on 2015-10-13.
  */
-@PersistenceCapable(table = "LessonCollection", detachable = "true")
+@PersistenceCapable(table = "LESSONCOLLECTION", detachable = "true")
 public class LessonCollection implements Mirrorable {
     @PrimaryKey
     private String id;

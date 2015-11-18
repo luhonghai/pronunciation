@@ -10,7 +10,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-08.
  */
-@PersistenceCapable(table = "WeightForPhoneme", detachable = "true")
+@PersistenceCapable(table = "WEIGHTFORPHONEME", detachable = "true")
 public class WeightForPhoneme implements Mirrorable{
 
     @PrimaryKey

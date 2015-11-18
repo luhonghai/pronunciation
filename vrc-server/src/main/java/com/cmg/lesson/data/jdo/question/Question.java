@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by lantb on 2015-10-07.
  */
-@PersistenceCapable(table = "Question", detachable = "true")
+@PersistenceCapable(table = "QUESTION", detachable = "true")
 public class Question implements Mirrorable {
 
     @PrimaryKey

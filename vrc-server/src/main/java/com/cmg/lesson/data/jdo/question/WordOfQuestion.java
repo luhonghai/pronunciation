@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by lantb on 2015-10-07.
  */
-@PersistenceCapable(table = "WordOfQuestion", detachable = "true")
+@PersistenceCapable(table = "WORDOFQUESTION", detachable = "true")
 public class WordOfQuestion implements Mirrorable{
 
     @PrimaryKey
