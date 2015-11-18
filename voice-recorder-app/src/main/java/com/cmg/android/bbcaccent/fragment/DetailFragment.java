@@ -742,12 +742,14 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 public void onCompletion(MediaPlayer mp) {
                     mp.release();
                     isPlaying = false;
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            switchButtonState();
-                        }
-                    });
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                switchButtonState();
+                            }
+                        });
+                    }
 
                 }
 
