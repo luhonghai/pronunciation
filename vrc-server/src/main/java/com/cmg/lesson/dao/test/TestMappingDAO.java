@@ -81,7 +81,7 @@ public class TestMappingDAO extends DataAccess<TestMapping> {
 
     /**
      *
-     * @param idTest
+     * @param idLesson
      * @return
      */
     public boolean updateDeletedByLesson(String idLesson){
