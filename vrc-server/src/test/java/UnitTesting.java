@@ -14,6 +14,7 @@ import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
@@ -51,11 +52,15 @@ public class UnitTesting {
                 AWSHelper awsHelper = new AWSHelper();
                 awsHelper.download("sphinx-data/dict/brit-a-z.txt", fWords);
             }*/
-            File sql = new File("C:\\", "wordcollection.sql");
-            List<String> listSql = FileUtils.readLines(sql,"UTF-8");
-            WordCollectionDAO dao = new WordCollectionDAO();
-            for(String insertSql : listSql){
-               // dao.loadWordFromSql(insertSql);
+            QuestionDAO dao = new QuestionDAO();
+            for(int i=0; i < 200;i++){
+                Question q = new Question();
+                q.setId(UUID.randomUUID().toString());
+                q.setIsDeleted(false);
+                q.setTimeCreated(new Date(System.currentTimeMillis()));
+                q.setVersion(i);
+                q.setName("temp" + i);
+                dao.create(q);
             }
         } catch (Exception e) {
             e.printStackTrace();
