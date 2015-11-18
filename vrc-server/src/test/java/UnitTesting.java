@@ -55,7 +55,7 @@ public class UnitTesting {
             List<String> listSql = FileUtils.readLines(sql,"UTF-8");
             WordCollectionDAO dao = new WordCollectionDAO();
             for(String insertSql : listSql){
-                dao.loadWordFromSql(insertSql);
+               // dao.loadWordFromSql(insertSql);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -215,30 +215,12 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
-    public boolean loadWordFromSql(String sqlInsert){
-        boolean check = false;
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", sqlInsert);
-        try {
-            q.execute();
-            check=true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            if (q!= null)
-                q.closeAll();
-            pm.close();
-        }
-        return check;
-    }
 
     /**
      *
      * @param idWord
-     * @param definition
-     * @param mp3Path
+     * @param
+     * @param
      * @return true if update success
      */
     public boolean updateArpabet(String idWord,String arpabet){
@@ -285,10 +267,21 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         return check;
     }
 
+    /**
+     *
+     * @param ids
+     * @param wordSearch
+     * @param order
+     * @param start
+     * @param length
+     * @return
+     * @throws Exception
+     */
     public int getCountListIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
         int count = 0;
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where WordCollection.ID in(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        clause.append(" Where "+ metaRecorderSentence.getTable() +".ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -305,7 +298,6 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
             whereClause = whereClause + "order by word asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select COUNT(id) from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
@@ -332,7 +324,8 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      */
     public List<WordCollection> listIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
         StringBuffer clause = new StringBuffer();
-        clause.append(" Where WordCollection.ID in(");
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
         for(String id : ids){
             clause.append("'"+id+"',");
         }
@@ -349,7 +342,6 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
             whereClause = whereClause + "order by word asc" ;
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,word,mp3Path,pronunciation from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {

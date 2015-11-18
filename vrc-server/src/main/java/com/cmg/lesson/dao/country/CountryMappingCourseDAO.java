@@ -195,7 +195,8 @@ public class CountryMappingCourseDAO extends DataAccess<CountryMappingCourse>{
     public List<Course> listCourseAvailable(){
         List<Course> listCourse = new ArrayList<Course>();
         PersistenceManager pm = PersistenceManagerHelper.get();
-        String filter = " Where id not in (Select idCourse from CountryMappingCourse)";
+        TypeMetadata CountryMappingCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CountryMappingCourse.class.getCanonicalName());
+        String filter = " Where id not in (Select idCourse from "+CountryMappingCourse.getTable()+")";
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + filter);
         try {

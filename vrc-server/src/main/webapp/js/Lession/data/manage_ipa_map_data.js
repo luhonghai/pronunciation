@@ -51,6 +51,9 @@ function clearForm(){
        $(this).val("");
     });
     $("textarea.form-control").each(function(){$(this).val("");});
+    $("form").find("#imageTongue").fileinput('destroy');
+    $("form").find("#imageLips").fileinput('destroy');
+    $("form").find("#imageJaw").fileinput('destroy');
     $('#type').multiselect('destroy');
     $("#type").empty();
     $("#ipa").removeAttr("readonly");
