@@ -213,13 +213,13 @@ public class QuestionService {
     public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
         QuestionDAO dao = new QuestionDAO();
         try {
-            if (search == null && createDateFrom == null && createDateTo == null){
+            if (search == "" && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
                     return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
         return 0.0;
     }
