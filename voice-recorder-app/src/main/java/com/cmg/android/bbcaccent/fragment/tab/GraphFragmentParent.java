@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
@@ -35,7 +37,6 @@ public class GraphFragmentParent extends Fragment {
 
     private GraphPageAdapter pageAdapter;
 
-
     private int listenerId;
 
     private Map<String, IPAMapArpabet> phonemes = new HashMap<>();
@@ -44,13 +45,17 @@ public class GraphFragmentParent extends Fragment {
 
     private String word = "";
 
-    private boolean doNotifyDataSetChangedOnce = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_graph_parent, container, false);
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
-        updateWord(MainApplication.getContext().getSelectedWord());
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(MainBroadcaster.Filler.USER_VOICE_MODEL.toString())) {
+            UserVoiceModel model = MainApplication.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
+            updateWord(model.getWord());
+        } else {
+            updateWord(MainApplication.getContext().getSelectedWord());
+        }
         listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
             @Override
             public void onDataUpdate(final String data,final int type) {
@@ -72,7 +77,7 @@ public class GraphFragmentParent extends Fragment {
                                 }
                                 break;
                             case FragmentTab.TYPE_CHANGE_SELECTED_WORD:
-                                updateWord(MainApplication.getContext().getSelectedWord());
+                                updateWord(data);
                                 break;
                         }
                     }
@@ -84,12 +89,12 @@ public class GraphFragmentParent extends Fragment {
 
     protected void updateWord(final String word) {
         if (word == null || word.length() == 0) {
-            phonemeList.clear();
-            phonemes.clear();
-            this.word = "";
-            doNotifyDataSetChangedOnce = true;
-            if (mViewPager != null && mViewPager.getAdapter() != null)
-                mViewPager.getAdapter().notifyDataSetChanged();
+//            phonemeList.clear();
+//            phonemes.clear();
+//            this.word = "";
+//            doNotifyDataSetChangedOnce = true;
+//            if (mViewPager != null && mViewPager.getAdapter() != null)
+//                mViewPager.getAdapter().notifyDataSetChanged();
         } else {
             this.word = word;
             new AsyncTask<Void, Void, Void>() {
@@ -121,7 +126,6 @@ public class GraphFragmentParent extends Fragment {
                                 if (mViewPager != null) {
                                     if (mViewPager.getAdapter() == null) {
                                         pageAdapter = new GraphPageAdapter(getChildFragmentManager());
-                                        doNotifyDataSetChangedOnce = true;
                                         mViewPager.setAdapter(pageAdapter);
                                     }
                                     mViewPager.getAdapter().notifyDataSetChanged();
@@ -134,6 +138,13 @@ public class GraphFragmentParent extends Fragment {
                 }
             }.execute();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mViewPager != null && mViewPager.getAdapter() != null)
+            mViewPager.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -169,15 +180,16 @@ public class GraphFragmentParent extends Fragment {
 
         @Override
         public int getCount() {
-            if (doNotifyDataSetChangedOnce) {
-                doNotifyDataSetChangedOnce = false;
-                this.notifyDataSetChanged();
-            }
             try {
                 return phonemeList.size() + 1;
             } catch (NullPointerException npe) {
                 return 1;
             }
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
         }
     }
 }

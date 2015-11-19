@@ -31,7 +31,8 @@ public class MainBroadcaster {
         SEARCH_WORD("search_word"),
         SWITCH_FRAGMENT("switch_fragment"),
         POP_BACK_STACK_FRAGMENT("pop_back_stack_fragment"),
-        LESSON("lesson")
+        LESSON("lesson"),
+        UPDATE_FULL_VERSION("full_version")
         ;
         String name;
         Filler(String name) {

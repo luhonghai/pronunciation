@@ -618,4 +618,11 @@ public class RecordingView extends View {
         }
        // this.stopPingCycle();
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopPingAnimation();
+        recycle();
+    }
 }

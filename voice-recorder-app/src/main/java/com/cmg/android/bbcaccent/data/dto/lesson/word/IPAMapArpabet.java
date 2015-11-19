@@ -90,6 +90,7 @@ public class IPAMapArpabet extends BaseLessonEntity {
     }
 
     public String getMp3Url() {
+        if (mp3Url == null) return "";
         return mp3Url;
     }
 

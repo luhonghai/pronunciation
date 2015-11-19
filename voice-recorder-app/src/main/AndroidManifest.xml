@@ -100,6 +100,10 @@
             android:enabled="true"
             android:exported="true" >
         </service>
+        <service
+            android:name=".service.UpdateDataService"
+            android:enabled="true" >
+        </service>
     </application>
 
 </manifest>

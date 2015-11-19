@@ -18,7 +18,10 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -85,14 +88,41 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     private AccountManager accountManager;
 
     private boolean willShowLicenceWarning = false;
-
-    private SweetAlertDialog dialogProgress;
-
     private int alternativeStep = 0;
+
+    private BillingProcessor bp;
+
+    private boolean isSubscription = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
+            @Override
+            public void onProductPurchased(String productId, TransactionDetails details) {
+
+            }
+
+            @Override
+            public void onBillingError(int errorCode, Throwable error) {
+            }
+
+            @Override
+            public void onBillingInitialized() {
+                bp.loadOwnedPurchasesFromGoogle();
+                for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
+                    if (bp.isSubscribed(subscription.toString())) {
+                        isSubscription = true;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+
+            }
+        });
         setContentView(R.layout.login);
         ButterKnife.bind(this);
         accountManager = new AccountManager(this);
@@ -121,11 +151,18 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private Dialog dialogResetPassword;
 
+    private SweetAlertDialog dialogProgress;
+
     private void showProcessDialog() {
         dialogProgress = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         dialogProgress.setTitleText(getString(R.string.processing));
         dialogProgress.setCancelable(false);
         dialogProgress.show();
+    }
+
+    private void hideProcessDialog() {
+        if (dialogProgress != null && dialogProgress.isShowing())
+            dialogProgress.dismissWithAnimation();
     }
 
     private void initAuthDialog() {
@@ -559,12 +596,25 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         if (isRunning()) {
                             SweetAlertDialog d = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
                             d.setTitleText(getString(R.string.could_not_fetch_profile));
-                            d.setContentText(message);
-                            d.setConfirmText(getString(R.string.dialog_close));
-                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            d.setCancelText(getString(R.string.dialog_close));
+                            d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     LoginActivity.this.finish();
+                                }
+                            });
+                            d.setContentText(message);
+                            d.setConfirmText(getString(R.string.logout));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    accountManager.logout();
+                                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                                        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                                        mGoogleApiClient.disconnect();
+                                        mGoogleApiClient.connect();
+                                    }
+                                    sweetAlertDialog.dismissWithAnimation();
                                 }
                             });
                             d.show();
@@ -581,6 +631,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         dialogProgress.dismissWithAnimation();
                     }
                 });
+                profile.setIsSubscription(isSubscription);
                 Preferences.updateProfile(LoginActivity.this, profile);
                 //call services sync data here DENP-238
                 startMainActivity();
@@ -735,6 +786,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     protected void onDestroy() {
+        if (bp != null) bp.release();
         super.onDestroy();
         profileTracker.stopTracking();
     }
@@ -758,7 +810,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
                             AppLog.logString(object.toString());
-                            UserProfile profile = new UserProfile();
+                            final UserProfile profile = new UserProfile();
                             try {
                                 profile.setUsername(object.getString("email"));
                             } catch (JSONException e) {
@@ -795,7 +847,19 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                                     // showProcessDialog();
                                 }
                             });
-                            doAuth(profile);
+                            accountManager.register(profile, new AccountManager.AuthListener() {
+                                @Override
+                                public void onError(String message, Throwable e) {
+                                    SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message,e);
+                                    doAuth(profile);
+                                }
+
+                                @Override
+                                public void onSuccess() {
+                                    doAuth(profile);
+                                }
+                            });
+
                         } catch (Exception e) {
                             e.printStackTrace();
                             runOnUiThread(new Runnable() {
@@ -927,7 +991,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         signedInUser = false;
         Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
         if (person != null) {
-            UserProfile profile = new UserProfile();
+            final UserProfile profile = new UserProfile();
             profile.setUsername(Plus.AccountApi.getAccountName(mGoogleApiClient));
             profile.setDob(person.getBirthday());
             String imageUrl = person.getImage().getUrl();
@@ -940,7 +1004,19 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             profile.setGender(person.getGender() == 1);
             profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
             //showProcessDialog();
-            doAuth(profile);
+            accountManager.register(profile, new AccountManager.AuthListener() {
+                @Override
+                public void onError(String message, Throwable e) {
+                    SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message,e);
+                    doAuth(profile);
+                }
+
+                @Override
+                public void onSuccess() {
+                    doAuth(profile);
+                }
+            });
+
         } else {
             hideProcessDialog();
         }
@@ -1007,7 +1083,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         SimpleAppLog.info("onActivityResult. requestCode: " + requestCode + ". resultCode: " + resultCode);
         switch (requestCode) {
             case 0:
@@ -1046,11 +1122,6 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 //resolveSignInError();
             }
         }
-    }
-
-    private void hideProcessDialog() {
-        if (dialogProgress != null && dialogProgress.isShowing())
-            dialogProgress.dismissWithAnimation();
     }
 
     private void enableForm(boolean enable) {
