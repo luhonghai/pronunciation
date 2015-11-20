@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <link href="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/css/fileinput.min.css" type="text/css" rel="stylesheet"/>
+
 <t:main pageTitle="Wholesale delivery system" index="0">
     <div id="page-wrapper">
         <div class="row">
@@ -33,8 +34,15 @@
                 </div>
 
             </form>
-            <div id="loadScore">
-
+            <div id="loadScore" class="group-phoneme-weight">
+                <div class="row" id="alphabet"></div>
+                <div class="row" id="score"></div>
+            </div>
+            <div id="loadFrame" class="group-phoneme-weight" style="margin-top: 20px;">
+                <div class="row" id="alphabets"></div>
+                <div class="row" id="listAlpabet"></div>
+                <div class="row" id="count"></div>
+                <div class="row" id="totalScore"></div>
             </div>
             <!-- /.col-lg-12 -->
         </div>

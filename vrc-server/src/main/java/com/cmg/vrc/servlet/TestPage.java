@@ -78,6 +78,10 @@ public class TestPage extends HttpServlet {
 //                        }
 //                    }
                     resultResponseData.setData(result);
+                    resultResponseData.setMessage("success");
+                    resultResponseData.setStatus(true);
+                    String resultResponse = gson.toJson(resultResponseData);
+                    response.getWriter().write(resultResponse);
 
                 }else {
                     response.getWriter().write("notExist");
