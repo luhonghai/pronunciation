@@ -40,6 +40,10 @@ public class PhonemesDetector {
 
     private final File sphinx4DataTmpDir = FileHelper.getTmpSphinx4DataDir();
 
+    private File grammarFile;
+
+    private String grammarName;
+
     public PhonemesDetector(File target, String word) {
         this.target = target;
         this.word = word;
@@ -76,7 +80,7 @@ public class PhonemesDetector {
             //conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
             conf.setGrammarPath(getGrammarPath());
             conf.setUseGrammar(true);
-            conf.setGrammarName(word.toLowerCase());
+            conf.setGrammarName(grammarName);
             try {
                 recognizer =
                         new StreamSpeechRecognizer(conf);
@@ -102,12 +106,21 @@ public class PhonemesDetector {
             } else {
                 phoneme = p;
             }
-            List<String> neighbours = neighbourPhones.get(phoneme.toLowerCase());
+            List<String> neighbours = new ArrayList<>(neighbourPhones.get(phoneme.toLowerCase()));
             sb.append("(");
-            if (neighbours!=null && neighbours.size() > 0) {
-                neighbours = new ArrayList<String>(neighbours);
+            if (neighbours.size() > 0) {
                 neighbours.add("SIL");
                 neighbours.add(phoneme);
+                for (String np : neighbourPhones.get(phoneme.toLowerCase())) {
+                    List<String> listNp = neighbourPhones.get(np.toLowerCase());
+                    if (listNp != null && listNp.size() > 0) {
+                        for (String snp : listNp) {
+                            if (!neighbours.contains(snp)) {
+                                neighbours.add(snp);
+                            }
+                        }
+                    }
+                }
                 sb.append(StringUtils.join(neighbours, "|"));
             } else {
                 sb.append(phoneme);
@@ -115,8 +128,8 @@ public class PhonemesDetector {
             sb.append(") ");
         }
         sb.append("SIL);");
-
-        File grammarFile = new File(grammarDir, word + ".gram");
+        grammarName = UUID.randomUUID().toString();
+        grammarFile = new File(grammarDir, grammarName+ ".gram");
         if (!grammarFile.exists() || grammarFile.isDirectory()) {
             try {
                 FileUtils.write(grammarFile, sb.toString(), "UTF-8");
@@ -252,6 +265,9 @@ public class PhonemesDetector {
                     stream.close();
                 } catch (IOException iox) {
 
+                }
+                if (grammarFile != null && grammarFile.exists()) {
+                    FileUtils.forceDelete(grammarFile);
                 }
             }
         }
@@ -443,11 +459,12 @@ public class PhonemesDetector {
         String buttomUs = "/Volumes/DATA/Development/voice-sample/bottom/bottom-us.wav";
 
         Map<String, String> testData = new HashMap<String, String>();
-        testData.put("/Users/cmg/Desktop/voice_example/credit_1e80b112-0f75-489b-9b94-f6e12df88ca9_raw.wav", "credit");
-        testData.put("/Users/cmg/Desktop/voice_example/bullfinch_affef66a-155f-4578-802e-2d776b792d31_raw.wav", "bullfinch");
-        testData.put("/Users/cmg/Desktop/voice_example/finance_3d329c5d-38ab-4cbf-9ac2-f22f4684aa00_raw.wav", "finance");
-        testData.put("/Users/cmg/Desktop/voice_example/rabbit_5866cf48-12a4-48dd-87ee-5a5a432e792a_raw.wav", "rabbit");
-        testData.put("/Users/cmg/Desktop/voice_example/welcome_b709aadc-6445-4702-8879-73294aa66c17_raw.wav", "welcome");
+       // testData.put("/Users/cmg/Desktop/voice_example/credit_1e80b112-0f75-489b-9b94-f6e12df88ca9_raw.wav", "credit");
+       // testData.put("/Users/cmg/Desktop/voice_example/bullfinch_affef66a-155f-4578-802e-2d776b792d31_raw.wav", "bullfinch");
+       // testData.put("/Users/cmg/Desktop/voice_example/finance_3d329c5d-38ab-4cbf-9ac2-f22f4684aa00_raw.wav", "finance");
+      // testData.put("/Users/cmg/Desktop/voice_example/rabbit_5866cf48-12a4-48dd-87ee-5a5a432e792a_raw.wav", "rabbit");
+      //  testData.put("/Users/cmg/Desktop/voice_example/welcome_b709aadc-6445-4702-8879-73294aa66c17_raw.wav", "welcome");
+        testData.put("C:\\Users\\CMGT400\\Desktop\\LoadAudioRecorder.wav", "hello");
         Iterator<String> keys = testData.keySet().iterator();
         while (keys.hasNext()) {
             long start = System.currentTimeMillis();

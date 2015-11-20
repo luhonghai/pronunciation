@@ -531,6 +531,15 @@
         <url-pattern>/database_upload</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TestPage</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.TestPage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestPage</servlet-name>
+        <url-pattern>/TestPage</url-pattern>
+    </servlet-mapping>
+
 
 
     <servlet>
