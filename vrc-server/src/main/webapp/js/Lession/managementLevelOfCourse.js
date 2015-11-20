@@ -577,7 +577,7 @@ function addTest(){
         }
         if (percentPass == null || typeof percentPass == "undefined" || percentPass.length == 0){
             $("#add-percen-pass").focus();
-            swal("Warning!", "Please enter a percent pass!", "warning");
+            swal("Warning!", "Please enter a percent to pass this test!", "warning");
             return;
         }
         var dto = getDtoAddTest();
@@ -658,9 +658,15 @@ function openPopupEditTest(){
 function editTest(){
     $(document).on("click","#yesedit-test", function(){
         var nameTest = $("#edit-test-name").val();
+        var percentPass =  $("#edit-percen-pass").val();
         if (nameTest == null || typeof nameTest == "undefined" || nameTest.length == 0){
             $("#edit-test-name").focus();
             swal("Warning!", "Please enter a test name!", "warning");
+            return;
+        }
+        if (percentPass == null || typeof percentPass == "undefined" || percentPass.length == 0){
+            $("#edit-percen-pass").focus();
+            swal("Warning!", "Please enter a percent to pass this test!", "warning");
             return;
         }
         var dto = getDtoEditTest();

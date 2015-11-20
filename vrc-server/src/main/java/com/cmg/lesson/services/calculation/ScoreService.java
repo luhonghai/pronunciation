@@ -47,7 +47,7 @@ public class ScoreService {
                     String phoneme = ph.getName();
                     logger.info("phoneme : " + phoneme + " with score base on sphinx : " + scorePhoneme);
                     for(WeightForPhoneme w : weight){
-                        if(w.getPhoneme().equalsIgnoreCase(phoneme.toLowerCase())){
+                        if(w.getPhoneme().trim().equalsIgnoreCase(phoneme.toLowerCase().trim())){
                             float tempWeight = w.getWeight();
                             totalWeight = totalWeight + tempWeight;
                             totalscore = totalscore + (scorePhoneme*tempWeight);
