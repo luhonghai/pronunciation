@@ -78,6 +78,7 @@ public class IPAPhoneticFragment extends BaseFragment {
                 SimpleAppLog.error("Could not get ipa from database",e);
             }
         }
+        registerGestureSwipe(root);
         return root;
     }
 
@@ -198,5 +199,10 @@ public class IPAPhoneticFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onSwipeLeftToRight() {
+        getActivity().onBackPressed();
     }
 }

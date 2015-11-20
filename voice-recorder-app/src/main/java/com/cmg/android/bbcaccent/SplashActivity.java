@@ -15,6 +15,7 @@ import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.service.UpdateDataService;
 import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
@@ -141,12 +142,18 @@ public class SplashActivity extends BaseActivity implements
                 }
                 @Override
                 public void onBillingError(int errorCode, Throwable error) {
-
+                    loadStatus.remove(LoadItem.SUBSCRIPTION);
+                    validateCallback();
                 }
                 @Override
                 public void onBillingInitialized() {
                     bp.loadOwnedPurchasesFromGoogle();
-                    isSubscription = bp.isSubscribed(IAPFactory.Subscription.MONTHLY.toString());
+                    for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
+                        if (bp.isSubscribed(subscription.toString())) {
+                            isSubscription = true;
+                            break;
+                        }
+                    }
                     SimpleAppLog.debug("Is subscription: " + isSubscription);
                     loadStatus.remove(LoadItem.SUBSCRIPTION);
                     validateCallback();
@@ -237,12 +244,25 @@ public class SplashActivity extends BaseActivity implements
                         if (isRunning()) {
                             SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
                             d.setTitleText(getString(R.string.could_not_fetch_profile));
-                            d.setContentText(message);
-                            d.setConfirmText(getString(R.string.dialog_close));
-                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            d.setCancelText(getString(R.string.dialog_close));
+                            d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     SplashActivity.this.finish();
+                                }
+                            });
+                            d.setContentText(message);
+                            d.setConfirmText(getString(R.string.logout));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    accountManager.logout();
+                                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                                        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+                                        mGoogleApiClient.disconnect();
+                                        mGoogleApiClient.connect();
+                                    }
+                                    startActivity(LoginActivity.class);
                                 }
                             });
                             d.show();

@@ -10,7 +10,8 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 public class IAPFactory {
 
     public enum Subscription {
-        MONTHLY("com.cmg.test.subscription")
+        MONTHLY("com.cmg.accenteasy.monthly"),
+        YEARLY("com.cmg.accenteasy.yearly")
         ;
         String id;
         Subscription(String id) {

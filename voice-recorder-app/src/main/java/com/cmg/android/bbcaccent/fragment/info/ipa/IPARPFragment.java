@@ -15,6 +15,13 @@ public class IPARPFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.ipa_rp_fragment, null);
+        View view = inflater.inflate(R.layout.ipa_rp_fragment, null);
+        registerGestureSwipe(view);
+        return view;
+    }
+
+    @Override
+    protected void onSwipeLeftToRight() {
+        getActivity().onBackPressed();
     }
 }

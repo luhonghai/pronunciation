@@ -179,6 +179,7 @@ public class GraphFragment extends FragmentTab {
                     float latestScore = -1;
                     while (scoreIterator.hasNext()) {
                         SphinxResult.PhonemeScore score = scoreIterator.next();
+                        if (score.getTotalScore() > 100) score.setTotalScore(100.0f);
                         if (latestScore == -1)
                             latestScore = score.getTotalScore();
                         DataPoint dataPoint = new DataPoint(size - 1 - i, score.getTotalScore());

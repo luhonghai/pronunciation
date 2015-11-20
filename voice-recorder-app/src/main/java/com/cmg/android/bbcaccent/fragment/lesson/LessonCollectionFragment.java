@@ -94,6 +94,7 @@ public class LessonCollectionFragment extends BaseFragment {
                             b.putString(MainBroadcaster.Filler.Key.TYPE.toString(), Objective.class.getName());
                             MainApplication.getContext().setLessonViewState(null);
                             LessonHistoryDBAdapterService.getInstance().emptyHistory();
+                            MainApplication.getContext().setSelectedWord(null);
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     LessonFragment.class,
                                     parameter,

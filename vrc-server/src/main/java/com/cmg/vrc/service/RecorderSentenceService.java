@@ -76,13 +76,13 @@ public class RecorderSentenceService {
         List<RecordedSentence> list= new ArrayList<RecordedSentence>();
         try {
             list= recorderDAO.getListByVersion(version,username);
-            System.out.println("start dao get list : " + list.size());
-            for(RecordedSentence rc : list){
-                System.out.println("version : " + rc.getVersion());
-                System.out.println("status : " + rc.getStatus());
-
-            }
-            System.out.println("start dao get list : " + list.size());
+//            System.out.println("start dao get list : " + list.size());
+//            for(RecordedSentence rc : list){
+//                System.out.println("version : " + rc.getVersion());
+//                System.out.println("status : " + rc.getStatus());
+//
+//            }
+//            System.out.println("start dao get list : " + list.size());
         }catch (Exception e){
             e.printStackTrace();
         }

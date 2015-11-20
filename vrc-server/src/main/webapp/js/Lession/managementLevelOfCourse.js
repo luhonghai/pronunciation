@@ -569,9 +569,15 @@ function openPopupAddTest(){
 function addTest(){
     $(document).on("click","#yesadd-test", function(){
         var nameTest = $("#add-test-name").val();
+        var percentPass =  $("#add-percen-pass").val();
         if (nameTest == null || typeof nameTest == "undefined" || nameTest.length == 0){
             $("#add-test-name").focus();
             swal("Warning!", "Please enter a test name!", "warning");
+            return;
+        }
+        if (percentPass == null || typeof percentPass == "undefined" || percentPass.length == 0){
+            $("#add-percen-pass").focus();
+            swal("Warning!", "Please enter a percent pass!", "warning");
             return;
         }
         var dto = getDtoAddTest();

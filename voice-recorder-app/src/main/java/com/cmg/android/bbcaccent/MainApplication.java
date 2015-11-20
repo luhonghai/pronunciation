@@ -1,6 +1,7 @@
 package com.cmg.android.bbcaccent;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.cmg.android.bbcaccent.data.sqlite.FreestyleDatabaseHelper;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
@@ -8,6 +9,7 @@ import com.cmg.android.bbcaccent.data.sqlite.LessonDatabaseHelper;
 import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
 import com.cmg.android.bbcaccent.extra.BreakDownAction;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
+import com.cmg.android.bbcaccent.service.UpdateDataService;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -70,6 +72,7 @@ public class MainApplication  extends Application {
                 SimpleAppLog.error("Could not init lesson history database",e);
             }
         }
+        startService(new Intent(this, UpdateDataService.class));
     }
 
     @Override

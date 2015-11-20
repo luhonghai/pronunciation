@@ -131,9 +131,13 @@
     <string name="menu_settings">settings</string>
     <string name="menu_licence">licence</string>
     <string name="menu_feedback">feedback</string>
-    <string name="menu_subscription">subscription</string>
+    <string name="menu_subscription">full version</string>
     <string name="menu_logout">logout</string>
     <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
+    <string name="could_not_purchase_message">your purchase could not be completed, please contact support@accenteasy.com</string>
+    <string name="could_not_purchase_title">an error occurred during purchase</string>
+    <string name="product_purchased_title">thanks for your order</string>
+    <string name="product_purchased_message">the full version is activated now</string>
     <string name="help_search_icon_title">don\'t forget to try new words</string>
     <string name="help_search_icon">searching for them by pressing the magnifying glass</string>
     <string name="word_not_in_beep_title">oh gosh!</string>

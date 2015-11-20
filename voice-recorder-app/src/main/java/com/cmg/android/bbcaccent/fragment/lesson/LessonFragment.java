@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -35,12 +34,10 @@ import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.cmg.android.bbcaccent.data.dto.PronunciationScore;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
-import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
@@ -63,7 +60,6 @@ import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.DetailFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
-import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
@@ -289,7 +285,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                             bundle.putString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString(), gson.toJson(model));
                             bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
                             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
-                            MainApplication.getContext().setSelectedWord(model.getWord());
+                            //MainApplication.getContext().setSelectedWord(model.getWord());
                             MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                                     DetailFragment.class,
                                     new SwitchFragmentParameter(true, true, true),
@@ -914,7 +910,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         handlerStartDetail.removeCallbacks(runnableStartDetail);
         stop();
         try {
-            recordingView.recycle();
+            if (recordingView != null) {
+                recordingView.stopPingAnimation();
+                recordingView.recycle();
+            }
         } catch (Exception ex) {
 
         }
@@ -1025,7 +1024,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
                 MainApplication.getContext().setLessonViewState(viewState);
                 bundle.putString(ViewState.class.getName(), MainApplication.toJson(viewState));
-                MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
+                //MainApplication.getContext().setSelectedWord(viewState.currentModel.getWord());
                 MainBroadcaster.getInstance().getSender().sendSwitchFragment(
                         DetailFragment.class,
                         new SwitchFragmentParameter(true, true, true),
@@ -1294,6 +1293,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         try {
             if (analyzingState == AnalyzingState.WAIT_FOR_ANIMATION_MAX) {
                 AppLog.logString("On animation max");
+                if (recordingView == null) return;
                 recordingView.stopPingAnimation();
                 if (viewState.currentModel != null) {
                     if (isRecording) {
@@ -1416,7 +1416,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         //txtPhonemes.setSelected(true);
                         //txtWord.setSelected(true);
                         showcaseHelper.showHelp(ShowcaseHelper.HelpKey.ANALYZING_WORD,
-                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> <i>\"" + viewState.dictionaryItem.getWord() + "\"</i> to hear the word"),
+                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> the word to hear it"),
                                 new ShowcaseHelper.HelpState(btnAnalyzing, "<b>Press</b> to <b>test</b> your pronunciation"));
 
                         final Question question = viewState.questions.get(viewState.selectedQuestionIndex);
