@@ -6,6 +6,7 @@ import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
 import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
+import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
@@ -15,6 +16,7 @@ import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
@@ -52,15 +54,11 @@ public class UnitTesting {
                 AWSHelper awsHelper = new AWSHelper();
                 awsHelper.download("sphinx-data/dict/brit-a-z.txt", fWords);
             }*/
-            QuestionDAO dao = new QuestionDAO();
-            for(int i=0; i < 200;i++){
-                Question q = new Question();
-                q.setId(UUID.randomUUID().toString());
-                q.setIsDeleted(false);
-                q.setTimeCreated(new Date(System.currentTimeMillis()));
-                q.setVersion(i);
-                q.setName("temp" + i);
-                dao.create(q);
+            WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
+            List<WeightForPhoneme> weight = weightDao.listBy("079eca3b-d4d0-4259-8302-824930c53305","4177e406-ed44-43df-8578-9e0a2585a153");
+            for(WeightForPhoneme w : weight){
+                if(w.getPhoneme().trim().equalsIgnoreCase("AY"))
+                System.out.println(w.getPhoneme());
             }
         } catch (Exception e) {
             e.printStackTrace();
