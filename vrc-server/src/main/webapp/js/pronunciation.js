@@ -7,6 +7,7 @@ function listScore(){
         "responsive": true,
         "bProcessing": true,
         "bServerSide": true,
+        "order": [[ 3, "desc" ]],
         "ajax": {
             "url": "Pronunciations",
             "type": "POST",

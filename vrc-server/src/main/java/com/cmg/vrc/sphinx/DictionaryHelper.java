@@ -8,10 +8,7 @@ import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,7 +134,11 @@ public class DictionaryHelper {
                 default:
                     checkBEEP();
                     if (BEEP_CACHE.containsKey(s3Path)) {
-                        return BEEP_CACHE.get(s3Path).get(word.toUpperCase());
+                        final Map<String, List<String>> map = BEEP_CACHE.get(s3Path);
+                        String key = word.toUpperCase();
+                        if (map != null && map.containsKey(key)) {
+                            return map.get(key);
+                        }
                     }
                     break;
             }
@@ -155,15 +156,26 @@ public class DictionaryHelper {
                 File tmp = new File(FileHelper.getTmpSphinx4DataDir(), StringUtil.md5(s3Path) + ".dic");
                 if (!tmp.exists()) {
                     logger.info("Fetch BEEP dictionary from AWS S3");
-                    AWSHelper awsHelper = new AWSHelper();
-                    awsHelper.download(s3Path, tmp);
+                    try {
+                        AWSHelper awsHelper = new AWSHelper();
+                        awsHelper.download(s3Path, tmp);
+                    } catch (Exception e) {
+                        logger.log(Level.SEVERE, "could not download beep dictionary" ,e);
+                        if (tmp.exists()) {
+                            try {
+                                FileUtils.forceDelete(tmp);
+                            } catch (Exception ex) {
+
+                            }
+                        }
+                    }
                 }
                 if (tmp.exists()) {
-                    logger.info("Start analyze BEEP dictionary");
+                    logger.info("Start analyze BEEP dictionary " + tmp);
                     Map<String, List<String>> cache = new HashMap<String, List<String>>();
                     BufferedReader br = null;
                     try {
-                        br = new BufferedReader(new FileReader(tmp));
+                        br = new BufferedReader(new InputStreamReader(new FileInputStream(tmp), "UTF-8"));
                         String line;
                         while ((line = br.readLine()) != null) {
                             if (!line.startsWith("#")) {
@@ -179,7 +191,8 @@ public class DictionaryHelper {
                                         if (p.length() > 0)
                                             phonemes.add(p);
                                     }
-                                    cache.put(lineData[0].trim(), phonemes);
+                                    String word = lineData[0].trim().toUpperCase();
+                                    cache.put(word, phonemes);
                                 }
                             }
                         }
@@ -205,7 +218,7 @@ public class DictionaryHelper {
 
     public static void main(String[] args) throws Exception {
         DictionaryHelper helper = new DictionaryHelper(Type.BEEP);
-        List<String> phonemes = helper.getCorrectPhonemes("bottom");
+        List<String> phonemes = helper.getCorrectPhonemes("hello");
         if (phonemes != null && phonemes.size() > 0) {
             System.out.println("Found phonemes:");
             for (String s : phonemes) {
@@ -215,14 +228,14 @@ public class DictionaryHelper {
             System.out.println("No phonemes found");
         }
 
-        phonemes = helper.getCorrectPhonemes("necessarily");
-        if (phonemes != null && phonemes.size() > 0) {
-            System.out.println("Found phonemes:");
-            for (String s : phonemes) {
-                System.out.println(s);
-            }
-        } else {
-            System.out.println("No phonemes found");
-        }
+//        phonemes = helper.getCorrectPhonemes("necessarily");
+//        if (phonemes != null && phonemes.size() > 0) {
+//            System.out.println("Found phonemes:");
+//            for (String s : phonemes) {
+//                System.out.println(s);
+//            }
+//        } else {
+//            System.out.println("No phonemes found");
+//        }
     }
 }

@@ -116,6 +116,11 @@
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 
+				<li>
+					<a href="TestPage.jsp"><i class="fa fa-stethoscope"></i> Test Page </a>
+				</li>
+
+
 
 
 				<li>

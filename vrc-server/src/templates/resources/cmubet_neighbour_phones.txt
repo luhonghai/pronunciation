@@ -7,7 +7,6 @@ AA neighbors: AA|AH|ER|AO|SIL
 AO neighbors: AO|AA|ER|UH|SIL
 UH neighbors: UH|AO|UW|UW|SIL
 UW neighbors: UW|UH|UW|SIL
-UW neighbors: UW|UH|UW|SIL
 ER neighbors: ER|EH|AH|AO|SIL
 EY neighbors: EY|EH|IY|AY|SIL
 OY neighbors: OY|AO|IY|AY|SIL
@@ -38,6 +37,5 @@ W neighbors: W|L|Y|SIL
 M neighbors: M|N|SIL
 N neighbors: N|M|NG|SIL
 NG neighbors: NG|N|SIL
-DX neighbors: DX|DX|S|HH|DH|SIL
-DX neighbors: DX|DX|T|SIL
+DX neighbors: DX|S|HH|DH|T|SIL
 N neighbors: N|M|NG|SIL
