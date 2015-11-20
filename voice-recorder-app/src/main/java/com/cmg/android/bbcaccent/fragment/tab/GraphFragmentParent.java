@@ -35,8 +35,6 @@ public class GraphFragmentParent extends Fragment {
 
     private ViewPager mViewPager;
 
-    private GraphPageAdapter pageAdapter;
-
     private int listenerId;
 
     private Map<String, IPAMapArpabet> phonemes = new HashMap<>();
@@ -124,10 +122,12 @@ public class GraphFragmentParent extends Fragment {
                             @Override
                             public void run() {
                                 if (mViewPager != null) {
-                                    if (mViewPager.getAdapter() == null) {
-                                        pageAdapter = new GraphPageAdapter(getChildFragmentManager());
-                                        mViewPager.setAdapter(pageAdapter);
-                                    }
+                                    if (mViewPager.getAdapter() != null)
+                                        mViewPager.getAdapter().notifyDataSetChanged();
+                                    GraphPageAdapter pageAdapter = new GraphPageAdapter(getChildFragmentManager(),
+                                            new HashMap<String, IPAMapArpabet>(phonemes),
+                                            new ArrayList<String>(phonemeList));
+                                    mViewPager.setAdapter(pageAdapter);
                                     mViewPager.getAdapter().notifyDataSetChanged();
                                     if (mViewPager.getChildCount() > 0)
                                         mViewPager.setCurrentItem(0);
@@ -142,9 +142,9 @@ public class GraphFragmentParent extends Fragment {
 
     @Override
     public void onResume() {
-        super.onResume();
         if (mViewPager != null && mViewPager.getAdapter() != null)
             mViewPager.getAdapter().notifyDataSetChanged();
+        super.onResume();
     }
 
     @Override
@@ -155,8 +155,14 @@ public class GraphFragmentParent extends Fragment {
     }
 
     private class GraphPageAdapter extends FragmentStatePagerAdapter {
-        public GraphPageAdapter(FragmentManager fm) {
+        private final Map<String, IPAMapArpabet> mPhonemes;
+
+        private final List<String> mPhonemeList;
+
+        public GraphPageAdapter(FragmentManager fm, Map<String, IPAMapArpabet> phonemes, List<String> phonemeList) {
             super(fm);
+            this.mPhonemes = phonemes;
+            this.mPhonemeList = phonemeList;
         }
 
         @Override
@@ -169,7 +175,7 @@ public class GraphFragmentParent extends Fragment {
                 graphFragment.setWord(word);
             } else {
                 try {
-                    graphFragment.setPhoneme(phonemes.get(phonemeList.get(position - 1)));
+                    graphFragment.setPhoneme(mPhonemes.get(mPhonemeList.get(position - 1)));
                 } catch (NullPointerException npe) {
                     graphFragment.setPhoneme(null);
                 }
@@ -181,7 +187,7 @@ public class GraphFragmentParent extends Fragment {
         @Override
         public int getCount() {
             try {
-                return phonemeList.size() + 1;
+                return mPhonemeList.size() + 1;
             } catch (NullPointerException npe) {
                 return 1;
             }

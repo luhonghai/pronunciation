@@ -539,7 +539,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        //super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -905,7 +905,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                                     R.anim.enter_from_left, R.anim.exit_to_right);
                         transaction.replace(R.id.content, fragment, state.toString());
-                        transaction.commit();
+                        transaction.commitAllowingStateLoss();
                     } else {
                         findViewById(R.id.contentV4).setVisibility(View.VISIBLE);
                         findViewById(R.id.content).setVisibility(View.GONE);
@@ -921,7 +921,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                                     R.anim.enter_from_left, R.anim.exit_to_right);
                         transaction.replace(R.id.contentV4, fragment, state.toString());
-                        transaction.commit();
+                        transaction.commitAllowingStateLoss();
                     }
                     if (parameter.isAddToBackStack())
                         fragmentStates.push(currentFragmentState);

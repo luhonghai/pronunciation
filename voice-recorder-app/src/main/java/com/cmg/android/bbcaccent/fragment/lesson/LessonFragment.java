@@ -1412,7 +1412,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         txtPhonemes.setEnabled(true);
                         rlVoiceExample.setEnabled(true);
                         AndroidHelper.updateMarqueeTextView(txtWord, !AndroidHelper.isCorrectWidth(txtWord, viewState.dictionaryItem.getWord()));
-                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtWord, viewState.dictionaryItem.getPronunciation()));
+                        AndroidHelper.updateMarqueeTextView(txtPhonemes, !AndroidHelper.isCorrectWidth(txtPhonemes, viewState.dictionaryItem.getPronunciation()));
                         //txtPhonemes.setSelected(true);
                         //txtWord.setSelected(true);
                         showcaseHelper.showHelp(ShowcaseHelper.HelpKey.ANALYZING_WORD,
