@@ -20,7 +20,8 @@ public enum QueryHelper {
     select_all_words_by_question("select_all_words_by_question"),
     search_word("search_word"),
     select_prev_level_of_level("select_prev_level_of_level"),
-    select_next_lesson_on_current_objective("select_next_lesson_on_current_objective")
+    select_next_lesson_on_current_objective("select_next_lesson_on_current_objective"),
+    select_next_objective_on_current_level("select_next_objective_on_current_level")
     ;
     String name;
 

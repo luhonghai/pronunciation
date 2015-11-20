@@ -192,12 +192,14 @@ public class DictionaryHelper {
                                             phonemes.add(p);
                                     }
                                     String word = lineData[0].trim().toUpperCase();
-                                    cache.put(word, phonemes);
+                                    if (!cache.containsKey(word)) {
+                                        cache.put(word, phonemes);
+                                    }
                                 }
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.log(Level.SEVERE, "could not read BEEP dictionary", e);
                     } finally {
                         try {
                             if (br != null)

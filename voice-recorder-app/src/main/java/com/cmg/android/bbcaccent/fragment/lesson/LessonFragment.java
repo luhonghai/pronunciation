@@ -343,6 +343,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     SimpleAppLog.debug("Found next lesson " + nextLesson.getName() + ". ID: " + nextLesson.getId());
                     viewState.lessonCollection = nextLesson;
                     viewState.questions = null;
+                } else {
+                    SimpleAppLog.debug("No next lesson found for current objective. Move to next objective lesson");
                 }
             } catch (LiteDatabaseException e) {
                 SimpleAppLog.error("could not get next lesson",e);
@@ -1168,6 +1170,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 if (currentQuestion != null && ! viewState.isLesson && currentQuestion.isRecorded()) {
                     ((ImageView) btnAnalyzing.getChildAt(0)).setImageResource(R.drawable.ic_record);
                     btnAnalyzing.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                    btnAnalyzing.setEnabled(false);
                 }
             }
         } catch (Exception e) {

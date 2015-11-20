@@ -3,12 +3,16 @@ package com.cmg.android.bbcaccent.service;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,6 +43,18 @@ public class UpdateDataService extends IntentService {
                             }
                         }
                     });
+                }
+            }
+            List<Country> countryList = LessonDBAdapterService.getInstance().toList(
+                    LessonDBAdapterService.getInstance().cursorAllCountry(), Country.class);
+            if (countryList != null&& countryList.size() > 0) {
+                DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+                for (Country country : countryList) {
+                    String imgUrl = country.getImageUrl();
+                    if (imgUrl != null && imgUrl.length() > 0) {
+                        SimpleAppLog.debug("Preload country image url " + imgUrl);
+                        ImageLoader.getInstance().loadImage(imgUrl, displayImageOptions, null);
+                    }
                 }
             }
         } catch (LiteDatabaseException e) {

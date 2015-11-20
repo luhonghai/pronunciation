@@ -40,7 +40,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by luhonghai on 3/17/15.
  */
 public class SplashActivity extends BaseActivity implements
-        GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener, OnPrepraredListener {
+        GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -116,7 +116,36 @@ public class SplashActivity extends BaseActivity implements
             loadStatus.add(LoadItem.GOOGLE_PLUS);
             loadStatus.add(LoadItem.DATABASE);
             loadStatus.add(LoadItem.SUBSCRIPTION);
-            new DatabasePrepare(this, this).prepare();
+            new DatabasePrepare(this, new OnPrepraredListener() {
+                @Override
+                public void onComplete() {
+                    AppLog.logString("Complete check database");
+                    loadStatus.remove(LoadItem.DATABASE);
+                    validateCallback();
+                }
+
+                @Override
+                public void onError(final String message, Throwable e) {
+                    SplashActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            handlerDogAnimation.removeCallbacks(runnableDogAnimation);
+                            SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
+                            d.setTitleText("not enough information");
+                            d.setContentText(message);
+                            d.setConfirmText(getString(R.string.dialog_close));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    SplashActivity.this.finish();
+                                }
+                            });
+                            d.show();
+                        }
+                    });
+
+                }
+            }).prepare();
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -358,13 +387,6 @@ public class SplashActivity extends BaseActivity implements
         Intent mainIntent = new Intent(SplashActivity.this, clazz);
         SplashActivity.this.startActivity(mainIntent);
         SplashActivity.this.finish();
-    }
-
-    @Override
-    public void onComplete() {
-        AppLog.logString("Complete check database");
-        loadStatus.remove(LoadItem.DATABASE);
-        validateCallback();
     }
 
     @Override
