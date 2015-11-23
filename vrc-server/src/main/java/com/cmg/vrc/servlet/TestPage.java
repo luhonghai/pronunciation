@@ -43,13 +43,18 @@ public class TestPage extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(CalculationServlet.class
             .getName());
+
+    class TestResponseData extends ResponseData<SphinxResult> {
+        Map<String, List<String>> neighbourPhones;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
         WordMappingPhonemesDAO wordMappingPhonemesDAO=new WordMappingPhonemesDAO();
         Gson gson = new Gson();
         AWSHelper awsHelper = new AWSHelper();
-        ResponseData<SphinxResult> resultResponseData = new ResponseData<>();
+        TestResponseData resultResponseData = new TestResponseData();
         List<PhonemeLessonScore> list = null;
 
         try {
@@ -66,6 +71,7 @@ public class TestPage extends HttpServlet {
                     //List<WordMappingPhonemes> wordMappingPhonemes=wordMappingPhonemesDAO.getByWordID(wordCollection.getId());
                     PhonemesDetector detector = new PhonemesDetector(page1.getFileAudio(), page1.getWord());
                     result = detector.analyze();
+                    resultResponseData.neighbourPhones = detector.getNeighbourPhones();
 //                    List<SphinxResult.PhonemeScore> scores = result.getPhonemeScores();
 //                    if(scores!=null && scores.size() > 0){
 //                        list = new ArrayList<PhonemeLessonScore>();

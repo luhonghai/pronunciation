@@ -34,10 +34,10 @@
                 </div>
 
             </form>
-            <div id="loadScore" class="group-phoneme-weight">
-                <div class="row" id="alphabet"></div>
-                <div class="row" id="score"></div>
-            </div>
+            <%--<div id="loadScore" class="group-phoneme-weight">--%>
+                <%--<div class="row" id="alphabet"></div>--%>
+                <%--<div class="row" id="score"></div>--%>
+            <%--</div>--%>
             <div id="loadFrame" class="group-phoneme-weight" style="margin-top: 20px;">
                 <div class="row" id="alphabets"></div>
                 <div class="row" id="listAlpabet"></div>
