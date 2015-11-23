@@ -19,6 +19,12 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
     public UserVoiceModelDAO() {
         super(UserVoiceModel.class);
     }
+    public UserVoiceModel getUserByIdAndUsername(String id, String username) throws Exception{
+        List<UserVoiceModel> userList = list("WHERE id == :1 && username == :2", id, username);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
     public List<Score> listAll(int start, int length,String search,int column,String order,String username1,String word1,int score1, String type, Date dateFrom1, Date dateTo1) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();

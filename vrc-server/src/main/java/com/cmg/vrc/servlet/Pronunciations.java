@@ -1,12 +1,18 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
+import com.cmg.lesson.data.jdo.history.UserLessonHistory;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.data.jdo.Score;
 import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -39,6 +45,8 @@ public class Pronunciations extends HttpServlet{
         UserVoiceModelDAO userVoiceModelDAO=new UserVoiceModelDAO();
         UserVoiceModel userVoiceModel=new UserVoiceModel();
         UserDeviceDAO userDeviceDAO=new UserDeviceDAO();
+        UserLessonHistoryDAO userLessonHistoryDAO=new UserLessonHistoryDAO();
+        UserLessonHistory userLessonHistory=new UserLessonHistory();
         UserDevice userDevice=new UserDevice();
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -122,7 +130,31 @@ public class Pronunciations extends HttpServlet{
 
 
         }
+        if(request.getParameter("download")!=null){
+            String id =(String) StringUtil.isNull(request.getParameter("id"), "");
+            String username =(String) StringUtil.isNull(request.getParameter("username"), "");
+            String audioKey=null;
+            final AWSHelper awsHelper = new AWSHelper();
+            try {
+                if (!StringUtils.isEmpty(id)) {
+                    userVoiceModel=userVoiceModelDAO.getUserByIdAndUsername(id,username);
+                    userLessonHistory=userLessonHistoryDAO.getUserByIdAndUsername(id,username);
+                    if(userVoiceModel!=null){
+                       audioKey = awsHelper.generatePresignedUrl(Constant.FOLDER_RECORDED_VOICES + "/" + username + "/" + userVoiceModel.getRecordFile());
 
+                    }else if(userLessonHistory!=null){
+                        audioKey = awsHelper.generatePresignedUrl(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + username + "/" + userLessonHistory.getRecordedFile());
+
+                    }else {
+                        audioKey="null";
+                    }
+                }
+                response.getWriter().write(audioKey);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
 
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
