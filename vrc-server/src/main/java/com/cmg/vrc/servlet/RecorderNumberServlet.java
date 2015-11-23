@@ -1,10 +1,14 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.RecorderDAO;
 import com.cmg.vrc.data.dao.impl.RecorderSentenceDAO;
 import com.cmg.vrc.data.dao.impl.TranscriptionDAO;
 import com.cmg.vrc.data.jdo.RecordedSentence;
+import com.cmg.vrc.util.AWSHelper;
+import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +26,8 @@ public class RecorderNumberServlet extends HttpServlet {
         public List<RecordedSentence> recordedSentences;
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        RecorderDAO recorderDAO = new RecorderDAO();
+        RecordedSentence recordedSentence = new RecordedSentence();
            if(request.getParameter("loadNumber")!=null){
                RecorderNumberServlet.number number=new number();
                try{
@@ -60,6 +65,28 @@ public class RecorderNumberServlet extends HttpServlet {
 
 
            }
+        if(request.getParameter("download")!=null){
+            String id =(String) StringUtil.isNull(request.getParameter("id"), "");
+            String username =(String) StringUtil.isNull(request.getParameter("username"), "");
+            String audioKey=null;
+            final AWSHelper awsHelper = new AWSHelper();
+            try {
+                if (!StringUtils.isEmpty(id)) {
+
+                    recordedSentence=recorderDAO.getUserByIdAndUsername(id, username);
+                    if(recordedSentence!=null){
+                        audioKey = awsHelper.generatePresignedUrl(Constant.FOLDER_REOCORDED_VOICES_AMT + "/" + username + "/" + recordedSentence.getFileName());
+
+                    }else {
+                        audioKey="null";
+                    }
+                }
+                response.getWriter().write(audioKey);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);

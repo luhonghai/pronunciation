@@ -27,6 +27,12 @@ public class RecorderDAO extends DataAccess<RecordedSentence> {
         return null;
 
     }
+    public RecordedSentence getUserByIdAndUsername(String id, String username) throws Exception{
+        List<RecordedSentence> userList = list("WHERE id == :1 && account == :2", id, username);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
 
     public List<RecordedSentence> listByIdSentence(String id) throws Exception {
         return list("WHERE sentenceId == :1", id);
