@@ -2,9 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
-import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
-import com.cmg.vrc.data.jdo.DictionaryVersion;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -53,7 +51,7 @@ public class DatabaseUploadHandler extends BaseServlet {
             FileItemIterator iter = null;
             iter = upload.getItemIterator(request);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "database_data");
+            File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), Constant.FOLDER_DATABASE);
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
                 voiceRecordDir.mkdirs();
             }
@@ -77,7 +75,7 @@ public class DatabaseUploadHandler extends BaseServlet {
             if (dictFile.exists()) {
                 int version = databaseVersionDAO.getMaxVersion();
                 version++;
-                String fileName = "database-v" + version + ".dict";
+                String fileName = "database-v" + version + ".zip";
                 DatabaseVersion databaseVersion = new DatabaseVersion();
                 databaseVersion.setSelected(true);
                 databaseVersion.setAdmin(admin);

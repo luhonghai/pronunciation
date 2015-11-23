@@ -1,6 +1,7 @@
 var nbPhoneme;
 function TestWord(){
     $(document).on("click","#test",function(){
+        $("#test").attr("disabled",true);
         //$("#alphabet").empty();
         //$("#score").empty();
         $("#alphabets").empty();
@@ -22,6 +23,7 @@ function TestWord(){
             contentType: false,
             processData: false,
             success:function(data){
+
                 nbPhoneme = data.neighbourPhones;
                 if(data.data!=null){
                     var result=data.data.phonemeScores;
@@ -37,15 +39,15 @@ function TestWord(){
                         $("#alphabets").append('<input id="'+i+'" readonly="readonly" index="'+result[i].index+'" value="'+result[i].name+'"  type="text">');
                         if(listFrame.length>0){
                             for(var j = 0; j < listFrame.length; j++){
-                                var test=testNbPhoneme(result[i].name,listFrame[j].name);
-                                $("#listAlpabet").append('<input class="listAlpabet" readonly="readonly" index="'+listFrame[j].index+'" value="'+listFrame[j].name+'"  type="text">');
+                                var test=testNbPhoneme(listFrame[j].name,result[i].name);
+                                $("#listAlpabet").append('<input id="'+i+''+j+'t" readonly="readonly" index="'+listFrame[j].index+'" value="'+listFrame[j].name+'"  type="text">');
                                 $("#count").append('<input class="count" readonly="readonly" index="'+listFrame[j].index+'" value="'+listFrame[j].count+'"  type="text">');
-                                if(test=0){
-                                    $(".listAlpabet").css({'width':'50px', 'text-align':'center', 'color': 'red'});
-                                }else if(test=1){
-                                    $(".listAlpabet").css({'width':'50px', 'text-align':'center', 'color':'green'});
+                                if(test==0){
+                                    $("#"+i+ +j+"t").css({'width':'50px', 'text-align':'center', 'color': 'red'});
+                                }else if(test==1){
+                                    $("#"+i+ +j+"t").css({'width':'50px', 'text-align':'center', 'color':'green'});
                                 }else{
-                                    $(".listAlpabet").css({'width':'50px', 'text-align':'center', 'color':'orange'});
+                                    $("#"+i+ +j+"t").css({'width':'50px', 'text-align':'center', 'color':'orange'});
                                 }
 
                                 $(".count").css({'width':'50px', 'text-align':'center'});
@@ -71,9 +73,9 @@ function TestWord(){
                             $("#"+i+"").css({'width':'50px', 'text-align':'center'});
                             $("#"+i+"s").css({'width':'50px', 'text-align':'right'});
                         }
-
-
                     }
+                    $("#totalScore").append('<input class="counts" readonly="readonly" type="text" value="Score ='+data.data.score+'">');
+
                 }
                 $("#test").attr("disabled",false);
 

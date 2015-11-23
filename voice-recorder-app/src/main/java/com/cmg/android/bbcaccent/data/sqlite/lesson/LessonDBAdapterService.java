@@ -153,6 +153,34 @@ public class LessonDBAdapterService {
         return null;
     }
 
+    public Objective getNextObjectiveOnCurrentLevel(String countryId, String levelId, String objectiveId) throws LiteDatabaseException {
+        BaseDatabaseAdapter<Objective> dbAdapter = new BaseDatabaseAdapter<Objective>(MainApplication.getContext().getLessonDatabaseHelper(), Objective.class);
+        Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_next_objective_on_current_level.toString(), new String[] {countryId, levelId, objectiveId});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                return dbAdapter.toObject(cursor, fieldValueParser);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
+    public LessonCollection getFirstLessonOfObjective(String countryId, String levelId, String objectiveId) throws LiteDatabaseException {
+        BaseDatabaseAdapter<LessonCollection> dbAdapter = new BaseDatabaseAdapter<LessonCollection>(MainApplication.getContext().getLessonDatabaseHelper(), LessonCollection.class);
+        Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_all_lesson_collection_by_objective.toString(), new String[] {countryId, levelId, objectiveId});
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                return dbAdapter.toObject(cursor, fieldValueParser);
+            }
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
+
     public LessonCollection getNextLessonOnCurrentObjective(String countryId, String levelId, String objectiveId, String lessonId) throws LiteDatabaseException {
         BaseDatabaseAdapter<LessonCollection> dbAdapter = new BaseDatabaseAdapter<LessonCollection>(MainApplication.getContext().getLessonDatabaseHelper(), LessonCollection.class);
         Cursor cursor = dbAdapter.rawQuery(QueryHelper.select_next_lesson_on_current_objective.toString(), new String[] {countryId, levelId, objectiveId, lessonId});

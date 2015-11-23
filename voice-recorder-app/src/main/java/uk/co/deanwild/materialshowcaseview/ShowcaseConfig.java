@@ -2,6 +2,9 @@ package uk.co.deanwild.materialshowcaseview;
 
 import android.graphics.Color;
 
+import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.utils.ColorHelper;
+
 import uk.co.deanwild.materialshowcaseview.shape.CircleShape;
 import uk.co.deanwild.materialshowcaseview.shape.Shape;
 
@@ -24,8 +27,8 @@ public class ShowcaseConfig {
 
     public ShowcaseConfig() {
         mMaskColour = Color.parseColor(ShowcaseConfig.DEFAULT_MASK_COLOUR);
-        mContentTextColor = Color.parseColor("#ffffff");
-        mDismissTextColor = Color.parseColor("#ffffff");
+        mContentTextColor = ColorHelper.getColor(R.color.app_purple);
+        mDismissTextColor = ColorHelper.getColor(R.color.app_purple);
     }
 
     public long getDelay() {

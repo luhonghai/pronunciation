@@ -144,6 +144,7 @@ public class Preferences extends PreferenceFragment implements
         DeviceUuidFactory uIdFac = new DeviceUuidFactory(context);
         deviceInfo.setEmei(uIdFac.getDeviceUuid().toString());
         deviceInfo.setModel(android.os.Build.MODEL);
+        deviceInfo.setAppName(AndroidHelper.getVersionCode(context));
         deviceInfo.setOsVersion(System.getProperty("os.version"));
         deviceInfo.setOsApiLevel(android.os.Build.VERSION.SDK);
         deviceInfo.setDeviceName(android.os.Build.DEVICE);

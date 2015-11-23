@@ -3,7 +3,9 @@ package com.cmg.vrc.servlet;
 import com.cmg.lesson.services.ipa.IpaMapArpabetService;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.LoginTokenDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
+import com.cmg.vrc.data.jdo.LoginToken;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.service.PhonemeScoreService;
@@ -65,6 +67,9 @@ public class VoiceRecordHandler extends HttpServlet {
         //DENP-238 : call service
         UserVoiceModelService uVoiceService = new UserVoiceModelService();
         PhonemeScoreService pScoreService = new PhonemeScoreService();
+        ResponseData<UserVoiceModel> responseData = new ResponseData<>();
+        responseData.setStatus(false);
+        Gson gson = new Gson();
         try {
             //create a new Map<String,String> to store all parameter
             Map<String, String> storePara = new HashMap<String, String>();
@@ -106,104 +111,109 @@ public class VoiceRecordHandler extends HttpServlet {
             String countryId = storePara.get(PARA_COUNTRY);
             logger.info("word : " + word);
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
-                Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
-
-                File target = new File(targetDir, user.getUsername());
-                if (!target.exists() && !target.isDirectory()) {
-                    target.mkdirs();
-                }
-                File tmpFileIn = new File(tmpDir, tmpFile);
-                String uuid = UUIDGenerator.generateUUID();
-                String fileTempName  = word + "_" + uuid + "_raw" + ".wav";
-                File targetRaw = new File(target, fileTempName);
-                //String fileClean = word + "_" + uuid + "_clean" + ".wav";
-                //File targetClean = new File(target, fileClean);
-                FileUtils.moveFile(tmpFileIn, targetRaw);
-                try {
-                    if (tmpFileIn.exists())
-                        FileUtils.forceDelete(tmpFileIn);
-                } catch (Exception e) {}
-                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + fileTempName,
-                        targetRaw);
+                LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
+                LoginToken loginToken = loginTokenDAO.getByAccountAndDevice(user.getUsername(), user.getDeviceInfo().getEmei());
+                if (loginToken != null) {
+                    File target = new File(targetDir, user.getUsername());
+                    if (!target.exists() && !target.isDirectory()) {
+                        target.mkdirs();
+                    }
+                    File tmpFileIn = new File(tmpDir, tmpFile);
+                    String uuid = UUIDGenerator.generateUUID();
+                    String fileTempName = word + "_" + uuid + "_raw" + ".wav";
+                    File targetRaw = new File(target, fileTempName);
+                    //String fileClean = word + "_" + uuid + "_clean" + ".wav";
+                    //File targetClean = new File(target, fileClean);
+                    FileUtils.moveFile(tmpFileIn, targetRaw);
+                    try {
+                        if (tmpFileIn.exists())
+                            FileUtils.forceDelete(tmpFileIn);
+                    } catch (Exception e) {
+                    }
+                    awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + fileTempName,
+                            targetRaw);
 
 //                AudioCleaner cleaner = new SoXCleaner(targetClean,targetRaw);
 //                cleaner.clean();
 
-                UserVoiceModel model = new UserVoiceModel();
-                //model.setCleanRecordFile(fileClean);
-                logger.info("username : " + user.getUsername());
-                model.setUsername(user.getUsername());
-                model.setCountry(user.getCountry());
-                model.setDob(user.getDob());
-                model.setDuration(user.getDuration());
-                model.setTime(user.getTime());
-                model.setServerTime(System.currentTimeMillis());
-                model.setEnglishProficiency(user.getEnglishProficiency());
-                model.setGender(user.isGender());
-                model.setRecordFile(fileTempName);
-                model.setWord(word);
-                model.setNativeEnglish(user.isNativeEnglish());
-                model.setUuid(user.getUuid());
-                //DENP-238 : set version for user voice model
-                model.setVersion(uVoiceService.getMaxVersion(user.getUsername()));
-                UserProfile.UserLocation location = user.getLocation();
-                if (location != null) {
-                    model.setLatitude(location.getLatitude());
-                    model.setLongitude(location.getLongitude());
-                }
-                SphinxResult result = null;
-                PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
-                try {
-                    result = detector.analyze();
-                } catch (Exception ex) {
-                    logger.error("Could not analyze word", ex);
-                }
-                UserVoiceModelDAO dao = new UserVoiceModelDAO();
-                if (result != null)
-                    model.setScore(result.getScore());
+                    UserVoiceModel model = new UserVoiceModel();
+                    //model.setCleanRecordFile(fileClean);
+                    logger.info("username : " + user.getUsername());
+                    model.setUsername(user.getUsername());
+                    model.setCountry(user.getCountry());
+                    model.setDob(user.getDob());
+                    model.setDuration(user.getDuration());
+                    model.setTime(user.getTime());
+                    model.setServerTime(System.currentTimeMillis());
+                    model.setEnglishProficiency(user.getEnglishProficiency());
+                    model.setGender(user.isGender());
+                    model.setRecordFile(fileTempName);
+                    model.setWord(word);
+                    model.setNativeEnglish(user.isNativeEnglish());
+                    model.setUuid(user.getUuid());
+                    //DENP-238 : set version for user voice model
+                    model.setVersion(uVoiceService.getMaxVersion(user.getUsername()));
+                    UserProfile.UserLocation location = user.getLocation();
+                    if (location != null) {
+                        model.setLatitude(location.getLatitude());
+                        model.setLongitude(location.getLongitude());
+                    }
+                    SphinxResult result = null;
+                    PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
+                    try {
+                        result = detector.analyze();
+                    } catch (Exception ex) {
+                        logger.error("Could not analyze word", ex);
+                    }
+                    UserVoiceModelDAO dao = new UserVoiceModelDAO();
+                    if (result != null)
+                        model.setScore(result.getScore());
                     model = dao.createObj(model);
-                if (result != null) {
-                    model.setResult(result);
-                    //DENP-238 : save phoneme score to database
-                    int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
-                    model.setVersionPhoneme(maxVersionPhoneme);
-                    pScoreService.addPhonemeScore(model);
-                }
-                //set ipa for result phoneme send to client;
-                IpaMapArpabetService ipaService = new IpaMapArpabetService();
-                model = ipaService.setIpa(model);
-                String output = gson.toJson(model);
-                logger.info("json from server to client : " + output);
-                File jsonModel = new File(target, word + "_" + uuid + ".json");
-                FileUtils.writeStringToFile(jsonModel, output);
-                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + word + "_" + uuid + ".json",
-                        jsonModel);
-                if (jsonModel.exists()) {
-                    try {
-                        FileUtils.forceDelete(jsonModel);
-                    } catch (Exception e) {
-
+                    if (result != null) {
+                        model.setResult(result);
+                        //DENP-238 : save phoneme score to database
+                        int maxVersionPhoneme = pScoreService.getMaxVersion(user.getUsername());
+                        model.setVersionPhoneme(maxVersionPhoneme);
+                        pScoreService.addPhonemeScore(model);
                     }
-                }
-                if (targetRaw.exists()) {
-                    try {
-                        FileUtils.forceDelete(targetRaw);
-                    } catch (Exception e) {
+                    //set ipa for result phoneme send to client;
+                    IpaMapArpabetService ipaService = new IpaMapArpabetService();
+                    model = ipaService.setIpa(model);
+                    String output = gson.toJson(model);
+                    logger.info("json from server to client : " + output);
+                    File jsonModel = new File(target, word + "_" + uuid + ".json");
+                    FileUtils.writeStringToFile(jsonModel, output);
+                    awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES + "/" + user.getUsername() + "/" + word + "_" + uuid + ".json",
+                            jsonModel);
+                    if (jsonModel.exists()) {
+                        try {
+                            FileUtils.forceDelete(jsonModel);
+                        } catch (Exception e) {
 
+                        }
                     }
+                    if (targetRaw.exists()) {
+                        try {
+                            FileUtils.forceDelete(targetRaw);
+                        } catch (Exception e) {
+
+                        }
+                    }
+                    responseData.setStatus(true);
+                    responseData.setData(model);
+                    responseData.setMessage("success");
+                } else {
+                    responseData.setMessage("invalid token");
                 }
-                out.print(output);
             } else {
-                out.print("No parameter found");
+                responseData.setMessage("no parameter found");
             }
-        } catch (FileUploadException e) {
-            logger.error("Error when upload file. FileUploadException, message: " + e.getMessage(),e);
-            out.print("Error when upload file. FileUploadException, message: " + e.getMessage());
         } catch (Exception e) {
             logger.error("Error when upload file. Common exception, message: " + e.getMessage(),e);
-            out.print("Error when upload file. Message: " + e.getMessage());
+            responseData.setMessage("Error: " + e.getMessage());
         }
+        out.print(gson.toJson(responseData));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

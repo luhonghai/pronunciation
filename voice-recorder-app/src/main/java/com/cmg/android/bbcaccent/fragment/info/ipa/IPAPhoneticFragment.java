@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.cardview.GestureDetectorCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
@@ -46,6 +48,8 @@ public class IPAPhoneticFragment extends BaseFragment {
     RecyclerView recyclerView;
 
     private PlayerHelper player;
+
+    private ShowcaseHelper showcaseHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +83,19 @@ public class IPAPhoneticFragment extends BaseFragment {
             }
         }
         registerGestureSwipe(root);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (getActivity() != null && recyclerView != null && recyclerView.getChildCount() > 0) {
+                    showcaseHelper = new ShowcaseHelper(getActivity());
+                    showcaseHelper.showHelp(ShowcaseHelper.HelpKey.IPA_PHONETIC, new ShowcaseHelper.HelpState(
+                            recyclerView.getChildAt(0),
+                            "Tap to hear the sound or long press for more information"
+                    ));
+                }
+
+            }
+        }, 300);
         return root;
     }
 

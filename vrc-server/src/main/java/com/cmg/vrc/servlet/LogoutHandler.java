@@ -43,7 +43,9 @@ public class LogoutHandler extends HttpServlet {
                    if(token!=null){
                        String username=user.getUsername();
                        LoginToken loginToken=loginTokenDAO.getByAccountAndToken(username, token);
-                       loginTokenDAO.delete(loginToken);
+                       if (loginToken != null) {
+                           loginTokenDAO.delete(loginToken);
+                       }
                        responseData.setMessage("success");
                        responseData.setStatus(true);
                    }else {
@@ -58,7 +60,7 @@ public class LogoutHandler extends HttpServlet {
                 }
                 out.print(gson.toJson(responseData));
             } else {
-            out.print("No parameter found");
+                out.print("No parameter found");
         }
         } catch (Exception e) {
             logger.error("Error when logout. Message:: " + e.getMessage(),e);

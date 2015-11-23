@@ -572,14 +572,16 @@ public class RecordingView extends View {
         }
 
         public void run() {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    drawPingCycle(maxPingCycleTime, scoreRadio, showScore, true, true, validateMax);
-                    mHandler.removeCallbacks(animationRunable);
-                    mHandler.postDelayed(animationRunable, 1000 / RecordingView.INVALIDATE_TIMEOUT);
-                }
-            });
+            if (activity != null) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawPingCycle(maxPingCycleTime, scoreRadio, showScore, true, true, validateMax);
+                        mHandler.removeCallbacks(animationRunable);
+                        mHandler.postDelayed(animationRunable, 1000 / RecordingView.INVALIDATE_TIMEOUT);
+                    }
+                });
+            }
         }
     }
 

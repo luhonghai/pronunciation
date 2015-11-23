@@ -34,6 +34,9 @@ import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
+import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
+import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
 import com.cmg.android.bbcaccent.data.dto.lesson.question.Question;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
@@ -43,6 +46,8 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalker;
 import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.extra.BreakDownAction;
+import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
+import com.cmg.android.bbcaccent.fragment.lesson.LessonCollectionFragment;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
@@ -214,7 +219,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 if (totalQuestions == viewState.questions.size()) {
                     final int avgScore = Math.round((float) totalScore / totalQuestions);
                     if (viewState.isLesson) {
-                        final Dialog dialog = new CenterFullPaddingDialog(getActivity(), R.layout.dialog_overall_score);
+                        final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
                         TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
                         textView.setText(String.format(Locale.getDefault(), "Your overall score for %s is", viewState.lessonCollection.getTitle()));
                         final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
@@ -245,8 +250,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         boolean isPassed = avgScore >= viewState.lessonTest.getPercentPass();
                         int layoutId = isPassed ? R.layout.dialog_passed_test : R.layout.dialog_failed_test;
                         final Dialog dialog = new CenterFullPaddingDialog(getActivity(), layoutId);
-                        dialog.setCancelable(false);
-                        dialog.setCanceledOnTouchOutside(false);
                         final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
@@ -872,8 +875,78 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     @OnClick(R.id.cvNext)
     public void clickNextAction() {
-        MainApplication.getContext().setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_NEXT));
-        closeDetail();
+        SimpleAppLog.debug("Detect break down action type SELECT_NEXT. Current lesson ID " + viewState.lessonCollection.getId());
+        try {
+            LessonCollection nextLesson = LessonDBAdapterService.getInstance().getNextLessonOnCurrentObjective(
+                    Preferences.getCurrentProfile().getSelectedCountry().getId(),
+                    viewState.lessonLevel.getId(),
+                    viewState.objective.getId(),
+                    viewState.lessonCollection.getId()
+            );
+            if (nextLesson != null) {
+                MainApplication.getContext().setBreakDownAction(new BreakDownAction<Object>(BreakDownAction.Type.SELECT_NEXT));
+                closeDetail();
+            } else {
+                SimpleAppLog.debug("No next lesson found for current objective. Move to next objective lesson");
+                final Objective objective = LessonDBAdapterService.getInstance().getNextObjectiveOnCurrentLevel(
+                        Preferences.getCurrentProfile().getSelectedCountry().getId(),
+                        viewState.lessonLevel.getId(),
+                        viewState.objective.getId()
+                );
+                final SwitchFragmentParameter parameter
+                        = new SwitchFragmentParameter(true, true, true);
+                final Bundle b = new Bundle();
+                if (objective != null) {
+                    SimpleAppLog.debug("Found next objective " + objective.getId() + ". name: " + objective.getName());
+                    parameter.setTitle(viewState.lessonLevel.getName() + " - " + objective.getName());
+                    b.putString(Objective.class.getName(), MainApplication.toJson(objective));
+                    b.putString(LessonLevel.class.getName(), MainApplication.toJson(viewState.lessonLevel));
+                } else {
+                    SimpleAppLog.debug("No next objective found");
+                }
+
+                final MainActivity activity = (MainActivity) getActivity();
+                if (activity != null) {
+                    activity.executeAction(new MainActivity.MainAction() {
+                        @Override
+                        public void execute(MainActivity mainActivity) {
+                            MainApplication.enablePopbackFragmentAnimation = false;
+                            mainActivity.popBackStackFragment();
+                            mainActivity.popBackStackFragment();
+                            mainActivity.popBackStackFragment();
+                            MainApplication.enablePopbackFragmentAnimation = true;
+                            if (objective != null) {
+                                MainBroadcaster.getInstance().getSender().sendSwitchFragment(
+                                        LessonCollectionFragment.class,
+                                        parameter,
+                                        b);
+                                final Dialog dialog = new DefaultCenterDialog(activity, R.layout.showcase_content);
+                                ((TextView) dialog.findViewById(R.id.tv_content)).setText(objective.getDescription());
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog.show();
+                                    }
+                                }, getResources().getInteger(android.R.integer.config_mediumAnimTime));
+                            } else {
+                                // Will show dialog for testing
+                                //TODO check if lite version
+                                final Dialog dialog = new DefaultCenterDialog(activity, R.layout.showcase_content);
+                                ((TextView) dialog.findViewById(R.id.tv_content)).setText(R.string.help_to_test_last_object);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dialog.show();
+                                    }
+                                }, 100);
+                            }
+                        }
+                    });
+                }
+            }
+        } catch (LiteDatabaseException e) {
+            SimpleAppLog.error("could not get next lesson",e);
+        }
     }
 
     @Override
