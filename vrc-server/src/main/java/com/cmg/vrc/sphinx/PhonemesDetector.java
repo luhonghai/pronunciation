@@ -363,6 +363,10 @@ public class PhonemesDetector {
         }
     }
 
+    public Map<String, List<String>> getNeighbourPhones() {
+        return new HashMap<>(neighbourPhones);
+    }
+
     private void calculateScore(final SphinxResult result) {
         float finalScore = 0.0f;
         List<SphinxResult.PhonemeScore> phonemeScores = new ArrayList<SphinxResult.PhonemeScore>();
