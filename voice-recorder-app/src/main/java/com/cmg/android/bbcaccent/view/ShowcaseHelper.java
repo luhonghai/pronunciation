@@ -65,4 +65,19 @@ public class ShowcaseHelper {
         }
         sequence.start();
     }
+
+    public void showHelp(HelpState... helpStates) {
+        showHelp(new ShowcaseConfig(), helpStates);
+    }
+
+    public void showHelp(ShowcaseConfig config, HelpState... helpStates) {
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity);
+        sequence.setConfig(config);
+        if (helpStates != null && helpStates.length > 0) {
+            for (HelpState helpState : helpStates) {
+                sequence.addSequenceItem(helpState.target, helpState.content);
+            }
+        }
+        sequence.start();
+    }
 }

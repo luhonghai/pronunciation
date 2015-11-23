@@ -997,7 +997,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             @Override
             protected Void doInBackground(Void... params) {
                 final UserProfile profile = new UserProfile();
-                String scope = "oauth2:" + Scopes.PLUS_LOGIN + " " + "https://www.googleapis.com/auth/userinfo.email" + " https://www.googleapis.com/auth/plus.profile.agerange.read";
+                String scope = "oauth2:" + Scopes.PLUS_LOGIN;
                 try {
                     String token = GoogleAuthUtil.getToken(LoginActivity.this,
                             Plus.AccountApi.getAccountName(mGoogleApiClient), scope);
