@@ -84,6 +84,7 @@
                   <th>Date</th>
                   <th>Type</th>
                   <th>Map</th>
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>

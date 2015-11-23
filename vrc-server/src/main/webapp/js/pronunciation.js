@@ -63,6 +63,17 @@ function listScore(){
                     return '<button type="button" scouse=' + data.score + ' id="maps" latitude=' + data.latitude + ' class="btn btn-info btn-sm" longitude=' + data.longitude + '>' + '<i class="fa fa-map-marker "></i>' + '</button>';
                 }
             }
+        },{
+            "sWidth": "15%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                $button = $('<button type="button" style="margin-right:10px" id="download" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Download Audio' + '</button>');
+                $button.attr("id-column", data.id);
+                $button.attr("username", data.username);
+                return $("<div/>").append($button).html();
+            }
         } ]
     });
 
@@ -299,9 +310,43 @@ function drawChart(sc) {
 //    });
 //}
 
+
+function downloadAdio(){
+    $(document).on("click", "#download", function () {
+        var id=$(this).attr('id-column');
+        var username=$(this).attr('username');
+        $.ajax({
+            url:"Pronunciations",
+            type:"POST",
+            dataType:"text",
+            data:{
+                id:id,
+                username:username,
+                download:"download"
+            },
+            success:function(data){
+                if (data.indexOf("http") != -1) {
+                    $('<iframe>').attr("id", "d-" + id)
+                        .hide()
+                        .attr('src', data)
+                        .appendTo('body');
+                }
+            },
+            error:function(){
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+
+    });
+}
+
 $(document).ready(function(){
 
     //detailemei();
+    downloadAdio();
     dateFrom();
     dateTo();
     maps();
