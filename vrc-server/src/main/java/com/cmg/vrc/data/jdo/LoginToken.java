@@ -25,7 +25,7 @@ public class LoginToken implements Mirrorable {
     private String token;
 
     @Persistent
-    private float appVersion;
+    private int appVersion;
 
     @Persistent
     private String appName;
@@ -71,11 +71,11 @@ public class LoginToken implements Mirrorable {
         this.token = token;
     }
 
-    public float getAppVersion() {
+    public int getAppVersion() {
         return appVersion;
     }
 
-    public void setAppVersion(float appVersion) {
+    public void setAppVersion(int appVersion) {
         this.appVersion = appVersion;
     }
 

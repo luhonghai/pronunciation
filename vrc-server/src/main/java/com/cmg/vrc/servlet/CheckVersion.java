@@ -44,7 +44,6 @@ public class CheckVersion extends HttpServlet {
                     responseData.setData(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
                             + "/"
                             + db.getFileName()));
-
                     responseData.setMessage("success");
                     responseData.setStatus(true);
                 } else {

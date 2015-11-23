@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.auth;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
@@ -135,7 +136,7 @@ public class AccountManager {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.register_url));
 
-                    ResponseData<UserProfile> responseData = gson.fromJson(message, ResponseData.class);
+                    ResponseData<UserProfile> responseData = gson.fromJson(message, new TypeToken<ResponseData<UserProfile>>() {}.getType());
                     if (authListener != null) {
                         if (responseData.isStatus()) {
                             authListener.onSuccess();
@@ -169,10 +170,12 @@ public class AccountManager {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
                     try {
-                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, ResponseData.class);
+                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, new TypeToken<ResponseData<LoginToken>>(){}.getType());
                         if (responseData.isStatus()) {
-                            if (responseData.getData() != null)
+                            if (responseData.getData() != null) {
                                 profile.setToken(responseData.getData().getToken());
+                                SimpleAppLog.debug("login token : " + profile.getToken());
+                            }
                             authListener.onSuccess();
                         } else {
                             if (responseData.getMessage().equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
@@ -217,7 +220,7 @@ public class AccountManager {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.logout_url));
                     try {
-                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, ResponseData.class);
+                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, new TypeToken<ResponseData<LoginToken>>() {}.getType());
                         if (responseData.isStatus()) {
                             authListener.onSuccess();
                         } else {

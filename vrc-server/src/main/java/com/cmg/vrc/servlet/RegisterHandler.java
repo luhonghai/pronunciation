@@ -35,7 +35,6 @@ public class RegisterHandler extends BaseServlet {
         ResponseData<UserProfile> responseData = new ResponseData<UserProfile>();
         responseData.setStatus(false);
         Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().setPrettyPrinting().create();
-
         try {
 
             String profile = getParameter(request, PARA_PROFILE);

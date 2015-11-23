@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.fragment.lesson;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -28,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.LoginActivity;
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
@@ -63,6 +65,7 @@ import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
 import com.cmg.android.bbcaccent.http.common.FileCommon;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
@@ -264,13 +267,18 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
 
             @Override
-            public void onUserModelFetched(UserVoiceModel model) {
-                viewState.currentModel = model;
-                try {
-                    saveToDatabase();
-                } catch (Exception e) {
-                    SimpleAppLog.error("Could not save data to database", e);
+            public void onUserModelFetched(ResponseData<UserVoiceModel> model) {
+                if (model != null && model.isStatus()) {
+                    viewState.currentModel = model.getData();
+                    try {
+                        saveToDatabase();
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not save data to database", e);
+                        viewState.currentModel = null;
+                    }
+                } else {
                     viewState.currentModel = null;
+                    viewState.errorMessage = (model == null) ? "" : model.getMessage();
                 }
                 AppLog.logString("Start score animation");
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MIN;
@@ -1365,14 +1373,36 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 } else if (isRecording) {
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
                     d.setTitleText(getString(R.string.could_not_analyze_word_title));
-                    d.setContentText(getString(R.string.could_not_analyze_word_message));
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
+                    if (viewState.errorMessage != null && viewState.errorMessage.equalsIgnoreCase("invalid token")) {
+                        d.setContentText("invalid login token. please logout and login again!");
+                        d.setConfirmText(getString(R.string.logout));
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                MainActivity activity = (MainActivity) getActivity();
+                                if (activity != null) {
+                                    UserProfile profile = Preferences.getCurrentProfile();
+                                    if (profile != null) {
+                                        AnalyticHelper.sendUserLogout(activity, profile.getUsername());
+                                    }
+                                    accountManager.logout();
+                                    activity.finish();
+                                    Intent intent = new Intent(activity, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+                    } else {
+                        d.setContentText(getString(R.string.could_not_analyze_word_message));
+                        d.setConfirmText(getString(R.string.dialog_ok));
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+                    }
                     d.show();
                     switchButtonStage(ButtonState.RED);
                     recordingView.drawEmptyCycle();
@@ -1579,6 +1609,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     public class ViewState {
+
+        String errorMessage;
 
         public boolean isLesson;
 

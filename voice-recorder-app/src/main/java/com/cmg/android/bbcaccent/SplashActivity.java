@@ -39,18 +39,14 @@ import io.fabric.sdk.android.Fabric;
 /**
  * Created by luhonghai on 3/17/15.
  */
-public class SplashActivity extends BaseActivity implements
-        GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
+public class SplashActivity extends BaseActivity {
 
-    private GoogleApiClient mGoogleApiClient;
 
-    private static final long MIN_SPLASH_TIME = 5000;
+    private static final long MIN_SPLASH_TIME = 3000;
 
     private boolean isLogin = false;
 
     enum LoadItem {
-        FACEBOOK,
-        GOOGLE_PLUS,
         ACCENT_EASY,
         DATABASE,
         SETTING,
@@ -109,11 +105,6 @@ public class SplashActivity extends BaseActivity implements
         ButterKnife.bind(this);
         if (checkNetwork()) {
             accountManager = new AccountManager(this);
-            FacebookSdk.sdkInitialize(getApplicationContext());
-            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
-                    .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
-            loadStatus.add(LoadItem.FACEBOOK);
-            loadStatus.add(LoadItem.GOOGLE_PLUS);
             loadStatus.add(LoadItem.DATABASE);
             loadStatus.add(LoadItem.SUBSCRIPTION);
             new DatabasePrepare(this, new OnPrepraredListener() {
@@ -146,19 +137,6 @@ public class SplashActivity extends BaseActivity implements
 
                 }
             }).prepare();
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (AccessToken.getCurrentAccessToken() != null) {
-                        isLogin = true;
-                        AppLog.logString("Login with facebook");
-                    }
-                    AppLog.logString("Complete check facebook");
-                    loadStatus.remove(LoadItem.FACEBOOK);
-                    validateCallback();
-                    return null;
-                }
-            }.execute();
             handlerDogAnimation.post(runnableDogAnimation);
             UserProfile profile = Preferences.getCurrentProfile(this);
             if (profile != null && profile.isLogin()) {
@@ -223,20 +201,14 @@ public class SplashActivity extends BaseActivity implements
                                             SplashActivity.this.finish();
                                         }
                                     });
-                                    if (profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)
-                                            && (message.equalsIgnoreCase(getString(R.string.invalid_username_or_password))
-                                            || message.equalsIgnoreCase(getString(R.string.invalid_email_address_or_password))
-                                            || message.toLowerCase().contains(getString(R.string.is_not_activated))
-                                            || message.toLowerCase().contains(getString(R.string.is_temporarily_locked)))) {
-                                        d.setConfirmText(getString(R.string.logout));
-                                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                accountManager.logout();
-                                                goToActivity(LoginActivity.class);
-                                            }
-                                        });
-                                    }
+                                    d.setConfirmText(getString(R.string.logout));
+                                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            accountManager.logout();
+                                            goToActivity(LoginActivity.class);
+                                        }
+                                    });
                                     d.show();
                                 }
                             });
@@ -286,11 +258,6 @@ public class SplashActivity extends BaseActivity implements
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
                                     accountManager.logout();
-                                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-                                        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-                                        mGoogleApiClient.disconnect();
-                                        mGoogleApiClient.connect();
-                                    }
                                     startActivity(LoginActivity.class);
                                 }
                             });
@@ -392,16 +359,11 @@ public class SplashActivity extends BaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null)
-            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
     }
 
     @Override
@@ -415,26 +377,5 @@ public class SplashActivity extends BaseActivity implements
         if (bp != null) bp.release();
         handlerDogAnimation.removeCallbacks(runnableDogAnimation);
         super.onDestroy();
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        loadStatus.remove(LoadItem.GOOGLE_PLUS);
-        isLogin = true;
-        AppLog.logString("Complete check google+");
-        AppLog.logString("Login with google+");
-        validateCallback();
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        AppLog.logString("Complete check google+");
-        loadStatus.remove(LoadItem.GOOGLE_PLUS);
-        validateCallback();
     }
 }

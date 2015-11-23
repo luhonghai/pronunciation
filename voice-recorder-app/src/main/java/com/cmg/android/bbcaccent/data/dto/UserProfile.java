@@ -144,6 +144,14 @@ public class UserProfile {
         this.isSubscription = isSubscription;
     }
 
+    public String getAdditionalToken() {
+        return additionalToken;
+    }
+
+    public void setAdditionalToken(String additionalToken) {
+        this.additionalToken = additionalToken;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -167,6 +175,7 @@ public class UserProfile {
 
     public static class DeviceInfo {
         private String appVersion;
+        private String appName;
         private String model;
         private String osVersion;
         private String osApiLevel;
@@ -220,6 +229,14 @@ public class UserProfile {
         public void setEmei(String emei) {
             this.emei = emei;
         }
+
+        public String getAppName() {
+            return appName;
+        }
+
+        public void setAppName(String appName) {
+            this.appName = appName;
+        }
     }
 
     private String username;
@@ -248,6 +265,8 @@ public class UserProfile {
     private Country selectedCountry;
 
     private String token;
+
+    private String additionalToken;
 
     private boolean isActivatedLicence;
 

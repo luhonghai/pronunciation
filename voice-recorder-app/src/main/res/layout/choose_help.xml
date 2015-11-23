@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
         android:id="@+id/content_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="100dp"
         android:orientation="vertical"
-        android:background="@drawable/rounded_corner_color_orange"
-        android:padding="8dp">
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/popup_corner_radius"
+        app:cardBackgroundColor="@color/app_light_blue">
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            >
         <ImageButton
             android:id="@+id/tv_dismiss"
             android:background="@null"
             android:src="@drawable/ic_close_dialog"
             android:scaleType="fitXY"
+            android:tint="@color/app_purple"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_gravity="end"/>
@@ -36,3 +50,5 @@
                 android:layout_height="match_parent"/>
         </RelativeLayout>
 </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>

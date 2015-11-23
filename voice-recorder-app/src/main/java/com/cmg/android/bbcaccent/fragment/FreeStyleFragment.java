@@ -1,6 +1,7 @@
 package com.cmg.android.bbcaccent.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.LoginActivity;
 import com.cmg.android.bbcaccent.MainActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
@@ -50,6 +52,7 @@ import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
 import com.cmg.android.bbcaccent.http.common.FileCommon;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
@@ -205,13 +208,19 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
 
             @Override
-            public void onUserModelFetched(UserVoiceModel model) {
-                viewState.currentModel = model;
-                //if (viewState.currentModel != null) viewState.currentModel.setScore(99.0f);
-                try {
-                    saveToDatabase();
-                } catch (Exception e) {
-                    SimpleAppLog.error("Could not save data to database", e);
+            public void onUserModelFetched(ResponseData<UserVoiceModel> model) {
+                if (model != null && model.isStatus()) {
+                    viewState.currentModel = model.getData();
+                    viewState.errorMessage = null;
+                    //if (viewState.currentModel != null) viewState.currentModel.setScore(99.0f);
+                    try {
+                        saveToDatabase();
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not save data to database", e);
+                        viewState.currentModel = null;
+                    }
+                } else {
+                    viewState.errorMessage = (model == null) ? "" : model.getMessage();
                     viewState.currentModel = null;
                 }
                 AppLog.logString("Start score animation");
@@ -1118,19 +1127,43 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 } else if (isRecording) {
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
                     d.setTitleText(getString(R.string.could_not_analyze_word_title));
-                    d.setContentText(getString(R.string.could_not_analyze_word_message));
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
+                    if (viewState.errorMessage != null && viewState.errorMessage.equalsIgnoreCase("invalid token")) {
+                        d.setContentText("invalid login token. please logout and login again!");
+                        d.setConfirmText(getString(R.string.logout));
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                                MainActivity activity = (MainActivity) getActivity();
+                                if (activity != null) {
+                                    UserProfile profile = Preferences.getCurrentProfile();
+                                    if (profile != null) {
+                                        AnalyticHelper.sendUserLogout(activity, profile.getUsername());
+                                    }
+                                    accountManager.logout();
+                                    activity.finish();
+                                    Intent intent = new Intent(activity, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                        });
+                    } else {
+                        d.setContentText(getString(R.string.could_not_analyze_word_message));
+                        d.setConfirmText(getString(R.string.dialog_ok));
+                        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+                    }
+
                     d.show();
                     switchButtonStage(ButtonState.RED);
                     recordingView.drawEmptyCycle();
                     analyzingState = AnalyzingState.DEFAULT;
                     isRecording = false;
+
                 } else {
                     YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
                         @Override
@@ -1290,5 +1323,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         boolean willSearchRandomWord = true;
 
         boolean willShowHelpSearchWordAndSlider = false;
+
+        String errorMessage;
     }
 }
