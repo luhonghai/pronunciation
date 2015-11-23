@@ -192,9 +192,7 @@ public class DictionaryHelper {
                                             phonemes.add(p);
                                     }
                                     String word = lineData[0].trim().toUpperCase();
-                                    if (!cache.containsKey(word)) {
-                                        cache.put(word, phonemes);
-                                    }
+                                    cache.put(word, phonemes);
                                 }
                             }
                         }
