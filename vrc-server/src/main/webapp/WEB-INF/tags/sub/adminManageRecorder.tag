@@ -113,6 +113,7 @@
                   <th>Recorded Date</th>
                   <th>Status</th>
                   <th></th>
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>

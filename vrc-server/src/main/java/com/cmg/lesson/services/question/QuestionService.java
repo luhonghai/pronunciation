@@ -133,6 +133,10 @@ public class QuestionService {
         return dto;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void deleteMapping(String id){
         try {
             LessonMappingQuestionDAO dao = new LessonMappingQuestionDAO();

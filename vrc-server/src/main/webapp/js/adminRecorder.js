@@ -74,7 +74,7 @@ function listTranscriptionRecorder(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                console.log(data);
+               // console.log(data);
                 if (data.status == 1) {
                     return '<span class="btn btn-sm" style="background-color: orange;color: white; padding:5px; cursor: default;">'+"Pending"+'</span>';
                 }
@@ -118,6 +118,17 @@ function listTranscriptionRecorder(){
                 if (data.status == 4) {
                     return ;
                 }
+            }
+        },{
+            "sWidth": "15%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent": "",
+            "mRender": function (data, type, full) {
+                $button = $('<button type="button" style="margin-right:10px" id="download" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Download Audio' + '</button>');
+                $button.attr("id-column", data.id);
+                $button.attr("username", data.account);
+                return $("<div/>").append($button).html();
             }
         }]
 
@@ -440,8 +451,39 @@ function loadAudio(){
         });
 
 }
-$(document).ready(function(){
 
+function downloadAdios(){
+    $(document).on("click", "#download", function () {
+        var id=$(this).attr('id-column');
+        var username=$(this).attr('username');
+        $.ajax({
+            url:"RecorderServletNumber",
+            type:"POST",
+            dataType:"text",
+            data:{
+                id:id,
+                username:username,
+                download:"download"
+            },
+            success:function(data){
+                if (data.indexOf("http") != -1) {
+                    $('<iframe>').attr("id", "d-" + id)
+                        .hide()
+                        .attr('src', data)
+                        .appendTo('body');
+                }
+            },
+            error:function(){
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+
+    });
+}
+$(document).ready(function(){
     reject();
     approved();
     locked();
@@ -451,6 +493,7 @@ $(document).ready(function(){
     loadNumber();
     listTranscriptionRecorder();
     searchAdvanted();
+    downloadAdios();
 });
 
 
