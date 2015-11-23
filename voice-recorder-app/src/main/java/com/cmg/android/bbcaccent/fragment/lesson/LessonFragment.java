@@ -328,10 +328,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         if (viewState.isLesson) {
             cvTip.setVisibility(View.VISIBLE);
-            txtDefinition.setVisibility(View.VISIBLE);
+            //txtDefinition.setVisibility(View.VISIBLE);
         } else {
             cvTip.setVisibility(View.INVISIBLE);
-            txtDefinition.setVisibility(View.INVISIBLE);
+            //txtDefinition.setVisibility(View.INVISIBLE);
         }
         drawQuestionList();
         return root;
@@ -399,7 +399,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         }
-        txtDefinition.setText(viewState.lessonCollection.getName());
         selectQuestion(selectedIndex);
 
     }
@@ -412,7 +411,11 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         final Question question = viewState.questions.get(index);
         if (question != null) {
-
+            if (!viewState.isLesson) {
+                txtDefinition.setText(question.getDescription());
+            } else {
+                txtDefinition.setText(viewState.lessonCollection.getName());
+            }
             viewState.selectedQuestionIndex = index;
             if (question.isRecorded()) {
                 viewState.dictionaryItem = question.getDictionaryItem();
