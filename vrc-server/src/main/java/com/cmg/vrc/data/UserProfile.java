@@ -80,6 +80,23 @@ public class UserProfile {
         this.lastName = lastName;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getAdditionalToken() {
+        if (additionalToken == null) return "";
+        return additionalToken;
+    }
+
+    public void setAdditionalToken(String additionalToken) {
+        this.additionalToken = additionalToken;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -103,6 +120,7 @@ public class UserProfile {
 
     public static class DeviceInfo {
         private String appVersion;
+        private String appName;
         private String model;
         private String osVersion;
         private String osApiLevel;
@@ -156,6 +174,14 @@ public class UserProfile {
         public void setEmei(String emei) {
             this.emei = emei;
         }
+
+        public String getAppName() {
+            return appName;
+        }
+
+        public void setAppName(String appName) {
+            this.appName = appName;
+        }
     }
 
     private String username;
@@ -177,6 +203,8 @@ public class UserProfile {
     private UserLocation location;
     private DeviceInfo deviceInfo;
     private String uuid;
+    private String token;
+    private String additionalToken;
 
     public int getEnglishProficiency() {
         return englishProficiency;
@@ -189,7 +217,7 @@ public class UserProfile {
 
     public String getUsername() {
         if (username != null) return username.toLowerCase();
-        return username;
+        return "";
     }
 
     public void setUsername(String username) {

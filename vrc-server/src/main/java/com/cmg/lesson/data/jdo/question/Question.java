@@ -22,6 +22,10 @@ public class Question implements Mirrorable {
     private String name;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
+    private String description;
+
+    @Persistent
     private boolean isDeleted;
 
     @Persistent
@@ -37,6 +41,14 @@ public class Question implements Mirrorable {
 
     @Persistent
     private Date timeCreated;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public String getId() {

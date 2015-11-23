@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -38,7 +39,9 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
@@ -130,7 +133,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, this);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
-                .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).build();
+                .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE)
+                .build();
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -802,7 +806,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     }
 
     @Override
-    public void onSuccess(LoginResult loginResult) {
+    public void onSuccess(final LoginResult loginResult) {
 
         GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -811,6 +815,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                         try {
                             AppLog.logString(object.toString());
                             final UserProfile profile = new UserProfile();
+                            profile.setAdditionalToken(loginResult.getAccessToken().getToken());
+                            SimpleAppLog.debug("Facebook access token: " + profile.getAdditionalToken());
                             try {
                                 profile.setUsername(object.getString("email"));
                             } catch (JSONException e) {
@@ -987,39 +993,64 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     public void onConnected(Bundle bundle) {
-        enableForm(true);
-        signedInUser = false;
-        Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-        if (person != null) {
-            final UserProfile profile = new UserProfile();
-            profile.setUsername(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            profile.setDob(person.getBirthday());
-            String imageUrl = person.getImage().getUrl();
-            if (imageUrl.contains("?sz=")) {
-                imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("?sz=")) + "?sz=320";
+        new AsyncTask<Void,Void,Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                final UserProfile profile = new UserProfile();
+                String scope = "oauth2:" + Scopes.PLUS_LOGIN;
+                try {
+                    String token = GoogleAuthUtil.getToken(LoginActivity.this,
+                            Plus.AccountApi.getAccountName(mGoogleApiClient), scope);
+                    profile.setAdditionalToken(token);
+                } catch (Exception e) {
+                    SimpleAppLog.error("Could not get additional token",e);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        enableForm(true);
+                    }
+                });
+                SimpleAppLog.debug("Google+ access token: " + profile.getAdditionalToken());
+                signedInUser = false;
+                Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+                if (person != null) {
+                    profile.setUsername(Plus.AccountApi.getAccountName(mGoogleApiClient));
+                    profile.setDob(person.getBirthday());
+                    String imageUrl = person.getImage().getUrl();
+                    if (imageUrl.contains("?sz=")) {
+                        imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("?sz=")) + "?sz=320";
+                    }
+                    SimpleAppLog.debug("Google plus avatar " + imageUrl);
+                    profile.setProfileImage(imageUrl);
+                    profile.setName(person.getDisplayName());
+                    profile.setGender(person.getGender() == 1);
+                    profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
+                    //showProcessDialog();
+                    accountManager.register(profile, new AccountManager.AuthListener() {
+                        @Override
+                        public void onError(String message, Throwable e) {
+                            SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message,e);
+                            doAuth(profile);
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            doAuth(profile);
+                        }
+                    });
+
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProcessDialog();
+                        }
+                    });
+                }
+                return null;
             }
-            SimpleAppLog.debug("Google plus avatar " + imageUrl);
-            profile.setProfileImage(imageUrl);
-            profile.setName(person.getDisplayName());
-            profile.setGender(person.getGender() == 1);
-            profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
-            //showProcessDialog();
-            accountManager.register(profile, new AccountManager.AuthListener() {
-                @Override
-                public void onError(String message, Throwable e) {
-                    SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message,e);
-                    doAuth(profile);
-                }
-
-                @Override
-                public void onSuccess() {
-                    doAuth(profile);
-                }
-            });
-
-        } else {
-            hideProcessDialog();
-        }
+        }.execute();
     }
 
 

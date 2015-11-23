@@ -144,4 +144,6 @@
     <string name="word_not_in_beep_message">sorry the word you searched for could not be found, but we are adding new words all the time to our application, so please do try again soon.</string>
     <string name="could_not_analyze_word_title">could not calculate score</string>
     <string name="could_not_analyze_word_message">please try again or contact support@accenteasy.com</string>
+
+    <string name="help_to_test_last_object">Take the test to progress to the next level or you can return to any of the lessons for more practise</string>
 </resources>

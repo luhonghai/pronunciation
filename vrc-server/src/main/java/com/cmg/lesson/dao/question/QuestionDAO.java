@@ -47,13 +47,13 @@ public class QuestionDAO extends DataAccess<Question> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateQuestion(String id, String name) throws Exception{
+    public boolean updateQuestion(String id, String name, String description) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? WHERE id=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=? WHERE id=?");
         try {
-            q.execute(name,id);
+            q.execute(name,description,id);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,15 +24,19 @@ function listQuestion(){
         },
 
         "columns": [{
-            "sWidth": "40%",
+            "sWidth": "25%",
             "data": "name",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
+            "data": "description",
             "sDefaultContent": ""
         }, {
             "sWidth": "25%",
             "data": "timeCreated",
             "sDefaultContent": ""
         }, {
-            "sWidth": "35%",
+            "sWidth": "30%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
@@ -40,6 +44,7 @@ function listQuestion(){
                 $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementWordOfQuestion.jsp?id='+ data.id +'" type="button" id="addword" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Word ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("question", data.name);
+                $button.attr("description", data.description);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -63,6 +68,7 @@ function dateTo(){
 function addquestion(){
     $(document).on("click","#yesadd", function(){
         var question = $("#addquestion").val();
+        var description = $("#description").val();
         if (question == null || typeof question == "undefined" || question.length == 0){
             $("#addquestion").focus();
             swal("Warning!", "Please enter a question name!", "warning");
@@ -74,7 +80,8 @@ function addquestion(){
             dataType: "text",
             data: {
                 add: "add",
-                question: question
+                question: question,
+                description: description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
@@ -104,6 +111,7 @@ function add(){
     $(document).on("click","#openAddQuestion", function(){
         $("#add").modal('show');
         $("#addquestion").val("");
+        $("#description").val("");
     });
 }
 
@@ -150,7 +158,9 @@ function edit(){
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
         var question = $(this).attr('question');
+        var description = $(this).attr('description');
         $("#editquestion").val(question);
+        $("#editDescription").val(description);
         $("#idedit").val(idd);
     });
 
@@ -161,6 +171,7 @@ function EditQuestion(){
 
         var id = $("#idedit").val();
         var question = $("#editquestion").val();
+        var description = $("#editDescription").val();
         if (question == null || typeof question == "undefined" || question.length == 0){
             $("#addquestion").focus();
             swal("Warning!", "Please enter a question name!", "warning");
@@ -173,7 +184,8 @@ function EditQuestion(){
             data: {
                 edit: "edit",
                 id: id,
-                question: question
+                question: question,
+                description : description
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {

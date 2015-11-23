@@ -16,6 +16,8 @@ import com.google.gson.GsonBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.lang.reflect.Type;
+
 /**
  * Created by luhonghai on 09/10/2015.
  */
@@ -111,6 +113,10 @@ public class MainApplication  extends Application {
 
     public static <T extends Object> T fromJson(String json, Class<T> clazz) {
         return gson.fromJson(json, clazz);
+    }
+
+    public static <T extends Object> T fromJson(String json, Type type) {
+        return gson.fromJson(json, type);
     }
 
     public void setBreakDownAction(BreakDownAction breakDownAction) {

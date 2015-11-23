@@ -9,8 +9,10 @@ import android.os.Bundle;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
+import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +26,7 @@ public class MainBroadcaster {
     public enum Filler {
         NULL(""),
         USER_VOICE_MODEL("user_voice_model"),
+        USER_VOICE_MODEL_RESPONSE("user_voice_model_response"),
         HISTORY_ACTION("history_action"),
         WORD("word"),
         DATA_UPDATE("data_update"),
@@ -81,7 +84,7 @@ public class MainBroadcaster {
 
     public static abstract class ReceiverListener {
 
-        public void onUserModelFetched(UserVoiceModel model) {}
+        public void onUserModelFetched(ResponseData<UserVoiceModel> model) {}
 
         public void onHistoryAction(UserVoiceModel model, String word, int type) {}
 
@@ -151,16 +154,16 @@ public class MainBroadcaster {
             String data, word;
             UserVoiceModel model;
             switch (filler) {
-                case USER_VOICE_MODEL:
-                    data = bundle.getString(Filler.USER_VOICE_MODEL.toString());
-                    model = null;
+                case USER_VOICE_MODEL_RESPONSE:
+                    data = bundle.getString(Filler.USER_VOICE_MODEL_RESPONSE.toString());
+                    ResponseData<UserVoiceModel> responseData = null;
                     try {
-                        model = gson.fromJson(data, UserVoiceModel.class);
+                        responseData = gson.fromJson(data, new TypeToken<ResponseData<UserVoiceModel>>(){}.getType());
                     } catch (Exception ex) {
                         SimpleAppLog.error("Could not fetch user voice model from server",ex);
                     }
                     for (ReceiverListener listener : listeners.values()) {
-                        listener.onUserModelFetched(model);
+                        listener.onUserModelFetched(responseData);
                     }
                     break;
                 case HISTORY_ACTION:
@@ -204,8 +207,8 @@ public class MainBroadcaster {
 
         public void sendOnUserVoiceModelFound(String modelJson) {
             Bundle bundle = new Bundle();
-            bundle.putString(Filler.USER_VOICE_MODEL.toString(), modelJson);
-            sendMessage(Filler.USER_VOICE_MODEL, bundle);
+            bundle.putString(Filler.USER_VOICE_MODEL_RESPONSE.toString(), modelJson);
+            sendMessage(Filler.USER_VOICE_MODEL_RESPONSE, bundle);
         }
 
         public void sendHistoryAction(String modelJson, String word, int type) {

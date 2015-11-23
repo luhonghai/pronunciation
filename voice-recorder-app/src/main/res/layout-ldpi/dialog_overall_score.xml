@@ -3,18 +3,26 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp">
-    <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
         android:id="@+id/content_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
         android:orientation="vertical"
-        android:background="@drawable/rounded_corner_color_orange"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="@dimen/popup_corner_radius"
+        app:cardBackgroundColor="@color/app_light_blue">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:orientation="vertical"
         android:padding="8dp">
         <ImageButton
             android:id="@+id/tv_dismiss"
             android:background="@null"
+            android:tint="@color/app_purple"
             android:src="@drawable/ic_close_dialog"
             android:scaleType="fitXY"
             android:layout_width="25dp"
@@ -28,7 +36,7 @@
             android:layout_marginStart="5dp"
             android:gravity="center_horizontal"
             android:textSize="@dimen/show_case_text_size"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/app_purple"/>
         <RelativeLayout
             android:layout_margin="10dp"
             android:layout_width="match_parent"
@@ -40,4 +48,5 @@
                 android:id="@+id/main_recording_view" />
         </RelativeLayout>
     </LinearLayout>
+    </android.support.v7.widget.CardView>
 </FrameLayout>

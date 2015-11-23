@@ -170,7 +170,7 @@
 
     <servlet>
         <servlet-name>CheckVersion</servlet-name>
-        <servlet-class>com.cmg.vrc.servlet.CheckVesion</servlet-class>
+        <servlet-class>com.cmg.vrc.servlet.CheckVersion</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CheckVersion</servlet-name>

@@ -81,6 +81,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
         SearchView.OnSuggestionListener {
 
+    public interface MainAction {
+        void execute(MainActivity mainActivity);
+    }
+
     private FragmentState currentFragmentState = FragmentState.NULL;
 
     private Stack<FragmentState> fragmentStates = new Stack<FragmentState>();
@@ -539,7 +543,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        //super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -817,7 +821,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
     }
 
-    private void popBackStackFragment(int count) {
+    public void popBackStackFragment(int count) {
         if (count <= 1) popBackStackFragment();
         for (int i = 0; i < count - 1; i++) {
             MainApplication.enablePopbackFragmentAnimation = false;
@@ -828,9 +832,12 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         popBackStackFragment();
     }
 
-    private void popBackStackFragment() {
+    public void popBackStackFragment() {
         long now = System.currentTimeMillis();
-        if (lastPopbackPress != 0 && now - lastPopbackPress < getResources().getInteger(android.R.integer.config_mediumAnimTime)) return;
+        if (MainApplication.enablePopbackFragmentAnimation
+                && lastPopbackPress != 0
+                && now - lastPopbackPress < getResources().getInteger(android.R.integer.config_mediumAnimTime))
+            return;
         if (fragmentStates.size() == 0) return;
         lastPopbackPress = now;
         if (android.app.Fragment.class.isAssignableFrom(currentFragmentState.clazz)) {
@@ -905,7 +912,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                                     R.anim.enter_from_left, R.anim.exit_to_right);
                         transaction.replace(R.id.content, fragment, state.toString());
-                        transaction.commit();
+                        transaction.commitAllowingStateLoss();
                     } else {
                         findViewById(R.id.contentV4).setVisibility(View.VISIBLE);
                         findViewById(R.id.content).setVisibility(View.GONE);
@@ -921,7 +928,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left,
                                     R.anim.enter_from_left, R.anim.exit_to_right);
                         transaction.replace(R.id.contentV4, fragment, state.toString());
-                        transaction.commit();
+                        transaction.commitAllowingStateLoss();
                     }
                     if (parameter.isAddToBackStack())
                         fragmentStates.push(currentFragmentState);
@@ -1067,5 +1074,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void executeAction(MainAction action) {
+        action.execute(this);
     }
 }

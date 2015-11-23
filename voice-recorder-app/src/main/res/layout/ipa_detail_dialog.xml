@@ -13,7 +13,7 @@
         android:orientation="vertical"
         app:cardElevation="0dp"
         app:cardCornerRadius="@dimen/popup_corner_radius"
-        app:cardBackgroundColor="@color/app_orange">
+        app:cardBackgroundColor="@color/app_light_blue">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +23,7 @@
                 android:id="@+id/tv_dismiss"
                 android:background="@null"
                 android:src="@drawable/ic_close_dialog"
+                android:tint="@color/app_purple"
                 android:scaleType="fitXY"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
@@ -31,7 +32,7 @@
                 android:id="@+id/txtPhoneme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
+                android:textColor="@color/app_purple"
                 android:textStyle="bold"
                 android:textSize="38sp"/>
             <TextView
@@ -40,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:textColor="@android:color/white"
+                android:textColor="@color/app_purple"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <org.sufficientlysecure.htmltextview.HtmlTextView
@@ -48,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/show_case_text_size"
-                android:textColor="@android:color/white"
+                android:textColor="@color/app_purple"
                 android:layout_marginBottom="15dp"/>
 
             <com.cmg.android.bbcaccent.view.cardview.CircleCardView

@@ -18,7 +18,8 @@ public class ShowcaseHelper {
         SEARCH_WORD("SEARCH_WORD"),
         SWIPE_SLIDER("SWIPE_SLIDER"),
         SELECT_SCORE("SELECT_SCORE"),
-        DETAIL_SELECT_PHONEME("SELECT_PHONEME")
+        DETAIL_SELECT_PHONEME("SELECT_PHONEME"),
+        IPA_PHONETIC("IPA_PHONETIC")
         ;
         String name;
         HelpKey(String name) {
@@ -51,11 +52,11 @@ public class ShowcaseHelper {
         this.activity = activity;
     }
 
-    public void showHelp(HelpKey helpKey, HelpState... helpStates) {
-        showHelp(helpKey,new ShowcaseConfig(), helpStates);
+    public ShowcaseHelper showHelp(HelpKey helpKey, HelpState... helpStates) {
+        return showHelp(helpKey,new ShowcaseConfig(), helpStates);
     }
 
-    public void showHelp(HelpKey helpKey, ShowcaseConfig config, HelpState... helpStates) {
+    public ShowcaseHelper showHelp(HelpKey helpKey, ShowcaseConfig config, HelpState... helpStates) {
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity, helpKey.toString());
         sequence.setConfig(config);
         if (helpStates != null && helpStates.length > 0) {
@@ -64,5 +65,22 @@ public class ShowcaseHelper {
             }
         }
         sequence.start();
+        return this;
+    }
+
+    public ShowcaseHelper showHelp(HelpState... helpStates) {
+        return showHelp(new ShowcaseConfig(), helpStates);
+    }
+
+    public ShowcaseHelper showHelp(ShowcaseConfig config, HelpState... helpStates) {
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity);
+        sequence.setConfig(config);
+        if (helpStates != null && helpStates.length > 0) {
+            for (HelpState helpState : helpStates) {
+                sequence.addSequenceItem(helpState.target, helpState.content);
+            }
+        }
+        sequence.start();
+        return this;
     }
 }

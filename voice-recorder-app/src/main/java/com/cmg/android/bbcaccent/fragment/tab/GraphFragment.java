@@ -217,60 +217,62 @@ public class GraphFragment extends FragmentTab {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                Collection<PronunciationScore> scores = null;
-                UserProfile profile = Preferences.getCurrentProfile(getActivity());
-                if (profile != null) {
-                    try {
-                        dbAdapter.open();
-                        if (word == null || word.length() == 0) {
-                            scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
-                        } else {
-                            scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
-                        }
-                    } catch (Exception e) {
-                        SimpleAppLog.error("Could not open database", e);
-                    } finally {
+                if (getActivity() != null) {
+                    Collection<PronunciationScore> scores = null;
+                    UserProfile profile = Preferences.getCurrentProfile();
+                    if (profile != null) {
                         try {
-                            dbAdapter.close();
-                        } catch (Exception ex) {
+                            dbAdapter.open();
+                            if (word == null || word.length() == 0) {
+                                scores = dbAdapter.toList(dbAdapter.getAll(profile.getUsername()));
+                            } else {
+                                scores = dbAdapter.toList(dbAdapter.getByWord(word, profile.getUsername()));
+                            }
+                        } catch (Exception e) {
+                            SimpleAppLog.error("Could not open database", e);
+                        } finally {
+                            try {
+                                dbAdapter.close();
+                            } catch (Exception ex) {
 
+                            }
                         }
                     }
-                }
-                if (scores != null && scores.size() > 0) {
-                    int size = scores.size();
-                    final DataPoint[] points = new DataPoint[size];
-                    Iterator<PronunciationScore> scoreIterator = scores.iterator();
-                    int i = 0;
-                    float latestScore = -1;
-                    while (scoreIterator.hasNext()) {
-                        PronunciationScore score = scoreIterator.next();
-                        if (latestScore == -1)
-                            latestScore = score.getScore();
-                        DataPoint dataPoint = new DataPoint(size - 1 - i, score.getScore());
-                        points[size - 1 - i] = dataPoint;
-                        i++;
-                    }
-                    final float score = latestScore;
-                    if (getActivity() != null)
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                drawData(points, score);
-                                graph.setDrawChart(true);
-                                graph.invalidate();
-                            }
-                        });
+                    if (scores != null && scores.size() > 0) {
+                        int size = scores.size();
+                        final DataPoint[] points = new DataPoint[size];
+                        Iterator<PronunciationScore> scoreIterator = scores.iterator();
+                        int i = 0;
+                        float latestScore = -1;
+                        while (scoreIterator.hasNext()) {
+                            PronunciationScore score = scoreIterator.next();
+                            if (latestScore == -1)
+                                latestScore = score.getScore();
+                            DataPoint dataPoint = new DataPoint(size - 1 - i, score.getScore());
+                            points[size - 1 - i] = dataPoint;
+                            i++;
+                        }
+                        final float score = latestScore;
+                        if (getActivity() != null)
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    drawData(points, score);
+                                    graph.setDrawChart(true);
+                                    graph.invalidate();
+                                }
+                            });
 
-                } else {
-                    if (getActivity() != null)
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                graph.setDrawChart(false);
-                                graph.invalidate();
-                            }
-                        });
+                    } else {
+                        if (getActivity() != null)
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    graph.setDrawChart(false);
+                                    graph.invalidate();
+                                }
+                            });
+                    }
                 }
                 return null;
             }

@@ -91,7 +91,7 @@ $(document).ready(function(){
         url:CONTEXT_PATH + "database_upload",
         fileName:"database",
         maxFileCount: 1,
-        allowedTypes: "dic,dict",
+        allowedTypes: "zip",
         onSuccess:function(files,data,xhr,pd)
         {
             myTable.fnDraw();

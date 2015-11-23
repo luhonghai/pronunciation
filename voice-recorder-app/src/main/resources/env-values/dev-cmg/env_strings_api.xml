@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="upload_url">http://c-mg.vn/vrc/VoiceRecordHandler</string>
+    <string name="check_version_url">http://c-mg.vn/vrc/CheckVersion</string>
     <string name="upload_weight_url">http://c-mg.vn/vrc/VoiceRecordHandler</string>
     <string name="sync_data_url">http://c-mg.vn/vrc/syncData</string>
     <string name="auth_url">http://c-mg.vn/vrc/AuthHandler</string>

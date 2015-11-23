@@ -5,8 +5,11 @@ import com.cmg.lesson.services.calculation.ScoreService;
 import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
+import com.cmg.vrc.data.dao.impl.LoginTokenDAO;
+import com.cmg.vrc.data.jdo.LoginToken;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.servlet.BaseServlet;
+import com.cmg.vrc.servlet.ResponseData;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
@@ -71,7 +74,10 @@ public class CalculationServlet extends HttpServlet {
         AWSHelper awsHelper = new AWSHelper();
         ServletFileUpload upload = new ServletFileUpload();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        ScoreService service = new ScoreService();
+        final ScoreService service = new ScoreService();
+        Gson gson = new Gson();
+        ResponseData<UserLessonHistory> responseData = new ResponseData<>();
+        responseData.setStatus(false);
         try {
             File voiceRecordDir = new File(FileHelper.getTmpSphinx4DataDir(), "voices");
             if (!voiceRecordDir.exists() || !voiceRecordDir.isDirectory()) {
@@ -114,61 +120,80 @@ public class CalculationServlet extends HttpServlet {
             String idItem = (String) StringUtil.isNull(storePara.get(PARA_TEST_OR_OBJECTIVE_ID), "");
             String idLevel = (String) StringUtil.isNull(storePara.get(PARA_LEVEL_ID), "");
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
-                Gson gson = new Gson();
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
-                File target = new File(targetDir, user.getUsername());
-                if (!target.exists() && !target.isDirectory()) {
-                    target.mkdirs();
+                LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
+                LoginToken loginToken = loginTokenDAO.getByAccountAndDevice(user.getUsername(), user.getDeviceInfo().getEmei());
+                if (loginToken != null) {
+                    File tmpFileIn = new File(tmpDir, tmpFile);
+                    try {
+                        File target = new File(targetDir, user.getUsername());
+                        if (!target.exists() && !target.isDirectory()) {
+                            target.mkdirs();
+                        }
+                        String uuid = UUIDGenerator.generateUUID();
+                        String fileTempName = word + "_" + uuid + "_raw" + ".wav";
+                        File targetRaw = new File(target, fileTempName);
+                        try {
+                            FileUtils.moveFile(tmpFileIn, targetRaw);
+                            if (tmpFileIn.exists())
+                                FileUtils.forceDelete(tmpFileIn);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() + "/" + fileTempName,
+                                targetRaw);
+                        final UserLessonHistory model = new UserLessonHistory();
+                        model.setId(UUIDGenerator.generateUUID());
+                        model.setUsername(user.getUsername());
+                        model.setWord(word);
+                        model.setServerTime(System.currentTimeMillis());
+                        model.setIdWord(idWord);
+                        model.setIdQuestion(idQuestion);
+                        model.setIdCountry(idCountry);
+                        model.setRecordedFile(fileTempName);
+                        model.setType(type);
+                        model.setIdLessonCollection(idLessonCollection);
+                        model.setSessionID(session);
+                        model.setIdItem(idItem);
+                        model.setIdLevel(idLevel);
+                        PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
+                        SphinxResult result = detector.analyze();
+                        if (result != null) {
+                            model.setResult(result);
+                            service.reCalculateBaseOnWeight(model);
+                        }
+                        String output = gson.toJson(model);
+                        logger.info("json to client : " + output);
+                        responseData.setStatus(true);
+                        responseData.setData(model);
+                        responseData.setMessage("success");
+                        //start add to db
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                service.addUserLessonHistory(model);
+                                service.addPhonemeScore(model);
+                                service.addSessionScore(model);
+                            }
+                        }).start();
+                    } finally {
+                        if (tmpFileIn.exists()) {
+                            try {
+                                FileUtils.forceDelete(tmpFileIn);
+                            } catch (Exception e) {}
+                        }
+                    }
+                } else {
+                    responseData.setMessage("invalid token");
                 }
-                File tmpFileIn = new File(tmpDir, tmpFile);
-                String uuid = UUIDGenerator.generateUUID();
-                String fileTempName  = word + "_" + uuid + "_raw" + ".wav";
-                File targetRaw = new File(target, fileTempName);
-                try {
-                    FileUtils.moveFile(tmpFileIn, targetRaw);
-                    if (tmpFileIn.exists())
-                        FileUtils.forceDelete(tmpFileIn);
-                } catch (Exception e) {e.printStackTrace();}
-                awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() +"/" + fileTempName,
-                        targetRaw);
-                UserLessonHistory model = new UserLessonHistory();
-                model.setId(UUIDGenerator.generateUUID());
-                model.setUsername(user.getUsername());
-                model.setWord(word);
-                model.setServerTime(System.currentTimeMillis());
-                model.setIdWord(idWord);
-                model.setIdQuestion(idQuestion);
-                model.setIdCountry(idCountry);
-                model.setRecordedFile(fileTempName);
-                model.setType(type);
-                model.setIdLessonCollection(idLessonCollection);
-                model.setSessionID(session);
-                model.setIdItem(idItem);
-                model.setIdLevel(idLevel);
-                SphinxResult result = null;
-                PhonemesDetector detector = new PhonemesDetector(targetRaw, model.getWord());
-                try {
-                    result = detector.analyze();
-                } catch (Exception ex) {
-                    logger.error("Could not analyze word", ex);
-                }
-                if(result!=null){
-                    model.setResult(result);
-                    service.reCalculateBaseOnWeight(model);
-                }
-                String output = gson.toJson(model);
-                logger.info("json to client : " + output);
-                out.print(output);
-                //start add to db
-                service.addUserLessonHistory(model);
-                service.addPhonemeScore(model);
-                service.addSessionScore(model);
+            } else {
+                responseData.setMessage("no parameter found");
             }
-
         }catch (Exception e){
             logger.error("Error when upload file. Common exception, message: " + e.getMessage(),e);
-            out.print("Error when upload file. Message: " + e.getMessage());
+            responseData.setMessage("Error: " + e.getMessage());
         }
+        out.print(gson.toJson(responseData));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

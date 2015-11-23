@@ -197,7 +197,7 @@ public class DictionaryHelper {
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.log(Level.SEVERE, "could not read BEEP dictionary", e);
                     } finally {
                         try {
                             if (br != null)
