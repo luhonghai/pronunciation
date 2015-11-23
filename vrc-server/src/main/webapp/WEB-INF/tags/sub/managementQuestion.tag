@@ -98,6 +98,13 @@
                   <input  type="text" id="addquestion" name="addquestion" class=" form-control" style="padding-left: 0px;">
                 </div>
               </div>
+              <div class="form-group">
+
+                <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="description" name="description" class=" form-control" style="padding-left: 0px;">
+                </div>
+              </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
                 <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
@@ -132,6 +139,13 @@
                 <label class="col-xs-4  col-sm-3 control-label">Question:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="text" id="editquestion" name="editquestion" class=" form-control" style="padding-left: 0px;">
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label class="col-xs-4  col-sm-3 control-label">Description:</label>
+                <div class="col-xs-8  col-sm-9">
+                  <input  type="text" id="editDescription" name="editDescription" class=" form-control" style="padding-left: 0px;">
                 </div>
 
               </div>
