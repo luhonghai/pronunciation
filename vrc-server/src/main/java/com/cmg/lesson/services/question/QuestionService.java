@@ -46,7 +46,7 @@ public class QuestionService {
      * @param questionName
      * @return true if question was added to table.
      */
-    public QuestionDTO addQuestionToDB(String questionName){
+    public QuestionDTO addQuestionToDB(String questionName, String description){
         QuestionDAO dao = new QuestionDAO();
         QuestionDTO dto = new QuestionDTO();
         String message;
@@ -54,6 +54,7 @@ public class QuestionService {
             if(!isExistQuestionName(questionName)) {
                 Question q = new Question();
                 q.setName(questionName);
+                q.setDescription(description);
                 q.setVersion(getMaxVersion());
                 q.setTimeCreated(new Date(System.currentTimeMillis()));
                 q.setIsDeleted(false);
@@ -76,20 +77,20 @@ public class QuestionService {
      * @param questionName
      * @return
      */
-    public QuestionDTO updateQuestionToDB(String id, String questionName){
+    public QuestionDTO updateQuestionToDB(String id, String questionName, String description){
         QuestionDTO dto = new QuestionDTO();
         QuestionDAO dao = new QuestionDAO();
         String message;
         try{
             String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
             if(oldName.equalsIgnoreCase(questionName)){
-                dao.updateQuestion(id, questionName);
+                dao.updateQuestion(id, questionName,description);
                 message = SUCCESS;
                 dto.setMessage(message);
                 return dto;
             }
             if(!isExistQuestionName(questionName)) {
-                boolean isUpdate = dao.updateQuestion(id, questionName);
+                boolean isUpdate = dao.updateQuestion(id, questionName,description);
                 if (isUpdate) {
                     message = SUCCESS;
                 } else {
