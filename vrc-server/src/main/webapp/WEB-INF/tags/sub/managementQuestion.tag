@@ -55,6 +55,7 @@
                 <thead>
                 <tr>
                   <th>Question</th>
+                  <th>Description</th>
                   <th>Created date</th>
                   <th></th>
                 </tr>

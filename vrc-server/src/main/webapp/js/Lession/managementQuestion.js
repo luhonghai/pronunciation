@@ -24,15 +24,19 @@ function listQuestion(){
         },
 
         "columns": [{
-            "sWidth": "40%",
+            "sWidth": "25%",
             "data": "name",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
+            "data": "description",
             "sDefaultContent": ""
         }, {
             "sWidth": "25%",
             "data": "timeCreated",
             "sDefaultContent": ""
         }, {
-            "sWidth": "35%",
+            "sWidth": "30%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
