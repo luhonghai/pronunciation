@@ -2,23 +2,25 @@ package com.cmg.android.bbcaccent.helper;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
-import com.cmg.android.bbcaccent.view.ShowcaseHelper;
+import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 
 /**
  * Created by luhonghai on 23/11/2015.
  */
-public class MainScreenShowcaseHelper {
+public class PopupShowcaseHelper {
 
     public interface OnSelectHelpItem {
         void onSelectHelpItem(HelpItem helpItem);
@@ -69,7 +71,7 @@ public class MainScreenShowcaseHelper {
 
     private HelpItem[] helpItems;
 
-    public MainScreenShowcaseHelper(Context context, HelpItem[] helpItems, OnSelectHelpItem onSelectHelpItem) {
+    public PopupShowcaseHelper(Context context, HelpItem[] helpItems, OnSelectHelpItem onSelectHelpItem) {
         this.context = context;
         this.onSelectHelpItem = onSelectHelpItem;
         this.helpItems = helpItems;
@@ -97,6 +99,12 @@ public class MainScreenShowcaseHelper {
             HelpAdapter helpAdapter = new HelpAdapter(context, helpItems);
             listView.setAdapter(helpAdapter);
             helpAdapter.notifyDataSetChanged();
+            helpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    resetTiming();
+                }
+            });
         }
         if (!helpDialog.isShowing()) {
             helpDialog.show();
@@ -134,7 +142,29 @@ public class MainScreenShowcaseHelper {
             HelpItem helpItem = helpItems[position];
             View root = View.inflate(context, helpItem.layoutId, null);
             ((TextView) root.findViewById(R.id.txtTitle)).setText(helpItem.name);
-
+            CircleCardView cardView = (CircleCardView) root.findViewById(R.id.btnHelpImage);
+            switch (helpItem.layoutId) {
+                case R.layout.choose_help_item:
+                    cardView.setCardBackgroundColor(helpItem.iconColor);
+                    ((TextView)cardView.getChildAt(0)).setText(helpItem.iconText);
+                    break;
+                case R.layout.choose_help_item_image:
+                    ((ImageView)root.findViewById(R.id.imgHelpIcon)).setImageResource(helpItem.iconImage);
+                    break;
+                case R.layout.choose_help_item_image_button:
+                    cardView.setCardBackgroundColor(helpItem.iconColor);
+                    ((ImageView)cardView.getChildAt(0)).setImageResource(helpItem.iconImage);
+                    break;
+            }
+            View view = root.findViewById(R.id.llContainer);
+            view.setTag(helpItem);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (helpDialog != null && helpDialog.isShowing()) helpDialog.dismiss();
+                    onSelectHelpItem.onSelectHelpItem((HelpItem) v.getTag());
+                }
+            });
             return root;
         }
     }
