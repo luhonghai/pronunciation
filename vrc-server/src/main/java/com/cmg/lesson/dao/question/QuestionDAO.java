@@ -405,7 +405,7 @@ public class QuestionDAO extends DataAccess<Question> {
             clause.append(" Where ");
             whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + " UPPER(QUESTION.NAME) like UPPER('%"+questionName+"%)' and isDeleted=false order by name asc";
+                whereClause = whereClause + " UPPER(QUESTION.NAME) like UPPER('%"+questionName+"%') and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + " isDeleted=false order by name asc" ;
             }
@@ -417,7 +417,7 @@ public class QuestionDAO extends DataAccess<Question> {
             }
             whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + ") and QUESTION.NAME like '%"+questionName+"%' and isDeleted=false order by name asc";
+                whereClause = whereClause + ") and UPPER(QUESTION.NAME) like UPPER('%"+questionName+"%') and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + ") and isDeleted=false order by name asc" ;
             }
