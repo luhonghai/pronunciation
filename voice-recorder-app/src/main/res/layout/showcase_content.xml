@@ -9,7 +9,7 @@
         android:id="@+id/content_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
+        android:minHeight="90dp"
         android:orientation="vertical"
         app:cardElevation="0dp"
         app:cardCornerRadius="@dimen/popup_corner_radius"

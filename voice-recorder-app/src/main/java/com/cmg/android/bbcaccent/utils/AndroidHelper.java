@@ -19,11 +19,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
@@ -437,5 +441,83 @@ public class AndroidHelper {
             btnShare.setCardBackgroundColor(Color.parseColor("#d34836"));
             ((ImageView)btnShare.getChildAt(0)).setImageResource(R.drawable.ic_google_plus_white);
         }
+    }
+
+    /**
+     * Sets ListView height dynamically based on the height of the items.
+     *
+     * @param listView to be resized
+     * @return true if the listView is successfully resized, false otherwise
+     */
+    public static boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                item.measure(0, 0);
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
+     * Sets ListView height dynamically based on the height of the items.
+     *
+     * @param listView to be resized
+     * @return true if the listView is successfully resized, false otherwise
+     */
+    public static boolean setRecyclerViewHeightBasedOnItems(RecyclerView listView) {
+
+//        RecyclerView.Adapter listAdapter = listView.getAdapter();
+//        if (listAdapter != null) {
+//
+//            int numberOfItems = listAdapter.getItemCount();
+//
+//            // Get total height of all items.
+//            int totalItemsHeight = 0;
+//            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+//                View item = listAdapter.getView(itemPos, null, listView);
+//                item.measure(0, 0);
+//                totalItemsHeight += item.getMeasuredHeight();
+//            }
+//
+//            // Get total height of all item dividers.
+//            int totalDividersHeight = listView.getDividerHeight() *
+//                    (numberOfItems - 1);
+//
+//            // Set list height.
+//            ViewGroup.LayoutParams params = listView.getLayoutParams();
+//            params.height = totalItemsHeight + totalDividersHeight;
+//            listView.setLayoutParams(params);
+//            listView.requestLayout();
+//
+//            return true;
+//
+//        } else {
+//            return false;
+//        }
+        return false;
     }
 }

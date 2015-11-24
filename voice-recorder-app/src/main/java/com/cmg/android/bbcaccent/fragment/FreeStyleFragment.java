@@ -13,14 +13,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
-import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,11 +44,11 @@ import com.cmg.android.bbcaccent.dictionary.DictionaryWalkerFactory;
 import com.cmg.android.bbcaccent.dsp.AndroidAudioInputStream;
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
-import com.cmg.android.bbcaccent.fragment.tab.GraphFragment;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.helper.PopupShowcaseHelper;
 import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
 import com.cmg.android.bbcaccent.http.common.FileCommon;
@@ -93,7 +90,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
 import uk.co.deanwild.materialshowcaseview.target.ActionItemTarget;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
@@ -148,6 +148,9 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     @Bind(R.id.txtDefinition)
     TextView txtDefinition;
 
+    @Bind(R.id.rlSliderContent)
+    LinearLayout rlSliderContent;
+
     private AndroidAudioInputStream audioStream;
     private AudioDispatcher dispatcher;
     private Thread runner;
@@ -186,6 +189,10 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
     private ShowcaseHelper showcaseHelper;
 
+    private PopupShowcaseHelper popupShowcaseHelper;
+
+    private PopupShowcaseHelper.HelpItem currentHelpItem;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Gson gson = new Gson();
@@ -206,6 +213,13 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         scoreDBAdapter = new ScoreDBAdapter();
         dbAdapter = new WordDBAdapter();
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
+
+            @Override
+            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.RESET_TIMING_HELP) {
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                }
+            }
 
             @Override
             public void onUserModelFetched(ResponseData<UserVoiceModel> model) {
@@ -292,6 +306,39 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
+
+        popupShowcaseHelper = new PopupShowcaseHelper(getActivity(),
+                new PopupShowcaseHelper.HelpItem[] {
+                        PopupShowcaseHelper.HelpItem.ANALYZE_A_WORD,
+                        PopupShowcaseHelper.HelpItem.PROGRESS,
+                        PopupShowcaseHelper.HelpItem.HISTORY,
+                        PopupShowcaseHelper.HelpItem.TIPS,
+                },
+                new PopupShowcaseHelper.OnSelectHelpItem() {
+                    @Override
+                    public void onSelectHelpItem(PopupShowcaseHelper.HelpItem helpItem) {
+                        if (showcaseHelper == null) return;
+                        switch (helpItem) {
+                            case ANALYZE_A_WORD:
+                                showcaseHelper.showHelp(new ShowcaseHelper.HelpState(txtWord, getString(R.string.help_press_the_word)),
+                                        new ShowcaseHelper.HelpState(btnAnalyzing, getString(R.string.help_test_pronunciation)),
+                                        new ShowcaseHelper.HelpState(btnAudio, getString(R.string.help_hear_last_attempt)));
+                                break;
+                            case TIPS:
+                            case PROGRESS:
+                            case HISTORY:
+                                currentHelpItem = helpItem;
+                                if (panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                } else {
+                                    showRemainHelpItem();
+                                }
+                                break;
+                        }
+                    }
+                });
+        popupShowcaseHelper.resetTiming();
+
         if (viewState.willShowHelpSearchWordAndSlider) {
             showcaseHelper.showHelp(ShowcaseHelper.HelpKey.SEARCH_WORD,
                     new ShowcaseHelper.HelpState(new ActionItemTarget(getActivity(), R.id.menu_search),
@@ -303,6 +350,40 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         }
         return root;
     }
+
+    private void showRemainHelpItem() {
+        if (currentHelpItem != null && showcaseHelper != null && rlSliderContent != null) {
+            if (mTabHost != null) {
+                int currentTab = mTabHost.getCurrentTab();
+                if (currentHelpItem == PopupShowcaseHelper.HelpItem.PROGRESS && currentTab != 0) {
+                    mTabHost.setCurrentTab(0);
+                } else if (currentHelpItem == PopupShowcaseHelper.HelpItem.HISTORY && currentTab != 1) {
+                    mTabHost.setCurrentTab(1);
+                } else if (currentHelpItem == PopupShowcaseHelper.HelpItem.TIPS && currentTab != 2) {
+                    mTabHost.setCurrentTab(2);
+                }
+                ShowcaseConfig showcaseConfig = new ShowcaseConfig();
+                showcaseConfig.setShape(new RectangleShape(new ViewTarget(rlSliderContent).getBounds(), false));
+                switch (currentHelpItem) {
+                    case PROGRESS:
+                        showcaseHelper.showHelp(showcaseConfig,new ShowcaseHelper.HelpState(rlSliderContent,
+                                getString(R.string.help_track_progress)));
+                        break;
+                    case HISTORY:
+                        showcaseHelper.showHelp(showcaseConfig,new ShowcaseHelper.HelpState(rlSliderContent,
+                                getString(R.string.help_view_past_words)));
+                        break;
+                    case TIPS:
+                        showcaseHelper.showHelp(showcaseConfig,new ShowcaseHelper.HelpState(rlSliderContent,
+                                getString(R.string.help_view_tips)));
+                        break;
+                }
+            }
+            currentHelpItem = null;
+        }
+    }
+
+
 
     private void initRecordingView() {
         recordingView.setAnimationListener(this);
@@ -359,22 +440,23 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
             @Override
             public void onPanelCollapsed(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
 
             @Override
             public void onPanelExpanded(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                showRemainHelpItem();
             }
 
             @Override
             public void onPanelAnchored(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
 
             @Override
             public void onPanelHidden(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
         });
         if (viewState.willCollapseSlider) {
@@ -409,6 +491,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     }
 
     private class GetWordAsync extends AsyncTask {
+
         private final String word;
 
         private GetWordAsync(String word) {
@@ -461,6 +544,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     private GetWordAsync getWordAsync;
 
     private void getWord(final String word) {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         if (isRecording) return;
         try {
             if (dbAdapter == null) dbAdapter = new WordDBAdapter();
@@ -534,6 +618,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     }
 
     private void stopPlay() {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         switchButtonStage();
         isPlaying = false;
         player.stop();
@@ -545,6 +630,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     }
 
     private void play(File file) {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         try {
             if (player != null) {
                 try {
@@ -610,6 +696,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     }
 
     private void stop() {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         stopRecording();
         if (uploadTask != null) {
             try {
@@ -623,6 +710,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
     private void analyze() {
         try {
+            if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             // Clear old data
             viewState.currentModel = null;
             analyzingState = AnalyzingState.RECORDING;
@@ -729,6 +817,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     public void onDestroyView() {
         super.onDestroyView();
         handlerStartDetail.removeCallbacks(runnableStartDetail);
+        if (popupShowcaseHelper != null) popupShowcaseHelper.recycle();
         stop();
         try {
             recordingView.recycle();
@@ -1085,6 +1174,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 //                                new ShowcaseHelper.HelpState(recordingView, "<b>Press</b> for more detail"));
                         isRecording = false;
                         handlerStartDetail.postDelayed(runnableStartDetail, 1000);
+                        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
                     }
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1096,6 +1186,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
+                            if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
                         }
                     });
                     d.show();
@@ -1125,6 +1216,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                     recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
                 } else if (isRecording) {
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
                     d.setTitleText(getString(R.string.could_not_analyze_word_title));
                     if (viewState.errorMessage != null && viewState.errorMessage.equalsIgnoreCase("invalid token")) {
@@ -1216,6 +1308,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         MainApplication.getContext().setSelectedWord(null);
                         MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
                 }
             }
         } catch (Exception e) {

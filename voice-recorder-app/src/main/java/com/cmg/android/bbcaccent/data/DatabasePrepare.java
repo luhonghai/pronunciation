@@ -132,7 +132,7 @@ public class DatabasePrepare {
                     if (lessonDb.exists()) FileUtils.forceDelete(lessonDb);
                     FileUtils.moveFile(new File(dbFilePath), lessonDb);
                     SimpleAppLog.debug("Update database successfully");
-                    FileUtils.writeStringToFile(fileVersion, Integer.toString(newVersion), "UTF-8", true);
+                    FileUtils.writeStringToFile(fileVersion, Integer.toString(newVersion), "UTF-8");
                     SimpleAppLog.info("Save new version to :" + fileVersion + " successfully");
                 } else {
                     SimpleAppLog.error("No db file path found in folder " + tmpDb);

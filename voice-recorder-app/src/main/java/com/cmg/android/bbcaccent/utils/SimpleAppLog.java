@@ -29,9 +29,9 @@ public class SimpleAppLog {
 
     public static void logJson(String message, Object obj) {
         if (obj != null) {
-            info(message + ". " + MainApplication.toJson(obj));
+            debug(message + ". " + MainApplication.toJson(obj));
         } else {
-            info(message + ". null");
+            debug(message + ". null");
         }
     }
 

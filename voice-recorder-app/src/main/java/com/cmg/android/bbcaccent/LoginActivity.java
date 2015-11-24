@@ -814,14 +814,11 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
                             AppLog.logString(object.toString());
-                            final UserProfile profile = new UserProfile();
+                            String username = object.getString("email");
+                            final UserProfile profile = Preferences.getProfile(username, new UserProfile());
                             profile.setAdditionalToken(loginResult.getAccessToken().getToken());
                             SimpleAppLog.debug("Facebook access token: " + profile.getAdditionalToken());
-                            try {
-                                profile.setUsername(object.getString("email"));
-                            } catch (JSONException e) {
-
-                            }
+                            profile.setUsername(username);
                             try {
                                 profile.setGender(object.getString("gender").equalsIgnoreCase("male"));
                             } catch (JSONException e) {
@@ -996,7 +993,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         new AsyncTask<Void,Void,Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                final UserProfile profile = new UserProfile();
+                String username = Plus.AccountApi.getAccountName(mGoogleApiClient);
+                final UserProfile profile = Preferences.getProfile(username, new UserProfile());
                 String scope = "oauth2:" + Scopes.PLUS_LOGIN;
                 try {
                     String token = GoogleAuthUtil.getToken(LoginActivity.this,
@@ -1015,7 +1013,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 signedInUser = false;
                 Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
                 if (person != null) {
-                    profile.setUsername(Plus.AccountApi.getAccountName(mGoogleApiClient));
+                    profile.setUsername(username);
                     profile.setDob(person.getBirthday());
                     String imageUrl = person.getImage().getUrl();
                     if (imageUrl.contains("?sz=")) {

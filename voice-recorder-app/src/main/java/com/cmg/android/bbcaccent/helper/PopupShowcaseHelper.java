@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
@@ -95,10 +97,16 @@ public class PopupShowcaseHelper {
         if (context == null) return;
         if (helpDialog == null) {
             helpDialog = new DefaultCenterDialog(context, R.layout.choose_help);
-            ListView listView = (ListView) helpDialog.findViewById(R.id.listView);
+            final ListView listView = (ListView) helpDialog.findViewById(R.id.listView);
             HelpAdapter helpAdapter = new HelpAdapter(context, helpItems);
             listView.setAdapter(helpAdapter);
             helpAdapter.notifyDataSetChanged();
+            listView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AndroidHelper.setListViewHeightBasedOnItems(listView);
+                }
+            }, 50);
             helpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -117,9 +125,12 @@ public class PopupShowcaseHelper {
 
         final Context context;
 
+        final LayoutInflater inflater;
+
         public HelpAdapter(Context context, HelpItem[] helpItems) {
             this.context = context;
             this.helpItems = helpItems;
+            inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
 
         @Override
@@ -140,7 +151,7 @@ public class PopupShowcaseHelper {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             HelpItem helpItem = helpItems[position];
-            View root = View.inflate(context, helpItem.layoutId, null);
+            View root = inflater.inflate(helpItem.layoutId, parent, false);
             ((TextView) root.findViewById(R.id.txtTitle)).setText(helpItem.name);
             CircleCardView cardView = (CircleCardView) root.findViewById(R.id.btnHelpImage);
             switch (helpItem.layoutId) {

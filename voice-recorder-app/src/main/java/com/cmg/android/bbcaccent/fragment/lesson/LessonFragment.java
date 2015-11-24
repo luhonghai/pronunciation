@@ -527,11 +527,11 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 showcaseConfig.setShape(new RectangleShape(new ViewTarget(rlSliderContent).getBounds(), false));
                 switch (currentHelpItem) {
                     case PROGRESS:
-                        showcaseHelper.showHelp(new ShowcaseHelper.HelpState(rlSliderContent,
+                        showcaseHelper.showHelp(showcaseConfig, new ShowcaseHelper.HelpState(rlSliderContent,
                                 getString(R.string.help_track_progress)));
                         break;
                     case HISTORY:
-                        showcaseHelper.showHelp(new ShowcaseHelper.HelpState(rlSliderContent,
+                        showcaseHelper.showHelp(showcaseConfig, new ShowcaseHelper.HelpState(rlSliderContent,
                                 getString(R.string.help_view_past_words)));
                         break;
                 }

@@ -1,5 +1,6 @@
 package com.cmg.android.bbcaccent;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,8 +44,6 @@ public class SplashActivity extends BaseActivity {
 
 
     private static final long MIN_SPLASH_TIME = 3000;
-
-    private boolean isLogin = false;
 
     enum LoadItem {
         ACCENT_EASY,
@@ -138,10 +137,6 @@ public class SplashActivity extends BaseActivity {
                 }
             }).prepare();
             handlerDogAnimation.post(runnableDogAnimation);
-            UserProfile profile = Preferences.getCurrentProfile(this);
-            if (profile != null && profile.isLogin()) {
-                isLogin = true;
-            }
             bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
                 @Override
                 public void onProductPurchased(String productId, TransactionDetails details) {
@@ -175,57 +170,55 @@ public class SplashActivity extends BaseActivity {
 
     private void validateCallback() {
         if (loadStatus.isEmpty()) {
-            final UserProfile profile = Preferences.getCurrentProfile(this);
-            if (isLogin) {
-                if (profile == null) {
-                    goToActivity(LoginActivity.class);
-                } else {
-                    accountManager.auth(profile, new AccountManager.AuthListener() {
-                        @Override
-                        public void onError(final String message, Throwable e) {
-                            AnalyticHelper.sendUserLoginError(SplashActivity.this, profile.getUsername());
-                            final SpannableString s = new SpannableString(message);
-                            Linkify.addLinks(s, Linkify.ALL);
-                            if (e != null) e.printStackTrace();
-                            handlerDogAnimation.removeCallbacks(runnableDogAnimation);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                    d.setTitleText(getString(R.string.could_not_login));
-                                    d.setContentText(message);
-                                    d.setCancelText(getString(R.string.dialog_close));
-                                    d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            SplashActivity.this.finish();
-                                        }
-                                    });
-                                    d.setConfirmText(getString(R.string.logout));
-                                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            accountManager.logout();
-                                            goToActivity(LoginActivity.class);
-                                        }
-                                    });
-                                    d.show();
-                                }
-                            });
-                        }
-                        @Override
-                        public void onSuccess() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    doLicenseCheck(profile);
-                                }
-                            });
-                        }
-                    });
-                }
-            } else {
+            final UserProfile profile = Preferences.getCurrentProfile();
+            if (profile == null || !profile.isLogin()) {
+                SimpleAppLog.debug("Account is not login. Go to login activity");
                 goToActivity(LoginActivity.class);
+            } else {
+                SimpleAppLog.logJson("Detect old profile: ", profile);
+                accountManager.auth(profile, new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        AnalyticHelper.sendUserLoginError(SplashActivity.this, profile.getUsername());
+                        final SpannableString s = new SpannableString(message);
+                        Linkify.addLinks(s, Linkify.ALL);
+                        if (e != null) e.printStackTrace();
+                        handlerDogAnimation.removeCallbacks(runnableDogAnimation);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                SweetAlertDialog d = new SweetAlertDialog(SplashActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText(getString(R.string.could_not_login));
+                                d.setContentText(message);
+                                d.setCancelText(getString(R.string.dialog_close));
+                                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        SplashActivity.this.finish();
+                                    }
+                                });
+                                d.setConfirmText(getString(R.string.logout));
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        accountManager.logout();
+                                        goToActivity(LoginActivity.class);
+                                    }
+                                });
+                                d.show();
+                            }
+                        });
+                    }
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doLicenseCheck(profile);
+                            }
+                        });
+                    }
+                });
             }
         }
     }
