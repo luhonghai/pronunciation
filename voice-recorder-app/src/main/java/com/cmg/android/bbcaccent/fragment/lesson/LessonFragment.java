@@ -113,6 +113,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
@@ -520,6 +523,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 } else if (currentHelpItem == PopupShowcaseHelper.HelpItem.HISTORY && currentTab != 1) {
                     mTabHost.setCurrentTab(1);
                 }
+                ShowcaseConfig showcaseConfig = new ShowcaseConfig();
+                showcaseConfig.setShape(new RectangleShape(new ViewTarget(rlSliderContent).getBounds(), false));
                 switch (currentHelpItem) {
                     case PROGRESS:
                         showcaseHelper.showHelp(new ShowcaseHelper.HelpState(rlSliderContent,
