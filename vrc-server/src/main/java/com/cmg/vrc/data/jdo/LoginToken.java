@@ -64,6 +64,7 @@ public class LoginToken implements Mirrorable {
     }
 
     public String getToken() {
+        if (token == null) return "";
         return token;
     }
 
