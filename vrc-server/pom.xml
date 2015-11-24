@@ -437,8 +437,8 @@
 				<sysenv>PROD</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
-				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
-				<project.dir>/var/www/webdav/mobile</project.dir>
+				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
+				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
@@ -446,7 +446,7 @@
 				<contact.us.email>support@accenteasy.com</contact.us.email>
 				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
-				<voice.record.dir>/vol/filemanager/VoiceRecords</voice.record.dir>
+				<voice.record.dir>/var/log/tomcat8/VoiceRecords</voice.record.dir>
 				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
 				<acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
 				<dictionaryPath>file:///vol/Sphinx/dict/cmuphonemedict</dictionaryPath>
@@ -469,8 +469,8 @@
 				<sysenv>SAT</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
-				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
-				<project.dir>/var/www/webdav/mobile</project.dir>
+				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
+				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
@@ -501,8 +501,8 @@
 				<sysenv>SAT</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
-				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
-				<project.dir>/var/www/webdav/mobile</project.dir>
+				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
+				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
 				<javax.jdo.option.ConnectionURL>jdbc:mysql://restore-2015-09-04.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>

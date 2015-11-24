@@ -328,7 +328,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                             case PROGRESS:
                             case HISTORY:
                                 currentHelpItem = helpItem;
-                                if (panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                                if (panelSlider != null && panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
                                     panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                                 } else {
                                     showRemainHelpItem();

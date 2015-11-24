@@ -113,7 +113,7 @@ public class PopupShowcaseHelper {
                     resetTiming();
                 }
             });
-            
+
         }
         if (!helpDialog.isShowing()) {
             helpDialog.show();
