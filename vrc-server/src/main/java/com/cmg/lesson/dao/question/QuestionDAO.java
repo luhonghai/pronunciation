@@ -339,6 +339,7 @@ public class QuestionDAO extends DataAccess<Question> {
      */
     public List<Question> listIn(List<String> ids, String wordSearch,String order, int start, int length) throws Exception{
     //public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
+        wordSearch = "%" + wordSearch + "%";
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         clause.append(" Where "+metaRecorderSentence.getTable()+".ID in(");
@@ -348,7 +349,7 @@ public class QuestionDAO extends DataAccess<Question> {
         List<Question> listQuestions = new ArrayList<Question>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
         if(wordSearch!=null && wordSearch.trim().length() > 0 && wordSearch!=""){
-            whereClause = whereClause + ") and UPPER(QUESTION.NAME) like UPPER('%"+wordSearch+"%)' and isDeleted=false ";
+            whereClause = whereClause + ") and UPPER(QUESTION.NAME) like UPPER(?) and isDeleted=false ";
         }else{
             whereClause = whereClause + ") and isDeleted=false " ;
         }
@@ -362,7 +363,7 @@ public class QuestionDAO extends DataAccess<Question> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(start, start + length);
         try {
-            List<Object> tmp = (List<Object>) q.execute();
+            List<Object> tmp = (List<Object>) q.execute(wordSearch);
             if(tmp!=null && tmp.size() > 0){
                 for(Object obj : tmp){
                     Question question = new Question();
@@ -396,16 +397,17 @@ public class QuestionDAO extends DataAccess<Question> {
      * @return
      */
     public List<Question> searchName(List<String> ids, String questionName) throws Exception{
+        questionName = "%" + questionName +"%";
         //public List<Question> listIn(List<String> ids, String wordSearch) throws Exception{
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
         List<Question> listQuestions = new ArrayList<Question>();
         String whereClause;
-        if (ids.isEmpty()){
+        if (ids == null || ids.isEmpty()){
             clause.append(" Where ");
             whereClause = clause.toString();//.substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + " UPPER(QUESTION.NAME) like UPPER('%"+questionName+"%') and isDeleted=false order by name asc";
+                whereClause = whereClause + " UPPER(QUESTION.NAME) like UPPER(?) and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + " isDeleted=false order by name asc" ;
             }
@@ -417,7 +419,7 @@ public class QuestionDAO extends DataAccess<Question> {
             }
             whereClause = clause.toString().substring(0, clause.toString().length() - 1);
             if(questionName!=null && questionName.trim().length() > 0 && questionName!=""){
-                whereClause = whereClause + ") and UPPER(QUESTION.NAME) like UPPER('%"+questionName+"%') and isDeleted=false order by name asc";
+                whereClause = whereClause + ") and UPPER(QUESTION.NAME) like UPPER(?) and isDeleted=false order by name asc";
             }else{
                 whereClause = whereClause + ") and isDeleted=false order by name asc" ;
             }
@@ -427,7 +429,7 @@ public class QuestionDAO extends DataAccess<Question> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,version from " + metaRecorderSentence.getTable() + whereClause);
         q.setRange(0,10);
         try {
-            List<Object> tmp = (List<Object>) q.execute();
+            List<Object> tmp = (List<Object>) q.execute(questionName);
             if(tmp!=null && tmp.size() > 0){
                 for(Object obj : tmp){
                     Question question = new Question();
@@ -450,6 +452,7 @@ public class QuestionDAO extends DataAccess<Question> {
                 q.closeAll();
             pm.close();
         }
+
         return listQuestions;
 
     }

@@ -30,6 +30,7 @@ import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
 import edu.cmu.sphinx.linguist.dictionary.Word;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,12 +55,16 @@ public class UnitTesting {
                 AWSHelper awsHelper = new AWSHelper();
                 awsHelper.download("sphinx-data/dict/brit-a-z.txt", fWords);
             }*/
-            WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
+            /*WeightForPhonemeDAO weightDao = new WeightForPhonemeDAO();
             List<WeightForPhoneme> weight = weightDao.listBy("079eca3b-d4d0-4259-8302-824930c53305","4177e406-ed44-43df-8578-9e0a2585a153");
             for(WeightForPhoneme w : weight){
                 if(w.getPhoneme().trim().equalsIgnoreCase("AY"))
                 System.out.println(w.getPhoneme());
-            }
+            }*/
+          /* String s =  StringEscapeUtils.escapeJava("country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
+            System.out.println(s);*/
+           QuestionDAO dao = new QuestionDAO();
+            List<Question> list = dao.searchName(null, "country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
         } catch (Exception e) {
             e.printStackTrace();
         }
