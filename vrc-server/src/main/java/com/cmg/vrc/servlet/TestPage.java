@@ -93,7 +93,11 @@ public class TestPage extends HttpServlet {
                     response.getWriter().write(resultResponse);
 
                 }else {
-                    response.getWriter().write("notExist");
+                    resultResponseData.setData(result);
+                    resultResponseData.setMessage("notExist");
+                    resultResponseData.setStatus(false);
+                    String resultResponse = gson.toJson(resultResponseData);
+                    response.getWriter().write(resultResponse);
                 }
 
             }
