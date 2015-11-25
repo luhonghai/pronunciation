@@ -10,6 +10,7 @@ import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.decoder.search.Token;
 import edu.cmu.sphinx.linguist.HMMSearchState;
 import edu.cmu.sphinx.linguist.SearchState;
+import edu.cmu.sphinx.linguist.acoustic.HMMState;
 import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
@@ -252,7 +253,8 @@ public class PhonemesDetector {
                             if (searchState != null && searchState instanceof HMMSearchState) {
                                 HMMSearchState hmmSearchState = (HMMSearchState) searchState;
                                 if (hmmSearchState.isEmitting()) {
-                                    String baseUnit = hmmSearchState.getHMMState().getHMM().getBaseUnit().getName();
+                                    HMMState hmmState = hmmSearchState.getHMMState();
+                                    String baseUnit = hmmState.getHMM().getBaseUnit().getName();
                                     if (baseUnit != null && baseUnit.length() > 0 && !baseUnit.toLowerCase().contains("sil")) {
                                         rawBestPhonemes.add(baseUnit.toUpperCase());
                                         if (phoneme == null) {

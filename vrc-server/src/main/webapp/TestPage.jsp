@@ -44,6 +44,9 @@
                 <div class="row" id="count"></div>
                 <div class="row" id="totalScore"></div>
             </div>
+            <div id="bestPhonemes" style="margin-top: 20px; margin-left: 15px;">
+                <div class="row" id="bestPhoneme"></div>
+            </div>
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
