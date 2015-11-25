@@ -102,8 +102,8 @@ public class PhonemesDetector {
 
         StringBuffer sb = new StringBuffer();
         sb.append("#JSGF V1.0;\n\n").append("grammar phonelist;\n\n");
-//        addGrammar("withNeighbour",sb,false,false);
-//        sb.append("\n");
+        addGrammar("withNeighbour", sb, false, false, false);
+        sb.append("\n");
         addGrammar("withNeighbourAndFirstLast",sb, true, true, false);
         grammarName = UUID.randomUUID().toString();
         grammarFile = new File(grammarDir, grammarName+ ".gram");
@@ -175,28 +175,30 @@ public class PhonemesDetector {
                     String line;
                     while ((line = br.readLine()) != null) {
                         String[] raw = line.split("neighbors:");
-                        String phones = raw[0].trim();
-                        System.out.println("=======");
-                        System.out.println("Found phones " + phones);
-                        List<String> neighbours = null;
-                        if (neighbourPhones.containsKey(phones.toUpperCase())) {
-                            neighbours = neighbourPhones.get(phones.toUpperCase());
-                            neighbourPhones.remove(phones.toUpperCase());
-                        }
-                        if (neighbours == null)
-                            neighbours = new ArrayList<String>();
+                        String phones = raw[0].trim().toUpperCase();
+                        if (!DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(phones)) {
+                            System.out.println("=======");
+                            System.out.println("Found phones " + phones);
+                            List<String> neighbours = null;
+                            if (neighbourPhones.containsKey(phones.toUpperCase())) {
+                                neighbours = neighbourPhones.get(phones.toUpperCase());
+                                neighbourPhones.remove(phones.toUpperCase());
+                            }
+                            if (neighbours == null)
+                                neighbours = new ArrayList<String>();
 
-                        String[] rawNeighbours = raw[1].trim().split("\\|");
-                        if (rawNeighbours.length > 0) {
-                            for (String nb : rawNeighbours) {
-                                nb = nb.trim();
-                                if (!neighbours.contains(nb.toLowerCase()) && !nb.equalsIgnoreCase(phones) && !nb.equalsIgnoreCase("sil")) {
-                                    System.out.println("Found neighbour " + nb);
-                                    neighbours.add(nb);
+                            String[] rawNeighbours = raw[1].trim().split("\\|");
+                            if (rawNeighbours.length > 0) {
+                                for (String nb : rawNeighbours) {
+                                    nb = nb.trim();
+                                    if (!neighbours.contains(nb.toLowerCase()) && !nb.equalsIgnoreCase(phones) && !nb.equalsIgnoreCase("sil")) {
+                                        System.out.println("Found neighbour " + nb);
+                                        neighbours.add(nb);
+                                    }
                                 }
                             }
+                            neighbourPhones.put(phones.toUpperCase(), neighbours);
                         }
-                        neighbourPhones.put(phones.toUpperCase(), neighbours);
                     }
 
                 } catch (Exception ex) {
@@ -320,9 +322,11 @@ public class PhonemesDetector {
                 }
                 if (neighbourPhones.containsKey(testPhoneme.toUpperCase())) {
                     List<String> neighbourPhonemes = neighbourPhones.get(testPhoneme.toUpperCase());
-                    for (String phoneme : neighbourPhonemes) {
-                        if (phoneme.equalsIgnoreCase(targetPhoneme)) {
-                            return SphinxResult.PhonemeScoreUnit.NEIGHBOR;
+                    if (neighbourPhonemes != null && neighbourPhonemes.size() > 0) {
+                        for (String phoneme : neighbourPhonemes) {
+                            if (phoneme.equalsIgnoreCase(targetPhoneme)) {
+                                return SphinxResult.PhonemeScoreUnit.NEIGHBOR;
+                            }
                         }
                     }
                 }
@@ -339,37 +343,45 @@ public class PhonemesDetector {
                                                                 String nextPhoneme) {
         if (bestPhonemes.size() == 0) return null;
         try {
+            int suitablePhonemeCount = 5;
+            boolean goodToAdd = true;
             SphinxResult.Phoneme phoneme = bestPhonemes.get(0);
             SphinxResult.PhonemeScoreUnit scoreUnit = createPhonemeScoreUnit(selectedPhoneme, phoneme, index);
-            int nextPhonemeType = SphinxResult.PhonemeScoreUnit.NOT_MATCH;
+            int scoreType = SphinxResult.PhonemeScoreUnit.NOT_MATCH;
+            if (scoreUnit != null) scoreType = scoreUnit.getType();
             if (bestPhonemes.size() > 1) {
                 for (int i = 1; i < bestPhonemes.size(); i++) {
-                    if (i > 2) break;
                     String mPhoneme = bestPhonemes.get(i).getName();
-                    nextPhonemeType = getValidatePhonemeType(mPhoneme, selectedPhoneme);
-                    if (nextPhonemeType != SphinxResult.PhonemeScoreUnit.NOT_MATCH) {
-                        logger.info("found best matched for next best phone " + mPhoneme + ". With current phoneme: " + selectedPhoneme
-                            + ". Type: " + nextPhonemeType);
+                    int typeSP = getValidatePhonemeType(mPhoneme, selectedPhoneme);
+                    int typeNP = getValidatePhonemeType(mPhoneme, nextPhoneme);
+                    if (typeNP == SphinxResult.PhonemeScoreUnit.MATCHED
+                            || typeNP == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME
+                            || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)) {
+                        // The next best phonemes is suitable for the next phoneme. Skip the adding now
+                        goodToAdd = false;
+                        break;
+                    }
+                    if (typeSP != SphinxResult.PhonemeScoreUnit.NOT_MATCH) {
+                        // The next best phonemes is suitable for the selected phoneme. Good to add
                         break;
                     }
                 }
             }
-            boolean isMatchedWithNextPhoneme = false;
             for (int i = cIndex + 1; i < correctPhonemes.size(); i++) {
                 int type = getValidatePhonemeType(correctPhonemes.get(i), phoneme.getName());
-                if (type != SphinxResult.PhonemeScoreUnit.NOT_MATCH && i - cIndex <= 3) {
-                    isMatchedWithNextPhoneme = true;
+                if ((type == SphinxResult.PhonemeScoreUnit.MATCHED
+                        || type == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME)
+                        || (type == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)
+                        && i - cIndex < 4) {
+                    goodToAdd = false;
                     break;
                 }
             }
-            if ((scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.MATCHED)
-                    || (scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR)
-                    || (scoreUnit != null && scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME)
-                    || (nextPhonemeType != SphinxResult.PhonemeScoreUnit.NOT_MATCH && !isMatchedWithNextPhoneme)) {
+            if (scoreType != SphinxResult.PhonemeScoreUnit.NOT_MATCH
+                    || goodToAdd) {
                 bestPhonemes.remove(0);
                 return scoreUnit;
             } else {
-                // Look like the current best score is matched with next phoneme
                 // return null will move next phoneme
                 return null;
             }
@@ -425,7 +437,7 @@ public class PhonemesDetector {
             logger.info("Best phonemes size: " + bestPhonemes.size());
             int count = 0;
             if (bestPhonemes.size() > 0) {
-                SphinxResult.PhonemeScoreUnit scoreUnit = null;
+                SphinxResult.PhonemeScoreUnit scoreUnit;
                 while ((scoreUnit = calculatePhonemeUnit(bestPhonemes, count++,i, selectedPhoneme, nextPhoneme)) != null) {
                     scoreUnits.add(scoreUnit);
                 }
