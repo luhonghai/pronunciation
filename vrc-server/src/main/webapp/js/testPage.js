@@ -27,6 +27,12 @@ function TestWord(){
                 nbPhoneme = data.neighbourPhones;
                 if(data.data!=null){
                     var result=data.data.phonemeScores;
+                    var bestPhoneme=data.tokens;
+                    $("#alphabets").append('<b>Appended text: </b>');
+                    $("#listAlpabet").append('<b>Appended text: </b>');
+                    $("#count").append('<b>Appended text: </b>');
+                    $("#totalScore").append('<b>Appended text: </b>');
+
 
                     for(var i = 0; i < result.length; i++){
                         var score=result[i].totalScore;
@@ -75,12 +81,22 @@ function TestWord(){
                         }
                     }
                     $("#totalScore").append('<input class="counts" readonly="readonly" type="text" value="Score ='+data.data.score+'">');
+                    for(var i=0;i<bestPhoneme.length;i++){
+                        $("#bestPhoneme").append('<input id="'+i+'b" readonly="readonly" value="'+bestPhoneme[i].predecessor+'" type="text"><\br>');
+                    }
 
+                }else if(data.message=="notExist"){
+                    swal("Error!", "Word not exist", "error");
                 }
                 $("#test").attr("disabled",false);
 
 
+            },
+            error:function(){
+                swal("Error!", "Could not connect to server", "error");
+                $("#test").attr("disabled",false);
             }
+
 
         });
 
