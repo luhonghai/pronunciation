@@ -451,10 +451,10 @@ public class PhonemesDetector {
                     totalScore += scoreUnit.getCount();
                 } else if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME){
                     // 90% score
-                    totalScore += (float) scoreUnit.getCount() * 0.9f;
+                    totalScore += scoreUnit.getCount() * 0.9f;
                 } else if (scoreUnit.getType() == SphinxResult.PhonemeScoreUnit.NEIGHBOR) {
                     // 50% score
-                    totalScore += (float) scoreUnit.getCount() / 2;
+                    totalScore += scoreUnit.getCount() * 0.5f;
                 }
             }
             totalScore = tokenCount == 0 ? 0.0f : (totalScore / tokenCount) * 100;
