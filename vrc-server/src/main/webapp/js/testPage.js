@@ -120,22 +120,33 @@ function isBeepPhonemes(phoneme, testPhoneme) {
 }
 
 function testNbPhoneme(phoneme, testPhoneme) {
-    if (phoneme == testPhoneme) return 1;
+    var returnVal = 0;
+    if (phoneme == testPhoneme) {
+        returnVal = 1;
+    }
+    var mBeepPhoneme = beepPhonemes[testPhoneme];
+    var mPhoneme = testPhoneme;
+    if (typeof mBeepPhoneme != 'undefined' && mBeepPhoneme != null && mBeepPhoneme.length > 0) {
+        mPhoneme = mBeepPhoneme;
+    }
     if (typeof nbPhoneme != 'undefined' && nbPhoneme != null) {
-        var phonemes = nbPhoneme[phoneme.toUpperCase()];
+        var phonemes = nbPhoneme[mPhoneme.toUpperCase()];
         if (typeof phonemes != 'undefined' && phonemes != null && phonemes.length > 0) {
             for (var i = 0; i < phonemes.length; i++) {
-                if (testPhoneme.toUpperCase() == phonemes[i].toUpperCase()) return 2;
+                if (phoneme.toUpperCase() == phonemes[i].toUpperCase()) {
+                    returnVal = 2;
+                    break;
+                }
             }
         }
     }
-    return 0;
+    return returnVal;
 }
 
 $(document).ready(function(){
     $('#audio').fileinput({
         showUpload : false,
-        allowedFileExtensions : ['mp3', 'wav']
+        allowedFileExtensions : ['wav']
     });
     TestWord();
 
