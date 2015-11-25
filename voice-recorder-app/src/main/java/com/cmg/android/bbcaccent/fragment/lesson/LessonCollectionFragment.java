@@ -50,6 +50,8 @@ public class LessonCollectionFragment extends BaseFragment {
     private LessonLevel level;
     private Objective objective;
 
+    private Handler handlerDialog = new Handler();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,10 +131,11 @@ public class LessonCollectionFragment extends BaseFragment {
                     @Override
                     public void onClick(View view) {
                         dialog.show();
-                        new Handler().postDelayed(new Runnable() {
+                        handlerDialog.removeCallbacksAndMessages(null);
+                        handlerDialog.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                               if (dialog.isShowing()) dialog.dismiss();
+                                if (dialog.isShowing()) dialog.dismiss();
                             }
                         }, 5000);
                     }
@@ -147,5 +150,6 @@ public class LessonCollectionFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        handlerDialog.removeCallbacksAndMessages(null);
     }
 }

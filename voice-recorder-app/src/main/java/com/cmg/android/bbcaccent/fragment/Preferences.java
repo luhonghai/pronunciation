@@ -170,11 +170,6 @@ public class Preferences extends PreferenceFragment implements
             }
         }
         if (oldProfile != null) {
-            if (profile.getName() == null || profile.getName().length() == 0) {
-                profile.setName(oldProfile.getName());
-                profile.setFirstName(oldProfile.getFirstName());
-                profile.setLastName(oldProfile.getLastName());
-            }
             profile.setGender(oldProfile.isGender());
             profile.setDob(oldProfile.getDob());
             profile.setEnglishProficiency(oldProfile.getEnglishProficiency());
@@ -550,7 +545,14 @@ public class Preferences extends PreferenceFragment implements
     }
 
     public static UserProfile getCurrentProfile(Context context) {
-        String username = getCurrentUsername(context);
+        return getProfile(getCurrentUsername(context), null);
+    }
+
+    public static UserProfile getProfile(String username, UserProfile defaultProfile) {
+        return getProfile(MainApplication.getContext(), username, defaultProfile);
+    }
+
+    public static UserProfile getProfile(Context context, String username, UserProfile defaultProfile) {
         if (username != null && username.length() > 0) {
             AppLog.logString("Current profile username  " + username);
             List<String> data = getUserData(context);
@@ -566,7 +568,7 @@ public class Preferences extends PreferenceFragment implements
                 }
             }
         }
-        return null;
+        return defaultProfile;
     }
 
     private static final Object lock = new Object();

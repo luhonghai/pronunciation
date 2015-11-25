@@ -4,6 +4,14 @@ import java.util.List;
 
 public class SphinxResult {
 
+    public List<String> getRawBestPhonemes() {
+        return rawBestPhonemes;
+    }
+
+    public void setRawBestPhonemes(List<String> rawBestPhonemes) {
+        this.rawBestPhonemes = rawBestPhonemes;
+    }
+
     public static class Phoneme {
 
         private String name;
@@ -161,6 +169,8 @@ public class SphinxResult {
     private List<String> correctPhonemes;
 
     private List<Phoneme> bestPhonemes;
+
+    private List<String> rawBestPhonemes;
 
     private List<PhonemeScore> phonemeScores;
 

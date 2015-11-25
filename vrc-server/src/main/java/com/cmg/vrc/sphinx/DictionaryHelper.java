@@ -62,6 +62,8 @@ public class DictionaryHelper {
         this.type = type;
     }
 
+    private static final List<String> phonemes = new ArrayList<>();
+
     public DictionaryHelper(Type type, String s3Path) {
         this(type);
         this.s3Path = s3Path;
@@ -214,6 +216,28 @@ public class DictionaryHelper {
             }
 
         }
+    }
+
+    public static List<String> getPhonemeList() {
+        if (phonemes.size() == 0) {
+            try {
+                List<String> list = IOUtils.readLines(DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/phones"));
+                for (String phone : list) {
+                    if (phone != null && phone.length() > 0) {
+                        phone = phone.trim().toUpperCase();
+                        if (BEEP_TO_CMU_PHONEMES.size() > 0 && BEEP_TO_CMU_PHONEMES.containsKey(phone)) {
+                            phone = BEEP_TO_CMU_PHONEMES.get(phone);
+                        }
+                        if (!phonemes.contains(phone) && !phone.equalsIgnoreCase("sil")) {
+                            phonemes.add(phone);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "could not read phones list",e);
+            }
+        }
+        return phonemes;
     }
 
     public static void main(String[] args) throws Exception {

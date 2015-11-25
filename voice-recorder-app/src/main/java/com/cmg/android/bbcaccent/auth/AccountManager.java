@@ -158,6 +158,10 @@ public class AccountManager {
     }
 
     public void auth(final UserProfile profile, final AuthListener authListener) {
+        auth(profile, authListener, false);
+    }
+
+    public void auth(final UserProfile profile, final AuthListener authListener, final boolean willCheck) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -165,6 +169,8 @@ public class AccountManager {
                 Gson gson = new Gson();
                 Preferences.updateAdditionalProfile(context, profile);
                 data.put("profile", gson.toJson(profile));
+                if (willCheck)
+                    data.put("check", "true");
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);

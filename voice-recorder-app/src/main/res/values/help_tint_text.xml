@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_press_the_word"><![CDATA[<b>Press</b> the word to hear it]]></string>
+    <string name="help_test_pronunciation"><![CDATA[<b>Press</b> to <b>test</b> your pronunciation]]></string>
+    <string name="help_hear_last_attempt"><![CDATA[<b>Press</b> to <b>hear</b> your last attempt]]></string>
+    <string name="help_track_progress">Track progress</string>
+    <string name="help_view_past_words">View past words</string>
+    <string name="help_view_tips">View tips</string>
+    <string name="help_next_question"><![CDATA[<b>Press</b> for the next question]]></string>
+    <string name="help_phoneme_info"><![CDATA[<b>Press</b> for more phoneme information]]></string>
+    <string name="help_reattempt_swipe_back"><![CDATA[<b>Press</b> to <b>reattempt</b><br/>Or just swipe back (left to right)]]></string>
+</resources>

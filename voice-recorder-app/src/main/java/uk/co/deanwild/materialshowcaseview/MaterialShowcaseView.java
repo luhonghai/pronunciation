@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
@@ -45,6 +46,8 @@ import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
  * Helper class to show a sequence of showcase views.
  */
 public class MaterialShowcaseView extends FrameLayout implements View.OnTouchListener, View.OnClickListener {
+
+    private int statusBarHeight;
 
     private int mOldHeight;
     private int mOldWidth;
@@ -122,8 +125,19 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
         mContentTextView = (HtmlTextView) contentView.findViewById(R.id.tv_content);
         mDismissButton = (ImageButton) contentView.findViewById(R.id.tv_dismiss);
         mDismissButton.setOnClickListener(this);
+
+        statusBarHeight = getStatusBarHeight();
+        SimpleAppLog.debug("statusBarHeight: " + statusBarHeight);
     }
 
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
     /**
      * Interesting drawing stuff.
@@ -290,7 +304,7 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
 
             if (yPos > midPoint) {
                 // target is in lower half of screen, we'll sit above it
-                mContentTopMargin = 0;
+                mContentTopMargin = statusBarHeight + 1;
                 mContentBottomMargin = (height - yPos) + radius + mShapePadding;
                 mGravity = Gravity.BOTTOM;
             } else {
@@ -419,7 +433,6 @@ public class MaterialShowcaseView extends FrameLayout implements View.OnTouchLis
     public void setConfig(ShowcaseConfig config) {
         setDelay(config.getDelay());
         setFadeDuration(config.getFadeDuration());
-        setContentTextColor(config.getContentTextColor());
         setMaskColour(config.getMaskColor());
         setShape(config.getShape());
         setShapePadding(config.getShapePadding());

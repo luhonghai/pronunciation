@@ -65,6 +65,7 @@ import com.cmg.android.bbcaccent.fragment.tab.FragmentTab;
 import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.helper.PopupShowcaseHelper;
 import com.cmg.android.bbcaccent.http.ResponseData;
 import com.cmg.android.bbcaccent.http.UploaderAsync;
 import com.cmg.android.bbcaccent.http.common.FileCommon;
@@ -112,6 +113,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.shape.RectangleShape;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 /**
  * Created by luhonghai on 12/10/2015.
@@ -172,6 +176,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     @Bind(R.id.cvTip)
     CircleCardView cvTip;
 
+    @Bind(R.id.rlSliderContent)
+    LinearLayout rlSliderContent;
+
     private AndroidAudioInputStream audioStream;
     private AudioDispatcher dispatcher;
     private Thread runner;
@@ -220,6 +227,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
     private BreakDownAction breakDownAction;
 
+    private PopupShowcaseHelper popupShowcaseHelper;
+
+    private PopupShowcaseHelper.HelpItem currentHelpItem;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Gson gson = new Gson();
@@ -265,6 +276,13 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         scoreDBAdapter = new ScoreDBAdapter(MainApplication.getContext().getLessonHistoryDatabaseHelper());
         dbAdapter = new WordDBAdapter();
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
+
+            @Override
+            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.RESET_TIMING_HELP) {
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                }
+            }
 
             @Override
             public void onUserModelFetched(ResponseData<UserVoiceModel> model) {
@@ -323,15 +341,44 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         });
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
+        popupShowcaseHelper = new PopupShowcaseHelper(getActivity(),
+                new PopupShowcaseHelper.HelpItem[] {
+                        PopupShowcaseHelper.HelpItem.ANALYZE_A_WORD,
+                        PopupShowcaseHelper.HelpItem.PROGRESS,
+                        PopupShowcaseHelper.HelpItem.HISTORY
+                },
+                new PopupShowcaseHelper.OnSelectHelpItem() {
+                    @Override
+                    public void onSelectHelpItem(PopupShowcaseHelper.HelpItem helpItem) {
+                        if (showcaseHelper == null) return;
+                        switch (helpItem) {
+                            case ANALYZE_A_WORD:
+                                showcaseHelper.showHelp(new ShowcaseHelper.HelpState(txtWord, getString(R.string.help_press_the_word)),
+                                        new ShowcaseHelper.HelpState(btnAnalyzing, getString(R.string.help_test_pronunciation)),
+                                        new ShowcaseHelper.HelpState(btnAudio, getString(R.string.help_hear_last_attempt)));
+                                break;
+                            case PROGRESS:
+                            case HISTORY:
+                                currentHelpItem = helpItem;
+                                if (panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                                } else {
+                                    showRemainHelpItem();
+                                }
+                                break;
+                        }
+                    }
+                });
+        popupShowcaseHelper.resetTiming();
         if (viewState.willShowHelpSearchWordAndSlider) {
             viewState.willShowHelpSearchWordAndSlider = false;
         }
         if (viewState.isLesson) {
             cvTip.setVisibility(View.VISIBLE);
-            txtDefinition.setVisibility(View.VISIBLE);
+            //txtDefinition.setVisibility(View.VISIBLE);
         } else {
             cvTip.setVisibility(View.INVISIBLE);
-            txtDefinition.setVisibility(View.INVISIBLE);
+            //txtDefinition.setVisibility(View.INVISIBLE);
         }
         drawQuestionList();
         return root;
@@ -399,7 +446,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         }
-        txtDefinition.setText(viewState.lessonCollection.getName());
         selectQuestion(selectedIndex);
 
     }
@@ -410,9 +456,14 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             SimpleAppLog.error("Not enough questions");
             return;
         }
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         final Question question = viewState.questions.get(index);
         if (question != null) {
-
+            if (!viewState.isLesson) {
+                txtDefinition.setText(question.getDescription());
+            } else {
+                txtDefinition.setText(viewState.lessonCollection.getName());
+            }
             viewState.selectedQuestionIndex = index;
             if (question.isRecorded()) {
                 viewState.dictionaryItem = question.getDictionaryItem();
@@ -463,6 +514,34 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
     }
 
+    private void showRemainHelpItem() {
+        if (currentHelpItem != null && showcaseHelper != null && rlSliderContent != null) {
+            if (mTabHost != null) {
+                int currentTab = mTabHost.getCurrentTab();
+                if (currentHelpItem == PopupShowcaseHelper.HelpItem.PROGRESS && currentTab != 0) {
+                    mTabHost.setCurrentTab(0);
+                } else if (currentHelpItem == PopupShowcaseHelper.HelpItem.HISTORY && currentTab != 1) {
+                    mTabHost.setCurrentTab(1);
+                }
+                ShowcaseConfig showcaseConfig = new ShowcaseConfig();
+                showcaseConfig.setShape(new RectangleShape(new ViewTarget(rlSliderContent).getBounds(), false));
+                switch (currentHelpItem) {
+                    case PROGRESS:
+                        showcaseHelper.showHelp(showcaseConfig, new ShowcaseHelper.HelpState(rlSliderContent,
+                                getString(R.string.help_track_progress)));
+                        break;
+                    case HISTORY:
+                        showcaseHelper.showHelp(showcaseConfig, new ShowcaseHelper.HelpState(rlSliderContent,
+                                getString(R.string.help_view_past_words)));
+                        break;
+                }
+            }
+            currentHelpItem = null;
+        }
+    }
+
+    private Handler handlerTip = new Handler();
+
     @OnClick(R.id.cvTip)
     public void clickTipIcon() {
         if (viewState.lessonCollection != null) {
@@ -470,12 +549,14 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             ((HtmlTextView) dialog.findViewById(R.id.tv_content)).setHtmlFromString(
                     viewState.lessonCollection.getDescription(), true);
             dialog.show();
-            new Handler().postDelayed(new Runnable() {
+            handlerTip.removeCallbacksAndMessages(null);
+            handlerTip.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     if (dialog.isShowing()) dialog.dismiss();
                 }
             }, 5000);
+            if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         }
     }
 
@@ -502,7 +583,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void initSlider(final View root) {
-        LinearLayout rlSliderContent = (LinearLayout) root.findViewById(R.id.rlSliderContent);
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
         SlidingUpPanelLayout.LayoutParams layoutParams = (SlidingUpPanelLayout.LayoutParams) rlSliderContent.getLayoutParams();
         TypedValue tv = new TypedValue();
@@ -529,22 +609,23 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
             @Override
             public void onPanelCollapsed(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
 
             @Override
             public void onPanelExpanded(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                showRemainHelpItem();
             }
 
             @Override
             public void onPanelAnchored(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
 
             @Override
             public void onPanelHidden(View panel) {
-
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
             }
         });
         if (viewState.willCollapseSlider) {
@@ -724,6 +805,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void play(File file) {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         try {
             if (player != null) {
                 try {
@@ -918,6 +1000,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     public void onDestroyView() {
         super.onDestroyView();
         handlerStartDetail.removeCallbacks(runnableStartDetail);
+        if (popupShowcaseHelper != null) popupShowcaseHelper.recycle();
         stop();
         try {
             if (recordingView != null) {
@@ -1342,9 +1425,11 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismissWithAnimation();
+                            popupShowcaseHelper.resetTiming();
                         }
                     });
                     d.show();
+
                 }
                 analyzingState = AnalyzingState.DEFAULT;
             }
@@ -1408,6 +1493,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     recordingView.drawEmptyCycle();
                     analyzingState = AnalyzingState.DEFAULT;
                     isRecording = false;
+                    popupShowcaseHelper.resetTiming();
                 } else {
                     YoYo.with(Techniques.FadeOut).duration(700).withListener(new Animator.AnimatorListener() {
                         @Override
@@ -1449,8 +1535,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         //txtPhonemes.setSelected(true);
                         //txtWord.setSelected(true);
                         showcaseHelper.showHelp(ShowcaseHelper.HelpKey.ANALYZING_WORD,
-                                new ShowcaseHelper.HelpState(txtWord, "<b>Press</b> the word to hear it"),
-                                new ShowcaseHelper.HelpState(btnAnalyzing, "<b>Press</b> to <b>test</b> your pronunciation"));
+                                new ShowcaseHelper.HelpState(txtWord, getString(R.string.help_press_the_word)),
+                                new ShowcaseHelper.HelpState(btnAnalyzing, getString(R.string.help_test_pronunciation)));
 
                         final Question question = viewState.questions.get(viewState.selectedQuestionIndex);
                         question.setDictionaryItem(MainApplication.fromJson(MainApplication.toJson(viewState.dictionaryItem), DictionaryItem.class));
@@ -1463,6 +1549,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         MainApplication.getContext().setSelectedWord(null);
                         MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
+                    popupShowcaseHelper.resetTiming();
                 }
             }
         } catch (Exception e) {

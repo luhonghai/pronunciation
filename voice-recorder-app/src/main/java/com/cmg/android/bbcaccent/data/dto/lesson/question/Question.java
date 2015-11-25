@@ -19,9 +19,14 @@ public class Question extends BaseLessonEntity {
     @LiteColumn
     private Date timeCreated;
 
+    @LiteColumn
+    private String description;
+
     private boolean recorded;
 
     private boolean enabled;
+
+
 
     private String word;
 
@@ -103,5 +108,13 @@ public class Question extends BaseLessonEntity {
 
     public void setScoreHistory(List<Integer> scoreHistory) {
         this.scoreHistory = scoreHistory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
