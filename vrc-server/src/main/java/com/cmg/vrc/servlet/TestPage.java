@@ -10,6 +10,7 @@ import com.cmg.lesson.services.calculation.ScoreService;
 import com.cmg.lesson.servlet.CalculationServlet;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.jdo.TestPage1;
+import com.cmg.vrc.sphinx.DictionaryHelper;
 import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.AWSHelper;
@@ -46,6 +47,7 @@ public class TestPage extends HttpServlet {
 
     class TestResponseData extends ResponseData<SphinxResult> {
         Map<String, List<String>> neighbourPhones;
+        Map<String, String> beepPhonemes = DictionaryHelper.BEEP_TO_CMU_PHONEMES;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,6 +72,7 @@ public class TestPage extends HttpServlet {
                 if(wordCollection!=null){
                     //List<WordMappingPhonemes> wordMappingPhonemes=wordMappingPhonemesDAO.getByWordID(wordCollection.getId());
                     PhonemesDetector detector = new PhonemesDetector(page1.getFileAudio(), page1.getWord());
+                    detector.setAllowAdditionalData(true);
                     result = detector.analyze();
                     resultResponseData.neighbourPhones = detector.getNeighbourPhones();
 //                    List<SphinxResult.PhonemeScore> scores = result.getPhonemeScores();

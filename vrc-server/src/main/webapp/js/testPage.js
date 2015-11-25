@@ -91,7 +91,7 @@ function TestWord(){
 function testNbPhoneme(phoneme, testPhoneme) {
     if (phoneme == testPhoneme) return 1;
     if (typeof nbPhoneme != 'undefined' && nbPhoneme != null) {
-        var phonemes = nbPhoneme[phoneme.toLowerCase()];
+        var phonemes = nbPhoneme[phoneme.toUpperCase()];
         if (typeof phonemes != 'undefined' && phonemes != null && phonemes.length > 0) {
             for (var i = 0; i < phonemes.length; i++) {
                 if (testPhoneme.toUpperCase() == phonemes[i].toUpperCase()) return 2;
