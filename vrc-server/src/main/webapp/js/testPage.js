@@ -34,11 +34,11 @@ function TestWord(){
                 beepPhonemes = data.beepPhonemes;
                 if(data.data!=null){
                     var result=data.data.phonemeScores;
-                    var bestPhoneme=data.tokens;
-                    $("#alphabets").append('<b>Appended text: </b>');
-                    $("#listAlpabet").append('<b>Appended text: </b>');
-                    $("#count").append('<b>Appended text: </b>');
-                    $("#totalScore").append('<b>Appended text: </b>');
+
+                    //$("#alphabets").append('<b>Appended text: </b>');
+                    //$("#listAlpabet").append('<b>Appended text: </b>');
+                    //$("#count").append('<b>Appended text: </b>');
+                    //$("#totalScore").append('<b>Appended text: </b>');
 
 
                     for(var i = 0; i < result.length; i++){
@@ -66,7 +66,7 @@ function TestWord(){
                                         $("#"+i+ +j+"t").css({'width':'50px','font-weight': 'bold','text-align':'center', 'color':cOrange});
                                     }
                                 }
-                                $(".count").css({'width':'50px', 'text-align':'center'});
+                                $(".count").css({'width':'50px','font-weight': 'bold', 'text-align':'center'});
                             }
                         }else{
                             $("#listAlpabet").append('<input class="listAlpabets" readonly="readonly" type="text">');
@@ -86,14 +86,14 @@ function TestWord(){
                             }
 
                         }else{
-                            $("#"+i+"").css({'width':'50px', 'text-align':'center'});
-                            $("#"+i+"s").css({'width':'50px', 'text-align':'right'});
+                            $("#"+i+"").css({'width':'50px','font-weight': 'bold', 'text-align':'center'});
+                            $("#"+i+"s").css({'width':'50px','font-weight': 'bold', 'text-align':'right'});
                         }
                     }
                     $("#totalScore").append('<input class="counts" readonly="readonly" type="text" value="Score ='+data.data.score+'">');
-                    for(var i=0;i<bestPhoneme.length;i++){
-                        $("#bestPhoneme").append('<input id="'+i+'b" readonly="readonly" value="'+bestPhoneme[i].predecessor+'" type="text"><\br>');
-                    }
+                    //for(var i=0;i<bestPhoneme.length;i++){
+                    //    $("#bestPhoneme").append('<input id="'+i+'b" readonly="readonly" value="'+bestPhoneme[i].predecessor+'" type="text"><\br>');
+                    //}
 
                 }else if(data.message=="notExist"){
                     swal("Error!", "Word not exist", "error");
