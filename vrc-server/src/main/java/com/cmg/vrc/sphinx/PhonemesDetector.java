@@ -130,7 +130,7 @@ public class PhonemesDetector {
                 phoneme = p;
             }
             count++;
-            if (count > 0 && count % 2 == 0 && count < correctPhonemes.size() - 1 && addExtra) {
+            if (count > 0 && count % 3 == 0 && count < correctPhonemes.size() - 2 && addExtra) {
                 sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
             } else {
                 List<String> neighbours = new ArrayList<>(neighbourPhones.get(phoneme.toUpperCase()));
@@ -289,7 +289,8 @@ public class PhonemesDetector {
 
                 }
                 try {
-                    stream.close();
+                    if (stream != null)
+                        stream.close();
                 } catch (IOException iox) {
 
                 }
