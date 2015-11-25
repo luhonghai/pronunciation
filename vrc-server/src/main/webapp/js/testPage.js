@@ -20,6 +20,7 @@ function TestWord(){
             formdata = new FormData(form[0]);
         }
         formdata.append("test", "test");
+        $("#bestPhoneme").empty();
         $.ajax({
             url:"TestPage",
             type: "POST",
@@ -29,18 +30,16 @@ function TestWord(){
             contentType: false,
             processData: false,
             success:function(data){
-
+                $("#test").attr("disabled",false);
                 nbPhoneme = data.neighbourPhones;
                 beepPhonemes = data.beepPhonemes;
                 if(data.data!=null){
                     var result=data.data.phonemeScores;
-
                     //$("#alphabets").append('<b>Appended text: </b>');
                     //$("#listAlpabet").append('<b>Appended text: </b>');
                     //$("#count").append('<b>Appended text: </b>');
                     //$("#totalScore").append('<b>Appended text: </b>');
-
-
+                    var bestPhoneme=data.data.rawBestPhonemes;
                     for(var i = 0; i < result.length; i++){
                         var score=result[i].totalScore;
                         var listFrame=result[i].phonemes;
@@ -55,7 +54,7 @@ function TestWord(){
                                 var test=testNbPhoneme(listFrame[j].name,result[i].name);
                                 $("#listAlpabet").append('<input id="'+i+''+j+'t" readonly="readonly" index="'+listFrame[j].index+'" value="'+listFrame[j].name+'"  type="text">');
                                 $("#count").append('<input class="count" readonly="readonly" index="'+listFrame[j].index+'" value="'+listFrame[j].count+'"  type="text">');
-                                if (isBeepPhonemes(listFrame[j].name, result[i].name)) {
+                                if (isBeepPhonemes(result[i].name, listFrame[j].name)) {
                                     $("#"+i+ +j+"t").css({'width':'50px', 'font-weight': 'bold', 'text-align':'center', 'color': cPurple});
                                 } else {
                                     if(test==0){
@@ -91,23 +90,20 @@ function TestWord(){
                         }
                     }
                     $("#totalScore").append('<input class="counts" readonly="readonly" type="text" value="Score ='+data.data.score+'">');
-                    //for(var i=0;i<bestPhoneme.length;i++){
-                    //    $("#bestPhoneme").append('<input id="'+i+'b" readonly="readonly" value="'+bestPhoneme[i].predecessor+'" type="text"><\br>');
-                    //}
+                    $("#bestPhoneme").empty();
+                    for(var i=0;i<bestPhoneme.length;i++){
+                        $("#bestPhoneme").append('<input id="'+i+'b" readonly="readonly" value="'+bestPhoneme[i]+'" type="text"/><br/>');
+                    }
 
                 }else if(data.message=="notExist"){
                     swal("Error!", "Word not exist", "error");
                 }
-                $("#test").attr("disabled",false);
-
 
             },
             error:function(){
                 swal("Error!", "Could not connect to server", "error");
                 $("#test").attr("disabled",false);
             }
-
-
         });
 
 
