@@ -32,8 +32,8 @@ P neighbors: P|T|B|HH|SIL
 R neighbors: R|Y|L|SIL
 S neighbors: S|SH|Z|TH|SIL
 SH neighbors: SH|S|ZH|CH|SIL
-T neighbors: T|CH|K|D|P|HH|SIL
-TH neighbors: TH|S|DH|F|HH|SIL
+T neighbors: T|CH|K|D|P|HH|TH|SIL
+TH neighbors: TH|S|DH|F|HH|T|SIL
 UA neighbors: UA|UH|UW|SIL
 UH neighbors: UH|AO|UW|UW|SIL
 UW neighbors: UW|UH|UW|SIL

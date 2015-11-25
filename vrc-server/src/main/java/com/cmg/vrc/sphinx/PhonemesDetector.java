@@ -354,6 +354,10 @@ public class PhonemesDetector {
                     String mPhoneme = bestPhonemes.get(i).getName();
                     int typeSP = getValidatePhonemeType(mPhoneme, selectedPhoneme);
                     int typeNP = getValidatePhonemeType(mPhoneme, nextPhoneme);
+                    if (typeSP == SphinxResult.PhonemeScoreUnit.MATCHED
+                            || typeSP == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME) {
+                        break;
+                    }
                     if (typeNP == SphinxResult.PhonemeScoreUnit.MATCHED
                             || typeNP == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME
                             || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)) {
