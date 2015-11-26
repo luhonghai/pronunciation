@@ -27,4 +27,15 @@ public class LoginTokenDAO extends DataAccess<LoginToken> {
             return loginTokens.get(0);
         return null;
     }
+
+    @Override
+    public boolean put(LoginToken obj) throws Exception {
+        List<LoginToken> loginTokens = list("WHERE userName == :1 && deviceName == :2", obj.getUserName(), obj.getDeviceName());
+        if (loginTokens != null && loginTokens.size() > 0) {
+            for (LoginToken loginToken : loginTokens) {
+                delete(loginToken);
+            }
+        }
+        return super.put(obj);
+    }
 }

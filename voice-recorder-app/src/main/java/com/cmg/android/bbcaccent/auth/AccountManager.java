@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -360,6 +361,85 @@ public class AccountManager {
         }.execute();
     }
 
+    public void loadLicenseData(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                data.put("account", profile.getUsername());
+                data.put("action", "list");
+                data.put("token", profile.getToken());
+                data.put("code", profile.getLicenseCode());
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.license_url));
+                    try {
+                        ResponseData<List<UserProfile.LicenseData>> responseData = gson.fromJson(message, new TypeToken<ResponseData<List<UserProfile.LicenseData>>>() {
+                        }.getType());
+                        if (responseData.isStatus()) {
+                            profile.setLicenseData(responseData.getData());
+                            authListener.onSuccess();
+                        } else {
+                            authListener.onError(responseData.getMessage(), null);
+                        }
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not list licence data", e);
+                        if (message.toLowerCase().contains("<html>")) {
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                        } else {
+                            authListener.onError(message, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    public void switchLicense(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                data.put("account", profile.getUsername());
+                data.put("action", "switch");
+                data.put("token", profile.getToken());
+                data.put("code", profile.getLicenseCode());
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.license_url));
+                    try {
+                        ResponseData<Object> responseData = gson.fromJson(message, new TypeToken<ResponseData<Object>>() {
+                        }.getType());
+                        if (responseData.isStatus()) {
+                            authListener.onSuccess();
+                        } else {
+                            authListener.onError(responseData.getMessage(), null);
+                        }
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not switch licence", e);
+                        if (message.toLowerCase().contains("<html>")) {
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                        } else {
+                            authListener.onError(message, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
     public void activeLicense(final UserProfile profile, final AuthListener authListener) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -439,7 +519,12 @@ public class AccountManager {
                 }
             });
             profile.setIsLogin(false);
-            Preferences.addProfile(context, profile);
+            profile.setToken("");
+            profile.setAdditionalToken("");
+            profile.setIsActivatedLicence(false);
+            profile.setIsSubscription(false);
+            profile.setLicenseData(null);
+            Preferences.updateProfile(context, profile);
         }
         if (mGoogleApiClient.isConnected()) {
             Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
@@ -448,6 +533,7 @@ public class AccountManager {
         }
     }
 }
+
 class LoginToken {
     private String id;
 

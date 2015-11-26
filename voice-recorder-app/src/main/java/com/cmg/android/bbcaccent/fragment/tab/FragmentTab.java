@@ -57,4 +57,8 @@ public abstract class FragmentTab extends Fragment {
     protected abstract void onUpdateData(String data);
 
     protected abstract void enableView(boolean enable);
+
+    protected void sendShowcaseResetTimingRequest() {
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.RESET_TIMING_HELP, null);
+    }
 }

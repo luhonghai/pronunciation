@@ -66,6 +66,11 @@ public class PhonemesDetector {
             if (!tmpAcousticModelDir.exists()) {
                 awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", sphinx4DataTmpDir);
             }
+//            File tmpAcousticModelDir = new File(sphinx4DataTmpDir, "cmusphinx-en-us-5.2");
+//            if (!tmpAcousticModelDir.exists()) {
+//                awsHelper.downloadAndUnzip("sphinx-data/cmusphinx-en-us-5.2.zip", sphinx4DataTmpDir);
+//            }
+
             if (tmpAcousticModelDir.exists()) {
                 conf.setAcousticModelPath(tmpAcousticModelDir.toURI().toString());
             } else {

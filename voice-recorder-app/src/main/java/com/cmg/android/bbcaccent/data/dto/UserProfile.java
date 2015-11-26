@@ -3,6 +3,8 @@ package com.cmg.android.bbcaccent.data.dto;
 import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.utils.MD5Util;
 
+import java.util.List;
+
 /**
  * Created by luhonghai on 9/29/14.
  */
@@ -20,6 +22,41 @@ public class UserProfile {
         UserProfile anonymous = new UserProfile();
         anonymous.username = "anonymous";
         return anonymous;
+    }
+
+    public List<LicenseData> getLicenseData() {
+        return licenseData;
+    }
+
+    public void setLicenseData(List<LicenseData> licenseData) {
+        this.licenseData = licenseData;
+    }
+
+    public class LicenseData {
+        private String code;
+        private UserProfile.DeviceInfo deviceInfo;
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public DeviceInfo getDeviceInfo() {
+            return deviceInfo;
+        }
+
+        public void setDeviceInfo(DeviceInfo deviceInfo) {
+            this.deviceInfo = deviceInfo;
+        }
+
+        @Override
+        public String toString() {
+            return code
+                    + (deviceInfo != null ? (" (" + deviceInfo.getModel() + " " + deviceInfo.getDeviceName() + ")") : "");
+        }
     }
 
     public boolean isSetup() {
@@ -271,6 +308,8 @@ public class UserProfile {
     private boolean isActivatedLicence;
 
     private boolean isSubscription;
+
+    private List<LicenseData> licenseData;
 
     public boolean isPro() {
         return isSubscription || isActivatedLicence;

@@ -65,7 +65,7 @@
 				value="hsql"/ -->
 
 			<!-- ENABLE THESE FOR MySQL/MariaDB -->
-			<property name="javax.jdo.option.ConnectionURL" value="${javax.jdo.option.ConnectionURL}" />
+			<property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://${databaseHost}:${databasePort}/${databaseName}?useServerPrepStmts=false" />
 			<property name="javax.jdo.option.ConnectionDriverName"
 				value="com.mysql.jdbc.Driver" />
 			<property name="javax.jdo.option.ConnectionUserName" value="${javax.jdo.option.ConnectionUserName}" />

@@ -1,5 +1,6 @@
 package com.cmg.android.bbcaccent.helper;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,13 +38,17 @@ public class PopupShowcaseHelper {
                 ColorHelper.getColor(R.color.app_blue_sky)),
         TIPS(R.layout.choose_help_item_image_button, "Tips", null, R.drawable.p_tip_blue,
                 ColorHelper.getColor(R.color.app_blue_sky)),
-        PHONEME_HELP(R.layout.choose_help_item_image, "Phoneme help", null, R.drawable.p_tip_blue,
+        PHONEME_HELP(R.layout.choose_help_item_image, "Phoneme help", null, R.drawable.ae_phone_detail,
                 Color.TRANSPARENT),
         LISTEN_AGAIN(R.layout.choose_help_item_image_button, "Listen again", null, R.drawable.ic_play,
                 ColorHelper.getColor(R.color.app_green)),
         TRY_AGAIN(R.layout.choose_help_item_image, "Try again", null, R.drawable.p_help_score_99,
                 Color.TRANSPARENT),
-        NEXT_LESSON(R.layout.choose_help_item, "Next lesson", "Q", 0,
+        NEXT_LESSON(R.layout.choose_help_item_image_button, "Next lesson", null, R.drawable.ic_next,
+                ColorHelper.getColor(R.color.app_purple)),
+        REDO_LESSON(R.layout.choose_help_item_image_button, "Redo lesson", null, R.drawable.ic_redo,
+                ColorHelper.getColor(R.color.app_purple)),
+        NEXT_QUESTION(R.layout.choose_help_item, "Next question", "Q", 0,
                 ColorHelper.getColor(R.color.app_purple))
         ;
         int layoutId;
@@ -95,29 +100,31 @@ public class PopupShowcaseHelper {
 
     public void showDialog() {
         if (context == null) return;
-        if (helpDialog == null) {
-            helpDialog = new DefaultCenterDialog(context, R.layout.choose_help);
-            final ListView listView = (ListView) helpDialog.findViewById(R.id.listView);
-            HelpAdapter helpAdapter = new HelpAdapter(context, helpItems);
-            listView.setAdapter(helpAdapter);
-            helpAdapter.notifyDataSetChanged();
-            listView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    AndroidHelper.setListViewHeightBasedOnItems(listView);
-                }
-            }, 50);
-            helpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    resetTiming();
-                }
-            });
+        try {
+            if (helpDialog == null) {
+                helpDialog = new DefaultCenterDialog(context, R.layout.choose_help);
+                final ListView listView = (ListView) helpDialog.findViewById(R.id.listView);
+                HelpAdapter helpAdapter = new HelpAdapter(context, helpItems);
+                listView.setAdapter(helpAdapter);
+                helpAdapter.notifyDataSetChanged();
+                listView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        AndroidHelper.setListViewHeightBasedOnItems(listView);
+                    }
+                }, 50);
+                helpDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        resetTiming();
+                    }
+                });
 
-        }
-        if (!helpDialog.isShowing()) {
-            helpDialog.show();
-        }
+            }
+            if (!helpDialog.isShowing()) {
+                helpDialog.show();
+            }
+        } catch (Exception e) {}
     }
 
     class HelpAdapter extends BaseAdapter {

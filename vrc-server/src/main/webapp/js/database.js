@@ -79,13 +79,136 @@ function drawTable(){
     });
 }
 
+var drawCount = 0;
+var checkStatusTimeout;
+var latestStatus;
+
+function checkStatus() {
+    $.ajax({
+        "url": CONTEXT_PATH + "/database",
+        type: "GET",
+        dataType: "json",
+        data: {
+            action: "status",
+            draw: drawCount++,
+            lines: 15
+        },
+        success: function (data) {
+            if (data != null && typeof data != 'undefined') {
+                var $popup = $("#btnPopup");
+                var $popupGenerate = $("#btnPopupGenerate");
+                var $btnStop = $("#btnStop");
+                if (data.running) {
+                    $popup.prop("disabled","disabled");
+                    $popupGenerate.prop("disabled","disabled");
+                    $btnStop.show();
+                } else {
+                    $popup.prop("disabled",false);
+                    $popupGenerate.prop("disabled",false);
+                    $btnStop.hide();
+                }
+                if (data.stopping) {
+                    $btnStop.prop("disabled","disabled");
+                } else {
+                    $btnStop.prop("disabled",false);
+                }
+                var $log = $("#generate-log");
+                if (typeof data.latestLog != 'undefined' && data.latestLog.length > 0) {
+                    var lines = data.latestLog.split("\n");
+                    var logHTMl = [];
+                    logHTMl.push("<span>...</span><br/>");
+                    for (var i = lines.length - 1; i >= 0; i--) {
+                        var span = document.createElement("span");
+                        var text = lines[i];
+                        if (text.indexOf("ERROR") != -1) {
+                            $(span).css("color", "red");
+                        }
+                        $(span).text(text);
+                        logHTMl.push($("<div/>").append(span).append("<br/>").html());
+                    }
+                    $log.html(logHTMl.join(""));
+                } else {
+                    $log.html("");
+                }
+                $("#generate-log").animate({ scrollTop: $('#generate-log')[0].scrollHeight}, 100);
+                if (typeof latestStatus != 'undefined' && latestStatus != null) {
+                    if (!data.running && latestStatus.running) {
+                        myTable.fnDraw();
+                    }
+                }
+            }
+            latestStatus = data;
+            checkStatusTimeout = setTimeout(checkStatus, 1000);
+        },
+        error: function (data) {
+            checkStatusTimeout = setTimeout(checkStatus, 1000);
+        }
+
+    });
+}
+
+
 $(document).ready(function(){
     drawTable();
     $("#btnPopup").click(function() {
         $("#popupGenerate").modal("show");
     });
+    $("#btnPopupGenerate").click(function() {
+        $("#popupGenerateAction").modal("show");
+    });
+    $("#btnStop").click(function() {
+        $("#btnStop").prop("disabled","disabled");
+        $.ajax({
+            "url": CONTEXT_PATH + "/database",
+            type: "GET",
+            dataType: "text",
+            data: {
+                action: "stop"
+            },
+            success: function (data) {
+                if (data.indexOf("done") != -1) {
+                    $("#btnStop").prop("disabled",false);
+                    $("#btnStop").hide();
+                } else {
+                    $("#btnStop").prop("disabled",false);
+                }
+            },
+            error: function () {
+                $("#btnStop").prop("disabled",false);
+                swal("Error!", "Could not connect to server", "error");
+            }
+        });
+    });
     $("#btnGenerate").click(function() {
+        var $popup = $("#btnPopup");
+        var $popupGenerate = $("#btnPopupGenerate");
+        $popup.prop("disabled","disabled");
+        $popupGenerate.prop("disabled","disabled");
+        $("#popupGenerateAction").modal("hide");
+        var $log = $("#generate-log");
+        $log.html("Preparing. Please wait...");
+        $.ajax({
+            "url": CONTEXT_PATH + "/database",
+            type: "GET",
+            dataType: "text",
+            data: {
+                action: "load"
+            },
+            success: function (data) {
+                if (data.indexOf("done") != -1) {
 
+                } else {
+                    $popup.prop("disabled",false);
+                    $popupGenerate.prop("disabled",false);
+                }
+            },
+            error: function () {
+                $popup.prop("disabled",false);
+                $popupGenerate.prop("disabled",false);
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
     $("#fileuploader").uploadFile({
         url:CONTEXT_PATH + "database_upload",
@@ -161,5 +284,5 @@ $(document).ready(function(){
             });
         }
     });
-
+    checkStatus();
 });

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/llContainer"
     android:padding="7dp">
@@ -19,13 +19,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="33sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:text="Q"
             android:layout_gravity="center_horizontal|center_vertical"
             />
-
     </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
     <TextView
         android:id="@+id/txtTitle"

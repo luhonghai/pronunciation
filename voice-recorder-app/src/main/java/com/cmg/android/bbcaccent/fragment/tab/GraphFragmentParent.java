@@ -47,6 +47,22 @@ public class GraphFragmentParent extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_graph_parent, container, false);
         mViewPager = (ViewPager) v.findViewById(R.id.pager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.RESET_TIMING_HELP, null);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey(MainBroadcaster.Filler.USER_VOICE_MODEL.toString())) {
             UserVoiceModel model = MainApplication.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);

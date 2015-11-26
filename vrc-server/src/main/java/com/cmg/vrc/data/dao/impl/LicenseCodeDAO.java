@@ -159,6 +159,13 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
         }
     }
 
+    public LicenseCode getByCodeAndEmail(String code, String email) throws Exception {
+        List<LicenseCode> list = list("WHERE code == :1 && account == :2", code, email);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
 
     public LicenseCode getByCode(String code) throws Exception {
         List<LicenseCode> list = list("WHERE code == :1", code);
@@ -177,8 +184,6 @@ public class LicenseCodeDAO extends DataAccess<LicenseCode> {
     public List<LicenseCode> listByEmail(String email) throws Exception {
         return list("WHERE account == :1", email);
     }
-
-
 
     public List<LicenseCodess> listAllByCompanySearch(String search, int column, String order, String ac, String acti, String dateFrom, String dateTo, String dateFrom2, String dateTo2, String com) throws Exception {
 

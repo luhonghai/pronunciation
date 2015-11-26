@@ -31,8 +31,8 @@ android {
     buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "com.cmg.android.bbcaccent"
-        versionCode 400006
-        versionName "4.0.006"
+        versionCode 400007
+        versionName "4.0.007"
         minSdkVersion 14
         targetSdkVersion 23
         archivesBaseName = "accenteasy"
@@ -84,25 +84,30 @@ android {
     lintOptions {
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile('cn.pedant.sweetalert:library:1.3') {
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.google.code.gson:gson:2.4'
-    compile ('cn.pedant.sweetalert:library:1.3') {
-        exclude module: 'appcompat-v7'
-    }
+
     compile 'commons-io:commons-io:2.4'
     compile 'com.balysv.materialmenu:material-menu-abs:1.5.0'
     compile 'org.jsoup:jsoup:1.7.3'
     compile project(':facebook')
     compile 'it.sephiroth.android.library.horizontallistview:hlistview:1.2.2'
     compile('com.jjoe64:graphview:4.0.0') {
-        exclude module: 'appcompat-v7'
+        exclude group: 'com.android.support', module: 'appcompat-v7'
     }
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.google.android.gms:play-services-plus:8.3.0'

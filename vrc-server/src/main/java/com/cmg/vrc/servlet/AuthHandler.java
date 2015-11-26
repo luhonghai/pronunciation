@@ -126,7 +126,7 @@ public class AuthHandler extends HttpServlet {
                             }
                             if (responseData.isStatus()) {
                                 try {
-                                    if (loginToken == null) {
+                                    if (loginToken == null || !willCheck) {
                                         loginToken = new LoginToken();
                                         loginToken.setUserName(user.getUsername());
                                         loginToken.setToken(uuid);

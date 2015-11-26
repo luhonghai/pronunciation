@@ -1,8 +1,6 @@
 package com.cmg.android.bbcaccent;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.SpannableString;
@@ -16,18 +14,12 @@ import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.fragment.Preferences;
-import com.cmg.android.bbcaccent.service.UpdateDataService;
 import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.crashlytics.android.Crashlytics;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +42,7 @@ public class SplashActivity extends BaseActivity {
         DATABASE,
         SETTING,
         SUBSCRIPTION,
+        LICENSE_DATA
     }
 
     private final List<LoadItem> loadStatus = new ArrayList<LoadItem>();
@@ -106,6 +99,7 @@ public class SplashActivity extends BaseActivity {
             accountManager = new AccountManager(this);
             loadStatus.add(LoadItem.DATABASE);
             loadStatus.add(LoadItem.SUBSCRIPTION);
+            loadStatus.add(LoadItem.LICENSE_DATA);
             new DatabasePrepare(this, new OnPrepraredListener() {
                 @Override
                 public void onComplete() {
@@ -165,6 +159,28 @@ public class SplashActivity extends BaseActivity {
 
                 }
             });
+            final UserProfile profile = Preferences.getCurrentProfile();
+            if (profile != null && profile.isLogin()) {
+                accountManager.loadLicenseData(profile, new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(String message, Throwable e) {
+                        SimpleAppLog.error("Could not load license data. Message: " + message, e);
+                        loadStatus.remove(LoadItem.LICENSE_DATA);
+                        validateCallback();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        Preferences.updateProfile(SplashActivity.this, profile);
+                        SimpleAppLog.debug("Load license data successfully. License data size: "
+                                + (profile.getLicenseData() == null ? 0 : profile.getLicenseData().size()));
+                        loadStatus.remove(LoadItem.LICENSE_DATA);
+                        validateCallback();
+                    }
+                });
+            } else {
+                loadStatus.remove(LoadItem.LICENSE_DATA);
+            }
         }
     }
 
@@ -214,7 +230,8 @@ public class SplashActivity extends BaseActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                doLicenseCheck(profile);
+                                Preferences.updateProfile(MainApplication.getContext(), profile);
+                                doLicenseCheck(Preferences.getCurrentProfile());
                             }
                         });
                     }
