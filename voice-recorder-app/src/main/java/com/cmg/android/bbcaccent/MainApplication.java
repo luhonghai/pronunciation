@@ -41,6 +41,8 @@ public class MainApplication  extends Application {
 
     private String selectedWord;
 
+    private boolean skipHelpPopup;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -150,5 +152,13 @@ public class MainApplication  extends Application {
 
     public void setSelectedWord(String selectedWord) {
         this.selectedWord = selectedWord;
+    }
+
+    public boolean isSkipHelpPopup() {
+        return skipHelpPopup;
+    }
+
+    public void setSkipHelpPopup(boolean skipHelpPopup) {
+        this.skipHelpPopup = skipHelpPopup;
     }
 }

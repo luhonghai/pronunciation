@@ -2,7 +2,6 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.LoginToken;
-import com.cmg.vrc.data.jdo.Security;
 
 import java.util.List;
 
@@ -33,7 +32,9 @@ public class LoginTokenDAO extends DataAccess<LoginToken> {
         List<LoginToken> loginTokens = list("WHERE userName == :1 && deviceName == :2", obj.getUserName(), obj.getDeviceName());
         if (loginTokens != null && loginTokens.size() > 0) {
             for (LoginToken loginToken : loginTokens) {
-                delete(loginToken);
+                if (!obj.getId().equals(loginToken.getId())) {
+                    delete(loginToken);
+                }
             }
         }
         return super.put(obj);

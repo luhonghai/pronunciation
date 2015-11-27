@@ -1,6 +1,5 @@
 package com.cmg.android.bbcaccent.helper;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -90,13 +90,19 @@ public class PopupShowcaseHelper {
 
     public void resetTiming() {
         recycle();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        handler.postDelayed(runnableShowDialog,TIMEOUT);
+    }
+
+    private Runnable runnableShowDialog = new Runnable() {
+        @Override
+        public void run() {
+            if (MainApplication.getContext().isSkipHelpPopup()) {
+                handler.postDelayed(runnableShowDialog,TIMEOUT);
+            } else {
                 showDialog();
             }
-        },TIMEOUT);
-    }
+        }
+    };
 
     public void showDialog() {
         if (context == null) return;
