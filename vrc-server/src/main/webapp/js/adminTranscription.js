@@ -119,7 +119,7 @@ function addsentence(){
 function add(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
-        $("#addusername").val("");
+        $("#addsentence").val("");
     });
 }
 

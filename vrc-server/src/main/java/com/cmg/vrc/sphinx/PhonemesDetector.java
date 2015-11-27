@@ -365,7 +365,7 @@ public class PhonemesDetector {
                     }
                     if (typeNP == SphinxResult.PhonemeScoreUnit.MATCHED
                             || typeNP == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME
-                            || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)) {
+                            || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && bestPhonemes.get(i).getCount() > suitablePhonemeCount)) {
                         // The next best phonemes is suitable for the next phoneme. Skip the adding now
                         goodToAdd = false;
                         break;
