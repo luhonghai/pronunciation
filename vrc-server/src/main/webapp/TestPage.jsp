@@ -38,7 +38,7 @@
                 <%--<div class="row" id="alphabet"></div>--%>
                 <%--<div class="row" id="score"></div>--%>
             <%--</div>--%>
-            <div id="loadFrame" class="group-phoneme-weight" style="margin-top: 20px; margin-left: 15px;">
+            <div id="loadFrame" class="group-phoneme-weight" style="margin-top: 20px; margin-left: 15px; overflow-x: auto;overflow-y: hidden;">
                 <div class="row" id="alphabets"></div>
                 <div class="row" id="listAlpabet"></div>
                 <div class="row" id="count"></div>
