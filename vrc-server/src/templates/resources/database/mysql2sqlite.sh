@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mysqldump  --compatible=ansi --skip-extended-insert --compact %EXTRA_ARGS% | \
+mysqldump --compatible=ansi --default-character-set=utf8mb4 --skip-extended-insert --compact %EXTRA_ARGS% | \
 
 awk '
 

@@ -44,7 +44,7 @@ public class RegisterHandler extends BaseServlet {
                 versionCode = "000";
             }
             if (langPrefix == null || langPrefix.length() == 0)
-                langPrefix = "BE";
+                langPrefix = "AE";
             if (profile != null && profile.length() > 0) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 String message = "";
@@ -77,17 +77,18 @@ public class RegisterHandler extends BaseServlet {
                         responseData.setData(user);
                         if (user.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
                             cUser.setActivated(false);
+                            final String username = cUser.getUsername();
+                            final String code = cUser.getActivationCode();
                             userDAO.put(cUser);
                             // Send mail with code
-                            final User eUser = cUser;
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
                                     MailService mailService = new MailService();
                                     try {
-                                        mailService.sendActivationEmail(eUser.getUsername(), eUser.getActivationCode());
+                                        mailService.sendActivationEmail(username, code);
                                     } catch (MessagingException e) {
-                                        e.printStackTrace();
+                                        logger.error("could not send activation email. username: " + username + ". code: " + code,e);
                                     }
                                 }
                             }).start();

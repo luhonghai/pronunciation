@@ -80,15 +80,24 @@ public class MainApplication  extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        if (freestyleDatabaseHelper != null)
-            freestyleDatabaseHelper.close();
-        if (lessonDatabaseHelper != null)
-            lessonDatabaseHelper.close();
-        if (lessonHistoryDatabaseHelper != null) {
-            lessonHistoryDatabaseHelper.close();
-        }
+        closeAllDatabase();
         MainBroadcaster.getInstance().destroy();
         ImageLoader.getInstance().destroy();
+    }
+
+    public void closeAllDatabase() {
+        if (freestyleDatabaseHelper != null) {
+            freestyleDatabaseHelper.close();
+            freestyleDatabaseHelper = null;
+        }
+        if (lessonDatabaseHelper != null) {
+            lessonDatabaseHelper.close();
+            lessonDatabaseHelper = null;
+        }
+        if (lessonHistoryDatabaseHelper != null) {
+            lessonHistoryDatabaseHelper.close();
+            lessonHistoryDatabaseHelper = null;
+        }
     }
 
     public static MainApplication getContext() {

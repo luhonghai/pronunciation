@@ -79,7 +79,7 @@ public class ActivationHandler extends HttpServlet {
                 String profile = request.getParameter(PARA_PROFILE);
                 String langPrefix = request.getParameter(PARA_LANG_PREFIX);
                 if (langPrefix == null || langPrefix.length() == 0)
-                    langPrefix = "BE";
+                    langPrefix = "AE";
                 if (profile != null && profile.length() > 0) {
                     Gson gson = new Gson();
                     UserProfile user = gson.fromJson(profile, UserProfile.class);

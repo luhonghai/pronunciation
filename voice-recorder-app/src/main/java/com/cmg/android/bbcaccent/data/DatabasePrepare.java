@@ -7,7 +7,6 @@ import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.http.HttpContacter;
 import com.cmg.android.bbcaccent.http.ResponseData;
-import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.utils.UUIDGenerator;
@@ -76,13 +75,20 @@ public class DatabasePrepare {
     }
 
     private boolean loadDatabase() {
+        String dbName = "lesson";
         File databaseDir = new File(FileHelper.getApplicationDir(context), "databases");
         File fileVersion = new File(databaseDir, "version");
         int currentVersion = 0;
         if (!databaseDir.exists()) {
             databaseDir.mkdirs();
         }
-        File lessonDb = new File(databaseDir, "lesson");
+        File[] databaseFiles = databaseDir.listFiles();
+        if (databaseFiles != null && databaseFiles.length > 0) {
+            for (File file : databaseFiles) {
+                SimpleAppLog.debug("Found database file: " + file.getAbsolutePath());
+            }
+        }
+        File lessonDb = new File(databaseDir, dbName);
         SimpleAppLog.info("Current db version: " + currentVersion);
 
         if (fileVersion.exists()) {
@@ -129,7 +135,19 @@ public class DatabasePrepare {
                 }
                 if (dbFilePath != null) {
                     SimpleAppLog.info("Found db file path: " + dbFilePath);
-                    if (lessonDb.exists()) FileUtils.forceDelete(lessonDb);
+                    MainApplication.getContext().closeAllDatabase();
+                    if (lessonDb.exists()) {
+                        if (context.deleteDatabase(dbName)) {
+                            SimpleAppLog.debug("Delete database " + dbName + " completed");
+                        } else {
+                            SimpleAppLog.debug("Could not delete old database " + dbName);
+                        }
+
+
+                    }
+                    if (lessonDb.exists()) {
+                        FileUtils.forceDelete(lessonDb);
+                    }
                     FileUtils.moveFile(new File(dbFilePath), lessonDb);
                     SimpleAppLog.debug("Update database successfully");
                     FileUtils.writeStringToFile(fileVersion, Integer.toString(newVersion), "UTF-8");
