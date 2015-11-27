@@ -107,9 +107,9 @@ public class PhonemesDetector {
 
         StringBuffer sb = new StringBuffer();
         sb.append("#JSGF V1.0;\n\n").append("grammar phonelist;\n\n");
-        addGrammar("withNeighbour", sb, false, false, false);
-        sb.append("\n");
-        addGrammar("withNeighbourAndFirstLast",sb, true, true, false);
+        //addGrammar("withNeighbour", sb, false, false, false);
+        //sb.append("\n");
+        addGrammar("withNeighbourAndFirstLast",sb, true, true, false, true);
         grammarName = UUID.randomUUID().toString();
         grammarFile = new File(grammarDir, grammarName+ ".gram");
         try {
@@ -122,11 +122,8 @@ public class PhonemesDetector {
         return grammarDir.toURI().toString();
     }
 
-    private void addGrammar(String name, final StringBuffer sb, boolean addFirst, boolean addLast, boolean addExtra) {
+    private void addGrammar(String name, final StringBuffer sb, boolean addFirst, boolean addLast, boolean addExtra, boolean addExtraNeighbour) {
         sb.append("public <").append(name).append("> = SIL ");
-        if (addFirst && DictionaryHelper.getPhonemeList().size() > 0) {
-            sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
-        }
         int count = 0;
         for (String p : correctPhonemes) {
             String phoneme;
@@ -136,7 +133,11 @@ public class PhonemesDetector {
                 phoneme = p;
             }
             count++;
-            if (count > 0 && count % 3 == 0 && count < correctPhonemes.size() - 2 && addExtra) {
+            if (addFirst && DictionaryHelper.getPhonemeList().size() > 0 && count == 1) {
+                sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
+            } else if (addLast && DictionaryHelper.getPhonemeList().size() > 0 && count == correctPhonemes.size()) {
+                sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
+            } else if (count > 0 && count % 3 == 0 && count < correctPhonemes.size() - 2 && addExtra) {
                 sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
             } else {
                 List<String> neighbours = new ArrayList<>(neighbourPhones.get(phoneme.toUpperCase()));
@@ -144,12 +145,14 @@ public class PhonemesDetector {
                 if (neighbours.size() > 0) {
                     neighbours.add("SIL");
                     neighbours.add(phoneme);
-                    for (String np : neighbourPhones.get(phoneme.toUpperCase())) {
-                        List<String> listNp = neighbourPhones.get(np.toUpperCase());
-                        if (listNp != null && listNp.size() > 0) {
-                            for (String snp : listNp) {
-                                if (!neighbours.contains(snp)) {
-                                    neighbours.add(snp);
+                    if (addExtraNeighbour) {
+                        for (String np : neighbourPhones.get(phoneme.toUpperCase())) {
+                            List<String> listNp = neighbourPhones.get(np.toUpperCase());
+                            if (listNp != null && listNp.size() > 0) {
+                                for (String snp : listNp) {
+                                    if (!neighbours.contains(snp)) {
+                                        neighbours.add(snp);
+                                    }
                                 }
                             }
                         }
@@ -159,11 +162,6 @@ public class PhonemesDetector {
                     sb.append(phoneme);
                 }
                 sb.append(") ");
-            }
-        }
-        if (addLast && DictionaryHelper.getPhonemeList().size() > 0) {
-            if (addFirst) {
-                sb.append("(").append(StringUtils.join(DictionaryHelper.getPhonemeList(), "|")).append("|SIL) ");
             }
         }
         sb.append("SIL;");
@@ -348,7 +346,7 @@ public class PhonemesDetector {
                                                                 String nextPhoneme) {
         if (bestPhonemes.size() == 0) return null;
         try {
-            int suitablePhonemeCount = 5;
+            int suitablePhonemeCount = 2;
             boolean goodToAdd = true;
             SphinxResult.Phoneme phoneme = bestPhonemes.get(0);
             SphinxResult.PhonemeScoreUnit scoreUnit = createPhonemeScoreUnit(selectedPhoneme, phoneme, index);
@@ -365,7 +363,7 @@ public class PhonemesDetector {
                     }
                     if (typeNP == SphinxResult.PhonemeScoreUnit.MATCHED
                             || typeNP == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME
-                            || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)) {
+                            || (typeNP == SphinxResult.PhonemeScoreUnit.NEIGHBOR && bestPhonemes.get(i).getCount() > suitablePhonemeCount)) {
                         // The next best phonemes is suitable for the next phoneme. Skip the adding now
                         goodToAdd = false;
                         break;
@@ -381,7 +379,7 @@ public class PhonemesDetector {
                 if ((type == SphinxResult.PhonemeScoreUnit.MATCHED
                         || type == SphinxResult.PhonemeScoreUnit.BEEP_PHONEME)
                         || (type == SphinxResult.PhonemeScoreUnit.NEIGHBOR && phoneme.getCount() > suitablePhonemeCount)
-                        && i - cIndex < 4) {
+                        && i - cIndex < 3) {
                     goodToAdd = false;
                     break;
                 }

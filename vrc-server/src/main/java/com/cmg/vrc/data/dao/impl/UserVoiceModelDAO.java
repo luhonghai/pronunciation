@@ -55,7 +55,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and username LIKE '%" + username1 + "%'");
                 }
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -160,7 +160,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -263,8 +263,8 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and username LIKE '%" + username1 + "%'");
             }
             if (word1.length() > 0) {
-                first.append(" and word LIKE '" + word1 + "'");
-                second.append(" and word LIKE '" + word1 + "'");
+                first.append(" and word LIKE '%" + word1 + "%'");
+                second.append(" and word LIKE '%" + word1 + "%'");
             }
 
             if(score1==1){
@@ -408,7 +408,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and username LIKE '%" + username1 + "%'");
                 }
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -493,7 +493,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -576,8 +576,8 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and username LIKE '%" + username1 + "%'");
             }
             if (word1.length() > 0) {
-                first.append(" and word LIKE '" + word1 + "'");
-                second.append(" and word LIKE '" + word1 + "'");
+                first.append(" and word LIKE '%" + word1 + "%'");
+                second.append(" and word LIKE '%" + word1 + "%'");
             }
 
             if(score1==1){
@@ -755,7 +755,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and username LIKE '%" + username1 + "%'");
                 }
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -859,7 +859,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (word1.length() > 0) {
-                    query.append(" and word LIKE '" + word1 + "'");
+                    query.append(" and word LIKE '%" + word1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (score >=0 and score<=50)");
@@ -961,8 +961,8 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and username LIKE '%" + username1 + "%'");
             }
             if (word1.length() > 0) {
-                first.append(" and word LIKE '" + word1 + "'");
-                second.append(" and word LIKE '" + word1 + "'");
+                first.append(" and word LIKE '%" + word1 + "%'");
+                second.append(" and word LIKE '%" + word1 + "%'");
             }
 
             if(score1==1){
