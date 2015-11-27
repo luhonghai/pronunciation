@@ -84,7 +84,8 @@
     <string name="is_not_activated">is not activated</string>
     <string name="is_temporarily_locked">is temporarily locked</string>
     <string name="invalid_licence">invalid licence</string>
-    <string name="enter_licence_code">enter licence code</string>
+    <string name="enter_licence_code">activate new licence code</string>
+    <string name="switch_licence_code">or switch licence from other device</string>
     <string name="logout_account_message_title">logout account</string>
     <string name="logout_account_message_content">are you sure you want to logout this account?</string>
     <string name="dialog_no">no</string>
@@ -138,6 +139,7 @@
     <string name="could_not_purchase_title">an error occurred during purchase</string>
     <string name="product_purchased_title">thanks for your order</string>
     <string name="product_purchased_message">the full version is activated now</string>
+    <string name="switch_licence_success_title">switch licence successfully</string>
     <string name="help_search_icon_title">don\'t forget to try new words</string>
     <string name="help_search_icon">searching for them by pressing the magnifying glass</string>
     <string name="word_not_in_beep_title">oh gosh!</string>

@@ -3,7 +3,10 @@ package com.cmg.android.bbcaccent.view;
 import android.app.Activity;
 import android.view.View;
 
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 import uk.co.deanwild.materialshowcaseview.target.Target;
 import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
@@ -58,6 +61,12 @@ public class ShowcaseHelper {
 
     public ShowcaseHelper showHelp(HelpKey helpKey, ShowcaseConfig config, HelpState... helpStates) {
         MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity, helpKey.toString());
+        sequence.setOnItemDismissedListener(new MaterialShowcaseSequence.OnSequenceItemDismissedListener() {
+            @Override
+            public void onDismiss(MaterialShowcaseView itemView, int position) {
+                MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.RESET_TIMING_HELP, null);
+            }
+        });
         sequence.setConfig(config);
         if (helpStates != null && helpStates.length > 0) {
             for (HelpState helpState : helpStates) {

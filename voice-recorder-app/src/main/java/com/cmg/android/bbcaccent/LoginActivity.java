@@ -554,6 +554,24 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         });
     }
 
+    private void doLoadLicense(final UserProfile profile) {
+        accountManager.loadLicenseData(profile, new AccountManager.AuthListener() {
+            @Override
+            public void onError(String message, Throwable e) {
+                SimpleAppLog.error("Could not load license data. Message: " + message, e);
+                doGetProfile(Preferences.getCurrentProfile());
+            }
+
+            @Override
+            public void onSuccess() {
+                Preferences.updateProfile(MainApplication.getContext(), profile);
+                SimpleAppLog.debug("Load license data successfully. License data size: "
+                        + (profile.getLicenseData() == null ? 0 : profile.getLicenseData().size()));
+                doGetProfile(Preferences.getCurrentProfile());
+            }
+        });
+    }
+
     private void doCheckLicense(final UserProfile profile) {
         accountManager.checkLicense(profile, new AccountManager.AuthListener() {
             @Override
@@ -572,15 +590,15 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 //                    }
 //                });
                 profile.setIsActivatedLicence(false);
-                Preferences.addProfile(LoginActivity.this, profile);
-                doGetProfile(profile);
+                Preferences.updateProfile(LoginActivity.this, profile);
+                doLoadLicense(Preferences.getCurrentProfile());
             }
 
             @Override
             public void onSuccess() {
                 profile.setIsActivatedLicence(true);
-                Preferences.addProfile(LoginActivity.this, profile);
-                doGetProfile(profile);
+                Preferences.updateProfile(LoginActivity.this, profile);
+                doLoadLicense(Preferences.getCurrentProfile());
             }
         });
     }
@@ -896,10 +914,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         showErrorNetworkMessage(null);
     }
 
-    private void doAuth(final UserProfile profile) {
+    private void doAuth(final UserProfile p) {
         //Toast.makeText(this, "Login with " + profile.getUsername(), Toast.LENGTH_LONG).show();
-        Preferences.setSelectedUsername(profile.getUsername(), LoginActivity.this);
-        Preferences.addProfile(this, profile);
+        Preferences.setSelectedUsername(p.getUsername(), LoginActivity.this);
+        Preferences.addProfile(this, p);
         final UserProfile currentProfile = Preferences.getCurrentProfile(this);
         if (currentProfile == null) {
             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
@@ -916,13 +934,10 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             });
             d.show();
         } else {
-            if (!profile.getLoginType().equalsIgnoreCase(UserProfile.TYPE_EASYACCENT)) {
-                accountManager.register(profile, null);
-            }
-            accountManager.auth(profile, new AccountManager.AuthListener() {
+            accountManager.auth(currentProfile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {
-                    AnalyticHelper.sendUserLoginError(LoginActivity.this, profile.getUsername());
+                    AnalyticHelper.sendUserLoginError(LoginActivity.this, currentProfile.getUsername());
                     final SpannableString s = new SpannableString(message);
                     Linkify.addLinks(s, Linkify.ALL);
                     if (e != null) e.printStackTrace();
@@ -956,7 +971,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 @Override
                 public void onSuccess() {
                     currentProfile.setIsLogin(true);
-                    Preferences.addProfile(LoginActivity.this, currentProfile);
+                    SimpleAppLog.debug("Account " + currentProfile.getUsername() + " is login. Token: " + currentProfile.getToken());
+                    Preferences.updateProfile(LoginActivity.this, currentProfile);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -968,9 +984,9 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             //showProcessDialog();
                         }
                     });
-                    AnalyticHelper.sendLoginType(LoginActivity.this, profile.getLoginType());
-                    AnalyticHelper.sendUserLogin(LoginActivity.this, profile.getUsername());
-                    doCheckLicense(currentProfile);
+                    AnalyticHelper.sendLoginType(LoginActivity.this, currentProfile.getLoginType());
+                    AnalyticHelper.sendUserLogin(LoginActivity.this, currentProfile.getUsername());
+                    doCheckLicense(Preferences.getCurrentProfile());
                 }
             });
         }

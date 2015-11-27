@@ -380,6 +380,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             cvTip.setVisibility(View.INVISIBLE);
             //txtDefinition.setVisibility(View.INVISIBLE);
         }
+        txtDefinition.setVisibility(View.VISIBLE);
         drawQuestionList();
         return root;
     }
@@ -569,6 +570,12 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     private void initTabHost() {
         if (mTabHost == null) return;
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+            }
+        });
         addTabImage(R.drawable.tab_graph,
                 GraphFragmentParent.class, getString(R.string.tab_graph));
         addTabImage(R.drawable.tab_history,
@@ -1000,7 +1007,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     public void onDestroyView() {
         super.onDestroyView();
         handlerStartDetail.removeCallbacks(runnableStartDetail);
-        if (popupShowcaseHelper != null) popupShowcaseHelper.recycle();
+        if (popupShowcaseHelper != null) {
+            popupShowcaseHelper.recycle();
+            popupShowcaseHelper = null;
+        }
         stop();
         try {
             if (recordingView != null) {

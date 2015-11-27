@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,13 +20,18 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +76,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
@@ -202,6 +209,24 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             public void onClick(View v) {
                                 if (dialogLicence == null) {
                                     dialogLicence = new DefaultCenterDialog(MainActivity.this, R.layout.dialog_license_subscription);
+                                    UserProfile userProfile = Preferences.getCurrentProfile();
+                                    List<UserProfile.LicenseData> licenseDataList = userProfile.getLicenseData();
+                                    if (licenseDataList != null && licenseDataList.size() > 0) {
+                                        dialogLicence.findViewById(R.id.llSwitchLicense).setVisibility(View.VISIBLE);
+                                        Spinner spinner = (Spinner) dialogLicence.findViewById(R.id.spinnerLicense);
+                                        ArrayAdapter<UserProfile.LicenseData> spinnerArrayAdapter = new ArrayAdapter<UserProfile.LicenseData>(MainActivity.this,
+                                                android.R.layout.simple_spinner_item, licenseDataList);
+                                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                        spinner.setAdapter(spinnerArrayAdapter);
+                                        dialogLicence.findViewById(R.id.btnSwitchLicense).setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                doSwitchLicence();
+                                            }
+                                        });
+                                    } else {
+                                        dialogLicence.findViewById(R.id.llSwitchLicense).setVisibility(View.INVISIBLE);
+                                    }
                                     dialogLicence.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -228,6 +253,74 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         initListMenu();
         willCloseAfterSubscription = false;
         MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.UPDATE_FULL_VERSION, null);
+    }
+
+    private void doSwitchLicence() {
+        final UserProfile profile = Preferences.getCurrentProfile(this);
+        if (profile != null) {
+            UserProfile.LicenseData licenseData = (UserProfile.LicenseData) ((Spinner) dialogLicence.findViewById(R.id.spinnerLicense)).getSelectedItem();
+            if (licenseData != null) {
+                profile.setLicenseCode(licenseData.getCode());
+                SimpleAppLog.error("Start switch license: " + profile.getLicenseCode());
+                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(false);
+                dialogLicence.findViewById(R.id.btnSwitchLicense).setEnabled(false);
+                showProcessDialog();
+                accountManager.switchLicense(profile, new AccountManager.AuthListener() {
+                    @Override
+                    public void onError(final String message, Throwable e) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                                dialogLicence.findViewById(R.id.btnSwitchLicense).setEnabled(true);
+                                hideProcessDialog();
+                                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText(getString(R.string.could_not_activate_licence_code));
+                                d.setContentText(message);
+                                d.setConfirmText(getString(R.string.dialog_ok));
+                                d.show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        profile.setIsActivatedLicence(true);
+                        Preferences.updateProfile(MainActivity.this, profile);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doUpdateFullVersion();
+                                dialogLicence.findViewById(R.id.btnActivateLicense).setEnabled(true);
+                                dialogLicence.findViewById(R.id.btnSwitchLicense).setEnabled(true);
+                                hideProcessDialog();
+                                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                                d.setTitleText(getString(R.string.switch_licence_success_title));
+                                d.setContentText(getString(R.string.product_purchased_message));
+                                d.setConfirmText(getString(R.string.dialog_ok));
+                                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                        if (dialogLicence != null && dialogLicence.isShowing())
+                                            dialogLicence.dismiss();
+                                        if (chooseActivateType != null && chooseActivateType.isShowing())
+                                            chooseActivateType.dismiss();
+                                        if (dialogSubscription != null && dialogSubscription.isShowing())
+                                            dialogSubscription.dismiss();
+                                    }
+                                });
+                                d.show();
+                            }
+                        });
+                    }
+                });
+            } else {
+                SimpleAppLog.error("No selected licence found");
+            }
+        } else {
+            SimpleAppLog.error("No profile found");
+        }
     }
 
     private void doActivateLicence() {

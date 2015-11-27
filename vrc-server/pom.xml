@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>4.0.006</version>
+	<version>4.0.007</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
@@ -336,6 +336,11 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.7.3</version>
 		</dependency>
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.8.11.2</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -351,10 +356,11 @@
 				<logging.file>${basedir}/log/log.log</logging.file>
 				<project.dir>${basedir}/data/projects</project.dir>
 				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/vrc?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
-
+				<databaseHost>c-mg.vn</databaseHost>
+				<databaseName>vrc</databaseName>
+				<databasePort>3306</databasePort>
                 <contact.us.email>website@c-mg.com</contact.us.email>
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -379,10 +385,11 @@
                 <logging.file>H:\Apps\Tomcat8\logs\vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
                 <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-                <javax.jdo.option.ConnectionURL>jdbc:mysql://c-mg.vn:3306/dev?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
                 <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
                 <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
-
+				<databaseHost>c-mg.vn</databaseHost>
+				<databaseName>dev</databaseName>
+				<databasePort>3306</databasePort>
                 <contact.us.email>website@c-mg.com</contact.us.email>
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -408,10 +415,11 @@
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
 				<project.dir>/var/www/webdav/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
-
+				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
+				<databaseName>SAT</databaseName>
+				<databasePort>3306</databasePort>
                 <contact.us.email>website@c-mg.com</contact.us.email>
                 <contact.us.email.sender>feedbackcmg@c-mg.com</contact.us.email.sender>
                 <contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -440,9 +448,11 @@
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/VRC?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
+				<databaseName>VRC</databaseName>
+				<databasePort>3306</databasePort>
 				<contact.us.email>support@accenteasy.com</contact.us.email>
 				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -472,9 +482,11 @@
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
+				<databaseName>SAT</databaseName>
+				<databasePort>3306</databasePort>
 				<contact.us.email>support@accenteasy.com</contact.us.email>
 				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>
@@ -504,9 +516,11 @@
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
 				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
-				<javax.jdo.option.ConnectionURL>jdbc:mysql://restore-2015-09-04.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com:3306/SAT?useServerPrepStmts=false</javax.jdo.option.ConnectionURL>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<databaseHost>restore-2015-09-04.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
+				<databaseName>SAT</databaseName>
+				<databasePort>3306</databasePort>
 				<contact.us.email>support@accenteasy.com</contact.us.email>
 				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
 				<contact.us.email.password>W3lcom3123</contact.us.email.password>

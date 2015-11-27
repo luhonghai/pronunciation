@@ -1,10 +1,10 @@
 package com.cmg.vrc.servlet;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
-import com.cmg.vrc.data.dao.impl.DictionaryVersionDAO;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
-import com.cmg.vrc.data.jdo.DictionaryVersion;
+import com.cmg.vrc.service.DatabaseGeneratorService;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -14,8 +14,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +35,15 @@ public class DatabaseDataHandler extends BaseServlet {
         List<DatabaseVersion> data;
     }
 
+
+    class ResponseStatus {
+        boolean running;
+        boolean stopping;
+        String latestLog;
+        int draw;
+        int lines;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
         final PrintWriter out = response.getWriter();
@@ -50,8 +58,58 @@ public class DatabaseDataHandler extends BaseServlet {
             if (!StringUtils.isEmpty(action)) {
                 final DatabaseVersionDAO dao = new DatabaseVersionDAO();
                 final AWSHelper awsHelper = new AWSHelper();
-                if (action.equalsIgnoreCase("load")) {
-
+                if (action.equalsIgnoreCase("status")) {
+                    int draw = Integer.parseInt(request.getParameter("draw"));
+                    int lines = Integer.parseInt(request.getParameter("lines"));
+                    ResponseStatus status = new ResponseStatus();
+                    status.running = DatabaseGeneratorService.getInstance().isRunning();
+                    status.stopping = DatabaseGeneratorService.getInstance().isStopping();
+                    status.latestLog = DatabaseGeneratorService.getInstance().getCurrentLog(lines);
+                    status.draw = draw;
+                    status.lines = lines;
+                    out.write(new Gson().toJson(status));
+                } else if (action.equalsIgnoreCase("stop")){
+                    DatabaseGeneratorService.getInstance().forceStop();
+                    out.write("done");
+                } else if (action.equalsIgnoreCase("load")){
+                    DatabaseGeneratorService.getInstance().generate(admin);
+                    out.write("done");
+                } else if (action.equalsIgnoreCase("latest_log")) {
+                    InputStream is = null;
+                    BufferedReader bufferedReader = null;
+                    try {
+                        if (DatabaseGeneratorService.getInstance().isRunning()) {
+                            if (DatabaseGeneratorService.getInstance().getCurrentLogFile() != null &&
+                                    DatabaseGeneratorService.getInstance().getCurrentLogFile().exists())
+                                is = new FileInputStream(DatabaseGeneratorService.getInstance().getCurrentLogFile());
+                        } else {
+                            S3Object s3Object = awsHelper.getS3Object(Constant.FOLDER_DATABASE
+                                    + "/" + "latest.running.log");
+                            if (s3Object != null) {
+                                is = s3Object.getObjectContent();
+                            }
+                        }
+                        if (is != null) {
+                            bufferedReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                out.write(line + "\n");
+                                out.flush();
+                            }
+                        } else {
+                            out.print("No log found");
+                        }
+                    } catch (Exception e) {
+                        out.print("No log found. Error: " + e.getMessage());
+                        log("No log found", e);
+                    } finally {
+                        try {
+                            if (is != null)
+                                is.close();
+                            if (bufferedReader != null)
+                                bufferedReader.close();
+                        } catch (Exception e) {}
+                    }
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
                     if (!StringUtils.isEmpty(id)) {

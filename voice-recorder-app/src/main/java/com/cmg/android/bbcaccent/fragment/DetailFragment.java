@@ -2,8 +2,6 @@ package com.cmg.android.bbcaccent.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -32,14 +30,12 @@ import com.cmg.android.bbcaccent.adapter.PhoneScoreAdapter;
 import com.cmg.android.bbcaccent.adapter.viewholder.QuestionViewHolder;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.SphinxResult;
-import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
 import com.cmg.android.bbcaccent.data.dto.lesson.objectives.Objective;
 import com.cmg.android.bbcaccent.data.dto.lesson.question.Question;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
-import com.cmg.android.bbcaccent.data.sqlite.freestyle.WordDBAdapter;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.cmg.android.bbcaccent.dictionary.DictionaryListener;
@@ -54,6 +50,7 @@ import com.cmg.android.bbcaccent.fragment.tab.GraphFragmentParent;
 import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.helper.PopupShowcaseHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -66,19 +63,13 @@ import com.cmg.android.bbcaccent.view.SlidingUpPanelLayout;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.CenterFullPaddingDialog;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
-import com.cocosw.bottomsheet.BottomSheet;
-import com.cocosw.bottomsheet.BottomSheetHelper;
 import com.google.gson.Gson;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -100,6 +91,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     @Bind(R.id.btnAudio)
     CircleCardView btnAudio;
+
+    @Bind(R.id.cvNext)
+    CircleCardView btnNext;
+
+    @Bind(R.id.cvRefresh)
+    CircleCardView btnRedo;
 
     @Bind(R.id.txtWord)
     AlwaysMarqueeTextView txtWord;
@@ -137,6 +134,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private LessonFragment.ViewState viewState;
 
+    private PopupShowcaseHelper popupShowcaseHelper;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
@@ -145,6 +143,14 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         Gson gson = new Gson();
         model = gson.fromJson(bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()), UserVoiceModel.class);
         receiverListenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
+
+            @Override
+            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.RESET_TIMING_HELP) {
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                }
+            }
+
             @Override
             public void onDataUpdate(String data, int type) {
                 switch (type) {
@@ -187,11 +193,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         });
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
+        boolean isCompleted = true;
         if (bundle.containsKey(LessonFragment.ViewState.class.getName())) {
             viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
             recyclerView.setAdapter(new QuestionAdapter());
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            boolean isCompleted = true;
+
             for (Question question : viewState.questions) {
                 if (!question.isRecorded()) {
                     isCompleted = false;
@@ -336,7 +343,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         }
-
+        createPopupShowcaseHelper(viewState == null, viewState != null && viewState.isLesson, isCompleted);
         initTabHost(root);
         initDetailView(root);
         try {
@@ -348,6 +355,91 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         rlBottomAction.setVisibility(viewState != null ? View.VISIBLE : View.INVISIBLE);
         registerGestureSwipe(root);
         return root;
+    }
+
+    private void createPopupShowcaseHelper(boolean isFreeStyle, boolean isLesson, boolean isCompleted) {
+        PopupShowcaseHelper.HelpItem[] helpItems = null;
+        if (!isFreeStyle) {
+            if (isLesson) {
+                if (isCompleted) {
+                    helpItems = new PopupShowcaseHelper.HelpItem[]{
+                            PopupShowcaseHelper.HelpItem.PHONEME_HELP,
+                            PopupShowcaseHelper.HelpItem.LISTEN_AGAIN,
+                            PopupShowcaseHelper.HelpItem.TRY_AGAIN,
+                            PopupShowcaseHelper.HelpItem.NEXT_LESSON,
+                            PopupShowcaseHelper.HelpItem.REDO_LESSON
+                    };
+                } else {
+                    helpItems = new PopupShowcaseHelper.HelpItem[]{
+                            PopupShowcaseHelper.HelpItem.PHONEME_HELP,
+                            PopupShowcaseHelper.HelpItem.LISTEN_AGAIN,
+                            PopupShowcaseHelper.HelpItem.TRY_AGAIN,
+                            PopupShowcaseHelper.HelpItem.NEXT_QUESTION
+                    };
+                }
+            } else {
+                if (isCompleted) {
+                } else {
+                    helpItems = new PopupShowcaseHelper.HelpItem[]{
+                            PopupShowcaseHelper.HelpItem.PHONEME_HELP,
+                            PopupShowcaseHelper.HelpItem.LISTEN_AGAIN,
+                            PopupShowcaseHelper.HelpItem.NEXT_QUESTION
+                    };
+                }
+            }
+        } else {
+            helpItems = new PopupShowcaseHelper.HelpItem[]{
+                    PopupShowcaseHelper.HelpItem.PHONEME_HELP,
+                    PopupShowcaseHelper.HelpItem.LISTEN_AGAIN,
+                    PopupShowcaseHelper.HelpItem.TRY_AGAIN
+            };
+        }
+        if (helpItems != null) {
+            if (popupShowcaseHelper != null) popupShowcaseHelper.recycle();
+            popupShowcaseHelper = new PopupShowcaseHelper(getActivity(),
+                    helpItems
+                    ,
+                    new PopupShowcaseHelper.OnSelectHelpItem() {
+                        @Override
+                        public void onSelectHelpItem(PopupShowcaseHelper.HelpItem helpItem) {
+                            if (showcaseHelper == null) return;
+                            switch (helpItem) {
+                                case PHONEME_HELP:
+                                    if (hListView != null && hListView.getChildCount() > 0) {
+                                        showcaseHelper.showHelp(new ShowcaseHelper.HelpState(getViewByPosition(0, hListView), getString(R.string.help_phoneme_info)));
+                                    }
+                                    break;
+                                case LISTEN_AGAIN:
+                                    showcaseHelper.showHelp(new ShowcaseHelper.HelpState(btnAudio, getString(R.string.help_hear_last_attempt)));
+                                    break;
+                                case TRY_AGAIN:
+                                    showcaseHelper.showHelp(new ShowcaseHelper.HelpState(recordingView, getString(R.string.help_reattempt_swipe_back)));
+                                    break;
+                                case NEXT_QUESTION:
+                                    int index = 0;
+                                    if (viewState != null && viewState.questions.size() > 0) {
+                                        for (int i = 0; i < viewState.questions.size(); i++) {
+                                            Question q = viewState.questions.get(i);
+                                            if (q.isEnabled() && !q.isRecorded()) {
+                                                index = i;
+                                                break;
+                                            }
+                                        }
+                                        showcaseHelper.showHelp(new ShowcaseHelper.HelpState(getViewByPosition(index, recyclerView),
+                                                getString(R.string.help_next_question)));
+                                    }
+                                    break;
+                                case NEXT_LESSON:
+                                    showcaseHelper.showHelp(new ShowcaseHelper.HelpState(btnNext, getString(R.string.help_next_lesson)));
+                                    break;
+                                case REDO_LESSON:
+                                    showcaseHelper.showHelp(new ShowcaseHelper.HelpState(btnRedo, getString(R.string.help_redo_lesson)));
+                                    break;
+                            }
+                        }
+                    });
+            popupShowcaseHelper.resetTiming();
+        }
     }
 
     @OnClick(R.id.main_recording_view)
@@ -466,8 +558,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private IPAMapArpabet getIpaByArpabet(String arpabet) {
-         try {
-             return LessonDBAdapterService.getInstance().findObject("arpabet = ?", new String[]{arpabet.toUpperCase()}, IPAMapArpabet.class);
+        try {
+            return LessonDBAdapterService.getInstance().findObject("arpabet = ?", new String[]{arpabet.toUpperCase()}, IPAMapArpabet.class);
         } catch (LiteDatabaseException e) {
             SimpleAppLog.error("could not load ipa from database",e);
         }
@@ -498,6 +590,11 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handlerDialog.removeCallbacksAndMessages(null);
+        if (popupShowcaseHelper != null) {
+            popupShowcaseHelper.recycle();
+            popupShowcaseHelper = null;
+        }
         MainBroadcaster.getInstance().unregister(receiverListenerId);
         try {
             recordingView.stopPingAnimation();
@@ -514,7 +611,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private void initTabHost(View root) {
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
-
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+            }
+        });
         Bundle bundle = new Bundle();
         if (viewState != null) {
             bundle.putString(MainBroadcaster.Filler.LESSON.toString(), MainBroadcaster.Filler.LESSON.toString());
@@ -542,6 +644,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     @OnClick({R.id.rlVoiceExample, R.id.txtWord, R.id.btnAudio})
     public void onClick(View v) {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         switch (v.getId()) {
             case R.id.rlVoiceExample:
             case R.id.txtPhoneme:
@@ -593,6 +696,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void showDialog(View v) {
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         final SphinxResult.PhonemeScore score = (SphinxResult.PhonemeScore) v.getTag();
         final float totalScore = score.getTotalScore();
         final Dialog dialog = new Dialog(getActivity(), R.style.Theme_WhiteDialog);
@@ -638,13 +742,23 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(true);
         dialog.show();
-        new Handler().postDelayed(new Runnable() {
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+            }
+        });
+        handlerDialog.removeCallbacksAndMessages(null);
+        handlerDialog.postDelayed(new Runnable() {
             @Override
             public void run() {
-                dialog.dismiss();
+                if (getActivity() != null && dialog.isShowing())
+                    dialog.dismiss();
             }
         }, 10000);
     }
+
+    private Handler handlerDialog = new Handler();
 
     private void play(String file) {
         if (file == null || file.length() == 0) return;
@@ -786,6 +900,10 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             final int childIndex = pos - firstListItemPosition;
             return listView.getChildAt(childIndex);
         }
+    }
+
+    private View getViewByPosition(int pos, RecyclerView recyclerView) {
+        return recyclerView.getChildAt(pos);
     }
 
     @Override

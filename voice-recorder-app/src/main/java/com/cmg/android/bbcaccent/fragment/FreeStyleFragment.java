@@ -395,6 +395,12 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     private void initTabHost() {
         if (mTabHost == null) return;
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+            }
+        });
         addTabImage(R.drawable.tab_graph,
                 GraphFragmentParent.class, getString(R.string.tab_graph));
         addTabImage(R.drawable.tab_history,
@@ -817,7 +823,10 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     public void onDestroyView() {
         super.onDestroyView();
         handlerStartDetail.removeCallbacks(runnableStartDetail);
-        if (popupShowcaseHelper != null) popupShowcaseHelper.recycle();
+        if (popupShowcaseHelper != null) {
+            popupShowcaseHelper.recycle();
+            popupShowcaseHelper = null;
+        }
         stop();
         try {
             recordingView.recycle();
@@ -1308,6 +1317,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         MainApplication.getContext().setSelectedWord(null);
                         MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
+                    txtPhonemes.setVisibility(View.VISIBLE);
                     if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
                 }
             }

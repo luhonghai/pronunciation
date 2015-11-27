@@ -9,4 +9,6 @@
     <string name="help_next_question"><![CDATA[<b>Press</b> for the next question]]></string>
     <string name="help_phoneme_info"><![CDATA[<b>Press</b> for more phoneme information]]></string>
     <string name="help_reattempt_swipe_back"><![CDATA[<b>Press</b> to <b>reattempt</b><br/>Or just swipe back (left to right)]]></string>
+    <string name="help_next_lesson"><![CDATA[<b>Press</b> for the next lesson]]></string>
+    <string name="help_redo_lesson"><![CDATA[<b>Press</b> to redo lesson]]></string>
 </resources>

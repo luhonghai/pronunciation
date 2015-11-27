@@ -125,6 +125,7 @@ public class HistoryFragment extends FragmentTab {
 
     private void sendAction(PronunciationScore score, int type) {
         try {
+            sendShowcaseResetTimingRequest();
             String modelSource = score.getUserVoiceModel(getActivity());
             MainBroadcaster.getInstance().getSender().sendHistoryAction(modelSource, word, type);
         } catch (Exception e) {
