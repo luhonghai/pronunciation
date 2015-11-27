@@ -140,7 +140,7 @@ public class AuthHandler extends HttpServlet {
                                     responseData.setData(loginTokenDAO.getByAccountAndDevice(user.getUsername(), deviceInfo.getEmei()));
                                 } catch (Exception e) {
                                     responseData.setStatus(false);
-                                    responseData.setMessage("Error: " + e.getMessage());
+                                    responseData.setMessage("could not verify login token");
                                     logger.error("Could not get user token . Username: " + user.getUsername() + ". IMEI: " + deviceInfo.getEmei(), e);
                                 }
                             }

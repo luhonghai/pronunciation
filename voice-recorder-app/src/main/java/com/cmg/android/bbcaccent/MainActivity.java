@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                                             }
                                         });
                                     } else {
-                                        dialogLicence.findViewById(R.id.llSwitchLicense).setVisibility(View.INVISIBLE);
+                                        dialogLicence.findViewById(R.id.llSwitchLicense).setVisibility(View.GONE);
                                     }
                                     dialogLicence.findViewById(R.id.btnActivateLicense).setOnClickListener(new View.OnClickListener() {
                                         @Override

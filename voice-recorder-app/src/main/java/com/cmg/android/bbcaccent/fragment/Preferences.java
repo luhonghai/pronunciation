@@ -192,21 +192,21 @@ public class Preferences extends PreferenceFragment implements
         Gson gson = new Gson();
         Log.i(TAG, "Update profile " + profile.getUsername());
         Iterator<String> iterator = userData.iterator();
-        UserProfile oldProfile = null;
+        //UserProfile oldProfile = null;
         while (iterator.hasNext()) {
             String raw = iterator.next();
             UserProfile tmp = gson.fromJson(raw, UserProfile.class);
             if (tmp.getUsername().equalsIgnoreCase(profile.getUsername())) {
-                oldProfile = tmp;
+          //      oldProfile = tmp;
                 userData.remove(raw);
                 break;
             }
         }
-        if (oldProfile != null) {
-            profile.setIsLogin(oldProfile.isLogin());
-            profile.setIsSetup(oldProfile.isSetup());
-            profile.setHelpStatus(oldProfile.getHelpStatus());
-        }
+//        if (oldProfile != null) {
+//            //profile.setIsLogin(oldProfile.isLogin());
+//            profile.setIsSetup(oldProfile.isSetup());
+//            profile.setHelpStatus(oldProfile.getHelpStatus());
+//        }
         userData.add(gson.toJson(profile));
         setUserData(context, userData);
     }

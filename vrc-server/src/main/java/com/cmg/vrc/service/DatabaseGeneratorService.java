@@ -259,7 +259,7 @@ public class DatabaseGeneratorService {
                 .append(" ").append(databaseName).append(" ")
                 .append(StringUtils.join(tables, " "));
         scriptTemplate = scriptTemplate.replace("%EXTRA_ARGS%", sb.toString());
-        logger.info("Execute generate database script:\n" + scriptTemplate);
+        appendMessage("Execute generate database script:\n" + scriptTemplate);
         FileUtils.writeStringToFile(script, scriptTemplate, "UTF-8");
         File runScript = new File(targetDir, "run.sh");
         String runScriptContent = "chmod +x " + script.getAbsolutePath() + "\n" + script.getAbsolutePath() + " | sqlite3 " + lessonDb.getAbsoluteFile();
@@ -311,7 +311,9 @@ public class DatabaseGeneratorService {
             appendMessage("Start zip database file.");
             File dbZip = new File(targetDir, projectName);
             ZipFile zipFile = new ZipFile(dbZip);
-            zipFile.createZipFile(lessonDb, new ZipParameters());
+            ZipParameters zp = new ZipParameters();
+            zp.setCompressionLevel(9);
+            zipFile.createZipFile(lessonDb, zp);
             if (dbZip.exists()) {
                 appendMessage("Zip completed. Insert new version to database and upload to AWS S3");
                 DatabaseVersion databaseVersion = new DatabaseVersion();
