@@ -36,31 +36,33 @@ function listLessons(){
                 "data": "title",
                 "sDefaultContent": ""
             },{
-            "sWidth": "15%",
-            "data": "name",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "name",
+                "bSortable": false,
+                "sDefaultContent": ""
             }, {
-            "sWidth": "15%",
-            "data": "description",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "description",
+                "bSortable": false,
+                "sDefaultContent": ""
              }, {
-            "sWidth": "15%",
-            "data": "dateCreated",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "dateCreated",
+                "sDefaultContent": ""
             }, {
-            "sWidth": "25%",
-            "data": null,
-            "bSortable": false,
-            "sDefaultContent": "",
-            "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
-                $button.attr("id-column", data.id);
-                $button.attr("lesson", data.nameUnique);
-                $button.attr("title", data.title);
-                $button.attr("description", data.description);
-                $button.attr("shortDescription", data.name);
-                return $("<div/>").append($button).html();
-            }
+                "sWidth": "25%",
+                "data": null,
+                "bSortable": false,
+                "sDefaultContent": "",
+                "mRender": function (data, type, full) {
+                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
+                    $button.attr("id-column", data.id);
+                    $button.attr("lesson", data.nameUnique);
+                    $button.attr("title", data.title);
+                    $button.attr("description", data.description);
+                    $button.attr("shortDescription", data.name);
+                    return $("<div/>").append($button).html();
+                }
         }]
 
     });

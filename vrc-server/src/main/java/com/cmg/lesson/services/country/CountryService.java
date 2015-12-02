@@ -143,7 +143,7 @@ public class CountryService {
         CountryDAO dao = new CountryDAO();
         CountryDTO dto = new CountryDTO();
         try {
-            if(!checkExistedName(name)) {
+            if(!checkExistedName(name) && !checkIsDefautExisted()) {
                 Country country = new Country();
                 country.setId(id);
                 country.setName(name);
@@ -156,11 +156,11 @@ public class CountryService {
                 dao.create(country);
                 dto.setMessage(SUCCESS);
             }else{
-                dto.setMessage ( ERROR + ":" + "country name is existed");
+                dto.setMessage ( ERROR + ":" + "country name is existed or isDefaut is existed");
             }
 
         }catch (Exception e){
-            dto.setMessage ( ERROR + ":" + "country name is existed");
+            dto.setMessage ( ERROR + ":" + "country name is existed or isDefaut is existed");
             logger.error("can not add country to database because : " + e);
         }
         return dto;
@@ -190,6 +190,16 @@ public class CountryService {
         }
         return dto;
     }
+    public boolean checkIsDefautExisted(){
+        CountryDAO dao = new CountryDAO();
+        boolean check = false;
+        try {
+            check =  dao.checkIsDefautExisted();
+        }catch (Exception e){
+            logger.info("there are some thing with find level demo in database");
+        }
+        return check;
+    }
 
 
     /**
@@ -206,12 +216,16 @@ public class CountryService {
         CountryDTO dto = new CountryDTO();
         CountryDAO dao = new CountryDAO();
         try{
-            if(isUpdateImg){
-                dao.updateCountry(id, name, description, linkS3,isDefault);
+            if(!checkIsDefautExisted()) {
+                if (isUpdateImg) {
+                    dao.updateCountry(id, name, description, linkS3, isDefault);
+                } else {
+                    dao.updateCountry(id, name, description, isDefault);
+                }
+                dto.setMessage(SUCCESS);
             }else {
-                dao.updateCountry(id, name, description,isDefault);
+                dto.setMessage ( ERROR + ":" + "country name is existed or isDefaut is existed");
             }
-            dto.setMessage(SUCCESS);
         }catch (Exception e){
             dto.setMessage ( ERROR + ":" + "can not update country, because " + e.getMessage());
             logger.error("can not update country to database because : " + e.getMessage());

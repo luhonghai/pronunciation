@@ -65,7 +65,7 @@
                                     <div class="huge">
                                         <label id="pronunciation"></label>
                                     </div>
-                                    <div>Pronunciation!</div>
+                                    <div>Word Score!</div>
                                 </div>
                             </div>
                         </div>

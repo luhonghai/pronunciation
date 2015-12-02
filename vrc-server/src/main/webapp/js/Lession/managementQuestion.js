@@ -30,6 +30,7 @@ function listQuestion(){
         }, {
             "sWidth": "20%",
             "data": "description",
+            "bSortable": false,
             "sDefaultContent": ""
         }, {
             "sWidth": "25%",

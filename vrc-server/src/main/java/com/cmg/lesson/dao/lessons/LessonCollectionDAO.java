@@ -189,7 +189,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         if(search.length()==0){
             string.append(b);
         }
-        q.setRange(start, start +length);
+//        q.setRange(start, start +length);
         q.setFilter(string.toString());
         q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -261,16 +261,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         }else if(column==1 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
-
-        if (column==2 && order.equals("asc")) {
-            q.setOrdering("description asc");
-        }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("description desc");
-        }
-
-        if (column==3 && order.equals("asc")) {
+        if (column==4 && order.equals("asc")) {
             q.setOrdering("dateCreated asc");
-        }else if(column==3 && order.equals("desc")) {
+        }else if(column==4 && order.equals("desc")) {
             q.setOrdering("dateCreated desc");
         }
 
