@@ -212,26 +212,26 @@
               <div class="form-group">
 
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Test:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Test:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="add-test-name" name="add-test-name" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <textarea   type="text" id="add-test-description" name="add-test-description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Percent Pass:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Percent Pass:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input onkeypress="return isNumberKey(event,this)"  type="text" id="add-percen-pass" name="add-percen-pass" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div id="container-test-lesson">
-                  <label class="col-xs-4  col-sm-3 control-label ">Lessons:</label>
-                  <img class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Lessons:</label>
+                  <img class="col-xs-8  col-sm-8">
                   <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
                   <select style="display:none" class="form-control" id="select-test-lesson">
                     <option>1</option>

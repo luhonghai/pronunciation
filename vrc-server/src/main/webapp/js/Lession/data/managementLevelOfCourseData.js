@@ -45,7 +45,7 @@ function getDtoAddTest(){
     var idCourse = $("#idCourse").val();
     var nameTest = $("#add-test-name").val();
     var descriptionTest =  $("#add-test-description").val();
-   c
+    var percentPass =  $("#add-percen-pass").val();
     var idLessons = [];
     $('#select-test-lesson option:selected').map(function(a, item){ idLessons.push(item.value);});
     var dto = {

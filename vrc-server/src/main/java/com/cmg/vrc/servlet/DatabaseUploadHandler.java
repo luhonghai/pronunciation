@@ -12,6 +12,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
@@ -62,14 +63,19 @@ public class DatabaseUploadHandler extends BaseServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    logger.info(name);
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                }else{
-                    String getName = item.getName();
-                    FileUtils.copyInputStreamToFile(stream, dictFile);
+                InputStream stream = null;
+                try {
+                    stream = item.openStream();
+                    if (item.isFormField()) {
+                        logger.info(name);
+                        String value = Streams.asString(stream);
+                        storePara.put(name, value);
+                    } else {
+                        String getName = item.getName();
+                        FileUtils.copyInputStreamToFile(stream, dictFile);
+                    }
+                }finally {
+                    IOUtils.closeQuietly(stream);
                 }
             }
             if (dictFile.exists()) {

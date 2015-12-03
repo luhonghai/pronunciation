@@ -218,7 +218,7 @@ function searchAdvanted(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                action: "list",
+                loadData: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

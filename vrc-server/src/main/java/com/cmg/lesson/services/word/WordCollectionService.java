@@ -24,9 +24,9 @@ public class WordCollectionService {
     private static final Logger logger = Logger.getLogger(WordCollectionService.class
             .getName());
 
-    private String SUCCESS = "success";
+    private String SUCCESS = "success ";
 
-    private String ERROR = "error";
+    private String ERROR = "error: ";
 
     /**
      *
@@ -80,7 +80,7 @@ public class WordCollectionService {
                 dao.create(wc);
                 return SUCCESS + ":"+ id;
             }else{
-                return ERROR + "word is existed";
+                return ERROR + "This word has already existed";
             }
         }catch (Exception e){
             logger.error("can not add word because error : " + e.getMessage());

@@ -97,8 +97,9 @@ public class DictionaryHelper {
     private static void initSpellingDictionary() {
         if (UK_VS_US_SPELLING.isEmpty() || US_VS_UK_SPELLING.isEmpty()) {
             synchronized (lock) {
+                InputStream is = DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/uk_vs_us.spelling");
                 try {
-                    List<String> rows = IOUtils.readLines(DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/uk_vs_us.spelling"));
+                    List<String> rows = IOUtils.readLines(is);
                     if (rows != null && rows.size() > 0) {
                         for (String row : rows) {
                             if (row.contains("|")) {
@@ -114,6 +115,8 @@ public class DictionaryHelper {
                     }
                 } catch (Exception e) {
                     logger.log(Level.SEVERE, "Could not load spelling dictionary",e);
+                } finally {
+                    IOUtils.closeQuietly(is);
                 }
             }
         }

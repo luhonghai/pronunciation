@@ -10,6 +10,7 @@ package com.cmg.vrc.http;
 
 import com.cmg.vrc.http.exception.UploaderException;
 import com.cmg.vrc.properties.Configuration;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -81,10 +82,14 @@ public class FileUploader {
             if (key != FileCommon.PARA_FILE_NAME && key != FileCommon.PARA_FILE_TYPE)
                 entity.addPart(key, paras.get(key));
         }
-        if (paras.containsKey(FileCommon.PARA_FILE_TYPE)) {
-            entity.addPart(FileCommon.PARA_FILE_NAME, paras.get(FileCommon.PARA_FILE_NAME), is, paras.get(FileCommon.PARA_FILE_TYPE));
-        } else {
-            entity.addPart(FileCommon.PARA_FILE_NAME, paras.get(FileCommon.PARA_FILE_NAME), is);
+        try {
+            if (paras.containsKey(FileCommon.PARA_FILE_TYPE)) {
+                entity.addPart(FileCommon.PARA_FILE_NAME, paras.get(FileCommon.PARA_FILE_NAME), is, paras.get(FileCommon.PARA_FILE_TYPE));
+            } else {
+                entity.addPart(FileCommon.PARA_FILE_NAME, paras.get(FileCommon.PARA_FILE_NAME), is);
+            }
+        }finally {
+            IOUtils.closeQuietly(is);
         }
 
         return upload(entity, uploadUrl);
@@ -113,7 +118,13 @@ public class FileUploader {
         if (!paras.containsKey(FileCommon.PARA_FILE_PATH)) {
             throw new UploaderException("Missing parameter PARA_FILE_PATH");
         }
-        String result = upload(new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH)), paras, uploadUrl);
-        return result;
+        InputStream is=null;
+        try{
+            is=new FileInputStream(paras.get(FileCommon.PARA_FILE_PATH));
+            String result = upload(is, paras, uploadUrl);
+            return result;
+        }finally {
+            IOUtils.closeQuietly(is);
+        }
     }
 }

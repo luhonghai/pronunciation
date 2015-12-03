@@ -87,7 +87,7 @@
                                     <div class="huge">
                                         <label id="license"></label>
                                     </div>
-                                    <div>License Code!</div>
+                                    <div>Licence Code!</div>
                                 </div>
                             </div>
                         </div>

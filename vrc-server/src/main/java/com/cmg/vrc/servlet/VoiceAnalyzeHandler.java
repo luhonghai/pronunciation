@@ -12,6 +12,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -50,16 +51,21 @@ public class VoiceAnalyzeHandler extends HttpServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                }else{
-                    String getName = item.getName();
-                    // Process the input stream
-                    if(getName.endsWith(".wav")){
-                        FileHelper.saveFile(tmpDir, uuid, stream);
+                InputStream stream =null;
+                try {
+                    stream=item.openStream();
+                    if (item.isFormField()) {
+                        String value = Streams.asString(stream);
+                        storePara.put(name, value);
+                    } else {
+                        String getName = item.getName();
+                        // Process the input stream
+                        if (getName.endsWith(".wav")) {
+                            FileHelper.saveFile(tmpDir, uuid, stream);
+                        }
                     }
+                }finally {
+                    IOUtils.closeQuietly(stream);
                 }
             }
             String key = storePara.get("key");

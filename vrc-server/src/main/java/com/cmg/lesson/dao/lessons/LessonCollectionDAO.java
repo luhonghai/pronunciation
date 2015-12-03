@@ -257,9 +257,9 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             q.setOrdering("nameUnique desc");
         }
         if (column==1 && order.equals("asc")) {
-            q.setOrdering("name asc");
+            q.setOrdering("title asc");
         }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("name desc");
+            q.setOrdering("title desc");
         }
         if (column==4 && order.equals("asc")) {
             q.setOrdering("dateCreated asc");

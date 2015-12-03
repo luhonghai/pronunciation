@@ -16,6 +16,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -124,21 +125,27 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    String value = Streams.asString(stream, "UTF-8");
-                    logger.info(name + "-" + value);
-                    storePara.put(name, value);
-                }else{
-                    String getName = item.getName();
-                    logger.info("file name : " + getName);
-                    if(getName.endsWith(".png") || getName.endsWith(".jpg")){
-                        String filename = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
-                        FileUtils.copyInputStreamToFile(stream, new File(targetDir, filename));
-                        logger.info(name + "-" + new File(targetDir, filename).getAbsolutePath());
-                        storePara.put(name,new File(targetDir, filename).getAbsolutePath());
+                InputStream stream = null;
+                try{
+                    stream= item.openStream();
+                    if (item.isFormField()) {
+                        String value = Streams.asString(stream, "UTF-8");
+                        logger.info(name + "-" + value);
+                        storePara.put(name, value);
+                    }else{
+                        String getName = item.getName();
+                        logger.info("file name : " + getName);
+                        if(getName.endsWith(".png") || getName.endsWith(".jpg")){
+                            String filename = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
+                            FileUtils.copyInputStreamToFile(stream, new File(targetDir, filename));
+                            logger.info(name + "-" + new File(targetDir, filename).getAbsolutePath());
+                            storePara.put(name,new File(targetDir, filename).getAbsolutePath());
+                        }
                     }
+                }finally {
+                    IOUtils.closeQuietly(stream);
                 }
+
             }
         } catch (FileUploadException e) {
             e.printStackTrace();

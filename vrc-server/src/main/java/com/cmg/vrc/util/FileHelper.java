@@ -37,6 +37,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -405,10 +406,15 @@ public final class FileHelper {
 				fod.mkdir();
 			}
 			log.info("byte array : " + fsea);
-			InputStream in = new ByteArrayInputStream(fsea);
-			BufferedImage bImageFromConvert = ImageIO.read(in);
-			ImageIO.write(bImageFromConvert, "png", new File(folder
-					+ File.separator + pathFile + ".png"));
+			InputStream in =null;
+			try {
+				in=new ByteArrayInputStream(fsea);
+				BufferedImage bImageFromConvert = ImageIO.read(in);
+				ImageIO.write(bImageFromConvert, "png", new File(folder
+						+ File.separator + pathFile + ".png"));
+			}finally {
+				IOUtils.closeQuietly(in);
+			}
 		} catch (Exception e) {
 			log.error("error save file temp : " + e.getMessage(), e);
 		}

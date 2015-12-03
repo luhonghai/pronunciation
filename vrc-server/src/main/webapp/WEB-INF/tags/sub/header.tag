@@ -64,30 +64,30 @@
 					<ul>
 
 						<li>
-							<a href="management_ipa_map.jsp" ><i class="fa fa-file-word-o"></i> Management Ipa Map Arpabet </a>
+							<a href="management_ipa_map.jsp" ><i class="fa fa-file-word-o"></i> Ipa Map Arpabet Management </a>
 						</li>
 
 						<li>
-							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Management Word </a>
+							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Word Management </a>
 						</li>
 
 						<li>
-							<a href="ManagementQuestion.jsp" ><i class="fa fa-question-circle"></i> Management Question </a>
+							<a href="ManagementQuestion.jsp" ><i class="fa fa-question-circle"></i> Question Management </a>
 						</li>
 						<li>
-							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Management Lessons </a>
+							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Lessons Management </a>
 						</li>
 						<li>
-							<a href="ManagementLevel.jsp" ><i class="fa fa-list-alt"></i> Management Level </a>
+							<a href="ManagementLevel.jsp" ><i class="fa fa-list-alt"></i> Level Management </a>
 						</li>
 						<li>
-							<a href="ManagementCourse.jsp" ><i class="fa fa-table"></i> Management Course </a>
+							<a href="ManagementCourse.jsp" ><i class="fa fa-table"></i> Course Management </a>
 						</li>
 						<li>
-							<a href="management_country.jsp" ><i class="fa fa-file-word-o"></i> Management Country </a>
+							<a href="management_country.jsp" ><i class="fa fa-file-word-o"></i> Language Management </a>
 						</li>
 						<li>
-							<a href="Database.jsp" ><i class="fa fa-database"></i> Database management </a>
+							<a href="Database.jsp" ><i class="fa fa-database"></i> Database Management  </a>
 						</li>
 					</ul>
 				</li>
@@ -95,11 +95,15 @@
 
 
 				<li>
-					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> License Code </a>
+					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> Licence Code </a>
 				</li>
 
 				<li>
 					<a href="PronunciationPhoneme.jsp"><i class="glyphicon glyphicon-heart"></i> Phoneme Score </a>
+				</li>
+
+				<li>
+					<a href="TestPage.jsp"><i class="fa fa-stethoscope"></i> Test Page </a>
 				</li>
 
 				<li>
@@ -116,9 +120,6 @@
 					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 
-				<li>
-					<a href="TestPage.jsp"><i class="fa fa-stethoscope"></i> Test Page </a>
-				</li>
 
 
 

@@ -4,7 +4,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Management IPA mapping with Arpabet</h1>
+            <h1 class="page-header">IPA mapping with Arpabet Management</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -52,13 +52,13 @@
                             <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>TYPE</th>
-                                    <th>INDEX TYPE</th>
+                                    <th>Type</th>
+                                    <th>Index</th>
                                     <th>IPA</th>
                                     <th>ARPABET</th>
-                                    <th>Date Created</th>
+                                    <th>Created date</th>
                                     <th>Color</th>
-                                    <th>VOICE</th>
+                                    <th>Voice</th>
                                     <th></th>
                                 </tr>
                                 </thead>
