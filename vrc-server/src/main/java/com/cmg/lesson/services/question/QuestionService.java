@@ -83,21 +83,26 @@ public class QuestionService {
         String message;
         try{
             String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
-            if(oldName.equalsIgnoreCase(questionName)){
-                dao.updateQuestion(id, questionName,description);
-                message = SUCCESS;
-                dto.setMessage(message);
-                return dto;
-            }
-            if(!isExistQuestionName(questionName)) {
-                boolean isUpdate = dao.updateQuestion(id, questionName,description);
-                if (isUpdate) {
+            Question question=dao.getById(id);
+            if(question!=null) {
+                if (oldName.equalsIgnoreCase(questionName)) {
+                    dao.updateQuestion(id, questionName, description);
                     message = SUCCESS;
-                } else {
-                    message = ERROR + ":" + "an error has been occurred in server!";
+                    dto.setMessage(message);
+                    return dto;
                 }
-            }else{
-                message = ERROR + ":" + "question name is existed";
+                if (!isExistQuestionName(questionName)) {
+                    boolean isUpdate = dao.updateQuestion(id, questionName, description);
+                    if (isUpdate) {
+                        message = SUCCESS;
+                    } else {
+                        message = ERROR + ":" + "an error has been occurred in server!";
+                    }
+                } else {
+                    message = ERROR + ":" + "question name is existed";
+                }
+            } else {
+                message = ERROR + ":" + "question name is delete";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();

@@ -110,6 +110,7 @@ public class PhonemesDetector {
         //addGrammar("withNeighbour", sb, false, false, false);
         //sb.append("\n");
         addGrammar("withNeighbourAndFirstLast",sb, true, true, false, true);
+        //addGrammar("withNeighbourAndFirstLast",sb, false, false, false, false);
         grammarName = UUID.randomUUID().toString();
         grammarFile = new File(grammarDir, grammarName+ ".gram");
         try {
@@ -278,7 +279,9 @@ public class PhonemesDetector {
                                 }
                             }
                         }
-                        bestTokenPhonemes.add(phoneme);
+                        if (phoneme!= null) {
+                            bestTokenPhonemes.add(phoneme);
+                        }
                     }
                 }
                 //recognizer.stopRecognition();
