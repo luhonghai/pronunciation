@@ -194,7 +194,12 @@ function EditQuestion(){
                     myTable.fnDraw();
                     $("#edits").modal('hide');
                 }else{
-                    swal("Could not update question!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        swal("Could not update question!", data.split(":")[1], "error");
+                    }else{
+                        swal("Could not update question!", data.split(":")[1], "error");
+                    }
+
                 }
 
             },

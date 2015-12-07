@@ -99,10 +99,10 @@ public class QuestionService {
                         message = ERROR + ":" + "an error has been occurred in server!";
                     }
                 } else {
-                    message = ERROR + ":" + "question name is existed";
+                    message = ERROR + ":" + " Question name is existed";
                 }
             } else {
-                message = ERROR + ":" + "question name is delete";
+                message = ERROR + ":" + " This question has been already deleted!";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
