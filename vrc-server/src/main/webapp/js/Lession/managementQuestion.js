@@ -18,6 +18,7 @@ function listQuestion(){
             "dataType": "json",
             "data": {
                 list: "list",
+                question: $("#question").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -89,6 +90,7 @@ function addquestion(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
+                    swal("Success!", "You have add course success!", "success");
                 }else{
                     swal("Could not add question!", data.split(":")[1], "error");
                 }
@@ -142,8 +144,16 @@ function DeleteQuestion(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete course success!", "success");
                 }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not update lesson!", data.split(":")[1], "error");
+                    }
                 }
             },
             error: function () {
@@ -193,13 +203,16 @@ function EditQuestion(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                    swal("Success!", "You have edit course success!", "success");
                 }else{
                     if(data.indexOf("deleted") !=-1){
-                        swal("Could not update question!", data.split(":")[1], "error");
+                        $("#edits").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
                     }else{
-                        swal("Could not update question!", data.split(":")[1], "error");
+                        $("#edits").modal('hide');
+                        swal("Could not update lesson!", data.split(":")[1], "error");
                     }
-
                 }
 
             },
@@ -222,6 +235,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 list: "list",
+                question: $("#question").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

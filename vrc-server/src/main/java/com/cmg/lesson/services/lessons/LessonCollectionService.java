@@ -46,24 +46,29 @@ public class LessonCollectionService {
         LessonCollectionDAO dao = new LessonCollectionDAO();
         String message;
         try{
-            if(isUpdateLessonName) {
-                if (!isExistLessonName(name)) {
-                    boolean isUpdate = dao.updateLesson(id, name,title,shortDescription, description);
+            LessonCollection lessonCollection=dao.getById(id);
+            if(lessonCollection!=null) {
+                if (isUpdateLessonName) {
+                    if (!isExistLessonName(name)) {
+                        boolean isUpdate = dao.updateLesson(id, name, title, shortDescription, description);
+                        if (isUpdate) {
+                            message = SUCCESS;
+                        } else {
+                            message = ERROR + ":" + "An error has been occurred in server!";
+                        }
+                    } else {
+                        message = ERROR + ":" + "Lesson name is existed";
+                    }
+                } else {
+                    boolean isUpdate = dao.updateDescription(id, title, shortDescription, description);
                     if (isUpdate) {
                         message = SUCCESS;
                     } else {
                         message = ERROR + ":" + "An error has been occurred in server!";
                     }
-                } else {
-                    message = ERROR + ":" + "Lesson name is existed";
                 }
             }else {
-                boolean isUpdate = dao.updateDescription(id,title,shortDescription,description);
-                if (isUpdate) {
-                    message = SUCCESS;
-                } else {
-                    message = ERROR + ":" + "An error has been occurred in server!";
-                }
+                message="deleted";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
@@ -115,13 +120,18 @@ public class LessonCollectionService {
         LessonCollectionDAO dao = new LessonCollectionDAO();
         String message;
         try{
-            boolean isDelete=dao.deletedLesson(id);
-            if (isDelete){
-                message = SUCCESS;
-                //function for  delete mapping lesson with objective and test
-                deleteMapping(id);
-            }else{
-                message = ERROR + ": " + "An error has been occurred in server!";
+            LessonCollection lessonCollection=dao.getById(id);
+            if(lessonCollection!=null) {
+                boolean isDelete = dao.deletedLesson(id);
+                if (isDelete) {
+                    message = SUCCESS;
+                    //function for  delete mapping lesson with objective and test
+                    deleteMapping(id);
+                } else {
+                    message = ERROR + ": " + "An error has been occurred in server!";
+                }
+            }else {
+                message ="deleted";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
@@ -197,13 +207,13 @@ public class LessonCollectionService {
      * @param createDateTo
      * @return total rows
      */
-    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+    public double getCount(String search,String lesson,Date createDateFrom,Date createDateTo, int length, int start){
         LessonCollectionDAO dao = new LessonCollectionDAO();
         try {
-            if (search == null && createDateFrom == null && createDateTo == null){
+            if (search == null && lesson==null && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
-                return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+                return dao.getCountSearch(search,lesson, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,23 +232,23 @@ public class LessonCollectionService {
      * @param createDateTo
      * @return List<Question>
      */
-    public List<LessonCollection> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+    public List<LessonCollection> listAll(int start, int length,String search,int column,String order,String lesson, Date createDateFrom,Date createDateTo){
         LessonCollectionDAO dao = new LessonCollectionDAO();
         try{
-            return dao.listAll(start, length, search,column, order, createDateFrom, createDateTo);
+            return dao.listAll(start, length, search,column, order,lesson, createDateFrom, createDateTo);
         }catch (Exception ex){
             logger.error("list all question error, because:" + ex.getMessage());
         }
         return null;
     }
 
-    public LessonCollectionDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+    public LessonCollectionDTO search(int start, int length,String search,int column,String order,String lesson,String createDateFrom,String createDateTo, int draw){
         LessonCollectionDTO dto = new LessonCollectionDTO();
         try{
             Date dateFrom = DateSearchParse.parseDate(createDateFrom);
             Date dateTo = DateSearchParse.parseDate(createDateTo, true);
-            double count = getCount(search,dateFrom,dateTo,length,start);
-            List<LessonCollection> listLesson = listAll(start,length,search,column,order,dateFrom,dateTo);
+            double count = getCount(search,lesson,dateFrom,dateTo,length,start);
+            List<LessonCollection> listLesson = listAll(start,length,search,column,order,lesson,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);

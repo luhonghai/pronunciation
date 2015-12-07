@@ -12,6 +12,12 @@
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Question</label>
+          <input type="text" name="filter-question" id="question" class="form-control" placeholder="Question">
+        </div>
+      </div>
+      <div class="col-sm-3">
         <div class="form-group" style="margin-top: 32px;text-align: right;">
           <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
         </div>
@@ -31,11 +37,7 @@
             <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
           </div>
         </div>
-
-      </div>
-      <div class="col-sm-3">
         <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-
       </div>
     </div>
   </div>

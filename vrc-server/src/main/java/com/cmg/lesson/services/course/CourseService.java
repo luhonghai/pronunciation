@@ -77,7 +77,7 @@ public class CourseService {
                 dao.create(course);
                 message = SUCCESS;
             }else{
-                message = ERROR + ":" + "level name is existed";
+                message = ERROR + ":" + "This level has already been added";
             }
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
@@ -112,26 +112,31 @@ public class CourseService {
         CourseDTO dto = new CourseDTO();
         String message = null;
         try {
+            Course course=dao.getById(id);
+            if(course!=null) {
             String oldName = (String) StringUtil.isNull(dao.getById(id).getName(), "");
-            if(oldName.equalsIgnoreCase(name)){
-                boolean check = dao.updateCourse(id, name, description);
-                if(check){
-                    message = SUCCESS;
-                }else{
-                    message = ERROR + ":" + "an error has been occurred in server!";
-                }
-            }else{
-                boolean isExistedNewName = isExistCourseName(name);
-                if(isExistedNewName){
-                    message = ERROR + ":" + "This name already existed!";
-                }else{
+                if (oldName.equalsIgnoreCase(name)) {
                     boolean check = dao.updateCourse(id, name, description);
-                    if(check){
+                    if (check) {
                         message = SUCCESS;
-                    }else{
-                        message = ERROR + ":" + "an error has been occurred in server!";
+                    } else {
+                        message = ERROR + ":" + " an error has been occurred in server!";
+                    }
+                } else {
+                    boolean isExistedNewName = isExistCourseName(name);
+                    if (isExistedNewName) {
+                        message = ERROR + ":" + " This name already existed!";
+                    } else {
+                        boolean check = dao.updateCourse(id, name, description);
+                        if (check) {
+                            message = SUCCESS;
+                        } else {
+                            message = ERROR + ":" + " an error has been occurred in server!";
+                        }
                     }
                 }
+            }else {
+                message = "deleted";
             }
         }catch (Exception e){
             message = ERROR + ":" + e.getMessage();
@@ -152,12 +157,17 @@ public class CourseService {
         CourseDAO dao = new CourseDAO();
         String message;
         try{
+            Course course=dao.getById(id);
+            if(course!=null) {
             boolean isDelete = dao.updateDeleted(id);
-            if (isDelete){
-                //need to be update to all mapping table
-                message = SUCCESS;
-            }else{
-                message = ERROR + ": " + "an error has been occurred in server!";
+                if (isDelete) {
+                    //need to be update to all mapping table
+                    message = SUCCESS;
+                } else {
+                    message = ERROR + ": " + "an error has been occurred in server!";
+                }
+            }else {
+                message = "deleted";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
@@ -181,13 +191,13 @@ public class CourseService {
      * @param draw
      * @return
      */
-    public CourseDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+    public CourseDTO search(int start, int length,String search,int column,String order,String course, String createDateFrom,String createDateTo, int draw){
         CourseDTO dto = new CourseDTO();
         try{
             Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
             Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
-            double count = getCount(search,dateFrom,dateTo,length,start);
-            List<Course> listCourse = listAll(start,length,search,column,order,dateFrom,dateTo);
+            double count = getCount(search,course,dateFrom,dateTo,length,start);
+            List<Course> listCourse = listAll(start,length,search,column,order,course,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);
@@ -212,10 +222,10 @@ public class CourseService {
      * @param createDateTo
      * @return List<Question>
      */
-    public List<Course> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+    public List<Course> listAll(int start, int length,String search,int column,String order, String course, Date createDateFrom,Date createDateTo){
         CourseDAO dao = new CourseDAO();
         try{
-            return dao.listAll(start, length, search,column, order, createDateFrom, createDateTo);
+            return dao.listAll(start, length, search,column, order,course, createDateFrom, createDateTo);
         }catch (Exception ex){
             logger.error("list all course error, because:" + ex.getMessage());
         }
@@ -229,13 +239,13 @@ public class CourseService {
      * @param createDateTo
      * @return total rows
      */
-    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+    public double getCount(String search,String course, Date createDateFrom,Date createDateTo, int length, int start){
         CourseDAO dao = new CourseDAO();
         try {
-            if (search == null && createDateFrom == null && createDateTo == null){
+            if (search == null && course==null && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
-                return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+                return dao.getCountSearch(search, course, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,6 +20,7 @@ function listCountry(){
             "dataType": "json",
             "data": {
                 action: "listCountry",
+                language: $("#language").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -131,8 +132,9 @@ function submitForm(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#add").modal('hide');
+                        swal("Success!", "You have add language success!", "success");
                     }else{
-                        swal("Could not add country!", data.message.split(":")[1], "error");
+                        swal("Could not add language!", data.message.split(":")[1], "error");
                     }
                 },
                 error: function () {
@@ -166,8 +168,17 @@ function submitForm(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#add").modal('hide');
+                        swal("Success!", "You have edit language success!", "success");
                     }else{
-                        swal("Could not add country!", data.message.split(":")[1], "error");
+                        if(data.message.indexOf("deleted") !=-1){
+                            $("#add").modal('hide');
+                            swal("Warning!", "This language has been already deleted!", "warning");
+                            location.reload();
+                        }else{
+                            $("#add").modal('hide');
+                            swal("Could not edit language!", data.message.split(":")[1], "error");
+                        }
+
                     }
                 },
                 error: function () {
@@ -241,7 +252,15 @@ function openPopupDelete(){
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
                 }else{
-                    swal("Could not delete country!", data.message.split(":")[1], "error");
+                    if(data.message.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This language has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not delete language!", data.message.split(":")[1], "error");
+                    }
+
                 }
             },
             error: function () {
@@ -259,6 +278,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 action: "listCountry",
+                language: $("#language").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
