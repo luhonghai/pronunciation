@@ -12,6 +12,12 @@
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Description</label>
+          <input type="text" name="filter-description" id="description" class="form-control" placeholder="Description">
+        </div>
+      </div>
+      <div class="col-sm-3">
         <div class="form-group" style="margin-top: 32px;text-align: right;">
           <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
         </div>
@@ -32,11 +38,9 @@
           </div>
         </div>
 
+          <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
       </div>
-      <div class="col-sm-3">
-        <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
 
-      </div>
     </div>
   </div>
   <div class="row">

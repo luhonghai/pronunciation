@@ -76,7 +76,12 @@ public class IpaMapArpabetService {
     public IpaMapArpabet getById(String id){
         IpaMapArpabetDAO dao = new IpaMapArpabetDAO();
         try {
-            return dao.getById(id);
+            IpaMapArpabet ipaMapArpabet=dao.getById(id);
+            if(ipaMapArpabet!=null) {
+                return ipaMapArpabet;
+            }else {
+                return null;
+            }
         }catch (Exception e){
             logger.info("can not get ipa map arpabet with id : " + id + " because : " + e);
         }
@@ -95,24 +100,29 @@ public class IpaMapArpabetService {
             //dao.updateMap(map.getId(),map.getArpabet(),map.getMp3Url(),map.getDescription(),map.getColor(),
                     //map.getTip(),map.getType(),map.getIndexingType(),map.getWords(),map.getTextTongue(),map.getImgTongue(),map.getTextLip(),map.getImgLip(),map.getTextJaw(),map.getImgJaw());
            IpaMapArpabet temp = dao.getById(map.getId());
-            temp.setArpabet(map.getArpabet());
-            temp.setIpa(map.getIpa());
-            temp.setColor(map.getColor());
-            temp.setType(map.getType());
-            temp.setDescription(map.getDescription());
-            temp.setTip(map.getTip());
-            temp.setWords(map.getWords());
-            temp.setMp3Url(map.getMp3Url());
-            temp.setIndexingType(map.getIndexingType());
-            temp.setImgTongue(map.getImgTongue());
-            temp.setTextTongue(map.getTextTongue());
-            temp.setImgLip(map.getImgLip());
-            temp.setTextLip(map.getTextLip());
-            temp.setImgJaw(map.getImgJaw());
-            temp.setTextJaw(map.getTextJaw());
-            dao.put(temp);
-           // dao.create(map);
-            dto.setMessage(SUCCESS);
+            if(temp!=null) {
+                temp.setArpabet(map.getArpabet());
+                temp.setIpa(map.getIpa());
+                temp.setColor(map.getColor());
+                temp.setType(map.getType());
+                temp.setDescription(map.getDescription());
+                temp.setTip(map.getTip());
+                temp.setWords(map.getWords());
+                temp.setMp3Url(map.getMp3Url());
+                temp.setMp3UrlShort(map.getMp3UrlShort());
+                temp.setIndexingType(map.getIndexingType());
+                temp.setImgTongue(map.getImgTongue());
+                temp.setTextTongue(map.getTextTongue());
+                temp.setImgLip(map.getImgLip());
+                temp.setTextLip(map.getTextLip());
+                temp.setImgJaw(map.getImgJaw());
+                temp.setTextJaw(map.getTextJaw());
+                dao.put(temp);
+                // dao.create(map);
+                dto.setMessage(SUCCESS);
+            }else {
+                dto.setMessage("deleted");
+            }
         }catch (Exception e){
             dto.setMessage(ERROR + " : can not update mapping because  " + e.getMessage());
             logger.error("can not update mapping between ipa : " + map.getIpa() + " with arpabet : " + map.getArpabet());
@@ -130,10 +140,14 @@ public class IpaMapArpabetService {
         IpaMapDTO dto = new IpaMapDTO();
         try {
             IpaMapArpabet temp = dao.getById(id);
-            temp.setIsDeleted(true);
-            dao.put(temp);
+            if(temp!=null) {
+                temp.setIsDeleted(true);
+                dao.put(temp);
 //            dao.updateDeleted(id);
-            dto.setMessage(SUCCESS);
+                dto.setMessage(SUCCESS);
+            }else {
+                dto.setMessage("deleted");
+            }
         }catch (Exception e){
             logger.error("can not delete ipa map arpabet because : " + e);
 

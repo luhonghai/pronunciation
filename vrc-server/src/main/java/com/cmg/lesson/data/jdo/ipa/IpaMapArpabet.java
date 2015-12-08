@@ -42,6 +42,10 @@ public class IpaMapArpabet implements Mirrorable{
     @Persistent
     private String mp3Url;
 
+    //column mp3UrlShort add by nam.bui
+    @Persistent
+    private String mp3UrlShort;
+
     @Persistent
     private int indexingType;
 
@@ -199,6 +203,13 @@ public class IpaMapArpabet implements Mirrorable{
 
     public void setMp3Url(String mp3Url) {
         this.mp3Url = mp3Url;
+    }
+    public String getMp3UrlShort() {
+        return mp3UrlShort;
+    }
+
+    public void setMp3UrlShort(String mp3UrlShort) {
+        this.mp3UrlShort = mp3UrlShort;
     }
 
     public int getIndexingType() {

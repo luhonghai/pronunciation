@@ -1,6 +1,10 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.lesson.dao.word.WordCollectionDAO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
+
+import java.util.List;
 
 
 public class TestServlet {
@@ -128,6 +132,18 @@ public class TestServlet {
 //        }catch (Exception e){
 //            e.printStackTrace();;
 //        }
+            WordCollection wordCollection=new WordCollection();
+            WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+            try{
+                List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
+                for(WordCollection wordCollection1:wordCollectionList){
+                    String definition=wordCollection1.getDefinition();
+                   // String new=definition.replace(definition.substring(definition.length()-1),'.');
+                    definition.substring(definition.length()-1);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
 //
 //

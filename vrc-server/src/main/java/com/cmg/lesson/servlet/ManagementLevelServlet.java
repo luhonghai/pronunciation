@@ -31,9 +31,10 @@ public class ManagementLevelServlet extends BaseServlet {
                 String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
                 String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
+                String description = (String) StringUtil.isNull(request.getParameter("description"), "");
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                levelDTO = levelService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                levelDTO = levelService.search(start, length, search, column, order,description, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(levelDTO);
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){

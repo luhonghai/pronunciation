@@ -20,6 +20,7 @@ function listLevels(){
             "dataType": "json",
             "data": {
                 list: "list",
+                description: $("#description").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -118,6 +119,7 @@ function addLevel(){
                     myTable.fnDraw();
                     $("#add").modal('hide');
                     isDemos=false;
+                    swal("Success!", "You have add level success!", "success");
                 }else{
                     swal("Could not add Level!", data.split(":")[1], "error");
                 }
@@ -157,8 +159,16 @@ function deleteLevel(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete level success!", "success");
                 }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This level has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not delete level!", data.split(":")[1], "error");
+                    }
                 }
             },
             error: function () {
@@ -229,8 +239,16 @@ function editLevel(){
                     myTable.fnDraw();
                     $("#edits").modal('hide');
                     isDemos=false;
+                    swal("Success!", "You have update level success!", "success");
                 }else{
-                    swal("Could not update lesson!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#edits").modal('hide');
+                        swal("Warning!", "This level has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#edits").modal('hide');
+                        swal("Could not update level!", data.split(":")[1], "error");
+                    }
                 }
 
             },
@@ -252,6 +270,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 list: "list",
+                description: $("#description").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

@@ -103,7 +103,15 @@ function submitForm(){
                             $("#add").modal('hide');
                             swal("Success!", "You have edit mapping success!", "success");
                         } else {
-                            swal("Could not add mapping!", data.message.split(":")[1], "error");
+                            if(data.message.indexOf("deleted") !=-1){
+                                $("#add").modal('hide');
+                                swal("Warning!", "This mapping has been already deleted!", "warning");
+                                location.reload();
+                            }else{
+                                $("#add").modal('hide');
+                                swal("Could not add mapping!", data.message.split(":")[1], "error");
+                            }
+
                         }
                     },
                     error: function () {
@@ -131,7 +139,7 @@ function openEditForm(){
                 id : id
             },
             success: function (data) {
-                if(data !== undefined){
+                if(data!=null && data !== undefined){
                     clearForms();
                     includeDataForm(data);
                     $("#add").modal('show');
@@ -141,6 +149,9 @@ function openEditForm(){
                     $("#wrap-imgTongue-edit").show();
                     $("#wrap-imgLips-edit").show();
                     $("#wrap-imgJaw-edit").show();
+                }else{
+                    swal("Warning!", "This mapping has been already deleted!", "warning");
+                    location.reload();
                 }
             },
             error: function () {
@@ -200,7 +211,15 @@ function openPopupDelete(){
                     $("#deletes").modal('hide');
                     swal("Success!", "You delete this mapping success!", "success");
                 }else{
-                    swal("Could not delete question!", data.message.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This mapping has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not delete mapping!", data.message.split(":")[1], "error");
+                    }
+
                 }
             },
             error: function () {
