@@ -1,5 +1,7 @@
 package com.cmg.vrc.sphinx;
 
+import com.cmg.lesson.dao.word.WordCollectionDAO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
@@ -9,10 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +25,8 @@ public class DictionaryHelper {
 
     public enum Type {
         G2P_CONVERTER,
-        BEEP
+        BEEP,
+        DATABASE
     }
 
     public static final Map<String, String> BEEP_TO_CMU_PHONEMES;
@@ -135,6 +135,17 @@ public class DictionaryHelper {
                         }
                     }
                     return correctPhonemes;
+                case DATABASE:
+                    List<String> phonemes = new ArrayList<String>();
+                    //TODO read all arpabet from database
+                    WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+                    WordCollection wordCollection=wordCollectionDAO.getByWord(word);
+                    String phoneme=wordCollection.getArpabet();
+                    String c=phoneme.trim();
+                    String d=c.replace("  "," ");
+                    String[] strings=d.split(" ");
+                    phonemes= Arrays.asList(strings);
+                    return phonemes;
                 case BEEP:
                 default:
                     checkBEEP();

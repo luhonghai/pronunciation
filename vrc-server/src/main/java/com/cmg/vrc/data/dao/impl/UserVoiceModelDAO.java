@@ -427,7 +427,7 @@ public class UserVoiceModelDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and serverTime >= '" + dateFrom + "' and serverTime <= '" + dateTo + "'");
                 }
                 query.append(" ORDER BY serverTime DESC");
-                query.append(" limit " + count);
+                //query.append(" limit " + count);
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
                 List<Score> list = new ArrayList<Score>();
                 try {
