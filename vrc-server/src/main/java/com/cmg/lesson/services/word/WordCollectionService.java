@@ -24,9 +24,9 @@ public class WordCollectionService {
     private static final Logger logger = Logger.getLogger(WordCollectionService.class
             .getName());
 
-    private String SUCCESS = "success";
+    private String SUCCESS = "success ";
 
-    private String ERROR = "error";
+    private String ERROR = "error: ";
 
     /**
      *
@@ -80,7 +80,7 @@ public class WordCollectionService {
                 dao.create(wc);
                 return SUCCESS + ":"+ id;
             }else{
-                return ERROR + "word is existed";
+                return ERROR + "This word has already been added";
             }
         }catch (Exception e){
             logger.error("can not add word because error : " + e.getMessage());
@@ -253,11 +253,16 @@ public class WordCollectionService {
         String messageError = "";
         WordCollectionDAO dao = new WordCollectionDAO();
         try {
-            boolean check = dao.updateWordInformation(wordID,definition,mp3Path,arpabet);
-            if(check){
-                return SUCCESS;
-            }else{
-                return ERROR + "an error has been occurred";
+            WordCollection wordCollection=dao.getByWord(wordID);
+            if(wordCollection!=null) {
+                boolean check = dao.updateWordInformation(wordID, definition, mp3Path, arpabet);
+                if (check) {
+                    return SUCCESS;
+                } else {
+                    return ERROR + "an error has been occurred";
+                }
+            }else {
+                return ERROR + "deleted";
             }
         }catch (Exception e){
             messageError = e.getMessage();
@@ -318,8 +323,13 @@ public class WordCollectionService {
         WordCollectionDAO dao = new WordCollectionDAO();
         String messageError = "";
         try {
-            dao.deleteWord(wordID);
-            return SUCCESS;
+            WordCollection wordCollection=dao.getByID(wordID);
+            if(wordCollection!=null) {
+                dao.deleteWord(wordID);
+                return SUCCESS;
+            }else {
+                return ERROR + "deleted";
+            }
         }catch (Exception e){
             logger.error("delete word id : " + wordID + " false because : "+ e.getMessage());
             messageError = e.getMessage();

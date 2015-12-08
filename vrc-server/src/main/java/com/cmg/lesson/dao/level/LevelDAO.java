@@ -193,13 +193,13 @@ public class LevelDAO extends DataAccess<Level> {
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
@@ -248,13 +248,13 @@ public class LevelDAO extends DataAccess<Level> {
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
@@ -275,10 +275,10 @@ public class LevelDAO extends DataAccess<Level> {
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
-        if (column==1 && order.equals("asc")) {
-            q.setOrdering("timeCreated asc");
-        }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("timeCreated desc");
+        if (column==2 && order.equals("asc")) {
+            q.setOrdering("dateCreated asc");
+        }else if(column==2 && order.equals("desc")) {
+            q.setOrdering("dateCreated desc");
         }
 
         q.setRange(start, start + length);

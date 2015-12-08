@@ -35,9 +35,10 @@ public class ManagementQuestionServlet extends BaseServlet {
                 String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
                 String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
+                String question = (String) StringUtil.isNull(request.getParameter("question"), "");
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                questionDTO = questionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                questionDTO = questionService.search(start, length, search, column, order, question, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(questionDTO);
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){

@@ -21,6 +21,7 @@ function listLessons(){
             "dataType": "json",
             "data": {
                 list: "list",
+                lesson: $("#lesson").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -36,31 +37,33 @@ function listLessons(){
                 "data": "title",
                 "sDefaultContent": ""
             },{
-            "sWidth": "15%",
-            "data": "name",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "name",
+                "bSortable": false,
+                "sDefaultContent": ""
             }, {
-            "sWidth": "15%",
-            "data": "description",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "description",
+                "bSortable": false,
+                "sDefaultContent": ""
              }, {
-            "sWidth": "15%",
-            "data": "dateCreated",
-            "sDefaultContent": ""
+                "sWidth": "15%",
+                "data": "dateCreated",
+                "sDefaultContent": ""
             }, {
-            "sWidth": "25%",
-            "data": null,
-            "bSortable": false,
-            "sDefaultContent": "",
-            "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
-                $button.attr("id-column", data.id);
-                $button.attr("lesson", data.nameUnique);
-                $button.attr("title", data.title);
-                $button.attr("description", data.description);
-                $button.attr("shortDescription", data.name);
-                return $("<div/>").append($button).html();
-            }
+                "sWidth": "25%",
+                "data": null,
+                "bSortable": false,
+                "sDefaultContent": "",
+                "mRender": function (data, type, full) {
+                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
+                    $button.attr("id-column", data.id);
+                    $button.attr("lesson", data.nameUnique);
+                    $button.attr("title", data.title);
+                    $button.attr("description", data.description);
+                    $button.attr("shortDescription", data.name);
+                    return $("<div/>").append($button).html();
+                }
         }]
 
     });
@@ -122,6 +125,7 @@ function addLesson(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
+                    swal("Success!", "You have add lesson success!", "success");
                 }else{
                     swal("Could not add question!", data.split(":")[1], "error");
                 }
@@ -161,8 +165,17 @@ function deleteLesson(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete lesson success!", "success");
                 }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This lesson has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not delete question!", data.split(":")[1], "error");
+                    }
+
                 }
             },
             error: function () {
@@ -231,8 +244,17 @@ function editLesson(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                    swal("Success!", "You have update lesson success!", "success");
                 }else{
-                    swal("Could not update lesson!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This lesson has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not update lesson!", data.split(":")[1], "error");
+                    }
+
                 }
 
             },
@@ -254,6 +276,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 list: "list",
+                lesson: $("#lesson").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

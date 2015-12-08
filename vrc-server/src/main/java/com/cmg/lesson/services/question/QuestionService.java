@@ -61,7 +61,7 @@ public class QuestionService {
                 dao.create(q);
                 message = SUCCESS;
             }else{
-                message = ERROR + ":" + "question name is existed";
+                message = ERROR + ":" + " This question has already been added";
             }
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
@@ -82,22 +82,28 @@ public class QuestionService {
         QuestionDAO dao = new QuestionDAO();
         String message;
         try{
-            String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
-            if(oldName.equalsIgnoreCase(questionName)){
-                dao.updateQuestion(id, questionName,description);
-                message = SUCCESS;
-                dto.setMessage(message);
-                return dto;
-            }
-            if(!isExistQuestionName(questionName)) {
-                boolean isUpdate = dao.updateQuestion(id, questionName,description);
-                if (isUpdate) {
+
+            Question question=dao.getById(id);
+            if(question!=null) {
+                String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
+                if (oldName.equalsIgnoreCase(questionName)) {
+                    dao.updateQuestion(id, questionName, description);
                     message = SUCCESS;
-                } else {
-                    message = ERROR + ":" + "an error has been occurred in server!";
+                    dto.setMessage(message);
+                    return dto;
                 }
-            }else{
-                message = ERROR + ":" + "question name is existed";
+                if (!isExistQuestionName(questionName)) {
+                    boolean isUpdate = dao.updateQuestion(id, questionName, description);
+                    if (isUpdate) {
+                        message = SUCCESS;
+                    } else {
+                        message = ERROR + ":" + "an error has been occurred in server!";
+                    }
+                } else {
+                    message = ERROR + ":" + " Question name is existed";
+                }
+            } else {
+                message ="deleted";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
@@ -117,14 +123,20 @@ public class QuestionService {
         QuestionDAO dao = new QuestionDAO();
         String message;
         try{
-            boolean isDelete=dao.deteleQuestion(id);
-            if (isDelete){
-                message = SUCCESS;
-                //make sure you also delete mapping
-                deleteMapping(id);
+            Question question=dao.getById(id);
+            if(question!=null) {
+                boolean isDelete = dao.deteleQuestion(id);
+                if (isDelete) {
+                    message = SUCCESS;
+                    //make sure you also delete mapping
+                    deleteMapping(id);
+                } else {
+                    message = ERROR + ": " + "an error has been occurred in server!";
+                }
             }else{
-                message = ERROR + ": " + "an error has been occurred in server!";
+                message ="deleted";
             }
+
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
             logger.error("can not delete question id: " + id + " because : " + e.getMessage());
@@ -171,10 +183,10 @@ public class QuestionService {
      * @param createDateTo
      * @return List<Question>
      */
-    public List<Question> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+    public List<Question> listAll(int start, int length,String search,int column,String order, String question, Date createDateFrom,Date createDateTo){
         QuestionDAO dao = new QuestionDAO();
         try{
-            return dao.listAll(start, length, search,column, order, createDateFrom, createDateTo);
+            return dao.listAll(start, length, search,column, order, question, createDateFrom, createDateTo);
         }catch (Exception ex){
             logger.error("list all question error, because:" + ex.getMessage());
         }
@@ -215,13 +227,13 @@ public class QuestionService {
      * @param createDateTo
      * @return total rows
      */
-    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+    public double getCount(String search,String question, Date createDateFrom,Date createDateTo, int length, int start){
         QuestionDAO dao = new QuestionDAO();
         try {
-            if (search == "" && createDateFrom == null && createDateTo == null){
+            if (search == "" && question=="" && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
-                    return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+                    return dao.getCountSearch(search, question, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,13 +253,13 @@ public class QuestionService {
      * @param draw
      * @return
      */
-    public QuestionDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+    public QuestionDTO search(int start, int length,String search,int column,String order, String question, String createDateFrom,String createDateTo, int draw){
         QuestionDTO dto = new QuestionDTO();
         try{
             Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
             Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
-            double count = getCount(search,dateFrom,dateTo,length,start);
-            List<Question> listQuestion = listAll(start,length,search,column,order,dateFrom,dateTo);
+            double count = getCount(search,question,dateFrom,dateTo,length,start);
+            List<Question> listQuestion = listAll(start,length,search,column,order,question,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);

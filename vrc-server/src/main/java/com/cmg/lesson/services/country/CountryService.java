@@ -22,7 +22,7 @@ public class CountryService {
     private static final Logger logger = Logger.getLogger(CountryService.class
             .getName());
     private String SUCCESS = "success";
-    private String ERROR = "error";
+    private String ERROR = "error ";
     /**
      *  use for get max version
      * @return max version in table
@@ -67,10 +67,10 @@ public class CountryService {
      * @param createDateTo
      * @return List<Question>
      */
-    public List<Country> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+    public List<Country> listAll(int start, int length,String search,int column,String order,String language, Date createDateFrom,Date createDateTo){
         CountryDAO dao = new CountryDAO();
         try{
-            return dao.listAll(start, length, search, column, order, createDateFrom, createDateTo);
+            return dao.listAll(start, length, search, column, order,language,  createDateFrom, createDateTo);
         }catch (Exception ex){
             logger.error("list all course error, because:" + ex.getMessage());
         }
@@ -84,13 +84,13 @@ public class CountryService {
      * @param createDateTo
      * @return total rows
      */
-    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+    public double getCount(String search,String language, Date createDateFrom,Date createDateTo, int length, int start){
         CountryDAO dao = new CountryDAO();
         try {
-            if (search == null && createDateFrom == null && createDateTo == null){
+            if (search == null && language==null && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
-                return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+                return dao.getCountSearch(search, language, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
             logger.error("list all course error, because:" + e.getMessage());
@@ -111,13 +111,13 @@ public class CountryService {
      * @param draw
      * @return
      */
-    public CountryDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+    public CountryDTO search(int start, int length,String search,int column,String order, String language, String createDateFrom,String createDateTo, int draw){
         CountryDTO dto = new CountryDTO();
         try{
             Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
             Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
-            double count = getCount(search,dateFrom,dateTo,length,start);
-            List<Country> listCountry = listAll(start,length,search,column,order,dateFrom,dateTo);
+            double count = getCount(search,language,dateFrom,dateTo,length,start);
+            List<Country> listCountry = listAll(start,length,search,column,order,language,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);
@@ -144,23 +144,27 @@ public class CountryService {
         CountryDTO dto = new CountryDTO();
         try {
             if(!checkExistedName(name)) {
-                Country country = new Country();
-                country.setId(id);
-                country.setName(name);
-                country.setDescription(description);
-                country.setImageURL(linkImage);
-                country.setTimeCreated(new Date(System.currentTimeMillis()));
-                country.setIsDeleted(false);
-                country.setVersion(getMaxVersion());
-                country.setIsDefault(isDefault);
-                dao.create(country);
-                dto.setMessage(SUCCESS);
-            }else{
-                dto.setMessage ( ERROR + ":" + "country name is existed");
+                if (!checkIsDefautExisted()) {
+                    Country country = new Country();
+                    country.setId(id);
+                    country.setName(name);
+                    country.setDescription(description);
+                    country.setImageURL(linkImage);
+                    country.setTimeCreated(new Date(System.currentTimeMillis()));
+                    country.setIsDeleted(false);
+                    country.setVersion(getMaxVersion());
+                    country.setIsDefault(isDefault);
+                    dao.create(country);
+                    dto.setMessage(SUCCESS);
+                } else {
+                    dto.setMessage(ERROR + ":" + "isDefaut is existed");
+                }
+            }else {
+                dto.setMessage(ERROR + ":" + "country name is existed");
             }
 
         }catch (Exception e){
-            dto.setMessage ( ERROR + ":" + "country name is existed");
+            dto.setMessage ( ERROR + ":" + "country name is existed or isDefaut is existed");
             logger.error("can not add country to database because : " + e);
         }
         return dto;
@@ -190,6 +194,16 @@ public class CountryService {
         }
         return dto;
     }
+    public boolean checkIsDefautExisted(){
+        CountryDAO dao = new CountryDAO();
+        boolean check = false;
+        try {
+            check =  dao.checkIsDefautExisted();
+        }catch (Exception e){
+            logger.info("there are some thing with find level demo in database");
+        }
+        return check;
+    }
 
 
     /**
@@ -206,12 +220,21 @@ public class CountryService {
         CountryDTO dto = new CountryDTO();
         CountryDAO dao = new CountryDAO();
         try{
-            if(isUpdateImg){
-                dao.updateCountry(id, name, description, linkS3,isDefault);
+            Country country=dao.getById(id);
+            if(country!=null) {
+                if (!checkIsDefautExisted()) {
+                    if (isUpdateImg) {
+                        dao.updateCountry(id, name, description, linkS3, isDefault);
+                    } else {
+                        dao.updateCountry(id, name, description, isDefault);
+                    }
+                    dto.setMessage(SUCCESS);
+                } else {
+                    dto.setMessage(ERROR + ":" + "country name is existed or isDefaut is existed");
+                }
             }else {
-                dao.updateCountry(id, name, description,isDefault);
+                dto.setMessage("deleted");
             }
-            dto.setMessage(SUCCESS);
         }catch (Exception e){
             dto.setMessage ( ERROR + ":" + "can not update country, because " + e.getMessage());
             logger.error("can not update country to database because : " + e.getMessage());
@@ -247,16 +270,28 @@ public class CountryService {
 
     public CountryDTO detele(String idCountry){
         CountryDTO dto = new CountryDTO();
-        Boolean isDelete = updateDeleted(idCountry);
-        if(isDelete){
-            CountryMappingCourseService service = new CountryMappingCourseService();
-            boolean isDeleteMapping = service.updateDeletedByIdCountry(idCountry);
-            if(isDeleteMapping){
-                dto.setMessage(SUCCESS);
-            }else{
-                dto.setMessage(ERROR +": an error has been occurred in server!");
+        CountryDAO dao = new CountryDAO();
+        try {
+            Country country=dao.getById(idCountry);
+            if(country!=null) {
+                Boolean isDelete = updateDeleted(idCountry);
+                if (isDelete) {
+                    CountryMappingCourseService service = new CountryMappingCourseService();
+                    boolean isDeleteMapping = service.updateDeletedByIdCountry(idCountry);
+                    if (isDeleteMapping) {
+                        dto.setMessage(SUCCESS);
+                    } else {
+                        dto.setMessage(ERROR + ": an error has been occurred in server!");
+                    }
+                }
+            }else {
+                dto.setMessage("deleted");
             }
+        }catch (Exception e){
+            dto.setMessage ( ERROR + ":" + "can not delete country, because " + e.getMessage());
+            logger.error("can not delete country to database because : " + e.getMessage());
         }
+
         return dto;
     }
 

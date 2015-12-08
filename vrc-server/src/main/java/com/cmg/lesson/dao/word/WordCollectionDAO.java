@@ -48,7 +48,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @throws Exception
      */
     public WordCollection getByWord(String word) throws Exception {
-        List<WordCollection> list = list("WHERE word == :1", word);
+        List<WordCollection> list = list("WHERE word == :1 ", word);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;
@@ -61,7 +61,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
      * @throws Exception
      */
     public WordCollection getByID(String id) throws Exception{
-        List<WordCollection> list = list("WHERE id == :1", id);
+        List<WordCollection> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if (list != null && list.size() > 0)
             return list.get(0);
         return null;

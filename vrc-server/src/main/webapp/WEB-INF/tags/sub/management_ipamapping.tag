@@ -4,7 +4,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Management IPA mapping with Arpabet</h1>
+            <h1 class="page-header">IPA mapping with Arpabet Management</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -52,13 +52,13 @@
                             <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
                                 <thead>
                                 <tr>
-                                    <th>TYPE</th>
-                                    <th>INDEX TYPE</th>
+                                    <th>Type</th>
+                                    <th>Index</th>
                                     <th>IPA</th>
                                     <th>ARPABET</th>
-                                    <th>Date Created</th>
+                                    <th>Created date</th>
                                     <th>Color</th>
-                                    <th>VOICE</th>
+                                    <th>Voice</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -154,7 +154,7 @@
                                 <div class="row" style="margin-bottom: 5px;">
                                     <label class="col-xs-4  col-sm-4 control-label ">Tongue image:</label>
                                     <div class="col-xs-8  col-sm-8">
-                                        <div id="wrap-imgTongue-edit"><img src="" id="imgTongue-edit"/> <a href="#" id="btn-imgTongue-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
+                                        <div id="wrap-imgTongue-edit"><img src="" id="imgTongue-edit" style="width: 300px;height: 200px;"/> <a href="#" id="btn-imgTongue-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-imgTongue-add"><input type="file" id="imageTongue" name="imageTongue" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>

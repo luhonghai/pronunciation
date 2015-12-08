@@ -4,13 +4,19 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Management Course</h1>
+      <h1 class="page-header">Course Management</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
   <!-- /.row -->
   <div class="well">
     <div class="row">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label">Course</label>
+          <input type="text" name="filter-course" id="course" class="form-control" placeholder="Course">
+        </div>
+      </div>
       <div class="col-sm-3">
         <div class="form-group" style="margin-top: 32px;text-align: right;">
           <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
@@ -31,12 +37,9 @@
             <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
           </div>
         </div>
-
-      </div>
-      <div class="col-sm-3">
         <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-
       </div>
+
     </div>
   </div>
   <div class="row">

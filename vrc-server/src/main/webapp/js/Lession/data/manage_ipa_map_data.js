@@ -46,7 +46,7 @@ function isNumberKey(evt,e) {
 /**
  * clear all field
  */
-function clearForm(){
+function clearForms(){
     $("input.form-control").each(function(){
        $(this).val("");
     });
@@ -127,9 +127,23 @@ function includeDataForm(data){
     $("#tongueText").val(data.textTongue);
     $("#lipsText").val(data.textLip);
     $("#jawText").val(data.textJaw);
-    $("#imgTongue-edit").attr("src",data.imgTongue);
-    $("#imgLips-edit").attr("src",data.imgLip);
-    $("#imgJaw-edit").attr("src",data.imgJaw);
+    if(data.imgTongue!=null){
+        $("#imgTongue-edit").attr("src",data.imgTongue);
+    }else{
+        $("#imgTongue-edit").attr("src",'');
+    }
+    if(data.imgLip!=null){
+        $("#imgLips-edit").attr("src",data.imgLip);
+    }else{
+        $("#imgLips-edit").attr("src",'');
+    }
+    if(data.imgJaw!=null){
+        $("#imgJaw-edit").attr("src",data.imgJaw);
+    }else{
+        $("#imgJaw-edit").attr("src",'');
+    }
+
+
     $("#ipa").attr("readonly","true");
     initSelect(data.type);
 }

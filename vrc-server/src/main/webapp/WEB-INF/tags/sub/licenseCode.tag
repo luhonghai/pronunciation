@@ -5,7 +5,7 @@
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">License Code</h1>
+      <h1 class="page-header">Licence Code</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -148,7 +148,7 @@
           </div>
           <div class="row">
             <div class="col-sm-4">
-              <label class="control-label">Number of licenses</label>
+              <label class="control-label">Number of licences</label>
             </div>
             <div class="col-sm-8">
               <input id="numberoflicense" type="number" value="1" min="1" max="100" style="width: 100%;padding: 2px;" />

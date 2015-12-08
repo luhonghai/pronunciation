@@ -4,13 +4,19 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Management Country</h1>
+            <h1 class="page-header">Languages Management</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="well">
         <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">Language</label>
+                    <input type="text" name="filter-language" id="language" class="form-control" placeholder="Language">
+                </div>
+            </div>
             <div class="col-sm-3">
                 <div class="form-group" style="margin-top: 32px;text-align: right;">
                     <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
@@ -31,19 +37,17 @@
                         <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
                     </div>
                 </div>
+                    <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
 
             </div>
-            <div class="col-sm-3">
-                <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
 
-            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button type="button" id="openAddMapping" name="addCode">Add New Country</button>
+                    <button type="button" id="openAddMapping" name="addCode">Add New Language</button>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -87,13 +91,13 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-                        <h1 align="center" id="title-modal">Add Country</h1>
+                        <h1 align="center" id="title-modal">Add language</h1>
                         <form name="add" class="form-horizontal"
                               style="margin-top: 25px" id="addform">
                             <div class="form-group">
 
                                 <div>
-                                    <label class="col-xs-4  col-sm-3 control-label ">Country :</label>
+                                    <label class="col-xs-4  col-sm-3 control-label ">Language :</label>
                                     <div class="col-xs-8  col-sm-9">
                                         <input  type="text" id="country_name" name="country_name" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>

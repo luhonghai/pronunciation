@@ -62,9 +62,10 @@ public class LoadDataForCountryServlet extends BaseServlet {
                 String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
                 String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
+                String language = (String) StringUtil.isNull(request.getParameter("language"), "");
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                CountryDTO countryDTO = countryService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                CountryDTO countryDTO = countryService.search(start, length, search, column, order, language, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(countryDTO);
                 response.getWriter().write(json);
             }

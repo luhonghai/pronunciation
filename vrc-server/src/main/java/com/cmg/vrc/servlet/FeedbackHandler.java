@@ -14,6 +14,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -53,13 +54,19 @@ public class FeedbackHandler extends HttpServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                } else {
-                    FileUtils.copyInputStreamToFile(stream, tmpFile);
+                InputStream stream =null;
+                try{
+                    item.openStream();
+                    if (item.isFormField()) {
+                        String value = Streams.asString(stream);
+                        storePara.put(name, value);
+                    } else {
+                        FileUtils.copyInputStreamToFile(stream, tmpFile);
+                    }
+                }finally {
+                    IOUtils.closeQuietly(stream);
                 }
+
             }
             String profile = storePara.get(PARA_PROFILE);
             if (profile != null && profile.length() > 0) {

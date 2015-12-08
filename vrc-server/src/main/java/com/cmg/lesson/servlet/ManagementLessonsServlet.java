@@ -38,9 +38,10 @@ public class ManagementLessonsServlet extends BaseServlet {
                 String search = (String)StringUtil.isNull(request.getParameter("search[value]"), "");
                 String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
+                String lesson = (String) StringUtil.isNull(request.getParameter("lesson"), "");
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                lessonCollectionDTO = lessonCollectionService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                lessonCollectionDTO = lessonCollectionService.search(start, length, search, column, order,lesson, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(lessonCollectionDTO);
                 response.getWriter().write(json);
             }else if(request.getParameter("add")!=null){

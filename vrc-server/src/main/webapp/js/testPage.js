@@ -37,6 +37,8 @@ function TestWord(){
                     beepPhonemes = data.beepPhonemes;
                     if (data.data != null) {
                         var result = data.data.phonemeScores;
+                        var number=0;
+
                         //$("#alphabets").append('<b>Appended text: </b>');
                         //$("#listAlpabet").append('<b>Appended text: </b>');
                         //$("#count").append('<b>Appended text: </b>');
@@ -45,6 +47,9 @@ function TestWord(){
                         for (var i = 0; i < result.length; i++) {
                             var score = result[i].totalScore;
                             var listFrame = result[i].phonemes;
+                            number=number+listFrame.length;
+
+
                             //$("#alphabet").append('<input class="alphabet" readonly="readonly" index="'+result[i].index+'" value="'+result[i].name+'"  type="text">');
                             //$("#score").append('<input class="score" readonly="readonly" index="'+result[i].index+'" value="'+result[i].totalScore+'"  type="text">');
                             //$(".alphabet").css('width','100px');
@@ -90,6 +95,7 @@ function TestWord(){
                                     $(".count").css({'width': '50px', 'font-weight': 'bold', 'text-align': 'center'});
                                 }
                             } else {
+                                number=number+1;
                                 $("#listAlpabet").append('<input class="listAlpabets" readonly="readonly" type="text">');
                                 $("#count").append('<input class="counts" readonly="readonly" type="text">');
                                 $(".listAlpabets").css('width', '50px');
@@ -124,6 +130,10 @@ function TestWord(){
                             }
                         }
                         $("#totalScore").append('<input class="counts" readonly="readonly" type="text" value="Score =' + data.data.score + '">');
+                        $("#listAlpabet").css('width',number*50+200);
+                        $("#count").css('width',number*50+200);
+                        $("#alphabets").css('width',number*50+200);
+                        $("#totalScore").css('width',number*50+200);
                         $("#bestPhoneme").empty();
                         for (var i = 0; i < bestPhoneme.length; i++) {
                             $("#bestPhoneme").append('<input id="' + i + 'b" readonly="readonly" value="' + bestPhoneme[i] + '" type="text"/><br/>');

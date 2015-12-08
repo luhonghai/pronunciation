@@ -24,6 +24,7 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
@@ -139,10 +140,11 @@ public class AWSHelper {
      */
     public String uploadAndGenerateURL(String keyName, File file) {
         if (!ENABLE_AWS) return null;
+        FileInputStream stream = null;
         try {
             System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            FileInputStream stream = new FileInputStream(file);
+            stream =  new FileInputStream(file);
             s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
             return generateUrl(keyName);
         } catch (AmazonServiceException ase) {
@@ -171,6 +173,8 @@ public class AWSHelper {
         } catch (Exception e) {
             System.out.println("Could not upload file to S3. Message: " + e.getMessage());
             logger.log(Level.SEVERE, "Could not upload file to S3", e);
+        } finally {
+            IOUtils.closeQuietly(stream);
         }
         return null;
     }

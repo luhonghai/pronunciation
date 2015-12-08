@@ -33,6 +33,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -247,7 +248,18 @@ public class DatabaseGeneratorService {
             appendMessage("Sync table: " + tableName);
             tables.add(tableName);
         }
-        String scriptTemplate = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("database/mysql2sqlite.sh"), "UTF-8");
+        String scriptTemplate = "";
+        InputStream is = null;
+        try {
+            is = this.getClass().getClassLoader().getResourceAsStream("database/mysql2sqlite.sh");
+            scriptTemplate = IOUtils.toString(is, "UTF-8");
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Exception e) {}
+            }
+        }
         File script = new File(targetDir, "generate.sh");
         File lessonDb = new File(targetDir, "lesson.db");
         if (lessonDb.exists()) FileUtils.forceDelete(lessonDb);

@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.quartz.SchedulerException;
 
@@ -90,20 +91,26 @@ public class VoiceRecordHandler extends HttpServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream = item.openStream();
-                if (item.isFormField()) {
-                    logger.info(name);
-                    String value = Streams.asString(stream);
-                    storePara.put(name, value);
-                }else{
-                    String getName = item.getName();
-                    logger.info("getname = :" +getName);
-                    // Process the input stream
-                    if(getName.endsWith(".wav")){
-                        FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
-                        //FileHelper.saveFile(tmpDir, tmpFile, stream);
+                InputStream stream =null;
+                try {
+                    item.openStream();
+                    if (item.isFormField()) {
+                        logger.info(name);
+                        String value = Streams.asString(stream);
+                        storePara.put(name, value);
+                    }else{
+                        String getName = item.getName();
+                        logger.info("getname = :" +getName);
+                        // Process the input stream
+                        if(getName.endsWith(".wav")){
+                            FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
+                            //FileHelper.saveFile(tmpDir, tmpFile, stream);
+                        }
                     }
+                }finally {
+                    IOUtils.closeQuietly(stream);
                 }
+
             }
 
             String profile = storePara.get(PARA_PROFILE);

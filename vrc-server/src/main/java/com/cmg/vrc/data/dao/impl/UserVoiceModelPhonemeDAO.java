@@ -61,10 +61,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userVoice.username LIKE '%" + username1 + "%'");
                 }
                 if (phoneme1.length() > 0) {
-                    query.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeScore.phonemeWord LIKE '%" + phoneme1 + "%'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and userVoice.country LIKE '" + country1 + "'");
+                    query.append(" and userVoice.country LIKE '%" + country1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (totalScore >=0 and totalScore<=50)");
@@ -171,10 +171,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (phoneme1.length() > 0) {
-                    query.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeLessonScore.phoneme LIKE '%" + phoneme1 + "%'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and userLesson.country LIKE '" + country1 + "'");
+                    query.append(" and userLesson.country LIKE '%" + country1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (totalScore >=0 and totalScore<=50)");
@@ -217,6 +217,11 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" ORDER BY userLesson.serverTime ASC");
                 } else if (column == 4 && order.equals("desc")) {
                     query.append(" ORDER BY userLesson.serverTime DESC");
+                }
+                if (column == 5 && order.equals("asc")) {
+                    query.append(" ORDER BY tmp.type ASC");
+                } else if (column == 5 && order.equals("desc")) {
+                    query.append(" ORDER BY tmp.type DESC");
                 }
                 query.append(" limit " + start + "," + length);
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
@@ -291,12 +296,12 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and userLesson.username LIKE '%" + username1 + "%'");
             }
             if (phoneme1.length() > 0) {
-                first.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
-                second.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
+                first.append(" and phonemeScore.phonemeWord LIKE '%" + phoneme1 + "%'");
+                second.append(" and phonemeLessonScore.phoneme LIKE '%" + phoneme1 + "%'");
             }
             if (country1.length() > 0) {
-                first.append(" and userVoice.country LIKE '" + country1 + "'");
-                second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
+                first.append(" and userVoice.country LIKE '%" + country1 + "%'");
+                second.append(" and userLesson.country LIKE '%" + phoneme1 + "%'");
             }
 
             if(score1==1){
@@ -333,13 +338,18 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.serverTime ASC");
+                query.append(" ORDER BY userLesson.country ASC");
             } else if (column == 3 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.serverTime DESC");
+                query.append(" ORDER BY userLesson.country DESC");
             }
             if (column == 4 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.type ASC");
+                query.append(" ORDER BY tmp.serverTime ASC");
             } else if (column == 4 && order.equals("desc")) {
+                query.append(" ORDER BY tmp.serverTime DESC");
+            }
+            if (column == 5 && order.equals("asc")) {
+                query.append(" ORDER BY tmp.type ASC");
+            } else if (column == 5 && order.equals("desc")) {
                 query.append(" ORDER BY tmp.type DESC");
             }
             query.append(" limit " + start + "," + length);
@@ -437,10 +447,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" and userVoice.username LIKE '%" + username1 + "%'");
                 }
                 if (phoneme1.length() > 0) {
-                    query.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeScore.phonemeWord LIKE '%" + phoneme1 + "%'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and userVoice.country LIKE '" + country1 + "'");
+                    query.append(" and userVoice.country LIKE '%" + country1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (totalScore >=0 and totalScore<=50)");
@@ -547,10 +557,10 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 }
                 query.append(" and type LIKE '" + type + "'");
                 if (phoneme1.length() > 0) {
-                    query.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
+                    query.append(" and phonemeLessonScore.phoneme LIKE '%" + phoneme1 + "%'");
                 }
                 if (country1.length() > 0) {
-                    query.append(" and userLesson.country LIKE '" + country1 + "'");
+                    query.append(" and userLesson.country LIKE '%" + country1 + "%'");
                 }
                 if(score1==1){
                     query.append(" and (totalScore >=0 and totalScore<=50)");
@@ -593,6 +603,11 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                     query.append(" ORDER BY userLesson.serverTime ASC");
                 } else if (column == 4 && order.equals("desc")) {
                     query.append(" ORDER BY userLesson.serverTime DESC");
+                }
+                if (column == 5 && order.equals("asc")) {
+                    query.append(" ORDER BY tmp.type ASC");
+                } else if (column == 5 && order.equals("desc")) {
+                    query.append(" ORDER BY tmp.type DESC");
                 }
                 Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
                 List<Phoneme> list = new ArrayList<Phoneme>();
@@ -666,12 +681,12 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 second.append(" and userLesson.username LIKE '%" + username1 + "%'");
             }
             if (phoneme1.length() > 0) {
-                first.append(" and phonemeScore.phonemeWord LIKE '" + phoneme1 + "'");
-                second.append(" and phonemeLessonScore.phoneme LIKE '" + phoneme1 + "'");
+                first.append(" and phonemeScore.phonemeWord LIKE '%" + phoneme1 + "%'");
+                second.append(" and phonemeLessonScore.phoneme LIKE '%" + phoneme1 + "%'");
             }
             if (country1.length() > 0) {
-                first.append(" and userVoice.country LIKE '" + country1 + "'");
-                second.append(" and userLesson.country LIKE '" + phoneme1 + "'");
+                first.append(" and userVoice.country LIKE '%" + country1 + "%'");
+                second.append(" and userLesson.country LIKE '%" + country1 + "%'");
             }
 
             if(score1==1){
@@ -708,13 +723,18 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.serverTime ASC");
+                query.append(" ORDER BY userLesson.country ASC");
             } else if (column == 3 && order.equals("desc")) {
-                query.append(" ORDER BY tmp.serverTime DESC");
+                query.append(" ORDER BY userLesson.country DESC");
             }
             if (column == 4 && order.equals("asc")) {
-                query.append(" ORDER BY tmp.type ASC");
+                query.append(" ORDER BY userLesson.serverTime ASC");
             } else if (column == 4 && order.equals("desc")) {
+                query.append(" ORDER BY userLesson.serverTime DESC");
+            }
+            if (column == 5 && order.equals("asc")) {
+                query.append(" ORDER BY tmp.type ASC");
+            } else if (column == 5 && order.equals("desc")) {
                 query.append(" ORDER BY tmp.type DESC");
             }
             Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());

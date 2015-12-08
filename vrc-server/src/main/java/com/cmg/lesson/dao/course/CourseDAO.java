@@ -98,21 +98,24 @@ public class CourseDAO extends DataAccess<Course> {
      * @return
      * @throws Exception
      */
-    public double getCountSearch(String search,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
+    public double getCountSearch(String search, String course, Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + Course.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(course.length()>0){
+            string.append("(name.toLowerCase().indexOf(course.toLowerCase()) != -1) &&");
+        }
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
@@ -122,11 +125,11 @@ public class CourseDAO extends DataAccess<Course> {
         if(search.length()==0){
             string.append(b);
         }
-        q.setRange(start, start +length);
         q.setFilter(string.toString());
-        q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String course, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("course", course);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         try {
@@ -153,22 +156,25 @@ public class CourseDAO extends DataAccess<Course> {
      * @return
      * @throws Exception
      */
-    public List<Course> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
+    public List<Course> listAll(int start, int length,String search,int column,String order, String course, Date createDateFrom,Date createDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + Course.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(course.length()>0){
+            string.append("(name.toLowerCase().indexOf(course.toLowerCase()) != -1) &&");
+        }
 
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
@@ -179,9 +185,10 @@ public class CourseDAO extends DataAccess<Course> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search,java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String course, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("course", course);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {
@@ -189,10 +196,10 @@ public class CourseDAO extends DataAccess<Course> {
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("name desc");
         }
-        if (column==1 && order.equals("asc")) {
-            q.setOrdering("timeCreated asc");
-        }else if(column==1 && order.equals("desc")) {
-            q.setOrdering("timeCreated desc");
+        if (column==2 && order.equals("asc")) {
+            q.setOrdering("dateCreated asc");
+        }else if(column==2 && order.equals("desc")) {
+            q.setOrdering("dateCreated desc");
         }
         q.setRange(start, start + length);
         try {

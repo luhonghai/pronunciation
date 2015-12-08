@@ -32,6 +32,7 @@ function listLevels(){
         }, {
             "sWidth": "30%",
             "data": "description",
+            "bSortable": false,
             "sDefaultContent": ""
         }, {
             "sWidth": "20%",
@@ -175,7 +176,7 @@ function openPopupEdit(){
         var level = $(this).attr('level');
         var description = $(this).attr('description');
         var color = $(this).attr('color');
-        var isDemo = $(this).attr('isDemo');;
+        var isDemo = $(this).attr('isDemo');
         $("#editLevel").val(level);
         $("#editDescription").val(description);
         $("#editColor").val(color);

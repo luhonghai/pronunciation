@@ -10,7 +10,7 @@ var servletName="ManageIpaMapArpabetServlet";
 
 function openPopupAdd(){
     $(document).on("click","#openAddMapping", function(){
-        clearForm();
+        clearForms();
         $("#submitForm").attr("action","add");
         $("#wrap-imgTongue-edit").hide();
         $("#wrap-imgTongue-add").show();
@@ -132,7 +132,7 @@ function openEditForm(){
             },
             success: function (data) {
                 if(data !== undefined){
-                    clearForm();
+                    clearForms();
                     includeDataForm(data);
                     $("#add").modal('show');
                     $("#wrap-imgTongue-add").hide();
@@ -218,7 +218,7 @@ function searchAdvanted(){
             "type": "POST",
             "dataType": "json",
             "data": {
-                action: "list",
+                loadData: "list",
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

@@ -53,13 +53,13 @@ public class LevelService {
         LevelDTO dto = new LevelDTO();
         String message;
         try {
-            if(!isExistLevelName(name)) {
-                if(isDemo && isDemoExisted()){
-                    message = ERROR + ":" + "There are only one level to be set to DEMO";
-                    dto.setMessage(message);
-                    return dto;
-
-                }
+//            if(!isExistLevelName(name)) {
+//                if(isDemo && isDemoExisted()){
+//                    message = ERROR + ":" + "There are only one level to be set to DEMO";
+//                    dto.setMessage(message);
+//                    return dto;
+//
+//                }
                 Level lv = new Level();
                 lv.setName(name);
                 lv.setDescription(description);
@@ -70,9 +70,9 @@ public class LevelService {
                 lv.setIsDemo(isDemo);
                 dao.create(lv);
                 message = SUCCESS;
-            }else{
-                message = ERROR + ":" + "level name is existed";
-            }
+//            }else{
+//                message = ERROR + ":" + "level name is existed";
+//            }
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
             logger.error("can not add level : " + name + " because : " + e.getMessage());
@@ -106,39 +106,39 @@ public class LevelService {
         LevelDTO dto = new LevelDTO();
         String message = null;
         try {
-           String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
-            boolean oldDemo = dao.getById(id).isDemo();
-            if(oldName.equalsIgnoreCase(name)){
-                if(isDemo && isDemoExisted() && oldDemo == false){
-                    message = ERROR + ":" + "There are only one level to be set to DEMO";
-                    dto.setMessage(message);
-                    return dto;
-
-                }
+//           String oldName = (String)StringUtil.isNull(dao.getById(id).getName(),"");
+//            boolean oldDemo = dao.getById(id).isDemo();
+//            if(oldName.equalsIgnoreCase(name)){
+//                if(isDemo && isDemoExisted() && oldDemo == false){
+//                    message = ERROR + ":" + "There are only one level to be set to DEMO";
+//                    dto.setMessage(message);
+//                    return dto;
+//
+//                }
                 boolean check = dao.updateLevel(id, name, description, color, isDemo);
                 if(check){
                     message = SUCCESS;
                 }else{
                     message = ERROR + ":" + "an error has been occurred in server!";
                 }
-            }else{
-                boolean isExistedNewName = isExistLevelName(name);
-                if(isExistedNewName){
-                    message = ERROR + ":" + "This name already existed!";
-                }else{
-                    if(isDemo && isDemoExisted() && oldDemo == false){
-                        message = ERROR + ":" + "There are only one level to be set to DEMO";
-                        dto.setMessage(message);
-                        return dto;
-                    }
-                    boolean check = dao.updateLevel(id, name, description, color, isDemo);
-                    if(check){
-                        message = SUCCESS;
-                    }else{
-                        message = ERROR + ":" + "an error has been occurred in server!";
-                    }
-                }
-            }
+//            }else{
+//                boolean isExistedNewName = isExistLevelName(name);
+//                if(isExistedNewName){
+//                    message = ERROR + ":" + "This name already existed!";
+//                }else{
+//                    if(isDemo && isDemoExisted() && oldDemo == false){
+//                        message = ERROR + ":" + "There are only one level to be set to DEMO";
+//                        dto.setMessage(message);
+//                        return dto;
+//                    }
+//                    boolean check = dao.updateLevel(id, name, description, color, isDemo);
+//                    if(check){
+//                        message = SUCCESS;
+//                    }else{
+//                        message = ERROR + ":" + "an error has been occurred in server!";
+//                    }
+//                }
+//            }
         }catch (Exception e){
             message = ERROR + ":" + e.getMessage();
             logger.error("can not update level : " + name + " because : " + e.getMessage());
