@@ -97,29 +97,29 @@
                             <div class="form-group">
 
                                 <div>
-                                    <label class="col-xs-4  col-sm-3 control-label ">Language :</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Language :</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <input  type="text" id="country_name" name="country_name" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
-                                    <div class="col-xs-8  col-sm-9">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Description:</label>
+                                    <div class="col-xs-8  col-sm-8">
                                         <textarea   type="text" id="add-description" name="description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label class="col-xs-4  col-sm-3 control-label ">Image :</label>
-                                    <div class="col-xs-8  col-sm-9">
-                                        <div id="wrap-img-edit"><img src="" id="img-edit"/> <a href="#" id="btn-img-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
+                                    <label class="col-xs-4  col-sm-4 control-label ">Image :</label>
+                                    <div class="col-xs-8  col-sm-8">
+                                        <div id="wrap-img-edit"><img src="" id="img-edit" style="width: 300px;height: 200px"/> <a href="#" id="btn-img-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-img-add"><input type="file" id="image" name="image" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>
 
                                 <div id="container-add-lesson" style="clear: both;">
-                                    <label class="col-xs-4  col-sm-3 control-label ">Course :</label>
+                                    <label class="col-xs-4  col-sm-4 control-label ">Course :</label>
                                     <img style="display:block" class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
                                     <select style="display:none" name="course" class="form-control" id="select-course">
                                         <option>1</option>
@@ -130,8 +130,8 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="col-xs-4  col-sm-3 control-label ">Default:</label>
-                                    <div class="col-xs-8  col-sm-9" style="margin-top: 8px;">
+                                    <label class="col-xs-4  col-sm-4 control-label ">Default:</label>
+                                    <div class="col-xs-8  col-sm-8" style="margin-top: 8px;">
                                         <input type="checkbox" name="default" id="default">
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"
                         aria-hidden="true">&times;</button>
-                <h1 class="modal-title" align="center">Delete Country</h1>
+                <h1 class="modal-title" align="center">Delete Language</h1>
             </div>
             <form name="form-delete" >
                 <div class="modal-body">

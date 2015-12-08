@@ -39,7 +39,7 @@ function listCountry(){
             "data": null,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                var $img = $("<img>");
+                var $img = $("<img style='height: 200px;width: 300px'>");
                 $img.attr("src",data.imageURL);
                 return $("<div/>").append($img).html();
             }
@@ -197,6 +197,7 @@ function openEditForm(){
         $("#submitForm").attr("action","edit");
         $("#submitForm").attr("id-country",$(this).attr("id-country"));
         $("#country_name").val($(this).attr("name-country"));
+        $("#country_name").attr("disabled", true);
         $("#add-description").val($(this).attr("description"));
         $("#img-edit").attr("src",$(this).attr("img-src"));
         $("#wrap-img-edit").show();

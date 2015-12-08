@@ -59,6 +59,7 @@ function listLevels(){
                 $button.attr("description", data.description);
                 $button.attr("color", data.color);
                 $button.attr("isDemo", data.isDemo);
+                $button.attr("isDefaultActivated", data.isDefaultActivated);
                 return $("<div/>").append($button).html();
             }
         }]
@@ -86,8 +87,8 @@ function openPopupAdd(){
         $("#addLevel").val("");
         $("#addDescription").val("");
         $("#addColor").val("");
-
-
+        $("#idDemoAdd").prop('checked', false);
+        $("#isDefaultActivatedadd").prop('checked', false);
     });
 }
 
@@ -97,6 +98,7 @@ function addLevel(){
         var description = $("#addDescription").val();
         var color = $("#addColor").val();
         var isDemo = isDemoAdd();
+        var isDefaultActivated=isDefaultActivatedADD();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#addLevel").focus();
             swal("Warning!", "Please enter a level name!", "warning");
@@ -111,7 +113,8 @@ function addLevel(){
                 level: level,
                 description:description,
                 color:color,
-                isDemo:isDemo
+                isDemo:isDemo,
+                isDefaultActivated:isDefaultActivated
             },
             success: function (data) {
                 if (data.indexOf("success") !=-1) {
@@ -187,6 +190,7 @@ function openPopupEdit(){
         var description = $(this).attr('description');
         var color = $(this).attr('color');
         var isDemo = $(this).attr('isDemo');
+        var isDefaultActivated=$(this).attr('isDefaultActivated');
         $("#editLevel").val(level);
         $("#editDescription").val(description);
         $("#editColor").val(color);
@@ -196,6 +200,13 @@ function openPopupEdit(){
             isDemos=true;
         }else{
             $("#isDemoEdit").prop('checked', false);
+            isDemos=false;
+        }
+        if(isDefaultActivated=='true'){
+            $("#isDefaultActivatededit").prop('checked', true);
+            isDemos=true;
+        }else{
+            $("#isDefaultActivatededit").prop('checked', false);
             isDemos=false;
         }
         lessonName = level;
@@ -212,6 +223,7 @@ function editLevel(){
         var description = $("#editDescription").val();
         var color = $("#editColor").val();
         var isDemo = isDemoEdit();
+        var isDefaultActivated=isDefaultActivatedEDIT();
         if (level == null || typeof level == "undefined" || level.length == 0){
             $("#editLevel").focus();
             swal("Warning!", "Please enter level name!", "warning");
@@ -229,6 +241,7 @@ function editLevel(){
                 id: id,
                 color:color,
                 isDemo:isDemo,
+                isDefaultActivated:isDefaultActivated,
                 level: level,
                 description:description,
                 isUpdateLessonName: isUpdateLessonName
@@ -300,6 +313,20 @@ function isDemoEdit(){
     }
     return false;
 }
+function isDefaultActivatedADD(){
+    if($("#isDefaultActivatedadd").is(":checked")){
+        return true;
+    }
+    return false;
+
+}
+function isDefaultActivatedEDIT(){
+    if($("#isDefaultActivatededit").is(":checked")){
+        return true;
+    }
+    return false;
+}
+
 
 
 
@@ -308,6 +335,8 @@ $(document).ready(function(){
     //$("#ui_normal_dropdown").dropdown({
     //        maxSelections: 3
     //    });
+    isDefaultActivatedADD();
+    isDefaultActivatedEDIT();
     isDemoAdd();
     isDemoEdit();
     dateFrom();

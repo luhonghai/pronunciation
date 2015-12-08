@@ -171,6 +171,7 @@ function edit(){
         var question = $(this).attr('question');
         var description = $(this).attr('description');
         $("#editquestion").val(question);
+        $("#editquestion").attr("disabled", true);
         $("#editDescription").val(description);
         $("#idedit").val(idd);
     });

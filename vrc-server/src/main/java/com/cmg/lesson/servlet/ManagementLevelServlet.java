@@ -42,7 +42,8 @@ public class ManagementLevelServlet extends BaseServlet {
                 String description =  (String)StringUtil.isNull(request.getParameter("description"),"");
                 String color =  (String)StringUtil.isNull(request.getParameter("color"),"");
                 boolean isDemo =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDemo"), "").toString());
-                String message = levelService.addLevelToDB(level, description,color,isDemo).getMessage();
+                boolean isDefaultActivated =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDefaultActivated"), "").toString());
+                String message = levelService.addLevelToDB(level, description,color,isDemo,isDefaultActivated).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("edit")!=null){
@@ -52,7 +53,8 @@ public class ManagementLevelServlet extends BaseServlet {
                 boolean isUpdateLessonName = Boolean.parseBoolean(request.getParameter("isUpdateLessonName"));
                 String color =  (String)StringUtil.isNull(request.getParameter("color"),"");
                 boolean isDemo =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDemo"), "").toString());
-                String message = levelService.updateLevel(levelId, level, description,color,isDemo,isUpdateLessonName).getMessage();
+                boolean isDefaultActivated =  Boolean.parseBoolean(StringUtil.isNull(request.getParameter("isDefaultActivated"), "").toString());
+                String message = levelService.updateLevel(levelId, level, description,color,isDemo,isDefaultActivated,isUpdateLessonName).getMessage();
                 response.getWriter().write(message);
 
             }else if(request.getParameter("delete")!=null){

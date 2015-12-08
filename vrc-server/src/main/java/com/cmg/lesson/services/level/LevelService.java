@@ -48,7 +48,7 @@ public class LevelService {
      * @param name, description,color
      * @return true if question was added to table.
      */
-    public LevelDTO addLevelToDB(String name, String description, String color, boolean isDemo){
+    public LevelDTO addLevelToDB(String name, String description, String color, boolean isDemo, boolean isDefaultActivated){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message;
@@ -61,13 +61,15 @@ public class LevelService {
 //
 //                }
                 Level lv = new Level();
-                lv.setName(name);
-                lv.setDescription(description);
-                lv.setColor(color);
-                lv.setDateCreated(new Date(System.currentTimeMillis()));
-                lv.setIsDeleted(false);
-                lv.setVersion(getMaxVersion());
+            lv.setName(name);
+            lv.setDescription(description);
+            lv.setColor(color);
+            lv.setDateCreated(new Date(System.currentTimeMillis()));
+            lv.setIsDeleted(false);
+            lv.setVersion(getMaxVersion());
                 lv.setIsDemo(isDemo);
+            lv.setIsDefaultActivated(isDefaultActivated);
+
                 dao.create(lv);
                 message = SUCCESS;
 //            }else{
@@ -101,7 +103,7 @@ public class LevelService {
      * @param color
      * @return
      */
-    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo,boolean isUpdateLessonName){
+    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo,boolean isDefaultActivated,boolean isUpdateLessonName){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message = null;
@@ -117,7 +119,7 @@ public class LevelService {
 //                }
             Level level=dao.getById(id);
             if(level!=null) {
-                boolean check = dao.updateLevel(id, name, description, color, isDemo);
+                boolean check = dao.updateLevel(id, name, description, color, isDemo, isDefaultActivated);
                 if (check) {
                     message = SUCCESS;
                 } else {

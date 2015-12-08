@@ -50,11 +50,11 @@ public class LevelDAO extends DataAccess<Level> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateLevel(String id, String name, String description, String color ,boolean isDemo) throws Exception{
+    public boolean updateLevel(String id, String name, String description, String color ,boolean isDemo, boolean isDefaultActivated) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+" WHERE id='"+id+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+",isDefaultActivated="+isDefaultActivated+" WHERE id='"+id+"'");
         try {
             q.execute(name,description,color);
             isUpdate=true;

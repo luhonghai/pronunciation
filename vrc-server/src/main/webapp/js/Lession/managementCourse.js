@@ -166,6 +166,7 @@ function openPopupEdit(){
         var course = $(this).attr('course');
         var description = $(this).attr('description');
         $("#editCourse").val(course);
+        $("#editCourse").attr("disabled", true);
         $("#editDescription").val(description);
         $("#idedit").val(idd);
     });

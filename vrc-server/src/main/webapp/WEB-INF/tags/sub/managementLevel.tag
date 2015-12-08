@@ -100,27 +100,33 @@
               <div class="form-group">
 
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Level:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Level:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="addLevel" name="addLevel" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <textarea   type="text" id="addDescription" name="addDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Color:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Color:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="addColor" name="addColor" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">IsDemo:</label>
-                  <div class="col-xs-8  col-sm-9" style="margin-top: 8px;">
+                  <label class="col-xs-4  col-sm-4 control-label ">IsDemo:</label>
+                  <div class="col-xs-8  col-sm-8" style="margin-top: 8px;">
                     <input type="checkbox" id="idDemoAdd">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-4 control-label ">isDefaultActivated:</label>
+                  <div class="col-xs-8  col-sm-8" style="margin-top: 8px;">
+                    <input type="checkbox" id="isDefaultActivatedadd">
                   </div>
                 </div>
 
@@ -156,27 +162,33 @@
 
               <div class="form-group">
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Level:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Level:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="editLevel" name="editLevel" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Description:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Description:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <textarea   type="text" id="editDescription" name="editDescription" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">Color:</label>
-                  <div class="col-xs-8  col-sm-9">
+                  <label class="col-xs-4  col-sm-4 control-label ">Color:</label>
+                  <div class="col-xs-8  col-sm-8">
                     <input  type="text" id="editColor" name="editColor" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                   </div>
                 </div>
                 <div>
-                  <label class="col-xs-4  col-sm-3 control-label ">IsDemo:</label>
-                  <div class="col-xs-8  col-sm-9" style="margin-top: 8px;">
+                  <label class="col-xs-4  col-sm-4 control-label ">IsDemo:</label>
+                  <div class="col-xs-8  col-sm-8" style="margin-top: 8px;">
                     <input type="checkbox" id="isDemoEdit">
+                  </div>
+                </div>
+                <div>
+                  <label class="col-xs-4  col-sm-4 control-label ">isDefaultActivated:</label>
+                  <div class="col-xs-8  col-sm-8" style="margin-top: 8px;">
+                    <input type="checkbox" id="isDefaultActivatededit">
                   </div>
                 </div>
               </div>

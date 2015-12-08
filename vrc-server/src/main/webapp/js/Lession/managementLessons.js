@@ -195,6 +195,7 @@ function openPopupEdit(){
         var shortDescription = $(this).attr('shortDescription');
         var description = $(this).attr('description');
         $("#editLesson").val(lesson);
+        $("#editLesson").attr("disabled", true);
         $("#editShortDescription").val(shortDescription);
         $("#editDescription").val(description);
         $("#editTitle").val(title);
