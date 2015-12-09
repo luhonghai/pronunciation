@@ -163,12 +163,13 @@ public class CountryDAO extends DataAccess<Country> {
      */
     public boolean checkExisted(String name) throws Exception{
         boolean isExist = false;
-        List<Country> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
+        List<Country> list = list("WHERE name == :1 && isDeleted == :2", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }
         return isExist;
     }
+
 
 
     /**
@@ -193,13 +194,16 @@ public class CountryDAO extends DataAccess<Country> {
      * @return
      * @throws Exception
      */
-    public double getCountSearch(String search,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
+    public double getCountSearch(String search,String language,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + Country.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(language.length()>0){
+            string.append("(name.toLowerCase().indexOf(language.toLowerCase()) != -1) &&");
+        }
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(timeCreated >= createDateFrom) &&");
         }
@@ -217,11 +221,11 @@ public class CountryDAO extends DataAccess<Country> {
         if(search.length()==0){
             string.append(b);
         }
-        q.setRange(start, start +length);
         q.setFilter(string.toString());
-        q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search, String language, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("language", language);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         try {
@@ -248,13 +252,16 @@ public class CountryDAO extends DataAccess<Country> {
      * @return
      * @throws Exception
      */
-    public List<Country> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
+    public List<Country> listAll(int start, int length,String search,int column,String order,String language, Date createDateFrom,Date createDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + Country.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(language.length()>0){
+            string.append("(name.toLowerCase().indexOf(language.toLowerCase()) != -1) &&");
+        }
 
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(timeCreated >= createDateFrom) &&");
@@ -274,9 +281,10 @@ public class CountryDAO extends DataAccess<Country> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search,java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String language, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("language", language);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {
@@ -288,11 +296,6 @@ public class CountryDAO extends DataAccess<Country> {
             q.setOrdering("description asc");
         }else if(column==1 && order.equals("desc")) {
             q.setOrdering("description desc");
-        }
-        if (column==2 && order.equals("asc")) {
-            q.setOrdering("imageURL asc");
-        }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("imageURL desc");
         }
         if (column==3 && order.equals("asc")) {
             q.setOrdering("timeCreated asc");

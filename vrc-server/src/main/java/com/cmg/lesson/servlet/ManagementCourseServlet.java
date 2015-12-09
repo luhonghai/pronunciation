@@ -34,8 +34,9 @@ public class ManagementCourseServlet extends BaseServlet {
                 String order = (String)StringUtil.isNull(request.getParameter("order[0][dir]"), "");
                 int column = Integer.parseInt(StringUtil.isNull(request.getParameter("order[0][column]"),"").toString());
                 String createDateFrom = (String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
+                String course = (String) StringUtil.isNull(request.getParameter("course"), "");
                 String createDateTo = (String) StringUtil.isNull(request.getParameter("CreateDateTo"),"");
-                courseDTO = courseService.search(start, length, search, column, order, createDateFrom, createDateTo, draw);
+                courseDTO = courseService.search(start, length, search, column, order,course, createDateFrom, createDateTo, draw);
                 String json = gson.toJson(courseDTO);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("add")){

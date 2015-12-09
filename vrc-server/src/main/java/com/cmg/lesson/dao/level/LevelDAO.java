@@ -50,11 +50,11 @@ public class LevelDAO extends DataAccess<Level> {
      * @return true is update
      * @throws Exception
      */
-    public boolean updateLevel(String id, String name, String description, String color ,boolean isDemo) throws Exception{
+    public boolean updateLevel(String id, String name, String description, String color ,boolean isDemo, boolean isDefaultActivated) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+" WHERE id='"+id+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?, color=? ,isDemo="+isDemo+",isDefaultActivated="+isDefaultActivated+" WHERE id='"+id+"'");
         try {
             q.execute(name,description,color);
             isUpdate=true;
@@ -185,13 +185,16 @@ public class LevelDAO extends DataAccess<Level> {
      * @return
      * @throws Exception
      */
-    public double getCountSearch(String search,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
+    public double getCountSearch(String search,String description1, Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + Level.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(description1.length()>0){
+            string.append("(description.toLowerCase().indexOf(description1.toLowerCase()) != -1) &&");
+        }
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");
         }
@@ -211,9 +214,10 @@ public class LevelDAO extends DataAccess<Level> {
         }
         q.setRange(start, start +length);
         q.setFilter(string.toString());
-        q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search, String description1, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("description1", description1);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         try {
@@ -239,13 +243,16 @@ public class LevelDAO extends DataAccess<Level> {
      * @return
      * @throws Exception
      */
-    public List<Level> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
+    public List<Level> listAll(int start, int length,String search,int column,String order,String description1, Date createDateFrom,Date createDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + Level.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(description1.length()>0){
+            string.append("(description.toLowerCase().indexOf(description1.toLowerCase()) != -1) &&");
+        }
 
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");
@@ -265,9 +272,10 @@ public class LevelDAO extends DataAccess<Level> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search,java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search, String description1, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("description1", description1);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {

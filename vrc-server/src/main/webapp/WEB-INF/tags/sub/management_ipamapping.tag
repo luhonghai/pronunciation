@@ -58,7 +58,8 @@
                                     <th>ARPABET</th>
                                     <th>Created date</th>
                                     <th>Color</th>
-                                    <th>Voice</th>
+                                    <th>mp3Url Long</th>
+                                    <th>mp3Url Short</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -142,6 +143,12 @@
                                     <label class="col-xs-4  col-sm-4 control-label ">MP3 URL:</label>
                                     <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="mp3" name="mp3" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label class="col-xs-4  col-sm-4 control-label ">MP3 URL Short:</label>
+                                    <div class="col-xs-8  col-sm-8">
+                                        <input type="text" id="mp3short" name="mp3short" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>
                                 </div>
                                 <div class="row">

@@ -177,9 +177,9 @@ public class IpaMapArpabetDAO extends DataAccess<IpaMapArpabet> {
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("type desc,indexingType asc");
         }
-        if (column==2 && order.equals("asc")) {
+        if (column==4 && order.equals("asc")) {
             q.setOrdering("dateCreated asc");
-        }else if(column==2 && order.equals("desc")) {
+        }else if(column==4 && order.equals("desc")) {
             q.setOrdering("dateCreated desc");
         }
         q.setRange(start, start + length);

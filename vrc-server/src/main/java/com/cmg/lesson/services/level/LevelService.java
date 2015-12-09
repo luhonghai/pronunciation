@@ -48,7 +48,7 @@ public class LevelService {
      * @param name, description,color
      * @return true if question was added to table.
      */
-    public LevelDTO addLevelToDB(String name, String description, String color, boolean isDemo){
+    public LevelDTO addLevelToDB(String name, String description, String color, boolean isDemo, boolean isDefaultActivated){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message;
@@ -61,13 +61,15 @@ public class LevelService {
 //
 //                }
                 Level lv = new Level();
-                lv.setName(name);
-                lv.setDescription(description);
-                lv.setColor(color);
-                lv.setDateCreated(new Date(System.currentTimeMillis()));
-                lv.setIsDeleted(false);
-                lv.setVersion(getMaxVersion());
+            lv.setName(name);
+            lv.setDescription(description);
+            lv.setColor(color);
+            lv.setDateCreated(new Date(System.currentTimeMillis()));
+            lv.setIsDeleted(false);
+            lv.setVersion(getMaxVersion());
                 lv.setIsDemo(isDemo);
+            lv.setIsDefaultActivated(isDefaultActivated);
+
                 dao.create(lv);
                 message = SUCCESS;
 //            }else{
@@ -101,7 +103,7 @@ public class LevelService {
      * @param color
      * @return
      */
-    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo,boolean isUpdateLessonName){
+    public LevelDTO updateLevel(String id, String name, String description, String color, boolean isDemo,boolean isDefaultActivated,boolean isUpdateLessonName){
         LevelDAO dao = new LevelDAO();
         LevelDTO dto = new LevelDTO();
         String message = null;
@@ -115,12 +117,17 @@ public class LevelService {
 //                    return dto;
 //
 //                }
-                boolean check = dao.updateLevel(id, name, description, color, isDemo);
-                if(check){
+            Level level=dao.getById(id);
+            if(level!=null) {
+                boolean check = dao.updateLevel(id, name, description, color, isDemo, isDefaultActivated);
+                if (check) {
                     message = SUCCESS;
-                }else{
+                } else {
                     message = ERROR + ":" + "an error has been occurred in server!";
                 }
+            }else {
+                message="deleted";
+            }
 //            }else{
 //                boolean isExistedNewName = isExistLevelName(name);
 //                if(isExistedNewName){
@@ -157,12 +164,17 @@ public class LevelService {
         LevelDAO dao = new LevelDAO();
         String message;
         try{
-            boolean isDelete=dao.updateDeleted(id);
-            if (isDelete){
-                CourseMappingLevelService mappingLevelService = new CourseMappingLevelService();
-                message = mappingLevelService.removeLevel(id);
-            }else{
-                message = ERROR + ": " + "an error has been occurred in server!";
+            Level level=dao.getById(id);
+            if(level!=null) {
+                boolean isDelete = dao.updateDeleted(id);
+                if (isDelete) {
+                    CourseMappingLevelService mappingLevelService = new CourseMappingLevelService();
+                    message = mappingLevelService.removeLevel(id);
+                } else {
+                    message = ERROR + ": " + "an error has been occurred in server!";
+                }
+            }else {
+                message="deleted";
             }
         }catch(Exception e){
             message = ERROR + ": "+ e.getMessage();
@@ -184,10 +196,10 @@ public class LevelService {
      * @param createDateTo
      * @return List<Question>
      */
-    public List<Level> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo){
+    public List<Level> listAll(int start, int length,String search,int column,String order,String description, Date createDateFrom,Date createDateTo){
         LevelDAO dao = new LevelDAO();
         try{
-            return dao.listAll(start, length, search,column, order, createDateFrom, createDateTo);
+            return dao.listAll(start, length, search,column, order,description, createDateFrom, createDateTo);
         }catch (Exception ex){
             logger.error("list all level error, because:" + ex.getMessage());
         }
@@ -213,13 +225,13 @@ public class LevelService {
      * @param createDateTo
      * @return total rows
      */
-    public double getCount(String search,Date createDateFrom,Date createDateTo, int length, int start){
+    public double getCount(String search,String description,Date createDateFrom,Date createDateTo, int length, int start){
         LevelDAO dao = new LevelDAO();
         try {
-            if (search == null && createDateFrom == null && createDateTo == null){
+            if (search == null && description==null && createDateFrom == null && createDateTo == null){
                 return dao.getCount();
             }else {
-                return dao.getCountSearch(search, createDateFrom, createDateTo,length,start);
+                return dao.getCountSearch(search, description, createDateFrom, createDateTo,length,start);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -239,13 +251,13 @@ public class LevelService {
      * @param draw
      * @return
      */
-    public LevelDTO search(int start, int length,String search,int column,String order,String createDateFrom,String createDateTo, int draw){
+    public LevelDTO search(int start, int length,String search,int column,String order,String description,String createDateFrom,String createDateTo, int draw){
         LevelDTO dto = new LevelDTO();
         try{
             Date dateFrom =  DateSearchParse.parseDate(createDateFrom);
             Date dateTo =  DateSearchParse.parseDate(createDateTo, true);
-            double count = getCount(search,dateFrom,dateTo,length,start);
-            List<Level> listLevel = listAll(start,length,search,column,order,dateFrom,dateTo);
+            double count = getCount(search,description,dateFrom,dateTo,length,start);
+            List<Level> listLevel = listAll(start,length,search,column,order,description,dateFrom,dateTo);
             dto.setDraw(draw);
             dto.setRecordsFiltered(count);
             dto.setRecordsTotal(count);

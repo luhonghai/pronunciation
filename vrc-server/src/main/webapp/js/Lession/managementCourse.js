@@ -18,6 +18,7 @@ function listCourse(){
             "dataType": "json",
             "data": {
                 action: "list",
+                course:$("#course").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }
@@ -98,6 +99,7 @@ function addCourse(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#add").modal('hide');
+                    swal("Success!", "You have add course success!", "success");
                 }else{
                     swal("Could not add Level!", data.split(":")[1], "error");
                 }
@@ -137,8 +139,16 @@ function deleteCourse(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete course success!", "success");
                 }else{
-                    swal("Could not delete question!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Could not delete question!", data.split(":")[1], "error");
+                    }
                 }
             },
             error: function () {
@@ -156,6 +166,7 @@ function openPopupEdit(){
         var course = $(this).attr('course');
         var description = $(this).attr('description');
         $("#editCourse").val(course);
+        $("#editCourse").attr("disabled", true);
         $("#editDescription").val(description);
         $("#idedit").val(idd);
     });
@@ -187,8 +198,16 @@ function editCourse(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#edits").modal('hide');
+                    swal("Success!", "You have edit course success!", "success");
                 }else{
-                    swal("Could not update lesson!", data.split(":")[1], "error");
+                    if(data.indexOf("deleted") !=-1){
+                        $("#edits").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#edits").modal('hide');
+                        swal("Could not update lesson!", data.split(":")[1], "error");
+                    }
                 }
 
             },
@@ -210,6 +229,7 @@ function searchAdvanted(){
             "dataType": "json",
             "data": {
                 action: "list",
+                course:$("#course").val(),
                 CreateDateFrom: $("#CreateDateFrom").val(),
                 CreateDateTo: $("#CreateDateTo").val()
             }

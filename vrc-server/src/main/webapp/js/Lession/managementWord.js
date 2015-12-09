@@ -192,7 +192,15 @@ function deleteWord(){
                     $("#deletes").modal('hide');
                     swal("Deleted!", "This word has been deleted!", "success");
                 }else{
-                    swal("Error!", messages.message.split(":")[1], "error");
+                    if(messages.message.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Error!", messages.message.split(":")[1], "error");
+                    }
+
                 }
             },
             error: function () {
@@ -293,7 +301,14 @@ function editWord(){
                     swal("Updated!", "This word has been updated!", "success");
                     $("#edits").modal('hide');
                 }else{
-                    swal("Error!", messages.message, "error");
+                    if(messages.message.indexOf("deleted") !=-1){
+                        $("#deletes").modal('hide');
+                        swal("Warning!", "This question has been already deleted!", "warning");
+                        location.reload();
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal("Error!", messages.message, "error");
+                    }
                 }
 
             },

@@ -23,6 +23,9 @@ public class Level implements Mirrorable {
     private boolean isDemo;
 
     @Persistent
+    private boolean isDefaultActivated;
+
+    @Persistent
     private String description;
 
     @Persistent
@@ -101,5 +104,13 @@ public class Level implements Mirrorable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public boolean isDefaultActivated() {
+        return isDefaultActivated;
+    }
+
+    public void setIsDefaultActivated(boolean isDefaultActivated) {
+        this.isDefaultActivated = isDefaultActivated;
     }
 }

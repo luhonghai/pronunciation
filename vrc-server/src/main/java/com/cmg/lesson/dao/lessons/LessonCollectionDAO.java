@@ -165,13 +165,16 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return
      * @throws Exception
      */
-    public double getCountSearch(String search,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
+    public double getCountSearch(String search,String lesson,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + LessonCollection.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(nameUnique == null || nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(lesson.length()>0){
+            string.append("(name.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
+        }
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(timeCreated >= createDateFrom) &&");
         }
@@ -191,9 +194,10 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         }
 //        q.setRange(start, start +length);
         q.setFilter(string.toString());
-        q.declareParameters("String search, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String lesson, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("lesson", lesson);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         try {
@@ -220,13 +224,16 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @return
      * @throws Exception
      */
-    public List<LessonCollection> listAll(int start, int length,String search,int column,String order,Date createDateFrom,Date createDateTo) throws Exception {
+    public List<LessonCollection> listAll(int start, int length,String search,int column,String order, String lesson, Date createDateFrom,Date createDateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + LessonCollection.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(nameUnique == null || nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(lesson.length()>0){
+            string.append("(name.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
+        }
 
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");
@@ -246,9 +253,10 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search,java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String lesson, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("lesson", lesson);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {
