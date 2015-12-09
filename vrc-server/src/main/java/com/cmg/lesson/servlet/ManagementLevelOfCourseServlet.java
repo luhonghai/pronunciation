@@ -53,10 +53,11 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
                 response.getWriter().write(json);
 
             }else if(action.equalsIgnoreCase("getObjAndTest")){
-                String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
+                //String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");
                 String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
                 ObjectiveService objectiveService = new ObjectiveService();
-                LevelDTO dto = objectiveService.getAllObjAndTest(idCourse, idLevel);
+                //LevelDTO dto = objectiveService.getAllObjAndTest(idCourse, idLevel);
+                LevelDTO dto = objectiveService.getAllObjAndTest(idLevel);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("getAllLesson")){
@@ -66,10 +67,11 @@ public class ManagementLevelOfCourseServlet extends BaseServlet {
                 response.getWriter().write(json);
 
             }else if(action.equalsIgnoreCase("getAllObjective")){
-                //ObjectiveService service = new ObjectiveService();
-                //ObjectiveDTO dto = service.getAll();
-                //String json = gson.toJson(dto);
-               // response.getWriter().write(json);
+                String idLevel=(String)StringUtil.isNull(request.getParameter("idLevel"),"");
+                ObjectiveService service = new ObjectiveService();
+                ObjectiveDTO dto = service.getAllObjNotInLevel(idLevel);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
 
             } else if (action.equalsIgnoreCase("delete")){
                 String idCourse=(String)StringUtil.isNull(request.getParameter("idCourse"),"");

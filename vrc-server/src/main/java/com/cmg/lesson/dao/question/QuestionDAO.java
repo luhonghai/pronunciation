@@ -239,6 +239,7 @@ public class QuestionDAO extends DataAccess<Question> {
         q.declareParameters("String search, String question, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("question", question);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {

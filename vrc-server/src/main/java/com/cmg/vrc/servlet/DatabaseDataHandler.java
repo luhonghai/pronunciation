@@ -45,6 +45,10 @@ public class DatabaseDataHandler extends BaseServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Expires", "Tue, 03 Jul 2001 06:00:00 GMT");
+        response.setHeader("Last-Modified", new Date().toString());
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
+        response.setHeader("Pragma", "no-cache");
         response.setContentType("text/plain");
         final PrintWriter out = response.getWriter();
         String action = request.getParameter("action");

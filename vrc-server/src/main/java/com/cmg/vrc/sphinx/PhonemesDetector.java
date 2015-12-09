@@ -222,7 +222,7 @@ public class PhonemesDetector {
 
     private void generatePhonemes() {
         try {
-            DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.BEEP);
+            DictionaryHelper helper = new DictionaryHelper(DictionaryHelper.Type.DATABASE);
             correctPhonemes = helper.getCorrectPhonemes(word);
         } catch (Exception ex) {
             logger.log(Level.SEVERE, "Could not generate phonemes from word " + word, ex);

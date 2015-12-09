@@ -12,6 +12,13 @@ function loadAudio(){
             }, {
                 cssSelectorAncestor: '#' + id + 's'
             });
+        new CirclePlayer("#" + id + 't',
+            {
+                mp3: audioUrl,
+                wav: audioUrl
+            }, {
+                cssSelectorAncestor: '#' + id + 'st'
+            });
 
     });
 
@@ -94,6 +101,36 @@ function buildTable(){
                         '<li>' + '<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
                         '</ul>' +
                         '</div>');
+                    $divs.attr("audioUrl", audioUrl);
+                    return $("<div/>").append($divs).html();
+                    //return '<i class="fa fa-file-audio-o fa-2x"></i>';
+                }
+            }
+        },{
+            "sWidth": "3%",
+            "data": null,
+            "bSortable": false,
+            "sDefaultContent":"",
+            "mRender": function (data, type, full) {
+                if (typeof data.mp3UrlShort!='undefined' && data.mp3UrlShort!=null && data.mp3UrlShort.length>0) {
+                    var audioUrl = data.mp3UrlShort;
+                    $divs = $('<div id="' + data.id + "t" + '" class="cp-jplayer">' + '</div>' +
+                    '<div class="prototype-wrapper"> ' +
+                    '<div id="' + data.id + "ts" + '" class="cp-container">' +
+                    '<div class="cp-buffer-holder"> ' +
+                    '<div class="cp-buffer-1">' + '</div>' +
+                    '<div class="cp-buffer-2">' + '</div>' +
+                    '</div>' +
+                    '<div class="cp-progress-holder">' +
+                    '<div class="cp-progress-1">' + '</div>' +
+                    '<div class="cp-progress-2">' + '</div>' +
+                    '</div>' +
+                    '<div class="cp-circle-control">' + '</div>' +
+                    '<ul class="cp-controls">' +
+                    '<li>' + '<a class="cp-play" tabindex="1">' + 'play' + '</a>' + '</li>' +
+                    '<li>' + '<a class="cp-pause" style="display:none;" tabindex="1">' + 'pause' + '</a>' + '</li>' +
+                    '</ul>' +
+                    '</div>');
                     $divs.attr("audioUrl", audioUrl);
                     return $("<div/>").append($divs).html();
                     //return '<i class="fa fa-file-audio-o fa-2x"></i>';

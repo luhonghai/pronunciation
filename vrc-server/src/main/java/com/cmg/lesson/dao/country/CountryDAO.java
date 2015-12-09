@@ -163,12 +163,13 @@ public class CountryDAO extends DataAccess<Country> {
      */
     public boolean checkExisted(String name) throws Exception{
         boolean isExist = false;
-        List<Country> list = list("WHERE name == :1 && isDeleted == :2 ", name, false);
+        List<Country> list = list("WHERE name == :1 && isDeleted == :2", name, false);
         if(list!=null && list.size() > 0){
             isExist = true;
         }
         return isExist;
     }
+
 
 
     /**

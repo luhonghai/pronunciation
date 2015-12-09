@@ -39,18 +39,18 @@ public class CourseMappingDetailService {
 
     /**
      *
-     * @param idCourse
+     * @param idObjective
      * @param idLevel
      * @return
      */
-    public String addMappingDetail(String idCourse, String idObjective, String idLevel, boolean isTest){
+    public String addMappingDetail(String idObjective, String idLevel, boolean isTest){
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         String message;
         try {
-            boolean condition = checkExist(idCourse, idObjective, idLevel);
+            boolean condition = checkExist(idObjective, idLevel);
             if(!condition){
                 CourseMappingDetail obj = new CourseMappingDetail();
-                obj.setIdCourse(idCourse);
+                //obj.setIdCourse(idCourse);
                 obj.setIdLevel(idLevel);
                 obj.setIdChild(idObjective);
                 obj.setVersion(getMaxVersion());
@@ -95,16 +95,16 @@ public class CourseMappingDetailService {
 
     /**
      *
-     * @param idCourse
+     * @param idLevel
      * @param idObjective
      * @return
      */
-    public String removeDetail(String idCourse, String idObjective){
+    public String removeDetail(String idObjective, String idLevel){
         CourseDTO dto = new CourseDTO();
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         String message;
         try {
-            if(dao.updateDeleted(idCourse, idObjective)){
+            if(dao.updateDeleted(idObjective, idLevel)){
                 message = SUCCESS;
             }else{
                 message = ERROR +": An error has been occurred in server!";
@@ -161,25 +161,25 @@ public class CourseMappingDetailService {
 
     /**
      *
-     * @param idCourse
+     * @param idObjective
      * @param idLevel
      * @return
      */
-    public boolean checkExist(String idCourse, String idObjective, String idLevel){
+    public boolean checkExist(String idObjective, String idLevel){
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         boolean check = false;
         try {
-            check = dao.checkExist(idCourse, idObjective, idLevel);
+            check = dao.checkExist(idObjective, idLevel);
         }catch (Exception e){
             logger.error("can not check exited: "  + e.getMessage());
         }
         return check;
     }
 
-    public boolean checkExistTest(String idCourse, String idLevel){
+    public boolean checkExistTest(String idLevel){
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         try {
-            return dao.checkExistTest(idCourse,idLevel);
+            return dao.checkExistTest(idLevel);
         } catch (Exception e) {
             e.printStackTrace();
         }

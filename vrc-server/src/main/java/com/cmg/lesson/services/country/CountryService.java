@@ -22,7 +22,7 @@ public class CountryService {
     private static final Logger logger = Logger.getLogger(CountryService.class
             .getName());
     private String SUCCESS = "success";
-    private String ERROR = "error ";
+    private String ERROR = "error:";
     /**
      *  use for get max version
      * @return max version in table
@@ -144,7 +144,7 @@ public class CountryService {
         CountryDTO dto = new CountryDTO();
         try {
             if(!checkExistedName(name)) {
-                if (!checkIsDefautExisted()) {
+                if ((!checkIsDefautExisted() && isDefault==true) || (checkIsDefautExisted() && isDefault==false)) {
                     Country country = new Country();
                     country.setId(id);
                     country.setName(name);
@@ -157,15 +157,15 @@ public class CountryService {
                     dao.create(country);
                     dto.setMessage(SUCCESS);
                 } else {
-                    dto.setMessage(ERROR + ":" + "isDefaut is existed");
+                    dto.setMessage(ERROR + ":" + " isDefaut is existed");
                 }
             }else {
-                dto.setMessage(ERROR + ":" + "country name is existed");
+                dto.setMessage(ERROR + ":" + " Country name is existed");
             }
 
         }catch (Exception e){
-            dto.setMessage ( ERROR + ":" + "country name is existed or isDefaut is existed");
-            logger.error("can not add country to database because : " + e);
+            dto.setMessage ( ERROR + ":" + " Country name is existed or isDefaut is existed");
+            logger.error(" Can not add country to database because : " + e);
         }
         return dto;
     }
@@ -189,7 +189,7 @@ public class CountryService {
             if(condition2){
                 dto.setMessage(SUCCESS);
             }else{
-                dto.setMessage(ERROR +": an error has been occurred in server!");
+                dto.setMessage(ERROR +" an error has been occurred in server!");
             }
         }
         return dto;
@@ -221,17 +221,18 @@ public class CountryService {
         CountryDAO dao = new CountryDAO();
         try{
             Country country=dao.getById(id);
+
             if(country!=null) {
-                if (!checkIsDefautExisted()) {
-                    if (isUpdateImg) {
-                        dao.updateCountry(id, name, description, linkS3, isDefault);
+                    if ((!checkIsDefautExisted() && isDefault == true) || (checkIsDefautExisted() && isDefault == false)) {
+                        if (isUpdateImg) {
+                            dao.updateCountry(id, name, description, linkS3, isDefault);
+                        } else {
+                            dao.updateCountry(id, name, description, isDefault);
+                        }
+                        dto.setMessage(SUCCESS);
                     } else {
-                        dao.updateCountry(id, name, description, isDefault);
+                        dto.setMessage(ERROR + ":" + " isDefaut is existed");
                     }
-                    dto.setMessage(SUCCESS);
-                } else {
-                    dto.setMessage(ERROR + ":" + "country name is existed or isDefaut is existed");
-                }
             }else {
                 dto.setMessage("deleted");
             }

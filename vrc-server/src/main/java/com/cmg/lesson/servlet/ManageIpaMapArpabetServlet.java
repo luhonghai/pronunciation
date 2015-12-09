@@ -45,6 +45,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
     private String PARA_TIP = "tip";
     private String PARA_WORDS = "words";
     private String PARA_MP3 = "mp3";
+    private String PARA_MP3SHORT = "mp3short";
     private String PARA_INDEX_TYPE = "index_type";
     private String PARA_TEXT_TONGUE = "tongueText";
     private String PARA_IMG_TONGUE = "imageTongue";
@@ -193,6 +194,7 @@ public class ManageIpaMapArpabetServlet extends BaseServlet {
             obj.setDescription((String) StringUtil.isNull(map.get(PARA_DESCRIPTION), ""));
             obj.setColor((String) StringUtil.isNull(map.get(PARA_COLOR), ""));
             obj.setMp3Url((String) StringUtil.isNull(map.get(PARA_MP3), ""));
+            obj.setMp3UrlShort((String) StringUtil.isNull(map.get(PARA_MP3SHORT), ""));
 
             if(map.get(PARA_IMG_TONGUE)==null) {
                 if(acction){

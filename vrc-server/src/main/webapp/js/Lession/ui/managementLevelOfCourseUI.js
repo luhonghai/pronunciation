@@ -15,7 +15,7 @@ function buildDropdown(item){
     var $option = $("<option>");
     $option.attr("id" , item.id);
     $option.attr("value" , item.name);
-    $option.text(item.name);
+    $option.text(item.name +" ("+item.description+")");
     if(item.isDemo === true){
         $option.attr('selected', 'selected');
     }
@@ -63,7 +63,7 @@ function createPanelHeadingLevel(item){
     $buttonLv.attr("data-toggle","collapse");
     $buttonLv.attr("data-target","#"+item.id);
     $buttonLv.attr("onclick","clickLevel(this);");
-    $buttonLv.text(item.name + " ↓");
+    $buttonLv.text(item.name+" ("+item.description+")" + " ↓");
     $h4.append($buttonLv);
     $divColLeft.append($h4);
 
@@ -71,11 +71,11 @@ function createPanelHeadingLevel(item){
     var $divColRight =  $("<div>");
     $divColRight.addClass("heading-col-right");
 
-    //button create objective
-    var $btnCreateOldObj = $("<button>");
-    $btnCreateOldObj.addClass("btn btn-default createOldObj");
-    $btnCreateOldObj.text("Add Old Objective");
-    $btnCreateOldObj.attr("id_lv", item.id);
+    //button add objective available
+    var $btnAddObjectiveAvai = $("<button>");
+    $btnAddObjectiveAvai.addClass("btn btn-default addObjectiveAvailable");
+    $btnAddObjectiveAvai.text("Add Obj Available");
+    $btnAddObjectiveAvai.attr("id_lv", item.id);
 
     //button create objective
     var $btnCreateObj = $("<button>");
@@ -101,7 +101,7 @@ function createPanelHeadingLevel(item){
     $buttonRemoveLv.attr("id_lv",item.id);
     $buttonRemoveLv.text("Remove Level");
 
-    //$divColRight.append($btnCreateOldObj);
+    $divColRight.append($btnAddObjectiveAvai);
     $divColRight.append($btnCreateObj);
     //$divColRight.append($btnCreateOldTest);
     $divColRight.append($btnCreateTest);
@@ -188,11 +188,11 @@ function createPanelHeadingObject(obj){
     var $buttonObj = $("<button>");
     $buttonObj.addClass("btn btn-default btn-info");
     $buttonObj.attr("data-toggle","collapse");
-    $buttonObj.attr("data-target","#"+obj.idObjective);
+    $buttonObj.attr("data-target","#"+obj.idObjective+obj.idLevel);
     $buttonObj.attr("id_lv",obj.idLevel);
     $buttonObj.attr("id_obj",obj.idObjective);
     $buttonObj.attr("onclick","clickObj(this)");
-    $buttonObj.text(obj.nameObj + " ↓");
+    $buttonObj.text(obj.nameObj +" ("+obj.descriptionObj+")" + " ↓");
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 
@@ -231,7 +231,7 @@ function createPanelHeadingObject(obj){
 function createPanelCollapseObject(obj){
     var $collapse = $("<div>");
     $collapse.addClass("panel-collapse collapse panelObj");
-    $collapse.attr("id",obj.idObjective);
+    $collapse.attr("id",obj.idObjective+obj.idLevel);
     $collapse.attr("id_lv",obj.idLevel);
     $collapse.attr("type","getLessonObj");
     var $panel_body = $("<div>");
@@ -242,7 +242,7 @@ function createPanelCollapseObject(obj){
 
     var $divObjectives = $("<div>");
     $divObjectives.addClass("row");
-    $divObjectives.attr("id","collection_lesson_obj");
+    $divObjectives.attr("id","collection_lesson_obj"+obj.idLevel);
 
     $divRow.append($divObjectives);
     $panel_body.append($divRow);

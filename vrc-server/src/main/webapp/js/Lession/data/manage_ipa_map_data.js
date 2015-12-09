@@ -122,6 +122,7 @@ function includeDataForm(data){
     $("#tip").val(data.tip);
     $("#addColor").colorpicker('setValue', data.color);
     $("#mp3").val(data.mp3Url);
+    $("#mp3short").val(data.mp3UrlShort);
     $("#index_type").val(data.indexingType);
     $("#words").val(data.words);
     $("#tongueText").val(data.textTongue);

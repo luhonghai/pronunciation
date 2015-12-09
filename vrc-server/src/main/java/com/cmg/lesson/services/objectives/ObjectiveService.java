@@ -4,6 +4,7 @@ import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.dao.test.TestDAO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
+import com.cmg.lesson.data.dto.level.LevelMappingObjDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.test.TestMappingDTO;
@@ -149,8 +150,23 @@ public class ObjectiveService {
             message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
             if(message.equalsIgnoreCase(SUCCESS)){
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdObjective(),dto.getIdLevel(),false);
+                message = cmdSer.addMappingDetail(dto.getIdObjective(),dto.getIdLevel(),false);
             }
+        }
+        dto.setMessage(message);
+        return dto;
+    }
+
+    /**
+     *
+     * @param dto
+     * @return
+     */
+    public LevelMappingObjDTO addObjectiveAvailable(LevelMappingObjDTO dto){
+        CourseMappingDetailService cmdSer = new CourseMappingDetailService();
+        String message ="error";
+        for (String idObj : dto.getLstIdObjective()){
+            message = cmdSer.addMappingDetail(idObj,dto.getIdLevel(),false);
         }
         dto.setMessage(message);
         return dto;
@@ -182,26 +198,39 @@ public class ObjectiveService {
 
     /**
      *
-     * @param id
+     * @param objId
      * @return
      */
-    public ObjectiveDTO deleteObjectiveAndLesson(String id){
-        ObjectiveDTO dto = deleteObjective(id);
+    public ObjectiveDTO deleteObjectiveAndLesson(String objId, String levelId){
+        ObjectiveDTO dto = deleteObjective(objId);
         if (dto.getMessage().equalsIgnoreCase("success")){
             CourseMappingDetailService courseMappingDetailService = new CourseMappingDetailService();
-            String message = courseMappingDetailService.removeDetailByIdChild(id);
+            String message = courseMappingDetailService.removeDetail(objId, levelId);
             if(message.equalsIgnoreCase("success")){
                 ObjectiveMappingService objectiveMappingService = new ObjectiveMappingService();
-                boolean isDelete = objectiveMappingService.updateDeleted(id);
+                boolean isDelete = objectiveMappingService.updateDeleted(objId);
                 if (isDelete) {
                     dto.setMessage(SUCCESS);
                 }else {
-                    dto.setMessage(ERROR + ": can not delete lesson of objective id, "+id);
+                    dto.setMessage(ERROR + ": can not delete lesson of objective id, "+objId);
                 }
             }else {
                 dto.setMessage(message);
             }
         }
+        return dto;
+    }
+
+
+    /**
+     *
+     * @param objId
+     * @return
+     */
+    public ObjectiveDTO deleteObjectiveMappingLevel(String objId, String levelId){
+        ObjectiveDTO dto = new ObjectiveDTO();
+        CourseMappingDetailService courseMappingDetailService = new CourseMappingDetailService();
+        dto.setMessage(courseMappingDetailService.removeDetail(objId, levelId));
         return dto;
     }
 
@@ -264,11 +293,10 @@ public class ObjectiveService {
 
     /**
      *
-     * @param idCourse
      * @param idLevel
      * @return
      */
-    public LevelDTO getAllObjAndTest(String idCourse, String idLevel){
+    public LevelDTO getAllObjAndTest(String idLevel){
         LevelDTO levelDTO = new LevelDTO();
         CourseMappingDetailDAO courseMappingDetailDAO = new CourseMappingDetailDAO();
         ObjectiveDAO objectiveDAO = new ObjectiveDAO();
@@ -276,7 +304,7 @@ public class ObjectiveService {
         List<String> lstObjId = new ArrayList<String>();
         List<String> lstTestId = new ArrayList<String>();
         try {
-            List<CourseMappingDetail> listCourseMappingDetails = courseMappingDetailDAO.getAllByLevel(idCourse, idLevel);
+            List<CourseMappingDetail> listCourseMappingDetails = courseMappingDetailDAO.getAllByLevel(idLevel);
             if(listCourseMappingDetails!=null && listCourseMappingDetails.size()>0){
                 for(CourseMappingDetail cmp : listCourseMappingDetails){
                     if (cmp.isTest()){
@@ -293,7 +321,7 @@ public class ObjectiveService {
                         objectiveMappingDTO = new  ObjectiveMappingDTO();
                         objectiveMappingDTO.setIdObjective(obj.getId());
                         objectiveMappingDTO.setIdLevel(idLevel);
-                        objectiveMappingDTO.setIdCourse(idCourse);
+                        //objectiveMappingDTO.setIdCourse(idCourse);
                         objectiveMappingDTO.setNameObj(obj.getName());
                         objectiveMappingDTO.setDescriptionObj(obj.getDescription());
                         listObjectiveMappingDTO.add(objectiveMappingDTO);
@@ -309,7 +337,7 @@ public class ObjectiveService {
                         testMappingDTO = new  TestMappingDTO();
                         testMappingDTO.setIdTest(obj.getId());
                         testMappingDTO.setIdLevel(idLevel);
-                        testMappingDTO.setIdCourse(idCourse);
+                        //testMappingDTO.setIdCourse(idCourse);
                         testMappingDTO.setNameTest(obj.getName());
                         testMappingDTO.setDescriptionTest(obj.getDescription());
                         testMappingDTO.setPercentPass(obj.getPercentPass());
@@ -328,6 +356,42 @@ public class ObjectiveService {
             e.printStackTrace();
         }
         return levelDTO;
+    }
+
+
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public ObjectiveDTO getAllObjNotInLevel(String idLevel){
+        ObjectiveDTO objectiveDTO = new ObjectiveDTO();
+        CourseMappingDetailDAO courseMappingDetailDAO = new CourseMappingDetailDAO();
+        ObjectiveDAO objectiveDAO = new ObjectiveDAO();
+        List<String> lstObjId = new ArrayList<String>();
+        try {
+            List<CourseMappingDetail> listCourseMappingDetails = courseMappingDetailDAO.getAllByLevel(idLevel);
+            if(listCourseMappingDetails!=null && listCourseMappingDetails.size()>0){
+                for(CourseMappingDetail cmp : listCourseMappingDetails){
+                    if ( !cmp.isTest()) {
+                        lstObjId.add(cmp.getIdChild());
+                    }
+                }
+                List<Objective> listObjective = objectiveDAO.listNotIn(lstObjId);
+                if(listObjective!=null && listObjective.size()>0){
+                    objectiveDTO.setData(listObjective);
+                }
+                objectiveDTO.setMessage(SUCCESS);
+            }else{
+                objectiveDTO.setMessage(SUCCESS);
+                objectiveDTO.setData(objectiveDAO.getAll());
+            }
+        } catch (Exception e) {
+            objectiveDTO.setMessage(ERROR + " : can not get list objectives available because " + e.getMessage());
+            logger.error("List object available : " + idLevel + " false because : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return objectiveDTO;
     }
 
 }
