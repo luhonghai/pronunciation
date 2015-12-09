@@ -23,6 +23,17 @@ function getDtoAddObjective(){
     return dto;
 }
 
+function getDtoAddObjAvailable(){
+    var idLevel = $("#yesadd-obj-available").attr("id_level");
+    var idObjects = [];
+    $('#select-obj-available option:selected').map(function(a, item){ idObjects.push(item.value);});
+    var dto = {
+        idLevel : idLevel,
+        lstIdObjective : idObjects
+    };
+    return dto;
+}
+
 function getDtoEditObjective(){
     //var idLevel = $("#yesadd").attr("id_level");
     //var idCourse = $("#idCourse").val();

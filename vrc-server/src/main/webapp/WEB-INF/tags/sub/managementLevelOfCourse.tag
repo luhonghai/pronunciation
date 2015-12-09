@@ -14,13 +14,13 @@
   }
 
   .heading-col-left{
-    width: 20%;
+    display: inline-block;
     float: left;
   }
 
   .heading-col-right{
-    width: 80%;
-    float: left;
+    display: inline-block;
+    float: right;
     text-align: right;
   }
 
@@ -157,7 +157,7 @@
   </div>
 </div>
 
-<div id="add-old-objective" class="modal fade">
+<div id="add-obj-available" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -166,14 +166,14 @@
 
             <h1 align="center">Select Objective</h1>
             <form name="add-objective" class="form-horizontal"
-                  style="margin-top: 25px" id="add-old-objective-form">
+                  style="margin-top: 25px" id="add-obj-available-form">
 
               <div class="form-group">
-                <div id="container-add-old-lesson">
+                <div id="container-add-obj-available">
                   <label class="col-xs-4  col-sm-3 control-label ">Objective:</label>
                   <img class="col-xs-8  col-sm-9">
                   <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
-                  <select style="display:none" multiple class="form-control" id="select-old-lesson">
+                  <select style="display:none" multiple class="form-control" id="select-obj-available">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -183,8 +183,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesadd-old" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeadd" id="closeadd-old" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+                <button type="button" name="yesadd" id="yesadd-obj-available" class="btn btn-default" value="yes" >Yes</button>
+                <button type="button" name="closeadd" id="closeadd-obj-available" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
 
               </div>
 
