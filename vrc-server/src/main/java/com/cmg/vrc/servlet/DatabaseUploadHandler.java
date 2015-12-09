@@ -75,7 +75,12 @@ public class DatabaseUploadHandler extends BaseServlet {
                         FileUtils.copyInputStreamToFile(stream, dictFile);
                     }
                 }finally {
-                    IOUtils.closeQuietly(stream);
+                    try {
+                        if (stream != null)
+                            stream.close();
+                    } catch (Exception e) {
+                        e.getStackTrace();
+                    }
                 }
             }
             if (dictFile.exists()) {
