@@ -23,6 +23,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.subscription.IAPFactory;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -100,41 +101,52 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
-            @Override
-            public void onProductPurchased(String productId, TransactionDetails details) {
-
-            }
-
-            @Override
-            public void onBillingError(int errorCode, Throwable error) {
-            }
-
-            @Override
-            public void onBillingInitialized() {
-                bp.loadOwnedPurchasesFromGoogle();
-                for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
-                    if (bp.isSubscribed(subscription.toString())) {
-                        isSubscription = true;
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onPurchaseHistoryRestored() {
-
-            }
-        });
         setContentView(R.layout.login);
         ButterKnife.bind(this);
+
+        if (AndroidHelper.checkGooglePlayServiceAvailability(getApplicationContext(), -1)) {
+            enableForm(false);
+            bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
+                @Override
+                public void onProductPurchased(String productId, TransactionDetails details) {
+
+                }
+
+                @Override
+                public void onBillingError(int errorCode, Throwable error) {
+                }
+
+                @Override
+                public void onBillingInitialized() {
+                    bp.loadOwnedPurchasesFromGoogle();
+                    for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
+                        if (bp.isSubscribed(subscription.toString())) {
+                            isSubscription = true;
+                            break;
+                        }
+                    }
+                }
+
+                @Override
+                public void onPurchaseHistoryRestored() {
+
+                }
+            });
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
+                    .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE)
+                    .build();
+        } else {
+            btnLoginGGPlus.setVisibility(View.GONE);
+            btnLoginFB.setVisibility(View.VISIBLE);
+            alternativeStep = 1;
+            enableForm(true);
+        }
+
         accountManager = new AccountManager(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, this);
-        mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this)
-                .addApi(Plus.API, Plus.PlusOptions.builder().build()).addScope(Plus.SCOPE_PLUS_LOGIN).addScope(Plus.SCOPE_PLUS_PROFILE)
-                .build();
 
         profileTracker = new ProfileTracker() {
             @Override
@@ -142,7 +154,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
             }
         };
         initAuthDialog();
-        enableForm(false);
+
     }
 
     private Dialog dialogLogin;
@@ -775,13 +787,14 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     @Override
     protected void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null)
+            mGoogleApiClient.connect();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
         }
     }
@@ -1006,74 +1019,88 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     public void onConnected(Bundle bundle) {
-        new AsyncTask<Void,Void,Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                String username = Plus.AccountApi.getAccountName(mGoogleApiClient);
-                final UserProfile profile = Preferences.getProfile(username, new UserProfile());
-                String scope = "oauth2:" + Scopes.PLUS_LOGIN;
-                try {
-                    String token = GoogleAuthUtil.getToken(LoginActivity.this,
-                            Plus.AccountApi.getAccountName(mGoogleApiClient), scope);
-                    profile.setAdditionalToken(token);
-                } catch (Exception e) {
-                    SimpleAppLog.error("Could not get additional token",e);
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        enableForm(true);
-                    }
-                });
-                SimpleAppLog.debug("Google+ access token: " + profile.getAdditionalToken());
-                signedInUser = false;
-                Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-                if (person != null) {
-                    profile.setUsername(username);
-                    profile.setDob(person.getBirthday());
-                    String imageUrl = person.getImage().getUrl();
-                    if (imageUrl.contains("?sz=")) {
-                        imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("?sz=")) + "?sz=320";
-                    }
-                    SimpleAppLog.debug("Google plus avatar " + imageUrl);
-                    profile.setProfileImage(imageUrl);
-                    profile.setName(person.getDisplayName());
-                    profile.setGender(person.getGender() == 1);
-                    profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
-                    //showProcessDialog();
-                    accountManager.register(profile, new AccountManager.AuthListener() {
-                        @Override
-                        public void onError(String message, Throwable e) {
-                            SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message,e);
-                            doAuth(profile);
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            final String username = Plus.AccountApi.getAccountName(mGoogleApiClient);
+            final Person person = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        final UserProfile profile = Preferences.getProfile(username, new UserProfile());
+                        String scope = "oauth2:" + Scopes.PLUS_LOGIN;
+                        try {
+                            String token = GoogleAuthUtil.getToken(LoginActivity.this,
+                                    Plus.AccountApi.getAccountName(mGoogleApiClient), scope);
+                            profile.setAdditionalToken(token);
+                        } catch (Exception e) {
+                            SimpleAppLog.error("Could not get additional token", e);
                         }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                enableForm(true);
+                            }
+                        });
+                        SimpleAppLog.debug("Google+ access token: " + profile.getAdditionalToken());
+                        signedInUser = false;
+                        if (person != null) {
+                            profile.setUsername(username);
+                            profile.setDob(person.getBirthday());
+                            String imageUrl = person.getImage().getUrl();
+                            if (imageUrl.contains("?sz=")) {
+                                imageUrl = imageUrl.substring(0, imageUrl.lastIndexOf("?sz=")) + "?sz=320";
+                            }
+                            SimpleAppLog.debug("Google plus avatar " + imageUrl);
+                            profile.setProfileImage(imageUrl);
+                            profile.setName(person.getDisplayName());
+                            profile.setGender(person.getGender() == 1);
+                            profile.setLoginType(UserProfile.TYPE_GOOGLE_PLUS);
+                            //showProcessDialog();
+                            accountManager.register(profile, new AccountManager.AuthListener() {
+                                @Override
+                                public void onError(String message, Throwable e) {
+                                    SimpleAppLog.error("could not register account " + profile.getUsername() + ". Message: " + message, e);
+                                    doAuth(profile);
+                                }
 
-                        @Override
-                        public void onSuccess() {
-                            doAuth(profile);
-                        }
-                    });
+                                @Override
+                                public void onSuccess() {
+                                    doAuth(profile);
+                                }
+                            });
 
-                } else {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProcessDialog();
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProcessDialog();
+                                }
+                            });
                         }
-                    });
+                    } catch (Exception e ) {
+                        SimpleAppLog.error("could not get google plus profile",e);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProcessDialog();
+                            }
+                        });
+                    }
+                    return null;
                 }
-                return null;
-            }
-        }.execute();
+            }.execute();
+        }
     }
 
 
 
     @Override
     public void onConnectionSuspended(int i) {
-        SimpleAppLog.info("Connection Suspended. Code: " + i);
-        showErrorNetworkMessage(null);
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null) {
+            SimpleAppLog.info("Connection Suspended. Code: " + i);
+            showErrorNetworkMessage(null);
+            mGoogleApiClient.connect();
+        }
     }
 
     private void googlePlusLogin() {
@@ -1130,17 +1157,19 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         SimpleAppLog.info("onActivityResult. requestCode: " + requestCode + ". resultCode: " + resultCode);
-        switch (requestCode) {
-            case 0:
+        if (mGoogleApiClient != null) {
+            switch (requestCode) {
+                case 0:
 
-                if (resultCode == RESULT_OK) {
-                    signedInUser = false;
-                }
-                mIntentInProccess = false;
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-                break;
+                    if (resultCode == RESULT_OK) {
+                        signedInUser = false;
+                    }
+                    mIntentInProccess = false;
+                    if (!mGoogleApiClient.isConnecting()) {
+                        mGoogleApiClient.connect();
+                    }
+                    break;
+            }
         }
     }
 

@@ -97,9 +97,9 @@ public abstract class BaseActivity extends FragmentActivity {
                 onBackPressed();
                 break;
             case R.id.menu_feedback:
-                Intent activity = new Intent();
-                activity.setClass(this, FeedbackFragment.class);
-                this.startActivity(activity);
+//                Intent activity = new Intent();
+//                activity.setClass(this, FeedbackFragment.class);
+//                this.startActivity(activity);
                 break;
         }
         return super.onOptionsItemSelected(item);
