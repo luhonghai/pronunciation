@@ -147,13 +147,13 @@ public class TestService {
      */
     public TestMappingDTO addTest(TestMappingDTO dto){
         CourseMappingDetailService courseMappingDetailService = new CourseMappingDetailService();
-        if (!courseMappingDetailService.checkExistTest(dto.getIdCourse(), dto.getIdLevel())){
+        if (!courseMappingDetailService.checkExistTest(dto.getIdLevel())){
             String idTest = UUIDGenerator.generateUUID();
             String message = addTest(idTest, dto.getNameTest(), dto.getDescriptionTest(), dto.getPercentPass());
             if(message.equalsIgnoreCase(SUCCESS)){
                 dto.setIdTest(idTest);
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdCourse(),dto.getIdTest(),dto.getIdLevel(),true);
+                message = cmdSer.addMappingDetail(dto.getIdTest(),dto.getIdLevel(),true);
                 if(message.equalsIgnoreCase(SUCCESS)){
                     if( ! dto.getIdLessons().get(0).equalsIgnoreCase("null")){
                         TestMappingService testMapSer = new TestMappingService();

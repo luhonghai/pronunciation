@@ -114,10 +114,22 @@ public class ObjectiveDAO extends DataAccess<Objective> {
      * @throws Exception
      */
     public Objective getById(String id) throws Exception{
-        boolean isExist = false;
         List<Objective> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if(list!=null && list.size() > 0){
             return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
+    public List<Objective> getAll() throws Exception{
+        List<Objective> list = list("WHERE isDeleted == :1 ", false);
+        if(list!=null && list.size() > 0){
+            return list;
         }
         return null;
     }

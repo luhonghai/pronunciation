@@ -41,14 +41,14 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
 
     /**
      *
-     * @param idCourse
+     * @param idLevel
      * @param idObjectiveOrTest
      * * @param idLevel
      * @return true if question exist
      * @throws Exception
      */
-    public boolean checkExist(String idCourse, String idObjectiveOrTest, String idLevel) throws Exception{
-        List<CourseMappingDetail> list = list("WHERE idCourse ==: 1 && idChild == :2 && idLevel == :3 && isDeleted == :4", idCourse,idObjectiveOrTest,idLevel,false);
+    public boolean checkExist(String idObjectiveOrTest, String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild == :1 && idLevel == :2 && isDeleted == :3",idObjectiveOrTest,idLevel,false);
         if(list!=null && list.size() > 0){
             return true;
         }
@@ -63,8 +63,8 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      * @return true if question exist
      * @throws Exception
      */
-    public boolean checkExistTest(String idCourse, String idLevel) throws Exception{
-        List<CourseMappingDetail> list = list("WHERE idCourse == :1 && idLevel == :2 && isTest == true && isDeleted == :4", idCourse,idLevel, false);
+    public boolean checkExistTest(String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idLevel == :1 && isTest == :2 && isDeleted == :3",idLevel, true, false);
         if(list!=null && list.size() > 0){
             return true;
         }
@@ -151,13 +151,13 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      * @param
      * @return
      */
-    public boolean updateDeleted(String idCourse,String idObjective){
+    public boolean updateDeleted(String idObjective,String idLevel){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted = true WHERE idCourse=? and idLevel=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted = true WHERE idChild=? and idLevel=?");
         try {
-            q.execute(idCourse,idObjective);
+            q.execute(idObjective,idLevel);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,8 +193,8 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      * @param idLevel
      * @return
      */
-    public List<CourseMappingDetail> getAllByLevel(String idCourse, String idLevel) throws Exception{
-        List<CourseMappingDetail> list = list("WHERE idCourse==:1 && idLevel==:2 && isDeleted==:3", idCourse,idLevel,false);
+    public List<CourseMappingDetail> getAllByLevel(String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idLevel==:1 && isDeleted==:2",idLevel,false);
         if(list!=null && list.size() > 0){
             return list;
         }

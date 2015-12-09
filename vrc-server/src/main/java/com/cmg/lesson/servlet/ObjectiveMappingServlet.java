@@ -1,6 +1,7 @@
 package com.cmg.lesson.servlet;
 
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
+import com.cmg.lesson.data.dto.level.LevelMappingObjDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.test.TestDTO;
@@ -42,6 +43,13 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 ObjectiveMappingDTO dtoToClient = service.addObjective(dto);
                 String json = gson.toJson(dtoToClient);
                 response.getWriter().write(json);
+            }else if(action.equalsIgnoreCase("addObjAvailable")){
+                String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
+                LevelMappingObjDTO dto = gson.fromJson(jsonClient,LevelMappingObjDTO.class);
+                ObjectiveService service = new ObjectiveService();
+                LevelMappingObjDTO dtoToClient = service.addObjectiveAvailable(dto);
+                String json = gson.toJson(dtoToClient);
+                response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("addTest")){
                 String jsonClient = (String) StringUtil.isNull(request.getParameter("testDto"), "");
                 TestMappingDTO dto = gson.fromJson(jsonClient,TestMappingDTO.class);
@@ -75,8 +83,10 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("deleteObjective")){
                 String objectiveId = (String) StringUtil.isNull(request.getParameter("objectiveId"), "");
+                String levelId = (String) StringUtil.isNull(request.getParameter("levelId"), "");
                 ObjectiveService objectiveService = new ObjectiveService();
-                ObjectiveDTO objectiveDTO = objectiveService.deleteObjectiveAndLesson(objectiveId);
+                //ObjectiveDTO objectiveDTO = objectiveService.deleteObjectiveAndLesson(objectiveId, levelId);
+                ObjectiveDTO objectiveDTO = objectiveService.deleteObjectiveMappingLevel(objectiveId, levelId);
                 String json = gson.toJson(objectiveDTO);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("deleteTest")){

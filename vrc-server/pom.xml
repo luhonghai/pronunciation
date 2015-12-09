@@ -345,9 +345,9 @@
 
 	<profiles>
 		<profile>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<id>env-dev</id>			
 			<properties>
                 <sysenv>DEV</sysenv>
