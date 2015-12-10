@@ -191,7 +191,7 @@ function testNbPhoneme(phoneme, testPhoneme) {
 $(document).ready(function(){
     $('#audio').fileinput({
         showUpload : false,
-        allowedFileExtensions : ['wav']
+        allowedFileExtensions : ['wav', 'mp3']
     });
     TestWord();
 

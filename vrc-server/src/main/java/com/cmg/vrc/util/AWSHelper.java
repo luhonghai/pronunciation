@@ -142,10 +142,13 @@ public class AWSHelper {
         if (!ENABLE_AWS) return null;
         FileInputStream stream = null;
         try {
-            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            stream =  new FileInputStream(file);
-            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+//            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
+//            ObjectMetadata objectMetadata = new ObjectMetadata();
+//            stream =  new FileInputStream(file);
+//            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+           // AWSHelper awsHelper = new AWSHelper();
+            //awsHelper.updateContentType(keyName, "image/*");
+            publicObject(keyName);
             return generateUrl(keyName);
         } catch (AmazonServiceException ase) {
             StringBuffer sb = new StringBuffer();
@@ -280,7 +283,7 @@ public class AWSHelper {
     }
 
     public void publicObject(String key) {
-        s3client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
+       s3client.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
     }
 
     public void updateContentType(String key, String contentType) {
@@ -294,24 +297,24 @@ public class AWSHelper {
     }
 
     public static void main(String[] args) {
-        AWSHelper awsHelper = new AWSHelper();
-        //awsHelper.terminateEnvironment("accenteasytomcat-SAT");
+//        AWSHelper awsHelper = new AWSHelper();
+//        awsHelper.terminateEnvironment("accenteasytomcat-SAT");
 //        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
-        //awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
-        //System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
-        //awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
-        //awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
-        //awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
-       // System.out.println("Start uploading");
-        //awsHelper.upload("sphinx-data/wsj-en-us.zip", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us.zip"));
-       // awsHelper.upload("sphinx-data/dict/brit-a-z.txt", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/words/british/brit-a-z.txt"));
-        //awsHelper.upload("sphinx-data/dict/beep-1.0", new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0"));
-        //awsHelper.upload("sphinx-data/dict/cmuphonemedict", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict"));
-
-        //System.out.println("Complete uploading");
+//        awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
+//        System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
+//        awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
+//        awsHelper.getEnvironmentInfo("accenteasytomcat-PRD-1");
+//        awsHelper.restartBeanstalkApp("e-axt4pi3kkm");
+//        System.out.println("Start uploading");
+//        awsHelper.upload("sphinx-data/wsj-en-us.zip", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/wsj-en-us.zip"));
+//        awsHelper.upload("sphinx-data/dict/brit-a-z.txt", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/words/british/brit-a-z.txt"));
+//        awsHelper.upload("sphinx-data/dict/beep-1.0", new File("/Volumes/DATA/OSX/luhonghai/Desktop/beep/beep-1.0"));
+//        awsHelper.upload("sphinx-data/dict/cmuphonemedict", new File("/Volumes/DATA/CMG/git/pronunciation/sphinx-data/dict/cmuphonemedict"));
+//
+//        System.out.println("Complete uploading");
 //        System.out.println("Start downloading & unzip");
-        //awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", new File("/Users/cmg/git/pronunciation/sphinx-data/tmp"));
-        //awsHelper.download("", new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID()));
+//        awsHelper.downloadAndUnzip("sphinx-data/wsj-en-us.zip", new File("/Users/cmg/git/pronunciation/sphinx-data/tmp"));
+//        awsHelper.download("", new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID()));
 //        System.out.println("
 // downloading & unzip");
 //        File input = new File("/Users/cmg/Desktop/File path audio.txt");
@@ -327,9 +330,9 @@ public class AWSHelper {
 //                    System.out.println(key);
 //                    awsHelper.updateContentType(key, "audio/mpeg");
 //                    awsHelper.publicObject(key);
-//                    //String url = awsHelper.generateUrl(key);
-//                    //url = url.substring(0, url.lastIndexOf("?"));
-//                    //FileUtils.write(output, line + " " + url + "\n", "UTF-8", true);
+//                    String url = awsHelper.generateUrl(key);
+//                    url = url.substring(0, url.lastIndexOf("?"));
+//                    FileUtils.write(output, line + " " + url + "\n", "UTF-8", true);
 //                }
 //            }
 //        } catch (IOException e) {
