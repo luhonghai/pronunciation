@@ -84,7 +84,7 @@
 							<a href="ManagementCourse.jsp" ><i class="fa fa-table"></i> Course Management </a>
 						</li>
 						<li>
-							<a href="management_country.jsp" ><i class="fa fa-file-word-o"></i> Language Management </a>
+							<a href="management_country.jsp" ><i class="fa fa-globe"></i> Language Management </a>
 						</li>
 						<li>
 							<a href="Database.jsp" ><i class="fa fa-database"></i> Database Management  </a>

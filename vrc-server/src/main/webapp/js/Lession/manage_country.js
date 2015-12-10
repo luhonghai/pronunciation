@@ -37,6 +37,7 @@ function listCountry(){
         }, {
             "sWidth": "20%",
             "data": null,
+            "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
                 var $img = $("<img style='height: 200px;width: 300px'>");
@@ -81,7 +82,7 @@ function dateTo(){
 
 function openPopupAdd(){
     $(document).on("click","#openAddMapping", function(){
-        $("#title-modal").html("Add Country");
+        $("#title-modal").html("Add language");
         clearForm();
         $("#submitForm").attr("action","add");
         $("#wrap-img-edit").hide();
@@ -193,7 +194,7 @@ function submitForm(){
 function openEditForm(){
     $(document).on("click","#edit", function() {
         clearForm();
-        $("#title-modal").html("Edit Country");
+        $("#title-modal").html("Edit language");
         $("#submitForm").attr("action","edit");
         $("#submitForm").attr("id-country",$(this).attr("id-country"));
         $("#country_name").val($(this).attr("name-country"));

@@ -140,6 +140,7 @@ function openEditForm(){
             },
             success: function (data) {
                 if(data!=null && data !== undefined){
+                    $("#title-modal").html("Edit Mapping");
                     clearForms();
                     includeDataForm(data);
                     $("#add").modal('show');

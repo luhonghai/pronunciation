@@ -190,6 +190,7 @@ function openPopupEdit(){
         var description = $(this).attr('description');
         var color = $(this).attr('color');
         var isDemo = $(this).attr('isDemo');
+        $("#editLevel").attr("disabled", true);
         var isDefaultActivated=$(this).attr('isDefaultActivated');
         $("#editLevel").val(level);
         $("#editDescription").val(description);
