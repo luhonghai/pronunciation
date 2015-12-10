@@ -257,7 +257,9 @@ public class DatabaseGeneratorService {
             if (is != null) {
                 try {
                     is.close();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                    e.getStackTrace();
+                }
             }
         }
         File script = new File(targetDir, "generate.sh");

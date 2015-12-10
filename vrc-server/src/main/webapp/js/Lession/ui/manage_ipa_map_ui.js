@@ -50,12 +50,12 @@ function buildTable(){
             "data": "type",
             "sDefaultContent": ""
         },{
-            "sWidth": "10%",
+            "sWidth": "5%",
             "data": "indexingType",
             "bSortable": false,
             "sDefaultContent": ""
         },{
-            "sWidth": "10%",
+            "sWidth": "5%",
             "data": "ipa",
             "bSortable": false,
             "sDefaultContent": ""
@@ -65,7 +65,7 @@ function buildTable(){
             "bSortable": false,
             "sDefaultContent": ""
         }, {
-            "sWidth": "20%",
+            "sWidth": "25%",
             "data": "dateCreated",
             "sDefaultContent": ""
         }, {
@@ -77,7 +77,7 @@ function buildTable(){
             return '<label type="text" style="background-color: ' + data.color + '; margin-right:10px; width:100px; height:30px;">'+'</label>';
             }
         },{
-            "sWidth": "3%",
+            "sWidth": "5%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -107,7 +107,7 @@ function buildTable(){
                 }
             }
         },{
-            "sWidth": "3%",
+            "sWidth": "5%",
             "data": null,
             "bSortable": false,
             "sDefaultContent":"",
@@ -137,7 +137,7 @@ function buildTable(){
                 }
             }
         },{
-            "sWidth": "20%",
+            "sWidth": "30%",
             "data": null,
             "bSortable": false,
             "sDefaultContent": "",
