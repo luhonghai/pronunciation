@@ -148,7 +148,7 @@ function DeleteQuestion(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This question has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
@@ -208,7 +208,7 @@ function EditQuestion(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#edits").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This question has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#edits").modal('hide');

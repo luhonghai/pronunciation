@@ -194,7 +194,7 @@ function deleteWord(){
                 }else{
                     if(messages.message.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This word has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
@@ -302,11 +302,11 @@ function editWord(){
                     $("#edits").modal('hide');
                 }else{
                     if(messages.message.indexOf("deleted") !=-1){
-                        $("#deletes").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        $("#edits").modal('hide');
+                        swal({title: "Warning!", text: "This word has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
-                        $("#deletes").modal('hide');
+                        $("#edits").modal('hide');
                         swal("Error!", messages.message, "error");
                     }
                 }

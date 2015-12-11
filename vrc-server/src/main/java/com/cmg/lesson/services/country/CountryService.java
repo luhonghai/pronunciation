@@ -142,6 +142,7 @@ public class CountryService {
     public CountryDTO add(String id,String name, String description, String linkImage, boolean isDefault){
         CountryDAO dao = new CountryDAO();
         CountryDTO dto = new CountryDTO();
+
         try {
             if(!checkExistedName(name)) {
                 if ((!checkIsDefautExisted() && isDefault==true) || (checkIsDefautExisted() && isDefault==false)) {
@@ -223,7 +224,7 @@ public class CountryService {
             Country country=dao.getById(id);
 
             if(country!=null) {
-                    if ((!checkIsDefautExisted() && isDefault == true) || (checkIsDefautExisted() && isDefault == false)) {
+                    if ((!checkIsDefautExisted() && isDefault == true) || (checkIsDefautExisted() && isDefault == false) || (checkIsDefautExisted()&& isDefault == true && country.isDefault()==true)) {
                         if (isUpdateImg) {
                             dao.updateCountry(id, name, description, linkS3, isDefault);
                         } else {

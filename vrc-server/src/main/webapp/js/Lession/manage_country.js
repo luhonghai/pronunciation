@@ -85,6 +85,7 @@ function openPopupAdd(){
         $("#title-modal").html("Add language");
         clearForm();
         $("#submitForm").attr("action","add");
+        $('#country_name').prop('readonly', false);
         $("#wrap-img-edit").hide();
         $("#wrap-img-add").show();
         getAllCourse("",true);
@@ -134,7 +135,9 @@ function submitForm(){
                         myTable.fnDraw();
                         $("#add").modal('hide');
                         swal("Success!", "You have add language success!", "success");
-                    }else{
+                    }else if(data.message.indexOf("isDefaut is existed") !=-1) {
+                        swal("Error!", "Laguage only one default", "error");
+                    }else {
                         swal("Could not add language!", data.message.split(":")[1], "error");
                     }
                 },
@@ -170,10 +173,12 @@ function submitForm(){
                         myTable.fnDraw();
                         $("#add").modal('hide');
                         swal("Success!", "You have edit language success!", "success");
+                    }else if(data.message.indexOf("isDefaut is existed") !=-1) {
+                        swal("Error!", "Laguage only one default", "error");
                     }else{
                         if(data.message.indexOf("deleted") !=-1){
                             $("#add").modal('hide');
-                            swal("Warning!", "This language has been already deleted!", "warning");
+                            swal({title: "Warning!", text: "This language has been already deleted!",   type: "warning",timer:"5000" });
                             location.reload();
                         }else{
                             $("#add").modal('hide');
@@ -198,7 +203,7 @@ function openEditForm(){
         $("#submitForm").attr("action","edit");
         $("#submitForm").attr("id-country",$(this).attr("id-country"));
         $("#country_name").val($(this).attr("name-country"));
-        $("#country_name").attr("disabled", true);
+        $('#country_name').prop('readonly', true);
         $("#add-description").val($(this).attr("description"));
         $("#img-edit").attr("src",$(this).attr("img-src"));
         $("#wrap-img-edit").show();
@@ -253,10 +258,11 @@ function openPopupDelete(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete language success!", "success");
                 }else{
                     if(data.message.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This language has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This language has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');

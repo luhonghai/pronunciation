@@ -28,6 +28,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -73,20 +75,8 @@ public class AWSHelper {
     }
 
     public String generateUrl(String keyName) {
-        try {
-            java.util.Date expiration = new java.util.Date();
-            long milliSeconds = expiration.getTime();
-            milliSeconds += 1000 * 60 * 60 * 24 * 3650 ; // Add 10 years.
-            expiration.setTime(milliSeconds);
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(bucketName, keyName);
-            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-            generatePresignedUrlRequest.setExpiration(expiration);
-            URL url = s3client.generatePresignedUrl(generatePresignedUrlRequest);
-            return url.toString();
-        } catch (Exception e) {
-            return "";
-        }
+        String url = generatePresignedUrl(keyName);
+        return url.substring(0, url.indexOf("?"));
     }
     public S3Object getS3Object(String keyName) {
         try {
@@ -142,13 +132,14 @@ public class AWSHelper {
         if (!ENABLE_AWS) return null;
         FileInputStream stream = null;
         try {
-//            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
-//            ObjectMetadata objectMetadata = new ObjectMetadata();
-//            stream =  new FileInputStream(file);
-//            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
-           // AWSHelper awsHelper = new AWSHelper();
-            //awsHelper.updateContentType(keyName, "image/*");
-            publicObject(keyName);
+            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            stream =  new FileInputStream(file);
+            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+//            AWSHelper awsHelper = new AWSHelper();
+//            awsHelper.updateContentType(keyName, "image/*");
+            //publicObject(keyName);
+
             return generateUrl(keyName);
         } catch (AmazonServiceException ase) {
             StringBuffer sb = new StringBuffer();

@@ -105,7 +105,7 @@ function submitForm(){
                         } else {
                             if(data.message.indexOf("deleted") !=-1){
                                 $("#add").modal('hide');
-                                swal("Warning!", "This mapping has been already deleted!", "warning");
+                                swal({title: "Warning!", text: "This mapping has been already deleted!",   type: "warning",timer:"5000" });
                                 location.reload();
                             }else{
                                 $("#add").modal('hide');
@@ -151,7 +151,7 @@ function openEditForm(){
                     $("#wrap-imgLips-edit").show();
                     $("#wrap-imgJaw-edit").show();
                 }else{
-                    swal("Warning!", "This mapping has been already deleted!", "warning");
+                    swal({title: "Warning!", text: "This mapping has been already deleted!",   type: "warning",timer:"5000" });
                     location.reload();
                 }
             },
@@ -214,7 +214,7 @@ function openPopupDelete(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This mapping has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This mapping has been already deleted!",   type: "warning",timer:"3000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');

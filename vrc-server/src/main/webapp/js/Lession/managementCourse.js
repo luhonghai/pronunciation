@@ -143,7 +143,7 @@ function deleteCourse(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This course has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
@@ -202,7 +202,7 @@ function editCourse(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#edits").modal('hide');
-                        swal("Warning!", "This question has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This course has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#edits").modal('hide');
