@@ -85,6 +85,7 @@ function openPopupAdd(){
         $("#title-modal").html("Add language");
         clearForm();
         $("#submitForm").attr("action","add");
+        $('#country_name').prop('readonly', false);
         $("#wrap-img-edit").hide();
         $("#wrap-img-add").show();
         getAllCourse("",true);
@@ -202,6 +203,7 @@ function openEditForm(){
         $("#submitForm").attr("action","edit");
         $("#submitForm").attr("id-country",$(this).attr("id-country"));
         $("#country_name").val($(this).attr("name-country"));
+        $('#country_name').prop('readonly', true);
         $("#add-description").val($(this).attr("description"));
         $("#img-edit").attr("src",$(this).attr("img-src"));
         $("#wrap-img-edit").show();

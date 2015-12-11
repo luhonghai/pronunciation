@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <label class="col-xs-4  col-sm-4 control-label ">MP3 URL:</label>
+                                    <label class="col-xs-4  col-sm-4 control-label ">MP3 URL Long:</label>
                                     <div class="col-xs-8  col-sm-8">
                                         <input type="text" id="mp3" name="mp3" class=" form-control" style="padding-left: 0px; margin-bottom: 5px;">
                                     </div>

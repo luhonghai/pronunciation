@@ -75,23 +75,8 @@ public class AWSHelper {
     }
 
     public String generateUrl(String keyName) {
-        try {
-//            java.util.Date expiration = new java.util.Date();
-//            long milliSeconds = expiration.getTime();
-//            milliSeconds += 1000 * 60 * 60 * 24 * 3650 ; // Add 10 years.
-//            expiration.setTime(milliSeconds);
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.YEAR, 10);
-            Date expiration = cal.getTime();
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(bucketName, keyName);
-            generatePresignedUrlRequest.setMethod(HttpMethod.GET);
-            generatePresignedUrlRequest.setExpiration(expiration);
-            URL url = s3client.generatePresignedUrl(generatePresignedUrlRequest);
-            return url.toString();
-        } catch (Exception e) {
-            return "";
-        }
+        String url = generatePresignedUrl(keyName);
+        return url.substring(0, url.indexOf("?"));
     }
     public S3Object getS3Object(String keyName) {
         try {
@@ -153,7 +138,7 @@ public class AWSHelper {
             s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
 //            AWSHelper awsHelper = new AWSHelper();
 //            awsHelper.updateContentType(keyName, "image/*");
-//            awsHelper.publicObject(keyName);
+            //publicObject(keyName);
 
             return generateUrl(keyName);
         } catch (AmazonServiceException ase) {
