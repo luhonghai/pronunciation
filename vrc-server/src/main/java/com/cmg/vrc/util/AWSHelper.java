@@ -28,6 +28,8 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -74,10 +76,13 @@ public class AWSHelper {
 
     public String generateUrl(String keyName) {
         try {
-            java.util.Date expiration = new java.util.Date();
-            long milliSeconds = expiration.getTime();
-            milliSeconds += 1000 * 60 * 60 * 24 * 3650 ; // Add 10 years.
-            expiration.setTime(milliSeconds);
+//            java.util.Date expiration = new java.util.Date();
+//            long milliSeconds = expiration.getTime();
+//            milliSeconds += 1000 * 60 * 60 * 24 * 3650 ; // Add 10 years.
+//            expiration.setTime(milliSeconds);
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.YEAR, 10);
+            Date expiration = cal.getTime();
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
                     new GeneratePresignedUrlRequest(bucketName, keyName);
             generatePresignedUrlRequest.setMethod(HttpMethod.GET);
