@@ -173,7 +173,7 @@ function submitForm(){
                     }else{
                         if(data.message.indexOf("deleted") !=-1){
                             $("#add").modal('hide');
-                            swal("Warning!", "This language has been already deleted!", "warning");
+                            swal({title: "Warning!", text: "This language has been already deleted!",   type: "warning",timer:"5000" });
                             location.reload();
                         }else{
                             $("#add").modal('hide');
@@ -198,7 +198,6 @@ function openEditForm(){
         $("#submitForm").attr("action","edit");
         $("#submitForm").attr("id-country",$(this).attr("id-country"));
         $("#country_name").val($(this).attr("name-country"));
-        $("#country_name").attr("disabled", true);
         $("#add-description").val($(this).attr("description"));
         $("#img-edit").attr("src",$(this).attr("img-src"));
         $("#wrap-img-edit").show();
@@ -253,10 +252,11 @@ function openPopupDelete(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
+                    swal("Success!", "You have delete language success!", "success");
                 }else{
                     if(data.message.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This language has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This language has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');

@@ -166,7 +166,7 @@ function deleteLevel(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This level has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This level has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
@@ -257,7 +257,7 @@ function editLevel(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#edits").modal('hide');
-                        swal("Warning!", "This level has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This level has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#edits").modal('hide');

@@ -169,7 +169,7 @@ function deleteLesson(){
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
-                        swal("Warning!", "This lesson has been already deleted!", "warning");
+                        swal({title: "Warning!", text: "This lesson has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
@@ -248,11 +248,11 @@ function editLesson(){
                     swal("Success!", "You have update lesson success!", "success");
                 }else{
                     if(data.indexOf("deleted") !=-1){
-                        $("#deletes").modal('hide');
-                        swal("Warning!", "This lesson has been already deleted!", "warning");
+                        $("#edits").modal('hide');
+                        swal({title: "Warning!", text: "This lesson has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }else{
-                        $("#deletes").modal('hide');
+                        $("#edits").modal('hide');
                         swal("Could not update lesson!", data.split(":")[1], "error");
                     }
 

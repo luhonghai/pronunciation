@@ -142,13 +142,14 @@ public class AWSHelper {
         if (!ENABLE_AWS) return null;
         FileInputStream stream = null;
         try {
-//            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
-//            ObjectMetadata objectMetadata = new ObjectMetadata();
-//            stream =  new FileInputStream(file);
-//            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
-           // AWSHelper awsHelper = new AWSHelper();
-            //awsHelper.updateContentType(keyName, "image/*");
-            publicObject(keyName);
+            System.out.println("Start upload file: " + keyName + ". Local path: " + file.getAbsolutePath());
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            stream =  new FileInputStream(file);
+            s3client.putObject(new PutObjectRequest(bucketName, keyName, stream,objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
+//            AWSHelper awsHelper = new AWSHelper();
+//            awsHelper.updateContentType(keyName, "image/*");
+//            awsHelper.publicObject(keyName);
+
             return generateUrl(keyName);
         } catch (AmazonServiceException ase) {
             StringBuffer sb = new StringBuffer();
