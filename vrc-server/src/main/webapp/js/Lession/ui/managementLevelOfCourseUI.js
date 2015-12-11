@@ -63,7 +63,8 @@ function createPanelHeadingLevel(item){
     $buttonLv.attr("data-toggle","collapse");
     $buttonLv.attr("data-target","#"+item.id);
     $buttonLv.attr("onclick","clickLevel(this);");
-    $buttonLv.text(item.name+" ("+item.description+")" + " ↓");
+    $buttonLv.attr("title",item.description);
+    $buttonLv.text(item.name + " ↓");
     $h4.append($buttonLv);
     $divColLeft.append($h4);
 
@@ -191,8 +192,9 @@ function createPanelHeadingObject(obj){
     $buttonObj.attr("data-target","#"+obj.idObjective+obj.idLevel);
     $buttonObj.attr("id_lv",obj.idLevel);
     $buttonObj.attr("id_obj",obj.idObjective);
+    $buttonObj.attr("title",obj.descriptionObj);
     $buttonObj.attr("onclick","clickObj(this)");
-    $buttonObj.text(obj.nameObj +" ("+obj.descriptionObj+")" + " ↓");
+    $buttonObj.text(obj.nameObj + " ↓");
     $h4.append($buttonObj);
     $divColLeft.append($h4);
 

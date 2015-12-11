@@ -570,7 +570,7 @@ function getAllObjective(idLevel){
                 $("#select-obj-available").empty();
                 if(typeof data.data !== undefined && data.data != null) {
                     $.each(data.data, function (idx, obj) {
-                        $("#select-obj-available").append("<option value='" + obj.id + "'>" + obj.name+" ("+obj.description+")" + "</option>");
+                        $("#select-obj-available").append("<option value='" + obj.id + "' title='"+obj.description+"'>" + obj.name + "</option>");
                     });
                 }else{
                     swal("Info!", "Objective unavailable!", "info");
