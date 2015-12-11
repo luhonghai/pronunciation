@@ -845,7 +845,12 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         try {
                             AppLog.logString(object.toString());
-                            String username = object.getString("email");
+                            String username = "";
+                            try {
+                                username = object.getString("email");
+                            } catch (Exception e) {
+                                username = object.getString("id") + "@facebook.com";
+                            }
                             final UserProfile profile = Preferences.getProfile(username, new UserProfile());
                             profile.setAdditionalToken(loginResult.getAccessToken().getToken());
                             SimpleAppLog.debug("Facebook access token: " + profile.getAdditionalToken());
