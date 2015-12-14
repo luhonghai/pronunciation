@@ -40,7 +40,7 @@ function listCountry(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                var $img = $("<img style='height: 200px;width: 300px'>");
+                var $img = $("<img style='height: 200px;width: 200px'>");
                 $img.attr("src",data.imageURL);
                 return $("<div/>").append($img).html();
             }
