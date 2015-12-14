@@ -36,7 +36,8 @@ public class MainBroadcaster {
         POP_BACK_STACK_FRAGMENT("pop_back_stack_fragment"),
         LESSON("lesson"),
         UPDATE_FULL_VERSION("full_version"),
-        RESET_TIMING_HELP("reset_timing_help")
+        RESET_TIMING_HELP("reset_timing_help"),
+        LANGUAGE_CHANGED("language_changed")
         ;
         String name;
         Filler(String name) {

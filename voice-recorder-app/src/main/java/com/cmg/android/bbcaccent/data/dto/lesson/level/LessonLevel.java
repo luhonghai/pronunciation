@@ -16,6 +16,9 @@ public class LessonLevel extends BaseLessonEntity {
     private boolean isDemo;
 
     @LiteColumn
+    private boolean isDefaultActivated;
+
+    @LiteColumn
     private String description;
 
     @LiteColumn
@@ -82,5 +85,13 @@ public class LessonLevel extends BaseLessonEntity {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean isDefaultActivated() {
+        return isDefaultActivated;
+    }
+
+    public void setIsDefaultActivated(boolean isDefaultActivated) {
+        this.isDefaultActivated = isDefaultActivated;
     }
 }

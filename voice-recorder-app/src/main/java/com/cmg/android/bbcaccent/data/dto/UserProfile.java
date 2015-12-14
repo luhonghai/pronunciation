@@ -1,7 +1,6 @@
 package com.cmg.android.bbcaccent.data.dto;
 
 import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
-import com.cmg.android.bbcaccent.utils.MD5Util;
 
 import java.util.List;
 
@@ -218,6 +217,7 @@ public class UserProfile {
         private String osApiLevel;
         private String deviceName;
         private String emei;
+        private String gcmId;
 
         public String getAppVersion() {
             return appVersion;
@@ -273,6 +273,14 @@ public class UserProfile {
 
         public void setAppName(String appName) {
             this.appName = appName;
+        }
+
+        public String getGcmId() {
+            return gcmId;
+        }
+
+        public void setGcmId(String gcmId) {
+            this.gcmId = gcmId;
         }
     }
 

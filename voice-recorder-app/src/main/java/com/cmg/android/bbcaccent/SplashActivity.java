@@ -18,8 +18,10 @@ import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.GcmUtil;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.internal.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,8 @@ public class SplashActivity extends BaseActivity {
         DATABASE,
         SETTING,
         SUBSCRIPTION,
-        LICENSE_DATA
+        LICENSE_DATA,
+        GCM
     }
 
     private final List<LoadItem> loadStatus = new ArrayList<LoadItem>();
@@ -53,6 +56,8 @@ public class SplashActivity extends BaseActivity {
     ImageView imgDog;
 
     private int currentDogFrame = 1;
+
+    private GcmUtil mGcmUtil;
 
     private Runnable runnableDogAnimation = new Runnable() {
         @Override
@@ -131,34 +136,64 @@ public class SplashActivity extends BaseActivity {
                 }
             }).prepare();
             handlerDogAnimation.post(runnableDogAnimation);
-            bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
-                @Override
-                public void onProductPurchased(String productId, TransactionDetails details) {
+            if (AndroidHelper.checkGooglePlayServiceAvailability(getApplicationContext(), -1)) {
+                bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
+                    @Override
+                    public void onProductPurchased(String productId, TransactionDetails details) {
 
-                }
-                @Override
-                public void onBillingError(int errorCode, Throwable error) {
-                    loadStatus.remove(LoadItem.SUBSCRIPTION);
-                    validateCallback();
-                }
-                @Override
-                public void onBillingInitialized() {
-                    bp.loadOwnedPurchasesFromGoogle();
-                    for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
-                        if (bp.isSubscribed(subscription.toString())) {
-                            isSubscription = true;
-                            break;
-                        }
                     }
-                    SimpleAppLog.debug("Is subscription: " + isSubscription);
-                    loadStatus.remove(LoadItem.SUBSCRIPTION);
-                    validateCallback();
-                }
-                @Override
-                public void onPurchaseHistoryRestored() {
 
+                    @Override
+                    public void onBillingError(int errorCode, Throwable error) {
+                        SimpleAppLog.error("Error with IAP. code: " + error, error);
+                        loadStatus.remove(LoadItem.SUBSCRIPTION);
+                        validateCallback();
+                    }
+
+                    @Override
+                    public void onBillingInitialized() {
+                        SimpleAppLog.debug("IAP init completed");
+                        bp.loadOwnedPurchasesFromGoogle();
+                        for (IAPFactory.Subscription subscription : IAPFactory.Subscription.values()) {
+                            if (bp.isSubscribed(subscription.toString())) {
+                                isSubscription = true;
+                                break;
+                            }
+                        }
+                        SimpleAppLog.debug("Is subscription: " + isSubscription);
+                        loadStatus.remove(LoadItem.SUBSCRIPTION);
+                        validateCallback();
+                    }
+
+                    @Override
+                    public void onPurchaseHistoryRestored() {
+
+                    }
+                });
+                mGcmUtil = GcmUtil.getInstance(this);
+                if (mGcmUtil.getRegistrationId().isEmpty()) {
+                    loadStatus.add(LoadItem.GCM);
+                    mGcmUtil.register(new GcmUtil.GcmRegisterCallback() {
+                        @Override
+                        public void onRegistered(String registrationId) {
+                            SimpleAppLog.info("gcm id: " + registrationId);
+                            loadStatus.remove(LoadItem.GCM);
+                            validateCallback();
+                        }
+
+                        @Override
+                        public void onError(String message, Throwable e) {
+                            SimpleAppLog.error(message, e);
+                            loadStatus.remove(LoadItem.GCM);
+                            validateCallback();
+                        }
+                    });
+                } else {
+                    SimpleAppLog.info("gcm id: " + mGcmUtil.getRegistrationId());
                 }
-            });
+            } else {
+                loadStatus.remove(LoadItem.SUBSCRIPTION);
+            }
             final UserProfile profile = Preferences.getCurrentProfile();
             if (profile != null && profile.isLogin()) {
                 accountManager.loadLicenseData(profile, new AccountManager.AuthListener() {

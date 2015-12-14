@@ -134,7 +134,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -355,7 +355,7 @@
 			    <project.temp.folder.dir>${basedir}/data/feedback</project.temp.folder.dir>
 				<logging.file>${basedir}/log/log.log</logging.file>
 				<project.dir>${basedir}/data/projects</project.dir>
-				<api.key>AIzaSyAoKTOZ67FF0Vddg5KasmUESJ7qc6pdn0U</api.key>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 				<databaseHost>c-mg.vn</databaseHost>
@@ -384,7 +384,7 @@
                 <project.temp.folder.dir>/cmg/data/feedback</project.temp.folder.dir>
                 <logging.file>H:\Apps\Tomcat8\logs\vrc-loging.log</logging.file>
                 <project.dir>/cmg/data/mobile</project.dir>
-                <api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+                <api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
                 <javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
                 <javax.jdo.option.ConnectionPassword>admincmg@3f</javax.jdo.option.ConnectionPassword>
 				<databaseHost>c-mg.vn</databaseHost>
@@ -414,7 +414,7 @@
 			    <project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/vol/filemanager/Logs/vrc-loging.log</logging.file>
 				<project.dir>/var/www/webdav/mobile</project.dir>
-				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
 				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
@@ -447,7 +447,7 @@
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
-				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
 				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
@@ -481,7 +481,7 @@
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
-				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
 				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
@@ -515,7 +515,7 @@
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
 				<project.dir>/var/log/tomcat8/mobile</project.dir>
-				<api.key>AIzaSyBtW7fSwFlG9xKCS2rsYPGobKUMWN7B6vY</api.key>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
 				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
 				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
 				<databaseHost>restore-2015-09-04.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>

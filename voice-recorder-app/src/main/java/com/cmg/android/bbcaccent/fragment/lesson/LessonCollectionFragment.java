@@ -137,7 +137,7 @@ public class LessonCollectionFragment extends BaseFragment {
                             public void run() {
                                 if (dialog.isShowing()) dialog.dismiss();
                             }
-                        }, 5000);
+                        }, 15000);
                     }
                 });
             } else {

@@ -10,6 +10,14 @@ import com.luhonghai.litedb.annotation.LiteTable;
 @LiteTable(allowedParent = BaseLessonEntity.class)
 public class IPAMapArpabet extends BaseLessonEntity {
 
+    public String getMp3UrlShort() {
+        return mp3UrlShort;
+    }
+
+    public void setMp3UrlShort(String mp3UrlShort) {
+        this.mp3UrlShort = mp3UrlShort;
+    }
+
     public enum IPAType {
         VOWEL("vowel"),
         CONSONANT("consonant")
@@ -46,6 +54,9 @@ public class IPAMapArpabet extends BaseLessonEntity {
 
     @LiteColumn
     private String mp3Url;
+
+    @LiteColumn
+    private String mp3UrlShort;
 
     @LiteColumn
     private String tip;

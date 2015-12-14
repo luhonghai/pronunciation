@@ -556,7 +556,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 public void run() {
                     if (dialog.isShowing()) dialog.dismiss();
                 }
-            }, 5000);
+            }, 15000);
             if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
         }
     }
@@ -636,7 +636,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             }
         });
         if (viewState.willCollapseSlider) {
-            txtPhonemes.setVisibility(View.INVISIBLE);
+           // txtPhonemes.setVisibility(View.INVISIBLE);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1072,6 +1072,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         requestLocation();
         fetchSetting();
+        if (txtPhonemes != null) txtPhonemes.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.txtPhoneme, R.id.txtWord, R.id.rlVoiceExample})

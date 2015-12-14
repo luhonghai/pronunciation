@@ -10,6 +10,7 @@ import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
 import com.cmg.android.bbcaccent.extra.BreakDownAction;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.service.UpdateDataService;
+import com.cmg.android.bbcaccent.utils.GcmUtil;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,6 +41,8 @@ public class MainApplication  extends Application {
     private LessonFragment.ViewState lessonViewState;
 
     private String selectedWord;
+
+    private boolean skipHelpPopup;
 
     @Override
     public void onCreate() {
@@ -83,6 +86,7 @@ public class MainApplication  extends Application {
         closeAllDatabase();
         MainBroadcaster.getInstance().destroy();
         ImageLoader.getInstance().destroy();
+        GcmUtil.getInstance(this).recycle();
     }
 
     public void closeAllDatabase() {
@@ -150,5 +154,13 @@ public class MainApplication  extends Application {
 
     public void setSelectedWord(String selectedWord) {
         this.selectedWord = selectedWord;
+    }
+
+    public boolean isSkipHelpPopup() {
+        return skipHelpPopup;
+    }
+
+    public void setSkipHelpPopup(boolean skipHelpPopup) {
+        this.skipHelpPopup = skipHelpPopup;
     }
 }

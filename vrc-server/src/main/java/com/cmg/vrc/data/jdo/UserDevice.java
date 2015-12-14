@@ -34,6 +34,9 @@ public class UserDevice implements Mirrorable {
     private String imei;
 
     @Persistent
+    private String gcmId;
+
+    @Persistent
     private Date attachedDate;
 
     public String getModel() {
@@ -92,5 +95,13 @@ public class UserDevice implements Mirrorable {
 
     public void setAttachedDate(Date attachedDate) {
         this.attachedDate = attachedDate;
+    }
+
+    public String getGcmId() {
+        return gcmId;
+    }
+
+    public void setGcmId(String gcmId) {
+        this.gcmId = gcmId;
     }
 }

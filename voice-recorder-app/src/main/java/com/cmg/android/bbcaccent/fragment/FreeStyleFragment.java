@@ -306,7 +306,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
         initSlider(root);
         showcaseHelper = new ShowcaseHelper(getActivity());
-
+        MainApplication.getContext().setSkipHelpPopup(false);
         popupShowcaseHelper = new PopupShowcaseHelper(getActivity(),
                 new PopupShowcaseHelper.HelpItem[] {
                         PopupShowcaseHelper.HelpItem.ANALYZE_A_WORD,
@@ -430,7 +430,6 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         final int halfHeight = (displayMetrics.heightPixels - actionBarHeight) / 2;
         layoutParams.height = halfHeight;
         rlSliderContent.setLayoutParams(layoutParams);
-        txtPhonemes.setVisibility(View.INVISIBLE);
         panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -494,6 +493,8 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         lastState = state;
         if (audioStream != null)
             audioStream.clearOldRecord();
+        if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+        MainApplication.getContext().setSkipHelpPopup(true);
     }
 
     private class GetWordAsync extends AsyncTask {
@@ -617,6 +618,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 }
                 getWordAsync = new GetWordAsync(word);
                 getWordAsync.execute();
+                MainApplication.getContext().setSkipHelpPopup(true);
             }
         } catch (Exception e) {
 
@@ -823,6 +825,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     public void onDestroyView() {
         super.onDestroyView();
         handlerStartDetail.removeCallbacks(runnableStartDetail);
+        MainApplication.getContext().setSkipHelpPopup(false);
         if (popupShowcaseHelper != null) {
             popupShowcaseHelper.recycle();
             popupShowcaseHelper = null;
@@ -885,6 +888,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         }
         requestLocation();
         fetchSetting();
+        if (txtPhonemes != null) txtPhonemes.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.txtPhoneme, R.id.txtWord, R.id.rlVoiceExample})
@@ -1126,6 +1130,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     params.put("profile", gson.toJson(profile));
                     params.put("word", selectedWord);
                     uploadTask.execute(params);
+                    MainApplication.getContext().setSkipHelpPopup(true);
                 } else {
                     AppLog.logString("Could not get user profile");
                 }
@@ -1184,6 +1189,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         isRecording = false;
                         handlerStartDetail.postDelayed(runnableStartDetail, 1000);
                         if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                        MainApplication.getContext().setSkipHelpPopup(false);
                     }
                 } else {
                     switchButtonStage(ButtonState.RED);
@@ -1258,7 +1264,8 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                             }
                         });
                     }
-
+                    if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                    MainApplication.getContext().setSkipHelpPopup(false);
                     d.show();
                     switchButtonStage(ButtonState.RED);
                     recordingView.drawEmptyCycle();
@@ -1319,6 +1326,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     }
                     txtPhonemes.setVisibility(View.VISIBLE);
                     if (popupShowcaseHelper != null) popupShowcaseHelper.resetTiming();
+                    MainApplication.getContext().setSkipHelpPopup(false);
                 }
             }
         } catch (Exception e) {

@@ -37,6 +37,8 @@ import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -519,5 +521,25 @@ public class AndroidHelper {
 //            return false;
 //        }
         return false;
+    }
+
+    /**
+     * Check if correct Play Services version is available on the device.
+     *
+     * @param context
+     * @param versionCode
+     * @return boolean
+     */
+    public static boolean checkGooglePlayServiceAvailability(Context context, int versionCode) {
+
+        // Query for the status of Google Play services on the device
+        int statusCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+
+        if ((statusCode == ConnectionResult.SUCCESS)
+                && (GooglePlayServicesUtil.GOOGLE_PLAY_SERVICES_VERSION_CODE >= versionCode)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

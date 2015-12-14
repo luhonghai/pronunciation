@@ -3,4 +3,3 @@ FROM
   lessonmappingquestion as LSQ INNER JOIN question as Q on Q.ID = LSQ.IDQUESTION
 WHERE LSQ.IDLESSON = ?
 ORDER BY Q.NAME ASC
-LIMIT 5

@@ -109,7 +109,7 @@ public class PhonemesDetector {
         sb.append("#JSGF V1.0;\n\n").append("grammar phonelist;\n\n");
         //addGrammar("withNeighbour", sb, false, false, false);
         //sb.append("\n");
-        addGrammar("withNeighbourAndFirstLast",sb, true, true, false, true);
+        addGrammar("withNeighbourAndFirstLast",sb, false, false, false, true);
         //addGrammar("withNeighbourAndFirstLast",sb, false, false, false, false);
         grammarName = UUID.randomUUID().toString();
         grammarFile = new File(grammarDir, grammarName+ ".gram");
