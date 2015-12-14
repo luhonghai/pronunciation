@@ -37,11 +37,15 @@ public class DatabaseDictionaryWalker extends DictionaryWalker {
                 dictionaryItem.setDefinition(wordCollection.getDefinition());
                 if (isFetchAudio() && wordCollection.getMp3Path() != null && wordCollection.getMp3Path().length() > 0) {
                     dictionaryItem.setAudioUrl(wordCollection.getMp3Path());
-                    File saveFile = new File(FileHelper.getCachedFilePath(wordCollection.getMp3Path()));
-                    if (!saveFile.exists()) {
-                        FileUtils.copyURLToFile(new URL(dictionaryItem.getAudioUrl()), saveFile);
+                    try {
+                        File saveFile = new File(FileHelper.getCachedFilePath(wordCollection.getMp3Path()));
+                        if (!saveFile.exists()) {
+                            FileUtils.copyURLToFile(new URL(dictionaryItem.getAudioUrl()), saveFile);
+                        }
+                        dictionaryItem.setAudioFile(saveFile.getAbsolutePath());
+                    } catch (Exception e) {
+                        SimpleAppLog.error("Could not download audio file", e);
                     }
-                    dictionaryItem.setAudioFile(saveFile.getAbsolutePath());
                 }
                 onDetectWord(dictionaryItem);
             } else {

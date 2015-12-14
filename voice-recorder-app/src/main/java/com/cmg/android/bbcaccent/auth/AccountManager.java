@@ -503,6 +503,43 @@ public class AccountManager {
         }.execute();
     }
 
+    public void checkActivationDate(final UserProfile profile, final AuthListener authListener) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                data.put("profile", gson.toJson(profile));
+                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                data.put("token", profile.getToken());
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.check_activation_date_url));
+                    SimpleAppLog.debug("Check activation date response: " + message);
+                    try {
+                        ResponseData<LoginToken> responseData = MainApplication.fromJson(message, new TypeToken<ResponseData<LoginToken>>() {}.getType());
+                        if (responseData.isStatus()) {
+                            authListener.onSuccess();
+                        } else {
+                            if (responseData.getMessage().equalsIgnoreCase(context.getString(R.string.invalid_username_or_password))) {
+                                responseData.setMessage(context.getString(R.string.invalid_email_address_or_password));
+                            }
+                            authListener.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        authListener.onSuccess();
+                    }
+
+                } catch (Exception e) {
+                    SimpleAppLog.error("could not connect to server",e);
+                    authListener.onSuccess();
+                }
+                return null;
+            }
+        }.execute();
+    }
+
     public void logout() {
         LoginManager.getInstance().logOut();
         UserProfile profile = Preferences.getCurrentProfile(context);

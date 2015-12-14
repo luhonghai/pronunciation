@@ -24,6 +24,7 @@ public class LessonCollection extends BaseLessonEntity {
     private int score;
 
     public String getName() {
+        if (name == null) return "";
         return name;
     }
 

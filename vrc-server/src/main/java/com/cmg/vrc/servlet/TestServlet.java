@@ -134,27 +134,23 @@ public class TestServlet {
 //        }
             WordCollection wordCollection=new WordCollection();
             WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
-            String newDefinition=null;
-            StringBuffer test=new StringBuffer();
-        try{
+            try{
                 List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
                 for(WordCollection wordCollection1:wordCollectionList){
-                    String definition=wordCollection1.getDefinition();
-                    test=test.append(definition);
-                    if(definition.charAt(definition.length() - 1)==':') {
-                        newDefinition = definition.replace(definition.charAt(definition.length() - 1), '.');
+                    String definition = wordCollection1.getDefinition();
+                    if(definition.endsWith(":")) {
+                        definition = definition.substring(0, definition.length() - 1) + ".";
                     }
-                    if(Character.isLetter(definition.charAt(definition.length() - 1))){
-                        test.append('.');
-                        newDefinition=test.toString();
+                    if(!definition.endsWith(".")){
+                        definition = definition + ".";
                     }
-                    wordCollection1.setDefinition(newDefinition);
+                    System.out.println("New definition: " + definition + ". Old definition: " + wordCollection1.getDefinition());
+                    wordCollection1.setDefinition(definition);
                     wordCollectionDAO.put(wordCollection1);
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
-
 //
 //
 //

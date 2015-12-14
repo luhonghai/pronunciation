@@ -976,6 +976,14 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 } else {
                     bgColor = R.color.app_purple;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                          if (recyclerView != null) {
+                              recyclerView.scrollToPosition(position);
+                          }
+                        }
+                    }, 100);
                 }
             }
             holder.txtScore.setText(text);

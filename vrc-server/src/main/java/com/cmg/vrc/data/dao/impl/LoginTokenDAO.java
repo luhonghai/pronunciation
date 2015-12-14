@@ -32,7 +32,7 @@ public class LoginTokenDAO extends DataAccess<LoginToken> {
         List<LoginToken> loginTokens = list("WHERE userName == :1 && deviceName == :2", obj.getUserName(), obj.getDeviceName());
         if (loginTokens != null && loginTokens.size() > 0) {
             for (LoginToken loginToken : loginTokens) {
-                if (!obj.getId().equals(loginToken.getId())) {
+                if (obj.getId() != null && !obj.getId().equals(loginToken.getId())) {
                     delete(loginToken);
                 }
             }

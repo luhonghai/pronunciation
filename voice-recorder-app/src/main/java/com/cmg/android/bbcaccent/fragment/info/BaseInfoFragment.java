@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public abstract class BaseInfoFragment extends BaseFragment {
 
-    private static final String INFO_VERSION = "2";
+    private static final String INFO_VERSION = "3";
 
     @Nullable
     @Override

@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal|bottom">
-                    <TextView
+                    <org.sufficientlysecure.htmltextview.HtmlTextView
                         android:id="@+id/txtDefinition"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/main_selected_phoneme_size"

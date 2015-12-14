@@ -119,7 +119,15 @@ public class LessonLevelFragment extends BaseFragment {
 
     private void notifyListView() {
         if (recyclerView != null && recyclerView.getAdapter() != null) {
-            recyclerView.getAdapter().notifyDataSetChanged();
+            try {
+                Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(Preferences.getCurrentProfile().getSelectedCountry().getId());
+                LessonLevelAdapter lessonLevelAdapter = (LessonLevelAdapter) recyclerView.getAdapter();
+                if (lessonLevelAdapter != null) {
+                    lessonLevelAdapter.changeCursor(cursor);
+                }
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not update list level", e);
+            }
         }
     }
 

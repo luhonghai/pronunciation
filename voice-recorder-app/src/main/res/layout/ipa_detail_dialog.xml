@@ -44,6 +44,13 @@
                 android:textColor="@color/app_purple"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
+
+            <ImageView
+                android:id="@+id/imgTip"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <org.sufficientlysecure.htmltextview.HtmlTextView
                 android:id="@+id/tv_content"
                 android:layout_width="match_parent"

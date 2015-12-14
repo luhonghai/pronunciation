@@ -45,7 +45,6 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         isRunning = false;
-        AndroidHelper.takeScreenShot(this);
         super.onPause();
     }
 

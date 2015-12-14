@@ -16,6 +16,6 @@ public class NumberDateDAO extends DataAccess<NumberDate> {
         List<NumberDate> userList = listAll();
         if (userList != null && userList.size() > 0)
             return userList.get(0);
-        return null;
+        return new NumberDate();
     }
 }

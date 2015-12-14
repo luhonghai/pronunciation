@@ -1,5 +1,6 @@
 package com.cmg.vrc.service;
 
+import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.data.jdo.country.Country;
 import com.cmg.lesson.data.jdo.country.CountryMappingCourse;
 import com.cmg.lesson.data.jdo.course.Course;
@@ -16,13 +17,18 @@ import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.data.jdo.test.TestMapping;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.vrc.common.Constant;
+import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.DatabaseVersionDAO;
+import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
 import com.cmg.vrc.data.jdo.DatabaseVersion;
+import com.cmg.vrc.data.jdo.UserDevice;
 import com.cmg.vrc.processor.CommandExecutor;
 import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 import com.cmg.vrc.util.UUIDGenerator;
+import com.google.android.gcm.server.Message;
+import com.google.gson.Gson;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
 import org.apache.commons.io.FileUtils;
@@ -341,6 +347,7 @@ public class DatabaseGeneratorService {
                 awsHelper.upload(Constant.FOLDER_DATABASE + "/" + projectName, dbZip);
                 dao.removeSelected();
                 dao.createObj(databaseVersion);
+                sendGcmMessage();
             } else {
                 appendError("No zipped SQLite database found");
             }
@@ -403,5 +410,45 @@ public class DatabaseGeneratorService {
 
     private String getTableName(Class<?> clazz) {
         return PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(clazz.getCanonicalName()).getTable();
+    }
+
+    private void sendGcmMessage() {
+        try {
+            appendMessage("Send notification to all user devices");
+            GcmMessage message = new GcmMessage(GcmMessage.TYPE_DATABASE);
+            CountryDAO countryDAO = new CountryDAO();
+            List<Country> countries = countryDAO.listAll();
+            if (countries != null && countries.size() > 0) {
+                for (Country country : countries) {
+                    if (!country.isDeleted()) {
+                        appendMessage("Add country id to message: " + country.getId() + ". Name: " + country.getName());
+                        GcmMessage.Language language = new GcmMessage.Language();
+                        language.setId(country.getId());
+                        language.setMessage("Lesson database is updated. Download now with accenteasy!");
+                        message.getLanguages().add(language);
+                    }
+                }
+            }
+            UserDeviceDAO userDeviceDAO = new UserDeviceDAO();
+            List<UserDevice> userDevices = userDeviceDAO.listAll();
+            List<String> gcmIds = new ArrayList<>();
+            if (userDevices != null && userDevices.size() > 0) {
+                for (UserDevice userDevice : userDevices) {
+                    String gcmId = userDevice.getGcmId();
+                    if (gcmId != null && gcmId.length() > 0 && !gcmIds.contains(gcmId)) {
+                        gcmIds.add(gcmId);
+                    }
+                }
+            }
+            appendMessage("Send message to " + gcmIds.size() + " device(s)");
+            if (gcmIds.size() > 0) {
+                Message mMessage = new Message.Builder().addData("data", new Gson().toJson(message)).build();
+                MessageService messageService = new MessageService(mMessage);
+                messageService.doPostMessage(gcmIds);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Could not send gcm message", e);
+            appendError("Could not send notification", e);
+        }
     }
 }

@@ -6,15 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.data.TipsContainer;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
+import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.google.gson.Gson;
+import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
@@ -31,9 +37,6 @@ import butterknife.OnClick;
 
 public class TipFragment extends FragmentTab {
 
-    private TipsContainer tipsContainer;
-
-    private static final long MAX_UPDATE_TIMEOUT = 30000;
 
     private Handler mUpdateTipHandler = new Handler();
 
@@ -56,18 +59,22 @@ public class TipFragment extends FragmentTab {
     @Bind(R.id.txtTextTip)
     HtmlTextView txtText;
 
+    @Bind(R.id.imgTip)
+    ImageView imgTip;
+
     private boolean isLoadedTip = false;
 
-    private TipsContainer.PronunciationTip currentTip;
+    private IPAMapArpabet currentTip;
 
     private int currentTipIndex = 0;
+
+    private DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_tip, container, false);
         ButterKnife.bind(this, v);
-        tipsContainer = new TipsContainer(getActivity());
         isLoadedView = true;
         Bundle bundle = getArguments();
         updateTip(bundle == null ? null : bundle.getString(MainBroadcaster.Filler.USER_VOICE_MODEL.toString()));
@@ -94,7 +101,7 @@ public class TipFragment extends FragmentTab {
             case R.id.btnRecordTip:
                 Gson gson = new Gson();
                 UserVoiceModel model = new UserVoiceModel();
-                model.setWord(currentTip.getWords().get(currentTipIndex));
+                model.setWord(currentTip.getWordList().get(currentTipIndex));
                 MainBroadcaster.getInstance().getSender().sendHistoryAction(gson.toJson(model),
                         null,
                         HistoryFragment.CLICK_RECORD_BUTTON);
@@ -106,8 +113,11 @@ public class TipFragment extends FragmentTab {
     private Runnable mUpdateTipRunnable = new Runnable() {
         @Override
         public void run() {
-            if (tipsContainer != null) {
-                displayTip(tipsContainer.getTip(userVoiceModel));
+            try {
+                IPAMapArpabet ipaMapArpabet = LessonDBAdapterService.getInstance().getIPAArpabetTip(userVoiceModel);
+                displayTip(ipaMapArpabet);
+            } catch (LiteDatabaseException e) {
+                SimpleAppLog.error("Could not load phoneme tip",e);
             }
         }
     };
@@ -120,11 +130,18 @@ public class TipFragment extends FragmentTab {
         btnRecord.setVisibility(View.INVISIBLE);
     }
 
-    private void displayTip(TipsContainer.PronunciationTip tip) {
-        if (tip != null) {
-            currentTip = tip;
-            txtText.setHtmlFromString(tip.getData(), true);
-            List<String> words = currentTip.getWords();
+    private void displayTip(IPAMapArpabet ipaMapArpabet) {
+        if (ipaMapArpabet != null) {
+            currentTip = ipaMapArpabet;
+            String tongueImage = ipaMapArpabet.getImgTongue();
+            if (tongueImage != null && tongueImage.length() > 0) {
+                imgTip.setVisibility(View.VISIBLE);
+                ImageLoader.getInstance().displayImage(tongueImage, imgTip, displayImageOptions);
+            } else {
+                imgTip.setVisibility(View.GONE);
+            }
+            txtText.setHtmlFromString(ipaMapArpabet.getTip(), true);
+            List<String> words = currentTip.getWordList();
             if (words != null && words.size() > 0) {
                 currentTipIndex = RandomHelper.getRandomIndex(words.size());
                 btnRecord.setVisibility(View.VISIBLE);
@@ -141,7 +158,7 @@ public class TipFragment extends FragmentTab {
 
     private void displayWord() {
         if (currentTip != null) {
-            List<String> words = currentTip.getWords();
+            List<String> words = currentTip.getWordList();
             if (words != null && words.size() > 0) {
                 if (words.size() == 1) {
                     btnPrev.setVisibility(View.INVISIBLE);
@@ -177,8 +194,6 @@ public class TipFragment extends FragmentTab {
         isLoadedTip = false;
         displayLoading();
         userVoiceModel = model;
-        if (tipsContainer == null)
-            tipsContainer = new TipsContainer(getActivity());
         startTime = System.currentTimeMillis();
         mUpdateTipHandler.post(mUpdateTipRunnable);
     }

@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import com.cmg.android.bbcaccent.BaseActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 /**
@@ -64,6 +65,7 @@ public class BaseFragment extends Fragment {
                 if (filler == MainBroadcaster.Filler.UPDATE_FULL_VERSION) {
                     onUpdateFullVersion();
                 } else if (filler == MainBroadcaster.Filler.LANGUAGE_CHANGED) {
+                    SimpleAppLog.debug("Receive on language changed");
                     onLanguageChanged();
                 }
             }
@@ -126,5 +128,11 @@ public class BaseFragment extends Fragment {
 
     protected void showHelp() {
 
+    }
+
+    @Override
+    public void onPause() {
+        AndroidHelper.takeScreenShot(getActivity());
+        super.onPause();
     }
 }

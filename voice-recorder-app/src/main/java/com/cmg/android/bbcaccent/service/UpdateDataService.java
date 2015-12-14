@@ -31,6 +31,7 @@ public class UpdateDataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
+            final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
             Map<String, IPAMapArpabet> mapArpabetMap = LessonDBAdapterService.getInstance().getMapIPAArpabet();
             if (mapArpabetMap != null && mapArpabetMap.size() > 0) {
                 for (final IPAMapArpabet arpabet : mapArpabetMap.values()) {
@@ -45,6 +46,10 @@ public class UpdateDataService extends IntentService {
                             if (mp3Url != null && mp3Url.length() > 0) {
                                 FileHelper.getCachedFilePath(mp3Url);
                             }
+                            String tongueImage = arpabet.getImgTongue();
+                            if (tongueImage != null && tongueImage.length() > 0) {
+                                ImageLoader.getInstance().loadImage(tongueImage, displayImageOptions, null);
+                            }
                         }
                     });
                 }
@@ -52,7 +57,7 @@ public class UpdateDataService extends IntentService {
             List<Country> countryList = LessonDBAdapterService.getInstance().toList(
                     LessonDBAdapterService.getInstance().cursorAllCountry(), Country.class);
             if (countryList != null&& countryList.size() > 0) {
-                DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+
                 for (Country country : countryList) {
                     String imgUrl = country.getImageUrl();
                     if (imgUrl != null && imgUrl.length() > 0) {

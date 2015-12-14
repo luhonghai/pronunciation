@@ -423,4 +423,10 @@ public class SplashActivity extends BaseActivity {
         handlerDogAnimation.removeCallbacks(runnableDogAnimation);
         super.onDestroy();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (bp != null && !bp.handleActivityResult(requestCode, resultCode, data))
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

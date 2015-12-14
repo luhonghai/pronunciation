@@ -17,6 +17,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,8 @@ import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.google.android.gms.ads.identifier.AdvertisingIdClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -128,7 +131,8 @@ public class AndroidHelper {
 
                 });
             }
-            return files[0];
+            if (files != null && files.length > 0)
+                return files[0];
         }
         return null;
     }
@@ -142,31 +146,27 @@ public class AndroidHelper {
     }
 
     public static void takeScreenShot(Activity activity) {
+        if (activity == null) return;
         try {
+            float scaleValue = 3;
             View view = activity.getWindow().getDecorView();
             view.setDrawingCacheEnabled(true);
-            view.buildDrawingCache();
-            Bitmap b1 = view.getDrawingCache();
-            Rect frame = new Rect();
-            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-            int statusBarHeight = frame.top;
-            int width = -1;
-            int height = -1;
-            Display display = activity.getWindowManager().getDefaultDisplay();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-                Point size = new Point();
-                display.getSize(size);
-                width = size.x;
-                height = size.y;
-            } else {
-                width = display.getWidth();
-                height = display.getHeight();
-            }
-            Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
-                    - statusBarHeight);
+            view.buildDrawingCache(true);
+            Bitmap b1 = view.getDrawingCache(true);
+            final Bitmap b2 = Bitmap.createScaledBitmap(b1,
+                    Math.round(b1.getWidth() / scaleValue),
+                    Math.round(b1.getHeight() / scaleValue),
+                    false);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    savePic(b2, MainApplication.getContext());
+                    return null;
+                }
+            }.execute();
             view.destroyDrawingCache();
-            b1.recycle();
-            savePic(b, activity.getApplicationContext());
+            if (!b1.isRecycled())
+                b1.recycle();
         } catch (Exception ignored) {
 
         }
@@ -181,10 +181,9 @@ public class AndroidHelper {
         }
 
         File[] files = folderScreenshoots.listFiles();
-        if (files != null && files.length > 3) {
+        if (files != null && files.length > 5) {
             Arrays.sort(files, new Comparator<File>() {
                 public int compare(File o1, File o2) {
-
                     if (o1.lastModified() > o2.lastModified()) {
                         return -1;
                     } else if (o1.lastModified() < o2.lastModified()) {
@@ -193,24 +192,23 @@ public class AndroidHelper {
                         return 0;
                     }
                 }
-
             });
+            try {
+                FileUtils.forceDelete(files[files.length - 1]);
+            } catch (IOException e) {
+                SimpleAppLog.error("could not delete screenshoot file",e);
+            }
 
-            files[files.length - 1].delete();
         }
-
         String fileName = FileHelper.getFilePath(FileHelper.SCREENSHOOTS_FOLDER, sdf.format(new Date(System.currentTimeMillis())) + ".png", context);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(fileName);
-            if (null != fos) {
-                b.compress(Bitmap.CompressFormat.PNG, 90, fos);
-                fos.flush();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            b.compress(Bitmap.CompressFormat.PNG, 50, fos);
+            fos.flush();
+            SimpleAppLog.debug("Complete save screenshoot to " + fileName);
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not save screenshoot",e);
         } finally {
             if (fos != null) {
                 try {

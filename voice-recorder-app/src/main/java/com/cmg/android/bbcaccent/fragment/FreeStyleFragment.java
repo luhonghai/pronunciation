@@ -71,6 +71,7 @@ import com.google.gson.Gson;
 import com.nineoldandroids.animation.Animator;
 
 import org.apache.commons.io.FileUtils;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -146,7 +147,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
     SlidingUpPanelLayout panelSlider;
 
     @Bind(R.id.txtDefinition)
-    TextView txtDefinition;
+    HtmlTextView txtDefinition;
 
     @Bind(R.id.rlSliderContent)
     LinearLayout rlSliderContent;
@@ -413,7 +414,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         if (viewState.dictionaryItem != null) {
             txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
             txtWord.setText(viewState.dictionaryItem.getWord());
-            txtDefinition.setText(viewState.dictionaryItem.getDefinition());
+            txtDefinition.setHtmlFromString(viewState.dictionaryItem.getDefinition(), false);
         }
     }
 
@@ -1304,7 +1305,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     if (viewState.dictionaryItem != null) {
                         txtWord.setText(viewState.dictionaryItem.getWord());
                         txtPhonemes.setText(viewState.dictionaryItem.getPronunciation());
-                        txtDefinition.setText(viewState.dictionaryItem.getDefinition());
+                        txtDefinition.setHtmlFromString(viewState.dictionaryItem.getDefinition(), false);
                         txtWord.setEnabled(true);
                         txtPhonemes.setEnabled(true);
                         rlVoiceExample.setEnabled(true);

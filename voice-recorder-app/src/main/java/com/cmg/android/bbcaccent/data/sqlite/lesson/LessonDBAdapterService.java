@@ -4,6 +4,8 @@ import android.database.Cursor;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
+import com.cmg.android.bbcaccent.data.dto.SphinxResult;
+import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.country.Country;
 import com.cmg.android.bbcaccent.data.dto.lesson.lessons.LessonCollection;
 import com.cmg.android.bbcaccent.data.dto.lesson.level.LessonLevel;
@@ -13,6 +15,7 @@ import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.BaseDatabaseAdapter;
 import com.cmg.android.bbcaccent.data.sqlite.QueryHelper;
+import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.LiteBaseDao;
 import com.luhonghai.litedb.LiteFieldType;
@@ -129,6 +132,41 @@ public class LessonDBAdapterService {
             return map;
         }
         return null;
+    }
+
+    public IPAMapArpabet getIPAArpabetTip(UserVoiceModel model) throws LiteDatabaseException {
+        List<IPAMapArpabet> list =  findObjects(null, null, IPAMapArpabet.class);
+        try {
+            if (list == null || list.size() == 0) return null;
+            if (model != null) {
+                SphinxResult result = model.getResult();
+                int index = RandomHelper.getRandomIndex(list.size());
+                float lastScore = 1703.89f;
+                if (result != null) {
+                    List<SphinxResult.PhonemeScore> scores = result.getPhonemeScores();
+                    if (scores != null && scores.size() > 0) {
+                        for (SphinxResult.PhonemeScore score : scores) {
+                            if (score.getTotalScore() < lastScore) {
+                                String phoneme = score.getName().toLowerCase();
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (list.get(i).getArpabet().equalsIgnoreCase(phoneme)) {
+                                        index = i;
+                                        lastScore = score.getTotalScore();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return list.get(index);
+            } else {
+                return list.get(RandomHelper.getRandomIndex(list.size()));
+            }
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not get tip for phoneme",e);
+            return list.get(RandomHelper.getRandomIndex(list.size()));
+        }
     }
 
     public Cursor cursorAllIPAMapArpabetByType(IPAMapArpabet.IPAType type) throws LiteDatabaseException {

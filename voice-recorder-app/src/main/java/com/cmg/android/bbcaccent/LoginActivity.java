@@ -3,33 +3,27 @@ package com.cmg.android.bbcaccent;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import com.cmg.android.bbcaccent.fragment.Preferences;
-import com.cmg.android.bbcaccent.subscription.IAPFactory;
-import com.cmg.android.bbcaccent.utils.AndroidHelper;
-import com.cmg.android.bbcaccent.utils.AppLog;
-import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
+import com.cmg.android.bbcaccent.utils.AndroidHelper;
+import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
+import com.cmg.android.bbcaccent.view.RecordingView;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -989,21 +983,25 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                 @Override
                 public void onSuccess() {
                     currentProfile.setIsLogin(true);
-                    SimpleAppLog.debug("Account " + currentProfile.getUsername() + " is login. Token: " + currentProfile.getToken());
-                    Preferences.updateProfile(LoginActivity.this, currentProfile);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //dialogProgress.dismissWithAnimation();
-                            dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
-                            if (dialogLogin.isShowing()) {
-                                dialogLogin.cancel();
+                    try {
+                        SimpleAppLog.debug("Account " + currentProfile.getUsername() + " is login. Token: " + currentProfile.getToken());
+                        Preferences.updateProfile(LoginActivity.this, currentProfile);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //dialogProgress.dismissWithAnimation();
+                                dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
+                                if (dialogLogin.isShowing()) {
+                                    dialogLogin.cancel();
+                                }
+                                //showProcessDialog();
                             }
-                            //showProcessDialog();
-                        }
-                    });
-                    AnalyticHelper.sendLoginType(LoginActivity.this, currentProfile.getLoginType());
-                    AnalyticHelper.sendUserLogin(LoginActivity.this, currentProfile.getUsername());
+                        });
+                        AnalyticHelper.sendLoginType(LoginActivity.this, currentProfile.getLoginType());
+                        AnalyticHelper.sendUserLogin(LoginActivity.this, currentProfile.getUsername());
+                    } catch (Exception e) {
+                        SimpleAppLog.error("",e);
+                    }
                     doCheckLicense(Preferences.getCurrentProfile());
                 }
             });
@@ -1159,6 +1157,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (bp != null && !bp.handleActivityResult(requestCode, resultCode, data))
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         SimpleAppLog.info("onActivityResult. requestCode: " + requestCode + ". resultCode: " + resultCode);

@@ -2,6 +2,7 @@ package com.cmg.android.bbcaccent.data.dto.lesson.question;
 
 import com.cmg.android.bbcaccent.data.dto.BaseLessonEntity;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
+import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.dictionary.DictionaryItem;
 import com.luhonghai.litedb.annotation.LiteColumn;
 import com.luhonghai.litedb.annotation.LiteTable;
@@ -37,6 +38,8 @@ public class Question extends BaseLessonEntity {
     private DictionaryItem dictionaryItem;
 
     private UserVoiceModel userVoiceModel;
+
+    private List<WordCollection> wordCollections;
 
     public Date getTimeCreated() {
         return timeCreated;
@@ -111,10 +114,19 @@ public class Question extends BaseLessonEntity {
     }
 
     public String getDescription() {
+        if (description == null) return "";
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<WordCollection> getWordCollections() {
+        return wordCollections;
+    }
+
+    public void setWordCollections(List<WordCollection> wordCollections) {
+        this.wordCollections = wordCollections;
     }
 }

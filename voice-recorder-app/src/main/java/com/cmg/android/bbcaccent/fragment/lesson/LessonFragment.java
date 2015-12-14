@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -168,7 +169,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     SlidingUpPanelLayout panelSlider;
 
     @Bind(R.id.txtDefinition)
-    TextView txtDefinition;
+    HtmlTextView txtDefinition;
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -199,12 +200,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     private long start;
 
     private String selectedWord;
-
-    /**
-     * Animation
-     */
-    private Animation fadeIn;
-    private Animation fadeOut;
 
     private UploaderAsync uploadTask;
 
@@ -239,7 +234,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         accountManager = new AccountManager(getActivity());
         initTabHost();
         initRecordingView();
-        initAnimation();
         switchButtonStage(ButtonState.DISABLED);
         viewState = MainApplication.getContext().getLessonViewState();
         Bundle bundle = getArguments();
@@ -328,13 +322,32 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         break;
                     case HistoryFragment.CLICK_RECORD_BUTTON:
                         String selectedWord = model.getWord();
+                        int index = 0;
                         for (int i = 0; i < viewState.questions.size(); i++) {
                             Question question = viewState.questions.get(i);
-                            if (question.isRecorded() && question.getWord().equalsIgnoreCase(selectedWord)) {
-                                selectQuestion(i);
+                            if (question.isRecorded()
+                                    &&
+                                    question.getWord().equalsIgnoreCase(selectedWord)) {
+                                index = i;
                                 break;
+                            } else {
+                                if (question.getWordCollections() == null) {
+                                    try {
+                                        question.setWordCollections(LessonDBAdapterService.getInstance().getAllWordsOfQuestion(question.getId()));
+                                    } catch (LiteDatabaseException e) {
+                                        SimpleAppLog.error("could not load words",e);
+                                    }
+                                }
+                                List<WordCollection> wordCollections = question.getWordCollections();
+                                for (WordCollection wordCollection : wordCollections) {
+                                    if (selectedWord.equalsIgnoreCase(wordCollection.getWord())) {
+                                        index = i;
+                                        break;
+                                    }
+                                }
                             }
                         }
+                        selectQuestion(index, selectedWord);
                         break;
                 }
             }
@@ -452,6 +465,15 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void selectQuestion(int index) {
+        selectQuestion(index, null);
+    }
+
+
+    private void selectQuestion(int index, String selectedWord) {
+        selectQuestion(index, false, selectedWord);
+    }
+
+    private void selectQuestion(int index, boolean loadNewWord, String selectedWord) {
         if (viewState.questions == null || viewState.questions.size() <= 0) {
             //TODO alert about question
             SimpleAppLog.error("Not enough questions");
@@ -461,12 +483,12 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         final Question question = viewState.questions.get(index);
         if (question != null) {
             if (!viewState.isLesson) {
-                txtDefinition.setText(question.getDescription());
+                txtDefinition.setHtmlFromString(question.getDescription(), false);
             } else {
-                txtDefinition.setText(viewState.lessonCollection.getName());
+                txtDefinition.setHtmlFromString(viewState.lessonCollection.getName(), false);
             }
             viewState.selectedQuestionIndex = index;
-            if (question.isRecorded()) {
+            if (question.isRecorded() && !loadNewWord) {
                 viewState.dictionaryItem = question.getDictionaryItem();
                 viewState.currentModel = question.getUserVoiceModel();
                 displayDictionaryItem();
@@ -474,28 +496,33 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 recordingView.recycleView();
                 analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                 recordingView.startPingAnimation(getActivity(), 0, question.getScore(), true, false);
+                MainApplication.getContext().setSelectedWord(question.getDictionaryItem().getWord());
                 MainBroadcaster.getInstance().getSender().sendUpdateData(question.getDictionaryItem().getWord(), FragmentTab.TYPE_CHANGE_SELECTED_WORD);
             } else {
                 viewState.currentModel = null;
                 viewState.dictionaryItem = null;
                 try {
-                    List<WordCollection> wordCollections = LessonDBAdapterService.getInstance().getAllWordsOfQuestion(question.getId());
-                    String selectedWord = "";
+                    if (question.getWordCollections() == null) {
+                        question.setWordCollections(LessonDBAdapterService.getInstance().getAllWordsOfQuestion(question.getId()));
+                    }
+                    List<WordCollection> wordCollections = question.getWordCollections();
                     List<String> words = new ArrayList<>();
-                    if (wordCollections != null && wordCollections.size() > 0) {
-                        for (WordCollection wordCollection : wordCollections) {
-                            String cWord = wordCollection.getWord();
-                            if (cWord != null && cWord.length() > 0) {
-                                boolean exist = false;
-                                for (Question q : viewState.questions) {
-                                    String word = q.getWord();
-                                    if (word != null && cWord.equalsIgnoreCase(word)) {
-                                        SimpleAppLog.debug("Word " + cWord + " is exist if question list. Skip by default. Question id " + question.getId());
-                                        exist = true;
+                    if (selectedWord == null || selectedWord.length() == 0) {
+                        if (wordCollections != null && wordCollections.size() > 0) {
+                            for (WordCollection wordCollection : wordCollections) {
+                                String cWord = wordCollection.getWord();
+                                if (cWord != null && cWord.length() > 0) {
+                                    boolean exist = false;
+                                    for (Question q : viewState.questions) {
+                                        String word = q.getWord();
+                                        if (word != null && cWord.equalsIgnoreCase(word)) {
+                                            SimpleAppLog.debug("Word " + cWord + " is exist if question list. Skip by default. Question id " + question.getId());
+                                            exist = true;
+                                        }
                                     }
-                                }
-                                if (!exist && !words.contains(cWord)) {
-                                    words.add(cWord);
+                                    if (!exist && !words.contains(cWord)) {
+                                        words.add(cWord);
+                                    }
                                 }
                             }
                         }
@@ -648,11 +675,6 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             }, 2000);
         }
 
-    }
-
-    private void initAnimation() {
-        fadeIn = AnimationUtils.loadAnimation(MainApplication.getContext(), android.R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(MainApplication.getContext(), android.R.anim.fade_out);
     }
 
     private void addTabImage(int drawableId, Class<?> c, String labelId) {
@@ -1770,7 +1792,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     @Override
                     public void onClick(View view) {
                         if (question.isEnabled()) {
-                            selectQuestion((Integer) view.getTag());
+                            selectQuestion((Integer) view.getTag(), true, null);
                         }
                     }
                 });
@@ -1784,6 +1806,13 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 } else {
                     bgColor = R.color.app_purple;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (recyclerView != null)
+                                recyclerView.scrollToPosition(position);
+                        }
+                    }, 100);
                 }
             }
 

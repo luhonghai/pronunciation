@@ -495,6 +495,7 @@ public class Preferences extends PreferenceFragment implements
 
     @Override
     public void onResume() {
+        AndroidHelper.takeScreenShot(getActivity());
         super.onResume();
         getPreferenceScreen().getSharedPreferences()
                 .registerOnSharedPreferenceChangeListener(this);

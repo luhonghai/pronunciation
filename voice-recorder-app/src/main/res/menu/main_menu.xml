@@ -8,12 +8,14 @@
   ~ license agreement you entered into with CMG.
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menu_search"
-        android:actionViewClass="android.widget.SearchView"
-        android:icon="@android:drawable/ic_menu_search"
-        android:showAsAction="always"
-        android:title="search"/>
+    <group android:id="@+id/group_freestyle">
+        <item
+            android:id="@+id/menu_search"
+            android:actionViewClass="android.widget.SearchView"
+            android:icon="@android:drawable/ic_menu_search"
+            android:showAsAction="always"
+            android:title="search"/>
+    </group>
     <item
         android:id="@+id/menu_feedback"
         android:icon="@android:drawable/ic_menu_info_details"

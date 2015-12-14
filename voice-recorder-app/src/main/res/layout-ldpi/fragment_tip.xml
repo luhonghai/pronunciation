@@ -14,15 +14,25 @@
         android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         >
-    <org.sufficientlysecure.htmltextview.HtmlTextView
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/txtTextTip"
-        android:gravity="start"
-        android:textSize="@dimen/main_selected_phoneme_size"
-        android:textColor="#579e11"
-        android:padding="10dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imgTip"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        <org.sufficientlysecure.htmltextview.HtmlTextView
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:id="@+id/txtTextTip"
+            android:gravity="start"
+            android:textSize="@dimen/main_selected_phoneme_size"
+            android:textColor="#579e11"
+            android:padding="10dp"
+            />
+        </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:orientation="horizontal"

@@ -56,7 +56,7 @@ public class FeedbackHandler extends HttpServlet {
                 String name = item.getFieldName();
                 InputStream stream =null;
                 try{
-                    item.openStream();
+                    stream = item.openStream();
                     if (item.isFormField()) {
                         String value = Streams.asString(stream);
                         storePara.put(name, value);
@@ -84,12 +84,10 @@ public class FeedbackHandler extends HttpServlet {
                     feedback.setOsApiLevel(storePara.get(DeviceInfoCommon.OS_API_LEVEL));
                     feedback.setOsVersion(storePara.get(DeviceInfoCommon.OS_VERSION));
                     if (tmpFile.exists()) {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS");
                         AWSHelper awsHelper = new AWSHelper();
-                        String fName = sdf.format(new Date(System.currentTimeMillis())) + ".png";
-                        awsHelper.upload(Constant.FOLDER_FEEDBACK + "/" + user.getUsername() + "/" + fName, tmpFile);
+                        awsHelper.upload(Constant.FOLDER_FEEDBACK + "/" + user.getUsername() + "/" + tmpFile.getName(), tmpFile);
                         FileUtils.forceDelete(tmpFile);
-                        feedback.setScreenshoot(fName);
+                        feedback.setScreenshoot(tmpFile.getName());
                     }
                     feedback.setStackTrace(storePara.get(DeviceInfoCommon.STACK_TRACE));
                     FeedbackDAO feedbackDAO = new FeedbackDAO();

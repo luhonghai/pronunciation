@@ -4,15 +4,20 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -114,6 +119,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Bind(R.id.txtUserEmail)
     TextView txtUserEmail;
 
+    private Menu menu;
+
     private int listenerId;
 
     private boolean isDrawerOpened;
@@ -166,6 +173,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     public void showActiveFullVersionDialog() {
+        showActiveFullVersionDialog(false);
+    }
+
+    public void showActiveFullVersionDialog(boolean showLogout) {
         if (dialogSubscription == null) {
             dialogSubscription = new FullscreenDialog(this, R.layout.active_subscription);
             dialogSubscription.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -245,6 +256,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             });
         }
+        dialogSubscription.findViewById(R.id.btnLogout).setVisibility(showLogout ? View.VISIBLE : View.GONE);
+        dialogSubscription.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogoutDialog();
+            }
+        });
         if (!dialogSubscription.isShowing())
             dialogSubscription.show();
     }
@@ -542,6 +560,53 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
             }
         });
+        if (!Preferences.getCurrentProfile().isPro()) {
+            accountManager.checkActivationDate(Preferences.getCurrentProfile(), new AccountManager.AuthListener() {
+                @Override
+                public void onError(String message, Throwable e) {
+                    SimpleAppLog.error(message, e);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            willCloseAfterSubscription = true;
+                            showActiveFullVersionDialog(true);
+                        }
+                    });
+                }
+
+                @Override
+                public void onSuccess() {
+                }
+            });
+        }
+    }
+
+    private void showLogoutDialog() {
+        SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+        d.setTitleText(getString(R.string.logout_account_message_title));
+        d.setContentText(getString(R.string.logout_account_message_content));
+        d.setConfirmText(getString(R.string.logout));
+        d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
+                if (profile != null) {
+                    AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
+                }
+                accountManager.logout();
+                MainActivity.this.finish();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        d.setCancelText(getString(R.string.dialog_no));
+        d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                sweetAlertDialog.dismissWithAnimation();
+            }
+        });
+        d.show();
     }
 
     @OnItemClick(R.id.listMenu)
@@ -549,31 +614,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         ListMenuAdapter.MenuItem menuItem = ((ListMenuAdapter)listMenu.getAdapter()).getMenuItems()[position];
         switch (menuItem) {
             case LOGOUT:
-                SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-                d.setTitleText(getString(R.string.logout_account_message_title));
-                d.setContentText(getString(R.string.logout_account_message_content));
-                d.setConfirmText(getString(R.string.logout));
-                d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        UserProfile profile = Preferences.getCurrentProfile(MainActivity.this);
-                        if (profile != null) {
-                            AnalyticHelper.sendUserLogout(MainActivity.this, profile.getUsername());
-                        }
-                        accountManager.logout();
-                        MainActivity.this.finish();
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                d.setCancelText(getString(R.string.dialog_no));
-                d.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-                d.show();
+                showLogoutDialog();
                 break;
             case ACTIVATE_SUBSCRIPTION:
                 showActiveFullVersionDialog();
@@ -642,6 +683,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        this.menu = menu;
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
         if (null != searchView) {
@@ -952,13 +994,17 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
         switch (currentFragmentState) {
             case FREE_STYLE:
-                if (searchView != null) searchView.setVisibility(View.VISIBLE);
+                if (menu != null) {
+                    menu.setGroupVisible(R.id.group_freestyle, true);
+                }
                 break;
             default:
                 if (searchView != null) {
                     if (!searchView.isIconified())
                         searchView.setIconified(true);
-                    searchView.setVisibility(View.GONE);
+                }
+                if (menu != null) {
+                    menu.setGroupVisible(R.id.group_freestyle, false);
                 }
                 break;
         }
@@ -978,14 +1024,18 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 if (state != currentFragmentState) {
                     switch (state) {
                         case FREE_STYLE:
-                            if (searchView != null) searchView.setVisibility(View.VISIBLE);
+                            if (menu != null) {
+                                menu.setGroupVisible(R.id.group_freestyle, true);
+                            }
                             MainApplication.getContext().setSelectedWord(null);
                             break;
                         default:
                             if (searchView != null) {
                                 if (!searchView.isIconified())
                                     searchView.setIconified(true);
-                                searchView.setVisibility(View.GONE);
+                                if (menu != null) {
+                                    menu.setGroupVisible(R.id.group_freestyle, false);
+                                }
                             }
                             break;
                     }
@@ -1105,8 +1155,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     }
 
     private void initDialogLanguage() {
-        if (searchView != null)
-            searchView.setVisibility(View.GONE);
+        if (menu != null)
+            menu.setGroupVisible(R.id.group_freestyle, false);
         dialogLanguage = new LanguageDialog(this);
         UserProfile userProfile = Preferences.getCurrentProfile();
         if (userProfile != null && userProfile.getSelectedCountry() == null) {
@@ -1118,43 +1168,89 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             });
         } else {
-            switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+            if (userProfile != null && userProfile.isPro()) {
+                switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
+            } else {
+                switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+            }
         }
     }
 
     public BottomSheet.Builder getShareActions(String title, String text) {
+        return getShareActions(title, text, null);
+    }
+
+    public BottomSheet.Builder getShareActions(final String title, final String text, final String url) {
         final Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TITLE, title);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
-        return BottomSheetHelper.shareAction(this, shareIntent);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text + " " + url);
+        BottomSheet.Builder builder = new BottomSheet.Builder(this).grid();
+        PackageManager pm = this.getPackageManager();
+        final List<ResolveInfo> list = pm.queryIntentActivities(shareIntent, 0);
+        for (int i = 0; i < list.size(); i++) {
+            builder.sheet(i, list.get(i).loadIcon(pm), list.get(i).loadLabel(pm));
+        }
+        builder.listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(@NonNull DialogInterface dialog, int which) {
+                ActivityInfo activityInfo = list.get(which).activityInfo;
+                SimpleAppLog.debug("Choose share app: " + activityInfo.applicationInfo.packageName);
+                switch (activityInfo.applicationInfo.packageName) {
+                    case "com.google.android.apps.plus":
+                        shareGooglePlus(title, text, url);
+                        break;
+                    case "com.facebook.katana":
+                        shareFacebook(title, text, url);
+                        break;
+                    default:
+                        ComponentName name = new ComponentName(activityInfo.applicationInfo.packageName,
+                                activityInfo.name);
+                        Intent newIntent = (Intent) shareIntent.clone();
+                        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                        newIntent.setComponent(name);
+                        startActivity(newIntent);
+                        break;
+                }
+            }
+        });
+        builder.limit(com.cocosw.bottomsheet.R.integer.bs_initial_grid_row);
+        return builder;
+    }
+
+    public void shareFacebook(String title, String description, String url) {
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle(title)
+                    .setContentDescription(
+                            description)
+                    .setContentUrl(Uri.parse(url))
+                    .build();
+
+            shareDialog.show(linkContent);
+        }
+    }
+
+    public void shareGooglePlus(String title, String description, String url) {
+        Intent shareIntent = new PlusShare.Builder(this)
+                .setType("text/plain")
+                .setText(description)
+                .setContentUrl(Uri.parse(url))
+                .getIntent();
+        startActivityForResult(shareIntent, 0);
     }
 
     public void share(String title, String description, String url) {
         switch(Preferences.getCurrentProfile().getLoginType()) {
             case UserProfile.TYPE_EASYACCENT:
-                getShareActions(title, description +
-                        " " + url).show();
+                getShareActions(title, description, url).show();
                 break;
             case UserProfile.TYPE_FACEBOOK:
-                if (ShareDialog.canShow(ShareLinkContent.class)) {
-                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                            .setContentTitle(title)
-                            .setContentDescription(
-                                    description)
-                            .setContentUrl(Uri.parse(url))
-                            .build();
-
-                    shareDialog.show(linkContent);
-                }
+                shareFacebook(title, description, url);
                 break;
             case UserProfile.TYPE_GOOGLE_PLUS:
-                Intent shareIntent = new PlusShare.Builder(this)
-                        .setType("text/plain")
-                        .setText(description)
-                        .setContentUrl(Uri.parse(url))
-                        .getIntent();
-                startActivityForResult(shareIntent, 0);
+                shareGooglePlus(title, description, url);
                 break;
         }
     }
@@ -1165,8 +1261,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (bp != null && !bp.handleActivityResult(requestCode, resultCode, data))
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public void executeAction(MainAction action) {

@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.R;
@@ -27,6 +28,8 @@ import com.cmg.android.bbcaccent.view.ShowcaseHelper;
 import com.cmg.android.bbcaccent.view.cardview.GestureDetectorCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
@@ -50,6 +53,8 @@ public class IPAPhoneticFragment extends BaseFragment {
     private PlayerHelper player;
 
     private ShowcaseHelper showcaseHelper;
+
+    private DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -140,6 +145,14 @@ public class IPAPhoneticFragment extends BaseFragment {
                                         ipaMapArpabet.getArpabet(),
                                         ipaMapArpabet.getWords())
                         );
+                        String tongueImage = ipaMapArpabet.getImgTongue();
+
+                        if (tongueImage != null && tongueImage.length() > 0) {
+                            dialog.findViewById(R.id.imgTip).setVisibility(View.VISIBLE);
+                            ImageLoader.getInstance().displayImage(tongueImage, (ImageView) dialog.findViewById(R.id.imgTip), displayImageOptions);
+                        } else {
+                            dialog.findViewById(R.id.imgTip).setVisibility(View.GONE);
+                        }
                         ((HtmlTextView) dialog.findViewById(R.id.tv_content)).setHtmlFromString(ipaMapArpabet.getTip(), false);
                         dialog.show();
                     }
