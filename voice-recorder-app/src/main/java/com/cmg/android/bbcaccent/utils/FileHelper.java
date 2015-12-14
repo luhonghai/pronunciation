@@ -8,9 +8,12 @@ import android.os.Environment;
 import com.cmg.android.bbcaccent.MainApplication;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.InputMismatchException;
 
 /**
  * Created by luhonghai on 12/22/14.
@@ -30,6 +33,8 @@ public class FileHelper {
     private static final String IPA_CACHE_DIR = "ipa";
 
     private static final String DOWNLOAD_CACHE_DIR = "downloads";
+
+    private static final String ASSETS_CACHE_DIR = "assets";
 
     private static final String TIPS_JSON_FILE = "tips.json" + JSON_EXTENSION;
 
@@ -93,6 +98,22 @@ public class FileHelper {
                 FileUtils.copyURLToFile(new URL(url), file, 30000, 30000);
             } catch (Exception e) {
                 SimpleAppLog.error("Could not download url " + url + " to file " + file.getAbsolutePath(),e);
+            }
+        }
+        return file.getAbsolutePath();
+    }
+
+    public static String getCachedAssetPath(String url) {
+        File file = new File(getFolderPath(ASSETS_CACHE_DIR, MainApplication.getContext()), MD5Util.md5Hex(url));
+        if (!file.exists()) {
+            InputStream is = null;
+            try {
+                is = MainApplication.getContext().getAssets().open(url);
+                FileUtils.copyInputStreamToFile(is, file);
+            } catch (Exception e) {
+                SimpleAppLog.error("Could not download url " + url + " to file " + file.getAbsolutePath(),e);
+            } finally {
+                IOUtils.closeQuietly(is);
             }
         }
         return file.getAbsolutePath();

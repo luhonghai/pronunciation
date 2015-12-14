@@ -70,7 +70,14 @@ public class LessonLevelFragment extends BaseFragment {
                             } else {
                                 level.setScore(-1);
                             }
-                            if(!level.isDemo() && !level.isActive() && Preferences.getCurrentProfile().isPro()) {
+                            if (Preferences.getCurrentProfile().isPro()) {
+                                if (level.isDefaultActivated()) {
+                                    level.setActive(true);
+                                }
+                            }
+                            if(!level.isDemo()
+                                    && !level.isActive()
+                                    && Preferences.getCurrentProfile().isPro()) {
                                 // Check prev level for active current level
                                 LessonLevel prevLevel = LessonDBAdapterService.getInstance().getPrevLevelOfLevel(userProfile.getSelectedCountry().getId(), level.getId());
                                 if (prevLevel != null) {
@@ -102,6 +109,15 @@ public class LessonLevelFragment extends BaseFragment {
 
     @Override
     protected void onUpdateFullVersion() {
+        notifyListView();
+    }
+
+    @Override
+    protected void onLanguageChanged() {
+        notifyListView();
+    }
+
+    private void notifyListView() {
         if (recyclerView != null && recyclerView.getAdapter() != null) {
             recyclerView.getAdapter().notifyDataSetChanged();
         }

@@ -155,7 +155,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             public void onDataUpdate(String data, int type) {
                 switch (type) {
                     case FragmentTab.TYPE_SELECT_PHONEME_GRAPH:
-                        mTabHost.setCurrentTab(0);
+
                         break;
                 }
             }
@@ -254,16 +254,20 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                             }
                         }, 1900);
                     } else {
-                        boolean isPassed = avgScore >= viewState.lessonTest.getPercentPass();
+                        final boolean isPassed = avgScore >= viewState.lessonTest.getPercentPass();
                         int layoutId = isPassed ? R.layout.dialog_passed_test : R.layout.dialog_failed_test;
                         final Dialog dialog = new CenterFullPaddingDialog(getActivity(), layoutId);
                         final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
-                                if (getActivity() != null && !Preferences.getCurrentProfile().isPro()) {
-                                    ((MainActivity) getActivity()).showActiveFullVersionDialog();
+                                if (isPassed) {
+                                    MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
+                                    if (getActivity() != null && !Preferences.getCurrentProfile().isPro()) {
+                                        ((MainActivity) getActivity()).showActiveFullVersionDialog();
+                                    }
+                                } else {
+                                    MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(2);
                                 }
                             }
                         });
@@ -293,10 +297,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                 });
                                 AndroidHelper.updateShareButton(btnShare);
                             }
+                            final File congratAudio = new File(FileHelper.getCachedAssetPath("mp3/ta_da_fanfare.mp3"));
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     dialog.show();
+                                    if (congratAudio.exists()) play(congratAudio);
                                     recordingView.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -718,6 +724,10 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
         dialog.findViewById(R.id.btnGraph).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (panelSlider != null && panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }
+                mTabHost.setCurrentTab(0);
                 MainBroadcaster.getInstance().getSender().sendUpdateData(v.getTag().toString(), FragmentTab.TYPE_SELECT_PHONEME_GRAPH);
                 dialog.dismiss();
             }

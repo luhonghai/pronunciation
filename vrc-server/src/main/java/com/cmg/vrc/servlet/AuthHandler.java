@@ -181,10 +181,12 @@ public class AuthHandler extends HttpServlet {
                                             userDevice.setDeviceName(deviceInfo.getDeviceName());
                                             userDevice.setModel(deviceInfo.getModel());
                                             userDevice.setOsApiLevel(deviceInfo.getOsApiLevel());
+                                            userDevice.setGcmId(deviceInfo.getGcmId());
                                             userDevice.setOsVersion(deviceInfo.getOsVersion());
                                             if (userDevice.getAttachedDate() == null) {
                                                 userDevice.setAttachedDate(new Date(System.currentTimeMillis()));
                                             }
+                                            logger.info("Update IMEI: " + deviceInfo.getEmei() +". GCM id: " + deviceInfo.getGcmId());
                                             userDeviceDAO.put(userDevice);
 
                                             usage.setAppVersion(deviceInfo.getAppVersion());
@@ -205,6 +207,7 @@ public class AuthHandler extends HttpServlet {
                         } else {
                             responseData.setStatus(false);
                             responseData.setMessage("please upgrade application to latest version. https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent");
+                            type = "";
                         }
                     } else if (type.equalsIgnoreCase("staff")) {
                         AdminDAO adminDAO = new AdminDAO();

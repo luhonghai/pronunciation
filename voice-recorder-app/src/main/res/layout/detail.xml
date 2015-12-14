@@ -89,7 +89,7 @@
                     <View
                         android:id="@+id/rlVoiceExample"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp">
+                        android:layout_height="50dp">
                     </View>
                 </RelativeLayout>
                 <RelativeLayout
@@ -109,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="15dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="35dp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

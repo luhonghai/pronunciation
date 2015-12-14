@@ -430,7 +430,6 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         final int halfHeight = (displayMetrics.heightPixels - actionBarHeight) / 2;
         layoutParams.height = halfHeight;
         rlSliderContent.setLayoutParams(layoutParams);
-        txtPhonemes.setVisibility(View.INVISIBLE);
         panelSlider.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -889,6 +888,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         }
         requestLocation();
         fetchSetting();
+        if (txtPhonemes != null) txtPhonemes.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.txtPhoneme, R.id.txtWord, R.id.rlVoiceExample})

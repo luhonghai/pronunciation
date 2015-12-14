@@ -18,8 +18,10 @@ import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.GcmUtil;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.internal.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,8 @@ public class SplashActivity extends BaseActivity {
         DATABASE,
         SETTING,
         SUBSCRIPTION,
-        LICENSE_DATA
+        LICENSE_DATA,
+        GCM
     }
 
     private final List<LoadItem> loadStatus = new ArrayList<LoadItem>();
@@ -53,6 +56,8 @@ public class SplashActivity extends BaseActivity {
     ImageView imgDog;
 
     private int currentDogFrame = 1;
+
+    private GcmUtil mGcmUtil;
 
     private Runnable runnableDogAnimation = new Runnable() {
         @Override
@@ -165,6 +170,27 @@ public class SplashActivity extends BaseActivity {
 
                     }
                 });
+                mGcmUtil = GcmUtil.getInstance(this);
+                if (mGcmUtil.getRegistrationId().isEmpty()) {
+                    loadStatus.add(LoadItem.GCM);
+                    mGcmUtil.register(new GcmUtil.GcmRegisterCallback() {
+                        @Override
+                        public void onRegistered(String registrationId) {
+                            SimpleAppLog.info("gcm id: " + registrationId);
+                            loadStatus.remove(LoadItem.GCM);
+                            validateCallback();
+                        }
+
+                        @Override
+                        public void onError(String message, Throwable e) {
+                            SimpleAppLog.error(message, e);
+                            loadStatus.remove(LoadItem.GCM);
+                            validateCallback();
+                        }
+                    });
+                } else {
+                    SimpleAppLog.info("gcm id: " + mGcmUtil.getRegistrationId());
+                }
             } else {
                 loadStatus.remove(LoadItem.SUBSCRIPTION);
             }

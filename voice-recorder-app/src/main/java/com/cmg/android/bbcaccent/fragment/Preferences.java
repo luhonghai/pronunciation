@@ -19,6 +19,7 @@ import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.MainApplication;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.auth.AccountManager;
@@ -27,6 +28,7 @@ import com.cmg.android.bbcaccent.preferences.YesNoPreference;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
 import com.cmg.android.bbcaccent.utils.FileHelper;
+import com.cmg.android.bbcaccent.utils.GcmUtil;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
 import com.google.gson.Gson;
@@ -129,6 +131,7 @@ public class Preferences extends PreferenceFragment implements
         if (profile != null && profile.getSelectedCountry() != null) {
             prefLanguage.setSummary(profile.getSelectedCountry().getName());
         }
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.LANGUAGE_CHANGED, null);
     }
 
     public static void updateAdditionalProfile(final Context context, final UserProfile profile) {
@@ -148,6 +151,7 @@ public class Preferences extends PreferenceFragment implements
         deviceInfo.setOsVersion(System.getProperty("os.version"));
         deviceInfo.setOsApiLevel(android.os.Build.VERSION.SDK);
         deviceInfo.setDeviceName(android.os.Build.DEVICE);
+        deviceInfo.setGcmId(GcmUtil.getInstance(MainApplication.getContext()).getRegistrationId());
         profile.setDeviceInfo(deviceInfo);
     }
 

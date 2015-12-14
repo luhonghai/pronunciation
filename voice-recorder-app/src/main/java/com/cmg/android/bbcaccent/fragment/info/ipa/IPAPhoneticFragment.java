@@ -121,11 +121,12 @@ public class IPAPhoneticFragment extends BaseFragment {
                 viewHolder.cardView.setGestureDetector(new GestureDetectorCardView.GestureDetector() {
                     @Override
                     public void onShortPressed() {
-                        playUrl(ipaMapArpabet.getMp3Url());
+                        playUrl(ipaMapArpabet.getMp3UrlShort());
                     }
 
                     @Override
                     public void onLongPressed() {
+                        playUrl(ipaMapArpabet.getMp3Url());
                         Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.ipa_detail_dialog);
                         dialog.findViewById(R.id.btnAudio).setOnClickListener(new View.OnClickListener() {
                             @Override

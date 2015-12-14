@@ -63,6 +63,8 @@ public class BaseFragment extends Fragment {
             public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
                 if (filler == MainBroadcaster.Filler.UPDATE_FULL_VERSION) {
                     onUpdateFullVersion();
+                } else if (filler == MainBroadcaster.Filler.LANGUAGE_CHANGED) {
+                    onLanguageChanged();
                 }
             }
         });
@@ -98,6 +100,10 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onUpdateFullVersion() {
+
+    }
+
+    protected void onLanguageChanged() {
 
     }
 

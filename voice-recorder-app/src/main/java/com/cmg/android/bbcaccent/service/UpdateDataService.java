@@ -41,6 +41,10 @@ public class UpdateDataService extends IntentService {
                             if (mp3Url != null && mp3Url.length() > 0) {
                                 FileHelper.getCachedFilePath(mp3Url);
                             }
+                            mp3Url = arpabet.getMp3UrlShort();
+                            if (mp3Url != null && mp3Url.length() > 0) {
+                                FileHelper.getCachedFilePath(mp3Url);
+                            }
                         }
                     });
                 }
