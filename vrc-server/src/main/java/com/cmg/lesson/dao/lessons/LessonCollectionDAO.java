@@ -232,7 +232,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         String a="(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(nameUnique == null || nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(lesson.length()>0){
-            string.append("(name.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
+            string.append("(title.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
         }
 
         if(createDateFrom!=null&&createDateTo==null){
