@@ -37,7 +37,8 @@ public class MainBroadcaster {
         LESSON("lesson"),
         UPDATE_FULL_VERSION("full_version"),
         RESET_TIMING_HELP("reset_timing_help"),
-        LANGUAGE_CHANGED("language_changed")
+        LANGUAGE_CHANGED("language_changed"),
+        CLOSE_MAIN_ACTIVITY("close_main_activity")
         ;
         String name;
         Filler(String name) {

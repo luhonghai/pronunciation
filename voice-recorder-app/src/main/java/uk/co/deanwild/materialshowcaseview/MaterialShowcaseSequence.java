@@ -3,6 +3,8 @@ package uk.co.deanwild.materialshowcaseview;
 import android.app.Activity;
 import android.view.View;
 
+import com.cmg.android.bbcaccent.MainApplication;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -126,10 +128,12 @@ public class MaterialShowcaseSequence implements IDetachedListener {
             MaterialShowcaseView sequenceItem = mShowcaseQueue.remove();
             sequenceItem.setDetachedListener(this);
             sequenceItem.show(mActivity);
+            MainApplication.getContext().setSkipHelpPopup(true);
             if (mOnItemShownListener != null) {
                 mOnItemShownListener.onShow(sequenceItem, mSequencePosition);
             }
         } else {
+            MainApplication.getContext().setSkipHelpPopup(false);
             /**
              * We've reached the end of the sequence, save the fired state
              */

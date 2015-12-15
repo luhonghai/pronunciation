@@ -31,6 +31,14 @@ public class UserProfile {
         this.licenseData = licenseData;
     }
 
+    public String getLastSelectedMenuItem() {
+        return lastSelectedMenuItem;
+    }
+
+    public void setLastSelectedMenuItem(String lastSelectedMenuItem) {
+        this.lastSelectedMenuItem = lastSelectedMenuItem;
+    }
+
     public class LicenseData {
         private String code;
         private UserProfile.DeviceInfo deviceInfo;
@@ -304,6 +312,7 @@ public class UserProfile {
     private String uuid;
     private int helpStatus = HELP_INIT;
     private boolean isLogin = false;
+    private String lastSelectedMenuItem;
 
     private String licenseCode;
 

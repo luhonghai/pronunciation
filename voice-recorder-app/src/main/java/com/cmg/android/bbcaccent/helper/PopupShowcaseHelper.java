@@ -96,7 +96,7 @@ public class PopupShowcaseHelper {
     private Runnable runnableShowDialog = new Runnable() {
         @Override
         public void run() {
-            if (MainApplication.getContext().isSkipHelpPopup()) {
+            if (MainApplication.getContext().isSkipHelpPopup() || (helpDialog != null && helpDialog.isShowing())) {
                 handler.postDelayed(runnableShowDialog,TIMEOUT);
             } else {
                 showDialog();

@@ -347,7 +347,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                                 }
                             }
                         }
-                        selectQuestion(index, selectedWord);
+                        selectQuestion(index, true, selectedWord);
                         break;
                 }
             }
@@ -488,7 +488,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 txtDefinition.setHtmlFromString(viewState.lessonCollection.getName(), false);
             }
             viewState.selectedQuestionIndex = index;
-            if (question.isRecorded() && !loadNewWord) {
+            if (question.isRecorded() &&
+                    (!loadNewWord || !viewState.isLesson)
+                    ) {
                 viewState.dictionaryItem = question.getDictionaryItem();
                 viewState.currentModel = question.getUserVoiceModel();
                 displayDictionaryItem();
@@ -529,7 +531,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                     if (words.size() > 0)
                         selectedWord = words.get(RandomHelper.getRandomIndex(words.size()));
-                    if (selectedWord.length() > 0) {
+                    if (selectedWord != null && selectedWord.length() > 0) {
                         getWord(selectedWord);
                     } else {
                         getWord("not found");

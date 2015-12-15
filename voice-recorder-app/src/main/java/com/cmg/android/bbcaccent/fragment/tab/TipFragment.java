@@ -1,5 +1,7 @@
 package com.cmg.android.bbcaccent.fragment.tab;
 
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -14,6 +16,8 @@ import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
+import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
@@ -24,7 +28,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.sufficientlysecure.htmltextview.HtmlTextView;
 
+import java.io.File;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -62,6 +68,15 @@ public class TipFragment extends FragmentTab {
     @Bind(R.id.imgTip)
     ImageView imgTip;
 
+    @Bind(R.id.txtPhoneme)
+    TextView txtPhoneme;
+
+    @Bind(R.id.txtDefinition)
+    TextView txtDefinition;
+
+    @Bind(R.id.btnAudio)
+    CircleCardView btnAudio;
+
     private boolean isLoadedTip = false;
 
     private IPAMapArpabet currentTip;
@@ -69,6 +84,59 @@ public class TipFragment extends FragmentTab {
     private int currentTipIndex = 0;
 
     private DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+
+    private PlayerHelper player;
+
+    @OnClick(R.id.btnAudio)
+    public void clickAudio() {
+        if (currentTip != null) {
+            playUrl(currentTip.getMp3Url());
+        }
+    }
+
+    private void play(File file) {
+        if (!file.exists()) return;
+        try {
+            if (player != null) {
+                try {
+                    player.stop();
+                } catch (Exception ex) {
+
+                }
+            }
+            player = new PlayerHelper(file, new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp.release();
+                    try {
+                        player.stop();
+                    } catch (Exception ex) {
+
+                    }
+                }
+
+            });
+            player.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void playUrl(final String url) {
+        if (url == null || url.length() == 0) return;
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                File file = new File(FileHelper.getCachedFilePath(url));
+                if (file.exists()) {
+                    play(file);
+                } else {
+                    SimpleAppLog.error("Could not found media to play " + url);
+                }
+                return null;
+            }
+        }.execute();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -141,6 +209,10 @@ public class TipFragment extends FragmentTab {
                 imgTip.setVisibility(View.GONE);
             }
             txtText.setHtmlFromString(ipaMapArpabet.getTip(), true);
+            txtPhoneme.setText(ipaMapArpabet.getIpa());
+            txtDefinition.setText( String.format(Locale.getDefault(), "<%s> %s",
+                    ipaMapArpabet.getArpabet(),
+                    ipaMapArpabet.getWords()));
             List<String> words = currentTip.getWordList();
             if (words != null && words.size() > 0) {
                 currentTipIndex = RandomHelper.getRandomIndex(words.size());
@@ -148,9 +220,13 @@ public class TipFragment extends FragmentTab {
                 displayWord();
             }
             isLoadedTip = true;
+            btnAudio.setVisibility(View.VISIBLE);
         } else {
             txtText.setText(getString(R.string.no_tip_found));
             txtWord.setText(getString(R.string.tap_to_reload));
+            txtDefinition.setText("");
+            txtPhoneme.setText("");
+            btnAudio.setVisibility(View.GONE);
             txtWord.setVisibility(View.VISIBLE);
             isLoadedTip = false;
         }

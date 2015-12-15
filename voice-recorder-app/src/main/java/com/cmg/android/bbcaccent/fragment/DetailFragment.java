@@ -810,41 +810,45 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void switchButtonState(ButtonState state) {
-        switch (state) {
-            case PLAYING:
-                btnAudio.setEnabled(true);
-                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_close);
-                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
-                txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
-                break;
-            case RED:
-                btnAudio.setEnabled(true);
-                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
-                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
-                txtWord.setTextColor(ColorHelper.getColor(R.color.app_red));
-                break;
-            case ORANGE:
-                btnAudio.setEnabled(true);
-                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
-                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
-                txtWord.setTextColor(ColorHelper.getColor(R.color.app_orange));
-                break;
-            case GREEN:
-                btnAudio.setEnabled(true);
-                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
-                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
-                txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
-                break;
-            default:
-                break;
-        }
-        if (model != null) {
-            File audio = new File(model.getAudioFile());
-            if (!audio.exists()) {
-                btnAudio.setEnabled(false);
-                ((ImageView)btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
-                btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+        try {
+            switch (state) {
+                case PLAYING:
+                    btnAudio.setEnabled(true);
+                    ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_close);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                    break;
+                case RED:
+                    btnAudio.setEnabled(true);
+                    ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_red));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_red));
+                    break;
+                case ORANGE:
+                    btnAudio.setEnabled(true);
+                    ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_orange));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_orange));
+                    break;
+                case GREEN:
+                    btnAudio.setEnabled(true);
+                    ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_green));
+                    txtWord.setTextColor(ColorHelper.getColor(R.color.app_green));
+                    break;
+                default:
+                    break;
             }
+            if (model != null) {
+                File audio = new File(model.getAudioFile());
+                if (!audio.exists()) {
+                    btnAudio.setEnabled(false);
+                    ((ImageView) btnAudio.getChildAt(0)).setImageResource(R.drawable.ic_play);
+                    btnAudio.setCardBackgroundColor(ColorHelper.getColor(R.color.app_gray));
+                }
+            }
+        } catch (Exception e) {
+            SimpleAppLog.error("could not switch button state",e);
         }
     }
 
