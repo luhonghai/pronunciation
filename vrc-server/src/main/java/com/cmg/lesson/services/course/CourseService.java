@@ -2,6 +2,7 @@ package com.cmg.lesson.services.course;
 
 import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.course.CourseDAO;
+import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.dao.level.LevelDAO;
 import com.cmg.lesson.data.dto.course.CourseDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
@@ -162,6 +163,8 @@ public class CourseService {
             boolean isDelete = dao.updateDeleted(id);
                 if (isDelete) {
                     //need to be update to all mapping table
+                    CourseMappingLevelDAO cmd = new CourseMappingLevelDAO();
+                    cmd.removeCourseMapping(id);
                     message = SUCCESS;
                 } else {
                     message = ERROR + ": " + "an error has been occurred in server!";

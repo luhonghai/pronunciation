@@ -128,7 +128,6 @@ public class CourseMappingLevelDAO extends DataAccess<CourseMappingLevel> {
 
     /**
      *
-     * @param idCourse
      * @param idLevel
      * @return
      * @throws Exception
@@ -140,6 +139,31 @@ public class CourseMappingLevelDAO extends DataAccess<CourseMappingLevel> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idLevel=?");
         try {
             q.execute(true,idLevel);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return check;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     * @throws Exception
+     */
+    public boolean removeCourseMapping(String idCourse) throws Exception{
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingLevel.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE idCourse=?");
+        try {
+            q.execute(true,idCourse);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
