@@ -253,7 +253,7 @@ public class WordCollectionService {
         String messageError = "";
         WordCollectionDAO dao = new WordCollectionDAO();
         try {
-            WordCollection wordCollection=dao.getByWord(wordID);
+            WordCollection wordCollection=dao.getByID(wordID);
             if(wordCollection!=null) {
                 boolean check = dao.updateWordInformation(wordID, definition, mp3Path, arpabet);
                 if (check) {
