@@ -56,7 +56,7 @@ function listLessons(){
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
-                    $button = $('<button type="button" style="margin-right:5px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:5px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementQuestionOfLesson.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
+                    $button = $('<button type="button" style="margin-right:5px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:5px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="question-of-lesson-management.jsp?id='+ data.id +'" type="button" id="addQuestion" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Question ' + '</a>');
                     $button.attr("id-column", data.id);
                     $button.attr("lesson", data.nameUnique);
                     $button.attr("title", data.title);

@@ -47,9 +47,9 @@ function listQuestion(){
             "mRender": function (data, type, full) {
                 //$button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                 var $a = $('</a>');
-                $a.attr("href", "ManagementWordOfQuestion.jsp?id="+ data.id);
+                $a.attr("href", "word-of-question-management.jsp?id="+ data.id);
                 $a.text(data.name);
-                var html = "<a href='ManagementWordOfQuestion.jsp?id="+data.id+"'>"+data.name+"</a>";
+                var html = "<a href='word-of-question-management.jsp?id="+data.id+"'>"+data.name+"</a>";
                 return $("<div/>").append(html).html();
             }
 

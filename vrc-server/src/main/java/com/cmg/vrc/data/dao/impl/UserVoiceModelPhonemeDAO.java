@@ -338,9 +338,9 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
-                query.append(" ORDER BY userLesson.country ASC");
+                query.append(" ORDER BY tmp.country ASC");
             } else if (column == 3 && order.equals("desc")) {
-                query.append(" ORDER BY userLesson.country DESC");
+                query.append(" ORDER BY tmp.country DESC");
             }
             if (column == 4 && order.equals("asc")) {
                 query.append(" ORDER BY tmp.serverTime ASC");
@@ -723,9 +723,9 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
                 query.append(" ORDER BY tmp.totalScore DESC");
             }
             if (column == 3 && order.equals("asc")) {
-                query.append(" ORDER BY userLesson.country ASC");
+                query.append(" ORDER BY tmp.country ASC");
             } else if (column == 3 && order.equals("desc")) {
-                query.append(" ORDER BY userLesson.country DESC");
+                query.append(" ORDER BY tmp.country DESC");
             }
             if (column == 4 && order.equals("asc")) {
                 query.append(" ORDER BY userLesson.serverTime ASC");

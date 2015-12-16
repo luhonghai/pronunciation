@@ -107,7 +107,7 @@ function listUsers(){
 function user(){
     $(document).on("click","#user",function() {
         var user = $(this).attr('user');
-        window.location.href = "UserManage.jsp?username=" + user;
+        window.location.href = "user-manage.jsp?username=" + user;
     });
 
 }

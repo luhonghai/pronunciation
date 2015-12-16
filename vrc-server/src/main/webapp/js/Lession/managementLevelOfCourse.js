@@ -212,7 +212,7 @@ function getLessonsForObj(idLevel,idObject){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-obj" class="close '+idObject+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idObject+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.name+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
+                    alertContent += '<a title="'+obj.name+'" href="question-of-lesson-management.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idObject+idLevel+" #collection_lesson_obj"+idLevel).append(alertContent);
                 });
@@ -618,7 +618,7 @@ function getLessonForTest(idTest){
                 $.each(data.data, function (idx, obj) {
                     alertContent = '<div class="alert alert-info">'
                     alertContent += '<a id="delete" action="lesson-test" class="close '+idTest+obj.id+'" leson-id="'+obj.id+'" obj-child-id="'+idTest+'" title="close" aria-label="close" href="#">×</a>'; /*data-dismiss="alert" */
-                    alertContent += '<a title="'+obj.description+'" href="ManagementQuestionOfLesson.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
+                    alertContent += '<a title="'+obj.description+'" href="question-of-lesson-management.jsp?id='+obj.id+'">'+obj.nameUnique+'</a>';
                     alertContent += '</div>';
                     $("#"+idTest+" #collection_lesson_test").append(alertContent);
                 });

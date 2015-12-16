@@ -43,7 +43,7 @@ function listCourse(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="ManagementLevelOfCourse.jsp?id='+ data.id +'" type="button" id="addlevel" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Level ' + '</a>');
+                $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button style="margin-right:10px" type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="level-of-course-management.jsp?id='+ data.id +'" type="button" id="addlevel" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Level ' + '</a>');
                 $button.attr("id-column", data.id);
                 $button.attr("course", data.name);
                 $button.attr("description", data.description);

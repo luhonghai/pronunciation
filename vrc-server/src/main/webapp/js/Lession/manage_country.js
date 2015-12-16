@@ -136,7 +136,7 @@ function submitForm(){
                         $("#add").modal('hide');
                         swal("Success!", "You have add language success!", "success");
                     }else if(data.message.indexOf("isDefaut is existed") !=-1) {
-                        swal("Error!", "Laguage only one default", "error");
+                        swal("Error!", "Another language has been set to default already!", "error");
                     }else {
                         swal("Could not add language!", data.message.split(":")[1], "error");
                     }
@@ -174,7 +174,7 @@ function submitForm(){
                         $("#add").modal('hide');
                         swal("Success!", "You have edit language success!", "success");
                     }else if(data.message.indexOf("isDefaut is existed") !=-1) {
-                        swal("Error!", "Laguage only one default", "error");
+                        swal("Error!", "Another language has been set to default already!", "error");
                     }else{
                         if(data.message.indexOf("deleted") !=-1){
                             $("#add").modal('hide');

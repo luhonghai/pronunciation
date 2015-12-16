@@ -36,12 +36,12 @@
 				<li>
 					<a href="#"><i class="fa fa-user-secret"></i> Admin</a>
 					<ul>
-						<li><a href="AdminManage.jsp">Manage User</a></li>
-						<li><a href="AdminManageTranscription.jsp">Manage Transcription</a></li>
-						<li><a href="AdminManageRecorder.jsp">Manage Recording</a></li>
-						<li><a href="LanguageModel.jsp">Language model</a></li>
-						<li><a href="Dictionary.jsp">Dictionary management</a></li>
-						<li><a href="AcousticModel.jsp">Acoustic model</a></li>
+						<li><a href="admin-manage.jsp">Manage User</a></li>
+						<li><a href="admin-manage-transcription.jsp">Manage Transcription</a></li>
+						<li><a href="admin-manage-recorder.jsp">Manage Recording</a></li>
+						<li><a href="language-model.jsp">Language model</a></li>
+						<li><a href="dictionary-manage.jsp">Dictionary management</a></li>
+						<li><a href="acoustic-model.jsp">Acoustic model</a></li>
 					</ul>
 				</li>
 				<%
@@ -49,7 +49,7 @@
 				%>
 
 				<li>
-					<a href="ClientCodeManage.jsp"><i class="fa fa-user"></i> Client Code </a>
+					<a href="client-code-manage.jsp"><i class="fa fa-user"></i> Client Code </a>
 				</li>
 
 				<li>
@@ -57,7 +57,7 @@
 				</li>
 
 				<li>
-					<a href="ManageFeedbacks.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
+					<a href="feedbacks-manage.jsp" ><i class="glyphicon glyphicon-comment"></i> Feedback </a>
 				</li>
 				<li>
 					<a href="#"><i class="fa fa-folder"></i> Lessons</a>
@@ -68,26 +68,26 @@
 						</li>
 
 						<li>
-							<a href="ManagementWord.jsp" ><i class="fa fa-file-word-o"></i> Word Management </a>
+							<a href="word-management.jsp" ><i class="fa fa-file-word-o"></i> Word Management </a>
 						</li>
 
 						<li>
-							<a href="ManagementQuestion.jsp" ><i class="fa fa-question-circle"></i> Question Management </a>
+							<a href="question-management.jsp" ><i class="fa fa-question-circle"></i> Question Management </a>
 						</li>
 						<li>
-							<a href="ManagementLessons.jsp" ><i class="fa fa-list"></i> Lessons Management </a>
+							<a href="lessons-management.jsp" ><i class="fa fa-list"></i> Lessons Management </a>
 						</li>
 						<li>
-							<a href="ManagementLevel.jsp" ><i class="fa fa-list-alt"></i> Level Management </a>
+							<a href="level-management.jsp" ><i class="fa fa-list-alt"></i> Level Management </a>
 						</li>
 						<li>
-							<a href="ManagementCourse.jsp" ><i class="fa fa-table"></i> Course Management </a>
+							<a href="course-management.jsp" ><i class="fa fa-table"></i> Course Management </a>
 						</li>
 						<li>
 							<a href="management_country.jsp" ><i class="fa fa-language"></i> Language Management </a>
 						</li>
 						<li>
-							<a href="Database.jsp" ><i class="fa fa-database"></i> Database Management  </a>
+							<a href="database-manage.jsp" ><i class="fa fa-database"></i> Database Management  </a>
 						</li>
 					</ul>
 				</li>
@@ -95,29 +95,29 @@
 
 
 				<li>
-					<a href="LicenseCode.jsp"><i class="glyphicon glyphicon-euro"></i> Licence Code </a>
+					<a href="license-code.jsp"><i class="glyphicon glyphicon-euro"></i> Licence Code </a>
 				</li>
 
 				<li>
-					<a href="PronunciationPhoneme.jsp"><i class="glyphicon glyphicon-heart"></i> Phoneme Score </a>
+					<a href="pronunciation-phoneme.jsp"><i class="glyphicon glyphicon-heart"></i> Phoneme Score </a>
 				</li>
 
 				<li>
-					<a href="TestPage.jsp"><i class="fa fa-stethoscope"></i> Test Page </a>
+					<a href="test-page.jsp"><i class="fa fa-stethoscope"></i> Test Page </a>
 				</li>
 
 				<li>
-					<a href="AllUser.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
+					<a href="total-user.jsp"><i class="fa fa-bar-chart-o fa-fw"></i> Total user </a>
 
 					<!-- /.nav-second-level -->
 				</li>
 
 				<li>
-					<a href="SystemSetting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
+					<a href="system-setting.jsp"><i class="fa fa-edit fa-fw"></i> Setting </a>
 				</li>
 
 				<li>
-					<a href="PronunciationScore.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
+					<a href="pronunciation-score.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 
 
