@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="ManageFeedbacks.jsp">
+                        <a href="feedbacks-manage.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="AllUser.jsp">
+                        <a href="total-user.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="PronunciationScore.jsp">
+                        <a href="pronunciation-score.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -91,7 +91,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="LicenseCode.jsp">
+                        <a href="license-code.jsp">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
