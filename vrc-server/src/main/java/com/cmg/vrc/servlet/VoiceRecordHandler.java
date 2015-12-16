@@ -91,9 +91,9 @@ public class VoiceRecordHandler extends HttpServlet {
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
                 String name = item.getFieldName();
-                InputStream stream =null;
+                InputStream stream = null;
                 try {
-                    item.openStream();
+                    stream = item.openStream();
                     if (item.isFormField()) {
                         logger.info(name);
                         String value = Streams.asString(stream);

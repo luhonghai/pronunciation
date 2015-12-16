@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.cmg.android.bbcaccent.auth.AccountManager;
+import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.DatabasePrepare.OnPrepraredListener;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
@@ -95,6 +96,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.CLOSE_MAIN_ACTIVITY, null);
         Fabric.with(this, new Crashlytics());
         startTime = System.currentTimeMillis();
         AppLog.logString("Key hash: " + AndroidHelper.getKeyHash(getApplicationContext()));
@@ -135,7 +137,7 @@ public class SplashActivity extends BaseActivity {
 
                 }
             }).prepare();
-            handlerDogAnimation.post(runnableDogAnimation);
+            handlerDogAnimation.postDelayed(runnableDogAnimation, 500);
             if (AndroidHelper.checkGooglePlayServiceAvailability(getApplicationContext(), -1)) {
                 bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
                     @Override

@@ -18,78 +18,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/txtPhoneme"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/app_green"
+                        android:textStyle="bold"
+                        android:textSize="30sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/txtDefinition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/app_green"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
             <ImageView
                 android:id="@+id/imgTip"
                 android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        <org.sufficientlysecure.htmltextview.HtmlTextView
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:id="@+id/txtTextTip"
-            android:gravity="start"
-            android:textSize="@dimen/main_selected_phoneme_size"
-            android:textColor="#579e11"
-            android:padding="10dp"
-            />
+            <org.sufficientlysecure.htmltextview.HtmlTextView
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:id="@+id/txtTextTip"
+                android:gravity="start"
+                android:textSize="@dimen/main_selected_phoneme_size"
+                android:textColor="@color/app_green"
+                android:padding="10dp"
+                />
         </LinearLayout>
     </ScrollView>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         >
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
-            <ImageButton
-                android:background="@null"
-                android:src="@drawable/p_prev"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                android:scaleType="fitCenter"
-                android:layout_width="@dimen/button_list_default_size"
-                android:layout_height="@dimen/button_list_default_size"
-                android:id="@+id/btnPrevTip"
-                android:layout_marginLeft="@dimen/button_tip_margin"
-                android:layout_marginStart="@dimen/button_tip_margin"/>
-
-            <TextView
-                android:layout_height="fill_parent"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:textSize="@dimen/main_selected_word_size"
-                android:textStyle="bold"
-                android:textColor="#579e11"
-                android:padding="10dp"
-                android:id="@+id/txtWordTip"
-                />
-            <ImageButton
-                android:background="@null"
-                android:src="@drawable/p_next"
-                android:adjustViewBounds="true"
-                android:layout_gravity="center"
-                android:scaleType="fitCenter"
-                android:layout_width="@dimen/button_list_default_size"
-                android:layout_height="@dimen/button_list_default_size"
-                android:id="@+id/btnNextTip"
-                android:layout_marginRight="@dimen/button_tip_margin"
-                android:layout_marginEnd="@dimen/button_tip_margin"/>
-        </LinearLayout>
         <com.cmg.android.bbcaccent.view.cardview.CircleCardView
             android:id="@+id/btnRecordTip"
             android:layout_width="@dimen/button_list_default_size"
             android:layout_height="@dimen/button_list_default_size"
             app:cardElevation="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:clickable="true"
             android:foreground="@android:color/transparent"
             app:cardBackgroundColor="@color/app_green"
-            android:stateListAnimator="@anim/lift_up"
-            android:layout_gravity="center_horizontal|center_vertical">
+            android:stateListAnimator="@anim/lift_up">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -97,6 +84,55 @@
                 android:scaleType="fitXY"
                 android:layout_gravity="center_horizontal|center_vertical"/>
         </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/p_prev"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_width="@dimen/button_list_default_size"
+            android:layout_height="@dimen/button_list_default_size"
+            android:id="@+id/btnPrevTip"
+            android:layout_marginLeft="@dimen/button_tip_margin"
+            android:layout_marginStart="@dimen/button_tip_margin"/>
+        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:textSize="@dimen/main_selected_word_size"
+            android:textStyle="bold"
+            android:textColor="@color/app_green"
+            android:id="@+id/txtWordTip"
+            />
+        <ImageButton
+            android:background="@null"
+            android:src="@drawable/p_next"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_width="@dimen/button_list_default_size"
+            android:layout_height="@dimen/button_list_default_size"
+            android:id="@+id/btnNextTip"
+            android:layout_marginRight="@dimen/button_tip_margin"
+            android:layout_marginEnd="@dimen/button_tip_margin"/>
+        <com.cmg.android.bbcaccent.view.cardview.CircleCardView
+            android:id="@+id/btnAudio"
+            android:layout_width="@dimen/button_list_default_size"
+            android:layout_height="@dimen/button_list_default_size"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            app:cardElevation="0dp"
+            android:clickable="true"
+            android:foreground="@android:color/transparent"
+            app:cardBackgroundColor="@color/app_green"
+            android:stateListAnimator="@anim/lift_up">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_play"
+                android:scaleType="fitXY"
+                android:layout_gravity="center_horizontal|center_vertical"/>
+        </com.cmg.android.bbcaccent.view.cardview.CircleCardView>
     </LinearLayout>
-
 </LinearLayout>

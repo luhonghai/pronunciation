@@ -12,7 +12,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,18 +24,15 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +60,6 @@ import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
 import com.cmg.android.bbcaccent.view.dialog.FullscreenDialog;
 import com.cmg.android.bbcaccent.view.dialog.LanguageDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.cocosw.bottomsheet.BottomSheetHelper;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -483,6 +478,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                         count = bundle.getInt(MainBroadcaster.Filler.Key.COUNT.toString());
                     }
                     popBackStackFragment(count);
+                } else if (filler == MainBroadcaster.Filler.CLOSE_MAIN_ACTIVITY) {
+                    MainActivity.this.finish();
                 }
             }
         });
@@ -624,6 +621,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 startActivity(i);
                 break;
             default:
+                UserProfile profile = Preferences.getCurrentProfile();
+                if (profile != null) {
+                    profile.setLastSelectedMenuItem(menuItem.toString());
+                    Preferences.updateProfile(MainApplication.getContext(), profile);
+                }
                 switchFragment(menuItem, null, null);
         }
     }
@@ -1008,6 +1010,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 break;
         }
+        MainApplication.getContext().setSkipHelpPopup(currentFragmentState == FragmentState.SETTINGS);
         txtTitle.setText(currentFragmentState.getTitle());
     }
 
@@ -1039,6 +1042,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                             }
                             break;
                     }
+                    MainApplication.getContext().setSkipHelpPopup(state == FragmentState.SETTINGS);
                     if (android.app.Fragment.class.isAssignableFrom(clazz)) {
                         findViewById(R.id.contentV4).setVisibility(View.GONE);
                         findViewById(R.id.content).setVisibility(View.VISIBLE);
@@ -1169,7 +1173,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             });
         } else {
             if (userProfile != null && userProfile.isPro()) {
-                switchFragment(ListMenuAdapter.MenuItem.FREESTYLE, null, null);
+                String lastMenuItem = userProfile.getLastSelectedMenuItem();
+                ListMenuAdapter.MenuItem menuItem = null;
+                if (lastMenuItem != null && lastMenuItem.length() > 0) {
+                    menuItem = ListMenuAdapter.MenuItem.fromName(lastMenuItem);
+                }
+                if (menuItem != ListMenuAdapter.MenuItem.FREESTYLE && menuItem != ListMenuAdapter.MenuItem.LESSON) {
+                    menuItem = ListMenuAdapter.MenuItem.FREESTYLE;
+                }
+                switchFragment(menuItem, null, null);
             } else {
                 switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
             }

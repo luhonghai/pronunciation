@@ -40,7 +40,7 @@ public class LessonLevelFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_level, null);
         ButterKnife.bind(this, root);
-        final UserProfile userProfile = Preferences.getCurrentProfile();
+        UserProfile userProfile = Preferences.getCurrentProfile();
         if (userProfile != null && userProfile.getSelectedCountry() != null) {
             try {
                 Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(userProfile.getSelectedCountry().getId());
@@ -62,6 +62,7 @@ public class LessonLevelFragment extends BaseFragment {
                     @Override
                     public LessonLevel bindLevelData(LessonLevel level) {
                         try {
+                            final UserProfile userProfile = Preferences.getCurrentProfile();
                             LevelScore levelScore = LessonHistoryDBAdapterService.getInstance().getLevelScore(userProfile.getUsername(),
                                                 userProfile.getSelectedCountry().getId(), level.getId());
                             if (levelScore != null) {
@@ -90,6 +91,9 @@ public class LessonLevelFragment extends BaseFragment {
                                         level.setActive(true);
                                     }
                                 }
+                            }
+                            if (!level.isDemo() && !Preferences.getCurrentProfile().isPro()) {
+                                level.setActive(false);
                             }
                         } catch (LiteDatabaseException e) {
                             SimpleAppLog.error("could not get level score",e);

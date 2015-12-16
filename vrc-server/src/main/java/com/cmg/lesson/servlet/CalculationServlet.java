@@ -17,6 +17,7 @@ import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -76,7 +77,7 @@ public class CalculationServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
         final ScoreService service = new ScoreService();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().serializeSpecialFloatingPointValues().create();
         ResponseData<UserLessonHistory> responseData = new ResponseData<>();
         responseData.setStatus(false);
         try {
@@ -130,6 +131,8 @@ public class CalculationServlet extends HttpServlet {
             String idItem = (String) StringUtil.isNull(storePara.get(PARA_TEST_OR_OBJECTIVE_ID), "");
             String idLevel = (String) StringUtil.isNull(storePara.get(PARA_LEVEL_ID), "");
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
+                logger.info("Profile request: " + profile);
+                logger.info("Word: " + word);
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
                 LoginToken loginToken = loginTokenDAO.getByAccountAndDevice(user.getUsername(), user.getDeviceInfo().getEmei());
