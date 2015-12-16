@@ -31,7 +31,7 @@ public class UpdateDataService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
-            final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true).build();
+            final DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().cacheOnDisk(true).build();
             Map<String, IPAMapArpabet> mapArpabetMap = LessonDBAdapterService.getInstance().getMapIPAArpabet();
             if (mapArpabetMap != null && mapArpabetMap.size() > 0) {
                 for (final IPAMapArpabet arpabet : mapArpabetMap.values()) {

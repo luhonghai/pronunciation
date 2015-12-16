@@ -299,6 +299,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     @Override
                     public void onSuccess() {
                         profile.setIsActivatedLicence(true);
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.SUBSCRIPTION, AnalyticHelper.Action.SWITCH_LICENCE, profile.getLicenseCode() + " " + profile.getUsername());
                         Preferences.updateProfile(MainActivity.this, profile);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -363,6 +364,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                     @Override
                     public void onSuccess() {
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.SUBSCRIPTION, AnalyticHelper.Action.USE_LICENCE, profile.getLicenseCode() + " " + profile.getUsername());
                         profile.setIsActivatedLicence(true);
                         Preferences.updateProfile(MainActivity.this, profile);
                         runOnUiThread(new Runnable() {
@@ -489,7 +491,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         bp = IAPFactory.getBillingProcessor(this, new BillingProcessor.IBillingHandler() {
             @Override
             public void onProductPurchased(String productId, TransactionDetails details) {
+
                 UserProfile userProfile = Preferences.getCurrentProfile();
+                AnalyticHelper.sendEvent(AnalyticHelper.Category.SUBSCRIPTION, AnalyticHelper.Action.BUY_SUBSCRIPTION, productId + " " + userProfile.getUsername());
                 userProfile.setIsSubscription(true);
                 Preferences.updateProfile(MainActivity.this, userProfile);
                 doUpdateFullVersion();
@@ -609,6 +613,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @OnItemClick(R.id.listMenu)
     public void clickListMenu(int position) {
         ListMenuAdapter.MenuItem menuItem = ((ListMenuAdapter)listMenu.getAdapter()).getMenuItems()[position];
+        AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_MENU_ITEM, menuItem.toString());
         switch (menuItem) {
             case LOGOUT:
                 showLogoutDialog();
@@ -1010,6 +1015,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
                 break;
         }
+        AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_FRAGMENT, currentFragmentState.clazz.getName());
         MainApplication.getContext().setSkipHelpPopup(currentFragmentState == FragmentState.SETTINGS);
         txtTitle.setText(currentFragmentState.getTitle());
     }
@@ -1025,6 +1031,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     drawerLayout.closeDrawer(Gravity.LEFT);
                 }
                 if (state != currentFragmentState) {
+                    if (state == FragmentState.FEEDBACK) {
+                        AndroidHelper.takeScreenShot(this);
+                    }
+                    AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_FRAGMENT, clazz.getName());
                     switch (state) {
                         case FREE_STYLE:
                             if (menu != null) {

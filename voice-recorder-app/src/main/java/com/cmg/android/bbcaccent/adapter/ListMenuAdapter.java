@@ -2,19 +2,16 @@ package com.cmg.android.bbcaccent.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
-
-import java.util.Arrays;
-import java.util.List;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by luhonghai on 4/10/15.
@@ -123,7 +120,7 @@ public class ListMenuAdapter extends BaseAdapter {
             view = new ViewHolder();
             convertView = inflater.inflate(R.layout.list_menu_item,
                     null);
-            view.imageButton = (ImageButton) convertView.findViewById(R.id.btnMenuImage);
+            view.imageButton = (ImageView) convertView.findViewById(R.id.btnMenuImage);
             view.textView = (TextView) convertView.findViewById(R.id.txtMenuItem);
             convertView.setTag(view);
         } else {
@@ -133,13 +130,13 @@ public class ListMenuAdapter extends BaseAdapter {
         MenuItem item = menuItems[position];
         view.textView.setText(item.toString());
         view.textView.setTextColor(item.textColor);
-        view.imageButton.setImageResource(item.drawableId);
+        ImageLoader.getInstance().displayImage("drawable://" + item.drawableId, view.imageButton);
         return convertView;
     }
 
     private static class ViewHolder {
 
-        ImageButton imageButton;
+        ImageView imageButton;
 
         TextView textView;
     }

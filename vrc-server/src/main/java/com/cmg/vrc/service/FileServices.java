@@ -1,5 +1,7 @@
 package com.cmg.vrc.service;
 
+import org.apache.commons.io.IOUtils;
+
 import javax.servlet.http.Part;
 import java.io.*;
 import java.util.Properties;
@@ -44,6 +46,8 @@ public class FileServices {
             if (out != null) {
                 out.close();
             }
+            IOUtils.closeQuietly(item);
+            IOUtils.closeQuietly(filecontent);
         }
         return file.getAbsolutePath();
     }
@@ -104,11 +108,14 @@ public class FileServices {
 
     public static void getProperties(String propName) {
         prop = new Properties();
+        InputStream is = FileServices.class.getClassLoader().getResourceAsStream(
+                propName);
         try {
             // load a properties file from class path, inside static method
-            prop.load(FileServices.class.getClassLoader().getResourceAsStream(
-                    propName));
+            prop.load(is);
         } catch (Exception ex) {
+        } finally {
+            IOUtils.closeQuietly(is);
         }
     }
 

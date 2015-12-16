@@ -22,6 +22,7 @@ import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.ShowcaseHelper;
@@ -126,16 +127,22 @@ public class IPAPhoneticFragment extends BaseFragment {
                 viewHolder.cardView.setGestureDetector(new GestureDetectorCardView.GestureDetector() {
                     @Override
                     public void onShortPressed() {
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.TIP,
+                                AnalyticHelper.Action.PLAY_TIP_AUDIO, ipaMapArpabet.getIpa());
                         playUrl(ipaMapArpabet.getMp3UrlShort());
                     }
 
                     @Override
                     public void onLongPressed() {
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.TIP,
+                                AnalyticHelper.Action.VIEW_TIP, ipaMapArpabet.getIpa());
                         playUrl(ipaMapArpabet.getMp3Url());
                         Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.ipa_detail_dialog);
                         dialog.findViewById(R.id.btnAudio).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                AnalyticHelper.sendEvent(AnalyticHelper.Category.TIP,
+                                        AnalyticHelper.Action.PLAY_TIP_AUDIO, ipaMapArpabet.getIpa());
                                 playUrl(ipaMapArpabet.getMp3Url());
                             }
                         });

@@ -51,6 +51,7 @@ import com.cmg.android.bbcaccent.fragment.tab.HistoryFragment;
 import com.cmg.android.bbcaccent.fragment.tab.TipFragment;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
 import com.cmg.android.bbcaccent.helper.PopupShowcaseHelper;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -198,13 +199,16 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             viewState = MainApplication.fromJson(bundle.getString(LessonFragment.ViewState.class.getName()), LessonFragment.ViewState.class);
             recyclerView.setAdapter(new QuestionAdapter());
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-            for (Question question : viewState.questions) {
+            int notRecordedQuestionIndex = 0;
+            for (int i = 0; i < viewState.questions.size(); i++) {
+                Question question = viewState.questions.get(i);
                 if (!question.isRecorded()) {
+                    notRecordedQuestionIndex = i;
                     isCompleted = false;
                     break;
                 }
             }
+            recyclerView.scrollToPosition(notRecordedQuestionIndex);
             if (isCompleted) {
                 if (viewState.isLesson) {
                     rlActionContainer.setVisibility(View.VISIBLE);
@@ -229,6 +233,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
                         TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
                         textView.setText(String.format(Locale.getDefault(), "Your overall score for %s is", viewState.lessonCollection.getTitle()));
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
+                                AnalyticHelper.Action.LESSON_SUCCESS, viewState.lessonCollection.getName() + " " + viewState.lessonCollection.getId(), avgScore);
                         final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
                         recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
                             @Override
@@ -258,6 +264,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         int layoutId = isPassed ? R.layout.dialog_passed_test : R.layout.dialog_failed_test;
                         final Dialog dialog = new CenterFullPaddingDialog(getActivity(), layoutId);
                         final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
+                                isPassed ? AnalyticHelper.Action.TEST_SUCCESS : AnalyticHelper.Action.TEST_FAILED
+                                , viewState.lessonTest.getName() + " " + viewState.lessonTest.getId(), avgScore);
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
@@ -745,6 +754,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             public void onClick(View v) {
                 if (ipaMapArpabet == null || ipaMapArpabet.getMp3Url() == null || ipaMapArpabet.getMp3Url().length() == 0 ) return;
                 File ipaAudio = new File(FileHelper.getCachedFilePath(ipaMapArpabet.getMp3Url()));
+                AnalyticHelper.sendEvent(AnalyticHelper.Category.TIP,
+                        AnalyticHelper.Action.PLAY_TIP_AUDIO
+                        , ipaMapArpabet.getIpa());
                 playFile(ipaAudio);
             }
         });
@@ -980,14 +992,6 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 } else {
                     bgColor = R.color.app_purple;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                          if (recyclerView != null) {
-                              recyclerView.scrollToPosition(position);
-                          }
-                        }
-                    }, 100);
                 }
             }
             holder.txtScore.setText(text);

@@ -11,6 +11,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Properties;
@@ -170,26 +171,32 @@ public class MailService {
     }
 
     private String generateActivationContent(String account, String code) {
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("contents/activation-email.html");
         try {
-            String source = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("contents/activation-email.html"));
+            String source = IOUtils.toString(is);
             source = source.replaceAll("%ACTIVATION_CODE%",URLEncoder.encode(code, "UTF-8"));
             source = source.replaceAll("%URL_ACTIVE_ACCOUNT%", Configuration.getValue(Configuration.URL_ACTIVE_ACCOUNT) );
             source = source.replaceAll("%ACTIVATION_USER%", URLEncoder.encode(account, "UTF-8"));
             return source;
         } catch (Exception e) {
             log(Level.SEVERE, "Could not read activation HTML template", e);
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         return "";
     }
 
     private String generateResetPasswordContent(String account, String code) {
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("contents/resetpassword-email.html");
         try {
-            String source = IOUtils.toString(this.getClass().getClassLoader().getResourceAsStream("contents/resetpassword-email.html"));
+            String source = IOUtils.toString(is);
             source = source.replaceAll("%RESET_CODE%",URLEncoder.encode(code, "UTF-8"));
             source = source.replaceAll("%URL_RESET_PASSWORD%", Configuration.getValue(Configuration.URL_RESET_PASSWORD));
             return source;
         } catch (Exception e) {
             log(Level.SEVERE, "Could not read activation HTML template", e);
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         return "";
     }

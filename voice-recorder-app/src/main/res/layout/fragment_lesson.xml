@@ -78,6 +78,9 @@
                         android:layout_gravity="center_horizontal|center_vertical">
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/recyclerView"
+                            android:fadeScrollbars="false"
+                            android:scrollbarThumbVertical="@drawable/scrollbar"
+                            android:scrollbars="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="70dp"/>
                     </RelativeLayout>

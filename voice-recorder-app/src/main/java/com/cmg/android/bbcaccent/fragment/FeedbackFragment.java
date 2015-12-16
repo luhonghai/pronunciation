@@ -26,6 +26,7 @@ import com.cmg.android.bbcaccent.http.UploadFeedbackAsync;
 import com.cmg.android.bbcaccent.http.common.Common;
 import com.cmg.android.bbcaccent.http.common.DeviceInfoCommon;
 import com.cmg.android.bbcaccent.http.common.FileCommon;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ContentUtils;
 import com.cmg.android.bbcaccent.utils.DeviceUuidFactory;
@@ -101,6 +102,8 @@ public class FeedbackFragment extends BaseFragment {
                 }
             }
         });
+        UserProfile userProfile = Preferences.getCurrentProfile();
+        AnalyticHelper.sendEvent(AnalyticHelper.Category.FEEDBACK, AnalyticHelper.Action.OPEN_FEEDBACK_PAGE, userProfile == null ? "" : userProfile.getUsername());
         return root;
     }
 
@@ -165,6 +168,8 @@ public class FeedbackFragment extends BaseFragment {
                 UploadFeedbackAsync uploadAsync = new UploadFeedbackAsync(MainApplication.getContext(), params);
                 uploadAsync.execute();
                 showProcessDialog();
+                UserProfile userProfile = Preferences.getCurrentProfile();
+                AnalyticHelper.sendEvent(AnalyticHelper.Category.FEEDBACK, AnalyticHelper.Action.SEND_FEEDBACK, userProfile == null ? "" : userProfile.getUsername());
             }
         }
     }
