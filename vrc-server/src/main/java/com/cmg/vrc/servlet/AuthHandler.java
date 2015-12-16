@@ -206,8 +206,9 @@ public class AuthHandler extends HttpServlet {
                             }).start();
                         } else {
                             responseData.setStatus(false);
-                            responseData.setMessage("please upgrade application to latest version. https://play.google.com/store/apps/details?id=com.cmg.android.bbcaccent");
-                            type = "";
+                            message = "please upgrade application to latest version";
+                            responseData.setMessage(message);
+                            type = "old version";
                         }
                     } else if (type.equalsIgnoreCase("staff")) {
                         AdminDAO adminDAO = new AdminDAO();
