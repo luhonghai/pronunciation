@@ -56,6 +56,7 @@ function save(){
             success:function(data){
                 if(data=="success"){
                     appDetail();
+                    swal("Success!", "Save success!", "success");
                 }
                 if(data=="error"){
                     swal("Error!", "Could not edit information", "error");
