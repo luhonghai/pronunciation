@@ -42,6 +42,8 @@ public class MainApplication  extends Application {
 
     private String selectedWord;
 
+    private String selectedTipWord;
+
     private boolean skipHelpPopup;
 
     @Override
@@ -162,5 +164,13 @@ public class MainApplication  extends Application {
 
     public void setSkipHelpPopup(boolean skipHelpPopup) {
         this.skipHelpPopup = skipHelpPopup;
+    }
+
+    public String getSelectedTipWord() {
+        return selectedTipWord;
+    }
+
+    public void setSelectedTipWord(String selectedTipWord) {
+        this.selectedTipWord = selectedTipWord;
     }
 }

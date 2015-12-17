@@ -26,6 +26,7 @@ import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonHistoryDBAdapterServic
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
@@ -90,6 +91,8 @@ public class LessonCollectionFragment extends BaseFragment {
                         public void onSelectLessonCollection(LessonCollection lessonCollection) {
                             Bundle b = bundle;
                             if (b == null) b = new Bundle();
+                            AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
+                                    AnalyticHelper.Action.SELECT_LESSON_COLLECTION, lessonCollection.getName() + " " + lessonCollection.getId());
                             SwitchFragmentParameter parameter
                                     = new SwitchFragmentParameter(true, true, true);
                             b.putString(LessonCollection.class.getName(), MainApplication.toJson(lessonCollection));

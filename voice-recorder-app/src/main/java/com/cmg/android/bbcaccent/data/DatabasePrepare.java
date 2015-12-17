@@ -74,7 +74,7 @@ public class DatabasePrepare {
         tipsContainer.loadSync();
     }
 
-    private boolean loadDatabase() {
+    public boolean loadDatabase() {
         String dbName = "lesson";
         File databaseDir = new File(FileHelper.getApplicationDir(context), "databases");
         File fileVersion = new File(databaseDir, "version");

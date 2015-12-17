@@ -460,8 +460,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                 }
             }
         }
+        recyclerView.scrollToPosition(selectedIndex);
         selectQuestion(selectedIndex);
-
     }
 
     private void selectQuestion(int index) {
@@ -1554,9 +1554,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }).playOn(imgHourGlass);
 
                     recordingView.drawEmptyCycle();
-                    // Null response
-                    analyzingState = AnalyzingState.DEFAULT;
-                    switchButtonStage();
+
 
                     if (viewState.dictionaryItem != null) {
                         txtWord.setText(viewState.dictionaryItem.getWord());
@@ -1584,6 +1582,9 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         MainApplication.getContext().setSelectedWord(null);
                         MainBroadcaster.getInstance().getSender().sendUpdateData(null, FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                     }
+                    // Null response
+                    analyzingState = AnalyzingState.DEFAULT;
+                    switchButtonStage();
                     popupShowcaseHelper.resetTiming();
                 }
             }
@@ -1808,16 +1809,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                 } else {
                     bgColor = R.color.app_purple;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (recyclerView != null)
-                                recyclerView.scrollToPosition(position);
-                        }
-                    }, 100);
                 }
             }
-
             holder.txtScore.setText(text);
             holder.cardView.setCardBackgroundColor(ColorHelper.getColor(bgColor));
         }

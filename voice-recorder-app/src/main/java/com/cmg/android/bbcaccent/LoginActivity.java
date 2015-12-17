@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.cmg.android.bbcaccent.auth.AccountManager;
+import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.subscription.IAPFactory;
@@ -653,15 +654,26 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
             @Override
             public void onSuccess() {
+                profile.setIsSubscription(isSubscription);
+                Preferences.updateProfile(LoginActivity.this, profile);
+                new DatabasePrepare(MainApplication.getContext(), new DatabasePrepare.OnPrepraredListener() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(String message, Throwable e) {
+
+                    }
+                }).loadDatabase();
+                //call services sync data here DENP-238
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         dialogProgress.dismissWithAnimation();
                     }
                 });
-                profile.setIsSubscription(isSubscription);
-                Preferences.updateProfile(LoginActivity.this, profile);
-                //call services sync data here DENP-238
                 startMainActivity();
             }
         });
@@ -959,7 +971,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                             dialogLogin.findViewById(R.id.btnLogin).setEnabled(true);
                             dialogProgress.dismissWithAnimation();
                             accountManager.logout();
-                            if (mGoogleApiClient.isConnected()) {
+                            if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                                 Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
                                 mGoogleApiClient.disconnect();
                                 mGoogleApiClient.connect();

@@ -15,6 +15,7 @@ import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.EncoderException;
 import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.ServletException;
@@ -99,13 +100,16 @@ public class LoadAudioRecorder extends HttpServlet {
             log("Stream audio from S3: " + targetAudio);
             S3Object s3Object =  awsHelper.getS3Object(targetAudio);
             InputStream in = s3Object.getObjectContent();
-            response.setContentLength((int) s3Object.getObjectMetadata().getContentLength());
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = in.read(buffer)) != -1){
-                out.write(buffer, 0, length);
+            try {
+                response.setContentLength((int) s3Object.getObjectMetadata().getContentLength());
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, length);
+                }
+            } finally {
+                IOUtils.closeQuietly(in);
             }
-            in.close();
         }catch (Exception e){
             e.printStackTrace();
         }

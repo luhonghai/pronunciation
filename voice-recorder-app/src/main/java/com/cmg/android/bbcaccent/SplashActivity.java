@@ -22,7 +22,6 @@ import com.cmg.android.bbcaccent.utils.AppLog;
 import com.cmg.android.bbcaccent.utils.GcmUtil;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.crashlytics.android.Crashlytics;
-import com.facebook.internal.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

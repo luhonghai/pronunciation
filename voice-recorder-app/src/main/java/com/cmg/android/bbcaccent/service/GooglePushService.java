@@ -16,6 +16,7 @@ import com.cmg.android.bbcaccent.data.dto.GcmMessage;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.receiver.GooglePushReceiver;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
@@ -51,22 +52,33 @@ public class GooglePushService extends IntentService {
                 if (data != null && data.length() > 0) {
                     try {
                         GcmMessage gcmMessage = MainApplication.fromJson(data, GcmMessage.class);
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT,
+                                AnalyticHelper.Action.RECEIVE_GCM, data, gcmMessage.getType());
                         SimpleAppLog.info("Gcm message type: " + gcmMessage.getType());
-                        switch (gcmMessage.getType()) {
-                            case GcmMessage.TYPE_DATABASE:
-                                UserProfile userProfile = Preferences.getCurrentProfile();
-                                if (userProfile != null && userProfile.getSelectedCountry() != null) {
-                                    String countryId = userProfile.getSelectedCountry().getId();
+                        UserProfile userProfile = Preferences.getCurrentProfile();
+                        if (userProfile != null && userProfile.getSelectedCountry() != null) {
+                            String countryId = userProfile.getSelectedCountry().getId();
+                            switch (gcmMessage.getType()) {
+                                case GcmMessage.TYPE_DATABASE:
                                     for (GcmMessage.Language language : gcmMessage.getLanguages()) {
                                         SimpleAppLog.debug("Found message for language id " + language.getId());
                                         if (language.getId().equals(countryId)) {
                                             SimpleAppLog.debug("Matched with current selected language");
                                             showNotification(gcmMessage.getType(), "New lesson database", language.getMessage());
                                         }
+                            }
+                            break;
+                            default:
+                                    for (GcmMessage.Language language : gcmMessage.getLanguages()) {
+                                        SimpleAppLog.debug("Found message for language id " + language.getId());
+                                        if (language.getId().equals(countryId)) {
+                                            SimpleAppLog.debug("Matched with current selected language");
+                                            showNotification(gcmMessage.getType(), "New message from accenteasy", language.getMessage());
+                                        }
                                     }
-                                }
                                 break;
                         }
+                    }
                     } catch (Exception e) {
                         SimpleAppLog.error("Could not handle gcm message", e);
                     }

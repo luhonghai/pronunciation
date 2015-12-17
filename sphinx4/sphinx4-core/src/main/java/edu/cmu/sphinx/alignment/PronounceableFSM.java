@@ -10,6 +10,8 @@
  */
 package edu.cmu.sphinx.alignment;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,8 +55,11 @@ public class PronounceableFSM {
     public PronounceableFSM(URL url, boolean scanFromFront) throws IOException {
         this.scanFromFront = scanFromFront;
         InputStream is = url.openStream();
-        loadText(is);
-        is.close();
+        try {
+            loadText(is);
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
     }
 
     /**
@@ -81,26 +86,29 @@ public class PronounceableFSM {
      */
     private void loadText(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            if (!line.startsWith("***")) {
-                if (line.startsWith(VOCAB_SIZE)) {
-                    vocabularySize = parseLastInt(line);
-                } else if (line.startsWith(NUM_OF_TRANSITIONS)) {
-                    int transitionsSize = parseLastInt(line);
-                    transitions = new int[transitionsSize];
-                } else if (line.startsWith(TRANSITIONS)) {
-                    StringTokenizer st = new StringTokenizer(line);
-                    String transition = st.nextToken();
-                    int i = 0;
-                    while (st.hasMoreTokens() && i < transitions.length) {
-                        transition = st.nextToken().trim();
-                        transitions[i++] = Integer.parseInt(transition);
+        try {
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                if (!line.startsWith("***")) {
+                    if (line.startsWith(VOCAB_SIZE)) {
+                        vocabularySize = parseLastInt(line);
+                    } else if (line.startsWith(NUM_OF_TRANSITIONS)) {
+                        int transitionsSize = parseLastInt(line);
+                        transitions = new int[transitionsSize];
+                    } else if (line.startsWith(TRANSITIONS)) {
+                        StringTokenizer st = new StringTokenizer(line);
+                        String transition = st.nextToken();
+                        int i = 0;
+                        while (st.hasMoreTokens() && i < transitions.length) {
+                            transition = st.nextToken().trim();
+                            transitions[i++] = Integer.parseInt(transition);
+                        }
                     }
                 }
             }
+        } finally {
+            IOUtils.closeQuietly(reader);
         }
-        reader.close();
     }
 
     /**

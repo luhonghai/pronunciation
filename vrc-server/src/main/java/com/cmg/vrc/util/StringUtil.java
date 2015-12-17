@@ -3,6 +3,7 @@ package com.cmg.vrc.util;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -72,8 +73,9 @@ public class StringUtil {
         if (RESOURCE_CACHE.containsKey(resource.toLowerCase())) {
             return RESOURCE_CACHE.get(resource.toLowerCase());
         }
+        InputStream is = StringUtil.class.getClassLoader().getResourceAsStream(resource);
         try {
-            String s = IOUtils.toString(StringUtil.class.getClassLoader().getResourceAsStream(resource), "UTF-8");
+            String s = IOUtils.toString(is, "UTF-8");
             if (s != null && s.length() > 0) {
                 RESOURCE_CACHE.put(resource.toLowerCase(), s);
             }
@@ -81,6 +83,8 @@ public class StringUtil {
         } catch (IOException e) {
             e.printStackTrace();
             return "";
+        } finally {
+            IOUtils.closeQuietly(is);
         }
     }
 }

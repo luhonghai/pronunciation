@@ -27,6 +27,7 @@ import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonHistoryDBAdapterServic
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.RecordingView;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
@@ -87,6 +88,8 @@ public class LessonObjectiveFragment extends BaseFragment {
                 Cursor cursor =  LessonDBAdapterService.getInstance().cursorLessonCollectionByTest(selectedCountry.getId(),
                         level.getId(), lessonTest.getId());
                 if (cursor != null && cursor.moveToFirst()) {
+                    AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
+                            AnalyticHelper.Action.SELECT_TEST, level.getName() + " " + level.getId());
                     LessonCollection lessonCollection = LessonDBAdapterService.getInstance().toObject(
                             cursor,
                             LessonCollection.class
@@ -146,6 +149,8 @@ public class LessonObjectiveFragment extends BaseFragment {
                             if (b == null) {
                                 b = new Bundle();
                             }
+                            AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
+                                    AnalyticHelper.Action.SELECT_OBJECTIVE, objective.getName() + " " + objective.getId());
                             SwitchFragmentParameter parameter
                                     = new SwitchFragmentParameter(true, true, true);
                             parameter.setTitle(levelName + " - " + objective.getName());

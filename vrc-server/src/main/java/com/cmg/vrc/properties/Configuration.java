@@ -1,7 +1,9 @@
 package com.cmg.vrc.properties;
 
+import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 public class Configuration {
@@ -65,12 +67,15 @@ public class Configuration {
 
 	public static void getProperties(String propName) {
 		prop = new Properties();
+		InputStream is = Configuration.class.getClassLoader().getResourceAsStream(
+				propName);
 		try {
 			// load a properties file from class path, inside static method
-			prop.load(Configuration.class.getClassLoader().getResourceAsStream(
-					propName));			
+			prop.load(is);
 		} catch (Exception ex) {
 			logger.error("Cannot load properties", ex);
+		} finally {
+			IOUtils.closeQuietly(is);
 		}
 	}
 

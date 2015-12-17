@@ -15,6 +15,8 @@
  */
 package com.cmg.vrc.servlet.listener;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,6 +69,7 @@ public class ApiKeyInitializer implements ServletContextListener {
 			} catch (IOException e) {
 				logger.log(Level.WARNING, "Exception closing " + PATH, e);
 			}
+			IOUtils.closeQuietly(stream);
 		}
 	}
 

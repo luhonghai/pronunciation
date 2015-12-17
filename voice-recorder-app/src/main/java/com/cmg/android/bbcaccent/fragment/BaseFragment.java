@@ -11,7 +11,6 @@ import android.view.animation.Animation;
 import com.cmg.android.bbcaccent.BaseActivity;
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
-import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 /**
@@ -132,7 +131,6 @@ public class BaseFragment extends Fragment {
 
     @Override
     public void onPause() {
-        AndroidHelper.takeScreenShot(getActivity());
         super.onPause();
     }
 }

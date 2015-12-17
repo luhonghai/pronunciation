@@ -14,6 +14,7 @@ import edu.cmu.sphinx.linguist.acoustic.HMMState;
 import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
@@ -176,35 +177,38 @@ public class PhonemesDetector {
                 try {
                     is = this.getClass().getClassLoader().getResourceAsStream("cmubet_neighbour_phones.txt");
                     BufferedReader br = new BufferedReader(new InputStreamReader(is));
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        String[] raw = line.split("neighbors:");
-                        String phones = raw[0].trim().toUpperCase();
-                        if (!DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(phones)) {
-                            System.out.println("=======");
-                            System.out.println("Found phones " + phones);
-                            List<String> neighbours = null;
-                            if (neighbourPhones.containsKey(phones.toUpperCase())) {
-                                neighbours = neighbourPhones.get(phones.toUpperCase());
-                                neighbourPhones.remove(phones.toUpperCase());
-                            }
-                            if (neighbours == null)
-                                neighbours = new ArrayList<String>();
+                    try {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            String[] raw = line.split("neighbors:");
+                            String phones = raw[0].trim().toUpperCase();
+                            if (!DictionaryHelper.BEEP_TO_CMU_PHONEMES.containsKey(phones)) {
+                                System.out.println("=======");
+                                System.out.println("Found phones " + phones);
+                                List<String> neighbours = null;
+                                if (neighbourPhones.containsKey(phones.toUpperCase())) {
+                                    neighbours = neighbourPhones.get(phones.toUpperCase());
+                                    neighbourPhones.remove(phones.toUpperCase());
+                                }
+                                if (neighbours == null)
+                                    neighbours = new ArrayList<String>();
 
-                            String[] rawNeighbours = raw[1].trim().split("\\|");
-                            if (rawNeighbours.length > 0) {
-                                for (String nb : rawNeighbours) {
-                                    nb = nb.trim();
-                                    if (!neighbours.contains(nb.toLowerCase()) && !nb.equalsIgnoreCase(phones) && !nb.equalsIgnoreCase("sil")) {
-                                        System.out.println("Found neighbour " + nb);
-                                        neighbours.add(nb);
+                                String[] rawNeighbours = raw[1].trim().split("\\|");
+                                if (rawNeighbours.length > 0) {
+                                    for (String nb : rawNeighbours) {
+                                        nb = nb.trim();
+                                        if (!neighbours.contains(nb.toLowerCase()) && !nb.equalsIgnoreCase(phones) && !nb.equalsIgnoreCase("sil")) {
+                                            System.out.println("Found neighbour " + nb);
+                                            neighbours.add(nb);
+                                        }
                                     }
                                 }
+                                neighbourPhones.put(phones.toUpperCase(), neighbours);
                             }
-                            neighbourPhones.put(phones.toUpperCase(), neighbours);
                         }
+                    } finally {
+                        IOUtils.closeQuietly(br);
                     }
-
                 } catch (Exception ex) {
                     logger.log(Level.SEVERE, "Could not get neighbour phonemes list", ex);
                 } finally {

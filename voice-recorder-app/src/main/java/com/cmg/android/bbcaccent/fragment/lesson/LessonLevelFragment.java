@@ -21,6 +21,7 @@ import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonHistoryDBAdapterServic
 import com.cmg.android.bbcaccent.extra.SwitchFragmentParameter;
 import com.cmg.android.bbcaccent.fragment.BaseFragment;
 import com.cmg.android.bbcaccent.fragment.Preferences;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.luhonghai.litedb.exception.LiteDatabaseException;
 
@@ -47,6 +48,7 @@ public class LessonLevelFragment extends BaseFragment {
                 recyclerView.setAdapter(new LessonLevelAdapter(getContext(), cursor, new LessonLevelAdapter.OnSelectLevel() {
                     @Override
                     public void onSelectLevel(LessonLevel level) {
+                        AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON, AnalyticHelper.Action.SELECT_LEVEL, level.getName() + " " + level.getId());
                         SwitchFragmentParameter parameter
                                 = new SwitchFragmentParameter(true, true, true);
                         parameter.setTitle(level.getName());

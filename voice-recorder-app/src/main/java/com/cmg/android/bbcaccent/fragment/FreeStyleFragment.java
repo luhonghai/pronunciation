@@ -264,6 +264,9 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                         });
                         break;
                     case HistoryFragment.CLICK_RECORD_BUTTON:
+                        MainApplication.getContext().setSelectedTipWord(null);
+                        MainApplication.getContext().setSelectedWord(model.getWord());
+                        MainBroadcaster.getInstance().getSender().sendUpdateData(model.getWord(), FragmentTab.TYPE_CHANGE_SELECTED_WORD);
                         getWord(model.getWord());
                         break;
                 }
@@ -274,35 +277,42 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                 getWord(word);
             }
         });
-        if (viewState.currentModel == null) {
-            if (viewState.willSearchRandomWord || viewState.dictionaryItem == null) {
-                String[] words = getResources().getStringArray(R.array.random_words);
-                if (words != null && words.length > 0) {
-                    getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
+        String selectedTip = MainApplication.getContext().getSelectedTipWord();
+        if (selectedTip != null && selectedTip.length() > 0) {
+            MainApplication.getContext().setSelectedTipWord(null);
+            getWord(selectedTip);
+            viewState.willSearchRandomWord = false;
+        } else {
+            if (viewState.currentModel == null) {
+                if (viewState.willSearchRandomWord || viewState.dictionaryItem == null) {
+                    String[] words = getResources().getStringArray(R.array.random_words);
+                    if (words != null && words.length > 0) {
+                        getWord(words[RandomHelper.getRandomIndex(words.length)].trim());
+                    } else {
+                        getWord(getString(R.string.example_word));
+                    }
+                    viewState.willSearchRandomWord = false;
                 } else {
-                    getWord(getString(R.string.example_word));
+                    displayDictionaryItem();
+                    switchButtonStage(ButtonState.DEFAULT);
+                    recordingView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recordingView.recycleView();
+                        }
+                    }, 100);
                 }
-                viewState.willSearchRandomWord = false;
             } else {
                 displayDictionaryItem();
-                switchButtonStage(ButtonState.DEFAULT);
                 recordingView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         recordingView.recycleView();
+                        analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
+                        recordingView.startPingAnimation(getActivity(), 0, viewState.currentModel.getScore(), true, false);
                     }
                 }, 100);
             }
-        } else {
-            displayDictionaryItem();
-            recordingView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    recordingView.recycleView();
-                    analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
-                    recordingView.startPingAnimation(getActivity(), 0, viewState.currentModel.getScore(), true, false);
-                }
-            }, 100);
         }
 
         initSlider(root);

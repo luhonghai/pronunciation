@@ -135,6 +135,7 @@ public class SimpleMultipartEntity implements HttpEntity {
         return new BasicHeader("Content-Type", "multipart/form-data; boundary=" + boundary);
     }
 
+
     @Override
     public boolean isChunked() {
         return false;
@@ -174,5 +175,4 @@ public class SimpleMultipartEntity implements HttpEntity {
             UnsupportedOperationException {
         return new ByteArrayInputStream(out.toByteArray());
     }
-
 }

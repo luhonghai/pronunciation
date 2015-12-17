@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
@@ -63,6 +64,11 @@ public class PopupShowcaseHelper {
             this.iconText = iconText;
             this.iconImage = iconImage;
             this.iconColor = iconColor;
+        }
+
+        @Override
+        public String toString() {
+            return name;
         }
     }
 
@@ -187,7 +193,10 @@ public class PopupShowcaseHelper {
                 @Override
                 public void onClick(View v) {
                     if (helpDialog != null && helpDialog.isShowing()) helpDialog.dismiss();
-                    onSelectHelpItem.onSelectHelpItem((HelpItem) v.getTag());
+                    HelpItem hi = (HelpItem) v.getTag();
+                    AnalyticHelper.sendEvent(AnalyticHelper.Category.HELP,
+                            AnalyticHelper.Action.SELECT_HELP_ITEM, hi.toString());
+                    onSelectHelpItem.onSelectHelpItem(hi);
                 }
             });
             return root;

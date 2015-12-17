@@ -234,8 +234,9 @@ public class DictionaryHelper {
 
     public static List<String> getPhonemeList() {
         if (phonemes.size() == 0) {
+            InputStream is = DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/phones");
             try {
-                List<String> list = IOUtils.readLines(DictionaryHelper.class.getClassLoader().getResourceAsStream("amt/phones"));
+                List<String> list = IOUtils.readLines(is);
                 for (String phone : list) {
                     if (phone != null && phone.length() > 0) {
                         phone = phone.trim().toUpperCase();
@@ -249,6 +250,8 @@ public class DictionaryHelper {
                 }
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "could not read phones list",e);
+            } finally {
+                IOUtils.closeQuietly(is);
             }
         }
         return phonemes;

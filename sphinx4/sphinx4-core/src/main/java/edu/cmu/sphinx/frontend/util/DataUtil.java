@@ -16,6 +16,7 @@ package edu.cmu.sphinx.frontend.util;
 import edu.cmu.sphinx.frontend.DoubleData;
 import edu.cmu.sphinx.frontend.FloatData;
 import edu.cmu.sphinx.util.Utilities;
+import org.apache.commons.io.IOUtils;
 
 import javax.sound.sampled.*;
 import java.io.FileOutputStream;
@@ -404,8 +405,11 @@ public class DataUtil {
     public static void bytesToFile(byte[] data, String filename)
             throws IOException {
         FileOutputStream file = new FileOutputStream(filename);
-        file.write(data);
-        file.close();
+        try {
+            file.write(data);
+        } finally {
+            IOUtils.closeQuietly(file);
+        }
     }
 
 

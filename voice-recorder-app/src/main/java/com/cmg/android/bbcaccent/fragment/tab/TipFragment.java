@@ -11,12 +11,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.dto.UserVoiceModel;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.IPAMapArpabet;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
 import com.cmg.android.bbcaccent.helper.PlayerHelper;
+import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.RandomHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
@@ -90,6 +92,7 @@ public class TipFragment extends FragmentTab {
     @OnClick(R.id.btnAudio)
     public void clickAudio() {
         if (currentTip != null) {
+            AnalyticHelper.sendEvent(AnalyticHelper.Category.TIP, AnalyticHelper.Action.PLAY_TIP_AUDIO, currentTip.getIpa());
             playUrl(currentTip.getMp3Url());
         }
     }
@@ -170,6 +173,7 @@ public class TipFragment extends FragmentTab {
                 Gson gson = new Gson();
                 UserVoiceModel model = new UserVoiceModel();
                 model.setWord(currentTip.getWordList().get(currentTipIndex));
+                MainApplication.getContext().setSelectedTipWord(model.getWord());
                 MainBroadcaster.getInstance().getSender().sendHistoryAction(gson.toJson(model),
                         null,
                         HistoryFragment.CLICK_RECORD_BUTTON);

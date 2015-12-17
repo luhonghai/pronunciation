@@ -10,6 +10,8 @@
  */
 package edu.cmu.sphinx.alignment;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 import java.net.URL;
 import java.util.StringTokenizer;
@@ -124,18 +126,21 @@ public class DecisionTree {
      * @throws IOException if errors occur while reading the data
      */
     public DecisionTree(URL url) throws IOException {
-        BufferedReader reader;
+        BufferedReader reader = null;
         String line;
-
-        reader = new BufferedReader(new InputStreamReader(url.openStream()));
-        line = reader.readLine();
-        while (line != null) {
-            if (!line.startsWith("***")) {
-                parseAndAdd(line);
-            }
+        try {
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
             line = reader.readLine();
+            while (line != null) {
+                if (!line.startsWith("***")) {
+                    parseAndAdd(line);
+                }
+                line = reader.readLine();
+            }
+        } finally {
+            IOUtils.closeQuietly(reader);
         }
-        reader.close();
+
     }
 
     /**

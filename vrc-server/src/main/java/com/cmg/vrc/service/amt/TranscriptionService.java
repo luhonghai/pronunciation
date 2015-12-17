@@ -275,12 +275,17 @@ public class TranscriptionService {
         } else {
             SENTENCES.clear();
         }
-        List<String> phones = IOUtils.readLines(this.getClass().getClassLoader().getResourceAsStream("amt/phones"));
-        for (String phone : phones) {
-            String p = phone.toUpperCase();
-            if (!p.equalsIgnoreCase("sil") && !transcriptionResult.phones.containsKey(p)) {
-                transcriptionResult.phones.put(p, 0);
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("amt/phones");
+        try {
+            List<String> phones = IOUtils.readLines(is);
+            for (String phone : phones) {
+                String p = phone.toUpperCase();
+                if (!p.equalsIgnoreCase("sil") && !transcriptionResult.phones.containsKey(p)) {
+                    transcriptionResult.phones.put(p, 0);
+                }
             }
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         writeResourceToResult("amt/template/result-header.html");
     }
