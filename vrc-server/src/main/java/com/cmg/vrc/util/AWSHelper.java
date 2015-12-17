@@ -288,7 +288,7 @@ public class AWSHelper {
     }
 
     public static void main(String[] args) {
-//        AWSHelper awsHelper = new AWSHelper();
+        AWSHelper awsHelper = new AWSHelper();
 //        awsHelper.terminateEnvironment("accenteasytomcat-SAT");
 //        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
 //        awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
@@ -317,37 +317,39 @@ public class AWSHelper {
 //            for (String line : strings) {
 //                line = line.trim();
 //                if (line.length() > 0) {
-//                    String key = line.split(" ")[0] + ".mp3";
-//                    System.out.println(key);
-//                    awsHelper.updateContentType(key, "audio/mpeg");
-//                    awsHelper.publicObject(key);
-//                    String url = awsHelper.generateUrl(key);
-//                    url = url.substring(0, url.lastIndexOf("?"));
+                    String key = "amt_voices/dcarlyle@accenteasy.com/sentence_576fd303-ba43-4fc5-8256-67b02844f094_raw.wav";
+                    System.out.println(key);
+                    awsHelper.updateContentType(key, "audio/wav");
+                    awsHelper.publicObject(key);
+                    String url = awsHelper.generateUrl(key);
+                     System.out.println(url);
+                   // url = url.substring(0, url.lastIndexOf("?"));
+                   // System.out.println(url);
 //                    FileUtils.write(output, line + " " + url + "\n", "UTF-8", true);
 //                }
 //            }
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        File file = new File("C:\\anh.nguyen-time-2.wav");
-      //  awsHelper.download(Constant.FOLDER_RECORDED_VOICES_LESSON + "/anh.nguyen@c-mg.com/time_83a861b5-933c-40ab-8d56-36ae0f2565b5_raw.wav", file);
-
-        HashMap<String, String> hashMap = new HashMap<>();
-        Gson gson = new Gson();
-        UserProfile userProfile = new UserProfile();
-        userProfile.setUsername("anh.nguyen@c-mg.com");
-        hashMap.put("idQuestion", "079eca3b-d4d0-4259-8302-824930c53305");
-        hashMap.put("idWord", "4177e406-ed44-43df-8578-9e0a2585a153");
-        hashMap.put("word", "time");
-        hashMap.put(FileCommon.PARA_FILE_NAME, "audio.wav");
-        hashMap.put(FileCommon.PARA_FILE_PATH, file.getAbsolutePath());
-        hashMap.put("profile", gson.toJson(userProfile));
-        try {
-            System.out.print(FileUploader.upload(file, hashMap, "http://accenteasytomcat-sat.elasticbeanstalk.com/CalculationServlet"));
-        } catch (UploaderException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        File file = new File("C:\\anh.nguyen-time-2.wav");
+//      //  awsHelper.download(Constant.FOLDER_RECORDED_VOICES_LESSON + "/anh.nguyen@c-mg.com/time_83a861b5-933c-40ab-8d56-36ae0f2565b5_raw.wav", file);
+//
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        Gson gson = new Gson();
+//        UserProfile userProfile = new UserProfile();
+//        userProfile.setUsername("anh.nguyen@c-mg.com");
+//        hashMap.put("idQuestion", "079eca3b-d4d0-4259-8302-824930c53305");
+//        hashMap.put("idWord", "4177e406-ed44-43df-8578-9e0a2585a153");
+//        hashMap.put("word", "time");
+//        hashMap.put(FileCommon.PARA_FILE_NAME, "audio.wav");
+//        hashMap.put(FileCommon.PARA_FILE_PATH, file.getAbsolutePath());
+//        hashMap.put("profile", gson.toJson(userProfile));
+//        try {
+//            System.out.print(FileUploader.upload(file, hashMap, "http://accenteasytomcat-sat.elasticbeanstalk.com/CalculationServlet"));
+//        } catch (UploaderException e) {
+//            e.printStackTrace();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
     }
 }
