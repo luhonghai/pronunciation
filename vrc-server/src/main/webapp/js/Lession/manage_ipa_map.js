@@ -65,7 +65,7 @@ function submitForm(){
                             $("tbody").html("");
                             myTable.fnDraw();
                             $("#add").modal('hide');
-                            swal("Success!", "You have add mapping success!", "success");
+                            swal("Success!", "Adding succeeded!!", "success");
                         } else {
                             swal("Could not add mapping!", data.message.split(":")[1], "error");
                         }
@@ -101,7 +101,7 @@ function submitForm(){
                             $("tbody").html("");
                             myTable.fnDraw();
                             $("#add").modal('hide');
-                            swal("Success!", "You have edit mapping success!", "success");
+                            swal("Success!", "Editing succeeded!", "success");
                         } else {
                             if(data.message.indexOf("deleted") !=-1){
                                 $("#add").modal('hide');
@@ -210,7 +210,7 @@ function openPopupDelete(){
                     $("tbody").html("");
                     myTable.fnDraw();
                     $("#deletes").modal('hide');
-                    swal("Success!", "You delete this mapping success!", "success");
+                    swal("Success!", "Deletion succeeded!", "success");
                 }else{
                     if(data.indexOf("deleted") !=-1){
                         $("#deletes").modal('hide');
