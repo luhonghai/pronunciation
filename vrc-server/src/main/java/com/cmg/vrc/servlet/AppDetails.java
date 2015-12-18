@@ -99,7 +99,7 @@ public class AppDetails extends HttpServlet{
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                response.getWriter().write("error");
             }
         }
 
