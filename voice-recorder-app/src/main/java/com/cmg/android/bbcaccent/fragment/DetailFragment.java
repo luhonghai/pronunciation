@@ -247,6 +247,13 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
                             }
                         });
+                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                MainApplication.getContext().setSkipHelpPopup(false);
+                            }
+                        });
+                        MainApplication.getContext().setSkipHelpPopup(true);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -270,6 +277,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
+                                MainApplication.getContext().setSkipHelpPopup(false);
                                 if (isPassed) {
                                     MainBroadcaster.getInstance().getSender().sendPopBackStackFragment(3);
                                     if (getActivity() != null && !Preferences.getCurrentProfile().isPro()) {
@@ -291,7 +299,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
                             }
                         });
-
+                        MainApplication.getContext().setSkipHelpPopup(true);
                         if (isPassed) {
                             CircleCardView btnShare = (CircleCardView) dialog.findViewById(R.id.btnShare);
                             if (btnShare != null) {
@@ -823,6 +831,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private void switchButtonState(ButtonState state) {
         try {
+            if (btnAudio == null
+                    || txtWord == null)
+                return;
             switch (state) {
                 case PLAYING:
                     btnAudio.setEnabled(true);

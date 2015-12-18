@@ -10,6 +10,7 @@ import com.cmg.vrc.sphinx.training.LanguageModelGenerator;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
@@ -256,10 +257,15 @@ public class LanguageModelGeneratorService {
                     int counter = 0;
                     ReversedLinesFileReader object = new ReversedLinesFileReader(currentLogFile, 4096, "UTF-8");
                     StringBuilder builder = new StringBuilder();
-                    String line;
-                    while ((line = object.readLine()) != null && counter < lines) {
-                        builder.append(line).append("\n");
-                        counter++;
+                    try {
+
+                        String line;
+                        while ((line = object.readLine()) != null && counter < lines) {
+                            builder.append(line).append("\n");
+                            counter++;
+                        }
+                    } finally {
+                        IOUtils.closeQuietly(object);
                     }
                     return builder.toString();
                 }

@@ -8,6 +8,7 @@ import com.cmg.vrc.service.LanguageModelGeneratorService;
 import com.cmg.vrc.sphinx.training.LanguageModelGenerator;
 import com.cmg.vrc.util.AWSHelper;
 import com.google.gson.Gson;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -102,12 +103,8 @@ public class LanguageModelHandler extends BaseServlet {
                         out.print("No log found. Error: " + e.getMessage());
                         log("No log found", e);
                     } finally {
-                        try {
-                            if (is != null)
-                                is.close();
-                            if (bufferedReader != null)
-                                bufferedReader.close();
-                        } catch (Exception e) {}
+                        IOUtils.closeQuietly(is);
+                        IOUtils.closeQuietly(bufferedReader);
                     }
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");

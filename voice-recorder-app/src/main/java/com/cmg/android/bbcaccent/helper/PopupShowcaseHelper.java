@@ -84,6 +84,8 @@ public class PopupShowcaseHelper {
 
     private HelpItem[] helpItems;
 
+    private boolean isRecycled = false;
+
     public PopupShowcaseHelper(Context context, HelpItem[] helpItems, OnSelectHelpItem onSelectHelpItem) {
         this.context = context;
         this.onSelectHelpItem = onSelectHelpItem;
@@ -91,11 +93,15 @@ public class PopupShowcaseHelper {
     }
 
     public void recycle() {
+        isRecycled = true;
         handler.removeCallbacksAndMessages(null);
+        if (helpDialog != null && helpDialog.isShowing()) {
+            helpDialog.dismiss();
+        }
     }
 
     public void resetTiming() {
-        recycle();
+        handler.removeCallbacksAndMessages(null);
         handler.postDelayed(runnableShowDialog,TIMEOUT);
     }
 
@@ -103,6 +109,7 @@ public class PopupShowcaseHelper {
         @Override
         public void run() {
             if (MainApplication.getContext().isSkipHelpPopup() || (helpDialog != null && helpDialog.isShowing())) {
+                if (context == null || isRecycled) return;
                 handler.postDelayed(runnableShowDialog,TIMEOUT);
             } else {
                 showDialog();
@@ -111,7 +118,7 @@ public class PopupShowcaseHelper {
     };
 
     public void showDialog() {
-        if (context == null) return;
+        if (context == null || isRecycled) return;
         try {
             if (helpDialog == null) {
                 helpDialog = new DefaultCenterDialog(context, R.layout.choose_help);

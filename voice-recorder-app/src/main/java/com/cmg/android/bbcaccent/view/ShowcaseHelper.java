@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -60,20 +61,24 @@ public class ShowcaseHelper {
     }
 
     public ShowcaseHelper showHelp(HelpKey helpKey, ShowcaseConfig config, HelpState... helpStates) {
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity, helpKey.toString());
-        sequence.setOnItemDismissedListener(new MaterialShowcaseSequence.OnSequenceItemDismissedListener() {
-            @Override
-            public void onDismiss(MaterialShowcaseView itemView, int position) {
-                MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.RESET_TIMING_HELP, null);
+        try {
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(activity, helpKey.toString());
+            sequence.setOnItemDismissedListener(new MaterialShowcaseSequence.OnSequenceItemDismissedListener() {
+                @Override
+                public void onDismiss(MaterialShowcaseView itemView, int position) {
+                    MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.RESET_TIMING_HELP, null);
+                }
+            });
+            sequence.setConfig(config);
+            if (helpStates != null && helpStates.length > 0) {
+                for (HelpState helpState : helpStates) {
+                    sequence.addSequenceItem(helpState.target, helpState.content);
+                }
             }
-        });
-        sequence.setConfig(config);
-        if (helpStates != null && helpStates.length > 0) {
-            for (HelpState helpState : helpStates) {
-                sequence.addSequenceItem(helpState.target, helpState.content);
-            }
+            sequence.start();
+        } catch (Exception e) {
+            SimpleAppLog.error("",e);
         }
-        sequence.start();
         return this;
     }
 

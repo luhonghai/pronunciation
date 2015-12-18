@@ -1584,6 +1584,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     }
                     // Null response
                     analyzingState = AnalyzingState.DEFAULT;
+                    lastState = ButtonState.DEFAULT;
                     switchButtonStage();
                     popupShowcaseHelper.resetTiming();
                 }

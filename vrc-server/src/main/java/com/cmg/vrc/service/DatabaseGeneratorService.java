@@ -394,10 +394,14 @@ public class DatabaseGeneratorService {
                     int counter = 0;
                     ReversedLinesFileReader object = new ReversedLinesFileReader(currentLogFile, 4096, "UTF-8");
                     StringBuilder builder = new StringBuilder();
-                    String line;
-                    while ((line = object.readLine()) != null && counter < lines) {
-                        builder.append(line).append("\n");
-                        counter++;
+                    try {
+                        String line;
+                        while ((line = object.readLine()) != null && counter < lines) {
+                            builder.append(line).append("\n");
+                            counter++;
+                        }
+                    } finally {
+                        IOUtils.closeQuietly(object);
                     }
                     return builder.toString();
                 }
@@ -419,12 +423,14 @@ public class DatabaseGeneratorService {
             CountryDAO countryDAO = new CountryDAO();
             List<Country> countries = countryDAO.listAll();
             if (countries != null && countries.size() > 0) {
+                //TODO only add language that have changed data
                 for (Country country : countries) {
                     if (!country.isDeleted()) {
                         appendMessage("Add country id to message: " + country.getId() + ". Name: " + country.getName());
                         GcmMessage.Language language = new GcmMessage.Language();
                         language.setId(country.getId());
-                        language.setMessage("Lesson database is updated. Download now with accenteasy!");
+                        language.setTitle("New accenteasy lessons");
+                        language.setMessage("There are new accenteasy lessons waiting for you. Download now.");
                         message.getLanguages().add(language);
                     }
                 }
