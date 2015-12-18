@@ -37,6 +37,7 @@ public class GcmMessage {
     public static class Language {
         private String id;
         private String message;
+        private String title;
 
         public String getId() {
             return id;
@@ -52,6 +53,14 @@ public class GcmMessage {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
         }
     }
 

@@ -58,26 +58,14 @@ public class GooglePushService extends IntentService {
                         UserProfile userProfile = Preferences.getCurrentProfile();
                         if (userProfile != null && userProfile.getSelectedCountry() != null) {
                             String countryId = userProfile.getSelectedCountry().getId();
-                            switch (gcmMessage.getType()) {
-                                case GcmMessage.TYPE_DATABASE:
-                                    for (GcmMessage.Language language : gcmMessage.getLanguages()) {
-                                        SimpleAppLog.debug("Found message for language id " + language.getId());
-                                        if (language.getId().equals(countryId)) {
-                                            SimpleAppLog.debug("Matched with current selected language");
-                                            showNotification(gcmMessage.getType(), "New lesson database", language.getMessage());
-                                        }
+                            for (GcmMessage.Language language : gcmMessage.getLanguages()) {
+                                SimpleAppLog.debug("Found message for language id " + language.getId());
+                                if (language.getId().equals(countryId)) {
+                                    String title = language.getTitle();
+                                    if (title == null || title.length() == 0) title = "New message from accenteasy";
+                                    showNotification(gcmMessage.getType(), title, language.getMessage());
+                                }
                             }
-                            break;
-                            default:
-                                    for (GcmMessage.Language language : gcmMessage.getLanguages()) {
-                                        SimpleAppLog.debug("Found message for language id " + language.getId());
-                                        if (language.getId().equals(countryId)) {
-                                            SimpleAppLog.debug("Matched with current selected language");
-                                            showNotification(gcmMessage.getType(), "New message from accenteasy", language.getMessage());
-                                        }
-                                    }
-                                break;
-                        }
                     }
                     } catch (Exception e) {
                         SimpleAppLog.error("Could not handle gcm message", e);

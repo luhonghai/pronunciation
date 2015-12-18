@@ -50,7 +50,7 @@ public class MaterialShowcaseSequence implements IDetachedListener {
     }
 
     public MaterialShowcaseSequence addSequenceItem(Target target, String content) {
-
+        if (target == null || target.getPoint() == null) return null;
         MaterialShowcaseView sequenceItem = new MaterialShowcaseView.Builder(mActivity)
                 .setDismissOnTouchOutSide(true)
                 .setTarget(target)

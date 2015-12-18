@@ -119,6 +119,7 @@ public class GraphFragmentParent extends Fragment {
                         phonemeList.clear();
                         phonemes.clear();
                         WordCollection wordCollection = LessonDBAdapterService.getInstance().findObject("word=?", new String[]{word}, WordCollection.class);
+                        if (wordCollection == null) return null;
                         String arpabet = wordCollection.getArpabet();
                         if (arpabet != null && arpabet.length() > 0) {
                             arpabet = arpabet.trim();
@@ -127,8 +128,10 @@ public class GraphFragmentParent extends Fragment {
                             if (listPhoneme.length > 0)
                                 for (String phone : listPhoneme) {
                                     IPAMapArpabet ipaMapArpabet = LessonDBAdapterService.getInstance().findObject("arpabet = ?", new String[]{phone.toUpperCase()}, IPAMapArpabet.class);
-                                    phonemes.put(phone.toUpperCase(), ipaMapArpabet);
-                                    phonemeList.add(phone.toUpperCase());
+                                    if (ipaMapArpabet != null) {
+                                        phonemes.put(phone.toUpperCase(), ipaMapArpabet);
+                                        phonemeList.add(phone.toUpperCase());
+                                    }
                                 }
                         }
                     } catch (LiteDatabaseException e) {

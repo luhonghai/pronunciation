@@ -20,6 +20,7 @@ public class ViewTarget implements Target {
 
     @Override
     public Point getPoint() {
+        if (mView == null) return new Point();
         int[] location = new int[2];
         mView.getLocationInWindow(location);
         int x = location[0] + mView.getWidth() / 2;
@@ -29,6 +30,7 @@ public class ViewTarget implements Target {
 
     @Override
     public Rect getBounds() {
+        if (mView == null) return new Rect();
         int[] location = new int[2];
         mView.getLocationInWindow(location);
         return new Rect(

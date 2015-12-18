@@ -118,12 +118,8 @@ public class AcousticModelDataHandler extends BaseServlet {
                         out.print("No log found. Error: " + e.getMessage());
                         log("No log found", e);
                     } finally {
-                        try {
-                            if (is != null)
-                                is.close();
-                            if (bufferedReader != null)
-                                bufferedReader.close();
-                        } catch (Exception e) {}
+                        IOUtils.closeQuietly(is);
+                        IOUtils.closeQuietly(bufferedReader);
                     }
                 } else if (action.equalsIgnoreCase("link_generate")) {
                     String id = request.getParameter("id");
