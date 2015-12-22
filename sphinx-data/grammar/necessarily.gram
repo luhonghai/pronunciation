@@ -1,5 +1,5 @@
 #JSGF V1.0;
 
 grammar phonelist;
-
-public <phonelist> = (SIL (M|NG|M|NG|SIL|N) (IH|ER|AE|SIL|EH) (SH|Z|TH|SIL|S) (AE|ER|AA|SIL|AH) (SH|Z|TH|SIL|S) (IH|ER|AE|SIL|EH) (Y|L|SIL|R) (AE|ER|AA|SIL|AH) (R|W|SIL|L) (IH|SIL|IY) SIL);
+public <phonelist> = SIL (G|T|HH|SIL) (Y|L|SIL) (IH|ER|AE|SIL|EH|IY|AH|AO) (T|JH|G|B|SIL|D|CH|K|P|HH|TH|ZH) (IY|EH|SIL|IH|ER|AE) (CH|K|D|P|HH|TH|SIL|T|SH|JH|G|B|F|S|DH) SIL;
+#public <phonelist> = (SIL (M|NG|M|NG|SIL|N) (IH|ER|AE|SIL|EH) (SH|Z|TH|SIL|S) (AE|ER|AA|SIL|AH) (SH|Z|TH|SIL|S) (IH|ER|AE|SIL|EH) (Y|L|SIL|R) (AE|ER|AA|SIL|AH) (R|W|SIL|L) (IH|SIL|IY) SIL);

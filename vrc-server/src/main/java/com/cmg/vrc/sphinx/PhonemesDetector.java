@@ -113,7 +113,8 @@ public class PhonemesDetector {
         //addGrammar("withNeighbourAndFirstLast",sb, false, false, false, true);
         addGrammar("withNeighbourAndFirstLast",sb, false, false, false, false);
         grammarName = UUID.randomUUID().toString();
-        grammarFile = new File(grammarDir, grammarName+ ".gram");
+            grammarFile = new File(grammarDir, grammarName+ ".gram");
+        logger.info(" The name of the JSGF file " +  grammarFile);
         try {
             String grammarContent = sb.toString();
             logger.info("Use grammar: \n" + grammarContent);
