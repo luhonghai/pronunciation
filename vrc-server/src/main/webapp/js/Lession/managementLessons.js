@@ -127,7 +127,7 @@ function addLesson(){
                     $("#add").modal('hide');
                     swal("Success!", "You have add lesson success!", "success");
                 }else{
-                    swal("Could not add question!", data.split(":")[1], "error");
+                    swal("Could not add lesson!", data.split(":")[1], "error");
                 }
             },
             error: function () {
@@ -173,7 +173,7 @@ function deleteLesson(){
                         location.reload();
                     }else{
                         $("#deletes").modal('hide');
-                        swal("Could not delete question!", data.split(":")[1], "error");
+                        swal("Could not delete lesson!", data.split(":")[1], "error");
                     }
 
                 }

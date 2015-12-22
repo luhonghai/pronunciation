@@ -38,6 +38,14 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
         }
         return version;
     }
+    public CourseMappingDetail getByIdObj(String id) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
 
     /**
      *

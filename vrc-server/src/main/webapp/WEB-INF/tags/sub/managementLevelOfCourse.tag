@@ -141,6 +141,12 @@
                       </select>
                   </div>
                 </div>
+                <div>
+                  <label class="col-xs-4  col-sm-4 control-label ">Index:</label>
+                  <div class="col-xs-8  col-sm-8">
+                    <input  type="number" id="indexOBJadd" value="1" min="1" max="100" class=" form-control" style="padding-left: 0px; margin-top: 5px;">
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
@@ -299,6 +305,12 @@
                     </select>
                   </div>
                 </div>
+                <div>
+                  <label class="col-xs-4  col-sm-4 control-label ">Index:</label>
+                  <div class="col-xs-8  col-sm-8">
+                    <input  type="number" id="indexOBJedit" min="1" max="100" class=" form-control" style="padding-left: 0px; margin-top: 5px;">
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
@@ -439,6 +451,60 @@
         <div class="modal-footer">
           <button type="button" name="YesDelete" id="deleteItems-test" class="btn btn-default" >Submit</button>
           <button type="button" name="closedelete" id="closedelete-test" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="indexObject" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <h1 class="modal-title" align="center">Index Object</h1>
+
+      </div>
+      <form name="form-indexObject" >
+        <div class="modal-body">
+          <input type="hidden" id="idLevelindexObject" name="iddelete"/>
+          <div id="setIndex" style="overflow-x: auto;overflow-y: hidden;">
+            <div id="nameObj">
+
+            </div>
+            <div id="index">
+
+            </div>
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="YesDelete" id="okIndexObject" class="btn btn-default" >Submit</button>
+          <button type="button" name="closedelete" id="closeIndexObject" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="indexLesson" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <h1 class="modal-title" align="center">Index Lesson</h1>
+      </div>
+      <form name="form-indexLesson" >
+        <div class="modal-body">
+          <input type="hidden" id="idLevelindexLesson" name="iddelete"/>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="YesDelete" id="okIndexLesson" class="btn btn-default" >Submit</button>
+          <button type="button" name="closedelete" id="closeIndexLesson" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
         </div>
       </form>
     </div>

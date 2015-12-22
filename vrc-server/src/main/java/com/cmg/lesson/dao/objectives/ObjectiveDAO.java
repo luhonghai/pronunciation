@@ -195,7 +195,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
             }
             List<Objective> listObjective = new ArrayList<Objective>();
             String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-            whereClause = whereClause + ") and isDeleted=false " ;
+            whereClause = whereClause + ") and isDeleted=false" ;
             PersistenceManager pm = PersistenceManagerHelper.get();
             Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
             try {

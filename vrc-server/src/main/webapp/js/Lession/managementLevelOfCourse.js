@@ -407,6 +407,7 @@ function openPopupEditObjtive(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#edit-objective-name").val(data.nameObj);
                     $("#edit-description").val(data.descriptionObj);
+                    $("#indexOBJedit").val(data.index);
                     $("#select-lesson-edit").empty();
                     try{
                         $.each(data.data, function (idx, obj) {
@@ -476,6 +477,7 @@ function openPopopAddObjective(){
         $("#add-objective").modal('show');
         getAllLesson("Objective");
         $("#add-objective-name").val("");
+        $("#indexOBJadd").val("1");
         $("#add-description").val("");
         var idLevel = $(this).attr("id_lv");
         $("#yesadd").attr("id_level",idLevel);
@@ -487,6 +489,7 @@ function openPopopAddObjective(){
 function addObjectiveAndLesson(){
     $(document).on("click","#yesadd", function(){
         var nameObj = $("#add-objective-name").val();
+
         if (nameObj == null || typeof nameObj == "undefined" || nameObj.length == 0){
             $("#add-objective-name").focus();
             swal("Warning!", "Please enter an objective name!", "warning");
@@ -529,9 +532,50 @@ function openPopupObjAvailable(){
     });
 }
 
+//function addObjAvailable(){
+//    $(document).on("click","#yesadd-obj-available", function(){
+//        var dto = getDtoAddObjAvailable();
+//        $.ajax({
+//            url: ObjectiveMappingServlet,
+//            type: "POST",
+//            dataType: "json",
+//            data: {
+//                action: "addObjAvailable",
+//                objDto: JSON.stringify(dto)// to json word,
+//            },
+//            success: function (data) {
+//                if (data.message.indexOf("success") !=-1) {
+//                    $("#add-obj-available").modal('hide');
+//                    getObjAndTest($("#yesadd-obj-available").attr("id_level"));
+//                }else{
+//                    swal("Could not add objective!", data.message.split(":")[1], "error");
+//                }
+//            },
+//            error: function () {
+//                swal("Error!", "Could not connect to server", "error");
+//            }
+//
+//        });
+//    });
+//}
 function addObjAvailable(){
     $(document).on("click","#yesadd-obj-available", function(){
-        var dto = getDtoAddObjAvailable();
+        var idLevel = $("#yesadd-obj-available").attr("id_level");
+        var idObjects = [];
+        $('#select-obj-available option:selected').map(function(a, item){ idObjects.push(item.text);});
+        console.log(idObjects);
+        $("#indexObject").modal('show');
+        $("#idLevelindexObject").val(idLevel);
+        for(var i=0;i<idObjects.length;i++){
+            $("#nameObj").append('<input id="' + i + '" readonly="readonly" value="' + idObjects[i] + '"  type="text">');
+            $("#index").append('<input id="' + i + 't" type="text">');
+
+        }
+
+    });
+}
+function addObjAvailableIndex(){
+    $(document).on("click","#okIndexObject", function(){
         $.ajax({
             url: ObjectiveMappingServlet,
             type: "POST",
@@ -818,6 +862,7 @@ function deleteTest(){
 }
 
 $(document).ready(function(){
+    addObjAvailableIndex();
     removeLevel();
     addLevel();
     BuildUI();

@@ -27,6 +27,10 @@ public class ObjectiveMapping implements Mirrorable {
     @Persistent
     private int version;
 
+    //add column index by nam.bui
+    @Persistent
+    private int index;
+
     @Override
     public String getId() {
         return this.id;
@@ -67,5 +71,12 @@ public class ObjectiveMapping implements Mirrorable {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

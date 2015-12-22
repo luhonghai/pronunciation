@@ -301,7 +301,7 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
         }
         List<LessonCollection> listObjective = new ArrayList<LessonCollection>();
         String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-        whereClause = whereClause + ") and isDeleted=false " ;
+        whereClause = whereClause + ") and isDeleted=false" ;
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);

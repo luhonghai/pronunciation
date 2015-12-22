@@ -153,7 +153,7 @@ public class TestService {
             if(message.equalsIgnoreCase(SUCCESS)){
                 dto.setIdTest(idTest);
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdTest(),dto.getIdLevel(),true);
+                message = cmdSer.addMappingDetail(dto.getIdTest(),dto.getIdLevel(),0,true);
                 if(message.equalsIgnoreCase(SUCCESS)){
                     if( ! dto.getIdLessons().get(0).equalsIgnoreCase("null")){
                         TestMappingService testMapSer = new TestMappingService();

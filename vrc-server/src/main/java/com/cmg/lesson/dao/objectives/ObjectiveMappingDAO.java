@@ -81,7 +81,7 @@ public class ObjectiveMappingDAO extends DataAccess<ObjectiveMapping> {
 
     /**
      *
-     * @param idObjective
+     * @param
      * @return
      */
     public boolean updateDeletedByLesson(String idLesson){
@@ -135,7 +135,7 @@ public class ObjectiveMappingDAO extends DataAccess<ObjectiveMapping> {
      * @return
      */
     public List<ObjectiveMapping> getAllByIdObjective(String idObjective) throws Exception{
-        List<ObjectiveMapping> list = list("WHERE idObjective==:1 && isDeleted==:3", idObjective,false);
+        List<ObjectiveMapping> list = list("WHERE idObjective==:1 && isDeleted==:2", idObjective,false);
         if(list!=null && list.size() > 0){
             return list;
         }

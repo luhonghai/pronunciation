@@ -14,6 +14,7 @@ public class ObjectiveMappingDTO {
     private String idLevel;
     private String idCourse;
     private String nameObj;
+    private int index;
     private String descriptionObj;
     private List<String> idLessons;
     private List<LessonCollection> data;
@@ -81,4 +82,12 @@ public class ObjectiveMappingDTO {
     public void setIdLessons(List<String> idLessons) {
         this.idLessons = idLessons;
     }
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
 }

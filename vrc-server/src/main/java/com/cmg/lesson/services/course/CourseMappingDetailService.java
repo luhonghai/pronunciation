@@ -43,7 +43,7 @@ public class CourseMappingDetailService {
      * @param idLevel
      * @return
      */
-    public String addMappingDetail(String idObjective, String idLevel, boolean isTest){
+    public String addMappingDetail(String idObjective, String idLevel,int index, boolean isTest){
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         String message;
         try {
@@ -53,6 +53,7 @@ public class CourseMappingDetailService {
                 //obj.setIdCourse(idCourse);
                 obj.setIdLevel(idLevel);
                 obj.setIdChild(idObjective);
+                obj.setIndex(index);
                 obj.setVersion(getMaxVersion());
                 obj.setIsTest(isTest);
                 obj.setIsDeleted(false);

@@ -95,7 +95,7 @@ public class ObjectiveService {
             if (isUpdate){
                 ObjectiveMappingService objMapSer = new ObjectiveMappingService();
                 objMapSer.updateDeleted(idObjective);
-                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective(),dto.getIndex());
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
@@ -147,10 +147,10 @@ public class ObjectiveService {
         if(message.equalsIgnoreCase(SUCCESS)){
             dto.setIdObjective(idObjective);
             ObjectiveMappingService objMapSer = new ObjectiveMappingService();
-            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective(),dto.getIndex());
             if(message.equalsIgnoreCase(SUCCESS)){
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
-                message = cmdSer.addMappingDetail(dto.getIdObjective(),dto.getIdLevel(),false);
+                message = cmdSer.addMappingDetail(dto.getIdObjective(),dto.getIdLevel(),dto.getIndex(),false);
             }
         }
         dto.setMessage(message);
@@ -166,7 +166,7 @@ public class ObjectiveService {
         CourseMappingDetailService cmdSer = new CourseMappingDetailService();
         String message ="error";
         for (String idObj : dto.getLstIdObjective()){
-            message = cmdSer.addMappingDetail(idObj,dto.getIdLevel(),false);
+            message = cmdSer.addMappingDetail(idObj,dto.getIdLevel(),0,false);
         }
         dto.setMessage(message);
         return dto;
@@ -318,9 +318,11 @@ public class ObjectiveService {
                     List<ObjectiveMappingDTO> listObjectiveMappingDTO = new ArrayList<ObjectiveMappingDTO>();
                     ObjectiveMappingDTO objectiveMappingDTO;
                     for(Objective obj : listObjective){
+                        CourseMappingDetail courseMappingDetail=courseMappingDetailDAO.getByIdObj(obj.getId());
                         objectiveMappingDTO = new  ObjectiveMappingDTO();
                         objectiveMappingDTO.setIdObjective(obj.getId());
                         objectiveMappingDTO.setIdLevel(idLevel);
+                        objectiveMappingDTO.setIndex(courseMappingDetail.getIndex());
                         //objectiveMappingDTO.setIdCourse(idCourse);
                         objectiveMappingDTO.setNameObj(obj.getName());
                         objectiveMappingDTO.setDescriptionObj(obj.getDescription());

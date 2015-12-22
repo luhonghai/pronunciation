@@ -1,5 +1,6 @@
 package com.cmg.lesson.services.objectives;
 
+import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveMappingDAO;
@@ -7,6 +8,7 @@ import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.objectives.Objective;
@@ -197,7 +199,7 @@ public class ObjectiveMappingService {
      * @param idObj
      * @return
      */
-    public String addObjMapLesson(List<String> idLessons, String idObj){
+    public String addObjMapLesson(List<String> idLessons, String idObj, int index){
         ObjectiveMappingDAO dao = new ObjectiveMappingDAO();
         String message = "";
         try {
@@ -209,6 +211,7 @@ public class ObjectiveMappingService {
                     obj.setIdObjective(idObj);
                     obj.setIsDeleted(false);
                     obj.setVersion(getMaxVersion());
+                    obj.setIndex(index);
                     temp.add(obj);
                 }
                 dao.create(temp);
@@ -313,11 +316,19 @@ public class ObjectiveMappingService {
      */
     public ObjectiveMappingDTO getDataForUpdatePopup(String idObjective){
         ObjectiveMappingDTO objectiveMappingDTO = new ObjectiveMappingDTO();
+        CourseMappingDetail courseMappingDetail=new CourseMappingDetail();
+        CourseMappingDetailDAO courseMappingDetailDAO = new CourseMappingDetailDAO();
         ObjectiveService objectiveService = new ObjectiveService();
         Objective objective= objectiveService.getById(idObjective);
+        try {
+             courseMappingDetail=courseMappingDetailDAO.getByIdObj(idObjective);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         LessonCollectionDTO lessonCollectionDTO = getAllLessonSetChecked(idObjective);
         objectiveMappingDTO.setIdObjective(objective.getId());
         objectiveMappingDTO.setNameObj(objective.getName());
+        objectiveMappingDTO.setIndex(courseMappingDetail.getIndex());
         objectiveMappingDTO.setDescriptionObj(objective.getDescription());
         objectiveMappingDTO.setData(lessonCollectionDTO.getData());
         objectiveMappingDTO.setMessage(lessonCollectionDTO.getMessage());

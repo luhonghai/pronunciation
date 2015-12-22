@@ -8,6 +8,7 @@ import java.util.List;
 public class LevelMappingObjDTO {
     private String message;
     private String idLevel;
+    private int index;
     private List<String> lstIdObjective;
 
     public String getMessage() {
@@ -33,4 +34,13 @@ public class LevelMappingObjDTO {
     public void setLstIdObjective(List<String> lstIdObjective) {
         this.lstIdObjective = lstIdObjective;
     }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
 }
