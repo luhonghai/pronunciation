@@ -23,6 +23,7 @@ public enum FragmentState {
     NULL(null),
     FREE_STYLE(FreeStyleFragment.class, ListMenuAdapter.MenuItem.FREESTYLE, ""),
     LESSON_LEVEL(LessonLevelFragment.class, ListMenuAdapter.MenuItem.LESSON, ""),
+    IPA(IPAInformationFragment.class,ListMenuAdapter.MenuItem.IPA, ""),
     LESSON_MAIN(LessonFragment.class, null, ""),
     LESSON_OBJECTIVE(LessonObjectiveFragment.class, null, ""),
     LESSON_COLLECTION(LessonCollectionFragment.class, null, ""),
