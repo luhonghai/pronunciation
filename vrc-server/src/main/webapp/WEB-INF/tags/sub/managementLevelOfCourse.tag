@@ -469,11 +469,11 @@
       <form name="form-indexObject" >
         <div class="modal-body">
           <input type="hidden" id="idLevelindexObject" name="iddelete"/>
-          <div id="setIndex" style="overflow-x: auto;overflow-y: hidden;">
-            <div id="nameObj">
+          <div id="setIndex" style="overflow: auto; padding-left: 20px;">
+            <div class="row" id="nameObj">
 
             </div>
-            <div id="index">
+            <div class="row" id="index">
 
             </div>
 
@@ -499,12 +499,62 @@
       </div>
       <form name="form-indexLesson" >
         <div class="modal-body">
-          <input type="hidden" id="idLevelindexLesson" name="iddelete"/>
+          <input type="hidden" id="idLevelIndexLesson" name="idLevelIndexLesson"/>
+          <input type="hidden" id="idCourseIndexLesson" name="idCourseIndexLesson"/>
+          <input type="hidden" id="nameObjIndexLesson" name="nameObjIndexLesson"/>
+          <input type="hidden" id="indexIndexLesson" name="indexIndexLesson"/>
+          <input type="hidden" id="descriptionObjIndexLesson" name="descriptionObjIndexLesson"/>
+          <div id="nameLessonIndex" style="overflow:auto; padding-left: 20px;">
+            <div class="row" id="nameLesson">
+
+            </div>
+            <div class="row" id="indexL">
+
+            </div>
+
+          </div>
 
         </div>
         <div class="modal-footer">
           <button type="button" name="YesDelete" id="okIndexLesson" class="btn btn-default" >Submit</button>
           <button type="button" name="closedelete" id="closeIndexLesson" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="indexLessonEdit" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <h1 class="modal-title" align="center">Index Lesson</h1>
+      </div>
+      <form name="form-indexLesson" >
+        <div class="modal-body">
+
+          <input type="hidden" id="idLevelIndexLessonEdit" name="idLevelIndexLessonEdit"/>
+          <input type="hidden" id="idObjectiveIndexLessonEdit" name="idObjectiveIndexLessonEdit"/>
+          <input type="hidden" id="nameObjIndexLessonEdit" name="nameObjIndexLessonEdit"/>
+          <input type="hidden" id="indexIndexLessonEdit" name="indexIndexLessonEdit"/>
+          <input type="hidden" id="descriptionObjIndexLessonEdit" name="descriptionObjIndexLessonEdit"/>
+          <div id="setIndexLEdit" style="overflow: auto; padding-left: 20px;">
+            <div class="row" id="nameLessonEdit">
+
+            </div>
+            <div class="row" id="indexLEdit">
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="YesDelete" id="okIndexLessonEdit" class="btn btn-default" >Submit</button>
+          <button type="button" name="closedelete" id="closeIndexLessonEdit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
         </div>
       </form>
     </div>

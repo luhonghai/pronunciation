@@ -7,23 +7,27 @@ public class IndexLesson {
 
 
 
-    private String idObjects;
-    private int index;
+    private String idLesson;
+    private int indexLesson;
 
-    public int getIndex() {
-        return index;
+    public int getIndexLesson() {
+        return indexLesson;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setIndexLesson(int indexLesson) {
+        this.indexLesson = indexLesson;
     }
 
-    public String getIdObjects() {
-        return idObjects;
+    public String getIdLesson() {
+        return idLesson;
     }
 
-    public void setIdObjects(String idObjects) {
-        this.idObjects = idObjects;
+    public void setIdLesson(String idLesson) {
+        this.idLesson = idLesson;
     }
+
+
+
+
 
 }

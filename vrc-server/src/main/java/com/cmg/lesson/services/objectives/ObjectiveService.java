@@ -5,6 +5,7 @@ import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.dao.test.TestDAO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.level.LevelMappingObjDTO;
+import com.cmg.lesson.data.dto.objectives.IndexOBJ;
 import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.test.TestMappingDTO;
@@ -95,7 +96,11 @@ public class ObjectiveService {
             if (isUpdate){
                 ObjectiveMappingService objMapSer = new ObjectiveMappingService();
                 objMapSer.updateDeleted(idObjective);
-                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective(),dto.getIndex());
+                message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
+                if(message.equalsIgnoreCase(SUCCESS)){
+                    CourseMappingDetailService cmdSer = new CourseMappingDetailService();
+                    message = cmdSer.updateMappingDetail(dto.getIdObjective(),dto.getIdLevel(),dto.getIndex());
+                }
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
@@ -147,7 +152,7 @@ public class ObjectiveService {
         if(message.equalsIgnoreCase(SUCCESS)){
             dto.setIdObjective(idObjective);
             ObjectiveMappingService objMapSer = new ObjectiveMappingService();
-            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective(),dto.getIndex());
+            message =  objMapSer.addObjMapLesson(dto.getIdLessons(),dto.getIdObjective());
             if(message.equalsIgnoreCase(SUCCESS)){
                 CourseMappingDetailService cmdSer = new CourseMappingDetailService();
                 message = cmdSer.addMappingDetail(dto.getIdObjective(),dto.getIdLevel(),dto.getIndex(),false);
@@ -165,8 +170,8 @@ public class ObjectiveService {
     public LevelMappingObjDTO addObjectiveAvailable(LevelMappingObjDTO dto){
         CourseMappingDetailService cmdSer = new CourseMappingDetailService();
         String message ="error";
-        for (String idObj : dto.getLstIdObjective()){
-            message = cmdSer.addMappingDetail(idObj,dto.getIdLevel(),0,false);
+        for (IndexOBJ idObj : dto.getObj()){
+            message = cmdSer.addMappingDetail(idObj.getIdObjects(),dto.getIdLevel(),idObj.getIndex(),false);
         }
         dto.setMessage(message);
         return dto;
@@ -313,7 +318,7 @@ public class ObjectiveService {
                         lstObjId.add(cmp.getIdChild());
                     }
                 }
-                List<Objective> listObjective = objectiveDAO.listIn(lstObjId);
+                List<Objective> listObjective = objectiveDAO.listIn(idLevel);
                 if(listObjective!=null && listObjective.size()>0){
                     List<ObjectiveMappingDTO> listObjectiveMappingDTO = new ArrayList<ObjectiveMappingDTO>();
                     ObjectiveMappingDTO objectiveMappingDTO;

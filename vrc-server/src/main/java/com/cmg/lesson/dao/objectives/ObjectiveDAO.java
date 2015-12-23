@@ -1,5 +1,6 @@
 package com.cmg.lesson.dao.objectives;
 
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -185,19 +186,31 @@ public class ObjectiveDAO extends DataAccess<Objective> {
      * @param ids
      * @return
      */
-    public List<Objective> listIn(List<String> ids) throws Exception{
-        if(ids!=null && ids.size() > 0){
+    public List<Objective> listIn(String ids) throws Exception{
+//        if(ids!=null && ids.size() > 0){
             StringBuffer clause = new StringBuffer();
-            TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
-            clause.append(" Where ID in(");
-            for(String id : ids){
-                clause.append("'"+id+"',");
-            }
-            List<Objective> listObjective = new ArrayList<Objective>();
-            String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
-            whereClause = whereClause + ") and isDeleted=false" ;
+            TypeMetadata metaObjective = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
+            TypeMetadata metaCourseMappingDetail = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
+            String firstQuery = "select obj.id, obj.name , obj.description, mapping.index from  " + metaObjective.getTable()
+                    + " obj inner join " + metaCourseMappingDetail.getTable()
+                    + " mapping on mapping.idChild=obj.id where ";
+            clause.append(firstQuery);
+            clause.append(" mapping.idLevel= '"+ids+"' and obj.isDeleted=false");
+            clause.append(" ORDER BY mapping.index ASC");
             PersistenceManager pm = PersistenceManagerHelper.get();
-            Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaRecorderSentence.getTable() + whereClause);
+            Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());
+            List<Objective> listObjective = new ArrayList<Objective>();
+
+
+//            clause.append(" Where ID in(");
+//            for(String id : ids){
+//                clause.append("'"+id+"',");
+//            }
+//            List<Objective> listObjective = new ArrayList<Objective>();
+//            String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+//            whereClause = whereClause + ") and isDeleted=false" ;
+//            PersistenceManager pm = PersistenceManagerHelper.get();
+//            Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description from " + metaObjective.getTable() + whereClause);
             try {
                 List<Object> tmp = (List<Object>) q.execute();
                 if(tmp!=null && tmp.size() > 0){
@@ -223,9 +236,9 @@ public class ObjectiveDAO extends DataAccess<Objective> {
                 pm.close();
             }
             return listObjective;
-        }
+       // }
 
-        return new ArrayList<Objective>();
+//        return new ArrayList<Objective>();
     }
 
     /**

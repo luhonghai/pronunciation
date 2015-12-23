@@ -233,7 +233,7 @@ public class TestMappingService {
                 for(TestMapping om : listObjectiveMappings){
                     lstLessonId.add(om.getIdLessonCollection());
                 }
-                List<LessonCollection> listObjectives = lessonCollectionDAO.listIn(lstLessonId);
+                List<LessonCollection> listObjectives = lessonCollectionDAO.listIns(lstLessonId);
                 lessonCollectionDTO.setData(listObjectives);
                 lessonCollectionDTO.setMessage(SUCCESS);
             }else{

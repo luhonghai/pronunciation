@@ -1,5 +1,7 @@
 package com.cmg.lesson.data.dto.level;
 
+import com.cmg.lesson.data.dto.objectives.IndexOBJ;
+
 import java.util.List;
 
 /**
@@ -9,7 +11,8 @@ public class LevelMappingObjDTO {
     private String message;
     private String idLevel;
     private int index;
-    private List<String> lstIdObjective;
+
+    private List<IndexOBJ> obj;
 
     public String getMessage() {
         return message;
@@ -26,14 +29,14 @@ public class LevelMappingObjDTO {
     public void setIdLevel(String idLevel) {
         this.idLevel = idLevel;
     }
-
-    public List<String> getLstIdObjective() {
-        return lstIdObjective;
+    public List<IndexOBJ> getObj() {
+        return obj;
     }
 
-    public void setLstIdObjective(List<String> lstIdObjective) {
-        this.lstIdObjective = lstIdObjective;
+    public void setObj(List<IndexOBJ> obj) {
+        this.obj = obj;
     }
+
 
     public int getIndex() {
         return index;

@@ -9,24 +9,25 @@ import java.util.List;
  */
 public class IndexOBJ {
 
-    private String message;
-    private List<Objective> data;
 
-    public String getMessage() {
-        return message;
+
+    private String idObjects;
+    private int index;
+
+    public int getIndex() {
+        return index;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public List<Objective> getData() {
-        return data;
+    public String getIdObjects() {
+        return idObjects;
     }
 
-    public void setData(List<Objective> data) {
-        this.data = data;
+    public void setIdObjects(String idObjects) {
+        this.idObjects = idObjects;
     }
-
 
 }
