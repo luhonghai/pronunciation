@@ -195,7 +195,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
                     + " obj inner join " + metaCourseMappingDetail.getTable()
                     + " mapping on mapping.idChild=obj.id where ";
             clause.append(firstQuery);
-            clause.append(" mapping.idLevel= '"+ids+"' and obj.isDeleted=false");
+            clause.append(" mapping.idLevel= '"+ids+"' and obj.isDeleted=false and mapping.isDeleted=false");
             clause.append(" ORDER BY mapping.index ASC");
             PersistenceManager pm = PersistenceManagerHelper.get();
             Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());

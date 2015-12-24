@@ -550,7 +550,7 @@ function editObjectiveAndLessonIndex(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#edit-objective").modal('hide');
                     $("#indexLessonEdit").modal('hide');
-                    swal("Success!", "You have edit Object success!", "success");
+                    swal("Success!", "You have edit Object and Lessons success!", "success");
                     getObjAndTest(idLevel);
                     buildPanelObject(data);
                 }else{
@@ -693,7 +693,8 @@ function addObjectiveAndLessonIndex(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#add-objective").modal('hide');
                     $("#indexLesson").modal('hide');
-                    swal("Success!", "You have add Object success!", "success");
+                    swal("Success!", "You have add Object and Lessons success!", "success");
+                    getObjAndTest(idLevel);
                     buildPanelObject(data);
                 }else{
                     swal("Could not add objective!", data.message.split(":")[1], "error");
@@ -799,7 +800,7 @@ function addObjAvailableIndex(){
                 if (data.message.indexOf("success") !=-1) {
                     $("#add-obj-available").modal('hide');
                     $("#indexObject").modal('hide');
-                    swal("Success!", "You have delete lesson success!", "success");
+                    swal("Success!", "You have add Object success!", "success");
                     getObjAndTest($("#yesadd-obj-available").attr("id_level"));
                 }else{
                     swal("Could not add objective!", data.message.split(":")[1], "error");
