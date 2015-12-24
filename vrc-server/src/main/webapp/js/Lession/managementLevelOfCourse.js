@@ -551,6 +551,7 @@ function editObjectiveAndLessonIndex(){
                     $("#edit-objective").modal('hide');
                     $("#indexLessonEdit").modal('hide');
                     swal("Success!", "You have edit Object success!", "success");
+                    getObjAndTest(idLevel);
                     buildPanelObject(data);
                 }else{
                     swal("Could not add objective!", data.message.split(":")[1], "error");
