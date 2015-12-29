@@ -15,6 +15,6 @@
     <string name="ipa_vowels">vowels</string>
     <string name="ipa_vowels_title">vowels</string>
 
-    <string name="ipa_consonant">consonant</string>
-    <string name="ipa_consonant_title">con|son¦ant</string>
+    <string name="ipa_consonant">consonants</string>
+    <string name="ipa_consonant_title">con|son¦ants</string>
 </resources>
