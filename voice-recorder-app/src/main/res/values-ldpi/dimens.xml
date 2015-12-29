@@ -38,4 +38,6 @@
 
     <dimen name="activate_title_text_size">25sp</dimen>
     <dimen name="activate_description_text_size">16sp</dimen>
+
+    <dimen name="ipa_item_text_size">29sp</dimen>
 </resources>

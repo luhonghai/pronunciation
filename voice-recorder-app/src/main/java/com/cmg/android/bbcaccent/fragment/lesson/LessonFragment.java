@@ -1821,4 +1821,10 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             return viewState.questions.size();
         }
     }
+
+    @Override
+    protected void onSwipeRightToLeft() {
+        SimpleAppLog.debug("On swipe right to left");
+        handlerStartDetail.post(runnableStartDetail);
+    }
 }

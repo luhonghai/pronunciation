@@ -4,6 +4,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="@dimen/ipa_item_size"
             android:layout_height="@dimen/ipa_item_size"
+            app:cardBackgroundColor="@color/app_purple"
             app:cardCornerRadius="6dp"
             android:id="@+id/cvItemContainer"
             app:cardElevation="0dp"
@@ -19,8 +20,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="35sp"
+            android:textSize="@dimen/ipa_item_text_size"
             android:textStyle="bold"
+            android:text="aʊ"
             android:textColor="@android:color/white"/>
     </RelativeLayout>
 
