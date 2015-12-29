@@ -45,17 +45,22 @@ public class CheckNumberDate extends HttpServlet {
                 if (number > 0) {
                     if (user != null) {
                         user1 = userDAO.getUserByEmail(user.getUsername());
-                        Calendar cal1 = Calendar.getInstance();
-                        cal1.setTime(date);
-                        Calendar cal2 = Calendar.getInstance();
-                        cal2.setTime(user1.getCreatedDate());
-                        cal2.add(Calendar.DATE, number);
-                        if (cal2.before(cal1)) {
-                            responseData.setMessage("out of date");
-                            responseData.setStatus(false);
+                        if (user1 != null) {
+                            Calendar cal1 = Calendar.getInstance();
+                            cal1.setTime(date);
+                            Calendar cal2 = Calendar.getInstance();
+                            cal2.setTime(user1.getCreatedDate());
+                            cal2.add(Calendar.DATE, number);
+                            if (cal2.before(cal1)) {
+                                responseData.setMessage("out of date");
+                                responseData.setStatus(false);
+                            } else {
+                                responseData.setMessage("success");
+                                responseData.setStatus(true);
+                            }
                         } else {
-                            responseData.setMessage("success");
-                            responseData.setStatus(true);
+                            responseData.setMessage("no account found " + user.getUsername());
+                            responseData.setStatus(false);
                         }
                     } else {
                         responseData.setMessage("error");

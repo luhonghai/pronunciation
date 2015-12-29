@@ -35,15 +35,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center_horizontal|bottom">
-                    <org.sufficientlysecure.htmltextview.HtmlTextView
-                        android:id="@+id/txtDefinition"
-                        android:gravity="center_vertical"
-                        android:textSize="@dimen/main_selected_phoneme_size"
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:textColor="@color/app_green"
+                        android:layout_height="match_parent"
+                        android:scrollbarThumbVertical="@drawable/scrollbar">
+                        <org.sufficientlysecure.htmltextview.HtmlTextView
+                            android:id="@+id/txtDefinition"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/main_selected_phoneme_size"
+                            android:layout_width="match_parent"
+                            android:textColor="@color/app_green"
 
-                        android:layout_height="wrap_content"
-                        android:text="test"/>
+                            android:layout_height="wrap_content"
+                            android:text="test"/>
+                    </ScrollView>
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -395,6 +395,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         txtDefinition.setVisibility(View.VISIBLE);
         drawQuestionList();
+        registerGestureSwipe(root);
         return root;
     }
 
