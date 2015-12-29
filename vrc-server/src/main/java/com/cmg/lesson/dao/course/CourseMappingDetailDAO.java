@@ -38,6 +38,23 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
         }
         return version;
     }
+    public CourseMappingDetail getByIdObj(String id) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    public CourseMappingDetail getByIdObjAndIdLevel(String id,String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild == :1 && idLevel == :2 && isDeleted == :3 ", id,idLevel, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+
 
     /**
      *
@@ -54,11 +71,18 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
         }
         return false;
     }
+    public boolean checkExistisUpdate(String idObjectiveOrTest, String idLevel) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild == :1 && idLevel == :2 && isDeleted == :3",idObjectiveOrTest,idLevel,false);
+        if(list!=null && list.size() > 1){
+            return true;
+        }
+        return false;
+    }
 
 
     /**
      *
-     * @param idCourse
+     * @param idLevel
      * * @param idLevel
      * @return true if question exist
      * @throws Exception

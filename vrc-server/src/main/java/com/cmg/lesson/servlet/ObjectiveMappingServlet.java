@@ -59,7 +59,8 @@ public class ObjectiveMappingServlet extends BaseServlet {
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("loadUpdateObj")){
                 String idObjective = (String) StringUtil.isNull(request.getParameter("idObjective"), "");
-                ObjectiveMappingDTO objectiveMappingDTO = objectiveMappingService.getDataForUpdatePopup(idObjective);
+                String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "");
+                ObjectiveMappingDTO objectiveMappingDTO = objectiveMappingService.getDataForUpdatePopup(idObjective,idLevel);
                 String json = gson.toJson(objectiveMappingDTO);
                 response.getWriter().write(json);
             }else if(action.equalsIgnoreCase("loadUpdateTest")){

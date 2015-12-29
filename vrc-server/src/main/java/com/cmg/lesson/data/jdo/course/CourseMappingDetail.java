@@ -32,6 +32,10 @@ public class CourseMappingDetail implements Mirrorable{
     @Persistent
     private int version;
 
+    //add column index by nam.bui
+    @Persistent
+    private int index;
+
 
     public String getIdCourse() {
         return idCourse;
@@ -90,4 +94,12 @@ public class CourseMappingDetail implements Mirrorable{
     public void setId(String id) {
         this.id = id;
     }
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
 }

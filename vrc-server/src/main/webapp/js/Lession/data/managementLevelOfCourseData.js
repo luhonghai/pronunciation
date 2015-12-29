@@ -10,6 +10,7 @@ function getDtoAddObjective(){
     var idLevel = $("#yesadd").attr("id_level");
     var idCourse = $("#idCourse").val();
     var nameObj = $("#add-objective-name").val();
+    var index = $("#indexOBJadd").val();
     var descriptionObj =  $("#add-description").val();
     var idLessons = [];
     $('#select-lesson option:selected').map(function(a, item){ idLessons.push(item.value);});
@@ -17,6 +18,7 @@ function getDtoAddObjective(){
         idLevel : idLevel,
         idCourse: idCourse,
         nameObj : nameObj,
+        index : index,
         descriptionObj : descriptionObj,
         idLessons : idLessons
     };
@@ -27,6 +29,7 @@ function getDtoAddObjAvailable(){
     var idLevel = $("#yesadd-obj-available").attr("id_level");
     var idObjects = [];
     $('#select-obj-available option:selected').map(function(a, item){ idObjects.push(item.value);});
+
     var dto = {
         idLevel : idLevel,
         lstIdObjective : idObjects
@@ -40,11 +43,13 @@ function getDtoEditObjective(){
     var nameObj = $("#edit-objective-name").val();
     var descriptionObj =  $("#edit-description").val();
     var idObjective= $("#yesedit").attr("objtive_id");
+    var index = $("#indexOBJedit").val();
     var idLessons = [];
     $('#select-lesson-edit option:selected').map(function(a, item){ idLessons.push(item.value);});
     var dto = {
         idObjective: idObjective,
         nameObj : nameObj,
+        index:index,
         descriptionObj : descriptionObj,
         idLessons : idLessons
     };

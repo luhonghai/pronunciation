@@ -1,6 +1,7 @@
 package com.cmg.lesson.dao.lessons;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -292,7 +293,8 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
      * @param ids
      * @return
      */
-    public List<LessonCollection> listIn(List<String> ids) throws Exception{
+
+    public List<LessonCollection> listIns(List<String> ids) throws Exception{
         StringBuffer clause = new StringBuffer();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
         clause.append(" Where LESSONCOLLECTION.ID in(");
@@ -305,6 +307,68 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaRecorderSentence.getTable() + whereClause);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    LessonCollection lessonCollection = new LessonCollection();
+                    Object[] array = (Object[]) obj;
+                    lessonCollection.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lessonCollection.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        lessonCollection.setDescription(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        lessonCollection.setNameUnique(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        lessonCollection.setTitle(array[4].toString());
+                    }
+                    lessonCollection.setIdChecked(true);
+                    listObjective.add(lessonCollection);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return listObjective;
+
+    }
+
+
+    public List<LessonCollection> listIn(String ids) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        TypeMetadata metaObjectiveMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
+        String firstQuery = "select obj.id, obj.name , obj.description,obj.nameUnique,obj.title, mapping.index from  " + metaLessonCollection.getTable()
+                + " obj inner join " + metaObjectiveMapping.getTable()
+                + " mapping on mapping.idLessonCollection=obj.id where ";
+        clause.append(firstQuery);
+        clause.append(" mapping.idObjective= '"+ids+"' and obj.isDeleted=false and mapping.isDeleted=false");
+        clause.append(" ORDER BY mapping.index ASC");
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());
+        List<LessonCollection> listObjective = new ArrayList<LessonCollection>();
+
+
+//        clause.append(" Where LESSONCOLLECTION.ID NOT IN(");
+//        for(String id : ids){
+//            clause.append("'"+id+"',");
+//        }
+//        List<LessonCollection> listObjective = new ArrayList<LessonCollection>();
+//        String whereClause = clause.toString().substring(0, clause.toString().length() - 1);
+//        whereClause = whereClause + ") and isDeleted=false " ;
+//
+//        PersistenceManager pm = PersistenceManagerHelper.get();
+//
+//        Query q = pm.newQuery("javax.jdo.query.SQL", "Select id,name,description,nameUnique,title from " + metaLessonCollection.getTable() + whereClause);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){

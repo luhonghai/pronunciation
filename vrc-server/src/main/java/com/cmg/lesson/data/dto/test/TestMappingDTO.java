@@ -13,6 +13,7 @@ public class TestMappingDTO {
     private String idLevel;
     private String idCourse;
     private String nameTest;
+    private int index;
     private String descriptionTest;
     private Double percentPass;
     private List<String> idLessons;
@@ -88,5 +89,13 @@ public class TestMappingDTO {
 
     public void setIdCourse(String idCourse) {
         this.idCourse = idCourse;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
