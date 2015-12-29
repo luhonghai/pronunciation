@@ -359,6 +359,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                     );
 //            viewState.willShowHelpSearchWordAndSlider = false;
         }
+        registerGestureSwipe(root);
         return root;
     }
 
@@ -1447,5 +1448,11 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
         boolean willShowHelpSearchWordAndSlider = false;
 
         String errorMessage;
+    }
+
+    @Override
+    protected void onSwipeRightToLeft() {
+        SimpleAppLog.debug("On swipe right to left");
+        handlerStartDetail.post(runnableStartDetail);
     }
 }
