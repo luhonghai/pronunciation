@@ -113,7 +113,7 @@
                                 <div>
                                     <label class="col-xs-4  col-sm-4 control-label ">Image :</label>
                                     <div class="col-xs-8  col-sm-8">
-                                        <div id="wrap-img-edit"><img src="" id="img-edit" style="width: 300px;height: 200px"/> <a href="#" id="btn-img-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
+                                        <div id="wrap-img-edit"><img src="" id="img-edit" style="width: 300px;height: 300px"/> <a href="#" id="btn-img-edit" style="margin: 0 0 5px 10px;">Edit image</a></div>
                                         <div id="wrap-img-add"><input type="file" id="image" name="image" class="form-control" style="padding-left: 0px; margin-bottom: 5px;"></div>
                                     </div>
                                 </div>
