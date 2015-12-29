@@ -45,7 +45,7 @@ public class ManageCountryServlet extends BaseServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setHeader("Content-Type", "text/plain; charset=utf8mb4_unicode_ci");
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         Gson gson = new Gson();
         CountryService service = new CountryService();
         String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();

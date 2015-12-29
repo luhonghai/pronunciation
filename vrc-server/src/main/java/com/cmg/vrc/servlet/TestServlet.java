@@ -1,6 +1,8 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
+import com.cmg.lesson.data.jdo.country.Country;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
 
@@ -9,6 +11,13 @@ import java.util.List;
 
 public class TestServlet {
     public static void main(String[] args) {
+        Country country=new Country();
+        CountryDAO countryDAO=new CountryDAO();
+        try{
+
+        }catch (Exception e){
+            e.getStackTrace();
+        }
 //        LicenseCodeDAO lis=new LicenseCodeDAO();
 //        FeedbackDAO feedbackDAO = new FeedbackDAO();
 //        UsageDAO usageDAO=new UsageDAO();
