@@ -1017,6 +1017,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         }
         AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_FRAGMENT, currentFragmentState.clazz.getName());
         MainApplication.getContext().setSkipHelpPopup(currentFragmentState == FragmentState.SETTINGS);
+        MainApplication.getContext().setCurrentFragmentState(currentFragmentState);
         txtTitle.setText(currentFragmentState.getTitle());
     }
 
@@ -1031,6 +1032,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     drawerLayout.closeDrawer(Gravity.LEFT);
                 }
                 if (state != currentFragmentState) {
+                    MainApplication.getContext().setCurrentFragmentState(state);
                     if (state == FragmentState.FEEDBACK) {
                         AndroidHelper.takeScreenShot(this);
                     }
