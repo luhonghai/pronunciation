@@ -136,6 +136,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     private LessonFragment.ViewState viewState;
 
     private PopupShowcaseHelper popupShowcaseHelper;
+
+    private Dialog lessonScorePopup;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
@@ -230,12 +233,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                 if (totalQuestions == viewState.questions.size()) {
                     final int avgScore = Math.round((float) totalScore / totalQuestions);
                     if (viewState.isLesson) {
-                        final Dialog dialog = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
-                        TextView textView = ButterKnife.findById(dialog, R.id.tv_content);
+                        lessonScorePopup = new DefaultCenterDialog(getActivity(), R.layout.dialog_overall_score);
+                        TextView textView = ButterKnife.findById(lessonScorePopup, R.id.tv_content);
                         textView.setText(String.format(Locale.getDefault(), "Your overall score for %s is", viewState.lessonCollection.getTitle()));
                         AnalyticHelper.sendEvent(AnalyticHelper.Category.LESSON,
                                 AnalyticHelper.Action.LESSON_SUCCESS, viewState.lessonCollection.getName() + " " + viewState.lessonCollection.getId(), avgScore);
-                        final RecordingView recordingView = ButterKnife.findById(dialog, R.id.main_recording_view);
+                        final RecordingView recordingView = ButterKnife.findById(lessonScorePopup, R.id.main_recording_view);
                         recordingView.setAnimationListener(new RecordingView.OnAnimationListener() {
                             @Override
                             public void onAnimationMax() {
@@ -247,17 +250,17 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
                             }
                         });
-                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                MainApplication.getContext().setSkipHelpPopup(false);
-                            }
-                        });
-                        MainApplication.getContext().setSkipHelpPopup(true);
+//                        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                            @Override
+//                            public void onDismiss(DialogInterface dialog) {
+//                                MainApplication.getContext().setSkipHelpPopup(false);
+//                            }
+//                        });
+//                        MainApplication.getContext().setSkipHelpPopup(true);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                dialog.show();
+                                lessonScorePopup.show();
                                 recordingView.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -426,8 +429,12 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                         @Override
                         public void onSelectHelpItem(PopupShowcaseHelper.HelpItem helpItem) {
                             if (showcaseHelper == null) return;
+                            if (lessonScorePopup != null && lessonScorePopup.isShowing()) {
+                                lessonScorePopup.dismiss();
+                            }
                             switch (helpItem) {
                                 case PHONEME_HELP:
+                                    closeSlider();
                                     if (hListView != null && hListView.getChildCount() > 0) {
                                         showcaseHelper.showHelp(new ShowcaseHelper.HelpState(getViewByPosition(0, hListView), getString(R.string.help_phoneme_info)));
                                     }
@@ -439,6 +446,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                     showcaseHelper.showHelp(new ShowcaseHelper.HelpState(recordingView, getString(R.string.help_reattempt_swipe_back)));
                                     break;
                                 case NEXT_QUESTION:
+                                    closeSlider();
                                     int index = 0;
                                     if (viewState != null && viewState.questions.size() > 0) {
                                         for (int i = 0; i < viewState.questions.size(); i++) {
@@ -453,15 +461,23 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                     }
                                     break;
                                 case NEXT_LESSON:
+                                    closeSlider();
                                     showcaseHelper.showHelp(new ShowcaseHelper.HelpState(btnNext, getString(R.string.help_next_lesson)));
                                     break;
                                 case REDO_LESSON:
+                                    closeSlider();
                                     showcaseHelper.showHelp(new ShowcaseHelper.HelpState(btnRedo, getString(R.string.help_redo_lesson)));
                                     break;
                             }
                         }
                     });
             popupShowcaseHelper.resetTiming();
+        }
+    }
+
+    private void closeSlider() {
+        if (panelSlider != null && panelSlider.getPanelState() != SlidingUpPanelLayout.PanelState.COLLAPSED) {
+            panelSlider.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         }
     }
 

@@ -817,6 +817,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
 
                     }
                 }
+                MainApplication.getContext().setSkipHelpPopup(true);
                 getWordAsync = new GetWordAsync(word);
                 getWordAsync.execute();
             }
@@ -996,6 +997,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             runner = new Thread(dispatcher, "Audio Dispatcher");
             lastDetectedPitchTime = System.currentTimeMillis();
             runner.start();
+            MainApplication.getContext().setSkipHelpPopup(true);
         } catch (Exception ex) {
             SimpleAppLog.error("Could not start recording", ex);
         }
@@ -1006,6 +1008,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
     }
 
     private void stopRecording(boolean changeStatus) {
+        MainApplication.getContext().setSkipHelpPopup(false);
         if (isRecording) {
             if (changeStatus) {
                 isRecording = false;
@@ -1047,6 +1050,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         MainBroadcaster.getInstance().unregister(receiverListenerId);
         ButterKnife.unbind(this);
+        MainApplication.getContext().setSkipHelpPopup(false);
     }
 
     @Override
@@ -1383,6 +1387,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not upload recording", e);
+            MainApplication.getContext().setSkipHelpPopup(false);
         }
     }
 
@@ -1467,6 +1472,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     d.show();
 
                 }
+                MainApplication.getContext().setSkipHelpPopup(false);
                 analyzingState = AnalyzingState.DEFAULT;
             }
         } catch (Exception e) {
@@ -1492,6 +1498,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     analyzingState = AnalyzingState.WAIT_FOR_ANIMATION_MAX;
                     recordingView.startPingAnimation(getActivity(), 2000, viewState.currentModel.getScore(), true, true);
                 } else if (isRecording) {
+                    MainApplication.getContext().setSkipHelpPopup(false);
                     SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
                     d.setTitleText(getString(R.string.could_not_analyze_word_title));
                     if (viewState.errorMessage != null && viewState.errorMessage.equalsIgnoreCase("invalid token")) {
@@ -1587,6 +1594,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                     analyzingState = AnalyzingState.DEFAULT;
                     lastState = ButtonState.DEFAULT;
                     switchButtonStage();
+                    MainApplication.getContext().setSkipHelpPopup(false);
                     popupShowcaseHelper.resetTiming();
                 }
             }
