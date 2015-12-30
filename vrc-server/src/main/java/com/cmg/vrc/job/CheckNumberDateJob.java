@@ -26,15 +26,18 @@ public class CheckNumberDateJob {
 
             JobDetail jobStart = JobBuilder
                     .newJob(Check.class)
-                    .withIdentity("StartEnvironmentJob", "BeanstalkGroup")
+                    .withIdentity("StartCheckNumberDateJob", "CheckNumberDateJob")
                     .build();
 
             //Associate Trigger to the Job
             CronTrigger triggerStart = TriggerBuilder
                     .newTrigger()
-                    .withIdentity("StartEnvironmentJobTrigger", "BeanstalkGroup")
+                    .withIdentity("StartCheckNumberDateJobTrigger", "CheckNumberDateJob")
                     .startNow()
-                    .withSchedule(CronScheduleBuilder.dailyAtHourAndMinute(0,1))
+                    .withSchedule(
+                           // CronScheduleBuilder.dailyAtHourAndMinute(0,1)
+                            CronScheduleBuilder.cronSchedule("0 0/15 * 1/1 * ? *")
+                    )
                     .build();
 
             //Pass JobDetail and trigger dependencies to schedular
@@ -50,7 +53,7 @@ public class CheckNumberDateJob {
 
         @Override
         public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-            logger.info("Start Check job");
+            logger.info("Start expired user");
             AppDetailDAO appDetailDAO=new AppDetailDAO();
 
             UserDAO userDAO=new UserDAO();

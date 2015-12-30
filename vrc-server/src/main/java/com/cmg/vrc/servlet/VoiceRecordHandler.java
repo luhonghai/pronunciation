@@ -7,6 +7,7 @@ import com.cmg.vrc.data.dao.impl.LoginTokenDAO;
 import com.cmg.vrc.data.dao.impl.UserVoiceModelDAO;
 import com.cmg.vrc.data.jdo.LoginToken;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
+import com.cmg.vrc.job.CheckNumberDateJob;
 import com.cmg.vrc.job.SummaryReportJob;
 import com.cmg.vrc.service.PhonemeScoreService;
 import com.cmg.vrc.service.UserVoiceModelService;
@@ -55,7 +56,12 @@ public class VoiceRecordHandler extends HttpServlet {
         try {
             SummaryReportJob.startJob();
         } catch (SchedulerException e) {
-            logger.error("Could not start schedule", e);
+            logger.error("Could not start schedule SummaryReportJob", e);
+        }
+        try {
+            CheckNumberDateJob.startJob();
+        } catch (SchedulerException e) {
+            logger.error("Could not start schedule CheckNumberDateJob", e);
         }
     }
 
