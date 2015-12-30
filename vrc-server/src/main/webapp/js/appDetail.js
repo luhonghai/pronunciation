@@ -12,6 +12,8 @@ function appDetail(){
                 $("#id").val(result.idAppDetail);
                 $("#idnumber").val(result.idNumberDate);
                 $("#numberDate").val(result.numberDate);
+                $("#subject").val(result.subject);
+                $("#messageMail").val(result.message);
                 if (result.registration == true) {
                     $("#checkbox").attr('checked', "checked");
                 }
@@ -33,6 +35,8 @@ function save(){
         var id=$("#id").val();
         var idnumber=$("#idnumber").val();
         var numberDate=$("#numberDate").val();
+        var subject=$("#subject").val();
+        var messageMail=$("#messageMail").val();
         var regis;
         if($("#checkbox").is(':checked')){
             regis=true;
@@ -50,7 +54,9 @@ function save(){
                 idnumber:idnumber,
                 message: message,
                 regis: regis,
-                numberDate:numberDate
+                numberDate:numberDate,
+                subject:subject,
+                messageMail:messageMail
 
             },
             success:function(data){

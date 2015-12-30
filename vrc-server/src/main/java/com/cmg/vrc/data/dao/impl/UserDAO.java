@@ -52,10 +52,18 @@ public class UserDAO extends DataAccess<User> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaUser = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(User.class.getCanonicalName());
         TypeMetadata metaLicenseCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LicenseCode.class.getCanonicalName());
-        List<User> users=new ArrayList<User>();
-        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, username, createdDate FROM " + metaUser + "WHERE USERNAME not IN (select DISTINCT ACCOUNT AS username FROM" + metaLicenseCode + "where ACCOUNT is not null)");
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, username, createdDate FROM " + metaUser.getTable() + " WHERE USERNAME not IN (select DISTINCT ACCOUNT AS username FROM " + metaLicenseCode.getTable() + " WHERE ACCOUNT is not null)");
         try {
-            users=(List<User>)q.execute();
+            List<User> users = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                User user = new User();
+                user.setId(data[0].toString());
+                user.setUsername(data[1].toString());
+                user.setCreatedDate((Date)data[2]);
+                users.add(user);
+            }
             return users;
         } catch (Exception e) {
             throw e;

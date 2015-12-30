@@ -38,6 +38,20 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+             <div class="row">
+                 <div class="col-sm-4">
+                     <div class="form-group">
+                         <label class="control-label" style="font-weight: 500">Subject</label>
+                         <textarea type="text" name="subject" id="subject" class="form-control" rows="2" required="required" placeholder="Subject"></textarea>
+                     </div>
+                 </div>
+                 <div class="col-sm-8">
+                     <div class="form-group">
+                         <label class="control-label" style="font-weight: 500">Message Mail</label>
+                         <textarea type="text" name="messageMail" id="messageMail" class="form-control" rows="5" required="required" placeholder="Message Mail"></textarea>
+                     </div>
+                 </div>
+             </div>
             <div class="row" style="margin-top: 20px;">
                 <div class="col-sm-2">
                 <button id="save" class="btn">Save</button>

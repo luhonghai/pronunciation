@@ -23,6 +23,14 @@ public class AppDetail implements Mirrorable {
     @Persistent
     private boolean registration = true;
 
+    @Persistent
+    private String subject;
+
+    @Persistent
+    private String message;
+
+
+
     @Override
     public String getId() {
         return id;
@@ -48,4 +56,21 @@ public class AppDetail implements Mirrorable {
     public void setRegistration(boolean registration) {
         this.registration = registration;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
 }

@@ -22,6 +22,11 @@ public class Setting {
 
     private int  numberDate;
 
+    private String subject;
+
+    private String message;
+
+
     public int getNumberDate() {
         return numberDate;
     }
@@ -62,8 +67,6 @@ public class Setting {
         this.createdDate = createdDate;
     }
 
-
-
     public String getNoAccessMessage() {
         return noAccessMessage;
     }
@@ -79,4 +82,21 @@ public class Setting {
     public void setRegistration(boolean registration) {
         this.registration = registration;
     }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }
