@@ -14,40 +14,63 @@
             <!-- /.row -->
             <input type="hidden" id="id" name="id">
             <input type="hidden" id="idnumber" name="id">
-            <div class="row" style="margin-top: 30px;">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                        <textarea type="text" name="noAccessMessage" id="noAccessMessage" class="form-control" rows="3" required="required" placeholder="noAccessMessage"></textarea>
-                        <%--<input class="form-control" name="noAccessMessage" type="text" id="noAccessMessage" placeholder="noAccessMessage">--%>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"  value="true" id="checkbox">
-                                Registration
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                            <label style="font-weight: 500">
-                                Number Date:
-                                <input type="number"  value="1" min="1" max="20" id="numberDate">
-                            </label>
-                    </div>
+            <%--<div class="row" style="margin-top: 30px;">--%>
+                <%--<div class="col-sm-4">--%>
+                    <%--<div class="form-group">--%>
+                        <%--<textarea type="text" name="noAccessMessage" id="noAccessMessage" class="form-control" rows="3" required="required" placeholder="noAccessMessage"></textarea>--%>
+                        <%--&lt;%&ndash;<input class="form-control" name="noAccessMessage" type="text" id="noAccessMessage" placeholder="noAccessMessage">&ndash;%&gt;--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                        <%--<div class="checkbox">--%>
+                            <%--<label>--%>
+                                <%--<input type="checkbox"  value="true" id="checkbox">--%>
+                                <%--Registration--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
 
-                </div>
-                <!-- /.col-lg-12 -->
+                    <%--<div class="form-group">--%>
+                        <%--<label style="font-weight: 500">--%>
+                            <%--Lite verson setting--%>
+                        <%--</label>--%>
+                    <%--</div>--%>
+
+                    <%--<div class="form-group">--%>
+                            <%--<label style="font-weight: 500">--%>
+                                <%--Number Date of use:--%>
+                                <%--<input type="number"  value="1" min="1" max="20" id="numberDate">--%>
+                            <%--</label>--%>
+                    <%--</div>--%>
+
+                <%--</div>--%>
+                <%--<!-- /.col-lg-12 -->--%>
+            <%--</div>--%>
+
+
+
+            <div class="form-group">
+                <label style="font-weight: 500;font-size: 200%">
+                Lite verson setting
+                </label>
             </div>
-             <div class="row">
-                 <div class="col-sm-4">
+             <div style="border-style: ridge; border-width: 1px;">
+                 <div class="row" style="padding: 10px; margin-right: 0px;margin-left: 0px; padding-bottom: 0px;">
                      <div class="form-group">
-                         <label class="control-label" style="font-weight: 500">Subject</label>
+                         <label style="font-weight: 700">
+                             Number Date of use:
+                             <input type="number"  value="1" min="1" max="20" id="numberDate">
+                         </label>
+                     </div>
+                 </div>
+                 <div class="row" style="padding: 10px; margin-right: 0px;margin-left: 0px;padding-bottom: 0px;">
+                     <div class="form-group">
+                         <label class="control-label" style="font-weight: 700">Mail Subject:</label>
                          <textarea type="text" name="subject" id="subject" class="form-control" rows="2" required="required" placeholder="Subject"></textarea>
                      </div>
                  </div>
-                 <div class="col-sm-8">
+                 <div class="row" style="padding: 10px; margin-right: 0px;margin-left: 0px;padding-bottom: 0px;">
                      <div class="form-group">
-                         <label class="control-label" style="font-weight: 500">Message Mail</label>
+                         <label class="control-label" style="font-weight: 700">Mail content:</label>
                          <textarea type="text" name="messageMail" id="messageMail" class="form-control" rows="5" required="required" placeholder="Message Mail"></textarea>
                      </div>
                  </div>
