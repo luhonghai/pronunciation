@@ -62,17 +62,17 @@ public class AppDetails extends HttpServlet{
 
             String role=request.getSession().getAttribute("role").toString();
             String username=request.getSession().getAttribute("username").toString();
-            String message=request.getParameter("message");
-            String regis=request.getParameter("regis");
+//            String message=request.getParameter("message");
+//            String regis=request.getParameter("regis");
             String messageMail=request.getParameter("messageMail");
             String subject=request.getParameter("subject");
             String number=request.getParameter("numberDate");
             String id=request.getParameter("id");
             String idnumber=request.getParameter("idnumber");
-            boolean register = Boolean.parseBoolean(regis);
+           // boolean register = Boolean.parseBoolean(regis);
             appDetail.setId(id);
-            appDetail.setRegistration(register);
-            appDetail.setNoAccessMessage(message);
+           // appDetail.setRegistration(register);
+            //appDetail.setNoAccessMessage(message);
             numberDate.setNumberDate(Integer.parseInt(number));
             numberDate.setCreatedDate(new Date(System.currentTimeMillis()));
             numberDate.setUserName(username);
@@ -82,8 +82,8 @@ public class AppDetails extends HttpServlet{
                         appDetailDAO.put(appDetail);
                     } else if (appDetailDAO.getCount() > 0) {
                         AppDetail appDetail1 = appDetailDAO.getById(id);
-                        appDetail1.setNoAccessMessage(message);
-                        appDetail1.setRegistration(register);
+                        appDetail1.setNoAccessMessage(null);
+                        appDetail1.setRegistration(false);
                         appDetail1.setId(id);
                         appDetail1.setMessage(messageMail);
                         appDetail1.setSubject(subject);

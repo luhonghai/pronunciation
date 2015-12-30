@@ -8,19 +8,19 @@ function appDetail(){
         },
         success:function(result) {
             if (result.valueOf() != null) {
-                $("#noAccessMessage").val(result.noAccessMessage);
+                //$("#noAccessMessage").val(result.noAccessMessage);
                 $("#id").val(result.idAppDetail);
                 $("#idnumber").val(result.idNumberDate);
                 $("#numberDate").val(result.numberDate);
                 $("#subject").val(result.subject);
                 $("#messageMail").val(result.message);
-                if (result.registration == true) {
-                    $("#checkbox").attr('checked', "checked");
-                }
-                if (result.registration == false) {
-                    $("#checkbox").removeAttr('checked');
-
-                }
+                //if (result.registration == true) {
+                //    $("#checkbox").attr('checked', "checked");
+                //}
+                //if (result.registration == false) {
+                //    $("#checkbox").removeAttr('checked');
+                //
+                //}
             }else{
                 swal("Error!", "Could not edit information", "error");
             }
@@ -31,19 +31,19 @@ function appDetail(){
 }
 function save(){
     $(document).on("click","#save",function(){
-        var message=$("#noAccessMessage").val();
+       // var message=$("#noAccessMessage").val();
         var id=$("#id").val();
         var idnumber=$("#idnumber").val();
         var numberDate=$("#numberDate").val();
         var subject=$("#subject").val();
         var messageMail=$("#messageMail").val();
-        var regis;
-        if($("#checkbox").is(':checked')){
-            regis=true;
-        }
-        else{
-            regis=false;
-        }
+        //var regis;
+        //if($("#checkbox").is(':checked')){
+        //    regis=true;
+        //}
+        //else{
+        //    regis=false;
+        //}
         $.ajax({
             url:"AppDetails",
             type:"POST",
@@ -52,8 +52,8 @@ function save(){
                 save: "save",
                 id: id,
                 idnumber:idnumber,
-                message: message,
-                regis: regis,
+               // message: message,
+                //regis: regis,
                 numberDate:numberDate,
                 subject:subject,
                 messageMail:messageMail
