@@ -38,6 +38,8 @@ public class AppDetails extends HttpServlet{
                         setting.setIdAppDetail(appDetails.get(0).getId());
                         setting.setRegistration(appDetails.get(0).isRegistration());
                         setting.setNoAccessMessage(appDetails.get(0).getNoAccessMessage());
+                        setting.setMessage(appDetails.get(0).getMessage());
+                        setting.setSubject(appDetails.get(0).getSubject());
                         setting.setIdNumberDate(numberDates.getId());
                         setting.setCreatedDate(numberDates.getCreatedDate());
                         setting.setUserName(numberDates.getUserName());
@@ -62,6 +64,8 @@ public class AppDetails extends HttpServlet{
             String username=request.getSession().getAttribute("username").toString();
             String message=request.getParameter("message");
             String regis=request.getParameter("regis");
+            String messageMail=request.getParameter("messageMail");
+            String subject=request.getParameter("subject");
             String number=request.getParameter("numberDate");
             String id=request.getParameter("id");
             String idnumber=request.getParameter("idnumber");
@@ -81,6 +85,8 @@ public class AppDetails extends HttpServlet{
                         appDetail1.setNoAccessMessage(message);
                         appDetail1.setRegistration(register);
                         appDetail1.setId(id);
+                        appDetail1.setMessage(messageMail);
+                        appDetail1.setSubject(subject);
                         appDetailDAO.put(appDetail1);
                     }
                     if(numberDateDAO.getCount()==0){
