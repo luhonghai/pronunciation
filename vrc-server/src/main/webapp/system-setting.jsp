@@ -71,7 +71,7 @@
                  <div class="row" style="padding: 10px; margin-right: 0px;margin-left: 0px;padding-bottom: 0px;">
                      <div class="form-group">
                          <label class="control-label" style="font-weight: 700">Mail content:</label>
-                         <textarea type="text" name="messageMail" id="messageMail" class="form-control" rows="5" required="required" placeholder="Message Mail"></textarea>
+                         <textarea type="text" name="messageMail" id="messageMail" class="form-control" rows="10" required="required" placeholder="Message Mail"></textarea>
                      </div>
                  </div>
              </div>
