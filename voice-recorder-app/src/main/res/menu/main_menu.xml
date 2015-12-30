@@ -25,10 +25,10 @@
         android:id="@+id/menu_ipa_information"
         android:icon="@android:drawable/ic_menu_info_details"
         android:showAsAction="never"
-        android:title="IPA Symbols"/>
+        android:title="ipa chart"/>
     <item
         android:id="@+id/menu_share"
         android:icon="@android:drawable/ic_menu_share"
         android:showAsAction="never"
-        android:title="Share"/>
+        android:title="share"/>
 </menu>
