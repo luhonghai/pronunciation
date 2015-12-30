@@ -8,6 +8,7 @@ import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
 import com.cmg.android.bbcaccent.data.sqlite.LessonDatabaseHelper;
 import com.cmg.android.bbcaccent.data.sqlite.LessonHistoryDatabaseHelper;
 import com.cmg.android.bbcaccent.extra.BreakDownAction;
+import com.cmg.android.bbcaccent.extra.FragmentState;
 import com.cmg.android.bbcaccent.fragment.lesson.LessonFragment;
 import com.cmg.android.bbcaccent.service.UpdateDataService;
 import com.cmg.android.bbcaccent.utils.GcmUtil;
@@ -45,6 +46,8 @@ public class MainApplication  extends Application {
     private String selectedTipWord;
 
     private boolean skipHelpPopup;
+
+    private FragmentState currentFragmentState;
 
     @Override
     public void onCreate() {
@@ -172,5 +175,13 @@ public class MainApplication  extends Application {
 
     public void setSelectedTipWord(String selectedTipWord) {
         this.selectedTipWord = selectedTipWord;
+    }
+
+    public FragmentState getCurrentFragmentState() {
+        return currentFragmentState;
+    }
+
+    public void setCurrentFragmentState(FragmentState currentFragmentState) {
+        this.currentFragmentState = currentFragmentState;
     }
 }

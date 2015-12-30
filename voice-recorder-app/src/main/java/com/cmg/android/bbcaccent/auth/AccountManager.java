@@ -510,6 +510,7 @@ public class AccountManager {
                 Map<String, String> data = new HashMap<String, String>();
                 Gson gson = new Gson();
                 Preferences.updateAdditionalProfile(context, profile);
+                SimpleAppLog.debug("Profile user name: " + profile.getUsername());
                 data.put("profile", gson.toJson(profile));
                 data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 data.put("token", profile.getToken());

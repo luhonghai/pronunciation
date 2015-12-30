@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cmg.android.bbcaccent.view.cardview.GestureDetectorCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/ipa_item_size"
+    android:layout_height="@dimen/ipa_item_size"
+    app:cardBackgroundColor="@color/app_purple"
+    app:cardCornerRadius="6dp"
+    android:id="@+id/cvItemContainer"
+    app:cardElevation="0dp"
+    android:clickable="true"
+    android:foreground="@android:color/transparent"
+    android:layout_margin="3dp"
+    android:stateListAnimator="@anim/lift_up">
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/txtPhoneme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:textStyle="bold"
+        android:text="aʊ"
+        android:gravity="center_horizontal|center_vertical"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/ipa_item_text_size"
+        />
+</com.cmg.android.bbcaccent.view.cardview.GestureDetectorCardView>

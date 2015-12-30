@@ -31,6 +31,10 @@
             android:gravity="center_horizontal|center_vertical">
             <ImageView
                 android:layout_width="fill_parent"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="-20dp"
+                android:layout_marginTop="-10dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/accenteasy_icon_text"
                 />
@@ -58,22 +62,26 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:padding="10dp">
-                        <TextView
+                        <me.grantland.widget.AutofitTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Get the full version"
                             android:textSize="@dimen/activate_title_text_size"
                             android:gravity="center_horizontal"
                             android:textStyle="bold"
+                            android:maxLines="1"
+                            android:singleLine="true"
                             android:textColor="@color/app_purple"
                             android:layout_marginBottom="10dp"/>
-                        <org.sufficientlysecure.htmltextview.HtmlTextView
-
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/txtPhoneme"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/app_orange"
                             android:text="Practice any word\nStructured lessons\nChallenge friends\nCompare scores with friends\nInternational ranking boards\nSpeaking phoneme chart"
                             android:textSize="@dimen/activate_description_text_size"
+                            android:maxLines="6"
+                            android:textStyle="bold"
                             />
                         <android.support.v7.widget.CardView
                             android:id="@+id/btnActivate"
@@ -100,7 +108,9 @@
                         </android.support.v7.widget.CardView>
                         <android.support.v7.widget.CardView
                             android:id="@+id/btnLogout"
-                            android:layout_margin="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
                             android:layout_gravity="center_horizontal"
                             android:visibility="gone"
                             app:cardBackgroundColor="@color/app_red"
@@ -124,7 +134,7 @@
                         </android.support.v7.widget.CardView>
                         <RelativeLayout
                             android:layout_weight="1"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="0dp">
                             <com.cmg.android.bbcaccent.view.cardview.CircleCardView
                                 android:id="@+id/btnShare"

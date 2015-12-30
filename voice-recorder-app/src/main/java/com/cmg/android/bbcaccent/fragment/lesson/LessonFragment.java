@@ -395,6 +395,7 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         }
         txtDefinition.setVisibility(View.VISIBLE);
         drawQuestionList();
+        registerGestureSwipe(root);
         return root;
     }
 
@@ -1820,5 +1821,11 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         public int getItemCount() {
             return viewState.questions.size();
         }
+    }
+
+    @Override
+    protected void onSwipeRightToLeft() {
+        SimpleAppLog.debug("On swipe right to left");
+        handlerStartDetail.post(runnableStartDetail);
     }
 }

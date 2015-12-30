@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.extra.FragmentState;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
@@ -108,11 +109,17 @@ public class PopupShowcaseHelper {
     private Runnable runnableShowDialog = new Runnable() {
         @Override
         public void run() {
-            if (MainApplication.getContext().isSkipHelpPopup() || (helpDialog != null && helpDialog.isShowing())) {
-                if (context == null || isRecycled) return;
-                handler.postDelayed(runnableShowDialog,TIMEOUT);
-            } else {
-                showDialog();
+            FragmentState fragmentState = MainApplication.getContext().getCurrentFragmentState();
+            if (fragmentState != null
+                    && (fragmentState == FragmentState.FREE_STYLE
+                        || fragmentState == FragmentState.FREE_STYLE_DETAIL
+                        || fragmentState == FragmentState.LESSON_MAIN)) {
+                if (MainApplication.getContext().isSkipHelpPopup() || (helpDialog != null && helpDialog.isShowing())) {
+                    if (context == null || isRecycled) return;
+                    handler.postDelayed(runnableShowDialog,TIMEOUT);
+                } else {
+                    showDialog();
+                }
             }
         }
     };
