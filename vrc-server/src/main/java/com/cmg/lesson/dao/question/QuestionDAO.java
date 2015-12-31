@@ -322,7 +322,7 @@ public class QuestionDAO extends DataAccess<Question> {
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select COUNT(id) from " + metaRecorderSentence.getTable() + whereClause);
-        q.setRange(start, start + length);
+        //q.setRange(start, start + length);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
