@@ -139,6 +139,8 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
     private Dialog lessonScorePopup;
 
+    private Handler handlerPopup = new Handler();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.detail, null);
@@ -257,7 +259,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 //                            }
 //                        });
 //                        MainApplication.getContext().setSkipHelpPopup(true);
-                        new Handler().postDelayed(new Runnable() {
+                        handlerPopup.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 lessonScorePopup.show();
@@ -318,7 +320,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
                                 AndroidHelper.updateShareButton(btnShare);
                             }
                             final File congratAudio = new File(FileHelper.getCachedAssetPath("mp3/ta_da_fanfare.mp3"));
-                            new Handler().postDelayed(new Runnable() {
+                            handlerPopup.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     dialog.show();
@@ -344,7 +346,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
 
                                 }
                             });
-                            new Handler().postDelayed(new Runnable() {
+                            handlerPopup.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
                                     dialog.show();
@@ -629,6 +631,7 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handlerPopup.removeCallbacksAndMessages(null);
         handlerDialog.removeCallbacksAndMessages(null);
         if (popupShowcaseHelper != null) {
             popupShowcaseHelper.recycle();
@@ -644,6 +647,9 @@ public class DetailFragment extends BaseFragment implements RecordingView.OnAnim
             recordingView.recycle();
         } catch (Exception ex) {
 
+        }
+        if (lessonScorePopup != null && lessonScorePopup.isShowing()) {
+            lessonScorePopup.dismiss();
         }
         ButterKnife.unbind(this);
     }
