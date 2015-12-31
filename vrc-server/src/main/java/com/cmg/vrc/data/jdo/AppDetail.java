@@ -24,9 +24,11 @@ public class AppDetail implements Mirrorable {
     private boolean registration = true;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String subject;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String message;
 
 
