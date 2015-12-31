@@ -71,6 +71,12 @@ public class User implements Mirrorable {
     @Persistent
     private Date createdDate;
 
+    @Persistent
+    private boolean isActivatedLicence;
+
+    @Persistent
+    private boolean isSubscription;
+
     @Override
     public String getId() {
         return id;
@@ -224,5 +230,21 @@ public class User implements Mirrorable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public boolean isActivatedLicence() {
+        return isActivatedLicence;
+    }
+
+    public void setIsActivatedLicence(boolean isActivatedLicence) {
+        this.isActivatedLicence = isActivatedLicence;
+    }
+
+    public boolean isSubscription() {
+        return isSubscription;
+    }
+
+    public void setIsSubscription(boolean isSubscription) {
+        this.isSubscription = isSubscription;
     }
 }
