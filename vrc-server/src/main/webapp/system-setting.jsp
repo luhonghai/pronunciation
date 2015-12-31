@@ -75,11 +75,21 @@
                      </div>
                  </div>
              </div>
+            <%
+
+                if (session.getAttribute("role")==null){
+                    return;
+                }
+                if(session.getAttribute("role").equals(1)){
+            %>
             <div class="row" style="margin-top: 20px;">
                 <div class="col-sm-2">
                 <button id="save" class="btn">Save</button>
                 </div>
             </div>
+            <%
+                }
+            %>
             <!-- /.row -->
         </div>
 </t:main>

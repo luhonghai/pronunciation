@@ -46,10 +46,21 @@ public class CheckNumberDate extends HttpServlet {
                     if (user != null) {
                         user1 = userDAO.getUserByEmail(user.getUsername());
                         if (user1 != null) {
+                            user1.setIsActivatedLicence(user.isActivatedLicence());
+                            user1.setIsSubscription(user.isSubscription());
+                            userDAO.update(user1);
                             Calendar cal1 = Calendar.getInstance();
                             cal1.setTime(date);
+                            cal1.set(Calendar.MILLISECOND, 0);
+                            cal1.set(Calendar.SECOND,0);
+                            cal1.set(Calendar.MINUTE, 0);
+                            cal1.set(Calendar.HOUR, 0);
                             Calendar cal2 = Calendar.getInstance();
                             cal2.setTime(user1.getCreatedDate());
+                            cal2.set(Calendar.MILLISECOND, 0);
+                            cal2.set(Calendar.SECOND,0);
+                            cal2.set(Calendar.MINUTE,0);
+                            cal2.set(Calendar.HOUR, 0);
                             cal2.add(Calendar.DATE, number);
                             if (cal2.before(cal1)) {
                                 responseData.setMessage("out of date");

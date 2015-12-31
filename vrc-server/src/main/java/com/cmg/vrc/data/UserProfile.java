@@ -98,6 +98,22 @@ public class UserProfile {
         this.additionalToken = additionalToken;
     }
 
+    public boolean isActivatedLicence() {
+        return isActivatedLicence;
+    }
+
+    public void setIsActivatedLicence(boolean isActivatedLicence) {
+        this.isActivatedLicence = isActivatedLicence;
+    }
+
+    public boolean isSubscription() {
+        return isSubscription;
+    }
+
+    public void setIsSubscription(boolean isSubscription) {
+        this.isSubscription = isSubscription;
+    }
+
     public static class UserLocation {
         private double latitude;
         private double longitude;
@@ -215,6 +231,10 @@ public class UserProfile {
     private String uuid;
     private String token;
     private String additionalToken;
+
+    private boolean isActivatedLicence;
+
+    private boolean isSubscription;
 
     public int getEnglishProficiency() {
         return englishProficiency;

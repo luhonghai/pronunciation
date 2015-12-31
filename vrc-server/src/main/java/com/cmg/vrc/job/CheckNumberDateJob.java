@@ -75,15 +75,19 @@ public class CheckNumberDateJob {
                 java.util.Calendar cal2 = java.util.Calendar.getInstance();
                 if(users!=null){
                     for(User user:users){
-                        cal2.setTime(user.getCreatedDate());
-                        cal2.set(Calendar.MILLISECOND, 0);
-                        cal2.set(Calendar.SECOND,0);
-                        cal2.set(Calendar.MINUTE,0);
-                        cal2.set(Calendar.HOUR, 0);
-                        cal2.add(java.util.Calendar.DATE, number);
-                        if(cal2.equals(cal1)){
-                            logger.info("send mail to expired user :"+user.getUsername() + " created date: " + user.getCreatedDate());
-                            recipients.add(user.getUsername());
+                        if (user.isSubscription()) {
+                            logger.info("Skip subscription user " + user.getUsername());
+                        } else {
+                            cal2.setTime(user.getCreatedDate());
+                            cal2.set(Calendar.MILLISECOND, 0);
+                            cal2.set(Calendar.SECOND, 0);
+                            cal2.set(Calendar.MINUTE, 0);
+                            cal2.set(Calendar.HOUR, 0);
+                            cal2.add(java.util.Calendar.DATE, number);
+                            if (cal2.equals(cal1)) {
+                                logger.info("send mail to expired user :" + user.getUsername() + " created date: " + user.getCreatedDate());
+                                recipients.add(user.getUsername());
+                            }
                         }
                     }
                 }
@@ -100,52 +104,9 @@ public class CheckNumberDateJob {
             logger.info("Complete StopEnvironmentJob job");
         }
     }
-    public static void main(String[] args){
-//        AppDetailDAO appDetailDAO=new AppDetailDAO();
-//
-//        UserDAO userDAO=new UserDAO();
-//        NumberDateDAO numberDateDAO=new NumberDateDAO();
-//        List<User> users=null;
-//        MailService mailService=new MailService();
-//        List<String> recipients = new ArrayList<String>();
-//        try {
-//            List<AppDetail> appDetails=appDetailDAO.listAll();
-//            users=userDAO.users();
-//            Date date=new Date(System.currentTimeMillis());
-//            int number=numberDateDAO.numberDate().getNumberDate();
-//            java.util.Calendar cal1 = java.util.Calendar.getInstance();
-//            cal1.setTime(date);
-//            cal1.set(Calendar.MILLISECOND, 0);
-//            cal1.set(Calendar.SECOND,0);
-//            cal1.set(Calendar.MINUTE,0);
-//            cal1.set(Calendar.HOUR, 0);
-//            java.util.Calendar cal2 = java.util.Calendar.getInstance();
-//            if(users!=null){
-//                for(User user:users){
-//                    cal2.setTime(user.getCreatedDate());
-//                    cal2.set(Calendar.MILLISECOND, 0);
-//                    cal2.set(Calendar.SECOND,0);
-//                    cal2.set(Calendar.MINUTE,0);
-//                    cal2.set(Calendar.HOUR, 0);
-//                    cal2.add(java.util.Calendar.DATE, number);
-//                    if(cal2.equals(cal1)){
-//                        logger.info("send mail to expired user :"+user.getUsername() + " created date: " + user.getCreatedDate());
-//                        recipients.add(user.getUsername());
-//                    }
-//                }
-//            }
-//            if (recipients.size() > 0) {
-//                logger.info("Send expired email notification to " + recipients.size() + " users");
-//                String[] recipients1 = recipients.toArray(new String[recipients.size()]);
-//                mailService.sendEmail(recipients1, appDetails.get(0).getSubject(), appDetails.get(0).getMessage());
-//            } else {
-//                logger.info("No expired user found. Skip email sender.");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        logger.info("Complete StopEnvironmentJob job");
-
+    public static void main(String[] args) throws JobExecutionException {
+        Check check = new Check();
+        check.execute(null);
     }
 
 }
