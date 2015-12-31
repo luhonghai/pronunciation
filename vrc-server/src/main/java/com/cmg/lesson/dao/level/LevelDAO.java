@@ -212,7 +212,7 @@ public class LevelDAO extends DataAccess<Level> {
         if(search.length()==0){
             string.append(b);
         }
-        q.setRange(start, start +length);
+        //q.setRange(start, start +length);
         q.setFilter(string.toString());
         q.declareParameters("String search, String description1, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();

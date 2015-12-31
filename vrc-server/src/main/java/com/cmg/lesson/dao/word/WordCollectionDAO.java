@@ -136,7 +136,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         }
         filter.append(" && (isDeleted==false)");
         q.setOrdering("word " + order);
-        q.setRange(start, start + length);
+        //q.setRange(start, start + length);
         q.setFilter(filter.toString());
         q.declareParameters("String search");
         Map<String, Object> params = new HashMap<String, Object>();
@@ -299,7 +299,7 @@ public class WordCollectionDAO extends DataAccess<WordCollection> {
         }
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("javax.jdo.query.SQL", "Select COUNT(id) from " + metaRecorderSentence.getTable() + whereClause);
-        q.setRange(start, start + length);
+        //q.setRange(start, start + length);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){

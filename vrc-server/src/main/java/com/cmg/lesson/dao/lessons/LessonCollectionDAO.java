@@ -177,13 +177,13 @@ public class LessonCollectionDAO extends DataAccess<LessonCollection> {
             string.append("(title.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
         }
         if(createDateFrom!=null&&createDateTo==null){
-            string.append("(timeCreated >= createDateFrom) &&");
+            string.append("(dateCreated >= createDateFrom) &&");
         }
         if(createDateFrom==null&&createDateTo!=null){
-            string.append("(timeCreated <= createDateTo) &&");
+            string.append("(dateCreated <= createDateTo) &&");
         }
         if(createDateFrom!=null&&createDateTo!=null){
-            string.append("(timeCreated >= createDateFrom && timeCreated <= createDateTo) &&");
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
         }
         string.append("(isDeleted==false) &&");
 
