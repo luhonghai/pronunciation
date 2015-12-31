@@ -67,7 +67,7 @@ function save(){
                 if(data=="error"){
                     swal("Error!", "Could not edit information", "error");
                     appDetail();
-                    $("#save").attr("disabled",'disabled');
+                   
                 }
 
             }

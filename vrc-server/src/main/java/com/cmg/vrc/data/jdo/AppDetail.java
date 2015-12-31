@@ -31,8 +31,6 @@ public class AppDetail implements Mirrorable {
     @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String message;
 
-
-
     @Override
     public String getId() {
         return id;
