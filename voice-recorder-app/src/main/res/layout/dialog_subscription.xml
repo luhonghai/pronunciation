@@ -72,6 +72,7 @@
                 android:clickable="true"
                 android:foreground="@android:color/transparent"
                 android:stateListAnimator="@anim/lift_up"
+                android:visibility="gone"
                 >
                 <TextView
                     android:layout_width="wrap_content"

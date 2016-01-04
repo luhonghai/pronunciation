@@ -21,9 +21,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -1126,7 +1128,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     return;
                 }
                 this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                toast(getString(R.string.press_twice_to_exit));
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

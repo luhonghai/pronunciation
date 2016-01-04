@@ -524,6 +524,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             walker.setListener(new DictionaryListener() {
                 @Override
                 public void onDetectWord(final DictionaryItem dItem) {
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -534,6 +535,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
                 @Override
                 public void onWordNotFound(DictionaryItem dItem, final FileNotFoundException ex) {
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -545,7 +547,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
                 @Override
                 public void onError(DictionaryItem dItem, final Exception ex) {
-
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
