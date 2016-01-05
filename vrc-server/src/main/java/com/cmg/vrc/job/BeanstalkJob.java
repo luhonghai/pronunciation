@@ -21,7 +21,7 @@ public class BeanstalkJob {
     static {
         ENVIRONMENTS = new HashMap<String, String>();
         ENVIRONMENTS.put("PROD", "accenteasytomcat-PRD");
-        ENVIRONMENTS.put("SAT", "accenteasytomcat-SAT");
+       // ENVIRONMENTS.put("SAT", "accenteasytomcat-SAT");
     }
 
     private static final Logger logger = Logger.getLogger(BeanstalkJob.class.getName());
@@ -73,29 +73,31 @@ public class BeanstalkJob {
         @Override
         public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
             logger.info("Start StopEnvironmentJob job");
-            AWSHelper awsHelper = new AWSHelper();
-            List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
-            Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
-            while (keys.hasNext()) {
-                String k = keys.next();
-                String env = ENVIRONMENTS.get(k);
-                logger.info("Test environment: " + env);
-                boolean exist = false;
-                if (descriptionList != null && descriptionList.size() > 0) {
-                    for (EnvironmentDescription description : descriptionList) {
-                        logger.info("Found online environment: " + description.getEnvironmentName());
-                        if (description.getEnvironmentName().equalsIgnoreCase(env)) {
-                            logger.info("Matched environment!");
-                            exist = true;
-                            break;
+            if (ENVIRONMENTS.size() > 0) {
+                AWSHelper awsHelper = new AWSHelper();
+                List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
+                Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
+                while (keys.hasNext()) {
+                    String k = keys.next();
+                    String env = ENVIRONMENTS.get(k);
+                    logger.info("Test environment: " + env);
+                    boolean exist = false;
+                    if (descriptionList != null && descriptionList.size() > 0) {
+                        for (EnvironmentDescription description : descriptionList) {
+                            logger.info("Found online environment: " + description.getEnvironmentName());
+                            if (description.getEnvironmentName().equalsIgnoreCase(env)) {
+                                logger.info("Matched environment!");
+                                exist = true;
+                                break;
+                            }
                         }
                     }
-                }
-                if (exist) {
-                    logger.info( env + " is exist. Try to terminate this!");
-                    awsHelper.terminateEnvironment(env);
-                } else {
-                    logger.info( env + " is not exist. Skip by default");
+                    if (exist) {
+                        logger.info(env + " is exist. Try to terminate this!");
+                        awsHelper.terminateEnvironment(env);
+                    } else {
+                        logger.info(env + " is not exist. Skip by default");
+                    }
                 }
             }
             logger.info("Complete StopEnvironmentJob job");
@@ -107,29 +109,31 @@ public class BeanstalkJob {
         @Override
         public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
             logger.info("Start StartEnvironmentJob job");
-            AWSHelper awsHelper = new AWSHelper();
-            List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
-            Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
-            while (keys.hasNext()) {
-                String k = keys.next();
-                String env = ENVIRONMENTS.get(k);
-                logger.info("Test environment: " + env);
-                boolean exist = false;
-                if (descriptionList != null && descriptionList.size() > 0) {
-                    for (EnvironmentDescription description : descriptionList) {
-                        logger.info("Found online environment: " + description.getEnvironmentName());
-                        if (description.getEnvironmentName().equalsIgnoreCase(env)) {
-                            logger.info("Matched environment!");
-                            exist = true;
-                            break;
+            if (ENVIRONMENTS.size() > 0) {
+                AWSHelper awsHelper = new AWSHelper();
+                List<EnvironmentDescription> descriptionList = awsHelper.getEnvironments();
+                Iterator<String> keys = ENVIRONMENTS.keySet().iterator();
+                while (keys.hasNext()) {
+                    String k = keys.next();
+                    String env = ENVIRONMENTS.get(k);
+                    logger.info("Test environment: " + env);
+                    boolean exist = false;
+                    if (descriptionList != null && descriptionList.size() > 0) {
+                        for (EnvironmentDescription description : descriptionList) {
+                            logger.info("Found online environment: " + description.getEnvironmentName());
+                            if (description.getEnvironmentName().equalsIgnoreCase(env)) {
+                                logger.info("Matched environment!");
+                                exist = true;
+                                break;
+                            }
                         }
                     }
-                }
-                if (!exist) {
-                    logger.info(env + " is not exist. Try to create new one");
-                    awsHelper.createEnvironment(env, k);
-                } else {
-                    logger.info( env + " is exist. Skip by default");
+                    if (!exist) {
+                        logger.info(env + " is not exist. Try to create new one");
+                        awsHelper.createEnvironment(env, k);
+                    } else {
+                        logger.info(env + " is exist. Skip by default");
+                    }
                 }
             }
             logger.info("Complete StartEnvironmentJob job");

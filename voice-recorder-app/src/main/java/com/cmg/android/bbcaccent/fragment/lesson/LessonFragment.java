@@ -1664,8 +1664,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         int totalScore = 0;
                         int totalQuestions = 0;
                         for (Question q : viewState.questions) {
+                            totalQuestions++;
                             if (q.isRecorded()) {
-                                totalQuestions++;
                                 int totalQuestionScore = 0;
                                 for (Integer i : q.getScoreHistory()) {
                                     totalQuestionScore += i;
