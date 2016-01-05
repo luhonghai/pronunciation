@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -360,6 +361,13 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 //            viewState.willShowHelpSearchWordAndSlider = false;
         }
         registerGestureSwipe(root);
+        txtDefinition.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                FreeStyleFragment.this.getGestureDetector().onTouchEvent(event);
+                return false;
+            }
+        });
         return root;
     }
 

@@ -1,6 +1,7 @@
 package com.cmg.android.bbcaccent.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.data.dto.UserProfile;
+import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.utils.ColorHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -132,8 +135,21 @@ public class ListMenuAdapter extends BaseAdapter {
         }
         MenuItem item = menuItems[position];
         view.textView.setText(item.toString());
-        view.textView.setTextColor(item.textColor);
+
         ImageLoader.getInstance().displayImage("drawable://" + item.drawableId, view.imageButton);
+        UserProfile profile = Preferences.getCurrentProfile();
+        if (profile != null) {
+            if (profile.isExpired()
+                    && !profile.isPro()
+                    && (item == MenuItem.FREESTYLE || item == MenuItem.LESSON)
+                    ) {
+                view.textView.setTextColor(ColorHelper.getColor(R.color.app_gray));
+                view.imageButton.setColorFilter(ColorHelper.getColor(R.color.app_gray));
+            } else {
+                view.textView.setTextColor(item.textColor);
+                view.imageButton.setColorFilter(Color.TRANSPARENT);
+            }
+        }
         return convertView;
     }
 
