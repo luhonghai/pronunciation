@@ -35,8 +35,8 @@ public class CheckNumberDateJob {
                     .withIdentity("StartCheckNumberDateJobTrigger", "CheckNumberDateJob")
                     .startNow()
                     .withSchedule(
-                           // CronScheduleBuilder.dailyAtHourAndMinute(0,1)
-                            CronScheduleBuilder.cronSchedule("0 0/15 * 1/1 * ? *")
+                            CronScheduleBuilder.dailyAtHourAndMinute(0,1)
+                            //CronScheduleBuilder.cronSchedule("0 0/15 * 1/1 * ? *")
                     )
                     .build();
 

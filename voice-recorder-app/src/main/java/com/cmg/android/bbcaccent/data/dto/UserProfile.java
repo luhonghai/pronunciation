@@ -39,6 +39,14 @@ public class UserProfile {
         this.lastSelectedMenuItem = lastSelectedMenuItem;
     }
 
+    public boolean isExpired() {
+        return isExpired;
+    }
+
+    public void setExpired(boolean expired) {
+        isExpired = expired;
+    }
+
     public class LicenseData {
         private String code;
         private UserProfile.DeviceInfo deviceInfo;
@@ -325,6 +333,8 @@ public class UserProfile {
     private boolean isActivatedLicence;
 
     private boolean isSubscription;
+
+    private boolean isExpired;
 
     private List<LicenseData> licenseData;
 
