@@ -30,7 +30,6 @@ public class Objective implements Mirrorable {
     @Persistent
     private boolean isDeleted;
 
-
     public String getName() {
         return name;
     }

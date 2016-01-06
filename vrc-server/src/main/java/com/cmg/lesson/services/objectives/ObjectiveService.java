@@ -1,8 +1,11 @@
 package com.cmg.lesson.services.objectives;
 
+import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
+import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.dao.test.TestDAO;
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.level.LevelMappingObjDTO;
 import com.cmg.lesson.data.dto.objectives.IndexOBJ;
@@ -10,6 +13,7 @@ import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.test.TestMappingDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
@@ -104,7 +108,7 @@ public class ObjectiveService {
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
-            logger.error("Can not update Objective : " +  dto.getNameObj() + " because : " + e.getMessage());
+            logger.error("Can not update Objective : " + dto.getNameObj() + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;
@@ -399,6 +403,66 @@ public class ObjectiveService {
             e.printStackTrace();
         }
         return objectiveDTO;
+    }
+
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @return List<Question>
+     */
+    public List<Objective> listAll(int start, int length,String search,int column,String order,String description, Date createDateFrom,Date createDateTo){
+        ObjectiveDAO dao = new ObjectiveDAO();
+        try{
+            return dao.listAll(start, length, search,column, order,description, createDateFrom, createDateTo);
+        }catch (Exception ex){
+            logger.error("list all question error, because:" + ex.getMessage());
+        }
+        return null;
+    }
+
+    public ObjectiveDTO search(int start, int length,String search,int column,String order,String description,String createDateFrom,String createDateTo, int draw){
+        ObjectiveDTO dto = new ObjectiveDTO();
+        try{
+            Date dateFrom = DateSearchParse.parseDate(createDateFrom);
+            Date dateTo = DateSearchParse.parseDate(createDateTo, true);
+            double count = getCount(search, description, dateFrom, dateTo, length, start);
+            List<Objective> listobj = listAll(start, length, search, column, order, description, dateFrom, dateTo);
+            dto.setDraw(draw);
+            dto.setRecordsFiltered(count);
+            dto.setRecordsTotal(count);
+            dto.setData(listobj);
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": " + "Search LessonCollection error, because:" + e.getMessage());
+            logger.error("Search LessonCollection error, because:" + e.getMessage());
+        }
+        return dto;
+    }
+
+    /**
+     *
+     * @param search
+     * @param createDateFrom
+     * @param createDateTo
+     * @return total rows
+     */
+    public double getCount(String search,String description,Date createDateFrom,Date createDateTo, int length, int start){
+        LessonCollectionDAO dao = new LessonCollectionDAO();
+        try {
+            if (search == null && description==null && createDateFrom == null && createDateTo == null){
+                return dao.getCount();
+            }else {
+                return dao.getCountSearch(search,description, createDateFrom, createDateTo,length,start);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
     }
 
 }

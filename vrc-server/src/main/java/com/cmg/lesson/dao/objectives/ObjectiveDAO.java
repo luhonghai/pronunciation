@@ -1,6 +1,7 @@
 package com.cmg.lesson.dao.objectives;
 
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -8,8 +9,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by CMG Dev156 on 10/22/2015.
@@ -135,25 +135,6 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         return null;
     }
 
-    /**
-     *
-     * @return total rows in table
-     */
-    public double getCount() throws  Exception{
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Objective.class.getCanonicalName());
-        q.setFilter("isDeleted==false");
-        try {
-            count = (Long) q.execute();
-            return count.doubleValue();
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            q.closeAll();
-            pm.close();
-        }
-    }
 
 
     /**
@@ -287,5 +268,158 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         }
 
         return new ArrayList<Objective>();
+    }
+
+
+
+    /**
+     *
+     * @return total rows in table
+     */
+    public double getCount() throws  Exception{
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Objective.class.getCanonicalName());
+        q.setFilter("isDeleted==false");
+        try {
+            count = (Long) q.execute();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    /**
+     *
+     * @param search
+     * @param createDateFrom
+     * @param createDateTo
+     * @return
+     * @throws Exception
+     */
+    public double getCountSearch(String search,String description,Date createDateFrom,Date createDateTo, int length, int start) throws Exception {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Objective.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(description.length()>0){
+            string.append("(description.toLowerCase().indexOf(description.toLowerCase()) != -1) &&");
+        }
+        if(createDateFrom!=null&&createDateTo==null){
+            string.append("(dateCreated >= createDateFrom) &&");
+        }
+        if(createDateFrom==null&&createDateTo!=null){
+            string.append("(dateCreated <= createDateTo) &&");
+        }
+        if(createDateFrom!=null&&createDateTo!=null){
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
+        }
+        string.append("(isDeleted==false) &&");
+
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+//        q.setRange(start, start +length);
+        q.setFilter(string.toString());
+        q.declareParameters("String search,String description, java.util.Date createDateFrom,java.util.Date createDateTo");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        params.put("description", description);
+        params.put("createDateFrom", createDateFrom);
+        params.put("createDateTo", createDateTo);
+        try {
+            count = (Long) q.executeWithMap(params);
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @return
+     * @throws Exception
+     */
+    public List<Objective> listAll(int start, int length,String search,int column,String order,
+                                          String description, Date createDateFrom,Date createDateTo) throws Exception {
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT FROM " + Objective.class.getCanonicalName());
+        StringBuffer string=new StringBuffer();
+        String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
+        if(description.length()>0){
+            string.append("(description.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
+        }
+
+        if(createDateFrom!=null&&createDateTo==null){
+            string.append("(dateCreated >= createDateFrom) &&");
+        }
+        if(createDateFrom==null&&createDateTo!=null){
+            string.append("(dateCreated <= createDateTo) &&");
+        }
+        if(createDateFrom!=null&&createDateTo!=null){
+            string.append("(dateCreated >= createDateFrom && dateCreated <= createDateTo) &&");
+        }
+        string.append("(isDeleted==false) &&");
+
+        if(search.length()>0){
+            string.append(a);
+        }
+        if(search.length()==0){
+            string.append(b);
+        }
+        q.setFilter(string.toString());
+        q.declareParameters("String search,String description, java.util.Date createDateFrom,java.util.Date createDateTo");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("search", search);
+        params.put("description", description);
+        params.put("createDateFrom", createDateFrom);
+        params.put("createDateTo", createDateTo);
+        if (column==0 && order.equals("asc")) {
+            q.setOrdering("name asc");
+        }else if(column==0 && order.equals("desc")) {
+            q.setOrdering("name desc");
+        }
+        if (column==1 && order.equals("asc")) {
+            q.setOrdering("description asc");
+        }else if(column==1 && order.equals("desc")) {
+            q.setOrdering("description desc");
+        }
+        if (column==4 && order.equals("asc")) {
+            q.setOrdering("dateCreated asc");
+        }else if(column==4 && order.equals("desc")) {
+            q.setOrdering("dateCreated desc");
+        }
+
+        q.setRange(start, start + length);
+
+        try {
+            return detachCopyAllList(pm, q.executeWithMap(params));
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
     }
 }

@@ -8,9 +8,6 @@ import java.util.List;
  * Created by CMG Dev156 on 10/14/2015.
  */
 public class IndexOBJ {
-
-
-
     private String idObjects;
     private int index;
 
