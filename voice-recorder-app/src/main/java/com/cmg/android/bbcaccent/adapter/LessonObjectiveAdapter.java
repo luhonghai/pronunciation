@@ -54,8 +54,9 @@ public class LessonObjectiveAdapter extends CursorRecyclerViewAdapter<LessonObje
             int bgColor = R.color.app_light_aqua;
             int textColor = R.color.app_aqua;
             int scoreBgColor = R.color.app_gray;
+            String scoreText = "";
             if (objective.getScore() >= 0) {
-                holder.txtScore.setText(String.format(Locale.getDefault(), "%d", objective.getScore()));
+                scoreText = String.format(Locale.getDefault(), "%d", objective.getScore());
                 if (objective.getScore() >= 80) {
                     scoreBgColor = R.color.app_green;
                 } else if (objective.getScore() >= 45) {
@@ -64,6 +65,7 @@ public class LessonObjectiveAdapter extends CursorRecyclerViewAdapter<LessonObje
                     scoreBgColor = R.color.app_red;
                 }
             }
+            holder.txtScore.setText(scoreText);
             holder.cvItemContainer.setTag(objective);
             holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
             holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));

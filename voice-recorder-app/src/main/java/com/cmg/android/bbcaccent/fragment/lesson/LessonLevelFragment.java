@@ -41,10 +41,10 @@ public class LessonLevelFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_level, null);
         ButterKnife.bind(this, root);
-        UserProfile userProfile = Preferences.getCurrentProfile();
-        if (userProfile != null && userProfile.getSelectedCountry() != null) {
+        UserProfile uProfile = Preferences.getCurrentProfile();
+        if (uProfile != null && uProfile.getSelectedCountry() != null) {
             try {
-                Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(userProfile.getSelectedCountry().getId());
+                Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(uProfile.getSelectedCountry().getId());
                 recyclerView.setAdapter(new LessonLevelAdapter(getContext(), cursor, new LessonLevelAdapter.OnSelectLevel() {
                     @Override
                     public void onSelectLevel(LessonLevel level) {
@@ -67,20 +67,24 @@ public class LessonLevelFragment extends BaseFragment {
                             final UserProfile userProfile = Preferences.getCurrentProfile();
                             LevelScore levelScore = LessonHistoryDBAdapterService.getInstance().getLevelScore(userProfile.getUsername(),
                                                 userProfile.getSelectedCountry().getId(), level.getId());
+                            SimpleAppLog.debug("Bind level " + level.getName() + " - " + level.getId()
+                                    +  " data of country " + userProfile.getSelectedCountry().getName()
+                                    +  " - " +  userProfile.getSelectedCountry().getId());
+                            SimpleAppLog.logJson("Level " + level.getName(), levelScore);
                             if (levelScore != null) {
                                 level.setScore(levelScore.getScore());
                                 level.setActive(levelScore.isEnable());
                             } else {
                                 level.setScore(-1);
                             }
-                            if (Preferences.getCurrentProfile().isPro()) {
+                            if (userProfile.isPro()) {
                                 if (level.isDefaultActivated()) {
                                     level.setActive(true);
                                 }
                             }
                             if(!level.isDemo()
                                     && !level.isActive()
-                                    && Preferences.getCurrentProfile().isPro()) {
+                                    && userProfile.isPro()) {
                                 // Check prev level for active current level
                                 LessonLevel prevLevel = LessonDBAdapterService.getInstance().getPrevLevelOfLevel(userProfile.getSelectedCountry().getId(), level.getId());
                                 if (prevLevel != null) {
@@ -120,16 +124,23 @@ public class LessonLevelFragment extends BaseFragment {
 
     @Override
     protected void onLanguageChanged() {
+        SimpleAppLog.debug("Call onLanguageChanged");
         notifyListView();
     }
 
     private void notifyListView() {
         if (recyclerView != null && recyclerView.getAdapter() != null) {
+            SimpleAppLog.debug("Call notifyListView");
             try {
-                Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(Preferences.getCurrentProfile().getSelectedCountry().getId());
+                UserProfile userProfile = Preferences.getCurrentProfile();
+                SimpleAppLog.debug("notify list view with country " + userProfile.getSelectedCountry().getName());
+                Cursor cursor = LessonDBAdapterService.getInstance().cursorAllLevel(userProfile.getSelectedCountry().getId());
                 LessonLevelAdapter lessonLevelAdapter = (LessonLevelAdapter) recyclerView.getAdapter();
                 if (lessonLevelAdapter != null) {
                     lessonLevelAdapter.changeCursor(cursor);
+                    //lessonLevelAdapter.notifyDataSetChanged();
+                } else {
+                    SimpleAppLog.debug("notify list view: No adapter found");
                 }
             } catch (Exception e) {
                 SimpleAppLog.error("Could not update list level", e);

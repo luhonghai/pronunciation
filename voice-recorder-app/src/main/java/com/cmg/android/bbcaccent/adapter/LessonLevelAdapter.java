@@ -54,11 +54,12 @@ public class LessonLevelAdapter extends CursorRecyclerViewAdapter<LessonLevelAda
             int bgColor = R.color.app_light_gray;
             int textColor = R.color.app_gray;
             int scoreBgColor = R.color.app_gray;
+            String levelScoreText = "";
             if (level.isActive() || level.isDemo()) {
                 bgColor = R.color.app_light_aqua;
                 textColor = R.color.app_aqua;
                 if (level.getScore() >= 0) {
-                    holder.txtScore.setText(String.format(Locale.getDefault(), "%d", level.getScore()));
+                    levelScoreText = String.format(Locale.getDefault(), "%d", level.getScore());
                     if (level.getScore() >= 80) {
                         scoreBgColor = R.color.app_green;
                     } else if (level.getScore() >= 45) {
@@ -68,6 +69,7 @@ public class LessonLevelAdapter extends CursorRecyclerViewAdapter<LessonLevelAda
                     }
                 }
             }
+            holder.txtScore.setText(levelScoreText);
             holder.cvItemContainer.setTag(level);
             holder.cvScoreContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(scoreBgColor));
             holder.cvItemContainer.setCardBackgroundColor(MainApplication.getContext().getResources().getColor(bgColor));
