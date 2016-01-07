@@ -16,20 +16,20 @@ public class ClassJDO implements Mirrorable {
     @PrimaryKey
     private String id;
 
-    @PrimaryKey
+    @Persistent
     private String className;
 
-    @PrimaryKey
+    @Persistent
     @Column(jdbcType="VARCHAR", length=MAX_VARCHAR_LENGTH)
     private String definition;
 
     @Persistent
     private Date createdDate;
 
-    @PrimaryKey
+    @Persistent
     private int version;
 
-    @PrimaryKey
+    @Persistent
     private boolean isDeleted;
 
 

@@ -15,16 +15,16 @@ public class StudentMappingClass implements Mirrorable {
     @PrimaryKey
     private String id;
 
-    @PrimaryKey
+    @Persistent
     private String idStudent;
 
-    @PrimaryKey
+    @Persistent
     private String idClass;
 
     @Persistent
     private Date createdDate;
 
-    @PrimaryKey
+    @Persistent
     private boolean isDeleted;
 
     @Override

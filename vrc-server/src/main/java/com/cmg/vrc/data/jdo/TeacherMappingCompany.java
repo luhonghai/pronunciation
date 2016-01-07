@@ -3,6 +3,7 @@ package com.cmg.vrc.data.jdo;
 import com.cmg.vrc.data.Mirrorable;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 /**
@@ -13,13 +14,13 @@ public class TeacherMappingCompany implements Mirrorable {
     @PrimaryKey
     private String id;
 
-    @PrimaryKey
+    @Persistent
     private String idCompany;
 
-    @PrimaryKey
+    @Persistent
     private String idTeacher;
 
-    @PrimaryKey
+    @Persistent
     private boolean isDeleted;
 
     @Override
