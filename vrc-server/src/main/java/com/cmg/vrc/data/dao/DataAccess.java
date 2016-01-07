@@ -424,6 +424,21 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 
+	@Override
+	public List<T> list(String query, Object para1, Object para2,  int start, int length) throws Exception {
+		PersistenceManager pm = PersistenceManagerHelper.get();
+		Query q = pm.newQuery("SELECT FROM " + clazzT.getCanonicalName() + " " + query);
+		q.setRange(start, start + length);
+		try {
+			return detachCopyAllList(pm, q.execute(para1, para2));
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			q.closeAll();
+			pm.close();
+		}
+	}
+
 	/**
 	 * (non-Javadoc)
 	 * @see com.cmg.vrc.data.dao.InDataAccess#list(java.lang.String)

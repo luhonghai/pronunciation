@@ -35,6 +35,17 @@ public class LessonCollection implements Mirrorable {
     @NotPersistent
     private boolean idChecked = false;
 
+    @NotPersistent
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public String getTitle() {
         return title;
     }

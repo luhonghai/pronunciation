@@ -308,7 +308,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(description.length()>0){
-            string.append("(description.toLowerCase().indexOf(description.toLowerCase()) != -1) &&");
+            string.append("(description.toLowerCase().indexOf(desc.toLowerCase()) != -1) &&");
         }
         if(createDateFrom!=null&&createDateTo==null){
             string.append("(dateCreated >= createDateFrom) &&");
@@ -329,10 +329,10 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         }
 //        q.setRange(start, start +length);
         q.setFilter(string.toString());
-        q.declareParameters("String search,String description, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String desc, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
-        params.put("description", description);
+        params.put("desc", description);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         try {
@@ -356,6 +356,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
      * @param order
      * @param createDateFrom
      * @param createDateTo
+     * @param description
      * @return
      * @throws Exception
      */
@@ -368,7 +369,7 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         String a="(name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         String b="(name == null || name.toLowerCase().indexOf(search.toLowerCase()) != -1)";
         if(description.length()>0){
-            string.append("(description.toLowerCase().indexOf(lesson.toLowerCase()) != -1) &&");
+            string.append("(description.toLowerCase().indexOf(desc.toLowerCase()) != -1) &&");
         }
 
         if(createDateFrom!=null&&createDateTo==null){
@@ -389,10 +390,10 @@ public class ObjectiveDAO extends DataAccess<Objective> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search,String description, java.util.Date createDateFrom,java.util.Date createDateTo");
+        q.declareParameters("String search,String desc, java.util.Date createDateFrom,java.util.Date createDateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
-        params.put("description", description);
+        params.put("desc", description);
         params.put("createDateFrom", createDateFrom);
         params.put("createDateTo", createDateTo);
         if (column==0 && order.equals("asc")) {
@@ -405,9 +406,9 @@ public class ObjectiveDAO extends DataAccess<Objective> {
         }else if(column==1 && order.equals("desc")) {
             q.setOrdering("description desc");
         }
-        if (column==4 && order.equals("asc")) {
+        if (column==2 && order.equals("asc")) {
             q.setOrdering("dateCreated asc");
-        }else if(column==4 && order.equals("desc")) {
+        }else if(column==2 && order.equals("desc")) {
             q.setOrdering("dateCreated desc");
         }
 

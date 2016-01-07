@@ -17,6 +17,7 @@ import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
 
 import com.cmg.lesson.services.lessons.LessonCollectionService;
+import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -254,6 +255,59 @@ public class ObjectiveMappingService {
             lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by objective because " + e.getMessage());
             logger.error("Can not get list lesson by objective because : " + idObjective + " false because : " + e.getMessage());
             e.printStackTrace();
+        }
+        return lessonCollectionDTO;
+    }
+
+    /**
+     *
+     * @param idObj
+     * @param start
+     * @param length
+     * @param draw
+     * @return
+     */
+    public LessonCollectionDTO getLessonByIdObj(String idObj, String search, int start, int length, int draw){
+        LessonCollectionDTO lessonCollectionDTO = new LessonCollectionDTO();
+        ObjectiveMappingDAO objectiveMappingDAO = new ObjectiveMappingDAO();
+        LessonCollectionDAO lessonCollectionDAO = new LessonCollectionDAO();
+        List<LessonCollection> data = new ArrayList<LessonCollection>();
+        try {
+            List<ObjectiveMapping> temp = objectiveMappingDAO.getAllByIdObjective(idObj,start,length);
+            if(temp!=null && temp.size() > 0){
+                for(ObjectiveMapping om : temp){
+                    if(search.length() >0 ){
+                        String nameUnique = (String) StringUtil.isNull(lessonCollectionDAO.getById(om.getIdLessonCollection()).getNameUnique(), "");
+                        if(nameUnique.toLowerCase().indexOf(search.toLowerCase()) != -1){
+                            LessonCollection lc = new LessonCollection();
+                            lc.setId(om.getIdLessonCollection());
+                            lc.setNameUnique(nameUnique);
+                            lc.setIndex(om.getIndex());
+                            data.add(lc);
+                        }
+                    }else{
+                        String nameUnique = (String) StringUtil.isNull(lessonCollectionDAO.getById(om.getIdLessonCollection()).getNameUnique(), "");
+                        LessonCollection lc = new LessonCollection();
+                        lc.setId(om.getIdLessonCollection());
+                        lc.setNameUnique(nameUnique);
+                        lc.setIndex(om.getIndex());
+                        data.add(lc);
+                    }
+                }
+                lessonCollectionDTO.setMessage(SUCCESS);
+                lessonCollectionDTO.setData(data);
+                lessonCollectionDTO.setDraw(draw);
+                lessonCollectionDTO.setRecordsFiltered((double)data.size());
+                lessonCollectionDTO.setRecordsTotal((double)data.size());
+            }else{
+                lessonCollectionDTO.setMessage(SUCCESS);
+                lessonCollectionDTO.setData(data);
+                lessonCollectionDTO.setDraw(draw);
+                lessonCollectionDTO.setRecordsFiltered(0.0);
+                lessonCollectionDTO.setRecordsTotal(0.0);
+            }
+        }catch (Exception e){
+            lessonCollectionDTO.setMessage(ERROR + " : can not get list lesson by objective because " + e.getMessage());
         }
         return lessonCollectionDTO;
     }

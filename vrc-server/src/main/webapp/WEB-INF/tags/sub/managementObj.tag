@@ -13,8 +13,8 @@
     <div class="row">
       <div class="col-sm-3">
         <div class="form-group">
-          <label class="control-label">Name</label>
-          <input type="text" name="filter-obj" id="object_name_filter" class="form-control" placeholder="Title">
+          <label class="control-label">Description</label>
+          <input type="text" name="filter-obj" id="description" class="form-control" placeholder="Title">
         </div>
       </div>
       <div class="col-sm-3">
@@ -47,7 +47,7 @@
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <button type="button" id="openAddLesson" name="addCode">Add New Objective</button>
+          <button type="button" id="openAddObjective" name="addCode">Add New Objective</button>
 
 
         </div>
@@ -84,7 +84,7 @@
 </div>
 <!-- /#wrapper -->
 
-<div id="add-objective" class="modal fade in" aria-hidden="false" style="display: block;">
+<div id="add-objective" class="modal fade in" aria-hidden="false" style="display: none;">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -105,15 +105,10 @@
                     <textarea type="text" id="add-description" name="add-description" rows="3" cols="50" class=" form-control" style="padding-left: 0px;margin-bottom: 5px;"></textarea>
                   </div>
                 </div>
-                <div id="container-add-lesson">
-                  <label class="col-xs-4  col-sm-4 control-label ">Lessons:</label>
-                  <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
-                    <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif" style="display: none;">
-                    <select style="display:none;" multiple="" class="form-control" id="select-lesson"><option value="00fe1ec4-b18d-4e2d-8cb5-52782a1ad40b">test5</option><option value="252813ef-f433-49d7-b700-f6c369fc7836">test9</option><option value="4fa3c0b2-081d-42e5-a5c8-3e1e29f390c1">test7</option><option value="61759d9f-6674-413a-b3f6-20fd02aab734">test4</option><option value="8cc6dda7-cf5e-42b1-9b31-8f745568c59b">test6</option><option value="a28ab2a2-a8e2-4683-8a35-aadcf6afc8b0">test8</option><option value="ad5f6fc2-b4f8-47d1-96bc-1258b328f4e8">test2</option><option value="f5484e0d-9e91-44d2-9e2b-c846331c8d5a">test3</option></select><div class="btn-group" style="width: 200px; padding-left: 14px;"><button type="button" class="multiselect dropdown-toggle btn btn-default" data-toggle="dropdown" title="None selected" style="width: 200px; overflow: hidden; text-overflow: ellipsis;"><span class="multiselect-selected-text">None selected</span> <b class="caret"></b></button><ul class="multiselect-container dropdown-menu"><li class="multiselect-item filter" value="0"><div class="input-group"><span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span><input class="form-control multiselect-search" type="text" placeholder="Search"><span class="input-group-btn"><button class="btn btn-default multiselect-clear-filter" type="button"><i class="glyphicon glyphicon-remove-circle"></i></button></span></div></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="00fe1ec4-b18d-4e2d-8cb5-52782a1ad40b"> test5</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="252813ef-f433-49d7-b700-f6c369fc7836"> test9</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="4fa3c0b2-081d-42e5-a5c8-3e1e29f390c1"> test7</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="61759d9f-6674-413a-b3f6-20fd02aab734"> test4</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="8cc6dda7-cf5e-42b1-9b31-8f745568c59b"> test6</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="a28ab2a2-a8e2-4683-8a35-aadcf6afc8b0"> test8</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="ad5f6fc2-b4f8-47d1-96bc-1258b328f4e8"> test2</label></a></li><li><a tabindex="0"><label class="checkbox"><input type="checkbox" value="f5484e0d-9e91-44d2-9e2b-c846331c8d5a"> test3</label></a></li></ul></div>
-                  </div>
-                </div>
               </div>
               <div class="modal-footer">
+                <input type="hidden" id="id-obj" class=" form-control">
+                <input type="hidden" id="action" class=" form-control">
                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" id_level="cd3360ec-ab41-4127-bfdd-0417d7452932">Yes</button>
                 <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close">Close</button>
               </div>
@@ -133,12 +128,11 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"
                 aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Lesson</h1>
+        <h1 class="modal-title" align="center">Delete Objective</h1>
       </div>
       <form name="form-delete" >
         <div class="modal-body">
-          <input type="hidden" id="iddelete" name="iddelete">
-          <h3>Do you want to delete ?</h3>
+          <h4 id="label_check_delete">Please wait when we check the mapping data of this objective!</h4>
         </div>
         <div class="modal-footer">
           <button type="button" name="YesDelete" id="deleteItems" class="btn btn-default" >Yes</button>

@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.objectives;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -29,6 +30,7 @@ public class Objective implements Mirrorable {
 
     @Persistent
     private boolean isDeleted;
+
 
     public String getName() {
         return name;

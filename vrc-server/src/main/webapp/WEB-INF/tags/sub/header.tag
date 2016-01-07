@@ -78,6 +78,9 @@
 							<a href="lessons-management.jsp" ><i class="fa fa-list"></i> Lessons Management </a>
 						</li>
 						<li>
+							<a href="objective-management.jsp" ><i class="fa fa-list"></i> Objective Management </a>
+						</li>
+						<li>
 							<a href="level-management.jsp" ><i class="fa fa-list-alt"></i> Level Management </a>
 						</li>
 						<li>
