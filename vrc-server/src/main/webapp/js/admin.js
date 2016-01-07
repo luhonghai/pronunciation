@@ -74,41 +74,130 @@ function adduser(){
             var lastname = $("#addlastname").val();
             var password = $("#addpassword").val();
             var role = $("#addrole").val();
-            $.ajax({
-                url: "Admins",
-                type: "POST",
-                dataType: "text",
-                data: {
-                    add: "add",
-                    username: username,
-                    firstname: firstname,
-                    lastname: lastname,
-                    password: password,
-                    role: role
-                },
-                success: function (data) {
-                    if (data == "success") {
-                        $("tbody").html("");
-                        myTable.fnDraw();
-                        $("#add").modal('hide');
+            if(role=="Admin" || role=="User") {
+                $.ajax({
+                    url: "Admins",
+                    type: "POST",
+                    dataType: "text",
+                    data: {
+                        add: "add",
+                        username: username,
+                        firstname: firstname,
+                        lastname: lastname,
+                        password: password,
+                        role: role
+                    },
+                    success: function (data) {
+                        if (data == "success") {
+                            $("tbody").html("");
+                            myTable.fnDraw();
+                            $("#add").modal('hide');
+                        }
+                        if (data == "error") {
+                            $("#UserNameExitAdd").show();
+                        }
+                    },
+                    error: function () {
+                        swal("Error!", "Could not connect to server", "error");
                     }
-                    if (data == "error") {
-                        $("#UserNameExitAdd").show();
-                    }
-                },
-                error: function () {
-                    swal("Error!", "Could not connect to server", "error");
-                }
 
-            });
+                });
+            }else{
+                $(".loading-lesson").show();
+                $("#teacher").modal('show');
+                $("#fullNames").val(username);
+                $("#firstNames").val(firstname);
+                $("#lastNames").val(lastname);
+                $("#passwords").val(password);
+                $("#roles").val(role);
+                getCompany();
+            }
         }
 
     });
+}
+function getCompany(){
+    $.ajax({
+        url: "Admins",
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "getCompany"
+        },
+        success: function (data) {
+            if(data.message=="success"){
+                $("#select-company").empty();
+                if(data.clientCodes!=null){
+                    var items=data.clientCodes;
+                    $(items).each(function(){
+                        $("#select-company").append('<option value="' + this.id + '">' + this.companyName + '</option>');
+                    });
+                }else{
+                    swal("Info!", "Company unavailable!", "info");
+                    $("#teacher").modal('hide');
+                    return;
+                }
+                $(".loading-lesson").hide();
+                $('#select-company').multiselect('destroy');
+                $('#select-company').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                $("#container-add-company").find(".btn-group").css("padding-left","14px");
+                $('#select-company').multiselect('refresh');
 
+            }else{
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
 
+    });
+}
 
+function addMappingTeacherAndCompany(){
+    $(document).on("click","#addteacher", function(){
+        var fullName=$("#fullNames").val();
+        var firstName=$("#firstNames").val();
+        var lastName=$("#lastNames").val();
+        var password=$("#passwords").val();
+        var role=$("#roles").val();
+        var idObjects=[];
+        $('#select-company option:selected').map(function(a, item){ idObjects.push(item.value);});
 
+        var dto={
+            fullName:fullName,
+            firstName:firstName,
+            lastName:lastName,
+            password:password,
+            role:role,
+            idObjects:idObjects
+        }
+        console.log(dto);
+        $.ajax({
+            url: "Admins",
+            type: "POST",
+            dataType: "json",
+            data: {
+                addTeacher: "addTeacher",
+                objDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
+                if (data.message.indexOf("success") !=-1) {
+                    $("#add").modal('hide');
+                    $("#teacher").modal('hide');
+                    swal("Success!", "You have add success!", "success");
+                   myTable();
+                }else{
+                    swal("Could not add objective!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
 
+        });
+
+    });
 }
 
 function add(){
@@ -370,12 +459,8 @@ $(document).ready(function(){
     edituser();
     deletes();
     deleteuser();
-   // if(roleAdmin=="1"){
+    addMappingTeacherAndCompany();
         listAdmin();
-    //}
-    //if(roleAdmin=="2"){
-    //    window.location =CONTEXT_PATH + "/error.jsp";
-    //}
 
     searchAdvanted();
 });

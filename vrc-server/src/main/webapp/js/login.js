@@ -24,15 +24,25 @@ function login(){
     $.ajax({
         url: "Login",
         type:"POST",
-        dataType:"text",
+        dataType:"json",
         data:{
             login1:"login",
             account:account,
             pass:pass
         },
         success :function(result){
-            if(result=="success"){
-               window.location =CONTEXT_PATH + "/dashboard.jsp";
+            if(result.message=="success"){
+                if(result.role=="1" ||result.role=="2"){
+                    window.location =CONTEXT_PATH + "/dashboard.jsp";
+                }else{
+                    if(result.role=="3"){
+                        window.location =CONTEXT_PATH + "/student-manage.jsp";
+                    }else{
+                        window.location =CONTEXT_PATH + "/class.jsp";
+                    }
+                }
+
+
                // window.location = "/dashboard.jsp";
             } else {
                 $("#result").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Could not login!</strong> Invalid email or password</div>');

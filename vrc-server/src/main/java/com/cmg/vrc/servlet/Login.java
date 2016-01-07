@@ -3,6 +3,7 @@ package com.cmg.vrc.servlet;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -18,6 +19,10 @@ import java.io.IOException;
    public class Login extends HttpServlet{
      private static final Logger logger = Logger.getLogger(AuthHandler.class
             .getName());
+    class logins{
+        public String message;
+        public int role;
+    }
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,6 +39,7 @@ import java.io.IOException;
         HttpSession session=request.getSession();
         String name=request.getParameter("account");
         String pass=request.getParameter("pass");
+        logins logins=new logins();
         try {
            Admin admin= adminDAO.getUserByEmailPassword(name, StringUtil.md5(pass));
             if (admin!=null){
@@ -42,10 +48,18 @@ import java.io.IOException;
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
-                    response.getWriter().write("success");
+                    logins.message="success";
+                    logins.role=admin.getRole();
+                    Gson gson = new Gson();
+                    String admins = gson.toJson(logins);
+                    response.getWriter().write(admins);
             }
             else {
-                response.getWriter().write("error");
+                logins.message="error";
+                logins.role=admin.getRole();
+                Gson gson = new Gson();
+                String admins = gson.toJson(logins);
+                response.getWriter().write(admins);
             }
 
         }catch (Exception e){
