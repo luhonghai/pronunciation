@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -59,7 +60,7 @@ public class IPAPhoneticFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.ipa_phonetic_fragment,  null);
+        final View root = inflater.inflate(R.layout.ipa_phonetic_fragment,  null);
         ButterKnife.bind(this, root);
         Bundle bundle = getArguments();
         IPAMapArpabet.IPAType ipaType = null;
@@ -102,6 +103,13 @@ public class IPAPhoneticFragment extends BaseFragment {
 
             }
         }, 300);
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                IPAPhoneticFragment.this.getGestureDetector().onTouchEvent(event);
+                return false;
+            }
+        });
         return root;
     }
 

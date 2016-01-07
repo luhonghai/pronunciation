@@ -10,9 +10,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
@@ -129,5 +135,19 @@ public abstract class BaseActivity extends FragmentActivity {
 
     public Dialog createWhiteDialog(int layoutId) {
         return new DefaultDialog(this, layoutId);
+    }
+
+    public void toast(String message) {
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText(message);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 }

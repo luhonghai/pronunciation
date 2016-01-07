@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -360,6 +361,13 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 //            viewState.willShowHelpSearchWordAndSlider = false;
         }
         registerGestureSwipe(root);
+        txtDefinition.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                FreeStyleFragment.this.getGestureDetector().onTouchEvent(event);
+                return false;
+            }
+        });
         return root;
     }
 
@@ -524,6 +532,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
             walker.setListener(new DictionaryListener() {
                 @Override
                 public void onDetectWord(final DictionaryItem dItem) {
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -534,6 +543,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
                 @Override
                 public void onWordNotFound(DictionaryItem dItem, final FileNotFoundException ex) {
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -545,7 +555,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
 
                 @Override
                 public void onError(DictionaryItem dItem, final Exception ex) {
-
+                    if (getActivity() != null)
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

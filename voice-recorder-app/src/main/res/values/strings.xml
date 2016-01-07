@@ -121,7 +121,7 @@
     <string name="error_network_message">sorry but your internet connection does not appear to be working</string>
     <string name="error">error</string>
     <string name="error_create_profile_message">could not create new profile</string>
-    <string name="error_network_title">no internet connection</string>
+    <string name="error_network_title">no network available</string>
     <string name="loading">loading &#8230;</string>
     <string name="no_tip_found">no tip found</string>
     <string name="tap_to_reload">tap to reload</string>
@@ -135,7 +135,8 @@
     <string name="menu_feedback">feedback</string>
     <string name="menu_subscription">full version</string>
     <string name="menu_logout">logout</string>
-    <string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>
+    <!--<string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>-->
+    <string name="could_not_connect_server_message">sorry our engineers are just upgrading the server, please try again in 30 minutes</string>
     <string name="could_not_purchase_message">your purchase could not be completed, please contact support@accenteasy.com</string>
     <string name="could_not_purchase_title">an error occurred during purchase</string>
     <string name="product_purchased_title">thanks for your order</string>
@@ -149,4 +150,6 @@
     <string name="could_not_analyze_word_message">please try again or contact support@accenteasy.com</string>
 
     <string name="help_to_test_last_object">Take the test to progress to the next level or you can return to any of the lessons for more practise</string>
+
+    <string name="press_twice_to_exit">"Press twice to exit"</string>
 </resources>

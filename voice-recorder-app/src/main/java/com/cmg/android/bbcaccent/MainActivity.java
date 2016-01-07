@@ -21,9 +21,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -566,10 +568,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 @Override
                 public void onError(String message, Throwable e) {
                     SimpleAppLog.error(message, e);
+                    UserProfile userProfile = Preferences.getCurrentProfile();
+                    userProfile.setExpired(true);
+                    Preferences.updateProfile(MainApplication.getContext(), userProfile);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            willCloseAfterSubscription = true;
+                            initListMenu();
+                            switchFragment(ListMenuAdapter.MenuItem.IPA, null, null);
+                            willCloseAfterSubscription = false;
                             showActiveFullVersionDialog(true);
                         }
                     });
@@ -577,6 +584,15 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
                 @Override
                 public void onSuccess() {
+                    UserProfile userProfile = Preferences.getCurrentProfile();
+                    userProfile.setExpired(false);
+                    Preferences.updateProfile(MainApplication.getContext(), userProfile);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            initListMenu();
+                        }
+                    });
                 }
             });
         }
@@ -613,31 +629,38 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     @OnItemClick(R.id.listMenu)
     public void clickListMenu(int position) {
         ListMenuAdapter.MenuItem menuItem = ((ListMenuAdapter)listMenu.getAdapter()).getMenuItems()[position];
-        AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_MENU_ITEM, menuItem.toString());
-        switch (menuItem) {
-            case LOGOUT:
-                showLogoutDialog();
-                break;
-            case ACTIVATE_SUBSCRIPTION:
-                showActiveFullVersionDialog();
-                break;
-            case SUBSCRIPTION:
-                Intent i = new Intent(this, SubscriptionActivity.class);
-                startActivity(i);
-                break;
-            default:
-                UserProfile profile = Preferences.getCurrentProfile();
-                if (profile != null) {
-                    profile.setLastSelectedMenuItem(menuItem.toString());
-                    Preferences.updateProfile(MainApplication.getContext(), profile);
-                }
-                switchFragment(menuItem, null, null);
+        UserProfile profile = Preferences.getCurrentProfile();
+        if (profile != null && profile.isExpired()
+                        && !profile.isPro()
+                        && (menuItem == ListMenuAdapter.MenuItem.FREESTYLE || menuItem == ListMenuAdapter.MenuItem.LESSON)
+                        ) {
+            SimpleAppLog.debug("Disable lesson and freestyle");
+        } else {
+            AnalyticHelper.sendEvent(AnalyticHelper.Category.DEFAULT, AnalyticHelper.Action.SELECT_MENU_ITEM, menuItem.toString());
+            switch (menuItem) {
+                case LOGOUT:
+                    showLogoutDialog();
+                    break;
+                case ACTIVATE_SUBSCRIPTION:
+                    showActiveFullVersionDialog();
+                    break;
+                case SUBSCRIPTION:
+                    Intent i = new Intent(this, SubscriptionActivity.class);
+                    startActivity(i);
+                    break;
+                default:
+                    if (profile != null) {
+                        profile.setLastSelectedMenuItem(menuItem.toString());
+                        Preferences.updateProfile(MainApplication.getContext(), profile);
+                    }
+                    switchFragment(menuItem, null, null);
+            }
         }
     }
 
     private void initListMenu() {
         UserProfile userProfile = Preferences.getCurrentProfile();
-        ListMenuAdapter.MenuItem[] menuItems = userProfile.isPro() ? ListMenuAdapter.FULL_MENU_ITEMS : ListMenuAdapter.LITE_MENU_ITEMS;
+        ListMenuAdapter.MenuItem[] menuItems = (userProfile.isPro() || userProfile.isExpired()) ? ListMenuAdapter.FULL_MENU_ITEMS : ListMenuAdapter.LITE_MENU_ITEMS;
         ListMenuAdapter adapter = new ListMenuAdapter(this, menuItems);
         listMenu.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -1126,7 +1149,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     return;
                 }
                 this.doubleBackToExitPressedOnce = true;
-                Toast.makeText(this, "Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+
+                toast(getString(R.string.press_twice_to_exit));
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

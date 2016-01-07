@@ -20,6 +20,7 @@ import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -396,6 +397,13 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
         txtDefinition.setVisibility(View.VISIBLE);
         drawQuestionList();
         registerGestureSwipe(root);
+        txtDefinition.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                LessonFragment.this.getGestureDetector().onTouchEvent(event);
+                return false;
+            }
+        });
         return root;
     }
 
@@ -1656,8 +1664,8 @@ public class LessonFragment extends BaseFragment implements RecordingView.OnAnim
                         int totalScore = 0;
                         int totalQuestions = 0;
                         for (Question q : viewState.questions) {
+                            totalQuestions++;
                             if (q.isRecorded()) {
-                                totalQuestions++;
                                 int totalQuestionScore = 0;
                                 for (Integer i : q.getScoreHistory()) {
                                     totalQuestionScore += i;

@@ -45,7 +45,7 @@
                             android:textSize="@dimen/main_selected_phoneme_size"
                             android:layout_width="match_parent"
                             android:textColor="@color/app_green"
-
+                            android:clickable="false"
                             android:layout_height="wrap_content"
                             android:text="test"/>
                     </ScrollView>

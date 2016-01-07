@@ -290,7 +290,7 @@ public class AWSHelper {
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
 //        awsHelper.terminateEnvironment("accenteasytomcat-SAT");
-//        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
+        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
 //        awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
 //        System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
 //        awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");
@@ -317,12 +317,12 @@ public class AWSHelper {
 //            for (String line : strings) {
 //                line = line.trim();
 //                if (line.length() > 0) {
-                    String key = "amt_voices/dcarlyle@accenteasy.com/sentence_576fd303-ba43-4fc5-8256-67b02844f094_raw.wav";
-                    System.out.println(key);
-                    awsHelper.updateContentType(key, "audio/wav");
-                    awsHelper.publicObject(key);
-                    String url = awsHelper.generateUrl(key);
-                     System.out.println(url);
+//                    String key = "amt_voices/dcarlyle@accenteasy.com/sentence_576fd303-ba43-4fc5-8256-67b02844f094_raw.wav";
+//                    System.out.println(key);
+//                    awsHelper.updateContentType(key, "audio/wav");
+//                    awsHelper.publicObject(key);
+//                    String url = awsHelper.generateUrl(key);
+//                     System.out.println(url);
                    // url = url.substring(0, url.lastIndexOf("?"));
                    // System.out.println(url);
 //                    FileUtils.write(output, line + " " + url + "\n", "UTF-8", true);
