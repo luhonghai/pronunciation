@@ -173,7 +173,7 @@ public class LicenseHandler extends BaseServlet {
             out.print(message);
         } catch (Exception e) {
             logger.error("Error when login. Message: " + e.getMessage(),e);
-            out.print("Error when login. Message: " + e.getMessage());
+            out.print("sorry our engineers are just upgrading the server, please try again");
         }
     }
 

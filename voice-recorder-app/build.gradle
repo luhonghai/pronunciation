@@ -137,7 +137,7 @@ copyFiles {
     if (project.hasProperty('env')) {
         from "src/main/resources/env-values/${env}"
     } else {
-        from "src/main/resources/env-values/dev"
+        from "src/main/resources/env-values/sat"
     }
     into 'src/main/res/values'
     include('**/*')
