@@ -437,6 +437,16 @@
         <url-pattern>/CalculationServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementObjective</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementObjective</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementObjective</servlet-name>
+        <url-pattern>/ManagementObjective</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <display-name>AWSServiceHandler</display-name>
@@ -540,6 +550,15 @@
         <url-pattern>/TestPage</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ClassServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ClassServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClassServlet</servlet-name>
+        <url-pattern>/ClassServlet</url-pattern>
+    </servlet-mapping>
+
 
 
     <servlet>
@@ -550,6 +569,8 @@
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <url-pattern>/acoustic_model</url-pattern>
     </servlet-mapping>
+
+
 
     <welcome-file-list>
         <welcome-file>dashboard.jsp</welcome-file>

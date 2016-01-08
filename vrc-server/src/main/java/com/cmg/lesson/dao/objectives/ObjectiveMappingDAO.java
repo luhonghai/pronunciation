@@ -142,4 +142,17 @@ public class ObjectiveMappingDAO extends DataAccess<ObjectiveMapping> {
         return null;
     }
 
+    /**
+     *
+     * @param idObjective
+     * @return
+     */
+    public List<ObjectiveMapping> getAllByIdObjective(String idObjective, int start, int length) throws Exception{
+        List<ObjectiveMapping> list = list("WHERE idObjective==:1 && isDeleted==:2", idObjective,false,start,length);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
 }

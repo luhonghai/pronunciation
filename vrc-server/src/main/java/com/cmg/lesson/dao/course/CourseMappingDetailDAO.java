@@ -125,7 +125,7 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      * @param idChild
      * @return
      */
-    public boolean updateDeletedByIdidChild(String idChild){
+    public boolean updateDeletedByIdChild(String idChild){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
@@ -219,6 +219,19 @@ public class CourseMappingDetailDAO extends DataAccess<CourseMappingDetail> {
      */
     public List<CourseMappingDetail> getAllByLevel(String idLevel) throws Exception{
         List<CourseMappingDetail> list = list("WHERE idLevel==:1 && isDeleted==:2",idLevel,false);
+        if(list!=null && list.size() > 0){
+            return list;
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param idObj
+     * @return
+     */
+    public List<CourseMappingDetail> getAllMappingByObjId(String idObj) throws Exception{
+        List<CourseMappingDetail> list = list("WHERE idChild==:1 && isDeleted==:2",idObj,false);
         if(list!=null && list.size() > 0){
             return list;
         }

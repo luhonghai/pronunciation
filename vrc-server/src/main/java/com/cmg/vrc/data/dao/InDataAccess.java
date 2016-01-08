@@ -47,6 +47,8 @@ public interface InDataAccess<T> {
 	public List<T> list(String query, Object para1, Object para2, Object para3) throws Exception;
 
 	public List<T> list(String query, Object para1, Object para2, Object para3, String order) throws Exception;
+
+	public List<T> list(String query, Object para1, Object para2, int start, int length) throws Exception;
 	
 	public List<T> list(String query, Object... parameters) throws Exception;
 	

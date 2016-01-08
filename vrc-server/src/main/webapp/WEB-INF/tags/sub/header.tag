@@ -24,8 +24,9 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
+				<% String role=session.getAttribute("role").toString();
 
-				<%
+				if(role.equals("1") || role.equals("2")){
 
 					if (session.getAttribute("role")==null){
 						return;
@@ -78,6 +79,9 @@
 							<a href="lessons-management.jsp" ><i class="fa fa-list"></i> Lessons Management </a>
 						</li>
 						<li>
+							<a href="objective-management.jsp" ><i class="fa fa-list"></i> Objective Management </a>
+						</li>
+						<li>
 							<a href="level-management.jsp" ><i class="fa fa-list-alt"></i> Level Management </a>
 						</li>
 						<li>
@@ -119,6 +123,17 @@
 				<li>
 					<a href="pronunciation-score.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
+				<%}else {
+					if(role.equals("3")){%>
+						<li>
+						<a href="pronunciation-score.jsp"><i class="fa fa-users"></i> Teacher Management </a>
+						</li>
+					<%}else {%>
+						<li>
+							<a href="class.jsp"><i class="fa fa-slideshare"></i> Class Management </a>
+						</li>
+					<%}
+				}%>
 
 
 
