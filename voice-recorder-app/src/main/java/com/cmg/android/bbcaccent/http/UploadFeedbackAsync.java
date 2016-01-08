@@ -10,6 +10,7 @@ package com.cmg.android.bbcaccent.http;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 
 import com.cmg.android.bbcaccent.R;
@@ -28,7 +29,7 @@ import java.util.Map;
  * @Creator Hai Lu
  * @Last changed: $LastChangedDate$
  */
-public class UploadFeedbackAsync extends AsyncTask<Void, Void, String> {
+public class UploadFeedbackAsync extends AsyncTask<Void, Void, Boolean> {
     private final Context context;
     private final Map<String, String> params;
 
@@ -43,23 +44,23 @@ public class UploadFeedbackAsync extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Void... v) {
+    protected Boolean doInBackground(Void... v) {
         try {
             String result = FileUploader.upload(params, context.getResources().getString(R.string.feedback_url));
             SimpleAppLog.info("Feedback response: " + result);
-            return result;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return e.getMessage();
-        } catch (UploaderException e) {
-            e.printStackTrace();
-            return e.getMessage();
+            return result != null && result.length() > 0;
+        } catch (Exception e) {
+            SimpleAppLog.error("Could not send feedback", e);
+            return false;
         }
     }
 
     @Override
-    protected void onPostExecute(String v) {
-        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.FEEDBACK, null);
+    protected void onPostExecute(Boolean v) {
+        SimpleAppLog.debug("Upload feedback status " + v);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(MainBroadcaster.Filler.Key.DATA.toString(), v);
+        MainBroadcaster.getInstance().getSender().sendMessage(MainBroadcaster.Filler.FEEDBACK, bundle);
         super.onPostExecute(v);
     }
 

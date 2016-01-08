@@ -48,6 +48,7 @@
     <string name="unknown">unknown</string>
     <string name="please_enter_your_message">please enter your message</string>
     <string name="successfully_submitted">successfully submitted</string>
+    <string name="could_not_send_feedback">could not send feedback</string>
     <string name="feedback_success_message">thank you for your feedback \n we appreciate your feedback and will continue to strive to make our application better\n thank you!</string>
     <string name="description">description</string>
     <string name="send">send</string>
@@ -136,7 +137,7 @@
     <string name="menu_subscription">full version</string>
     <string name="menu_logout">logout</string>
     <!--<string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>-->
-    <string name="could_not_connect_server_message">sorry our engineers are just upgrading the server, please try again in 30 minutes</string>
+    <string name="could_not_connect_server_message">sorry our engineers are just upgrading the server, please try again</string>
     <string name="could_not_purchase_message">your purchase could not be completed, please contact support@accenteasy.com</string>
     <string name="could_not_purchase_title">an error occurred during purchase</string>
     <string name="product_purchased_title">thanks for your order</string>

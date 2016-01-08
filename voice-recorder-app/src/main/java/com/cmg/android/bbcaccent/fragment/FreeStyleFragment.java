@@ -1277,7 +1277,7 @@ public class FreeStyleFragment extends BaseFragment implements RecordingView.OnA
                             }
                         });
                     } else {
-                        d.setContentText(getString(R.string.could_not_analyze_word_message));
+                        d.setContentText(getString(R.string.could_not_connect_server_message));
                         d.setConfirmText(getString(R.string.dialog_ok));
                         d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override

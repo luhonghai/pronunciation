@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Process;
 
 
+import com.cmg.android.bbcaccent.FeedbackActivity;
 import com.cmg.android.bbcaccent.fragment.FeedbackFragment;
 
 import java.io.PrintWriter;
@@ -49,7 +50,7 @@ public class ExceptionHandler implements java.lang.Thread.UncaughtExceptionHandl
         StringWriter stackTrace = new StringWriter();
         ex.printStackTrace(new PrintWriter(stackTrace));
         AppLog.logString("Error: " + stackTrace.toString());
-        Intent forceClose = new Intent(context, FeedbackFragment.class);
+        Intent forceClose = new Intent(context, FeedbackActivity.class);
         forceClose.putExtra(STACK_TRACE, stackTrace.toString());
         context.startActivity(forceClose);
         Process.killProcess(Process.myPid());

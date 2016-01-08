@@ -78,17 +78,25 @@ public class FeedbackFragment extends BaseFragment {
         t3.setMovementMethod(LinkMovementMethod.getInstance());
         listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
             @Override
-            public void onReceiveMessage(MainBroadcaster.Filler filler, Bundle bundle) {
-                if (filler == MainBroadcaster.Filler.FEEDBACK) {
+            public void onReceiveMessage(final MainBroadcaster.Filler filler, final Bundle bundle) {
+                if (filler == MainBroadcaster.Filler.FEEDBACK && getActivity() != null) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             if (dialogProcess != null)
                                 dialogProcess.dismissWithAnimation();
+                            boolean done = bundle != null && bundle.getBoolean(MainBroadcaster.Filler.Key.DATA.toString());
                             setDescriptionText("");
-                            SweetAlertDialog d = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
-                            d.setTitleText(getString(R.string.successfully_submitted));
-                            d.setContentText(getString(R.string.feedback_success_message));
+                            SweetAlertDialog d;
+                            if (done) {
+                                d = new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE);
+                                d.setTitleText(getString(R.string.successfully_submitted));
+                                d.setContentText(getString(R.string.feedback_success_message));
+                            } else {
+                                d = new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE);
+                                d.setTitleText(getString(R.string.could_not_send_feedback));
+                                d.setContentText(getString(R.string.could_not_connect_server_message));
+                            }
                             d.setConfirmText(getString(R.string.dialog_ok));
                             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override

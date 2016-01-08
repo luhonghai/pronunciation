@@ -9,6 +9,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -1224,5 +1225,19 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
         btnLoginFB.setEnabled(enable);
         txtAlternative.setEnabled(enable);
         btnLoginAccent.setEnabled(enable);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_feedback:
+                AndroidHelper.takeScreenShot(this);
+                Intent activity = new Intent();
+                activity.setClass(this, FeedbackActivity.class);
+                this.startActivity(activity);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
