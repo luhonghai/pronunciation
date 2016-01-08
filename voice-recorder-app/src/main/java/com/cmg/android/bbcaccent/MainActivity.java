@@ -890,6 +890,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus()
                 .getWindowToken(), 0);
+        if (searchView != null) {
+            searchView.setIconified(true);
+            searchView.onActionViewCollapsed();
+        }
     }
 
     @Override
