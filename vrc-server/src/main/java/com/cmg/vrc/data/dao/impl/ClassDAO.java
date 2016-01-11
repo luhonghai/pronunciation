@@ -36,7 +36,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
     public List<ClassJDO> listAll(int start, int length,String search,int column,String order,String classNames,Date dateFrom,Date dateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + Admin.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + ClassJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -70,9 +70,9 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         params.put("dateTo", dateTo);
 
         if (column==0 && order.equals("asc")) {
-            q.setOrdering("classNames asc");
+            q.setOrdering("className asc");
         }else if(column==0 && order.equals("desc")) {
-            q.setOrdering("classNames desc");
+            q.setOrdering("className desc");
         }
         if (column==2 && order.equals("asc")) {
             q.setOrdering("createdDate asc");
@@ -93,7 +93,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
     public double getCountSearch(String search,String classNames,Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + Admin.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClassJDO.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -135,6 +135,39 @@ public class ClassDAO extends DataAccess<ClassJDO> {
             pm.close();
         }
     }
+    public int getLatestVersion() throws Exception{
+        int version = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT MAX(version) FROM " + ClassJDO.class.getCanonicalName());
+        try {
+            if (getCount()!=0 && q != null) {
+                version = (int) q.execute();
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return version;
+    }
+
+    public double getCount() throws  Exception{
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Long count;
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClassJDO.class.getCanonicalName());
+        try {
+            count = (Long) q.execute();
+            return count.doubleValue();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
 
 }

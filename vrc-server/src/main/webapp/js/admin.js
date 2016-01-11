@@ -335,11 +335,14 @@ function edit(){
         var last=$(this).attr('last');
         var role = $(this).attr('role');
         //var pass = $(this).attr('pass');
-        if(role==1){
-            roles="Admin";
-        }
-        if(role==2){
+        if(role==1) {
+            roles = "Admin";
+        }else if(role==2){
             roles="User";
+        }else if(role==3){
+            roles="Staff";
+        }else{
+            roles="Teacher";
         }
 
         $("#idedit").val(idd);

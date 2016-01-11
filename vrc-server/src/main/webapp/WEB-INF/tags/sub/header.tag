@@ -123,7 +123,7 @@
 				<%}else {
 					if(role.equals("3")){%>
 						<li>
-						<a href="pronunciation-score.jsp"><i class="fa fa-users"></i> Teacher Management </a>
+						<a href="teacher-management.jsp"><i class="fa fa-users"></i> Teacher Management </a>
 						</li>
 					<%}else {%>
 						<li>

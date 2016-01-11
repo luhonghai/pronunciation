@@ -1,5 +1,5 @@
 var myTable;
-
+var idClass=$("#idClasst");
 function listAdmin(){
 
         myTable = $('#dataTables-example').dataTable({
@@ -10,21 +10,22 @@ function listAdmin(){
             "bServerSide": true,
 
             "ajax": {
-                "url": "ClassServlet",
+                "url": "StudentServlet",
                 "type": "POST",
                 "dataType": "json",
                 "data": {
-                    list: "list"
+                    list: "list",
+                    idClass:idClass
                 }
             },
 
             "columns": [{
-                "sWidth": "25%",
+                "sWidth": "35%",
                 "data": "studentName",
                 "sDefaultContent": ""
 
             }, {
-                "sWidth": "20%",
+                "sWidth": "30%",
                 "data": "createdDate",
                 "sDefaultContent": ""
             },{

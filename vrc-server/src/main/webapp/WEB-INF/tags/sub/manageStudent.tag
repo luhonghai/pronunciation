@@ -19,6 +19,7 @@
       name = classJDO.getClassName();
     }
   %>
+  <input type="hidden" value<%=idClass%> id="idClasst">
   <div class="well">
     <div class="row">
       <div class="col-sm-3">
@@ -103,7 +104,7 @@
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px" id="addform">
               <div id="container-add-student">
-                <input type="hidden" id="idTeacher" value<%=idClass%>>
+                <input type="hidden" id="idClass" value<%=idClass%>>
                 <label class="col-xs-4  col-sm-4 control-label ">Student:</label>
                 <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
                   <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>

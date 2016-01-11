@@ -1,87 +1,16 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%
-  if (session.getAttribute("role")==null){
-    return;
-  }
-  if(session.getAttribute("role").equals(1) || session.getAttribute("role").equals(2) ){
-%>
+
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Question Management</h1>
+      <h1 class="page-header">Teacher and Staff Management</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
   <!-- /.row -->
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Question</label>
-          <input type="text" name="filter-question" id="question" class="form-control" placeholder="Question">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 32px;text-align: right;">
-          <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateFrom' placeholder="From" />
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
-          </div>
-        </div>
-        <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <button type="button" id="openAddQuestion" name="addCode">Add New Question</button>
 
 
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-          <div class="dataTable_wrapper">
-            <div class="table-responsive">
-              <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
-                <thead>
-                <tr>
-                  <th>Question</th>
-                  <th>Description</th>
-                  <th>Created date</th>
-                  <th></th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-              </table>
-            </div>
-
-          </div>
-          <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
-      </div>
-      <!-- /.col-lg-12 -->
-    </div>
-
-  </div>
   <!-- /#page-wrapper -->
 
 </div>
@@ -193,23 +122,7 @@
     </div>
   </div>
 </div>
-<%
-  }
-%>
-<%
-  if (session.getAttribute("role")==null){
-  return;
-  }
-  if(session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
-%>
-<div id="page-wrapper">
-  <div class="row">
-    <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
-  </div>
-</div>
-<%
-  }
-%>
+
 
 <script src="<%=request.getContextPath() %>/js/Lession/managementQuestion.js"></script>
 

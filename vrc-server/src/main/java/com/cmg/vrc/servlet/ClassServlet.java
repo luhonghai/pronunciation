@@ -94,12 +94,17 @@ public class ClassServlet extends HttpServlet {
         if(request.getParameter("add")!=null){
             String classname = request.getParameter("classname");
             String definition = request.getParameter("definition");
+            int version=0;
 
             try{
+                version=classDAO.getLatestVersion() +1;
                 ClassJDO classJDO=new ClassJDO();
                 classJDO.setClassName(classname);
                 classJDO.setDefinition(definition);
                 classJDO.setCreatedDate(new Date(System.currentTimeMillis()));
+                classJDO.setIsDeleted(false);
+                classJDO.setVersion(version);
+                classDAO.put(classJDO);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");

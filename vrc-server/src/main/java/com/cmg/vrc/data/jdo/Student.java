@@ -8,8 +8,6 @@ import java.util.Date;
 public class Student {
     private String id;
 
-    private String idStudent;
-
     private String studentName;
 
     private Date createdDate;
@@ -39,12 +37,5 @@ public class Student {
         this.studentName = studentName;
     }
 
-    public String getIdStudent() {
-        return idStudent;
-    }
-
-    public void setIdStudent(String idStudent) {
-        this.idStudent = idStudent;
-    }
 
 }

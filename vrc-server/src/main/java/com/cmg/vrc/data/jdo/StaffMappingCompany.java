@@ -18,7 +18,7 @@ public class StaffMappingCompany implements Mirrorable {
     private String idCompany;
 
     @Persistent
-    private String idStaff;
+    private String StaffName;
 
     @Persistent
     private boolean isDeleted;
@@ -49,14 +49,13 @@ public class StaffMappingCompany implements Mirrorable {
         this.idCompany = idCompany;
     }
 
-    public String getIdStaff() {
-        return idStaff;
+    public String getStaffName() {
+        return StaffName;
     }
 
-    public void setIdStaff(String idStaff) {
-        this.idStaff = idStaff;
+    public void setStaffName(String staffName) {
+        StaffName = staffName;
     }
-
 
 
 }

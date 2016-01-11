@@ -205,13 +205,11 @@ public class Admins extends HttpServlet {
             }
         }
         if(request.getParameter("addTeacher")!=null){
-            String uuid=null;
             String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
             Gson gson = new Gson();
             TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
             StaffMappingCompany staffMappingCompany=new StaffMappingCompany();
             try{
-                uuid = UUIDGenerator.generateUUID();
                 TeacherOrStaffMappingCompany dto = gson.fromJson(jsonClient, TeacherOrStaffMappingCompany.class);
                 String role=dto.getRole();
                 int ro = 0;
@@ -226,21 +224,20 @@ public class Admins extends HttpServlet {
                 ad.setLastName(dto.getLastName());
                 ad.setPassword(dto.getPassword());
                 ad.setRole(ro);
-                ad.setId(uuid);
                 adminDAO.put(ad);
                 String[] Company=dto.getIdObjects();
                 if(ro==3){
                     for(String company:Company){
                         staffMappingCompany.setIsDeleted(false);
                         staffMappingCompany.setIdCompany(company);
-                        staffMappingCompany.setIdStaff(uuid);
+                        staffMappingCompany.setStaffName(dto.getFullName());
                         staffMappingCompanyDAO.put(staffMappingCompany);
                     }
                 }else{
                     for(String company:Company){
                         teacherMappingCompany.setIsDeleted(false);
                         teacherMappingCompany.setIdCompany(company);
-                        teacherMappingCompany.setIdTeacher(uuid);
+                        teacherMappingCompany.setTeacherName(dto.getFullName());
                         teacherMappingCompanyDAO.put(teacherMappingCompany);
                     }
                 }

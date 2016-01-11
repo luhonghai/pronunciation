@@ -10,7 +10,7 @@
   if (session.getAttribute("role")==null){
     return;
   }
-  if(session.getAttribute("role").equals(1)){
+  if(session.getAttribute("role").equals(1) || session.getAttribute("role").equals(2) ){
 %>
 <style>
   ::-webkit-scrollbar {
@@ -123,7 +123,7 @@
   if (session.getAttribute("role")==null){
     return;
   }
-  if(session.getAttribute("role").equals(2)){
+  if(session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
 %>
 <div id="page-wrapper">
   <div class="row">
@@ -133,7 +133,6 @@
 <%
   }
 %>
-
 
 
 <script src="<%=request.getContextPath() %>/js/database.js"></script>

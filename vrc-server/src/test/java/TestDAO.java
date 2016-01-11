@@ -57,6 +57,7 @@ public class TestDAO {
         RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
         LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+        ClassDAO classDAO=new ClassDAO();
 
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");
@@ -66,6 +67,8 @@ public class TestDAO {
 
 
         try {
+            //classDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com",new Date(10/12/2014),new Date(9/8/2015));
+            classDAO.getLatestVersion();
             //userVoiceModelDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com","dash",62,"",new Date(10/12/2014),new Date(9/8/2015));
 
             //clientCodeDAO.put(clientCode);

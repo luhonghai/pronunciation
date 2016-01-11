@@ -29,6 +29,7 @@ function listAdmin(){
             }, {
                 "sWidth": "20%",
                 "data": "definition",
+                "bSortable": false,
                 "sDefaultContent": ""
             }, {
                 "sWidth": "20%",
@@ -39,7 +40,7 @@ function listAdmin(){
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
-                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="student-manage.jsp?idClass='+ data.id +'" type="button" id="addStudent" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Student' + '</a>');
+                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="student-manage.jsp?idClass='+ data.id +'" type="button" id="addStudent" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Student' + '</a>');
                     $button.attr("id-column", data.id);
                     $button.attr("classname", data.className);
                     $button.attr("definition", data.definition);
@@ -165,7 +166,7 @@ function edit(){
 function edituser(){
     $(document).on("click","#yesedit", function(){
             var id = $("#idedit").val();
-            var difinition = $("#editlastname").val();
+            var difinition = $("#editDefinition").val();
 
 
             $.ajax({

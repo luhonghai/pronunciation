@@ -5,16 +5,21 @@ import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.country.Country;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
+import com.cmg.vrc.data.dao.impl.*;
+import com.cmg.vrc.data.jdo.*;
 
 import java.util.List;
 
 
 public class TestServlet {
     public static void main(String[] args) {
-        Country country=new Country();
-        CountryDAO countryDAO=new CountryDAO();
+        ClassDAO countryDAO=new ClassDAO();
+        ClassJDO country =new ClassJDO();
         try{
-
+            country.setClassName("sadas");
+            country.setIsDeleted(false);
+            country.setDefinition("dasada");
+            countryDAO.put(country);
         }catch (Exception e){
             e.getStackTrace();
         }
@@ -141,25 +146,25 @@ public class TestServlet {
 //        }catch (Exception e){
 //            e.printStackTrace();;
 //        }
-            WordCollection wordCollection=new WordCollection();
-            WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
-            try{
-                List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
-                for(WordCollection wordCollection1:wordCollectionList){
-                    String definition = wordCollection1.getDefinition();
-                    if(definition.endsWith(":")) {
-                        definition = definition.substring(0, definition.length() - 1) + ".";
-                    }
-                    if(!definition.endsWith(".")){
-                        definition = definition + ".";
-                    }
-                    System.out.println("New definition: " + definition + ". Old definition: " + wordCollection1.getDefinition());
-                    wordCollection1.setDefinition(definition);
-                    wordCollectionDAO.put(wordCollection1);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+//            WordCollection wordCollection=new WordCollection();
+//            WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+//            try{
+//                List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
+//                for(WordCollection wordCollection1:wordCollectionList){
+//                    String definition = wordCollection1.getDefinition();
+//                    if(definition.endsWith(":")) {
+//                        definition = definition.substring(0, definition.length() - 1) + ".";
+//                    }
+//                    if(!definition.endsWith(".")){
+//                        definition = definition + ".";
+//                    }
+//                    System.out.println("New definition: " + definition + ". Old definition: " + wordCollection1.getDefinition());
+//                    wordCollection1.setDefinition(definition);
+//                    wordCollectionDAO.put(wordCollection1);
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
 
 //
 //
