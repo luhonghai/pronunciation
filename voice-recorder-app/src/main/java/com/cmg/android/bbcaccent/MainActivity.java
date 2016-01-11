@@ -890,6 +890,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 .getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus()
                 .getWindowToken(), 0);
+        if (searchView != null) {
+            searchView.setIconified(true);
+            searchView.onActionViewCollapsed();
+        }
     }
 
     @Override
@@ -1205,24 +1209,33 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             dialogLanguage.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialogInterface) {
-                    switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+                    checkFirstMenuItem(Preferences.getCurrentProfile());
                 }
             });
         } else {
-            if (userProfile != null && userProfile.isPro()) {
-                String lastMenuItem = userProfile.getLastSelectedMenuItem();
-                ListMenuAdapter.MenuItem menuItem = null;
-                if (lastMenuItem != null && lastMenuItem.length() > 0) {
-                    menuItem = ListMenuAdapter.MenuItem.fromName(lastMenuItem);
-                }
-                if (menuItem != ListMenuAdapter.MenuItem.FREESTYLE && menuItem != ListMenuAdapter.MenuItem.LESSON) {
-                    menuItem = ListMenuAdapter.MenuItem.FREESTYLE;
-                }
-                switchFragment(menuItem, null, null);
+            checkFirstMenuItem(userProfile);
+        }
+    }
+
+    private void checkFirstMenuItem(UserProfile userProfile) {
+        ListMenuAdapter.MenuItem menuItem = null;
+        if (userProfile != null && userProfile.isPro()) {
+            String lastMenuItem = userProfile.getLastSelectedMenuItem();
+            if (lastMenuItem != null && lastMenuItem.length() > 0) {
+                menuItem = ListMenuAdapter.MenuItem.fromName(lastMenuItem);
+            }
+            if (menuItem != ListMenuAdapter.MenuItem.FREESTYLE && menuItem != ListMenuAdapter.MenuItem.LESSON) {
+                menuItem = ListMenuAdapter.MenuItem.FREESTYLE;
+            }
+
+        } else {
+            if (userProfile != null && userProfile.isExpired()) {
+                menuItem = ListMenuAdapter.MenuItem.IPA;
             } else {
-                switchFragment(ListMenuAdapter.MenuItem.LESSON, null, null);
+                menuItem = ListMenuAdapter.MenuItem.LESSON;
             }
         }
+        switchFragment(menuItem, null, null);
     }
 
     public BottomSheet.Builder getShareActions(String title, String text) {

@@ -237,7 +237,7 @@ public class AuthHandler extends HttpServlet {
             }
         } catch (Exception e) {
             logger.error("Error when login. Message: " + e.getMessage(),e);
-            out.print("could not connect to server. please contact support@accenteasy.com");
+            out.print("sorry our engineers are just upgrading the server, please try again");
         }
     }
 

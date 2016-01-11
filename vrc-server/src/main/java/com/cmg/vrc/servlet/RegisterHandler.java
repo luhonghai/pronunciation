@@ -106,7 +106,7 @@ public class RegisterHandler extends BaseServlet {
             }
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);
-            responseData.setMessage("An error occurred while register");
+            responseData.setMessage("sorry our engineers are just upgrading the server, please try again");
         }
         out.print(gson.toJson(responseData));
     }

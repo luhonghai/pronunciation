@@ -1,8 +1,13 @@
 package com.cmg.lesson.services.objectives;
 
+import com.cmg.lesson.common.DateSearchParse;
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
+import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
+import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
+import com.cmg.lesson.dao.objectives.ObjectiveMappingDAO;
 import com.cmg.lesson.dao.test.TestDAO;
+import com.cmg.lesson.data.dto.lessons.LessonCollectionDTO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.dto.level.LevelMappingObjDTO;
 import com.cmg.lesson.data.dto.objectives.IndexOBJ;
@@ -10,6 +15,7 @@ import com.cmg.lesson.data.dto.objectives.ObjectiveDTO;
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.data.dto.test.TestMappingDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.lesson.services.course.CourseMappingDetailService;
@@ -84,6 +90,30 @@ public class ObjectiveService {
 
     /**
      *
+     * @param id
+     * @param name
+     * @param description
+     * @return
+     */
+    public String updateObj(String id, String name, String description){
+        ObjectiveDAO dao = new ObjectiveDAO();
+        String message;
+        try {
+            boolean isUpdate = dao.updateObjective(id, name, description);
+            if (isUpdate) {
+                message = SUCCESS;
+            } else {
+                message = ERROR + ":" + "An error has been occurred in server!";
+            }
+        }catch (Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("Can not update Objective : " + name + " because : " + e.getMessage());
+        }
+        return message;
+    }
+
+    /**
+     *
      * @param dto
      * @return
      */
@@ -104,7 +134,7 @@ public class ObjectiveService {
             }
         } catch (Exception e) {
             message = ERROR + ": "+ e.getMessage();
-            logger.error("Can not update Objective : " +  dto.getNameObj() + " because : " + e.getMessage());
+            logger.error("Can not update Objective : " + dto.getNameObj() + " because : " + e.getMessage());
         }
         dto.setMessage(message);
         return dto;
@@ -131,6 +161,37 @@ public class ObjectiveService {
                 message = SUCCESS;
             //}else{
                 //message = ERROR + ":" + "Objective name is existed";
+            //}
+        }catch(Exception e){
+            message = ERROR + ":" + e.getMessage();
+            logger.error("Can not add Objective : " + name + " because : " + e.getMessage());
+        }
+
+        return message;
+    }
+
+    /**
+     *
+     * @param name
+     * @param description
+     * @return true if question was added to table.
+     */
+    public String addObjective(String name, String description){
+        ObjectiveDAO dao = new ObjectiveDAO();
+        String message;
+        try {
+            //if(!isExistObjectiveName(name)) {
+            Objective obj = new Objective();
+            obj.setId(UUIDGenerator.generateUUID().toString());
+            obj.setName(name);
+            obj.setDescription(description);
+            obj.setVersion(getMaxVersion());
+            obj.setDateCreated(new Date(System.currentTimeMillis()));
+            obj.setIsDeleted(false);
+            dao.create(obj);
+            message = SUCCESS;
+            //}else{
+            //message = ERROR + ":" + "Objective name is existed";
             //}
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
@@ -199,6 +260,33 @@ public class ObjectiveService {
         }
         dto.setMessage(message);
         return dto;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public String deleteObj(String id){
+        ObjectiveMappingDAO objMapLessDao  = new ObjectiveMappingDAO();
+        CourseMappingDetailDAO cmdDao = new CourseMappingDetailDAO();
+        ObjectiveDAO dao = new ObjectiveDAO();
+        String message;
+        try{
+            boolean isDelete=dao.deletedObjective(id);
+            if (isDelete){
+                objMapLessDao.updateDeleted(id);
+                cmdDao.updateDeletedByIdChild(id);
+                message = SUCCESS;
+            }else{
+                message = ERROR + ": " + "An error has been occurred in server!";
+            }
+        }catch(Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("Can not delete Objective id: " + id + " because : " + e.getMessage());
+        }
+
+        return message;
     }
 
     /**
@@ -399,6 +487,87 @@ public class ObjectiveService {
             e.printStackTrace();
         }
         return objectiveDTO;
+    }
+
+    /**
+     *
+     * @param start
+     * @param length
+     * @param search
+     * @param column
+     * @param order
+     * @param createDateFrom
+     * @param createDateTo
+     * @return List<Question>
+     */
+    public List<Objective> listAll(int start, int length,String search,int column,String order,String description, Date createDateFrom,Date createDateTo){
+        ObjectiveDAO dao = new ObjectiveDAO();
+        try{
+            return dao.listAll(start, length, search,column, order,description, createDateFrom, createDateTo);
+        }catch (Exception ex){
+            logger.error("list all question error, because:" + ex.getMessage());
+        }
+        return null;
+    }
+
+    public ObjectiveDTO search(int start, int length,String search,int column,String order,String description,String createDateFrom,String createDateTo, int draw){
+        ObjectiveDTO dto = new ObjectiveDTO();
+        try{
+            Date dateFrom = DateSearchParse.parseDate(createDateFrom);
+            Date dateTo = DateSearchParse.parseDate(createDateTo, true);
+            double count = getCount(search, description, dateFrom, dateTo, length, start);
+            List<Objective> listobj = listAll(start, length, search, column, order, description, dateFrom, dateTo);
+            dto.setDraw(draw);
+            dto.setRecordsFiltered(count);
+            dto.setRecordsTotal(count);
+            dto.setData(listobj);
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": " + "Search LessonCollection error, because:" + e.getMessage());
+            logger.error("Search LessonCollection error, because:" + e.getMessage());
+        }
+        return dto;
+    }
+
+    /**
+     *
+     * @param search
+     * @param createDateFrom
+     * @param createDateTo
+     * @return total rows
+     */
+    public double getCount(String search,String description,Date createDateFrom,Date createDateTo, int length, int start){
+        ObjectiveDAO dao = new ObjectiveDAO();
+        try {
+            if (search == null && description==null && createDateFrom == null && createDateTo == null){
+                return dao.getCount();
+            }else {
+                return dao.getCountSearch(search,description, createDateFrom, createDateTo,length,start);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public String getCountMapping(String id){
+        CourseMappingDetailDAO cmdDao = new CourseMappingDetailDAO();
+        String message;
+        try {
+            List<CourseMappingDetail> list = cmdDao.getAllMappingByObjId(id);
+            if(list!=null && list.size() > 0){
+                message = "This objective has been mapped  with " + list.size() + " Level. You will lose all mapped data if you delete it, do you still want to delete?";
+            }else{
+                message = "Do you want to delete?";
+            }
+        }catch (Exception e){
+            message = "Do you want to delete?";
+        }
+        return message;
     }
 
 }

@@ -62,7 +62,7 @@ public class ResetPasswordHandler extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            out.print("Could not complete request");
+            out.print("sorry our engineers are just upgrading the server, please try again");
         }
     }
 

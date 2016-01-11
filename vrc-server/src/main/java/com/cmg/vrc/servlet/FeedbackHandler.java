@@ -100,10 +100,10 @@ public class FeedbackHandler extends HttpServlet {
             }
         } catch (FileUploadException e) {
             logger.error("Error when login. Message: " + e.getMessage(),e);
-            out.print("Error when login. Message: " + e.getMessage());
+            out.print("sorry our engineers are just upgrading the server, please try again");
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);
-            out.print("Error when login. Message:: " + e.getMessage());
+            out.print("sorry our engineers are just upgrading the server, please try again");
         }
     }
 

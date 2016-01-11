@@ -640,7 +640,7 @@ public class Preferences extends PreferenceFragment implements
         }
         if (USER_DATA == null)
             USER_DATA = new ArrayList<String>();
-        return USER_DATA;
+        return new ArrayList<String>(USER_DATA);
     }
 
     private static void setUserData(Context context, List<String> data) {

@@ -114,7 +114,7 @@ public class ActivationHandler extends HttpServlet {
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);
             if (isDevice) {
-                out.print("Error when login. Message:: " + e.getMessage());
+                out.print("sorry our engineers are just upgrading the server, please try again");
             } else {
                 out.print(StringUtil.readResource("contents/activation-error.html"));
             }

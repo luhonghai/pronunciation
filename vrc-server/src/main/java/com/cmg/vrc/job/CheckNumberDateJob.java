@@ -106,7 +106,7 @@ public class CheckNumberDateJob {
     }
     public static void main(String[] args) throws JobExecutionException {
         Check check = new Check();
-        check.execute(null);
+        //check.execute(null);
     }
 
 }

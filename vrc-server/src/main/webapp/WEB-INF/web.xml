@@ -437,6 +437,16 @@
         <url-pattern>/CalculationServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementObjective</servlet-name>
+        <servlet-class>com.cmg.lesson.servlet.ManagementObjective</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ManagementObjective</servlet-name>
+        <url-pattern>/ManagementObjective</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <display-name>AWSServiceHandler</display-name>

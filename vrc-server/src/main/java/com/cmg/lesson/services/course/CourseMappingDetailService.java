@@ -170,7 +170,7 @@ public class CourseMappingDetailService {
         CourseMappingDetailDAO dao = new CourseMappingDetailDAO();
         String message;
         try {
-            if(dao.updateDeletedByIdidChild(idChild)){
+            if(dao.updateDeletedByIdChild(idChild)){
                 message = SUCCESS;
             }else{
                 message = ERROR +": An error has been occurred in server!";
