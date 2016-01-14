@@ -2,9 +2,12 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.dao.impl.ClassDAO;
+import com.cmg.vrc.data.dao.impl.ClassMappingTeacherDAO;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.data.jdo.ClassJDO;
+import com.cmg.vrc.data.jdo.ClassMappingTeacher;
 import com.cmg.vrc.util.StringUtil;
+import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
@@ -33,6 +36,7 @@ public class ClassServlet extends HttpServlet {
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDAO classDAO=new ClassDAO();
+        ClassMappingTeacherDAO classMappingTeacherDAO=new ClassMappingTeacherDAO();
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         if (request.getParameter("list") != null) {
             ClassServlet.admin admin = new admin();
@@ -94,17 +98,26 @@ public class ClassServlet extends HttpServlet {
         if(request.getParameter("add")!=null){
             String classname = request.getParameter("classname");
             String definition = request.getParameter("definition");
+            String userName = request.getSession().getAttribute("username").toString();
             int version=0;
+            String uuid="";
 
             try{
+                uuid= UUIDGenerator.generateUUID();
                 version=classDAO.getLatestVersion() +1;
                 ClassJDO classJDO=new ClassJDO();
+                ClassMappingTeacher classMappingTeacher=new ClassMappingTeacher();
+                classJDO.setId(uuid);
                 classJDO.setClassName(classname);
                 classJDO.setDefinition(definition);
                 classJDO.setCreatedDate(new Date(System.currentTimeMillis()));
                 classJDO.setIsDeleted(false);
                 classJDO.setVersion(version);
                 classDAO.put(classJDO);
+                classMappingTeacher.setIdClass(uuid);
+                classMappingTeacher.setTeacherName(userName);
+                classMappingTeacher.setIsDeleted(false);
+                classMappingTeacherDAO.put(classMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
@@ -133,8 +146,11 @@ public class ClassServlet extends HttpServlet {
 
             String id=request.getParameter("id");
             try {
-                    classDAO.delete(id);
-                    response.getWriter().write("success");
+                ClassJDO classJDO=new ClassJDO();
+                classJDO=classDAO.getById(id);
+                classJDO.setIsDeleted(true);
+                classDAO.put(classJDO);
+                response.getWriter().write("success");
             }catch (Exception e){
                 response.getWriter().write("error");
                 e.printStackTrace();

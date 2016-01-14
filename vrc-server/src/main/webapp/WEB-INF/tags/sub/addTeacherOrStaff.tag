@@ -1,56 +1,34 @@
+<%@ tag import="com.cmg.vrc.data.jdo.ClientCode" %>
+<%@ tag import="com.cmg.vrc.data.dao.impl.ClientCodeDAO" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%
-  String role=session.getAttribute("role").toString();
-  String id = session.getAttribute("id").toString();
-%>
-<input type="hidden" name="ids" id="ids" value="<%=id%>">
-<input type="hidden" name="role" id="role" value="<%=role%>">
-<%
-  if (session.getAttribute("role")==null){
-    return;
-  }
-  if(session.getAttribute("role").equals(1)){
-%>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Admin Manage</h1>
+      <h1 class="page-header">Teacher or Staff Manage</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
   <!-- /.row -->
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">UserName</label>
-          <input type="text" name="filter-username" id="username" class="form-control" placeholder="UserName">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">FirstName</label>
-          <input type="text" name="filter-firstname" id="firstname" class="form-control" placeholder="FirstName">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">LastName</label>
-          <input type="text" name="filter-firstname" id="lastname" class="form-control" placeholder="lastName">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-      </div>
-    </div>
-  </div>
+  <% String idCompany = request.getParameter("idCompany");
+    ClientCode clientCode=new ClientCode();
+    ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
+    clientCode=clientCodeDAO.getById(idCompany);
+    String company=clientCode.getCompanyName();
+  %>
+  <input type="hidden" id="idCompany" value="<%=idCompany%>">
+  <input type="hidden" id="company" value="<%=company%>" name="roledelete">
   <div class="row">
     <div class="col-lg-12">
       <div class="panel panel-default">
         <div class="panel-heading">
           <button type="button" id="addUser" name="addCode">Add User</button>
-
+          <span class="back-wrapper" style="display: inline-block;   float: right; font-size: 17px;"><a href="#" onclick="goBack()">Back to previous page</a></span>
+          <script>
+            function goBack() {
+              window.history.back();
+            }
+          </script>
         </div>
         <!-- /.panel-heading -->
         <div class="panel-body">
@@ -60,8 +38,6 @@
               <thead>
               <tr>
                 <th>UserName</th>
-                <th>FirstName</th>
-                <th>LastName</th>
                 <th>Role</th>
                 <th></th>
               </tr>
@@ -95,6 +71,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Add User</h1>
+            <input type="hidden" id="company" value="<%=company%>" name="roledelete">
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px" id="addform">
 
@@ -134,8 +111,6 @@
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
                 <div class="col-xs-4  col-sm-5">
                   <select name="addrole" id="addrole" class="form-control" required="required">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
                     <option value="Staff">Staff</option>
                     <option value="Teacher">Teacher</option>
                   </select>
@@ -169,22 +144,15 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Edit User</h1>
+            <input type="hidden" id="roleold" name="roleold">
             <form name="Edit" class="form-horizontal"
                   style="margin-top: 25px" id="editform">
               <input type="hidden" id="idedit" name="idedit">
-              <input type="hidden" id="usernames" name="usernames">
 
               <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">FirstName:</label>
+                <label class="col-xs-4  col-sm-3 control-label">UserName:</label>
                 <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editfirstname" name="editfirstname" class=" form-control" style="padding-left: 0px;">
-                </div>
-
-              </div>
-              <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">LastName:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editlastname" name="editlastname" class=" form-control" style="padding-left: 0px;">
+                  <input  type="text" id="editUserName" name="editUserName" class="form-control"  readonly style="padding-left: 0px;">
                 </div>
 
               </div>
@@ -192,15 +160,13 @@
                 <label class="col-xs-4  col-sm-3 control-label">Password:</label>
                 <div class="col-xs-8  col-sm-9">
                   <input  type="password" id="editpassword" name="editpassword" class=" form-control" style="padding-left: 0px;">
-
+                  <p id="passedit" name="passedit" style="color:red; display: none">Required field to enter data</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
                 <div class="col-xs-4  col-sm-5">
                   <select name="editrole" id="editrole" class="form-control" required="required">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
                     <option value="Staff">Staff</option>
                     <option value="Teacher">Teacher</option>
                   </select>
@@ -232,6 +198,7 @@
       <form name="form-delete" >
         <div class="modal-body">
           <input type="hidden" id="iddelete" name="iddelete">
+          <input type="hidden" id="roledelete" name="roledelete">
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">
@@ -283,64 +250,8 @@
   </div>
 </div>
 
-<div id="teachers" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">&times;</button>
-        <label class="modal-title" align="center" style="font-size: 250%">Mapping Teacher or Staff to Company</label>
-      </div>
-      <form name="form-delete" >
-        <div class="modal-body">
-          <div id="container-add-company-edit" style="height:150px;">
-            <input type="hidden" id="firstNamesEdit" name="firstNames">
-            <input type="hidden" id="lastNamesEdits" name="lastNames">
-            <input type="hidden" id="passwordsEdit" name="passwords">
-            <input type="hidden" id="rolesEdit" name="roles">
-            <label class="col-xs-4  col-sm-4 control-label ">Company:</label>
-            <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
-              <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
-              <select style="display:none;" multiple class="form-control" id="select-company-edit">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
 
-              </select>
-            </div>
-          </div>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" name="editteacher" id="editteacher" class="btn btn-default" >Yes</button>
-          <button type="button" name="closeeditteacer" id="closeeditteacer" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<%
-  }
-%>
-<%
-  if (session.getAttribute("role")==null){
-    return;
-  }
-  if(session.getAttribute("role").equals(2) || session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
-%>
-<div id="page-wrapper">
-  <div class="row">
-    <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
-  </div>
-</div>
-<%
-  }
-%>
-
-<script src="<%=request.getContextPath() %>/js/admin.js"></script>
+<script src="<%=request.getContextPath() %>/js/addTeacherOrStaff.js"></script>
 
 
 

@@ -23,7 +23,14 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
     }
 
 
-    public List<StudentMappingClass> listAll(int start, int length,String search,int column,String order,String idClasst) throws Exception {
+
+    public StudentMappingClass getByClassAndStudent(String idClass, String studentName) throws Exception{
+        List<StudentMappingClass> userList = list("WHERE idClass == :1 && studentName == :2", idClass, studentName);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+    public List<StudentMappingClass> listAll(int start, int length,String search,int column,String order,String idClasst, String student, Date dateFrom,Date dateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + StudentMappingClass.class.getCanonicalName());
@@ -31,7 +38,21 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
         String a="((studentName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((studentName == null || studentName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         if(idClasst.length()>0){
-            string.append(" idClass=idClasst &&");
+            string.append(" idClass==idClasst &&");
+        }
+        if(student.length()>0){
+            string.append(" (studentName.toLowerCase().indexOf(student.toLowerCase()) != -1) &&");
+        }
+        if(dateFrom!=null&&dateTo==null){
+            string.append(" (createdDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append(" (createdDate <= dateTo) &&");
+        }
+
+
+        if(dateFrom!=null&&dateTo!=null){
+            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
         }
         if(search.length()>0){
             string.append(a);
@@ -40,18 +61,21 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search, String idClasst");
+        q.declareParameters("String search, String idClasst, String student, java.util.Date dateFrom,java.util.Date dateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
         params.put("idClasst", idClasst);
+        params.put("student", student);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
         if (column==0 && order.equals("asc")) {
             q.setOrdering("studentName asc");
         }else if(column==0 && order.equals("desc")) {
             q.setOrdering("studentName desc");
         }
-        if (column==2 && order.equals("asc")) {
+        if (column==1 && order.equals("asc")) {
             q.setOrdering("createdDate asc");
-        }else if(column==2 && order.equals("desc")) {
+        }else if(column==1 && order.equals("desc")) {
             q.setOrdering("createdDate desc");
         }
         q.setRange(start, start + length);
@@ -65,14 +89,30 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
         }
     }
 
-    public double getCountSearch(String search) throws Exception {
+    public double getCountSearch(String search,String idClasst, String student, Date dateFrom,Date dateTo) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
         Query q = pm.newQuery("SELECT COUNT(id) FROM " + StudentMappingClass.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((studentName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((studentName == null || studentName.toLowerCase().indexOf(search.toLowerCase()) != -1))";
+        if(idClasst.length()>0){
+            string.append(" idClass == idClasst &&");
+        }
+        if(student.length()>0){
+            string.append(" (studentName.toLowerCase().indexOf(student.toLowerCase()) != -1) &&");
+        }
+        if(dateFrom!=null&&dateTo==null){
+            string.append(" (createdDate >= dateFrom) &&");
+        }
+        if(dateFrom==null&&dateTo!=null){
+            string.append(" (createdDate <= dateTo) &&");
+        }
 
+
+        if(dateFrom!=null&&dateTo!=null){
+            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
+        }
         if(search.length()>0){
             string.append(a);
         }
@@ -80,9 +120,15 @@ public class StudentMappingClassDAO extends DataAccess<StudentMappingClass> {
             string.append(b);
         }
         q.setFilter(string.toString());
-        q.declareParameters("String search");
+        q.declareParameters("String search,String idClasst, String student, java.util.Date dateFrom,java.util.Date dateTo");
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("search", search);
+        params.put("idClasst", idClasst);
+        params.put("student", student);
+        params.put("dateFrom", dateFrom);
+        params.put("dateTo", dateTo);
+
+
         try {
             count = (Long) q.executeWithMap(params);
             return count.doubleValue();

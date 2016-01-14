@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +35,12 @@ public class Admins extends HttpServlet {
         public String message;
 
         List<ClientCode> clientCodes;
+    }
+    class companys{
+        public String message;
+
+        List<ClientCode> clientCodes;
+        List<ClientCode> check;
     }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
@@ -207,8 +214,6 @@ public class Admins extends HttpServlet {
         if(request.getParameter("addTeacher")!=null){
             String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
             Gson gson = new Gson();
-            TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
-            StaffMappingCompany staffMappingCompany=new StaffMappingCompany();
             try{
                 TeacherOrStaffMappingCompany dto = gson.fromJson(jsonClient, TeacherOrStaffMappingCompany.class);
                 String role=dto.getRole();
@@ -219,32 +224,80 @@ public class Admins extends HttpServlet {
                 if (role.length() > 0 && role.equals("Teacher")) {
                     ro = 4;
                 }
-                ad.setFirstName(dto.getFirstName());
-                ad.setUserName(dto.getFullName());
-                ad.setLastName(dto.getLastName());
-                ad.setPassword(dto.getPassword());
-                ad.setRole(ro);
-                adminDAO.put(ad);
-                String[] Company=dto.getIdObjects();
-                if(ro==3){
-                    for(String company:Company){
-                        staffMappingCompany.setIsDeleted(false);
-                        staffMappingCompany.setIdCompany(company);
-                        staffMappingCompany.setStaffName(dto.getFullName());
-                        staffMappingCompanyDAO.put(staffMappingCompany);
+                Admin a = adminDAO.getUserByEmail(dto.getFullName());
+                if (a != null) {
+                    response.getWriter().write("exist");
+                } else {
+                    ad.setFirstName(dto.getFirstName());
+                    ad.setUserName(dto.getFullName());
+                    ad.setLastName(dto.getLastName());
+                    ad.setPassword(StringUtil.md5(dto.getPassword()));
+                    ad.setRole(ro);
+                    adminDAO.put(ad);
+
+                    List<Company> companies = dto.getCompanies();
+                    if (ro == 3) {
+                        for (Company company : companies) {
+
+                            StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
+                            staffMappingCompany.setIsDeleted(false);
+                            staffMappingCompany.setIdCompany(company.getIdCompany());
+                            staffMappingCompany.setCompany(company.getCompanyName());
+                            staffMappingCompany.setStaffName(dto.getFullName());
+                            staffMappingCompanyDAO.put(staffMappingCompany);
+                        }
+                    } else {
+                        for (Company company : companies) {
+                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
+                            teacherMappingCompany.setIsDeleted(false);
+                            teacherMappingCompany.setIdCompany(company.getIdCompany());
+                            teacherMappingCompany.setCompany(company.getCompanyName());
+                            teacherMappingCompany.setTeacherName(dto.getFullName());
+                            teacherMappingCompanyDAO.put(teacherMappingCompany);
+                        }
                     }
-                }else{
-                    for(String company:Company){
-                        teacherMappingCompany.setIsDeleted(false);
-                        teacherMappingCompany.setIdCompany(company);
-                        teacherMappingCompany.setTeacherName(dto.getFullName());
-                        teacherMappingCompanyDAO.put(teacherMappingCompany);
-                    }
+
+                    response.getWriter().write("success");
+                }
+            }catch (Exception e){
+               e.getStackTrace();
+            }
+        }
+        if (request.getParameter("getCompany") != null) {
+            ClientCodeDAO clientCodeDAO = new ClientCodeDAO();
+            String role=request.getParameter("role");
+            String username=request.getParameter("username");
+
+            companys company=new companys();
+            try {
+                if(role.length()>0 && role.equals("Staff")) {
+                    List<ClientCode> clientCode = clientCodeDAO.getCompanyByStaff(username);
+                    List<ClientCode> check=clientCodeDAO.CompanyStaff(username);
+                    company.message = "success";
+                    company.clientCodes = clientCode;
+                    company.check=check;
+                    Gson gson = new Gson();
+                    String companys = gson.toJson(company);
+                    response.getWriter().write(companys);
+                }else {
+                    List<ClientCode> clientCodes = clientCodeDAO.getCompanyByTeacherName(username);
+                    List<ClientCode> check=clientCodeDAO.CompanyTeacher(username);
+                    company.message = "success";
+                    company.clientCodes = clientCodes;
+                    company.check=check;
+                    Gson gson = new Gson();
+                    String companys = gson.toJson(company);
+                    response.getWriter().write(companys);
                 }
 
-                response.getWriter().write("success");
-            }catch (Exception e){
-                response.getWriter().write("error");
+            } catch (Exception e) {
+                company.message="error";
+                company.clientCodes=null;
+                company.check=null;
+                Gson gson = new Gson();
+                String companys = gson.toJson(company);
+                response.getWriter().write(companys);
+                e.printStackTrace();
             }
         }
     }

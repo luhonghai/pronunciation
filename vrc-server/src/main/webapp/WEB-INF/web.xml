@@ -559,6 +559,35 @@
         <url-pattern>/ClassServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>StudentServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.StudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentServlet</servlet-name>
+        <url-pattern>/StudentServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>ManagementTeacherOrStaff</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ManagementTeacherOrStaff</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagementTeacherOrStaff</servlet-name>
+        <url-pattern>/ManagementTeacherOrStaff</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddTeaherOrStaff</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AddTeaherOrStaff</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTeaherOrStaff</servlet-name>
+        <url-pattern>/AddTeaherOrStaff</url-pattern>
+    </servlet-mapping>
+
+
 
 
     <servlet>

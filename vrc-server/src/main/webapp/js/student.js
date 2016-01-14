@@ -1,6 +1,6 @@
 var myTable;
-var idClass=$("#idClasst");
-function listAdmin(){
+var idClass=$("#idClasst").val();
+function listStudent(){
 
         myTable = $('#dataTables-example').dataTable({
             "retrieve": true,
@@ -15,7 +15,10 @@ function listAdmin(){
                 "dataType": "json",
                 "data": {
                     list: "list",
-                    idClass:idClass
+                    idClass:idClass,
+                    student:$("#student").val(),
+                    CreateDateFrom: $("#CreateDateFrom").val(),
+                    CreateDateTo: $("#CreateDateTo").val()
                 }
             },
 
@@ -33,7 +36,7 @@ function listAdmin(){
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
-                    $button = $('<button type="button" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button type="button" id="report" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Report' + '</button>');
+                    $button = $('<button type="button"  style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button  style="margin-right:10px" type="button" id="report" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Report' + '</button>');
                     $button.attr("id-column", data.id);
                     $button.attr("idStudent", data.idStudent);
                     return $("<div/>").append($button).html();
@@ -45,10 +48,9 @@ function listAdmin(){
 
 }
 
-function add(){
+function addStudent(){
     $(document).on("click","#yesadd", function(){
         var idObjects = [];
-        var idClass = $("#yesadd").val();
         $('#select-student option:selected').map(function(a, item){ idObjects.push(item.value);});
         var dto={
             idClass:idClass,
@@ -57,18 +59,18 @@ function add(){
             $.ajax({
                 url: "StudentServlet",
                 type: "POST",
-                dataType: "json",
+                dataType: "text",
                 data: {
                     add: "add",
                     objDto: JSON.stringify(dto)
                 },
                 success: function (data) {
-                    if (data.message.indexOf("success") !=-1) {
+                    if (data=="success") {
                         $("#add").modal('hide');
-                        swal("Success!", "You have add Object success!", "success");
-                        myTable();
+                        swal("Success!", "You have add success!", "success");
+                        myTable.fnDraw();
                     }else{
-                        swal("Could not add objective!", data.message.split(":")[1], "error");
+                        swal("Error!", "Could not connect to server!", "error");
                     }
                 },
                 error: function () {
@@ -91,7 +93,7 @@ function openAdd(){
     $(document).on("click","#addUser", function(){
         $("#add").modal('show');
         $(".loading-lesson").show();
-        var idTeacher =this.val();
+        var teacherName =$("#addUser").val();
         $("#yesadd").attr("disabled","disabled");
         $.ajax({
             url: "StudentServlet",
@@ -99,14 +101,16 @@ function openAdd(){
             dataType: "json",
             data: {
                 listStudent: "listStudent",
-                idTeacher:idTeacher
+                teacherName:teacherName,
+                idClass:idClass
             },
             success: function (data) {
-                if(data.message.indexOf("success")!=-1){
+                if(data.message=="success"){
                     $("#select-student").empty();
-                    if(typeof data.data !== undefined && data.data != null) {
-                        $.each(data.data, function (idx, obj) {
-                            $("#select-student").append("<option value='" + obj.id + "' title='"+obj.description+"'>" + obj.name + "</option>");
+                    if(data.studentMappingTeachers!=null && data.studentMappingTeachers.length>0){
+                        var items=data.studentMappingTeachers;
+                        $(items).each(function(){
+                            $("#select-student").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                         });
                     }else{
                         swal("Info!", "Student unavailable!", "info");
@@ -135,23 +139,25 @@ function openAdd(){
 
 
 
-function deletes(){
+function openDelete(){
     $(document).on("click","#delete", function(){
+        var studentName=$(this).attr('idStudent');
         $("#deletes").modal('show');
-        var idd=$(this).attr('id-column');
-        $("#iddelete").val(idd);
+        $("#iddelete").val(studentName);
     });
 }
 
-function openDelete(){
+function deleteStudent(){
     $(document).on("click","#deleteItems", function(){
+        var studentName=$("#iddelete").val();
             $.ajax({
                 url: "StudentServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
                     delete: "delete",
-                    id: id
+                    idClass: idClass,
+                    studentName:studentName
                 },
                 success: function (data) {
                     if (data == "success") {
@@ -168,14 +174,33 @@ function openDelete(){
             });
 });
 }
+function searchAdvanted(){
+    $(document).on("click","#button-filter", function(){
+        myTable.fnSettings().ajax = {
+            "url": "StudentServlet",
+            "type": "POST",
+            "dataType":"json",
+            "data":{
+                list: "list",
+                idClass:idClass,
+                student:$("#student").val(),
+                CreateDateFrom: $("#CreateDateFrom").val(),
+                CreateDateTo: $("#CreateDateTo").val()
+            }
+        };
+        $("tbody").html("");
+        myTable.fnDraw();
 
+
+    });
+}
 
 $(document).ready(function(){
-    var roleAdmin=$("#role").val();
-    add();
+    addStudent();
     openAdd();
-    deletes();
+    deleteStudent();
     openDelete();
-    listAdmin();
+    searchAdvanted();
+    listStudent();
 });
 

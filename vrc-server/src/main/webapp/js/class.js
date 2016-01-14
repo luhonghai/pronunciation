@@ -40,7 +40,7 @@ function listAdmin(){
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
-                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="student-manage.jsp?idClass='+ data.id +'" type="button" id="addStudent" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Student' + '</a>');
+                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="student-manage.jsp?idClass='+ data.id +'" style="margin-right:10px" type="button" id="addStudent" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Student' + '</a>' + '<a href="student-manage.jsp?idClass='+ data.id +'" type="button" id="report" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Report' + '</a>');
                     $button.attr("id-column", data.id);
                     $button.attr("classname", data.className);
                     $button.attr("definition", data.definition);
@@ -73,6 +73,7 @@ function adduser(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#add").modal('hide');
+                        swal("Success!", "Add class success.", "success");
                     }
                     if (data == "error") {
                         $("#addClassNameExits").show();
@@ -125,6 +126,7 @@ function deletes(){
 
 function deleteuser(){
     $(document).on("click","#deleteItems", function(){
+        var id=$("#iddelete").val();
             $.ajax({
                 url: "ClassServlet",
                 type: "POST",
@@ -139,6 +141,7 @@ function deleteuser(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#deletes").modal('hide');
+                        swal("Success!", "Delete class success", "success");
                     }
                 },
                 error: function () {
@@ -183,6 +186,7 @@ function edituser(){
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#edits").modal('hide');
+                        swal("Success!", "Update class success", "success");
                     }
                 },
                 error: function () {

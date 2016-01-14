@@ -18,6 +18,9 @@ public class StaffMappingCompany implements Mirrorable {
     private String idCompany;
 
     @Persistent
+    private String company;
+
+    @Persistent
     private String StaffName;
 
     @Persistent
@@ -58,4 +61,11 @@ public class StaffMappingCompany implements Mirrorable {
     }
 
 
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
 }

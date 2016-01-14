@@ -42,18 +42,18 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
         if(classNames.length()>0){
-            string.append("(className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
+            string.append(" (className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
         }
         if(dateFrom!=null&&dateTo==null){
-            string.append("(createdDate >= dateFrom) &&");
+            string.append(" (createdDate >= dateFrom) &&");
         }
         if(dateFrom==null&&dateTo!=null){
-            string.append("(createdDate <= dateTo) &&");
+            string.append(" (createdDate <= dateTo) &&");
         }
 
 
         if(dateFrom!=null&&dateTo!=null){
-            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
+            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
         }
         if(search.length()>0){
             string.append(a);
@@ -99,18 +99,18 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
         if(classNames.length()>0){
-            string.append("(className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
+            string.append(" (className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
         }
         if(dateFrom!=null&&dateTo==null){
-            string.append("(createdDate >= dateFrom) &&");
+            string.append(" (createdDate >= dateFrom) &&");
         }
         if(dateFrom==null&&dateTo!=null){
-            string.append("(createdDate <= dateTo) &&");
+            string.append(" (createdDate <= dateTo) &&");
         }
 
 
         if(dateFrom!=null&&dateTo!=null){
-            string.append("(createdDate >= dateFrom && createdDate <= dateTo) &&");
+            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
         }
         if(search.length()>0){
             string.append(a);
