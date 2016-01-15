@@ -1,35 +1,27 @@
 //
-//  TestNewScreenViewController.swift
-//  SwiftSidebarMenu
+//  AELoginVC.swift
+//  AccentEasy
 //
-//  Created by CMGVN on 1/8/16.
+//  Created by CMGVN on 1/14/16.
 //  Copyright © 2016 Hoang Nguyen. All rights reserved.
 //
 
 import UIKit
 
-class TestNewScreenViewController: UIViewController {
+class AELoginVC: UIViewController {
 
-    var timer:NSTimer!
-    var number:Int!
     
-    @IBOutlet weak var imgDog: UIImageView!
-    
+    @IBAction func btnOpenUrlTC(sender: AnyObject) {
+        
+        let url = NSURL(string: "http://www.accenteasy.com/useraccounts/TnC")!
+        UIApplication.sharedApplication().openURL(url)
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-        //btnViewOutlet.setTitle("enter", forState: UIControlState)
+
         // Do any additional setup after loading the view.
-        number = 1
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
-    }
-    
-    func launchingImage(){
-        let imgSwap:String = "sl_dog_"+String(number)+".png"
-        imgDog.image = UIImage(named: imgSwap)
-        number = number + 1
-        if number == 4{
-            number=1
-        }
+        
     }
 
     override func didReceiveMemoryWarning() {
