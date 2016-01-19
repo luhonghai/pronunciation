@@ -17,5 +17,83 @@
             endingLineNumber = "9">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AccentEasy/UserProfile.swift"
+            timestampString = "474821862.703616"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "UserProfile"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AccentEasy.UserProfile.init (AccentEasy.UserProfile.Type)(AccentEasy.Map) -&gt; Swift.Optional&lt;AccentEasy.UserProfile&gt;"
+                  moduleName = "AccentEasy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/UserProfile.swift"
+                  timestampString = "474797524.126934"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "1517">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AccentEasy.UserProfile.isExpired.getter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Bool&gt;"
+                  moduleName = "AccentEasy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/UserProfile.swift"
+                  timestampString = "474797524.127233"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "8">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AccentEasy.UserProfile.isExpired.setter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Bool&gt;"
+                  moduleName = "AccentEasy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/UserProfile.swift"
+                  timestampString = "474797524.127333"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "14">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AccentEasy.UserProfile.isExpired.materializeForSet : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Bool&gt;"
+                  moduleName = "AccentEasy"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/UserProfile.swift"
+                  timestampString = "474797524.127421"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

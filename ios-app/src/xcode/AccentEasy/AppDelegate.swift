@@ -9,19 +9,92 @@
 import UIKit
 import Fabric
 import Crashlytics
+import FBSDKCoreKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //fb login
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
+        
+        //google login
+        // Initialize sign-in
+        var configureError: NSError?
+        //GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        GIDSignIn.sharedInstance().delegate = self
+        
+        //GIDSignIn.sharedInstance().clientID = "392633328744-u9ckvvb80dof2lv16tunglcb8iu7j0hl.apps.googleusercontent.com"
+        
         return true
     }
+    
+    // [START openurl]
+    func application(application: UIApplication,
+        openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+            return GIDSignIn.sharedInstance().handleURL(url,
+                sourceApplication: sourceApplication,
+                annotation: annotation)
+    }
+    // [END openurl]
+    
+    @available(iOS 9.0, *)
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        return GIDSignIn.sharedInstance().handleURL(url,
+            sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String?,
+            annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
+    }
+    
+    // [START signin_handler]
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+        withError error: NSError!) {
+            if (error == nil) {
+                // Perform any operations on signed in user here.
+                let userId = user.userID                  // For client-side use only!
+                let idToken = user.authentication.idToken // Safe to send to the server
+                let name = user.profile.name
+                let email = user.profile.email
+                // [START_EXCLUDE]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification",
+                    object: nil,
+                    userInfo: ["statusText": "Signed in user:\n\(name)"])
+                // [END_EXCLUDE]
+            } else {
+                print("\(error.localizedDescription)")
+                // [START_EXCLUDE silent]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification", object: nil, userInfo: nil)
+                // [END_EXCLUDE]
+            }
+    }
+    // [END signin_handler]
+    // [START disconnect_handler]
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+        withError error: NSError!) {
+            // Perform any operations when the user disconnects from app here.
+            // [START_EXCLUDE]
+            NSNotificationCenter.defaultCenter().postNotificationName(
+                "ToggleAuthUINotification",
+                object: nil,
+                userInfo: ["statusText": "User has disconnected."])
+            // [END_EXCLUDE]
+    }
+    // [END disconnect_handler]
+
+    
+    //fb login
+    //func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        //return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    //}
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -39,6 +112,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        //fb login
+        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {

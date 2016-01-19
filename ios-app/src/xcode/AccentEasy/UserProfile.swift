@@ -7,46 +7,125 @@
 //
 
 import Foundation
+import ObjectMapper
 
-public class UserProfile {
-    var username:String!
+public class UserProfile: Mappable {
+    public static let TYPE_EASYACCENT:String = "easyaccent";
+    public let TYPE_FACEBOOK:String = "facebook";
+    public let TYPE_GOOGLE_PLUS:String = "googleplus";
     
+    public let HELP_INIT:Int = 0;
+    public let HELP_SKIP:Int = 1;
+    public let HELP_NEVER:Int = 2;
+    //typealias HELP_INIT = Int
+    //var so5:alias = 5
+    
+    public var username:String!
+    public var firstName:String!
+    public var lastName:String!
+    public var name:String!
+    public var loginType:String!
+    public var profileImage:String!
+    public var password:String!
+    public var isSetup:Bool = false;
+    public var nativeEnglish:Bool = true
+    public var gender:Bool = true
+    public var dob:String = "01/01/1900";
+    public var country:String = "GB";
+    public var englishProficiency:Int = 5
+    public var time:CLong!
+    public var duration:CLong!
+    public var location:UserLocation!
+    public var deviceInfo:DeviceInfo!
+    public var uuid:String!
+    public var helpStatus:Int = 0
+    public var isLogin:Bool = false
+    public var lastSelectedMenuItem:String!
+    public var licenseCode:String!
+    //public var selectedCountry:Country!
+    public var token:String!
+    public var additionalToken:String!
+    public var isActivatedLicence:Bool!
+    public var isSubscription:Bool!
+    public var isExpired:Bool!
+    public var licenseData = [LicenseData]()
     
     /*private String ;
-    private String firstName;
-    private String lastName;
-    private String name;
-    private String loginType;
-    private String profileImage;
-    private String password;
-    private boolean isSetup = false;
-    private boolean nativeEnglish = true;
-    private boolean gender = true;
-    private String dob = "01/01/1900";
-    private String country = "GB";
-    private int englishProficiency = 5;
-    private long time;
-    private long duration;
-    private UserLocation location;
-    private DeviceInfo deviceInfo;
-    private String uuid;
-    private int helpStatus = HELP_INIT;
-    private boolean isLogin = false;
-    private String lastSelectedMenuItem;
+    private List<LicenseData> ;*/
     
-    private String licenseCode;
+    public class UserLocation {
+        public var latitude:Double!
+        public var longitude:Double!
+        
+    }
     
-    private Country selectedCountry;
+    public class DeviceInfo {
+        public var appVersion:String!
+        public var appName:String!
+        public var model:String!
+        public var osVersion:String!
+        public var osApiLevel:String!
+        public var deviceName:String!
+        public var emei:String!
+        public var gcmId:String!
+        
+    }
     
-    private String token;
+    public class LicenseData {
+        public var code:String!
+        /**
+        private UserProfile.DeviceInfo deviceInfo;
+        
+        
+        public DeviceInfo getDeviceInfo() {
+        return deviceInfo;
+        }
+        
+        public void setDeviceInfo(DeviceInfo deviceInfo) {
+        this.deviceInfo = deviceInfo;
+        }
+        
+        @Override
+        public String toString() {
+        return code
+        + (deviceInfo != null ? (" (" + deviceInfo.getModel() + " " + deviceInfo.getDeviceName() + ")") : "");
+        }*/
+    }
     
-    private String additionalToken;
+    required public init?(_ map: Map) {
+        
+    }
     
-    private boolean isActivatedLicence;
+    required public init(){}
     
-    private boolean isSubscription;
-    
-    private boolean isExpired;
-    
-    private List<LicenseData> licenseData;*/
+    // Mappable
+    public func mapping(map: Map) {
+        username    <- map["username"]
+        firstName   <- map["firstName"]
+        lastName      <- map["lastName"]
+        name       <- map["name"]
+        loginType  <- map["loginType"]
+        profileImage  <- map["profileImage"]
+        password     <- map["password"]
+        isSetup    <- map["isSetup"]
+        gender    <- map["gender"]
+        dob    <- map["dob"]
+        englishProficiency    <- map["englishProficiency"]
+        time    <- map["time"]
+        duration    <- map["duration"]
+        location    <- map["location"]
+        deviceInfo    <- map["deviceInfo"]
+        uuid    <- map["uuid"]
+        helpStatus    <- map["helpStatus"]
+        isLogin    <- map["isLogin"]
+        lastSelectedMenuItem    <- map["lastSelectedMenuItem"]
+        licenseCode    <- map["licenseCode"]
+        token    <- map["token"]
+        additionalToken    <- map["additionalToken"]
+        isActivatedLicence    <- map["isActivatedLicence"]
+        isSubscription    <- map["isSubscription"]
+        isExpired    <- map["isExpired"]
+        licenseData    <- map["licenseData"]
+    }
+
 }

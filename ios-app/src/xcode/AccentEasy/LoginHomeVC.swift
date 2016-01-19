@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
-class LoginHomeVC: UIViewController {
+class LoginHomeVC: UIViewController, FBSDKLoginButtonDelegate{
     
     var showLog:Int!
 
@@ -25,12 +27,48 @@ class LoginHomeVC: UIViewController {
         imgBgView.contentMode = UIViewContentMode.ScaleAspectFill
         self.view.backgroundColor = UIColor(patternImage: imgBg!)*/
         showLog = 1
-
+        
+        //fb login
+        /*FBSDKLoginButton *loginButton = [[FBSDKLoginButton alloc] init];
+        loginButton.center = self.view.center;
+        [self.view addSubview:loginButton];*/
+        
+        let loginButton:FBSDKLoginButton = FBSDKLoginButton()
+        loginButton.center = self.view.center
+        self.view.addSubview(loginButton)
+        
+        loginButton.delegate = self
+        
+        print("view did load")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        print("login thanh cong")
+        let hinh = FBSDKProfilePictureView(frame: CGRectMake(view.frame.size.width/2,view.frame.size.height/2,100,100))
+        self.view.addSubview(hinh)
+        
+        loadProfile()
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        print("logout thanh cong")
+    }
+    
+    func loadProfile(){
+        let request:FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        request.startWithCompletionHandler({
+            (connection, result, error)-> Void in
+            if error != nil {
+                print("loi")
+            }else{
+                print("ket qua \(result)")
+            }
+        })
     }
     
     @IBAction func tappedAltLogin(sender: AnyObject) {

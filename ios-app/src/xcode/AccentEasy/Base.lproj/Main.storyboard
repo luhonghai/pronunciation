@@ -266,17 +266,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i42-ZW-l5O">
-                                <rect key="frame" x="20" y="475" width="335" height="44"/>
-                                <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="register">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="IDW-aN-LuX" kind="modal" id="mRJ-vo-PPd"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="last name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSF-Bc-a9n">
                                 <rect key="frame" x="20" y="233" width="108" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -322,6 +311,17 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i42-ZW-l5O">
+                                <rect key="frame" x="20" y="475" width="335" height="44"/>
+                                <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="register">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="registerTapped:" destination="x1A-z6-p4x" eventType="touchUpInside" id="Fcg-nQ-mtf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -334,6 +334,13 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="txtConfirmPassword" destination="0mh-GC-ubm" id="hOY-sg-Np0"/>
+                        <outlet property="txtEmail" destination="qOP-G6-KMg" id="fez-gL-jKe"/>
+                        <outlet property="txtFirstname" destination="lPh-YT-Fy6" id="mlN-jl-eqk"/>
+                        <outlet property="txtLastname" destination="wwq-zL-Rfl" id="86L-x4-axG"/>
+                        <outlet property="txtPassword" destination="cgm-PA-46h" id="cd6-JL-JeB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kH-BO-XpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -968,8 +975,8 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="b3j-3D-4fV"/>
         <segue reference="jBR-S3-rOW"/>
         <segue reference="ZNM-TN-klg"/>
-        <segue reference="b3j-3D-4fV"/>
     </inferredMetricsTieBreakers>
 </document>
