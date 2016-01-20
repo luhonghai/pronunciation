@@ -41,9 +41,13 @@ class AELoginVC: UIViewController {
         data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
         */
         var userProfile = UserProfile()
+        userProfile.deviceInfo = DeviceInfo()
         userProfile.username = txtEmail.text!
         userProfile.password = txtPassword.text!
         userProfile.deviceInfo.appVersion = "40000"
+
+        
+        //deviceIn
         
         let JSONStringUserProfile:String = Mapper().toJSONString(userProfile, prettyPrint: true)!
         

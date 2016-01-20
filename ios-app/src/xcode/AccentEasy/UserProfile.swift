@@ -9,6 +9,18 @@
 import Foundation
 import ObjectMapper
 
+public class DeviceInfo {
+    public var appVersion:String!
+    public var appName:String!
+    public var model:String!
+    public var osVersion:String!
+    public var osApiLevel:String!
+    public var deviceName:String!
+    public var emei:String!
+    public var gcmId:String!
+    
+}
+
 public class UserProfile: Mappable {
     public static let TYPE_EASYACCENT:String = "easyaccent";
     public let TYPE_FACEBOOK:String = "facebook";
@@ -36,7 +48,7 @@ public class UserProfile: Mappable {
     public var time:CLong!
     public var duration:CLong!
     public var location:UserLocation!
-    public var deviceInfo:DeviceInfo = DeviceInfo()
+    public var deviceInfo:DeviceInfo!
     public var uuid:String!
     public var helpStatus:Int = 0
     public var isLogin:Bool = false
@@ -59,17 +71,7 @@ public class UserProfile: Mappable {
         
     }
     
-    public class DeviceInfo {
-        public var appVersion:String!
-        public var appName:String!
-        public var model:String!
-        public var osVersion:String!
-        public var osApiLevel:String!
-        public var deviceName:String!
-        public var emei:String!
-        public var gcmId:String!
-        
-    }
+   
     
     public class LicenseData {
         public var code:String!
