@@ -183,6 +183,9 @@
                                 <state key="normal" title="login">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="loginTapped:" destination="jQ2-8x-ob9" eventType="touchUpInside" id="jXJ-Jf-wSa"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4t-Wi-aoT">
                                 <rect key="frame" x="112" y="500" width="151" height="24"/>
@@ -223,6 +226,10 @@
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="txtEmail" destination="7jx-GX-ujx" id="566-h7-Pbg"/>
+                        <outlet property="txtPassword" destination="AuU-Cv-vdg" id="fgN-A6-Y3w"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eNa-6H-CMB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -340,16 +347,17 @@
                         <outlet property="txtFirstname" destination="lPh-YT-Fy6" id="mlN-jl-eqk"/>
                         <outlet property="txtLastname" destination="wwq-zL-Rfl" id="86L-x4-axG"/>
                         <outlet property="txtPassword" destination="cgm-PA-46h" id="cd6-JL-JeB"/>
+                        <segue destination="IDW-aN-LuX" kind="modal" identifier="GoToComfirmCode" id="xjH-il-iGL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kH-BO-XpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2173.5" y="-1645.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Register ConfirmVC-->
         <scene sceneID="UJC-nx-yKs">
             <objects>
-                <viewController id="IDW-aN-LuX" sceneMemberID="viewController">
+                <viewController id="IDW-aN-LuX" customClass="RegisterConfirmVC" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2ok-bl-D1n"/>
                         <viewControllerLayoutGuide type="bottom" id="93m-i9-5mM"/>
@@ -377,6 +385,9 @@
                                 <state key="normal" title="confirm code">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="confirmCodeTapped:" destination="IDW-aN-LuX" eventType="touchUpInside" id="7S2-F6-zph"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGd-ep-Qi4">
                                 <rect key="frame" x="20" y="425" width="335" height="44"/>
@@ -385,44 +396,57 @@
                                 <state key="normal" title="proceed to login">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="proceeedLoginTapped:" destination="IDW-aN-LuX" eventType="touchUpInside" id="jJc-c4-JyN"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kLy-mL-Iun">
-                                <rect key="frame" x="20" y="309" width="335" height="44"/>
+                                <rect key="frame" x="20" y="312" width="335" height="44"/>
                                 <color key="backgroundColor" red="1" green="0.29632445469798657" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="send code again">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="sendCodeAgainTapped:" destination="IDW-aN-LuX" eventType="touchUpInside" id="VpD-hB-EJw"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NhU-h1-Spo">
-                                <rect key="frame" x="20" y="368" width="335" height="44"/>
+                                <rect key="frame" x="20" y="364" width="335" height="44"/>
                                 <color key="backgroundColor" red="0.80269505033557043" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="change email">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="flr-eT-mUC" kind="modal" id="eFf-YZ-v5D"/>
+                                </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxv-VM-fsO">
+                                <rect key="frame" x="67" y="110" width="240" height="42"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dot-yE-gzB">
                                 <rect key="frame" x="112" y="483" width="151" height="24"/>
                                 <state key="normal" title="terms &amp; conditions">
                                     <color key="titleColor" red="0.0" green="0.23921568630000001" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="btnOpenUrlTC:" destination="CiR-Pd-ajG" eventType="touchUpInside" id="Qy4-W4-G70"/>
+                                    <action selector="btnOpenUrlTC:" destination="IDW-aN-LuX" eventType="touchUpInside" id="wB0-Qf-bMc"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxv-VM-fsO">
-                                <rect key="frame" x="67" y="110" width="240" height="42"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="txtcode" destination="beg-3C-biZ" id="ffG-Pn-cmd"/>
+                        <segue destination="sBd-BY-PV2" kind="modal" identifier="ConfirmRegisterGoToLogin" id="N37-bx-7d9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ngs-ka-mqA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2661.5" y="-2099.5"/>
+            <point key="canvasLocation" x="2589.5" y="-1645.5"/>
         </scene>
         <!--Reset PassVC-->
         <scene sceneID="GL8-AG-JCf">
@@ -500,18 +524,22 @@
                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" fixedFrame="YES" image="sl_dog_1.png" translatesAutoresizingMaskIntoConstraints="NO" id="C0k-Ky-heu">
                                 <rect key="frame" x="33" y="146" width="308" height="376"/>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Iqc-rH-kUL">
+                                <rect key="frame" x="107" y="78" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="Iqc-rH-kUL" id="pQ3-iL-mBd"/>
                         <outlet property="imgDog" destination="C0k-Ky-heu" id="r5e-lB-2Nw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsw-gf-Iz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-237.5" y="-1119.5"/>
+            <point key="canvasLocation" x="-237.5" y="-1368.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="yOu-c5-tTh">
@@ -975,8 +1003,9 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="b3j-3D-4fV"/>
-        <segue reference="jBR-S3-rOW"/>
         <segue reference="ZNM-TN-klg"/>
+        <segue reference="WR5-An-sLd"/>
+        <segue reference="jBR-S3-rOW"/>
+        <segue reference="ZoM-vd-D1g"/>
     </inferredMetricsTieBreakers>
 </document>

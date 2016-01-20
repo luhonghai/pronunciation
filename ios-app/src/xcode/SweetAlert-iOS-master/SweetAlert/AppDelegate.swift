@@ -1,36 +1,22 @@
 //
 //  AppDelegate.swift
-//  SwiftSidebarMenu
+//  SweetAlert
 //
-//  Created by CMGVN on 1/7/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Created by Codester on 11/3/14.
+//  Copyright (c) 2014 Codester. All rights reserved.
 //
 
 import UIKit
-import Fabric
-import Crashlytics
-import FBSDKCoreKit
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-        //fb login
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        Fabric.with([Crashlytics.self])
-    
-        
         return true
-    }
-    
-    //fb login
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -49,8 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        //fb login
-        FBSDKAppEvents.activateApp()
     }
 
     func applicationWillTerminate(application: UIApplication) {

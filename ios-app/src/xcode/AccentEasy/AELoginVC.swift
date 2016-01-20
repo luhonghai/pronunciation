@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import SwiftClient
+//import ObjectMapper
 
 class AELoginVC: UIViewController {
 
+    @IBOutlet weak var txtEmail: UITextField!
+    @IBOutlet weak var txtPassword: UITextField!
+    
     
     @IBAction func btnOpenUrlTC(sender: AnyObject) {
         
@@ -29,6 +34,59 @@ class AELoginVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func loginTapped(sender: AnyObject) {
+        /*
+        data.put("profile", gson.toJson(profile));
+        data.put("check", "true");
+        data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+        */
+        var userProfile = UserProfile()
+        userProfile.username = txtEmail.text!
+        userProfile.password = txtPassword.text!
+        userProfile.deviceInfo.appVersion = "40000"
+        
+        let JSONStringUserProfile:String = Mapper().toJSONString(userProfile, prettyPrint: true)!
+        
+        let client = Client()
+            .baseUrl("http://localhost:8080")
+            .onError({e in print(e)});
+        
+        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
+            .set("header", "headerValue")
+            .end({(res:Response) -> Void in
+                print(res)
+                if(res.error) { // status of 2xx
+                    //handleResponseJson(res.body)
+                    //print(res.body)
+                    print(res.text)
+                }
+                else {
+                    //handleErrorJson(res.body)
+                    print(res.text)
+                    /*let result = Mapper<RegisterResult>().map(res.text)
+                    let status:Bool = result!.status
+                    let message:String = result!.message
+                    if status {
+                        //register suceess
+                        dispatch_async(dispatch_get_main_queue(),{
+                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
+                            //[unowned self] in NSThread.isMainThread()
+                            self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+                        })
+                        
+                        
+                    } else {
+                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
+                            
+                        })
+                    }*/
+                    //print(result?.message)
+                    //print(result?.status)
+                }
+            })
+    }
 
     /*
     // MARK: - Navigation

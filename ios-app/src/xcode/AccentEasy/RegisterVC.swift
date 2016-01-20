@@ -12,6 +12,8 @@ import ObjectMapper
 
 class RegisterVC: UIViewController {
 
+    var registerInfo:NSUserDefaults!
+    var JSONStringUserProfile:String!
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -28,13 +30,23 @@ class RegisterVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        registerInfo = NSUserDefaults()
+        
+        //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //if("GoToComfirmCode" == segue.identifier){
+            //registerInfo.setObject(userProfile, forKey: "userProfile")
+            registerInfo.setObject(JSONStringUserProfile, forKey: "JSONStringUserProfile")
+        //}
     }
     
     @IBAction func registerTapped(sender: AnyObject) {
@@ -50,18 +62,17 @@ class RegisterVC: UIViewController {
         let password:String = txtPassword.text!
         let confirmPassword:String = txtConfirmPassword.text!
         
+        let alertView:UIAlertView = UIAlertView()
         
         if username.isEmpty || password.isEmpty {
-            let alertView:UIAlertView = UIAlertView()
-            alertView.title = "Sign Up Failed!"
+            alertView.title = "Register Failed!"
             alertView.message = "Please enter Username and Password"
             alertView.delegate = self
             alertView.addButtonWithTitle("OK")
             alertView.show()
             return
         }else if password != confirmPassword {
-            let alertView:UIAlertView = UIAlertView()
-            alertView.title = "Sign Up Failed!"
+            alertView.title = "Register Failed!"
             alertView.message = "Passwords doesn't Match"
             alertView.delegate = self
             alertView.addButtonWithTitle("OK")
@@ -69,26 +80,21 @@ class RegisterVC: UIViewController {
             return
         }
         
-        var userProfile = UserProfile()
+        let userProfile = UserProfile()
         userProfile.firstName = firstname
         userProfile.lastName = lastname
         userProfile.username = username
         userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
-        let JSONStringUserProfile:String = Mapper().toJSONString(userProfile, prettyPrint: true)!
+        JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
         
         
         print("JSONStringUserProfile is:" + JSONStringUserProfile)
         print("------------------------------------------------------")
-        var client = Client()
+        let client = Client()
             .baseUrl("http://localhost:8080")
             .onError({e in print(e)});
-
-        
-        // GET http://myapi.org/get?key=value&key2=value2
-        
-        //Client().post(url).send([key : value, key2 : value2])
     
         client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
             .set("header", "headerValue")
@@ -96,28 +102,38 @@ class RegisterVC: UIViewController {
                 print(res)
                 if(res.error) { // status of 2xx
                     //handleResponseJson(res.body)
-                    print(res.body)
+                    //print(res.body)
+                    print(res.text)
                 }
                 else {
                     //handleErrorJson(res.body)
                     print(res.text)
+                    let result = Mapper<RegisterResult>().map(res.text)
+                    let status:Bool = result!.status
+                    let message:String = result!.message
+                    if status {
+                        //register suceess
+                        dispatch_async(dispatch_get_main_queue(),{
+                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
+                            //[unowned self] in NSThread.isMainThread()
+                            self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+                        })
+                        
+                        
+                    } else {
+                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
+                            
+                        })
+                    }
+                    //print(result?.message)
+                    //print(result?.status)
                 }
             })
         
-        /*client.post("http://localhost:8080/RegisterHandler").query(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    print(res)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res)
-                }
-            })*/
     }
+
 
     /*
     // MARK: - Navigation
@@ -129,4 +145,22 @@ class RegisterVC: UIViewController {
     }
     */
 
+}
+
+
+class RegisterResult: Mappable{
+    var status:Bool!
+    var message:String!
+    
+    required init?(_ map: Map) {
+        
+    }
+    
+    required init(){}
+    
+    // Mappable
+    func mapping(map: Map) {
+        status    <- map["status"]
+        message   <- map["message"]
+    }
 }

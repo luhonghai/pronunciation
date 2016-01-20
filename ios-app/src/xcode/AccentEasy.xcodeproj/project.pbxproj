@@ -51,6 +51,8 @@
 		C14CE1681C4D405A001EE55A /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C14CE1661C4D405A001EE55A /* GoogleSignIn.bundle */; };
 		C14CE1691C4D405A001EE55A /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C14CE1671C4D405A001EE55A /* GoogleSignIn.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		C14CE16B1C4D41FB001EE55A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C14CE16A1C4D41FB001EE55A /* GoogleService-Info.plist */; };
+		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
+		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
 		C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2451C44B1EC00537461 /* above_shadow.xml */; };
 		C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */; };
@@ -287,6 +289,8 @@
 		C14CE1661C4D405A001EE55A /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
 		C14CE1671C4D405A001EE55A /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
 		C14CE16A1C4D41FB001EE55A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
+		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
 		C16CD2451C44B1EC00537461 /* above_shadow.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = above_shadow.xml; sourceTree = "<group>"; };
 		C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accenteasy_icon_text.png; sourceTree = "<group>"; };
@@ -570,6 +574,7 @@
 		C141C7FF1C3E203C001D1F9C /* AccentEasy */ = {
 			isa = PBXGroup;
 			children = (
+				C14CE27A1C4E187D001EE55A /* SweetAlert.swift */,
 				C13CDA0B1C48B706009E649F /* LIB */,
 				C16CD2431C44B01B00537461 /* Supporting Files */,
 				C141C8001C3E203C001D1F9C /* AppDelegate.swift */,
@@ -634,6 +639,7 @@
 				C1410BA21C474D9200E781B4 /* AELoginVC.swift */,
 				C1410BA41C4762E200E781B4 /* ResetPassVC.swift */,
 				C1410BA61C47821E00E781B4 /* RegisterVC.swift */,
+				C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */,
 			);
 			name = LoginController;
 			sourceTree = "<group>";
@@ -773,8 +779,8 @@
 			buildPhases = (
 				C141C7F91C3E203C001D1F9C /* Sources */,
 				C141C7FB1C3E203C001D1F9C /* Resources */,
-				C141C7FA1C3E203C001D1F9C /* Frameworks */,
 				9B8E9EBB1C44F1730033EF45 /* ShellScript */,
+				C141C7FA1C3E203C001D1F9C /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1106,6 +1112,8 @@
 				C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */,
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
 				C11255081C4CC96100B0780F /* DateFormatterTransform.swift in Sources */,
+				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
+				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				C112551E1C4CC96100B0780F /* README.md in Sources */,
 				C11255031C4CC96100B0780F /* Mapper.swift in Sources */,
 				C11255011C4CC96100B0780F /* Map.swift in Sources */,

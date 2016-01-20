@@ -40,6 +40,7 @@ class LaunchImageVC: UIViewController {
         nextScreen = nextScreen + 1
         if nextScreen == 10 {
             self.performSegueWithIdentifier("GoToLogin", sender: self)
+            //self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
 

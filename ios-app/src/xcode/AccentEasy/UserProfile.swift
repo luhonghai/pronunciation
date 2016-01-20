@@ -36,7 +36,7 @@ public class UserProfile: Mappable {
     public var time:CLong!
     public var duration:CLong!
     public var location:UserLocation!
-    public var deviceInfo:DeviceInfo!
+    public var deviceInfo:DeviceInfo = DeviceInfo()
     public var uuid:String!
     public var helpStatus:Int = 0
     public var isLogin:Bool = false
@@ -96,7 +96,9 @@ public class UserProfile: Mappable {
         
     }
     
-    required public init(){}
+    required public init(){
+        
+    }
     
     // Mappable
     public func mapping(map: Map) {
