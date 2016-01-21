@@ -229,6 +229,7 @@
                     <connections>
                         <outlet property="txtEmail" destination="7jx-GX-ujx" id="566-h7-Pbg"/>
                         <outlet property="txtPassword" destination="AuU-Cv-vdg" id="fgN-A6-Y3w"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="AELoginGoToMain" id="hKc-VP-pia"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eNa-6H-CMB" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -550,7 +551,7 @@
                         <viewControllerLayoutGuide type="bottom" id="clp-9B-J9S"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Hku-W8-HMF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZW1-QP-y7h">
@@ -580,7 +581,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMO-XD-i60" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="775" y="-855"/>
+            <point key="canvasLocation" x="458.5" y="-999.5"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -604,7 +605,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2.5" y="-15.5"/>
+            <point key="canvasLocation" x="-2.5" y="-35.5"/>
         </scene>
         <!--Our View Controller-->
         <scene sceneID="70w-kc-OIi">
@@ -651,7 +652,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IbU-Kz-ZxO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1187.5" y="-15.5"/>
+            <point key="canvasLocation" x="1148.5" y="-1020.5"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="NEI-Tt-d2B">
@@ -1003,9 +1004,10 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZNM-TN-klg"/>
-        <segue reference="WR5-An-sLd"/>
+        <segue reference="hKc-VP-pia"/>
         <segue reference="jBR-S3-rOW"/>
+        <segue reference="WR5-An-sLd"/>
         <segue reference="ZoM-vd-D1g"/>
+        <segue reference="ZNM-TN-klg"/>
     </inferredMetricsTieBreakers>
 </document>

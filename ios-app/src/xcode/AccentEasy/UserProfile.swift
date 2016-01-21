@@ -9,18 +9,6 @@
 import Foundation
 import ObjectMapper
 
-public class DeviceInfo {
-    public var appVersion:String!
-    public var appName:String!
-    public var model:String!
-    public var osVersion:String!
-    public var osApiLevel:String!
-    public var deviceName:String!
-    public var emei:String!
-    public var gcmId:String!
-    
-}
-
 public class UserProfile: Mappable {
     public static let TYPE_EASYACCENT:String = "easyaccent";
     public let TYPE_FACEBOOK:String = "facebook";
@@ -71,7 +59,38 @@ public class UserProfile: Mappable {
         
     }
     
-   
+    public class DeviceInfo: Mappable{
+        public var appVersion:String!
+        public var appName:String!
+        public var model:String!
+        public var osVersion:String!
+        public var osApiLevel:String!
+        public var deviceName:String!
+        public var emei:String!
+        public var gcmId:String!
+        
+        required public init?(_ map: Map) {
+            
+        }
+        
+        required public init(){
+            
+        }
+        
+        // Mappable
+        public func mapping(map: Map) {
+            appVersion    <- map["appVersion"]
+            appName   <- map["appName"]
+            model      <- map["model"]
+            osVersion       <- map["osVersion"]
+            osApiLevel  <- map["osApiLevel"]
+            deviceName  <- map["deviceName"]
+            emei     <- map["emei"]
+            gcmId     <- map["gcmId"]
+        }
+
+        
+    }
     
     public class LicenseData {
         public var code:String!

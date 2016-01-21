@@ -40,16 +40,32 @@ class AELoginVC: UIViewController {
         data.put("check", "true");
         data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
         */
-        var userProfile = UserProfile()
-        userProfile.deviceInfo = DeviceInfo()
+        
+        let username:String = txtEmail.text!
+        let password:String = txtPassword.text!
+        
+        if username.isEmpty || password.isEmpty {
+            dispatch_async(dispatch_get_main_queue(),{
+                SweetAlert().showAlert("Login Failed!", subTitle: "Please enter Username and Password", style: AlertStyle.Error)
+                
+            })
+            return
+        }
+        
+        let userProfile = UserProfile()
+        userProfile.deviceInfo = UserProfile.DeviceInfo()
         userProfile.username = txtEmail.text!
         userProfile.password = txtPassword.text!
-        userProfile.deviceInfo.appVersion = "40000"
-
+        userProfile.loginType = UserProfile.TYPE_EASYACCENT
+        userProfile.deviceInfo.appVersion = "400000"
+        userProfile.deviceInfo.appName = "400000"
+        
         
         //deviceIn
         
         let JSONStringUserProfile:String = Mapper().toJSONString(userProfile, prettyPrint: true)!
+        
+        print(JSONStringUserProfile)
         
         let client = Client()
             .baseUrl("http://localhost:8080")
@@ -67,7 +83,7 @@ class AELoginVC: UIViewController {
                 else {
                     //handleErrorJson(res.body)
                     print(res.text)
-                    /*let result = Mapper<RegisterResult>().map(res.text)
+                    let result = Mapper<RegisterResult>().map(res.text)
                     let status:Bool = result!.status
                     let message:String = result!.message
                     if status {
@@ -75,17 +91,17 @@ class AELoginVC: UIViewController {
                         dispatch_async(dispatch_get_main_queue(),{
                             //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                             //[unowned self] in NSThread.isMainThread()
-                            self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+                            self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
                         })
                         
                         
                     } else {
                         //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                         dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
+                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
                             
                         })
-                    }*/
+                    }
                     //print(result?.message)
                     //print(result?.status)
                 }
