@@ -289,8 +289,9 @@ public class AWSHelper {
 
     public static void main(String[] args) {
         AWSHelper awsHelper = new AWSHelper();
-//        awsHelper.terminateEnvironment("accenteasytomcat-SAT");
-        awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
+        awsHelper.terminateEnvironment("accenteasytomcat-SAT");
+        System.out.println("Completed");
+        //awsHelper.createEnvironment("accenteasytomcat-SAT", "SAT");
 //        awsHelper.createEnvironment("accenteasytomcat-PRD", "PROD");
 //        System.out.print(awsHelper.generateFeedbackImageUrl("hai.lu@c-mg.com", "2015-06-01-10-20-06.png"));
 //        awsHelper.terminateEnvironment("accenteasytomcat-PRD-1");

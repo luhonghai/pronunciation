@@ -8,7 +8,7 @@
 
 import UIKit
 import SwiftClient
-//import ObjectMapper
+import ObjectMapper
 
 class AELoginVC: UIViewController {
 
