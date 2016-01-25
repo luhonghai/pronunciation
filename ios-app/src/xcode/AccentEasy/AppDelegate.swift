@@ -13,7 +13,7 @@ import FBSDKCoreKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
@@ -26,13 +26,87 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let databaseHelper = DatabaseHelper()
         print(databaseHelper.getLessonDatabaseFile())
         
+        // Initialize google sign-in
+        var configureError: NSError?
+        GGLContext.sharedInstance().configureWithError(&configureError)
+        assert(configureError == nil, "Error configuring Google services: \(configureError)")
+        
+        GIDSignIn.sharedInstance().delegate = self
+        
         return true
     }
     
     //fb login
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    /*func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }*/
+    
+    // [START openurl]
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
     }
+    // [END openurl]
+    @available(iOS 9.0, *)
+    func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        return GIDSignIn.sharedInstance().handleURL(url,
+            sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String?,
+            annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
+    }
+    
+    // [START signin_handler]
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+        withError error: NSError!) {
+            if (error == nil) {
+                // Perform any operations on signed in user here.
+                let userId = user.userID                  // For client-side use only!
+                let idToken = user.authentication.idToken // Safe to send to the server
+                let name = user.profile.name
+                let email = user.profile.email
+                
+                print(user.profile.name
+)
+                
+                // [START_EXCLUDE]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification",
+                    object: nil,
+                    userInfo: ["statusText": "Signed in user:\n\(name)"])
+                // [END_EXCLUDE]
+                
+                let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("TestNewScreenViewController") as! TestNewScreenViewController
+
+                
+                let mainPageNav = UINavigationController(rootViewController: mainPage)
+                
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                
+                appDelegate.window?.rootViewController = mainPageNav
+                
+                
+            } else {
+                print("\(error.localizedDescription)")
+                // [START_EXCLUDE silent]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification", object: nil, userInfo: nil)
+                // [END_EXCLUDE]
+            }
+    }
+    // [END signin_handler]
+    
+    // [START disconnect_handler]
+    func signIn(signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+        withError error: NSError!) {
+            // Perform any operations when the user disconnects from app here.
+            // [START_EXCLUDE]
+            NSNotificationCenter.defaultCenter().postNotificationName(
+                "ToggleAuthUINotification",
+                object: nil,
+                userInfo: ["statusText": "User has disconnected."])
+            // [END_EXCLUDE]
+    }
+    // [END disconnect_handler]
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

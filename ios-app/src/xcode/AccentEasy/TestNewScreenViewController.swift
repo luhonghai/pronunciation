@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class TestNewScreenViewController: UIViewController {
 
@@ -70,6 +72,20 @@ class TestNewScreenViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    
+    @IBAction func logoutTapped(sender: AnyObject) {
+        let loginManage = FBSDKLoginManager()
+        loginManage.logOut()
+        
+        let loginPage = self.storyboard?.instantiateViewControllerWithIdentifier("LoginHomeVC") as! LoginHomeVC
+        let loginPageNav = UINavigationController(rootViewController: loginPage)
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        appDelegate.window?.rootViewController = loginPageNav
     }
     
 

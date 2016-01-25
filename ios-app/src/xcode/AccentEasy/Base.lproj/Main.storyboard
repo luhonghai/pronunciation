@@ -49,7 +49,7 @@
         <!--Login HomeVC-->
         <scene sceneID="gkW-Lk-5p1">
             <objects>
-                <viewController id="ULa-Ui-4qE" customClass="LoginHomeVC" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginHomeVC" id="ULa-Ui-4qE" customClass="LoginHomeVC" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KUM-Zd-gmh"/>
                         <viewControllerLayoutGuide type="bottom" id="lhf-Iy-l0s"/>
@@ -79,10 +79,6 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xCU-YO-ixL">
                                 <rect key="frame" x="20" y="346" width="335" height="223"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bhe-k1-BAE">
-                                        <rect key="frame" x="57" y="33" width="221" height="35"/>
-                                        <state key="normal" backgroundImage="p_btn_login_googleplus.png"/>
-                                    </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-Pf-OkB">
                                         <rect key="frame" x="57" y="152" width="221" height="35"/>
                                         <state key="normal" backgroundImage="p_btn_login_accenteasy.png"/>
@@ -101,9 +97,20 @@
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80N-mp-Kr3">
                                         <rect key="frame" x="57" y="94" width="221" height="35"/>
                                         <state key="normal" backgroundImage="p_btn_login_facebook.png"/>
+                                        <connections>
+                                            <action selector="btnLoginFBTapped:" destination="ULa-Ui-4qE" eventType="touchUpInside" id="byM-kz-KE2"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bhe-k1-BAE">
+                                        <rect key="frame" x="57" y="31" width="221" height="35"/>
+                                        <state key="normal" backgroundImage="p_btn_login_googleplus.png"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VPu-tB-myr" customClass="GIDSignInButton">
+                                <rect key="frame" x="76" y="289" width="231" height="34"/>
+                                <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -123,7 +130,9 @@
                     <connections>
                         <outlet property="btnAltLogin" destination="8NU-qH-jV8" id="rIX-hY-1Tf"/>
                         <outlet property="btnLoginAC" destination="Mxj-Pf-OkB" id="l4z-Bi-4aA"/>
-                        <outlet property="btnLoginFB" destination="80N-mp-Kr3" id="G4j-Ks-DCw"/>
+                        <outlet property="btnLoginFB" destination="80N-mp-Kr3" id="rMM-qV-NSq"/>
+                        <outlet property="signInButton" destination="VPu-tB-myr" id="wDT-Kv-iVM"/>
+                        <segue destination="BYZ-38-t0r" kind="modal" identifier="LoginScreenGoToMain" id="w7l-a7-zju"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SWP-uc-eKg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -353,7 +362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kH-BO-XpG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2173.5" y="-1645.5"/>
+            <point key="canvasLocation" x="2985.5" y="-1645.5"/>
         </scene>
         <!--Register ConfirmVC-->
         <scene sceneID="UJC-nx-yKs">
@@ -447,7 +456,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ngs-ka-mqA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2589.5" y="-1645.5"/>
+            <point key="canvasLocation" x="3401.5" y="-1645.5"/>
         </scene>
         <!--Reset PassVC-->
         <scene sceneID="GL8-AG-JCf">
@@ -477,9 +486,12 @@
                                 <rect key="frame" x="20" y="356" width="335" height="44"/>
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <state key="normal" title="login">
+                                <state key="normal" title="reset">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="resetTapped:" destination="CiR-Pd-ajG" eventType="touchUpInside" id="RNZ-xZ-q6O"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2CH-QO-ke4">
                                 <rect key="frame" x="112" y="414" width="151" height="24"/>
@@ -499,12 +511,15 @@
                     <navigationItem key="navigationItem" id="R4Z-bC-emP">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="Ai6-WE-ABv">
                             <connections>
-                                <segue destination="sBd-BY-PV2" kind="modal" id="ftO-AH-P5Z"/>
+                                <segue destination="sBd-BY-PV2" kind="modal" identifier="ResetPassGoToLogin" id="ftO-AH-P5Z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="txtEmail" destination="C7D-zg-23t" id="e4S-2a-4YF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8f-6w-QOt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -513,7 +528,7 @@
         <!--Test New Screen View Controller-->
         <scene sceneID="cQa-w2-55G">
             <objects>
-                <viewController id="tqf-Yc-XPi" customClass="TestNewScreenViewController" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TestNewScreenViewController" id="tqf-Yc-XPi" customClass="TestNewScreenViewController" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FfL-6f-395"/>
                         <viewControllerLayoutGuide type="bottom" id="mk4-1X-6Uf"/>
@@ -528,9 +543,17 @@
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Iqc-rH-kUL">
                                 <rect key="frame" x="107" y="78" width="20" height="20"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ri0-xE-JwA">
+                                <rect key="frame" x="165" y="617" width="44" height="30"/>
+                                <state key="normal" title="logout"/>
+                                <connections>
+                                    <action selector="logoutTapped:" destination="tqf-Yc-XPi" eventType="touchUpInside" id="9It-JM-S0v"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Ezo-20-c3g"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -540,7 +563,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xsw-gf-Iz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-237.5" y="-1368.5"/>
+            <point key="canvasLocation" x="-1008.5" y="-1236.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="yOu-c5-tTh">
@@ -581,12 +604,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RMO-XD-i60" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="458.5" y="-999.5"/>
+            <point key="canvasLocation" x="-443" y="-1236"/>
         </scene>
         <!--Reveal View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SWRevealViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SWRevealViewController" id="BYZ-38-t0r" customClass="SWRevealViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -605,7 +628,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2.5" y="-35.5"/>
+            <point key="canvasLocation" x="91.5" y="-451.5"/>
         </scene>
         <!--Our View Controller-->
         <scene sceneID="70w-kc-OIi">
@@ -619,7 +642,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTK-dQ-gLY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Main" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fTK-dQ-gLY">
                                 <rect key="frame" x="152" y="203" width="71" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -638,6 +661,10 @@
                                     <action selector="backTapped:" destination="ma6-zi-wIz" eventType="touchUpInside" id="vsU-EV-Hb7"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SvZ-Iv-O2K">
+                                <rect key="frame" x="152" y="346" width="70" height="30"/>
+                                <state key="normal" title="Logout FB"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -647,12 +674,12 @@
                     <connections>
                         <outlet property="lblUsername" destination="xs5-nz-Hwi" id="xkW-Jj-lJ8"/>
                         <outlet property="menuButton" destination="MSm-IG-hsA" id="oe4-lT-9Nb"/>
-                        <segue destination="7A9-X0-Aax" kind="modal" identifier="goto_login" id="pPr-Fe-gZf"/>
+                        <segue destination="sBd-BY-PV2" kind="modal" identifier="MainGoToLogin" id="VlK-rN-iWT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IbU-Kz-ZxO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1148.5" y="-1020.5"/>
+            <point key="canvasLocation" x="1187.5" y="-35.5"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="NEI-Tt-d2B">
@@ -773,7 +800,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hcJ-r6-e7U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="629.5" y="-15.5"/>
+            <point key="canvasLocation" x="645.5" y="-35.5"/>
         </scene>
         <!--Our Table View Controller-->
         <scene sceneID="VKO-WV-UjR">
@@ -991,7 +1018,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHh-7V-mtx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1695.5" y="-1645.5"/>
+            <point key="canvasLocation" x="2507.5" y="-1645.5"/>
         </scene>
     </scenes>
     <resources>
@@ -1004,10 +1031,10 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hKc-VP-pia"/>
-        <segue reference="jBR-S3-rOW"/>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="Udu-EY-icj"/>
         <segue reference="WR5-An-sLd"/>
-        <segue reference="ZoM-vd-D1g"/>
         <segue reference="ZNM-TN-klg"/>
     </inferredMetricsTieBreakers>
 </document>

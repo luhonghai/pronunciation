@@ -11,8 +11,8 @@ import ObjectMapper
 
 public class UserProfile: Mappable {
     public static let TYPE_EASYACCENT:String = "easyaccent";
-    public let TYPE_FACEBOOK:String = "facebook";
-    public let TYPE_GOOGLE_PLUS:String = "googleplus";
+    public static let TYPE_FACEBOOK:String = "facebook";
+    public static let TYPE_GOOGLE_PLUS:String = "googleplus";
     
     public let HELP_INIT:Int = 0;
     public let HELP_SKIP:Int = 1;

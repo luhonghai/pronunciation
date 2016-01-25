@@ -31,11 +31,12 @@ class OurViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         loginParameter = NSUserDefaults()
-        let username:String = loginParameter.objectForKey("username") as! String
+        //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {
             //self.performSegueWithIdentifier("goto_login", sender: self)
         //}else{
-            lblUsername.text = username
+            //lblUsername.text = username
+            lblUsername.text = ""
         //}
     }
     
@@ -44,8 +45,9 @@ class OurViewController: UIViewController {
     }
 
     @IBAction func backTapped(sender: AnyObject) {
-        self.performSegueWithIdentifier("goto_login", sender: self)
+        self.performSegueWithIdentifier("MainGoToLogin", sender: self)
     }
+    
     /*
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
