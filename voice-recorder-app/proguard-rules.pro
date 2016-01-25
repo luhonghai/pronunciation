@@ -83,11 +83,19 @@
     public protected private *;
 }
 
+-keep class com.cmg.android.bbcaccent.auth.**{
+    public protected private *;
+}
+
 -keep class com.cmg.android.bbcaccent.data.sqllite.**{
     public protected private *;
 }
 
 -keep public class com.cmg.android.bbcaccent.data.sqllite.FreestyleDatabaseHelper{
+      public protected private *;
+}
+
+-keep public class com.cmg.android.bbcaccent.subscription.IAPFactory{
       public protected private *;
 }
 
