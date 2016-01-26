@@ -7,6 +7,8 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.List;
 
 /**
@@ -27,6 +29,25 @@ public class ClassMappingTeacherDAO extends DataAccess<ClassMappingTeacher> {
         } catch (Exception e) {
             throw e;
         } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+    public void updateEdit(String idClass) {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metadata.getTable()+ " SET isDeleted=true WHERE idClass='"+idClass+"' ");
+        try {
+            tx.begin();
+            q.execute();
+            tx.commit();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
             q.closeAll();
             pm.close();
         }

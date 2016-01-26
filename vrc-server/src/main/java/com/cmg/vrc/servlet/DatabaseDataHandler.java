@@ -77,7 +77,8 @@ public class DatabaseDataHandler extends BaseServlet {
                     DatabaseGeneratorService.getInstance().forceStop();
                     out.write("done");
                 } else if (action.equalsIgnoreCase("load")){
-                    DatabaseGeneratorService.getInstance().generate(admin);
+                    String lessonChange=request.getParameter("lessonChange");
+                    DatabaseGeneratorService.getInstance().generate(admin,lessonChange);
                     out.write("done");
                 } else if (action.equalsIgnoreCase("latest_log")) {
                     InputStream is = null;

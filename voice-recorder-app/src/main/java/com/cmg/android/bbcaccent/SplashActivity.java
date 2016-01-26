@@ -203,7 +203,7 @@ public class SplashActivity extends BaseActivity {
                         SimpleAppLog.error("Could not load license data. Message: " + message, e);
                         loadStatus.remove(LoadItem.LICENSE_DATA);
                         validateCallback();
-                    }
+                        }
 
                     @Override
                     public void onSuccess() {
@@ -219,6 +219,8 @@ public class SplashActivity extends BaseActivity {
             }
         }
     }
+
+
 
     private void validateCallback() {
         if (loadStatus.isEmpty()) {

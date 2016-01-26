@@ -39,6 +39,7 @@ public class ClassServlet extends HttpServlet {
         ClassMappingTeacherDAO classMappingTeacherDAO=new ClassMappingTeacherDAO();
         SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         if (request.getParameter("list") != null) {
+            String username = request.getSession().getAttribute("username").toString();
             ClassServlet.admin admin = new admin();
             String s = request.getParameter("start");
             String l = request.getParameter("length");
@@ -76,12 +77,12 @@ public class ClassServlet extends HttpServlet {
             Double count;
 
             try {
-                if(search.length()>0||classname.length()>0|| dateFrom1!=null||dateTo1!=null){
-                    count=classDAO.getCountSearch(search,classname,dateFrom1,dateTo1);
+                if(search.length()>0|| username.length()>0|| classname.length()>0|| dateFrom1!=null||dateTo1!=null){
+                    count=(double)classDAO.getCountSearch(search,col,oder,username,classname,dateFrom1,dateTo1).size();
                 }else {
                     count = classDAO.getCount();
                 }
-                admin.data=classDAO.listAll(start,length,search,col,oder,classname,dateFrom1,dateTo1);
+                admin.data=classDAO.listAll(start,length,search,col,oder,username,classname,dateFrom1,dateTo1);
                 admin.draw = draw;
                 admin.recordsTotal = count;
                 admin.recordsFiltered = count;
@@ -132,9 +133,13 @@ public class ClassServlet extends HttpServlet {
             try{
                 ClassJDO classJDO=new ClassJDO();
                 classJDO=classDAO.getById(id);
-                classJDO.setDefinition(difinition);
-                classDAO.put(classJDO);
-                response.getWriter().write("success");
+                if(classJDO!=null) {
+                    classJDO.setDefinition(difinition);
+                    classDAO.put(classJDO);
+                    response.getWriter().write("success");
+                }else{
+                    response.getWriter().write("null");
+                }
             }catch (Exception e){
                 response.getWriter().write("error");
                 e.printStackTrace();
@@ -148,9 +153,14 @@ public class ClassServlet extends HttpServlet {
             try {
                 ClassJDO classJDO=new ClassJDO();
                 classJDO=classDAO.getById(id);
-                classJDO.setIsDeleted(true);
-                classDAO.put(classJDO);
-                response.getWriter().write("success");
+                if(classJDO!=null) {
+                    classJDO.setIsDeleted(true);
+                    classDAO.put(classJDO);
+                    classMappingTeacherDAO.updateEdit(id);
+                    response.getWriter().write("success");
+                }else {
+                    response.getWriter().write("null");
+                }
             }catch (Exception e){
                 response.getWriter().write("error");
                 e.printStackTrace();

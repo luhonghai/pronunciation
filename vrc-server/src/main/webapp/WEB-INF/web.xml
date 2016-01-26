@@ -587,6 +587,16 @@
         <url-pattern>/AddTeaherOrStaff</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>SendMailUser</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.SendMailUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendMailUser</servlet-name>
+        <url-pattern>/SendMailUser</url-pattern>
+    </servlet-mapping>
+
+
 
 
 

@@ -177,18 +177,14 @@ public class AddTeaherOrStaff extends HttpServlet {
         if (request.getParameter("delete") != null) {
             String id = request.getParameter("id");
             String role = request.getParameter("role");
+            String username = request.getParameter("username");
             try {
-
+                Admin admin=adminDAO.getUserByEmail(username);
+                adminDAO.delete(admin.getId());
                 if (role.length() > 0 && role.equals("Staff")) {
-                    StaffMappingCompany staffMappingCompany=new StaffMappingCompany();
-                    staffMappingCompany=staffMappingCompanyDAO.getById(id);
-                    staffMappingCompany.setIsDeleted(true);
-                    staffMappingCompanyDAO.put(staffMappingCompany);
+                    staffMappingCompanyDAO.updateEdit(username);
                 }else {
-                    TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
-                    teacherMappingCompany=teacherMappingCompanyDAO.getById(id);
-                    teacherMappingCompany.setIsDeleted(true);
-                    teacherMappingCompanyDAO.put(teacherMappingCompany);
+                  teacherMappingCompanyDAO.updateEdit(username);
                 }
                 response.getWriter().write("success");
             } catch (Exception e) {

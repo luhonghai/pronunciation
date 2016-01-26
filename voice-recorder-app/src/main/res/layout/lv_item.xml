@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:paddingRight="5dp"
         android:paddingEnd="5dp">
-        <com.cmg.android.bbcaccentamt.view.AlwaysMarqueeTextView
+        <com.cmg.android.bbcaccent.view.AlwaysMarqueeTextView
             android:id="@+id/textStatement"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_list_default_size"
@@ -18,8 +18,24 @@
             android:scrollHorizontally="true"
             android:textSize="@dimen/main_selected_word_size"
             android:gravity="start|center_vertical"
-            android:background="@drawable/itemlistview"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textStatement"
+            android:layout_marginLeft="@dimen/button_default_size_half"
+            android:layout_marginTop="5dp"
+            android:text="accept"
+            android:id="@+id/accept"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textStatement"
+            android:layout_marginRight="@dimen/button_default_size_half"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:text="reject"
+            android:id="@+id/reject"/>
 
     </RelativeLayout>
 </LinearLayout>

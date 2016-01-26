@@ -93,6 +93,8 @@ public class DatabaseGeneratorService {
 
     private String admin;
 
+    private String lessonChange;
+
     private boolean running;
 
     private boolean stopping;
@@ -122,11 +124,12 @@ public class DatabaseGeneratorService {
     private DatabaseGeneratorService() {
     }
 
-    public void generate(String admin) {
+    public void generate(String admin,String lessonChange) {
         if (!isRunning()) {
             synchronized (this) {
                 setRunning(true);
                 this.admin = admin;
+                this.lessonChange=lessonChange;
                 try {
                     cleanup();
                     if (!tmpDir.exists() || !tmpDir.isDirectory())
@@ -339,6 +342,7 @@ public class DatabaseGeneratorService {
                 DatabaseVersion databaseVersion = new DatabaseVersion();
                 databaseVersion.setSelected(true);
                 databaseVersion.setAdmin(admin);
+                databaseVersion.setLessonChange(lessonChange);
                 Date now = new Date(System.currentTimeMillis());
                 databaseVersion.setSelectedDate(now);
                 databaseVersion.setCreatedDate(now);

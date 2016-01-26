@@ -24,6 +24,10 @@ public class TeacherMappingCompanyDAO extends DataAccess<TeacherMappingCompany> 
         List<TeacherMappingCompany> userList = list("WHERE idCompany == :1", idCompany);
         return userList;
     }
+    public List<TeacherMappingCompany> getByCompany(String company) throws Exception {
+        List<TeacherMappingCompany> userList = list("WHERE company == :1", company);
+        return userList;
+    }
 
 
     public List<TeacherMappingCompany> listAll() throws Exception {

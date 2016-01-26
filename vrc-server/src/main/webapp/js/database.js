@@ -184,6 +184,7 @@ $(document).ready(function(){
         var $popupGenerate = $("#btnPopupGenerate");
         $popup.prop("disabled","disabled");
         $popupGenerate.prop("disabled","disabled");
+        var lessonChange=$("#lessonChange").val();
         $("#popupGenerateAction").modal("hide");
         var $log = $("#generate-log");
         $log.html("Preparing. Please wait...");
@@ -192,7 +193,8 @@ $(document).ready(function(){
             type: "GET",
             dataType: "text",
             data: {
-                action: "load"
+                action: "load",
+                lessonChange:lessonChange
             },
             success: function (data) {
                 if (data.indexOf("done") != -1) {

@@ -6,6 +6,7 @@
 %>
 <input type="hidden" name="ids" id="ids" value="<%=id%>">
 <input type="hidden" name="role" id="role" value="<%=role%>">
+
 <%
   if (session.getAttribute("role")==null){
     return;
@@ -197,13 +198,8 @@
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
-                <div class="col-xs-4  col-sm-5">
-                  <select name="editrole" id="editrole" class="form-control" required="required">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Teacher">Teacher</option>
-                  </select>
+                <div id="editRoles" class="col-xs-4  col-sm-5">
+
                 </div>
               </div>
               <div class="modal-footer">
@@ -232,6 +228,8 @@
       <form name="form-delete" >
         <div class="modal-body">
           <input type="hidden" id="iddelete" name="iddelete">
+          <input type="hidden" id="roleDelete" name="roleDelete">
+          <input type="hidden" id="usernameDelete" name="usernameDelete">
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">
@@ -294,6 +292,7 @@
       <form name="form-delete" >
         <div class="modal-body">
           <div id="container-add-company-edit" style="height:150px;">
+            <input type="hidden" id="fullNamesEdit" name="fullNamesEdit">
             <input type="hidden" id="firstNamesEdit" name="firstNames">
             <input type="hidden" id="lastNamesEdits" name="lastNames">
             <input type="hidden" id="passwordsEdit" name="passwords">

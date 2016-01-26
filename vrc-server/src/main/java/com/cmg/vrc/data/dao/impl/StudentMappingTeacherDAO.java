@@ -40,11 +40,21 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         List<StudentMappingTeacher> listStudent = list("WHERE teacherName == :1", teacherName);
         return listStudent;
     }
+    public StudentMappingTeacher getByStudentAndTeacher(String student,String teacherName) throws Exception {
+        List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1 && teacherName == :2 && isDeleted == :3",student, teacherName,false);
+        if (listStudent != null && listStudent.size() > 0)
+            return listStudent.get(0);
+        return null;
+    }
+    public List<StudentMappingTeacher> getByStudent(String studentName) throws Exception {
+        List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1", studentName);
+        return listStudent;
+    }
     public List<StudentMappingTeacher> getStudentByTeacherName(String idClass, String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='"+idClass+"' and isDeleted = false) and teacherName='"+teacherName+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='"+idClass+"' and isDeleted = false) and teacherName='"+teacherName+"' and isDeleted = false and status='accept'");
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();

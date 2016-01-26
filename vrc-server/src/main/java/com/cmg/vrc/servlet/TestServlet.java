@@ -13,16 +13,17 @@ import java.util.List;
 
 public class TestServlet {
     public static void main(String[] args) {
-        TeacherMappingCompanyDAO countryDAO=new TeacherMappingCompanyDAO();
+        StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
 
         try{
+for(int i=0;i<10;i++) {
+    StudentMappingTeacher country = new StudentMappingTeacher();
+    country.setTeacherName("cmgteacher@c-mg.com");
+    country.setIsDeleted(false);
+    country.setStudentName("nambui"+i);
 
-                TeacherMappingCompany country =new TeacherMappingCompany();
-                country.setTeacherName("company@c-mg.com");
-                country.setIsDeleted(false);
-                country.setCompany("cmg1");
-            country.setIdCompany("02354aca-32e3-430f-bf88-b4dd472085be");
-                countryDAO.put(country);
+    studentMappingTeacherDAO.put(country);
+}
 
         }catch (Exception e){
             e.getStackTrace();

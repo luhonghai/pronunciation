@@ -131,6 +131,11 @@
 					<%}else {%>
 						<li>
 							<a href="class.jsp"><i class="fa fa-slideshare"></i> Class Management </a>
+							<ul>
+								<li>
+									<a href="mail-user.jsp"><i class="fa fa-envelope-o"></i>  Send Mail User </a>
+								</li>
+							</ul>
 						</li>
 					<%}
 				}%>

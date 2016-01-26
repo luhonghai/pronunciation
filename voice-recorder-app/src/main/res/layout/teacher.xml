@@ -1,0 +1,68 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DemoActivity">
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+            <LinearLayout android:layout_weight="2.5"
+                android:layout_height="fill_parent"
+                android:layout_width="fill_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/main_record_view_padding_bottom"
+                >
+                <RelativeLayout
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent"
+                    android:layout_weight="1.5">
+                    <LinearLayout
+                        android:layout_height="fill_parent"
+                        android:layout_width="fill_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="20sp"
+                            android:padding="10dip"
+                            android:text="search teacher"
+                            android:id="@+id/mailTeacher"/>
+                         <EditText
+                             android:layout_width="fill_parent"
+                             android:layout_height="wrap_content"
+                             android:ems="10"
+                             android:id="@+id/txtTeacher"/>
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/send"
+                            android:id="@+id/btnSend"
+                            android:layout_marginTop="10dp"
+                            android:paddingLeft="@dimen/button_default_size_half"
+                            android:paddingRight="@dimen/button_default_size_half"
+                            android:layout_gravity="right"
+                            />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout android:layout_weight="1" android:layout_height="fill_parent" android:layout_width="fill_parent">
+                <ListView
+                    android:id="@+id/lvItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fastScrollEnabled="true">
+                </ListView>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>

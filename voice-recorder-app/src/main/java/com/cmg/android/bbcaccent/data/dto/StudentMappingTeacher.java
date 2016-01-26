@@ -1,37 +1,23 @@
-package com.cmg.vrc.data.jdo;
-
-import com.cmg.vrc.data.Mirrorable;
-
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+package com.cmg.android.bbcaccent.data.dto;
 
 /**
- * Created by CMGT400 on 1/5/2016.
+ * Created by CMGT400 on 1/25/2016.
  */
-@PersistenceCapable(table = "STUDENTMAPPINGTEACHER", detachable = "true")
-public class StudentMappingTeacher implements Mirrorable {
-    @PrimaryKey
+public class StudentMappingTeacher {
     private String id;
 
-    @Persistent
     private String studentName;
 
-    @Persistent
     private String teacherName;
 
-    @Persistent
     private boolean isDeleted;
 
-    @Persistent
     private String status;
 
-    @Override
     public String getId() {
         return id;
     }
 
-    @Override
     public void setId(String id) {
         this.id=id;
     }

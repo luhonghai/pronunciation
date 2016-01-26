@@ -53,6 +53,17 @@ function listAdmin(){
 
 }
 
+function dateFrom1(){
+    $('#CreateDateFrom').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+function dateTo1(){
+    $('#CreateDateTo').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+
 function adduser(){
     $(document).on("click","#yesadd", function(){
         var valide=validateFormAdd();
@@ -142,6 +153,10 @@ function deleteuser(){
                         myTable.fnDraw();
                         $("#deletes").modal('hide');
                         swal("Success!", "Delete class success", "success");
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
+                        location.reload();
                     }
                 },
                 error: function () {
@@ -187,6 +202,10 @@ function edituser(){
                         myTable.fnDraw();
                         $("#edits").modal('hide');
                         swal("Success!", "Update class success", "success");
+                    }else{
+                        $("#deletes").modal('hide');
+                        swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
+                        location.reload();
                     }
                 },
                 error: function () {
@@ -220,6 +239,8 @@ function searchAdvanted(){
 
 $(document).ready(function(){
     var roleAdmin=$("#role").val();
+    dateFrom1();
+    dateTo1;
     add();
     adduser();
     edit();

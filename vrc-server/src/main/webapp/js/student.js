@@ -36,7 +36,7 @@ function listStudent(){
                 "bSortable": false,
                 "sDefaultContent": "",
                 "mRender": function (data, type, full) {
-                    $button = $('<button type="button"  style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<button  style="margin-right:10px" type="button" id="report" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Report' + '</button>');
+                    $button = $('<button type="button"  style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>');
                     $button.attr("id-column", data.id);
                     $button.attr("idStudent", data.idStudent);
                     return $("<div/>").append($button).html();
@@ -137,7 +137,16 @@ function openAdd(){
     });
 }
 
-
+function dateFrom(){
+    $('#CreateDateFrom').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
+function dateTo(){
+    $('#CreateDateTo').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+}
 
 function openDelete(){
     $(document).on("click","#delete", function(){
@@ -196,6 +205,8 @@ function searchAdvanted(){
 }
 
 $(document).ready(function(){
+    dateFrom();
+    dateTo();
     addStudent();
     openAdd();
     deleteStudent();

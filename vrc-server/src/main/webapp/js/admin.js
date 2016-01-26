@@ -319,12 +319,18 @@ function deletes(){
     $(document).on("click","#delete", function(){
         $("#deletes").modal('show');
         var idd=$(this).attr('id-column');
+        var role=$(this).attr('role');
+        var username=$(this).attr('username');
+        $("#roleDelete").val(role);
         $("#iddelete").val(idd);
+        $("#usernameDelete").val(username);
     });
 }
 
 function deleteuser(){
     $(document).on("click","#deleteItems", function(){
+        var username=  $("#usernameDelete").val();
+        var role=  $("#roleDelete").val();
         var id=  $("#iddelete").val();
         var ids=$("#ids").val();
         if(id!=ids) {
@@ -334,14 +340,17 @@ function deleteuser(){
                 dataType: "text",
                 data: {
                     delete: "delete",
-                    id: id
+                    id: id,
+                    role:role,
+                    username:username
                 },
                 success: function (data) {
                     if (data == "success") {
-
                         $("tbody").html("");
                         myTable.fnDraw();
                         $("#deletes").modal('hide');
+                    }else{
+                        swal("Error!", "You can not delete your account", "error");
                     }
 
                 },
@@ -352,25 +361,26 @@ function deleteuser(){
             });
         }
         if(id==ids){
-            $.ajax({
-                url: "Admins",
-                type: "POST",
-                dataType: "text",
-                data: {
-                    delete: "delete",
-                    id: id
-                },
-                success: function (data) {
-                    if (data == "success") {
-                        window.location =CONTEXT_PATH + "/logout.jsp";
-                    }
-
-                },
-                error: function () {
-                    swal("Error!", "Could not connect to server", "error");
-                }
-
-            });
+            //$.ajax({
+            //    url: "Admins",
+            //    type: "POST",
+            //    dataType: "text",
+            //    data: {
+            //        delete: "delete",
+            //        id: id
+            //    },
+            //    success: function (data) {
+            //        if (data == "success") {
+            //            window.location =CONTEXT_PATH + "/logout.jsp";
+            //        }
+            //
+            //    },
+            //    error: function () {
+            //        swal("Error!", "Could not connect to server", "error");
+            //    }
+            //
+            //});
+            swal("Error!", "You can not delete your account", "error");
 
         }
 
@@ -379,9 +389,10 @@ function deleteuser(){
 
 }
 
-function edit(){
+function openEdit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
+        $("#editRoles").empty();
         var roles;
         var idd = $(this).attr('id-column');
         var username=$(this).attr('username');
@@ -399,16 +410,82 @@ function edit(){
         }else{
             roles="Teacher";
         }
+        $.ajax({
+            url: "Admins",
+            type: "POST",
+            dataType: "json",
+            data: {
+                edittest: "edit",
+                id: idd
+            },
+            success: function (data) {
+                if (data.message == "success") {
+                    $("#editRoles").append(data.content);
+                    $("#idedit").val(idd);
+                    $("#usernames").val(username);
+                    $("#editfirstname").val(first);
+                    $("#editlastname").val(last);
+                    $("#editpassword").val("");
+                    $("#editrole").val(roles);
+                }
+                if (data.message == "error") {
+                    swal("Error!", "User not exist.", "error");
 
-        $("#idedit").val(idd);
-        $("#usernames").val(username);
-        $("#editfirstname").val(first);
-       $("#editlastname").val(last);
-       $("#editpassword").val("");
-       $("#editrole").val(roles);
+                }
+
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
 
 }
+
+//function edit(){
+//    $(document).on("click","#edit", function() {
+//        $("#edits").modal('show');
+//        $("#editRoles").empty();
+//        var roles;
+//        var idd = $(this).attr('id-column');
+//        var username=$(this).attr('username');
+//        var first = $(this).attr('first');
+//        var last=$(this).attr('last');
+//        var role = $(this).attr('role');
+//
+//        //var pass = $(this).attr('pass');
+//        if(role==1) {
+//            roles = "Admin";
+//        }else if(role==2){
+//            roles="User";
+//        }else if(role==3){
+//            roles="Staff";
+//        }else{
+//            roles="Teacher";
+//        }
+//        if(role==1 || role==2) {
+//            $("#editRoles").append('<select name="editrole" id="editrole" class="form-control" required="required"> ' +
+//            '<option value="Admin">Admin</option> ' +
+//            '<option value="User">User</option> ' +
+//            '<option value="Staff">Staff</option> ' +
+//            '<option value="Teacher">Teacher</option> ' +
+//            '</select>');
+//        }else{
+//            $("#editRoles").append('<select name="editrole" id="editrole" class="form-control" required="required"> ' +
+//            '<option value="Staff">Staff</option> ' +
+//            '<option value="Teacher">Teacher</option> ' +
+//            '</select>');
+//        }
+//        $("#idedit").val(idd);
+//        $("#usernames").val(username);
+//        $("#editfirstname").val(first);
+//       $("#editlastname").val(last);
+//       $("#editpassword").val("");
+//       $("#editrole").val(roles);
+//    });
+//
+//}
 
 function edituser(){
     $(document).on("click","#yesedit", function(){
@@ -454,6 +531,7 @@ function edituser(){
             }else{
                 $(".loading-lesson").show();
                 $("#teachers").modal('show');
+                $("#fullNamesEdit").val(username);
                 $("#firstNamesEdit").val(firstname);
                 $("#lastNamesEdits").val(lastname);
                 $("#passwordsEdit").val(password);
@@ -461,6 +539,53 @@ function edituser(){
                 getCompanys(role,username);
             }
         }
+
+    });
+}
+
+function editMappingTeacherAndCompany(){
+    $(document).on("click","#editteacher", function(){
+        var fullName=$("#fullNamesEdit").val();
+        var firstName=$("#firstNamesEdit").val();
+        var lastName=$("#lastNamesEdits").val();
+        var password=$("#passwordsEdit").val();
+        var role=$("#rolesEdit").val();
+        var idObjects=[];
+        $('#select-company-edit option:selected').map(function(a, item){ idObjects.push({idCompany:item.value,companyName:item.text});});
+
+        var dto={
+            fullName:fullName,
+            firstName:firstName,
+            lastName:lastName,
+            password:password,
+            role:role,
+            companies:idObjects
+        }
+        console.log(dto);
+        $.ajax({
+            url: "Admins",
+            type: "POST",
+            dataType: "text",
+            data: {
+                editTeacher: "editTeacher",
+                objDto: JSON.stringify(dto)// to json word,
+            },
+            success: function (data) {
+                if (data=="success") {
+                    $("#edits").modal('hide');
+                    $("#teachers").modal('hide');
+                    swal("Success!", "You have edit success!", "success");
+                    myTable.fnDraw();
+                }else{
+                    swal("Warning!", "User name exist.", "warning");
+                    $("#teachers").modal('hide');
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
 
     });
 }
@@ -524,13 +649,14 @@ $(document).ready(function(){
     hideeditmessage();
     add();
     adduser();
-    edit();
+    //edit();
+    openEdit();
     edituser();
     deletes();
     deleteuser();
     addMappingTeacherAndCompany();
         listAdmin();
-
+    editMappingTeacherAndCompany();
     searchAdvanted();
 });
 

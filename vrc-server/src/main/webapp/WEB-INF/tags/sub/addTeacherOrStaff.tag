@@ -3,21 +3,24 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <div id="page-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Teacher or Staff Manage</h1>
-    </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <!-- /.row -->
   <% String idCompany = request.getParameter("idCompany");
+    String username=request.getAttribute("username").toString();
     ClientCode clientCode=new ClientCode();
     ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
     clientCode=clientCodeDAO.getById(idCompany);
     String company=clientCode.getCompanyName();
   %>
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header"><%=company%></h1>
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <!-- /.row -->
+
   <input type="hidden" id="idCompany" value="<%=idCompany%>">
-  <input type="hidden" id="company" value="<%=company%>" name="roledelete">
+  <input type="hidden" id="company" value="<%=company%>" name="company">
+  <input type="hidden" id="usernameLogin" value="<%=username%>" name="usernameLogin">
   <div class="row">
     <div class="col-lg-12">
       <div class="panel panel-default">
@@ -71,7 +74,6 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Add User</h1>
-            <input type="hidden" id="company" value="<%=company%>" name="roledelete">
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px" id="addform">
 
@@ -199,6 +201,7 @@
         <div class="modal-body">
           <input type="hidden" id="iddelete" name="iddelete">
           <input type="hidden" id="roledelete" name="roledelete">
+          <input type="hidden" id="username" name="username">
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">

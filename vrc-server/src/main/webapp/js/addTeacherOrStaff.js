@@ -149,6 +149,8 @@ function deletes(){
         $("#deletes").modal('show');
         var idd=$(this).attr('id-column');
         var role=$(this).attr('role');
+        var username=$(this).attr('username');
+        $("#username").val(username);
         $("#iddelete").val(idd);
         $("#roledelete").val(role);
     });
@@ -158,6 +160,11 @@ function deleteuser(){
     $(document).on("click","#deleteItems", function(){
         var idd = $("#iddelete").val();
         var role = $("#roledelete").val();
+        var username= $("#username").val();
+        var usernameLogin=$("#usernameLogin").val();
+        if(username==usernameLogin){
+            swal("Error!", "You can not delete your account", "error");
+        }else {
             $.ajax({
                 url: "AddTeaherOrStaff",
                 type: "POST",
@@ -165,7 +172,8 @@ function deleteuser(){
                 data: {
                     delete: "delete",
                     id: idd,
-                    role:role
+                    role: role,
+                    username: username
                 },
                 success: function (data) {
                     if (data == "success") {
@@ -181,7 +189,9 @@ function deleteuser(){
                 }
 
             });
+        }
     });
+
 
 }
 

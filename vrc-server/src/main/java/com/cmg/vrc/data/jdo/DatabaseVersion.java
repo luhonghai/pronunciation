@@ -29,6 +29,9 @@ public class DatabaseVersion implements Mirrorable {
     private String admin;
 
     @Persistent
+    private String lessonChange;
+
+    @Persistent
     private Date createdDate;
 
     @Persistent
@@ -88,5 +91,13 @@ public class DatabaseVersion implements Mirrorable {
 
     public void setSelectedDate(Date selectedDate) {
         this.selectedDate = selectedDate;
+    }
+
+    public String getLessonChange() {
+        return lessonChange;
+    }
+
+    public void setLessonChange(String lessonChange) {
+        this.lessonChange = lessonChange;
     }
 }

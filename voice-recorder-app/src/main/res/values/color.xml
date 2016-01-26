@@ -22,4 +22,5 @@
     <color name="app_light_blue">#e1f7f8</color>
     <color name="app_light_blue_border">#daedf3</color>
     <color name="app_blur_light_blue">#f0fcfc</color>
+    <color name="app_white">#FFFFFF</color>
 </resources>

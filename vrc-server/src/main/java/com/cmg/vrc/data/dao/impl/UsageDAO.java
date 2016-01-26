@@ -16,6 +16,15 @@ public class UsageDAO extends DataAccess<Usage> {
     public UsageDAO() {
         super(Usage.class);
     }
+
+    public Usage getByUserName(String user) throws Exception {
+        List<Usage> userList = list("WHERE username == :1", user);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+
+
     public List<Usage> listAll(int start, int length,String search,int column,String order,String name) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();

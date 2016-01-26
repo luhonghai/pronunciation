@@ -3,14 +3,13 @@ package com.cmg.vrc.data.dao.impl;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.data.jdo.ClassJDO;
+import com.cmg.vrc.data.jdo.ClassMappingTeacher;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.jdo.metadata.TypeMetadata;
+import java.util.*;
 
 /**
  * Created by CMGT400 on 6/8/2015.
@@ -33,104 +32,168 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         return null;
     }
 
-    public List<ClassJDO> listAll(int start, int length,String search,int column,String order,String classNames,Date dateFrom,Date dateTo) throws Exception {
+    public List<ClassJDO> listAll(int start, int length,String search,int column,String order,String username,String classNames,Date dateFrom,Date dateTo) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + ClassJDO.class.getCanonicalName());
-        StringBuffer string=new StringBuffer();
-        String a="((className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
-        if(classNames.length()>0){
-            string.append(" (className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
+        StringBuffer query = new StringBuffer();
+        TypeMetadata metaClassJDO = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassJDO.class.getCanonicalName());
+        TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
+        String firstQuery = "select class.id, class.className , class.definition, class.createdDate from  " + metaClassJDO.getTable()
+                + " class inner join " + metaClassMappingTeacher.getTable()
+                + " mapping on mapping.idClass=class.id where ";
+        query.append(firstQuery);
+        query.append(" (class.className LIKE '%" + search + "%')");
+        query.append(" and mapping.teacherName ='"+username+"'");
+        query.append(" and mapping.isDeleted =false");
+        query.append(" and class.isDeleted =false");
+        if (classNames.length() > 0) {
+            query.append(" and class.className LIKE '%" + classNames + "%'");
         }
-        if(dateFrom!=null&&dateTo==null){
-            string.append(" (createdDate >= dateFrom) &&");
+        if (dateFrom!=null && dateTo==null) {
+            query.append(" and class.createdDate >= '" + dateFrom + "'");
         }
-        if(dateFrom==null&&dateTo!=null){
-            string.append(" (createdDate <= dateTo) &&");
+        if (dateFrom==null && dateTo!=null) {
+            query.append(" and  class.createdDate <= '" + dateTo + "'");
+        }
+
+        if (dateFrom!=null && dateTo!=null) {
+            query.append(" and  class.createdDate >= '" + dateFrom + "' and  class.createdDate <= '" + dateTo + "'");
         }
 
 
-        if(dateFrom!=null&&dateTo!=null){
-            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
+        if (column == 0 && order.equals("asc")) {
+            query.append(" ORDER BY class.className ASC");
+        } else if (column == 0 && order.equals("desc")) {
+            query.append(" ORDER BY class.className DESC");
         }
-        if(search.length()>0){
-            string.append(a);
+        if (column == 2 && order.equals("asc")) {
+            query.append(" ORDER BY class.createdDate ASC");
+        } else if (column == 2 && order.equals("desc")) {
+            query.append(" ORDER BY class.createdDate DESC");
         }
-        if(search.length()==0){
-            string.append(b);
-        }
-        q.setFilter(string.toString());
-        q.declareParameters("String search, String classNames, java.util.Date dateFrom,java.util.Date dateTo");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("search", search);
-        params.put("classNames", classNames);
-        params.put("dateFrom", dateFrom);
-        params.put("dateTo", dateTo);
+        query.append(" limit " + start + "," + length);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
 
-        if (column==0 && order.equals("asc")) {
-            q.setOrdering("className asc");
-        }else if(column==0 && order.equals("desc")) {
-            q.setOrdering("className desc");
-        }
-        if (column==2 && order.equals("asc")) {
-            q.setOrdering("createdDate asc");
-        }else if(column==2 && order.equals("desc")) {
-            q.setOrdering("createdDate desc");
-        }
-        q.setRange(start, start + length);
+        List<ClassJDO> list = new ArrayList<ClassJDO>();
         try {
-            return detachCopyAllList(pm, q.executeWithMap(params));
+            List<Object> tmp = (List<Object>) q.execute();
+            for (Object obj : tmp) {
+                ClassJDO classJDO = new ClassJDO();
+                Object[] array = (Object[]) obj;
+                if (array[0].toString().length() > 0) {
+                    classJDO.setId(array[0].toString());
+                } else {
+                    classJDO.setId(null);
+                }
+                if (array[1] != null) {
+                    classJDO.setClassName(array[1].toString());
+                } else {
+                    classJDO.setClassName(null);
+                }
+                if (array[2] != null) {
+                    classJDO.setDefinition(array[2].toString());
+                } else {
+                    classJDO.setDefinition(null);
+                }
+                if (array[3] != null) {
+                    classJDO.setCreatedDate((Date) array[3]);
+                } else {
+                    classJDO.setCreatedDate(null);
+                }
+                list.add(classJDO);
+
+            }
+
+            return list;
         } catch (Exception e) {
             throw e;
         } finally {
+
             q.closeAll();
             pm.close();
         }
+
+
     }
 
-    public double getCountSearch(String search,String classNames,Date dateFrom,Date dateTo) throws Exception {
+    public List<ClassJDO> getCountSearch(String search,int column,String order,String username,String classNames,Date dateFrom,Date dateTo) throws Exception {
+
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + ClassJDO.class.getCanonicalName());
-        StringBuffer string=new StringBuffer();
-        String a="((className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
-        String b="((className == null || className.toLowerCase().indexOf(search.toLowerCase()) != -1))";
 
-        if(classNames.length()>0){
-            string.append(" (className.toLowerCase().indexOf(classNames.toLowerCase()) != -1) &&");
+        StringBuffer query = new StringBuffer();
+        TypeMetadata metaClassJDO = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassJDO.class.getCanonicalName());
+        TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
+        String firstQuery = "select class.id, class.className , class.definition, class.createdDate from  " + metaClassJDO.getTable()
+                + " class inner join " + metaClassMappingTeacher.getTable()
+                + " mapping on mapping.idClass=class.id where ";
+        query.append(firstQuery);
+        query.append(" (class.className LIKE '%" + search + "%')");
+        query.append(" and mapping.teacherName ='"+username+"'");
+        query.append(" and mapping.isDeleted =false");
+        query.append(" and class.isDeleted =false");
+        if (classNames.length() > 0) {
+            query.append(" and class.className LIKE '%" + classNames + "%'");
         }
-        if(dateFrom!=null&&dateTo==null){
-            string.append(" (createdDate >= dateFrom) &&");
+        if (dateFrom!=null && dateTo==null) {
+            query.append(" and class.createdDate >= '" + dateFrom + "'");
         }
-        if(dateFrom==null&&dateTo!=null){
-            string.append(" (createdDate <= dateTo) &&");
+        if (dateFrom==null && dateTo!=null) {
+            query.append(" and  class.createdDate <= '" + dateTo + "'");
+        }
+
+        if (dateFrom!=null && dateTo!=null) {
+            query.append(" and  class.createdDate >= '" + dateFrom + "' and  class.createdDate <= '" + dateTo + "'");
         }
 
 
-        if(dateFrom!=null&&dateTo!=null){
-            string.append(" (createdDate >= dateFrom && createdDate <= dateTo) &&");
+        if (column == 0 && order.equals("asc")) {
+            query.append(" ORDER BY class.className ASC");
+        } else if (column == 0 && order.equals("desc")) {
+            query.append(" ORDER BY class.className DESC");
         }
-        if(search.length()>0){
-            string.append(a);
+        if (column == 2 && order.equals("asc")) {
+            query.append(" ORDER BY class.createdDate ASC");
+        } else if (column == 2 && order.equals("desc")) {
+            query.append(" ORDER BY class.createdDate DESC");
         }
-        if(search.length()==0){
-            string.append(b);
-        }
-        q.setFilter(string.toString());
-        q.declareParameters("String search, String classNames, java.util.Date dateFrom,java.util.Date dateTo");
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("search", search);
-        params.put("classNames", classNames);
-        params.put("dateFrom", dateFrom);
-        params.put("dateTo", dateTo);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+
+        List<ClassJDO> list = new ArrayList<ClassJDO>();
         try {
-            count = (Long) q.executeWithMap(params);
-            return count.doubleValue();
+            List<Object> tmp = (List<Object>) q.execute();
+            for (Object obj : tmp) {
+                ClassJDO classJDO = new ClassJDO();
+                Object[] array = (Object[]) obj;
+                if (array[0].toString().length() > 0) {
+                    classJDO.setId(array[0].toString());
+                } else {
+                    classJDO.setId(null);
+                }
+                if (array[1] != null) {
+                    classJDO.setClassName(array[1].toString());
+                } else {
+                    classJDO.setClassName(null);
+                }
+                if (array[2] != null) {
+                    classJDO.setDefinition(array[2].toString());
+                } else {
+                    classJDO.setDefinition(null);
+                }
+                if (array[3] != null) {
+                    classJDO.setCreatedDate((Date) array[3]);
+                } else {
+                    classJDO.setCreatedDate(null);
+                }
+                list.add(classJDO);
+
+            }
+
+            return list;
         } catch (Exception e) {
             throw e;
         } finally {
+
             q.closeAll();
             pm.close();
         }
