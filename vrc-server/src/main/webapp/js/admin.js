@@ -111,7 +111,7 @@ function adduser(){
                 });
             }else{
                 $(".loading-lesson").show();
-                $("#teacher").modal('show');
+                $("#merchant").modal('show');
                 $("#fullNames").val(username);
                 $("#firstNames").val(firstname);
                 $("#lastNames").val(lastname);
@@ -141,7 +141,7 @@ function getCompany(){
                     });
                 }else{
                     swal("Info!", "Company unavailable!", "info");
-                    $("#teacher").modal('hide');
+                    $("#merchant").modal('hide');
                     return;
                 }
                 $(".loading-lesson").hide();
@@ -198,7 +198,7 @@ function getCompanys(role,username){
                     }
                 }else{
                     swal("Info!", "Company unavailable!", "info");
-                    $("#teacher").modal('hide');
+                    $("#merchant").modal('hide');
                     return;
                 }
                 $(".loading-lesson").hide();
@@ -248,12 +248,12 @@ function addMappingTeacherAndCompany(){
             success: function (data) {
                 if (data=="success") {
                     $("#add").modal('hide');
-                    $("#teacher").modal('hide');
+                    $("#merchant").modal('hide');
                     swal("Success!", "You have add success!", "success");
                     myTable.fnDraw();
                 }else{
                     swal("Warning!", "User name exist.", "warning");
-                    $("#teacher").modal('hide');
+                    $("#merchant").modal('hide');
                 }
             },
             error: function () {

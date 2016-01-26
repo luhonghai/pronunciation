@@ -2,7 +2,7 @@
 function send(){
     $(document).on("click","#send",function(){
         var mail=$("#listmail").val();
-        var teacher=$("#teacher").val();
+        var teacher=$("#merchant").val();
         var obj= {
                     listmail : readListMail(mail),
                     teacher : teacher
