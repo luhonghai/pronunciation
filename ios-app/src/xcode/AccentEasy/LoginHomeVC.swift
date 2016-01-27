@@ -12,7 +12,8 @@ import FBSDKLoginKit
 import ObjectMapper
 import SwiftClient
 
-class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
+
+class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     var showLog:Int!
     var JSONStringUserProfile:String!
@@ -20,9 +21,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
 
     @IBOutlet weak var signInButton: GIDSignInButton!
     //@IBOutlet weak var btnLoginG: GIDSignInButton!
-    //@IBOutlet weak var signInButton: GIDSignInButton!
     
-    //@IBOutlet weak var signInButton: GIDSignInButton!
     @IBOutlet weak var btnLoginFB: UIButton!
     @IBOutlet weak var btnLoginAC: UIButton!
     @IBOutlet weak var btnAltLogin: UIButton!
@@ -33,10 +32,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
         // Do any additional setup after loading the view.
         showLog = 1
         GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
         print("view did load")
-    }
-    
-    func goToMain(){
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -51,6 +48,76 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
         
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    @IBAction func btnLoginGTapped(sender: AnyObject) {
+        //[[GIDSignIn sharedInstance] signIn]
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+        withError error: NSError!) {
+            if (error == nil) {
+                // Perform any operations on signed in user here.
+                let userId:String = user.userID                  // For client-side use only!
+                let idToken:String = user.authentication.idToken // Safe to send to the server
+                let name:String = user.profile.name
+                let email:String = user.profile.email
+                //let birthday = user.profile.
+                
+                
+                print(userId)
+                print(idToken)
+                print(name)
+                print(email)
+                
+                // [START_EXCLUDE]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification",
+                    object: nil,
+                    userInfo: ["statusText": "Signed in user:\n\(name)"])
+                // [END_EXCLUDE]
+                
+                /*let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
+                
+                
+                let mainPageNav = UINavigationController(rootViewController: mainPage)
+                
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                
+                appDelegate.window?.rootViewController = mainPageNav*/
+                //add data for JSONStringUserProfile
+                let userProfile:UserProfile = UserProfile()
+                userProfile.name = name
+                userProfile.username = email
+                //userProfile.dob = result.valueForKey("birthday") as! String
+                userProfile.deviceInfo = UserProfile.DeviceInfo()
+                userProfile.additionalToken = idToken
+                userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
+                userProfile.deviceInfo.appVersion = "400000"
+                userProfile.deviceInfo.appName = "400000"
+                
+                self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
+                print(self.JSONStringUserProfile)
+                self.registerFB()
+                
+            } else {
+                print("\(error.localizedDescription)")
+                // [START_EXCLUDE silent]
+                NSNotificationCenter.defaultCenter().postNotificationName(
+                    "ToggleAuthUINotification", object: nil, userInfo: nil)
+                // [END_EXCLUDE]
+            }
+    }
+
+    
+    
     
     // Implement these methods only if the GIDSignInUIDelegate is not a subclass of
     // UIViewController.
@@ -59,7 +126,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
     // pressed the Sign In button
     func signInWillDispatch(signIn: GIDSignIn!, error: NSError!) {
         //myActivityIndicator.stopAnimating()
+        print("google signInWillDispatch")
+        
+        
     }
+
     
     // Present a view that prompts the user to sign in with Google
     func signIn(signIn: GIDSignIn!,
@@ -77,6 +148,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
     
     @IBAction func btnLoginFBTapped(sender: AnyObject) {
         fbLoginInitiate()
+        print("click login fb")
     }
     
     func fbLoginInitiate() {
@@ -84,17 +156,21 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
         loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], handler: {(result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
             if (error != nil) {
                 // Process error
+                print(error)
                 self.removeFbData()
             } else if result.isCancelled {
                 // User Cancellation
                 self.removeFbData()
+                print("click cancel")
             } else {
+                print("success initiate")
                 //Success
                 if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
                     //Do work
                     self.fetchFacebookProfile()
                 } else {
                     //Handle error
+                    print("grantedPermissions error")
                 }
             }
         })
@@ -125,13 +201,17 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
                     let fbUser = ["accessToken": accessToken, "user": result]
                     
                     
-                    
+                    //add data for JSONStringUserProfile
                     let userProfile:UserProfile = UserProfile()
                     userProfile.name = result.valueForKey("name") as! String
                     userProfile.username = result.valueForKey("email") as! String
                     userProfile.dob = result.valueForKey("birthday") as! String
+                    userProfile.deviceInfo = UserProfile.DeviceInfo()
                     userProfile.additionalToken = FBSDKAccessToken.currentAccessToken().tokenString
                     userProfile.loginType = UserProfile.TYPE_FACEBOOK
+                    userProfile.deviceInfo.appVersion = "400000"
+                    userProfile.deviceInfo.appName = "400000"
+                    
                     self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
                     print(self.JSONStringUserProfile)
                     self.registerFB()
@@ -141,10 +221,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
     }
     
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
     func registerFB() {
         print("run in register fb")
@@ -164,12 +241,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
                 else {
                     //handleErrorJson(res.body)
                     print(res.text)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                    })
+                    //dispatch_async(dispatch_get_main_queue(),{
+                        //self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                    //})
                     let result = Mapper<RegisterResult>().map(res.text)
                     let status:Bool = result!.status
                     let message:String = result!.message
+                    self.loginFB()
                     /*if status {
                         //register suceess
                         dispatch_async(dispatch_get_main_queue(),{
@@ -190,6 +268,51 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate{
                     //print(result?.status)
                 }
             })
+    }
+    
+    func loginFB(){
+        print(JSONStringUserProfile)
+        let client = Client()
+            .baseUrl("http://localhost:8080")
+            .onError({e in print(e)});
+        
+        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
+            .set("header", "headerValue")
+            .end({(res:Response) -> Void in
+                print(res)
+                if(res.error) { // status of 2xx
+                    //handleResponseJson(res.body)
+                    //print(res.body)
+                    print(res.text)
+                }
+                else {
+                    //handleErrorJson(res.body)
+                    print("run in login fb")
+                    print(res.text)
+                    let result = Mapper<RegisterResult>().map(res.text)
+                    let status:Bool = result!.status
+                    let message:String = result!.message
+                    if status {
+                        //register suceess
+                        dispatch_async(dispatch_get_main_queue(),{
+                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
+                            //[unowned self] in NSThread.isMainThread()
+                            self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                        })
+                        
+                        
+                    } else {
+                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                        dispatch_async(dispatch_get_main_queue(),{
+                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
+                            
+                        })
+                    }
+                    //print(result?.message)
+                    //print(result?.status)
+                }
+            })
+
     }
     
     @IBAction func tappedAltLogin(sender: AnyObject) {

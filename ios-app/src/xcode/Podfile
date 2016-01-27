@@ -12,6 +12,7 @@ target 'AccentEasy' do
 	pod 'FBSDKCoreKit'
 	pod 'FBSDKLoginKit'
 	pod 'FBSDKShareKit'
+    pod 'DLHamburguerMenu'
 end
 
 target 'AccentEasyTests' do

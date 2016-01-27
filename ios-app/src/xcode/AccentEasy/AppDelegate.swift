@@ -37,21 +37,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     //fb login
-    /*func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
-    }*/
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
+
+        return true
+    }
     
     // [START openurl]
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
-    }
+    //func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        //return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
+    //}
+    
     // [END openurl]
-    @available(iOS 9.0, *)
+    /*@available(iOS 9.0, *)
     func application(app: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
-        return GIDSignIn.sharedInstance().handleURL(url,
+        //FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        GIDSignIn.sharedInstance().handleURL(url,
             sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as! String?,
             annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
-    }
+        return true
+    }*/
     
     // [START signin_handler]
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
@@ -63,8 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 let name = user.profile.name
                 let email = user.profile.email
                 
-                print(user.profile.name
-)
+                //print(user.profile.name)
                 
                 // [START_EXCLUDE]
                 NSNotificationCenter.defaultCenter().postNotificationName(
@@ -73,16 +78,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     userInfo: ["statusText": "Signed in user:\n\(name)"])
                 // [END_EXCLUDE]
                 
-                let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                /*let mainStoryBoard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 
-                let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("TestNewScreenViewController") as! TestNewScreenViewController
+                let mainPage = mainStoryBoard.instantiateViewControllerWithIdentifier("SWRevealViewController") as! SWRevealViewController
 
                 
                 let mainPageNav = UINavigationController(rootViewController: mainPage)
                 
                 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                 
-                appDelegate.window?.rootViewController = mainPageNav
+                appDelegate.window?.rootViewController = mainPageNav*/
                 
                 
             } else {

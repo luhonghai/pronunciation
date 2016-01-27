@@ -219,6 +219,13 @@
 			remoteGlobalIDString = C141C7FC1C3E203C001D1F9C;
 			remoteInfo = SwiftSidebarMenu;
 		};
+		C1FAD5261C567FEF00385D74 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5F3AE4A64CBAA6972B69F7806B6162F3;
+			remoteInfo = DLHamburguerMenu;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -434,6 +441,7 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
+				C1FAD5271C567FEF00385D74 /* DLHamburguerMenu.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
@@ -897,6 +905,13 @@
 			fileType = wrapper.framework;
 			path = SSZipArchive.framework;
 			remoteRef = 9BC5E1001C50803C003CF8E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C1FAD5271C567FEF00385D74 /* DLHamburguerMenu.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DLHamburguerMenu.framework;
+			remoteRef = C1FAD5261C567FEF00385D74 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

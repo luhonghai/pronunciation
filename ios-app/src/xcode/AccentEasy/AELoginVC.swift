@@ -24,6 +24,7 @@ class AELoginVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtEmail.autocorrectionType = UITextAutocorrectionType.No
 
         // Do any additional setup after loading the view.
         
