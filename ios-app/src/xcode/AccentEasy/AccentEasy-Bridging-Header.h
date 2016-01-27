@@ -3,7 +3,8 @@
 //
 
 #import "SWRevealViewController.h"
-#import <GoogleSignIn/GoogleSignIn.h>
+#import <Google/SignIn.h>
+//#import <GoogleSignIn/GoogleSignIn.h>
 //#import "SSZipArchive.h"
 //#import "GAI.h"
 //#import "GAIDictionaryBuilder.h"

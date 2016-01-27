@@ -32,7 +32,6 @@
 		C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* OurViewController.swift */; };
 		C141C8361C3E4684001D1F9C /* OurTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8351C3E4684001D1F9C /* OurTableViewController.swift */; };
 		C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */; };
-		C14CE16B1C4D41FB001EE55A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C14CE16A1C4D41FB001EE55A /* GoogleService-Info.plist */; };
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
@@ -131,7 +130,9 @@
 		C16CD3021C44B1EC00537461 /* icon_popover_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A31C44B1EC00537461 /* icon_popover_arrow_left.png */; };
 		C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */; };
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
+		C199ABDB1C5538C40026E511 /* SwiftClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5E0DB1C507C57003CF8E9 /* SwiftClient.framework */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
+		C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -274,7 +275,6 @@
 		C141C8331C3E27F1001D1F9C /* OurViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurViewController.swift; sourceTree = "<group>"; };
 		C141C8351C3E4684001D1F9C /* OurTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurTableViewController.swift; sourceTree = "<group>"; };
 		C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurItem3ViewController.swift; sourceTree = "<group>"; };
-		C14CE16A1C4D41FB001EE55A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
@@ -374,6 +374,7 @@
 		C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_right.png; sourceTree = "<group>"; };
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
+		C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E34A34897D2BD671737AD050 /* Pods-AccentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -382,7 +383,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B5ACEE51C55E161007BBFD9 /* SwiftClient.framework in Frameworks */,
+				C199ABDB1C5538C40026E511 /* SwiftClient.framework in Frameworks */,
 				9BA3AB671C4F862300C6631D /* libz.tbd in Frameworks */,
 				9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */,
 				9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */,
@@ -546,8 +547,8 @@
 				C14D98091C460051001DA517 /* ScreenController */,
 				C141C8071C3E203C001D1F9C /* Assets.xcassets */,
 				C141C8091C3E203C001D1F9C /* LaunchScreen.storyboard */,
+				C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */,
 				C141C80C1C3E203C001D1F9C /* Info.plist */,
-				C14CE16A1C4D41FB001EE55A /* GoogleService-Info.plist */,
 			);
 			path = AccentEasy;
 			sourceTree = "<group>";
@@ -947,7 +948,6 @@
 				C16CD2CC1C44B1EC00537461 /* rounded_corner_color_default.xml in Resources */,
 				C16CD2E11C44B1EC00537461 /* ic_close.png in Resources */,
 				C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */,
-				C14CE16B1C4D41FB001EE55A /* GoogleService-Info.plist in Resources */,
 				C16CD2E41C44B1EC00537461 /* ic_google_plus_white.png in Resources */,
 				C16CD2D41C44B1EC00537461 /* sl_background.png in Resources */,
 				C16CD2BC1C44B1EC00537461 /* p_logout_red.png in Resources */,
@@ -1015,6 +1015,7 @@
 				C16CD2F21C44B1EC00537461 /* pointing_tilting_app.png in Resources */,
 				C16CD2C21C44B1EC00537461 /* p_menu_lesson.png in Resources */,
 				C16CD2E91C44B1EC00537461 /* ic_play.png in Resources */,
+				C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */,
 				C16CD2B61C44B1EC00537461 /* p_graph_blue_blur.png in Resources */,
 				C16CD2DE1C44B1EC00537461 /* berty_head_antialias_alpha.png in Resources */,
 				C16CD2EB1C44B1EC00537461 /* ic_record.png in Resources */,

@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import SwiftClient
 import ObjectMapper
+import SwiftClient
 
 class AELoginVC: UIViewController {
 
@@ -46,7 +46,7 @@ class AELoginVC: UIViewController {
         
         if username.isEmpty || password.isEmpty {
             dispatch_async(dispatch_get_main_queue(),{
-                SweetAlert().showAlert("Login Failed!", subTitle: "Please enter Username and Password", style: AlertStyle.Error)
+                SweetAlert().showAlert("Login Failed!", subTitle: "please enter username and password", style: AlertStyle.Error)
                 
             })
             return

@@ -4,7 +4,7 @@
 use_frameworks!
 
 target 'AccentEasy' do
-	pod 'Google/Analytics'
+    pod 'Google/Analytics'
 	pod 'Google/SignIn'
 	pod 'ObjectMapper', '~> 1.1'
 	pod 'SSZipArchive'
