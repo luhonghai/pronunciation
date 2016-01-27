@@ -30,6 +30,14 @@ public class TeacherMappingCompanyDAO extends DataAccess<TeacherMappingCompany> 
     }
 
 
+    public TeacherMappingCompany getCompanyByTeacherName(String teacher) throws Exception{
+        List<TeacherMappingCompany> userList = list("WHERE teacherName == :1", teacher);
+        if(userList!= null && userList.size() > 0){
+            return userList.get(0);
+        }
+        return null;
+    }
+
     public List<TeacherMappingCompany> listAll() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + TeacherMappingCompany.class.getCanonicalName());
