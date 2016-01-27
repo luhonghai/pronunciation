@@ -56,7 +56,6 @@ import java.io.IOException;
             }
             else {
                 logins.message="error";
-                logins.role=admin.getRole();
                 Gson gson = new Gson();
                 String admins = gson.toJson(logins);
                 response.getWriter().write(admins);

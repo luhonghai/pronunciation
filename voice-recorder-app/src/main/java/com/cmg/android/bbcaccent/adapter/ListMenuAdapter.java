@@ -40,6 +40,7 @@ public class ListMenuAdapter extends BaseAdapter {
             MenuItem.ABOUT,
             MenuItem.LICENCE,
             MenuItem.FEEDBACK,
+            MenuItem.TEACHER,
             MenuItem.LOGOUT,
     };
 
@@ -54,7 +55,8 @@ public class ListMenuAdapter extends BaseAdapter {
         LICENCE(R.string.menu_licence, R.drawable.p_menu_license),
         FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
         SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy),
-        LOGOUT(R.string.menu_logout, R.drawable.p_logout_red, ColorHelper.getColor(R.color.app_red))
+        LOGOUT(R.string.menu_logout, R.drawable.p_logout_red, ColorHelper.getColor(R.color.app_red)),
+        TEACHER(R.string.menu_teacher, R.drawable.p_logout_red)
         ;
         int stringId;
         int drawableId;

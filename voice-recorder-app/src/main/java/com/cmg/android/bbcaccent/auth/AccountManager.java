@@ -598,6 +598,51 @@ public class AccountManager {
             }
         }.execute();
     }
+    public void messageTeachers(final UserProfile profile, final AuthListeners authListeners) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                List<StudentMappingTeacher> mappingTeachers=new ArrayList<StudentMappingTeacher>();
+                int number=0;
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                SimpleAppLog.debug("Profile user name: " + profile.getUsername());
+                data.put("username", profile.getUsername());
+                data.put("action","infoUser");
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.message_teacher_url));
+                    SimpleAppLog.debug("message: " + message);
+                    try {
+                        StudentMappingTeachers responseData = MainApplication.fromJson(message, StudentMappingTeachers.class);
+                        mappingTeachers= responseData.studentMappingTeachers;
+                        if(responseData!=null && mappingTeachers!=null && mappingTeachers.size()>0) {
+                            for (StudentMappingTeacher studentMappingTeacher : mappingTeachers) {
+                                if(studentMappingTeacher.getStatus().equalsIgnoreCase("pending")){
+                                    number++;
+                                }
+
+                            }
+                        }
+
+                        if (responseData.isStatus()) {
+                            authListeners.onSuccess(mappingTeachers,number,null);
+                        } else {
+                            authListeners.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        authListeners.onSuccess(mappingTeachers,number,null);
+                    }
+
+                } catch (Exception e) {
+                    SimpleAppLog.error("could not connect to server", e);
+                    authListeners.onSuccess(mappingTeachers,number,null);
+                }
+                return null;
+            }
+        }.execute();
+    }
     public void sendStatusToTeacher(final UserProfile profile, final AuthListener authListener, final String status, final String mailTeacher) {
         new AsyncTask<Void, Void, Void>() {
             @Override

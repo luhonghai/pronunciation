@@ -45,6 +45,7 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.DatabasePrepare;
 import com.cmg.android.bbcaccent.data.dto.StudentMappingTeacher;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
@@ -127,6 +128,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private CursorAdapter adapter;
 
     private AccountManager accountManager;
+
+    private DatabasePrepare databasePrepare;
     /**
      * Actionbar items
      */
@@ -434,6 +437,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         accountManager = new AccountManager(this);
+        databasePrepare=new DatabasePrepare();
+        String lessonChange=databasePrepare.lessonChange();
+        if(lessonChange!=null && lessonChange.length()>0) {
+            popupLesson(lessonChange);
+        }
         sendMessageFromTeacher();
         initListMenu();
         initCustomActionBar();
@@ -653,6 +661,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 case SUBSCRIPTION:
                     Intent i = new Intent(this, SubscriptionActivity.class);
                     startActivity(i);
+                    break;
+                case TEACHER:
+                    Intent intent = new Intent(this, TeacherActivity.class);
+                    startActivity(intent);
                     break;
                 default:
                     if (profile != null) {
@@ -1371,74 +1383,13 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     }
 
-    private void sendStatusToTeacher(String status,String mailTeacher) {
 
-        final UserProfile profile = Preferences.getCurrentProfile();
-        if (profile == null || !profile.isLogin()) {
-            SimpleAppLog.logJson("profile null.");
-        } else {
-            SimpleAppLog.logJson("Detect old profile: ", profile);
-            accountManager.sendStatusToTeacher(profile, new AccountManager.AuthListener() {
-                @Override
-                public void onError(final String message, Throwable e) {
-                    SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                    d.setTitleText("error");
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-                    d.show();
-                }
 
-                @Override
-                public void onSuccess() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                            d.setTitleText("successful");
-                            d.setConfirmText(getString(R.string.dialog_ok));
-                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-                            d.show();
-                        }
-                    });
-                }
-            }, status, mailTeacher);
-        }
-
-    }
-    private void popupMessage(List<String> lists){
-        for(final String mails:lists) {
-            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                   // .setTitleText("Are you sure?")
-                    .setContentText(mails + " would like to add you to their accenteasy class to help with training.")
-                    .setCancelText("Reject")
-                    .setConfirmText("Accept")
-                    .showCancelButton(true)
-                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendStatusToTeacher("reject",mails);
-                            sDialog.cancel();
-                        }
-                    })
-                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sDialog) {
-                            sendStatusToTeacher("accept",mails);
-                            sDialog.cancel();
-                        }
-                    })
-                    .show();
-        }
-
+    private void popupLesson(String lessonChange){
+        SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+        d.setTitleText(getString(R.string.lesson_change));
+        d.setContentText(lessonChange);
+        d.setConfirmText(getString(R.string.dialog_ok));
+        d.show();
     }
 }

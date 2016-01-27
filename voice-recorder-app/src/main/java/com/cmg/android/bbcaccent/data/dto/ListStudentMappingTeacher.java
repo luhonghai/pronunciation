@@ -6,13 +6,14 @@ import java.util.List;
  * Created by CMGT400 on 1/25/2016.
  */
 public class ListStudentMappingTeacher {
-    private List<StudentMappingTeacher> studentMappingTeachers;
 
-    public List<StudentMappingTeacher> getStudentMappingTeachers() {
-        return studentMappingTeachers;
+    private List<StudentMappingTeacher> mappingTeachers;
+
+    public List<StudentMappingTeacher> getMappingTeachers() {
+        return mappingTeachers;
     }
 
-    public void setStudentMappingTeachers(List<StudentMappingTeacher> studentMappingTeachers) {
-        this.studentMappingTeachers = studentMappingTeachers;
+    public void setMappingTeachers(List<StudentMappingTeacher> mappingTeachers) {
+        this.mappingTeachers = mappingTeachers;
     }
 }

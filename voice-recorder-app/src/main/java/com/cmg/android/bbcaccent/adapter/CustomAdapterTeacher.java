@@ -50,12 +50,15 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
                 case "accept":
                     txtTeacher.setText(mailTeacher);
                     btnReject.setVisibility(View.GONE);
+                    btnAccept.setActivated(false);
+                    btnAccept.setText("accepted");
+                    btnAccept.setBackgroundColor(context.getResources().getColor(R.color.app_dark_gray));
                     itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_white));
                     break;
                 case "reject":
                     txtTeacher.setText(mailTeacher);
                     btnAccept.setVisibility(View.GONE);
-                    btnReject.setVisibility(View.GONE);
+                    btnReject.setActivated(false);
                     itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_light_gray));
                     break;
                 case "pending":

@@ -14,6 +14,13 @@ public class StudentMappingTeacher {
 
     private String status;
 
+    public StudentMappingTeacher(String id,String studentName,String teacherName,boolean isDeleted,String status){
+        this.id=id;
+        this.studentName=studentName;
+        this.teacherName=teacherName;
+        this.isDeleted=isDeleted;
+        this.status=status;
+    }
     public String getId() {
         return id;
     }

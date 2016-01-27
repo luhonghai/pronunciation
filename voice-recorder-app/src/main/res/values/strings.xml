@@ -51,9 +51,10 @@
     <string name="could_not_send_feedback">could not send feedback</string>
     <string name="feedback_success_message">thank you for your feedback \n we appreciate your feedback and will continue to strive to make our application better\n thank you!</string>
     <string name="description">description</string>
-    <string name="send">send</string>
+    <string name="send">Invite</string>
     <string name="licence_code">licence code</string>
     <string name="activate">activate</string>
+    <string name="techerName">Teacher name</string>
     <string name="logout">logout</string>
     <string name="email_address">email address</string>
     <string name="hint_email_address">email@address</string>
@@ -136,6 +137,7 @@
     <string name="menu_feedback">feedback</string>
     <string name="menu_subscription">full version</string>
     <string name="menu_logout">logout</string>
+    <string name="menu_teacher">teacher</string>
     <!--<string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>-->
     <string name="could_not_connect_server_message">sorry our engineers are just upgrading the server, please try again</string>
     <string name="could_not_purchase_message">your purchase could not be completed, please contact support@accenteasy.com</string>
@@ -153,4 +155,5 @@
     <string name="help_to_test_last_object">Take the test to progress to the next level or you can return to any of the lessons for more practise</string>
 
     <string name="press_twice_to_exit">"Press twice to exit"</string>
+    <string name="lesson_change">Lesson update</string>
 </resources>

@@ -29,18 +29,23 @@ import java.util.Map;
  */
 public class DatabasePrepare {
 
-    private final Context context;
+    private Context context;
+    private String newLessonChange="";
+    private boolean check=false;
 
-    private final OnPrepraredListener prepraredListener;
+    private OnPrepraredListener prepraredListener;
 
     class VersionResponseData extends ResponseData<String> {
         int version;
+        String lessonChange;
     }
 
     public DatabasePrepare(Context context, OnPrepraredListener prepraredListener) {
         this.context = context;
         this.prepraredListener = prepraredListener;
     }
+
+    public DatabasePrepare(){}
 
     public interface OnPrepraredListener {
         void onComplete();
@@ -113,6 +118,9 @@ public class DatabasePrepare {
             if (responseData != null && responseData.isStatus()) {
                 downloadUrl = responseData.getData();
                 newVersion = responseData.version;
+                newLessonChange=responseData.lessonChange;
+                check=true;
+
             }
         } catch (Exception e) {
             SimpleAppLog.error("Could not check database version",e);
@@ -193,4 +201,10 @@ public class DatabasePrepare {
         }
         return null;
     }
+    public String lessonChange(){
+        if(check) {
+            return newLessonChange;
+        }else return "";
+    }
+
 }

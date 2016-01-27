@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DemoActivity">
+    tools:context=".TeacherActivity">
 
     <RelativeLayout
         android:id="@+id/content"
@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_height="fill_parent"
             android:layout_width="fill_parent">
-            <LinearLayout android:layout_weight="2.5"
+            <LinearLayout android:layout_weight="2"
                 android:layout_height="fill_parent"
                 android:layout_width="fill_parent"
                 android:orientation="vertical"
@@ -24,7 +24,7 @@
                 <RelativeLayout
                     android:layout_height="fill_parent"
                     android:layout_width="fill_parent"
-                    android:layout_weight="1.5">
+                    android:layout_weight="1">
                     <LinearLayout
                         android:layout_height="fill_parent"
                         android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:padding="10dip"
-                            android:text="search teacher"
+                            android:text="@string/techerName"
                             android:id="@+id/mailTeacher"/>
                          <EditText
                              android:layout_width="fill_parent"
@@ -46,7 +46,6 @@
                             android:layout_height="wrap_content"
                             android:text="@string/send"
                             android:id="@+id/btnSend"
-                            android:layout_marginTop="10dp"
                             android:paddingLeft="@dimen/button_default_size_half"
                             android:paddingRight="@dimen/button_default_size_half"
                             android:layout_gravity="right"

@@ -124,30 +124,15 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("infoUser")){
             Gson gson=new Gson();
             String username=request.getParameter("username");
-            List<StudentMappingTeacher> studentMappingTeachers=null;
+            List<StudentMappingTeacher> studentMappingTeachers=new ArrayList<StudentMappingTeacher>();
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-            List<StudentMappingTeacher> pending=new ArrayList<StudentMappingTeacher>();
-            int n=0;
             try {
                 if(username!="") {
                     studentMappingTeachers = studentMappingTeacherDAO.getByStudent(username);
-                    for (StudentMappingTeacher studentMappingTeacher : studentMappingTeachers) {
-                        if (studentMappingTeacher.getStatus().equals("pending")) {
-                            n++;
-                            pending.add(studentMappingTeacher);
-                        }
-                    }
-                    if (n > 0) {
-                        responseData.setStatus(true);
-                        responseData.setMessage("success");
-                        responseData.studentMappingTeachers = pending;
-                        out.print(gson.toJson(responseData));
-                    } else {
-                        responseData.setStatus(false);
-                        responseData.setMessage("error");
-                        responseData.studentMappingTeachers = null;
-                        out.print(gson.toJson(responseData));
-                    }
+                    responseData.setStatus(true);
+                    responseData.setMessage("success");
+                    responseData.studentMappingTeachers = studentMappingTeachers;
+                    out.print(gson.toJson(responseData));
                 }else {
                     responseData.setStatus(false);
                     responseData.setMessage("error");
@@ -166,7 +151,7 @@ public class SendMailUser extends HttpServlet{
             String mailTeacher=request.getParameter("mailTeacher");
             String userName=request.getParameter("username");
             try {
-                Admin admin = adminDAO.getUserByEmail(mailTeacher);
+                Admin admin = adminDAO.getUserByTeacher(mailTeacher);
                 if(admin!=null){
                     studentMappingTeacher.setIsDeleted(false);
                     studentMappingTeacher.setStatus("accept");
