@@ -12,6 +12,8 @@ target 'AccentEasy' do
 	pod 'FBSDKCoreKit'
 	pod 'FBSDKLoginKit'
 	pod 'FBSDKShareKit'
+	pod 'EZAudio', '~> 1.1.4' 
+	pod 'EZAudio/Core', '~> 1.1.4'
 end
 
 target 'AccentEasyTests' do
