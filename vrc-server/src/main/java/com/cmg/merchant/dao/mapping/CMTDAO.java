@@ -252,7 +252,12 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         }
     }
 
-
+    /**
+     *
+     * @param a
+     * @param needToCut
+     * @return
+     */
     public String cutString(String a, String needToCut){
         if(a!=null && a.endsWith(needToCut)){
             return a.substring(0,a.length() - needToCut.length());
