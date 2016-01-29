@@ -8,20 +8,53 @@
 
 import Foundation
 import SSZipArchive
+import SwiftClient
+import ObjectMapper
 
 public class DatabaseHelper {
     
-    func getLessonDatabaseFile() -> String? {
+    class func checkDatabaseVersion() -> Bool {
+        // Create database folder if not exist
+        FileHelper.getFilePath("database", directory: true)
+        let versionPath = FileHelper.getFilePath("database/version")
+        if (FileHelper.isExists(versionPath)) {
+            
+        }
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in print(e)});
+        
+         client.get("/CheckVersion").send([])
+            .end({(res:Response) -> Void in
+                print(res)
+                if(res.error) { // status of 2xx
+                    //handleResponseJson(res.body)
+                    //print(res.body)
+                    print(res.text)
+                }
+                else {
+                    //handleErrorJson(res.body)
+                    print(res.text)
+                    let result:String = res.text!
+                    
+                }
+            })
+        
+        HttpDownloader.loadFileSync(NSURL(fileURLWithPath: "")) { (path, error) -> Void in
+            
+        }
+        return false;
+    }
+    
+    class func getLessonDatabaseFile() -> String? {
         let databaseBundle = NSBundle.mainBundle()
         let dbZipPath = databaseBundle.pathForResource("database", ofType: "zip")
         print("Database zip path on bunddle \(dbZipPath)")
         let fileManager = NSFileManager.defaultManager()
         // get the documents folder url
-        let paths = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true)
-        let documentsDirectory: AnyObject = paths[0]
-        let dataPath = documentsDirectory.stringByAppendingPathComponent("database")
+        let dataPath = FileHelper.getFilePath("database", directory: true)
         print("Database directory path \(dataPath)")
-        let lessonDbFilePath = documentsDirectory.stringByAppendingPathComponent("database/lesson.db")
+        let lessonDbFilePath = FileHelper.getFilePath("database/lesson.db")
         print("Lesson database path \(lessonDbFilePath)")
         if !fileManager.fileExistsAtPath(lessonDbFilePath) {
             do {
