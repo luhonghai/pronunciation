@@ -74,48 +74,56 @@ public class SendMailUser extends HttpServlet{
             String jsonClient = (String) StringUtil.isNull(request.getParameter("listmail"), "");
             Gson gson = new Gson();
             List<String> notExist=new ArrayList<>();
+            List<String> Exist=new ArrayList<>();
             List<String> send=new ArrayList<>();
             List<User> users=new ArrayList<>();
             try{
                 MailToUser mailToUser= gson.fromJson(jsonClient,MailToUser.class);
                 String teacher=mailToUser.getTeacher();
                 String []listMail=mailToUser.getListmail();
+                int n=0;
                 for(String mail:listMail){
                     StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                     StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-                    studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(teacher,mail);
+                    String mailStudent=mail.trim();
+                    studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(mailStudent,teacher);
                     User user=new User();
-                    user=userDAO.getUserByEmail(mail);
-
+                    user=userDAO.getUserByEmail(mailStudent);
                     if(user!=null){
                         if(studentMappingTeacher==null){
                             StudentMappingTeacher studentMappingTeacher1=new StudentMappingTeacher();
-                            studentMappingTeacher1.setStudentName(mail);
+                            studentMappingTeacher1.setStudentName(mailStudent);
                             studentMappingTeacher1.setTeacherName(teacher);
                             studentMappingTeacher1.setIsDeleted(false);
                             studentMappingTeacher1.setStatus("pending");
                             studentMappingTeacherDAO.put(studentMappingTeacher1);
-                            send.add(mail);
+                            send.add(mailStudent);
                             users.add(user);
+                        }else{
+                            Exist.add(mailStudent);
+                            n++;
                         }
                     }else {
-                        notExist.add(mail);
+                        notExist.add(mailStudent);
                     }
                 }
                 if(users!=null) {
                     sendGcmMessage(users);
                 }
                 if(notExist.size()==0){
-                    mails.message="success";
-                    mails.users=null;
-                    String listMails = gson.toJson(mails);
-                    response.getWriter().write(listMails);
+                    if(n==0) {
+                        mails.message = "success";
+                        mails.users = new ArrayList<String>();
+                    }else {
+                        mails.message = "exist";
+                        mails.users = notExist;
+                    }
                 }else{
                     mails.message="notExit";
                     mails.users=notExist;
-                    String listMails = gson.toJson(mails);
-                    response.getWriter().write(listMails);
                 }
+                String listMails = gson.toJson(mails);
+                response.getWriter().write(listMails);
 
             }catch (Exception e){
                 e.getStackTrace();
@@ -152,7 +160,8 @@ public class SendMailUser extends HttpServlet{
             String userName=request.getParameter("username");
             try {
                 Admin admin = adminDAO.getUserByTeacher(mailTeacher);
-                if(admin!=null){
+                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
+                if(admin!=null && studentMappingTeacher==null){
                     studentMappingTeacher.setIsDeleted(false);
                     studentMappingTeacher.setStatus("accept");
                     studentMappingTeacher.setTeacherName(mailTeacher);
