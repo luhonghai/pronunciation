@@ -187,30 +187,34 @@ $(document).ready(function(){
         var lessonChange=$("#lessonChange").val();
         $("#popupGenerateAction").modal("hide");
         var $log = $("#generate-log");
-        $log.html("Preparing. Please wait...");
-        $.ajax({
-            "url": CONTEXT_PATH + "/database",
-            type: "GET",
-            dataType: "text",
-            data: {
-                action: "load",
-                lessonChange:lessonChange
-            },
-            success: function (data) {
-                if (data.indexOf("done") != -1) {
+        if(lessonChange!=null && lessonChange.length>0) {
+            $log.html("Preparing. Please wait...");
+            $.ajax({
+                "url": CONTEXT_PATH + "/database",
+                type: "GET",
+                dataType: "text",
+                data: {
+                    action: "load",
+                    lessonChange: lessonChange
+                },
+                success: function (data) {
+                    if (data.indexOf("done") != -1) {
 
-                } else {
-                    $popup.prop("disabled",false);
-                    $popupGenerate.prop("disabled",false);
+                    } else {
+                        $popup.prop("disabled", false);
+                        $popupGenerate.prop("disabled", false);
+                    }
+                },
+                error: function () {
+                    $popup.prop("disabled", false);
+                    $popupGenerate.prop("disabled", false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
-            },
-            error: function () {
-                $popup.prop("disabled",false);
-                $popupGenerate.prop("disabled",false);
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
+            });
+        }else{
+            swal("Warning!", "You can write lesson change.", "warning");
+        }
     });
     $("#fileuploader").uploadFile({
         url:CONTEXT_PATH + "database_upload",
