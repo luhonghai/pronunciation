@@ -12,7 +12,7 @@ import ObjectMapper
 
 class RegisterConfirmVC: UIViewController {
 
-    var registerInfo:NSUserDefaults!
+    var userProfileSaveInApp:NSUserDefaults!
     var userProfile = UserProfile()
     var JSONStringUserProfile:String!
     
@@ -27,8 +27,9 @@ class RegisterConfirmVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        registerInfo = NSUserDefaults()
-        JSONStringUserProfile = registerInfo.objectForKey("JSONStringUserProfile") as! String
+        userProfileSaveInApp = NSUserDefaults()
+        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
+        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
         userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
         txtcode.placeholder = userProfile.username
     }

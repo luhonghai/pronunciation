@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import ObjectMapper
 
 class OurViewController: UIViewController {
 
     var loginParameter:NSUserDefaults!
+    var userProfileSaveInApp:NSUserDefaults!
+    var JSONStringUserProfile:String!
+    var userProfile = UserProfile()
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var lblUsername: UILabel!
     
@@ -27,6 +31,14 @@ class OurViewController: UIViewController {
         
         //login parameter
         loginParameter = NSUserDefaults()
+        
+        userProfileSaveInApp = NSUserDefaults()
+        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
+        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
+        print("login successfull")
+        print(JSONStringUserProfile)
+        userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
+        lblUsername.text = userProfile.username
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -36,7 +48,7 @@ class OurViewController: UIViewController {
             //self.performSegueWithIdentifier("goto_login", sender: self)
         //}else{
             //lblUsername.text = username
-            lblUsername.text = ""
+            //lblUsername.text = ""
         //}
     }
     

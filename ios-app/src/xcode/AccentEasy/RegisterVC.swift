@@ -12,8 +12,9 @@ import ObjectMapper
 
 class RegisterVC: UIViewController {
 
-    var registerInfo:NSUserDefaults!
+    var userProfileSaveInApp:NSUserDefaults!
     var JSONStringUserProfile:String!
+    var keyForUserProfile:String!
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -32,7 +33,7 @@ class RegisterVC: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        registerInfo = NSUserDefaults()
+        userProfileSaveInApp = NSUserDefaults()
         
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
     }
@@ -45,7 +46,9 @@ class RegisterVC: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //if("GoToComfirmCode" == segue.identifier){
             //registerInfo.setObject(userProfile, forKey: "userProfile")
-            registerInfo.setObject(JSONStringUserProfile, forKey: "JSONStringUserProfile")
+            //registerInfo.setObject(JSONStringUserProfile, forKey: "JSONStringUserProfile")
+            //userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
+            //userProfileSaveInApp.setObject(self.keyForProfile, forKey: "KeyUserProfile")
         //}
     }
     
@@ -87,6 +90,9 @@ class RegisterVC: UIViewController {
         userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
+        //set userProfile key
+        keyForUserProfile = username
+        
         JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
         
         
@@ -116,6 +122,10 @@ class RegisterVC: UIViewController {
                         dispatch_async(dispatch_get_main_queue(),{
                             //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                             //[unowned self] in NSThread.isMainThread()
+                            //save UserProfile
+                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForUserProfile)
+                            self.userProfileSaveInApp.setObject(self.keyForUserProfile, forKey: Login.KeyUserProfile)
+                            //next page
                             self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                         })
                         

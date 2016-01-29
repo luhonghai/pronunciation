@@ -17,9 +17,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     var showLog:Int!
     var JSONStringUserProfile:String!
+    var userProfileSaveInApp:NSUserDefaults!
+    var keyForProfile:String!
 
 
-    @IBOutlet weak var signInButton: GIDSignInButton!
+    //@IBOutlet weak var signInButton: GIDSignInButton!
     //@IBOutlet weak var btnLoginG: GIDSignInButton!
     
     @IBOutlet weak var btnLoginFB: UIButton!
@@ -28,8 +30,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        userProfileSaveInApp = NSUserDefaults()
         showLog = 1
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
@@ -53,6 +56,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //userProfileSaveInApp.setObject(JSONStringUserProfile, forKey: keyForProfile)
+    }
+    
     
     @IBAction func btnLoginGTapped(sender: AnyObject) {
         //[[GIDSignIn sharedInstance] signIn]
@@ -62,18 +69,17 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
         withError error: NSError!) {
             if (error == nil) {
+                print("run in google sign in")
                 // Perform any operations on signed in user here.
                 let userId:String = user.userID                  // For client-side use only!
                 let idToken:String = user.authentication.idToken // Safe to send to the server
                 let name:String = user.profile.name
                 let email:String = user.profile.email
                 //let birthday = user.profile.
-                
-                
-                print(userId)
-                print(idToken)
-                print(name)
-                print(email)
+                let urlImage:String = user.profile.imageURLWithDimension(320).absoluteString
+                //print("avatar")
+                //print(urlAvate)
+                //print(userId)
                 
                 // [START_EXCLUDE]
                 NSNotificationCenter.defaultCenter().postNotificationName(
@@ -96,6 +102,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 let userProfile:UserProfile = UserProfile()
                 userProfile.name = name
                 userProfile.username = email
+                userProfile.profileImage = urlImage
                 //userProfile.dob = result.valueForKey("birthday") as! String
                 userProfile.deviceInfo = UserProfile.DeviceInfo()
                 userProfile.additionalToken = idToken
@@ -103,9 +110,12 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 userProfile.deviceInfo.appVersion = "400000"
                 userProfile.deviceInfo.appName = "400000"
                 
+                //set key for NSUserDefault
+                keyForProfile = email
+                
                 self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
                 print(self.JSONStringUserProfile)
-                self.registerFB()
+                self.registerUserProfile()
                 
             } else {
                 print("\(error.localizedDescription)")
@@ -195,7 +205,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     print(result)
                     //Handle Profile Photo URL String
                     let userId =  result["id"] as! String
-                    let profilePictureUrl = "https://graph.facebook.com/\(userId)/picture?type=large"
+                    let profilePictureUrl:String = "https://graph.facebook.com/\(userId)/picture?type=square"
+                    //https://graph.facebook.com/1093146987371181/picture?type=square&width=320&height=320
+                    //enum{small, normal, album, large, square}
                     print(profilePictureUrl)
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
@@ -206,15 +218,19 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     userProfile.name = result.valueForKey("name") as! String
                     userProfile.username = result.valueForKey("email") as! String
                     userProfile.dob = result.valueForKey("birthday") as! String
+                    userProfile.profileImage = profilePictureUrl
                     userProfile.deviceInfo = UserProfile.DeviceInfo()
                     userProfile.additionalToken = FBSDKAccessToken.currentAccessToken().tokenString
                     userProfile.loginType = UserProfile.TYPE_FACEBOOK
                     userProfile.deviceInfo.appVersion = "400000"
                     userProfile.deviceInfo.appName = "400000"
                     
+                    //set key for NSUserDefault
+                    self.keyForProfile = userProfile.username
+                    
                     self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
                     print(self.JSONStringUserProfile)
-                    self.registerFB()
+                    self.registerUserProfile()
                 }
             })
         }
@@ -223,11 +239,17 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
 
 
     
-    func registerFB() {
+    func registerUserProfile() {
         print("run in register fb")
         let client = Client()
             .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .onError({e in
+                print(e)
+                dispatch_async(dispatch_get_main_queue(),{
+                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
+                    
+                })
+            });
         
         client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":self.JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
             .set("header", "headerValue")
@@ -237,8 +259,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 //handleResponseJson(res.body)
                 //print(res.body)
                     print(res.text)
+                    dispatch_async(dispatch_get_main_queue(),{
+                        SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
+                        
+                    })
                 }
                 else {
+                    print("run in register fb sucess")
                     //handleErrorJson(res.body)
                     print(res.text)
                     //dispatch_async(dispatch_get_main_queue(),{
@@ -247,7 +274,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let result = Mapper<RegisterResult>().map(res.text)
                     let status:Bool = result!.status
                     let message:String = result!.message
-                    self.loginFB()
+                    self.loginMainPage()
                     /*if status {
                         //register suceess
                         dispatch_async(dispatch_get_main_queue(),{
@@ -270,11 +297,17 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
             })
     }
     
-    func loginFB(){
+    func loginMainPage(){
         print(JSONStringUserProfile)
         let client = Client()
             .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .onError({e in
+                print(e)
+                dispatch_async(dispatch_get_main_queue(),{
+                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
+                    
+                })
+            });
         
         client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
             .set("header", "headerValue")
@@ -284,31 +317,45 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    dispatch_async(dispatch_get_main_queue(),{
+                        SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
+                        
+                    })
                 }
                 else {
                     //handleErrorJson(res.body)
-                    print("run in login fb")
+                    print("run in login process")
                     print(res.text)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                        })
-                        
-                        
+                    if let result = Mapper<RegisterResult>().map(res.text) {
+                        let status:Bool = result.status
+                        let message:String = result.message
+                        if status {
+                            //register suceess
+                            dispatch_async(dispatch_get_main_queue(),{
+                                //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
+                                //[unowned self] in NSThread.isMainThread()
+                                //save userProfile
+                                self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
+                                self.userProfileSaveInApp.setObject(self.keyForProfile, forKey: Login.KeyUserProfile)
+                                self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                            })
+                            
+                            
+                        } else {
+                            //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
+                            dispatch_async(dispatch_get_main_queue(),{
+                                SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
+                                
+                            })
+                        }
+
                     } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                         dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
+                            SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
                             
                         })
                     }
-                    //print(result?.message)
+                                        //print(result?.message)
                     //print(result?.status)
                 }
             })
