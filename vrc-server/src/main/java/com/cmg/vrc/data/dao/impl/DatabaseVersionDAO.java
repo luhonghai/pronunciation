@@ -45,10 +45,10 @@ public class DatabaseVersionDAO extends DataAccess<DatabaseVersion> {
             case 2:
                 orderColumn = "fileName";
                 break;
-            case 3:
+            case 4:
                 orderColumn = "createdDate";
                 break;
-            case 4:
+            case 5:
                 orderColumn = "selectedDate";
                 break;
         }
