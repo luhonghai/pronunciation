@@ -34,6 +34,27 @@
 </div>
 <!-- /#wrapper -->
 
+<div id="listMail" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+            <h1 align="center">List email error</h1>
+            <div id="mailError">
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" name="close" id="close" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="<%=request.getContextPath() %>/js/mailuser.js"></script>
 
 
