@@ -335,6 +335,7 @@ float const radio = 1 / (float) 0.8;
                                   pointCount:(UInt32)pointCount
                                       inRect:(EZRect)rect;
 {
+    CGFloat timeout = 1000;
     CGFloat width = MIN(rect.size.width, rect.size.height);
     CGFloat maxY = 0.0;
     for (int i = 0; i < pointCount; i++)
@@ -342,8 +343,23 @@ float const radio = 1 / (float) 0.8;
         maxY = MAX(points[i].y, maxY);
     }
     maxY = MIN(maxY * self.gain, 1.0);
+    long long currentTime = (long long)([[NSDate date] timeIntervalSince1970] * 1000.0);
+    if (maxY > self.lastMax) {
+        self.lastMaxTime = currentTime;
+        self.lastMax = maxY;
+        self.lastMaxValue = maxY;
+    }
+    maxY = self.lastMax;
     CGFloat scaleX =(1.0 - maxY) * (width / 2 - radio * width/4);
     CGFloat scaleWidth = width - scaleX * 2;
+    long long scaleTime = currentTime - self.lastMaxTime;
+    if (scaleTime >= timeout) {
+        self.lastMax = 0;
+        self.lastMaxValue = 0;
+    } else {
+        self.lastMax = (1 - (scaleTime / timeout)) * self.lastMaxValue;
+        //NSLog(@"Last max %f - %f - %f", (double)scaleTime, self.lastMax, self.lastMaxValue);
+    }
     return [[UIBezierPath bezierPathWithOvalInRect:CGRectMake(scaleX, scaleX, scaleWidth, scaleWidth)] CGPath];
 }
 

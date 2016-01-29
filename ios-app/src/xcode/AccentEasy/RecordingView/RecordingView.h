@@ -220,4 +220,7 @@ FOUNDATION_EXPORT UInt32 const EZAudioPlotDefaultMaxHistoryBufferLength;
 @property (nonatomic, assign) EZPlotHistoryInfo  *historyInfo;
 @property (nonatomic, assign) CGPoint            *points;
 @property (nonatomic, assign) UInt32              pointCount;
+@property (nonatomic, assign) long long             lastMaxTime;
+@property (nonatomic, assign) CGFloat              lastMax;
+@property (nonatomic, assign) CGFloat              lastMaxValue;
 @end
