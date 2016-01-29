@@ -38,10 +38,9 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
         convertView=inflater.inflate(layoutId, null);
         if(myArray.size()>0 && position>=0){
            TextView txtTeacher=(TextView)convertView.findViewById(R.id.textStatement);
-            TextView txtStatus=(TextView)convertView.findViewById(R.id.textStatement);
+            TextView txtStatus=(TextView)convertView.findViewById(R.id.txtStatus);
             CircleCardView btnAccept=(CircleCardView)convertView.findViewById(R.id.accept);
             CircleCardView btnReject=(CircleCardView)convertView.findViewById(R.id.reject);
-            LinearLayout itemListview=(LinearLayout)convertView.findViewById(R.id.itemListview);
             final String mailTeacher=myArray.get(position).getTeacherName();
             btnAccept.setTag(myArray.get(position));
             btnReject.setTag(myArray.get(position));
