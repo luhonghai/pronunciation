@@ -55,6 +55,7 @@
     <string name="licence_code">licence code</string>
     <string name="activate">activate</string>
     <string name="techerName">Teacher name</string>
+    <string name="titleTecherName">Teacher list for acceptance</string>
     <string name="logout">logout</string>
     <string name="email_address">email address</string>
     <string name="hint_email_address">email@address</string>
