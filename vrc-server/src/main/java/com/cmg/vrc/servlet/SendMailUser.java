@@ -162,11 +162,12 @@ public class SendMailUser extends HttpServlet{
                 Admin admin = adminDAO.getUserByTeacher(mailTeacher);
                 studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
                 if(admin!=null && studentMappingTeacher==null){
-                    studentMappingTeacher.setIsDeleted(false);
-                    studentMappingTeacher.setStatus("accept");
-                    studentMappingTeacher.setTeacherName(mailTeacher);
-                    studentMappingTeacher.setStudentName(userName);
-                    studentMappingTeacherDAO.put(studentMappingTeacher);
+                    StudentMappingTeacher studentMapping=new StudentMappingTeacher();
+                    studentMapping.setIsDeleted(false);
+                    studentMapping.setStatus("accept");
+                    studentMapping.setTeacherName(mailTeacher);
+                    studentMapping.setStudentName(userName);
+                    studentMappingTeacherDAO.put(studentMapping);
                     out.print("success");
                 }else{
                     out.print("error");
