@@ -116,7 +116,7 @@ public class SendMailUser extends HttpServlet{
                         mails.users = new ArrayList<String>();
                     }else {
                         mails.message = "exist";
-                        mails.users = notExist;
+                        mails.users = Exist;
                     }
                 }else{
                     mails.message="notExit";
