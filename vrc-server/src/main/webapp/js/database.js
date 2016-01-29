@@ -45,16 +45,15 @@ function drawTable(){
             }
         }, {
             "sWidth": "20%",
-            "bSortable": true,
-            "data": "createdDate",
-            "sDefaultContent": ""
-        }, {
-            "sWidth": "20%",
             "bSortable": false,
             "data": "lessonChange",
             "sDefaultContent": ""
-        },
-            {
+        }, {
+            "sWidth": "20%",
+            "bSortable": true,
+            "data": "createdDate",
+            "sDefaultContent": ""
+        },{
                 "sWidth": "20%",
                 "bSortable": true,
                 "data": "selectedDate",
