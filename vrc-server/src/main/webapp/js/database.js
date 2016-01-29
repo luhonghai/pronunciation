@@ -48,6 +48,11 @@ function drawTable(){
             "bSortable": true,
             "data": "createdDate",
             "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
+            "bSortable": false,
+            "data": "lessonChange",
+            "sDefaultContent": ""
         },
             {
                 "sWidth": "20%",
@@ -155,6 +160,7 @@ $(document).ready(function(){
     });
     $("#btnPopupGenerate").click(function() {
         $("#popupGenerateAction").modal("show");
+        $("#lessonChange").val("");
     });
     $("#btnStop").click(function() {
         $("#btnStop").prop("disabled","disabled");
