@@ -54,6 +54,7 @@
                 <th>Version</th>
                 <th>Admin</th>
                 <th>File name</th>
+                <th>File change</th>
                 <th>Created Date</th>
                 <th>Selected Date</th>
                 <th>Select version</th>
