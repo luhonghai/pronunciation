@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fFT-M7-z2i">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -1190,6 +1190,188 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHh-7V-mtx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2507.5" y="-1645.5"/>
+        </scene>
+        <!--Recording View Controller-->
+        <scene sceneID="6Xq-GH-2Kb">
+            <objects>
+                <viewController id="rly-jd-VoY" customClass="RecordingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BpA-Q0-y38"/>
+                        <viewControllerLayoutGuide type="bottom" id="1xK-OF-0PW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="N08-Dv-Jdu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vUx-by-hlL">
+                                <rect key="frame" x="16" y="494" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Change Microphone Input">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="toggleMicrophonePickerView:" destination="rly-jd-VoY" eventType="touchUpInside" id="hfy-nw-Nv3"/>
+                                </connections>
+                            </button>
+                            <pickerView alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O04-fU-Psd">
+                                <rect key="frame" x="7" y="558" width="0.0" height="0.0"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </pickerView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rTY-bY-w0F">
+                                <rect key="frame" x="50" y="366" width="210" height="128"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="c69-Mm-pkh">
+                                        <rect key="frame" x="28" y="70" width="157" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="157" id="d1w-5K-1Rq"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Buffer"/>
+                                            <segment title="Rolling"/>
+                                        </segments>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="changePlotType:" destination="rly-jd-VoY" eventType="valueChanged" id="vAf-XI-QFH"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ldg-uT-2U4">
+                                        <rect key="frame" x="28" y="29" width="51" height="31"/>
+                                        <color key="onTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="toggleMicrophone:" destination="rly-jd-VoY" eventType="touchUpInside" id="4VW-wG-Esa"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kqN-cr-G2K">
+                                        <rect key="frame" x="85" y="37" width="100" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="0.90000000000000002" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.59999999999999998" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MmE-x0-iZk" customClass="RecordingView">
+                                <rect key="frame" x="50" y="97" width="210" height="210"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="audioPlot" destination="MmE-x0-iZk" id="hPT-Ud-9si"/>
+                        <outlet property="microphoneInputPickerView" destination="O04-fU-Psd" id="mwG-Bb-7dc"/>
+                        <outlet property="microphoneInputToggleButton" destination="vUx-by-hlL" id="CHU-n1-RSW"/>
+                        <outlet property="microphoneTextLabel" destination="kqN-cr-G2K" id="wzQ-9P-GaO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K6W-8g-0ix" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-182" y="-2849"/>
+        </scene>
+        <!--Recording Play Controller-->
+        <scene sceneID="hMD-Sd-qJ3">
+            <objects>
+                <viewController id="fFT-M7-z2i" customClass="RecordingPlayController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Xkp-D8-Bd7"/>
+                        <viewControllerLayoutGuide type="bottom" id="ULt-C1-tjC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hkJ-u3-jtf">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qqa-Lq-9Uh">
+                                <rect key="frame" x="0.0" y="307" width="320" height="209"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jck-oq-tMn">
+                                        <rect key="frame" x="18" y="121" width="51" height="31"/>
+                                        <color key="onTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="toggleMicrophone:" destination="fFT-M7-z2i" eventType="valueChanged" id="f3H-wS-ucW"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Microphone On" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qg6-sp-vNK">
+                                        <rect key="frame" x="85" y="129" width="497" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="VFl-oo-J1F">
+                                        <rect key="frame" x="18" y="160" width="51" height="31"/>
+                                        <color key="onTintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="toggleRecording:" destination="fFT-M7-z2i" eventType="valueChanged" id="aly-af-2Iz"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Recording On" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDn-F3-53G">
+                                        <rect key="frame" x="85" y="168" width="497" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not Playing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIL-98-3Hd">
+                                        <rect key="frame" x="85" y="90" width="217" height="16"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EDK-l8-f0b">
+                                        <rect key="frame" x="13" y="83" width="59" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="59" id="ggu-hY-foi"/>
+                                            <constraint firstAttribute="height" constant="30" id="zPI-54-9ji"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="Play">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="playFile:" destination="fFT-M7-z2i" eventType="touchUpInside" id="ObX-my-fdf"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ssN-yf-opv">
+                                        <rect key="frame" x="18" y="25" width="87" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="32"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fga-ED-HAC" customClass="EZAudioPlot">
+                                        <rect key="frame" x="124" y="25" width="188" height="39"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="39" id="eEf-MJ-v0d"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="099-gL-hDf" customClass="RecordingView">
+                                <rect key="frame" x="30" y="29" width="260" height="260"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="currentTimeLabel" destination="ssN-yf-opv" id="fWN-6F-gaf"/>
+                        <outlet property="microphoneStateLabel" destination="qg6-sp-vNK" id="jIz-yF-swS"/>
+                        <outlet property="microphoneSwitch" destination="Jck-oq-tMn" id="7OR-nc-IsW"/>
+                        <outlet property="playButton" destination="EDK-l8-f0b" id="u49-WP-qiq"/>
+                        <outlet property="playingAudioPlot" destination="Fga-ED-HAC" id="I9e-5w-ytv"/>
+                        <outlet property="playingStateLabel" destination="fIL-98-3Hd" id="Rbd-qa-gEo"/>
+                        <outlet property="recordSwitch" destination="VFl-oo-J1F" id="ju0-k4-uwq"/>
+                        <outlet property="recordingAudioPlot" destination="099-gL-hDf" id="Wtd-VB-5kZ"/>
+                        <outlet property="recordingStateLabel" destination="TDn-F3-53G" id="faR-8Q-3D2"/>
+                        <outlet property="view" destination="hkJ-u3-jtf" id="BEa-IW-J6C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xyu-D3-cVk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-52" y="-3539"/>
         </scene>
     </scenes>
     <resources>

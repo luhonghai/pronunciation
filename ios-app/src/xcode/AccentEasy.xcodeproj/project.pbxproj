@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
+		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
 		9BA3AB2E1C4F839800C6631D /* BaseDatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3AB2D1C4F839800C6631D /* BaseDatabaseAdapter.swift */; };
@@ -20,6 +21,14 @@
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
 		C13A5D601C58CBD80036A5E9 /* london_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */; };
 		C13A5D611C58CBD80036A5E9 /* london-sunset-1920x1080.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */; };
+		9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044B1C59B6D200E474F3 /* RecordingView.m */; };
+		9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */; };
+		9BEF04501C59B81800E474F3 /* EZAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */; };
+		9BEF04521C59B8F000E474F3 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04511C59B8F000E474F3 /* Accelerate.framework */; };
+		9BEF04541C59B8F900E474F3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04531C59B8F900E474F3 /* AudioToolbox.framework */; };
+		9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04551C59B90200E474F3 /* GLKit.framework */; };
+		9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04571C59B90B00E474F3 /* AVFoundation.framework */; };
+		9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */; };
 		C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CDA831C48E19A009E649F /* UserProfile.swift */; };
 		C1410BA31C474D9200E781B4 /* AELoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1410BA21C474D9200E781B4 /* AELoginVC.swift */; };
 		C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1410BA41C4762E200E781B4 /* ResetPassVC.swift */; };
@@ -140,6 +149,28 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+
+		9B320E971C5B1972001D8A95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DF4989B50FA8E81C043DD0E6FE26007F;
+			remoteInfo = DLHamburguerMenu;
+		};
+		9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
+			remoteInfo = EZAudio;
+		};
+		9B5ACEF21C55E161007BBFD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8EE5F1F273045F809B80415AB7C130D5;
+			remoteInfo = TPCircularBuffer;
+		};
 		9BC5E0DA1C507C57003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C13CDA781C48D991009E649F /* SwiftClient.xcodeproj */;
@@ -224,17 +255,11 @@
 			remoteGlobalIDString = C141C7FC1C3E203C001D1F9C;
 			remoteInfo = SwiftSidebarMenu;
 		};
-		C1FAD5261C567FEF00385D74 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5F3AE4A64CBAA6972B69F7806B6162F3;
-			remoteInfo = DLHamburguerMenu;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9BA3AB2D1C4F839800C6631D /* BaseDatabaseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseDatabaseAdapter.swift; path = Data/SQLite/BaseDatabaseAdapter.swift; sourceTree = "<group>"; };
@@ -247,11 +272,24 @@
 		9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SSZipArchive.framework; path = "Pods/../build/Debug-iphoneos/SSZipArchive.framework"; sourceTree = "<group>"; };
 		9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		9BC8BE2485A09CDC45C09187 /* Pods-AccentEasy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.debug.xcconfig"; sourceTree = "<group>"; };
+
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
 		C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = london_3.jpg; sourceTree = "<group>"; };
 		C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "london-sunset-1920x1080.jpg"; sourceTree = "<group>"; };
+
+		9BEF044A1C59B6D200E474F3 /* RecordingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingView.h; path = RecordingView/RecordingView.h; sourceTree = "<group>"; };
+		9BEF044B1C59B6D200E474F3 /* RecordingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingView.m; path = RecordingView/RecordingView.m; sourceTree = "<group>"; };
+		9BEF044C1C59B6D200E474F3 /* RecordingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingViewController.h; path = RecordingView/RecordingViewController.h; sourceTree = "<group>"; };
+		9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingViewController.m; path = RecordingView/RecordingViewController.m; sourceTree = "<group>"; };
+		9BEF04511C59B8F000E474F3 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		9BEF04531C59B8F900E474F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		9BEF04551C59B90200E474F3 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		9BEF04571C59B90B00E474F3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingPlayController.h; path = RecordingView/RecordingPlayController.h; sourceTree = "<group>"; };
+		9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingPlayViewController.m; path = RecordingView/RecordingPlayViewController.m; sourceTree = "<group>"; };
+
 		C13CDA781C48D991009E649F /* SwiftClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftClient.xcodeproj; path = "../SwiftClient-master/SwiftClient.xcodeproj"; sourceTree = "<group>"; };
 		C13CDA831C48E19A009E649F /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		C1410BA21C474D9200E781B4 /* AELoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AELoginVC.swift; sourceTree = "<group>"; };
@@ -385,6 +423,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */,
+				9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */,
+				9BEF04541C59B8F900E474F3 /* AudioToolbox.framework in Frameworks */,
+				9BEF04521C59B8F000E474F3 /* Accelerate.framework in Frameworks */,
+				9BEF04501C59B81800E474F3 /* EZAudio.framework in Frameworks */,
 				C199ABDB1C5538C40026E511 /* SwiftClient.framework in Frameworks */,
 				9BA3AB671C4F862300C6631D /* libz.tbd in Frameworks */,
 				9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */,
@@ -413,6 +456,10 @@
 		7FB2C4D9E32C40E897800F4C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9BEF04571C59B90B00E474F3 /* AVFoundation.framework */,
+				9BEF04551C59B90200E474F3 /* GLKit.framework */,
+				9BEF04531C59B8F900E474F3 /* AudioToolbox.framework */,
+				9BEF04511C59B8F000E474F3 /* Accelerate.framework */,
 				9BC5E0DF1C507DF2003CF8E9 /* ObjectMapper.framework */,
 				9BC5E0E01C507DF2003CF8E9 /* SQLite.framework */,
 				9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */,
@@ -434,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */,
+				9B320E8A1C5B1971001D8A95 /* FileHelper.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -451,7 +499,12 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
+
 				C1FAD5271C567FEF00385D74 /* DLHamburguerMenu.framework */,
+
+				9B320E981C5B1972001D8A95 /* DLHamburguerMenu.framework */,
+				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
+
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
@@ -461,6 +514,19 @@
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9BEF043D1C59B6BF00E474F3 /* RecordingView */ = {
+			isa = PBXGroup;
+			children = (
+				9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */,
+				9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */,
+				9BEF044A1C59B6D200E474F3 /* RecordingView.h */,
+				9BEF044B1C59B6D200E474F3 /* RecordingView.m */,
+				9BEF044C1C59B6D200E474F3 /* RecordingViewController.h */,
+				9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */,
+			);
+			name = RecordingView;
 			sourceTree = "<group>";
 		};
 		B0D7FAF0A1EAFD306EEC9A6F /* Pods */ = {
@@ -611,7 +677,11 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+
 				C13A5D581C58C7A70036A5E9 /* MenuController */,
+
+				9BEF043D1C59B6BF00E474F3 /* RecordingView */,
+
 				C1410BAA1C47845200E781B4 /* LaunchController */,
 				C14D980A1C4603F0001DA517 /* LoginController */,
 				C141C8021C3E203C001D1F9C /* ViewController.swift */,
@@ -877,6 +947,30 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+
+
+		9B320E981C5B1972001D8A95 /* DLHamburguerMenu.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DLHamburguerMenu.framework;
+			remoteRef = 9B320E971C5B1972001D8A95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = EZAudio.framework;
+			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B5ACEF31C55E161007BBFD9 /* TPCircularBuffer.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = TPCircularBuffer.framework;
+			remoteRef = 9B5ACEF21C55E161007BBFD9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+
 		9BC5E0DB1C507C57003CF8E9 /* SwiftClient.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -945,13 +1039,6 @@
 			fileType = wrapper.framework;
 			path = SSZipArchive.framework;
 			remoteRef = 9BC5E1001C50803C003CF8E9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C1FAD5271C567FEF00385D74 /* DLHamburguerMenu.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DLHamburguerMenu.framework;
-			remoteRef = C1FAD5261C567FEF00385D74 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1153,6 +1240,7 @@
 				C1410BA31C474D9200E781B4 /* AELoginVC.swift in Sources */,
 				C141C8031C3E203C001D1F9C /* ViewController.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
+				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */,
 				C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */,
@@ -1165,9 +1253,12 @@
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
 				C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */,
 				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
+				9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */,
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				C141C8361C3E4684001D1F9C /* OurTableViewController.swift in Sources */,
+				9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */,
 				C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */,
+				9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */,
 				C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
