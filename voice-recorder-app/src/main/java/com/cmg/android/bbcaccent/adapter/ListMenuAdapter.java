@@ -56,7 +56,7 @@ public class ListMenuAdapter extends BaseAdapter {
         FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
         SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy),
         LOGOUT(R.string.menu_logout, R.drawable.p_logout_red, ColorHelper.getColor(R.color.app_red)),
-        TEACHER(R.string.menu_teacher, R.drawable.p_logout_red)
+        TEACHER(R.string.menu_teacher, R.drawable.p_menu_lesson)
         ;
         int stringId;
         int drawableId;
