@@ -55,6 +55,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:padding="10dip"
+                            android:layout_marginTop="15dp"
                             android:text="@string/titleTecherName"
                             android:id="@+id/teacher"/>
                     </LinearLayout>

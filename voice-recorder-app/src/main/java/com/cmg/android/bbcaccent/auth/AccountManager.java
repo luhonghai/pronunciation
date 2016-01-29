@@ -622,7 +622,6 @@ public class AccountManager {
                                 if(studentMappingTeacher.getStatus().equalsIgnoreCase("pending")){
                                     number++;
                                 }
-
                             }
                         }
 
