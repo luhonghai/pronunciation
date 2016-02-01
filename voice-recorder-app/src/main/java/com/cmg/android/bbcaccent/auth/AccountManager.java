@@ -688,12 +688,10 @@ public class AccountManager {
                     SimpleAppLog.info("Reset password response: " + message);
                     if (message.equalsIgnoreCase("success")) {
                         authListener.onSuccess();
-                    } else {
-                        if (message.toLowerCase().contains("<html>")) {
-                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
-                        } else {
-                            authListener.onError(message, null);
-                        }
+                    } else if(message.equalsIgnoreCase("exits")) {
+                        authListener.onError(context.getString(R.string.teacher_exist_on_list_your_teacher), null);
+                    }else{
+                        authListener.onError(context.getString(R.string.teacher_not_exist), null);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
