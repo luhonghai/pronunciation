@@ -307,15 +307,17 @@ public class Admins extends HttpServlet {
 
                 admin.setFirstName(dto.getFirstName());
                 admin.setLastName(dto.getLastName());
-                admin.setPassword(StringUtil.md5(dto.getPassword()));
+                if(dto.getPassword().length()>0) {
+                    admin.setPassword(StringUtil.md5(dto.getPassword()));
+                }
                 admin.setRole(ro);
                 adminDAO.put(admin);
 
                     List<Company> companies = dto.getCompanies();
                 if(ro==roleold) {
                     if (ro == 3) {
+                        staffMappingCompanyDAO.deleteStaff(dto.getFullName());
                         for (Company company : companies) {
-
                             StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
                             staffMappingCompany.setIsDeleted(false);
                             staffMappingCompany.setIdCompany(company.getIdCompany());
@@ -324,8 +326,10 @@ public class Admins extends HttpServlet {
                             staffMappingCompanyDAO.put(staffMappingCompany);
                         }
                     } else {
+                        teacherMappingCompanyDAO.deleteTeacher(dto.getFullName());
                         for (Company company : companies) {
                             TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
+
                             teacherMappingCompany.setIsDeleted(false);
                             teacherMappingCompany.setIdCompany(company.getIdCompany());
                             teacherMappingCompany.setCompany(company.getCompanyName());

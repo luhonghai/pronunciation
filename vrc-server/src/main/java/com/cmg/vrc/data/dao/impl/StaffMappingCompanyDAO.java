@@ -137,5 +137,25 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
             pm.close();
         }
     }
+    public void deleteStaff(String username) {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE " +metadata.getTable()+ " WHERE StaffName='"+username+"' ");
+        try {
+            tx.begin();
+            q.execute();
+            tx.commit();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
+
 
 }
