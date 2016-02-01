@@ -169,8 +169,10 @@ public class SendMailUser extends HttpServlet{
                     studentMapping.setStudentName(userName);
                     studentMappingTeacherDAO.put(studentMapping);
                     out.print("success");
-                }else{
-                    out.print("error");
+                }else if(admin==null){
+                    out.print("not exits");
+                }else {
+                    out.print("exits");
                 }
             }catch (Exception e){
                 out.print("error");

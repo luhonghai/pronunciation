@@ -3,7 +3,6 @@ function send(){
     $(document).on("click","#send",function(){
         var mail=$("#listmail").val();
         var teacher=$("#teacher").val();
-        $("#mailError").empty();
         var obj= {
                     listmail : readListMail(mail),
                     teacher : teacher
@@ -23,13 +22,11 @@ function send(){
                     } else if(data.message == "notExit") {
                         var list=data.users;
                         var listmail=list.toString();
-                       $("#mailError").html(listmail+" not exist on list user.");
-                        $("#listMail").modal('show');
+                        swal("Error!", "User: "+listmail+" do not exist", "error");
                     }else{
                         var list=data.users;
                         var listmail=list.toString();
-                        $("#mailError").html(listmail+" have on list your email.");
-                        $("#listMail").modal('show');
+                        swal("Warning!", "User: "+listmail+" have on list your student", "warning");
                     }
 
                 }
@@ -40,11 +37,6 @@ function send(){
         }
 
 
-    });
-}
-function close(){
-    $(document).on("click","#close", function(){
-        $("#listMail").modal('hide');
     });
 }
 function readListMail(txt) {
