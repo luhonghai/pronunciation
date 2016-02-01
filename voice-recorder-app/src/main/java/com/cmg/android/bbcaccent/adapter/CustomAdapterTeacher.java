@@ -41,6 +41,7 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
             TextView txtStatus=(TextView)convertView.findViewById(R.id.txtStatus);
             CircleCardView btnAccept=(CircleCardView)convertView.findViewById(R.id.accept);
             CircleCardView btnReject=(CircleCardView)convertView.findViewById(R.id.reject);
+            LinearLayout itemListview=(LinearLayout)convertView.findViewById(R.id.itemListview);
             final String mailTeacher=myArray.get(position).getTeacherName();
             btnAccept.setTag(myArray.get(position));
             btnReject.setTag(myArray.get(position));
@@ -52,6 +53,7 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
                     txtStatus.setBackgroundColor(context.getResources().getColor(R.color.app_green));
                     btnReject.setVisibility(View.GONE);
                     btnAccept.setVisibility(View.GONE);
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_light_gray));
                     break;
                 case "reject":
                     txtTeacher.setText(mailTeacher);
@@ -59,6 +61,7 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
                     txtStatus.setBackgroundColor(context.getResources().getColor(R.color.app_dark_gray));
                     btnAccept.setVisibility(View.GONE);
                     btnReject.setVisibility(View.GONE);
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_light_gray));
                     break;
                 case "pending":
                     txtTeacher.setText(mailTeacher);
