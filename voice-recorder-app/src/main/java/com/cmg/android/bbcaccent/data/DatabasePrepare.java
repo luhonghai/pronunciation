@@ -124,6 +124,7 @@ public class DatabasePrepare {
                 newStatus=responseData.isStatus();
 
             }
+            FileUtils.writeStringToFile(fileStatus,Boolean.toString(newStatus), "UTF-8");
         } catch (Exception e) {
             SimpleAppLog.error("Could not check database version",e);
         }
