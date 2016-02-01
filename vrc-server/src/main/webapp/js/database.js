@@ -50,6 +50,11 @@ function drawTable(){
             "sDefaultContent": ""
         }, {
             "sWidth": "20%",
+            "bSortable": false,
+            "data": "titleNotification",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
             "bSortable": true,
             "data": "createdDate",
             "sDefaultContent": ""
@@ -156,6 +161,9 @@ $(document).ready(function(){
     drawTable();
     $("#btnPopup").click(function() {
         $("#popupGenerate").modal("show");
+        $("#lessonChange").empty();
+        $("#notification").empty();
+
     });
     $("#btnPopupGenerate").click(function() {
         $("#popupGenerateAction").modal("show");
@@ -190,6 +198,7 @@ $(document).ready(function(){
         $popup.prop("disabled","disabled");
         $popupGenerate.prop("disabled","disabled");
         var lessonChange=$("#lessonChange").val();
+        var notification=$("#notification").val();
         $("#popupGenerateAction").modal("hide");
         var $log = $("#generate-log");
         if(lessonChange!=null && lessonChange.length>0) {
@@ -200,7 +209,8 @@ $(document).ready(function(){
                 dataType: "text",
                 data: {
                     action: "load",
-                    lessonChange: lessonChange
+                    lessonChange: lessonChange,
+                    notification:notification
                 },
                 success: function (data) {
                     if (data.indexOf("done") != -1) {

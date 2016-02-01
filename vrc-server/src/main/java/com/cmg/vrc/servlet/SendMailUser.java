@@ -108,7 +108,7 @@ public class SendMailUser extends HttpServlet{
                     }
                 }
                 if(users!=null) {
-                    sendGcmMessage(users);
+                    sendGcmMessage(users,teacher);
                 }
                 if(notExist.size()==0){
                     if(n==0) {
@@ -198,7 +198,7 @@ public class SendMailUser extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }
-    private void sendGcmMessage(List<User> users) {
+    private void sendGcmMessage(List<User> users,String teacher) {
         try {
             appendMessage("Send notification to all user devices");
             GcmMessage message = new GcmMessage(GcmMessage.TYPE_DATABASE);
@@ -214,8 +214,8 @@ public class SendMailUser extends HttpServlet{
                         appendMessage("Add country id to message: " + country.getId() + ". Name: " + country.getName());
                         GcmMessage.Language language = new GcmMessage.Language();
                         language.setId(country.getId());
-                        language.setTitle("New accenteasy lessons");
-                        language.setMessage("There are new accenteasy lessons waiting for you. Download now.");
+                        language.setTitle("New accenteasy message");
+                        language.setMessage("Teacher '"+teacher+"' would like to add you to their accenteasy class to help with training.");
                         message.getLanguages().add(language);
                     }
                 }
