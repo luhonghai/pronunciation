@@ -93,6 +93,8 @@ public class DatabaseGeneratorService {
 
     private String admin;
 
+    private String titleNotification;
+
     private String lessonChange;
 
     private boolean running;
@@ -124,12 +126,13 @@ public class DatabaseGeneratorService {
     private DatabaseGeneratorService() {
     }
 
-    public void generate(String admin,String lessonChange) {
+    public void generate(String admin,String lessonChange, String titleNotification) {
         if (!isRunning()) {
             synchronized (this) {
                 setRunning(true);
                 this.admin = admin;
                 this.lessonChange=lessonChange;
+                this.titleNotification=titleNotification;
                 try {
                     cleanup();
                     if (!tmpDir.exists() || !tmpDir.isDirectory())
@@ -343,6 +346,7 @@ public class DatabaseGeneratorService {
                 databaseVersion.setSelected(true);
                 databaseVersion.setAdmin(admin);
                 databaseVersion.setLessonChange(lessonChange);
+                databaseVersion.setTitleNotification(titleNotification);
                 Date now = new Date(System.currentTimeMillis());
                 databaseVersion.setSelectedDate(now);
                 databaseVersion.setCreatedDate(now);
@@ -422,6 +426,8 @@ public class DatabaseGeneratorService {
 
     private void sendGcmMessage() {
         try {
+            DatabaseVersionDAO databaseVersionDAO=new DatabaseVersionDAO();
+            DatabaseVersion databaseVersion=databaseVersionDAO.getSelectedVersion();
             appendMessage("Send notification to all user devices");
             GcmMessage message = new GcmMessage(GcmMessage.TYPE_DATABASE);
             CountryDAO countryDAO = new CountryDAO();
@@ -433,7 +439,7 @@ public class DatabaseGeneratorService {
                         appendMessage("Add country id to message: " + country.getId() + ". Name: " + country.getName());
                         GcmMessage.Language language = new GcmMessage.Language();
                         language.setId(country.getId());
-                        language.setTitle("New accenteasy lessons");
+                        language.setTitle(databaseVersion.getTitleNotification());
                         language.setMessage("There are new accenteasy lessons waiting for you. Download now.");
                         message.getLanguages().add(language);
                     }
