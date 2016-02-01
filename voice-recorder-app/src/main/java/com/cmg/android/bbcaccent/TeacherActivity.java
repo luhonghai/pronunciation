@@ -194,8 +194,8 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void run() {
 
-                            SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                            d.setTitleText("Email not exist.");
+                            SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.WARNING_TYPE);
+                            d.setTitleText(message);
                             d.setConfirmText(getString(R.string.dialog_ok));
                             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
@@ -215,7 +215,7 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void run() {
                             SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                            d.setTitleText("successful");
+                            d.setTitleText(getString(R.string.teacher_success));
                             d.setConfirmText(getString(R.string.dialog_ok));
                             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override

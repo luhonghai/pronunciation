@@ -1406,7 +1406,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
         }
         if(status) {
-            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
+            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
             d.setTitleText(getString(R.string.lesson_change));
             d.setContentText(lesson);
             d.setConfirmText(getString(R.string.dialog_ok));
