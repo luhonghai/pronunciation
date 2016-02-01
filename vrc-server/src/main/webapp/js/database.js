@@ -201,7 +201,7 @@ $(document).ready(function(){
         var notification=$("#notification").val();
         $("#popupGenerateAction").modal("hide");
         var $log = $("#generate-log");
-        if(lessonChange!=null && lessonChange.length>0) {
+        if(lessonChange!=null && lessonChange.length>0 && notification!=null && notification.length>0) {
             $log.html("Preparing. Please wait...");
             $.ajax({
                 "url": CONTEXT_PATH + "/database",
@@ -228,7 +228,7 @@ $(document).ready(function(){
 
             });
         }else{
-            swal("Warning!", "You can write lesson change.", "warning");
+            swal("Warning!", "You can write lesson change and title notification.", "warning");
         }
     });
     $("#fileuploader").uploadFile({

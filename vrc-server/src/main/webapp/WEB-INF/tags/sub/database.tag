@@ -55,6 +55,7 @@
                 <th>Admin</th>
                 <th>File name</th>
                 <th>File change</th>
+                <th>Title Notification</th>
                 <th>Created Date</th>
                 <th>Selected Date</th>
                 <th>Select version</th>
