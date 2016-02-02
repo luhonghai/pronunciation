@@ -11,7 +11,7 @@ import SQLite
 
 public class BaseDatabaseAdapter {
     
-    var db:Connection?
+    public var db:Connection?
     
     init(dbFile:String) {
         do {

@@ -24,8 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
         //let databaseHelper = DatabaseHelper()
-        //print(databaseHelper.getLessonDatabaseFile())
+        let dbPath = DatabaseHelper.getLessonDatabaseFile()
+        print(DatabaseHelper.getLessonDatabaseFile())
         
+        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+        do {
+        try print(adapter.search("hel"))
+        } catch (let e as NSError) {
+            print(e)
+        }
         // Initialize google sign-in
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
