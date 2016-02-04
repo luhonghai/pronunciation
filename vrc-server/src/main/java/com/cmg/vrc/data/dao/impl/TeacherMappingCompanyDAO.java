@@ -77,4 +77,23 @@ public class TeacherMappingCompanyDAO extends DataAccess<TeacherMappingCompany> 
             pm.close();
         }
     }
+    public void deleteTeacher(String username) {
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Transaction tx = pm.currentTransaction();
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE " +metadata.getTable()+ " WHERE teacherName='"+username+"' ");
+        try {
+            tx.begin();
+            q.execute();
+            tx.commit();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            q.closeAll();
+            pm.close();
+        }
+    }
 }

@@ -5,13 +5,13 @@
   <div class="row">
     <div class="col-lg-12">
       <input type="hidden" id="teacher" value="<%=teacherName%>">
-      <h1 class="page-header">Mail User</h1>
+      <h1 class="page-header">send invite to students</h1>
     </div>
     <!-- /.col-lg-12 -->
   </div>
   <div class="form-group">
     <label style="font-weight: 500;font-size: 200%">
-     Mail User:
+      student list:
     </label>
   </div>
   <div style="border-style: ridge; border-width: 1px;">
@@ -33,6 +33,7 @@
 
 </div>
 <!-- /#wrapper -->
+
 
 <script src="<%=request.getContextPath() %>/js/mailuser.js"></script>
 

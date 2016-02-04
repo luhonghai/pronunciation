@@ -34,6 +34,10 @@ public class DatabaseVersion implements Mirrorable {
     private String lessonChange;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
+    private String titleNotification;
+
+    @Persistent
     private Date createdDate;
 
     @Persistent
@@ -101,5 +105,13 @@ public class DatabaseVersion implements Mirrorable {
 
     public void setLessonChange(String lessonChange) {
         this.lessonChange = lessonChange;
+    }
+
+    public String getTitleNotification() {
+        return titleNotification;
+    }
+
+    public void setTitleNotification(String titleNotification) {
+        this.titleNotification = titleNotification;
     }
 }

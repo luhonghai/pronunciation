@@ -48,6 +48,7 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.teacher);
         ButterKnife.bind(this);
         Gson gson=new Gson();
@@ -60,13 +61,14 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                 StudentMappingTeacher[] MappingTeachers = gson.fromJson(listTeacher, StudentMappingTeacher[].class);
                 List<StudentMappingTeacher> list=Arrays.asList(MappingTeachers);
                 studentMappingTeachers=list;
+                if (studentMappingTeachers != null && studentMappingTeachers.size()>0) {
+                    listTeacher(studentMappingTeachers);
+                }
             }
         }else {
             sendMessageFromTeacher();
         }
-        if (studentMappingTeachers != null && studentMappingTeachers.size()>0) {
-            listTeacher(studentMappingTeachers);
-        }
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +89,9 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                 }
             }
         });
+        if (studentMappingTeachers != null && studentMappingTeachers.size()>0) {
+            listTeacher(studentMappingTeachers);
+        }
 
     }
     private void listTeacher(List<StudentMappingTeacher> studentMappingTeachers){
@@ -101,16 +106,26 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
         int id = v.getId();
         StudentMappingTeacher studentMappingTeacher = (StudentMappingTeacher) v.getTag();
         String mailTeacher=studentMappingTeacher.getTeacherName();
+        String username=studentMappingTeacher.getStudentName();
+        String ids=studentMappingTeacher.getId();
         smt=studentMappingTeachers.get(studentMappingTeachers.indexOf(studentMappingTeacher));
         switch (id){
             case R.id.accept:
                 sendStatusToTeacher("accept", mailTeacher);
                 smt.setStatus("accept");
+                smt.setIsDeleted(false);
+                smt.setTeacherName(mailTeacher);
+                smt.setStudentName(username);
+                smt.setId(ids);
                 listTeacher(studentMappingTeachers);
                 break;
             case R.id.reject:
-                sendStatusToTeacher("reject",mailTeacher);
+                sendStatusToTeacher("reject", mailTeacher);
                 smt.setStatus("reject");
+                smt.setIsDeleted(false);
+                smt.setTeacherName(mailTeacher);
+                smt.setStudentName(username);
+                smt.setId(ids);
                 listTeacher(studentMappingTeachers);
         }
     }
@@ -125,20 +140,29 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
             accountManager.sendStatusToTeacher(profile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {
-                    SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                    d.setTitleText("error");
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    runOnUiThread(new Runnable() {
                         @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
+                        public void run() {
+                            SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
+                            d.setTitleText("error");
+                            d.setConfirmText(getString(R.string.dialog_ok));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+                            d.show();
                         }
                     });
-                    d.show();
                 }
 
                 @Override
                 public void onSuccess() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
                             SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
                             d.setTitleText("successful");
                             d.setConfirmText(getString(R.string.dialog_ok));
@@ -149,6 +173,8 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                                 }
                             });
                             d.show();
+                        }
+                    });
                 }
             }, status, mailTeacher);
         }
@@ -164,16 +190,23 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
             accountManager.searchTeacher(profile, new AccountManager.AuthListener() {
                 @Override
                 public void onError(final String message, Throwable e) {
-                    SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                    d.setTitleText("Email not exist.");
-                    d.setConfirmText(getString(R.string.dialog_ok));
-                    d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    runOnUiThread(new Runnable() {
                         @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
+                        public void run() {
+
+                            SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.WARNING_TYPE);
+                            d.setTitleText(message);
+                            d.setConfirmText(getString(R.string.dialog_ok));
+                            d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+
+                            });
+                            d.show();
                         }
                     });
-                    d.show();
                 }
 
                 @Override
@@ -182,7 +215,7 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void run() {
                             SweetAlertDialog d = new SweetAlertDialog(TeacherActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                            d.setTitleText("successful");
+                            d.setTitleText(getString(R.string.teacher_success));
                             d.setConfirmText(getString(R.string.dialog_ok));
                             d.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
@@ -191,9 +224,11 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                                 }
                             });
                             d.show();
-                            String id= UUIDGenerator.generateUUID();
-                            studentMappingTeachers.add(new StudentMappingTeacher(id,profile.getUsername(),mailTeacher,false,"accept"));
-                            listTeacher(studentMappingTeachers);
+                            String id = UUIDGenerator.generateUUID();
+                            studentMappingTeachers.add(new StudentMappingTeacher(id, profile.getUsername(), mailTeacher, false, "accept"));
+                            if (studentMappingTeachers != null && studentMappingTeachers.size()>0) {
+                                listTeacher(studentMappingTeachers);
+                            }
                         }
                     });
                 }
@@ -219,6 +254,9 @@ public class TeacherActivity extends BaseActivity implements View.OnClickListene
                         @Override
                         public void run() {
                             studentMappingTeachers = lists;
+                            if (studentMappingTeachers != null && studentMappingTeachers.size()>0) {
+                                listTeacher(studentMappingTeachers);
+                            }
                         }
                     });
                 }

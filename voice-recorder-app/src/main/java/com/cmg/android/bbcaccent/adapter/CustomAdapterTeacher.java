@@ -1,6 +1,7 @@
 package com.cmg.android.bbcaccent.adapter;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
         convertView=inflater.inflate(layoutId, null);
         if(myArray.size()>0 && position>=0){
            TextView txtTeacher=(TextView)convertView.findViewById(R.id.textStatement);
-            TextView txtStatus=(TextView)convertView.findViewById(R.id.textStatement);
+            TextView txtStatus=(TextView)convertView.findViewById(R.id.txtStatus);
             CircleCardView btnAccept=(CircleCardView)convertView.findViewById(R.id.accept);
             CircleCardView btnReject=(CircleCardView)convertView.findViewById(R.id.reject);
             LinearLayout itemListview=(LinearLayout)convertView.findViewById(R.id.itemListview);
@@ -50,16 +51,20 @@ public class CustomAdapterTeacher extends ArrayAdapter<StudentMappingTeacher> {
                 case "accept":
                     txtTeacher.setText(mailTeacher);
                     txtStatus.setText("accepted");
-                    txtStatus.setBackgroundColor(context.getResources().getColor(R.color.app_green));
+                    txtStatus.setTextColor(context.getResources().getColor(R.color.app_green));
+                    txtStatus.setTypeface(null, Typeface.ITALIC);
                     btnReject.setVisibility(View.GONE);
                     btnAccept.setVisibility(View.GONE);
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_light_gray));
                     break;
                 case "reject":
                     txtTeacher.setText(mailTeacher);
                     txtStatus.setText("rejected");
-                    txtStatus.setBackgroundColor(context.getResources().getColor(R.color.app_dark_gray));
+                    txtStatus.setTextColor(context.getResources().getColor(R.color.app_red));
+                    txtStatus.setTypeface(null, Typeface.ITALIC);
                     btnAccept.setVisibility(View.GONE);
                     btnReject.setVisibility(View.GONE);
+                    itemListview.setBackgroundColor(context.getResources().getColor(R.color.app_light_gray));
                     break;
                 case "pending":
                     txtTeacher.setText(mailTeacher);

@@ -58,6 +58,7 @@ import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
@@ -77,6 +78,8 @@ import com.luhonghai.litedb.exception.LiteDatabaseException;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -437,15 +440,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         accountManager = new AccountManager(this);
-        databasePrepare=new DatabasePrepare();
-        String lessonChange=databasePrepare.lessonChange();
-        if(lessonChange!=null && lessonChange.length()>0) {
-            popupLesson(lessonChange);
-        }
+        popupLesson();
         sendMessageFromTeacher();
         initListMenu();
         initCustomActionBar();
-
         materialMenu.setVisibility(View.INVISIBLE);
         drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -1385,11 +1383,34 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
 
 
-    private void popupLesson(String lessonChange){
-        SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.ERROR_TYPE);
-        d.setTitleText(getString(R.string.lesson_change));
-        d.setContentText(lessonChange);
-        d.setConfirmText(getString(R.string.dialog_ok));
-        d.show();
+    private void popupLesson(){
+        File databaseDir = new File(FileHelper.getApplicationDir(this), "databases");
+        File fileLesson = new File(databaseDir, "lessonChange");
+        File fileStatus = new File(databaseDir, "status");
+        String lesson="";
+        boolean status=false;
+        if (fileLesson.exists()) {
+            try {
+                lesson = FileUtils.readFileToString(fileLesson, "UTF-8");
+                SimpleAppLog.info("Current database version: " + lesson);
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read current version",e);
+            }
+        }
+        if (fileStatus.exists()) {
+            try {
+                status = Boolean.parseBoolean(FileUtils.readFileToString(fileStatus, "UTF-8"));
+                SimpleAppLog.info("Current database version: " + status);
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read current version",e);
+            }
+        }
+        if(status) {
+            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+            d.setTitleText(getString(R.string.lesson_change));
+            d.setContentText(lesson);
+            d.setConfirmText(getString(R.string.dialog_ok));
+            d.show();
+        }
     }
 }

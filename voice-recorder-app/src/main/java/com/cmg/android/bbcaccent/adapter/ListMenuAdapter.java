@@ -48,7 +48,7 @@ public class ListMenuAdapter extends BaseAdapter {
         FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_freestyle),
         LESSON(R.string.menu_lesson, R.drawable.p_menu_lesson),
         HELP(R.string.menu_help, R.drawable.p_menu_help),
-        IPA(R.string.menu_ipa,R.drawable.p_menu_ipa),
+        IPA(R.string.menu_ipa,R.drawable.ipa_icon),
         ACTIVATE_SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy, ColorHelper.getColor(R.color.app_purple)),
         SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),
@@ -56,7 +56,7 @@ public class ListMenuAdapter extends BaseAdapter {
         FEEDBACK(R.string.menu_feedback, R.drawable.p_menu_feedback),
         SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy),
         LOGOUT(R.string.menu_logout, R.drawable.p_logout_red, ColorHelper.getColor(R.color.app_red)),
-        TEACHER(R.string.menu_teacher, R.drawable.p_logout_red)
+        TEACHER(R.string.menu_teacher, R.drawable.teacher_icon)
         ;
         int stringId;
         int drawableId;

@@ -55,7 +55,7 @@
     <string name="licence_code">licence code</string>
     <string name="activate">activate</string>
     <string name="techerName">Teacher name</string>
-    <string name="titleTecherName">Teacher list for acceptance</string>
+    <string name="titleTecherName">Teacher list for acceptance:</string>
     <string name="logout">logout</string>
     <string name="email_address">email address</string>
     <string name="hint_email_address">email@address</string>
@@ -141,6 +141,11 @@
     <string name="menu_teacher">teacher</string>
     <!--<string name="could_not_connect_server_message">could not connect to server, please contact support@accenteasy.com</string>-->
     <string name="could_not_connect_server_message">sorry our engineers are just upgrading the server, please try again</string>
+    <string name="teacher_exist_on_list_your_teacher">The teacher is already invited</string>
+    <string name="teacher_not_exist">Teacher does not exist</string>
+    <string name="teacher_success">Invited successfully</string>
+
+
     <string name="could_not_purchase_message">your purchase could not be completed, please contact support@accenteasy.com</string>
     <string name="could_not_purchase_title">an error occurred during purchase</string>
     <string name="product_purchased_title">thanks for your order</string>
