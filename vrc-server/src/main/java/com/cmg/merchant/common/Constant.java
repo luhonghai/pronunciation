@@ -17,4 +17,7 @@ public class Constant {
     public static String SHARE_PRIVATE = "private";
 
 
+    public static String DEFAULT_VALUE_CLONE = "not clone";
+
+
 }
