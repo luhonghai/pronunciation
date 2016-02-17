@@ -25,6 +25,7 @@
 		9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04551C59B90200E474F3 /* GLKit.framework */; };
 		9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04571C59B90B00E474F3 /* AVFoundation.framework */; };
 		9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */; };
+		C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */; };
 		C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D561C58B75C0036A5E9 /* Login.swift */; };
 		C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */; };
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
@@ -170,20 +171,6 @@
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
 		};
-		9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0238D1A93148CD5FF90AFA609BB066AF;
-			remoteInfo = Charts;
-		};
-		9B961CE21C60BC2A001FB87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8FE25B491008E16BAF184E01FBB69D35;
-			remoteInfo = TPCircularBuffer;
-		};
 		9BC5E0DA1C507C57003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C13CDA781C48D991009E649F /* SwiftClient.xcodeproj */;
@@ -303,6 +290,7 @@
 		9BEF04571C59B90B00E474F3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingPlayController.h; path = RecordingView/RecordingPlayController.h; sourceTree = "<group>"; };
 		9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingPlayViewController.m; path = RecordingView/RecordingPlayViewController.m; sourceTree = "<group>"; };
+		C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
@@ -526,7 +514,6 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
-				9B961CE11C60BC2A001FB87E /* Charts.framework */,
 				9B320E981C5B1972001D8A95 /* DLHamburguerMenu.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
@@ -568,6 +555,14 @@
 			children = (
 			);
 			name = Service;
+			sourceTree = "<group>";
+		};
+		C11DD2811C71C65D000ED4AF /* SearchController */ = {
+			isa = PBXGroup;
+			children = (
+				C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */,
+			);
+			name = SearchController;
 			sourceTree = "<group>";
 		};
 		C13A5D4A1C58B6F40036A5E9 /* Common */ = {
@@ -713,6 +708,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				C11DD2811C71C65D000ED4AF /* SearchController */,
 				C13A5D581C58C7A70036A5E9 /* MenuController */,
 				9BEF043D1C59B6BF00E474F3 /* RecordingView */,
 				C1410BAA1C47845200E781B4 /* LaunchController */,
@@ -993,20 +989,6 @@
 			fileType = wrapper.framework;
 			path = EZAudio.framework;
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9B961CE11C60BC2A001FB87E /* Charts.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Charts.framework;
-			remoteRef = 9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9B961CE31C60BC2A001FB87E /* TPCircularBuffer.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TPCircularBuffer.framework;
-			remoteRef = 9B961CE21C60BC2A001FB87E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0DB1C507C57003CF8E9 /* SwiftClient.framework */ = {
@@ -1308,6 +1290,7 @@
 				C141C8361C3E4684001D1F9C /* OurTableViewController.swift in Sources */,
 				C13E44BE1C60615B00EB6075 /* Multimedia.swift in Sources */,
 				9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */,
+				C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */,
 				C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */,
 				9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */,
 				9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */,
