@@ -11,50 +11,9 @@
 		"label":"Level 1 sample",
 		"inode":true,
 		"open":false,
-		"checkbox":true,
+		"checkbox":false,
 		"radio":false,
-		"branch":[{
-			"id":49,
-			"label":"Objective 1",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		},
-		{
-			"id":50,
-			"label":"Objective 2",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		},
-		{
-			"id":51,
-			"label":"Objective 3",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		},
-		{
-			"id":52,
-			"label":"Objective 4",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		},
-		{
-			"id":53,
-			"label":"Objective 5",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		},
-		{
-			"id":54,
-			"label":"Test",
-			"inode":false,
-			"checkbox":true,
-			"radio":false
-		}]
+		"branch":[]
 	},
 	{
 		"id":57,

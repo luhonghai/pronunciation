@@ -63,9 +63,7 @@
     padding-left: 15px;
   }
 
-  ul.typeahead{
-    width : 100%;
-  }
+
   @media screen and (min-width: 768px) {
     #adv-search {
       width: 500px;

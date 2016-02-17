@@ -4,6 +4,7 @@
 <%@attribute name="pageTitle" required="true" %>
 <%
   String company = (String) StringUtil.isNull(request.getSession().getAttribute("companyName"),"CMG");
+  String idCourse = (String)StringUtil.isNull(request.getParameter("idCourse"),"id course");
 %>
 <style>
   .welcome{
@@ -22,12 +23,12 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css" media="all">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/demo.css" media="all">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/jquery.contextMenu.css" media="all">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/tree.css" media="all">
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
       <h4 class="page-header header-company"><%=company%> > all courses > course sample</h4>
     </div>
-    <!-- /.col-lg-12 -->
   </div>
 
   <!-- /.row -->
@@ -37,8 +38,12 @@
     </div>
   </div>
 
-
-  <!-- /#page-wrapper -->
+  <div class="row">
+    <div class="col-lg-12" style="padding-top: 20px">
+        <button>Preview</button>
+        <button>Copy</button>
+    </div>
+  </div>
 </div>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciPlugin.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciSortable.min.js"></script>
@@ -47,13 +52,16 @@
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.utils.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.selectable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.sortable.js"></script>
-    <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
+
 <!-- /#wrapper -->
     <script type="text/javascript">
-
+        var loadcourse = "<%=Constant.TARGET_LOAD_COURSE%>";
+        var idCourse= "<%=idCourse%>";
+        var serlvet = "<%=request.getContextPath() %>/" + "ReviewServlet";
       $(function() {
         // listen for the events
-        $('#tree4').on('acitree', function(event, api, item, eventName, options) {
+    /*    $('#tree4').on('acitree', function(event, api, item, eventName, options) {
           switch (eventName) {
             case 'checkdrop':
               if (options.isContainer) {
@@ -105,7 +113,7 @@
               items: menu
             };
           }
-        });
+        });*/
 
 
        /* $('#tree4').on('acitree', function(event, api, item, eventName, options) {
@@ -118,20 +126,30 @@
         });*/
 
 
-        var context = "<%=request.getContextPath() %>";
+    /*    var context = "<%=request.getContextPath() %>";
         // init the tree
         $('#tree4').aciTree({
           ajax: {
             url: context + '/js/merchant/course.json'
           },
-          sortable: true
+          sortable: true,
+          ajaxHook: function(item, settings){
+              var itemData = this.itemData(item);
+              if(itemData!=null){
+                  //for load other node in course
+                  settings.url += (item ? itemData.id : '') + '&type=';
+              }else{
+                  //load course
+                  settings.url = settings.url;
+              }
+
+          }
         });
 
         $('#tree4').removeClass("aciTree0");
         $('#tree4').addClass("aciTreeArrow");
         $('#tree4').addClass("aciTreeNoBranches");
-        $('#tree4').addClass("aciTreeBig");
-
-
+        $('#tree4').addClass("aciTreeBig");*/
       });
     </script>
+    <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/action.js"></script>

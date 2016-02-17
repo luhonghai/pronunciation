@@ -133,7 +133,7 @@
 
 .aciTree .aciTreeLine.aciTreeHover .aciTreeItem {
     background-color:#EFF5FD;
-    border:1px dashed #D9D9D9;
+    /*border:1px dashed #D9D9D9;*/
     -webkit-border-radius:3px;
     -moz-border-radius:3px;
     border-radius:3px;

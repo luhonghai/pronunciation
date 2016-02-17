@@ -20,4 +20,32 @@ public class Constant {
     public static String DEFAULT_VALUE_CLONE = "not clone";
 
 
+
+
+
+    //treeview target load
+    public static String TARGET_LOAD_COURSE = "course";
+
+    public static String TARGET_LOAD_LEVEL = "level";
+
+    public static String TARGET_LOAD_OBJECTIVE = "objective";
+
+    public static String TARGET_LOAD_TEST = "test";
+
+    public static String TARGET_LOAD_LESSONS = "lessons";
+
+
+
+    //color of the tree view
+    public static String BG_COLOR = "#558ED5";
+    public static String TEXT_COLOR = "#FFFFFF";
+
+
+    //icon of the treeview
+    public static String IC_COURSE = "course";
+    public static String IC_LEVEL = "level";
+    public static String IC_OBJ = "obj";
+    public static String IC_TEST = "test";
+    public static String IC_LESSON = "lesson";
+
 }
