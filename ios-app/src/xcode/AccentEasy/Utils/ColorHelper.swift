@@ -26,4 +26,14 @@ public class ColorHelper {
     public static let APP_LIGHT_BLUE = Multimedia.colorWithHexString("#e1f7f8")
     public static let APP_LIGHT_BLUE_BORDER = Multimedia.colorWithHexString("#daedf3")
     public static let APP_BLUR_LIGHT_BLUE = Multimedia.colorWithHexString("#f0fcfc")
+    
+    class func generateGradientColor(color1:UIColor, color2: UIColor, radio: CGFloat) -> UIColor {
+        let ciColor1 = CoreImage.CIColor(color: color1)
+        let ciColor2 = CoreImage.CIColor(color: color2)
+        let red = radio * ciColor1.red + (1.0 - radio) * ciColor2.red
+        let green = radio * ciColor1.green + (1.0 - radio) * ciColor2.green
+        let blue = radio * ciColor1.blue + (1.0 - radio) * ciColor2.blue
+        let alpha = radio * ciColor1.alpha + (1.0 - radio) * ciColor2.alpha
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
 }

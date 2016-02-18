@@ -10,9 +10,18 @@ import Foundation
 import EZAudio
 
 
+protocol AnalyzingDelegate {
+    func onStopRecording()
+    func onAnimationMax()
+    func onAnimationMin()
+}
+
 public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
-    
-    
+    let kFontSize:CGFloat = 64
+    let kMaxRecordingTime:Double = 4000
+    let kMinRecordingTime:Double = 1000
+    let kPitchTimeOut:Double = 1000
+    let kAcceptedRadioPitch:CGFloat = 0.09
     
     let kEZAudioPlotMaxHistoryBufferLength:Int32 = 8192
     let kEZAudioPlotDefaultHistoryBufferLength:Int32 = 512
@@ -25,6 +34,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     var waveformLayer: RecordingViewWaveformLayer!
     var innerCircleLayer: RecordingViewCircleLayer!
     var outerCircleLayer: RecordingViewCircleLayer!
+    var scoreLayer: LCTextLayer!
     
     var displayLink: EZAudioDisplayLink!
     var historyInfo: UnsafeMutablePointer<EZPlotHistoryInfo>!
@@ -34,9 +44,23 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     var lastMax: CGFloat!
     var lastMaxValue: CGFloat!
     
-    var score: Int = -1
+    
+    
+    var recordingTimestamp: Double!
+    var checkClose = false
+    
+    var score: Int = 0
+    var originScore: Int = 0
     
     var type: AnalyzingType = AnalyzingType.DEFAULT
+    
+    var delegate: AnalyzingDelegate!
+    
+    var isRecording:Bool = false
+    
+    var animationState = AnimationState.DEFAULT
+    
+    var lastUpdateAnimationTime: Double = 0.0
     
     public init() {
         super.init(frame:CGRectZero)
@@ -71,6 +95,15 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         // Setup history window
         self.resetHistoryBuffers()
         
+        scoreLayer = LCTextLayer()
+        
+        scoreLayer.font = UIFont.systemFontOfSize(kFontSize, weight: UIFontWeightBold)
+        scoreLayer.foregroundColor = UIColor.whiteColor().CGColor
+        scoreLayer.frame = self.bounds
+        scoreLayer.fontSize = kFontSize
+        scoreLayer.alignmentMode = kCAAlignmentCenter
+        scoreLayer.contentsScale = UIScreen.mainScreen().scale
+        
         self.waveformLayer = RecordingViewWaveformLayer()
         self.waveformLayer.frame = self.bounds
         self.waveformLayer.lineWidth = 2.0
@@ -98,7 +131,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.layer.addSublayer(self.outerCircleLayer)
         self.layer.addSublayer(self.innerCircleLayer)
         self.layer.addSublayer(self.waveformLayer)
-        
+        self.layer.addSublayer(self.scoreLayer)
         //
         // Allow subclass to initialize plot
         //
@@ -110,12 +143,31 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     }
     
     func switchType(_type: AnalyzingType) {
+        switch _type {
+        case .DEFAULT:
+            animationState = AnimationState.DEFAULT
+            break
+        case .ANALYZING:
+            self.score = 0
+            self.originScore = 100
+            animationState = AnimationState.WAIT_FOR_MAX
+            break
+        case .RECORDING:
+            animationState = AnimationState.DEFAULT
+            break
+        case .SHOW_SCORE:
+            break
+        }
         self.type = _type
         self.redraw()
     }
     
     func showScore(_score: Int) {
-        self.score = _score
+        if animationState != .WAIT_FOR_MIN {
+            self.score = 0
+        }
+        self.originScore = _score
+        animationState = AnimationState.WAIT_FOR_MAX
         switchType(AnalyzingType.SHOW_SCORE)
     }
     
@@ -152,6 +204,9 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     public override func clear() {
         super.clear()
+        recordingTimestamp =  NSDate().timeIntervalSince1970 * 1000.0
+        checkClose = false
+        isRecording = true
         if self.pointCount > 0 {
             self.resetHistoryBuffers()
             let data = UnsafeMutablePointer<Float>.alloc(self.pointCount)
@@ -165,6 +220,47 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     private func redraw()
     {
+        let currentTime: Double = NSDate().timeIntervalSince1970 * 1000.0
+        let updateTime = 100.0
+        let step = 4
+        if currentTime - lastUpdateAnimationTime > updateTime {
+            if (self.score >= self.originScore && animationState == .WAIT_FOR_MAX) {
+                self.score = self.originScore
+                delegate.onAnimationMax()
+                if type == .SHOW_SCORE {
+                    animationState = .DEFAULT
+                } else if type == .ANALYZING {
+                    animationState = .WAIT_FOR_MIN
+                }
+            } else if (self.score <= 0 && animationState == .WAIT_FOR_MIN) {
+                self.score = 0
+                delegate.onAnimationMin()
+                if type == .ANALYZING {
+                    animationState = .WAIT_FOR_MAX
+                }
+            }
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            if (self.score > 9) {
+                scoreLayer.string = String(self.score)
+            } else {
+                scoreLayer.string = "0\(self.score)"
+            }
+            CATransaction.commit()
+            switch(animationState) {
+            case .DEFAULT:
+                break
+            case .WAIT_FOR_MAX:
+                self.score += step
+                break
+            case .WAIT_FOR_MIN:
+                self.score -= step
+                break
+            }
+            
+            lastUpdateAnimationTime = currentTime
+        }
+        
         self.updateState()
         let frame: EZRect = self.waveformLayer.frame
         
@@ -197,6 +293,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.waveformLayer.hidden = true;
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = true;
+            self.scoreLayer.hidden = true;
             break;
         case .RECORDING:
             self.outerCircleLayer.fillColor = Multimedia.colorWithHexString("#FFDDBE").CGColor
@@ -204,23 +301,22 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.waveformLayer.hidden = false;
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = false;
+            self.scoreLayer.hidden = true;
             break;
-        case .ANALYZING:
-            self.waveformLayer.hidden = true;
-            self.innerCircleLayer.hidden = false;
-            self.outerCircleLayer.hidden = false;
-            break;
-        case .SHOW_SCORE:
-            if (score >= 80) {
-                self.outerCircleLayer.fillColor = ColorState.STATE_GREEN_COLOR.outerBackground.CGColor
-                self.innerCircleLayer.fillColor = ColorState.STATE_GREEN_COLOR.innerBackground.CGColor
-            } else if (score >= 45) {
-                self.outerCircleLayer.fillColor = ColorState.STATE_ORANGE_COLOR.outerBackground.CGColor
-                self.innerCircleLayer.fillColor = ColorState.STATE_ORANGE_COLOR.innerBackground.CGColor
+        case .SHOW_SCORE, .ANALYZING:
+            var fromColorState: ColorState!
+            var toColorState: ColorState!
+            let radio = CGFloat(score) / 100.0
+            if (radio <= 0.5) {
+                fromColorState = ColorState.STATE_RED_COLOR
+                toColorState = ColorState.STATE_ORANGE_COLOR
             } else {
-                self.outerCircleLayer.fillColor = ColorState.STATE_RED_COLOR.outerBackground.CGColor
-                self.innerCircleLayer.fillColor = ColorState.STATE_RED_COLOR.innerBackground.CGColor
+                fromColorState = ColorState.STATE_ORANGE_COLOR
+                toColorState = ColorState.STATE_GREEN_COLOR
             }
+            self.outerCircleLayer.fillColor = ColorHelper.generateGradientColor(toColorState.outerBackground, color2: fromColorState.outerBackground, radio: radio).CGColor
+            self.innerCircleLayer.fillColor = ColorHelper.generateGradientColor(toColorState.innerBackground, color2: fromColorState.innerBackground, radio: radio).CGColor
+            self.scoreLayer.hidden = false;
             self.waveformLayer.hidden = true;
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = false;
@@ -241,7 +337,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         pointCount: Int,
         inRect rect: EZRect) -> CGPathRef
     {
-        let timeout: Double = 1000.0;
+        let timeout: Double = kPitchTimeOut
         let width: CGFloat = min(rect.size.width, rect.size.height);
         var maxY: CGFloat = 0.0;
         for i in 0...pointCount
@@ -249,22 +345,39 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             maxY = max(points[i].y, maxY);
         }
         maxY = min(maxY * CGFloat(self.gain), 1.0);
+        
         let currentTime: Double = NSDate().timeIntervalSince1970 * 1000.0
         if (maxY > self.lastMax) {
             self.lastMaxTime = currentTime;
             self.lastMax = maxY;
             self.lastMaxValue = maxY;
+            if (maxY > kAcceptedRadioPitch) {
+                checkClose = false
+            }
         }
         maxY = self.lastMax;
+        if (type == .SHOW_SCORE || type == .ANALYZING) {
+            maxY = CGFloat(score) / 100.0
+        }
         let scaleX: CGFloat = (1.0 - maxY) * (width / 2 - radio * width/4);
         let scaleWidth: CGFloat = width - scaleX * 2;
         let scaleTime: Double = currentTime - self.lastMaxTime;
+        
         if scaleTime >= Double(timeout) {
             self.lastMax = 0;
             self.lastMaxValue = 0;
+            if (recordingTimestamp != nil && currentTime - recordingTimestamp > kMinRecordingTime) {
+                checkClose = true
+            }
         } else {
             self.lastMax = (1 - CGFloat(scaleTime / timeout)) * self.lastMaxValue;
             //NSLog(@"Last max %f - %f - %f", (double)scaleTime, self.lastMax, self.lastMaxValue);
+        }
+        if recordingTimestamp != nil && ((currentTime - recordingTimestamp > kMaxRecordingTime) || checkClose) {
+            if type == AnalyzingType.RECORDING {
+                NSLog("Auto stop recording")
+                delegate!.onStopRecording()
+            }
         }
         return UIBezierPath(roundedRect: CGRectMake(scaleX, scaleX, scaleWidth, scaleWidth),
             cornerRadius: scaleWidth/2).CGPath
@@ -399,6 +512,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     }
 
     public func displayLinkNeedsDisplay(displayLink: EZAudioDisplayLink!) {
+
         self.redraw()
     }
 }
@@ -460,6 +574,14 @@ class RecordingViewCircleLayer : CAShapeLayer {
     }
 }
 
+public enum AnimationState : Int {
+    case DEFAULT
+    
+    case WAIT_FOR_MAX
+    
+    case WAIT_FOR_MIN
+}
+
 public enum AnalyzingType : Int {
     
     case DEFAULT
@@ -473,28 +595,28 @@ public enum AnalyzingType : Int {
 
 public class ColorState {
     static let STATE_GREEN_COLOR = ColorState(
-            innerBorder: UIColor(red: 113, green: 176, blue: 56, alpha: 255),
-            innerBackground: UIColor(red: 156, green: 202, blue: 124, alpha: 255),
-            outerBorder: UIColor(red: 164, green: 234, blue: 150, alpha: 255),
-            outerBackground: UIColor(red: 214, green: 246, blue: 209, alpha: 255))
+            innerBorder: Multimedia.colorWithHexString("#71b038"),
+            innerBackground: Multimedia.colorWithHexString("#9cca7c"),
+        outerBorder: Multimedia.colorWithHexString("#a4ea96"),
+        outerBackground: Multimedia.colorWithHexString("#d6f6d1"))
     
     static let STATE_ORANGE_COLOR = ColorState(
-        innerBorder: UIColor(red: 255, green: 145, blue: 106, alpha: 255),
-        innerBackground: UIColor(red: 255, green: 191, blue: 161, alpha: 255),
-        outerBorder: UIColor(red: 255, green: 201, blue: 147, alpha: 255),
-        outerBackground: UIColor(red: 255, green: 233, blue: 210, alpha: 255))
+        innerBorder: Multimedia.colorWithHexString("#ff916a"),
+        innerBackground: Multimedia.colorWithHexString("#ffbfa1"),
+        outerBorder: Multimedia.colorWithHexString("#ffc993"),
+        outerBackground: Multimedia.colorWithHexString("#ffe9d2"))
     
     static let STATE_RED_COLOR = ColorState(
-        innerBorder: UIColor(red: 255, green: 72, blue: 72, alpha: 255),
-        innerBackground: UIColor(red: 255, green: 156, blue: 156, alpha: 255),
-        outerBorder: UIColor(red: 255, green: 217, blue: 217, alpha: 255),
-        outerBackground: UIColor(red: 255, green: 231, blue: 231, alpha: 255))
+        innerBorder: Multimedia.colorWithHexString("#ff4848"),
+        innerBackground: Multimedia.colorWithHexString("#ff9c9c"),
+        outerBorder: Multimedia.colorWithHexString("#ffd9d9"),
+        outerBackground: Multimedia.colorWithHexString("#ffe7e7"))
     
     static let STATE_GRAY_COLOR = ColorState(
-        innerBorder: UIColor(red: 134, green: 134, blue: 134, alpha: 255),
-        innerBackground: UIColor(red: 146, green: 146, blue: 146, alpha: 255),
-        outerBorder: UIColor(red: 158, green: 158, blue: 158, alpha: 255),
-        outerBackground: UIColor(red: 170, green: 170, blue: 170, alpha: 255))
+        innerBorder: Multimedia.colorWithHexString("#868686"),
+        innerBackground: Multimedia.colorWithHexString("#929292"),
+        outerBorder: Multimedia.colorWithHexString("#9e9e9e"),
+        outerBackground: Multimedia.colorWithHexString("#aaaaaa"))
     
     var innerBorder: UIColor
     var innerBackground: UIColor
@@ -506,5 +628,35 @@ public class ColorState {
         self.innerBackground = innerBackground
         self.outerBorder = outerBorder
         self.outerBackground = outerBackground
+    }
+}
+
+class LCTextLayer : CATextLayer {
+    
+    // REF: http://lists.apple.com/archives/quartz-dev/2008/Aug/msg00016.html
+    // CREDIT: David Hoerl - https://github.com/dhoerl
+    // USAGE: To fix the vertical alignment issue that currently exists within the CATextLayer class. Change made to the yDiff calculation.
+    
+    override init() {
+        super.init()
+    }
+    
+    override init(layer: AnyObject) {
+        super.init(layer: layer)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(layer: aDecoder)
+    }
+    
+    override func drawInContext(ctx: CGContext) {
+        let height = self.bounds.size.height
+        let fontSize = self.fontSize
+        let yDiff = (height-fontSize)/2 - fontSize/10
+        
+        CGContextSaveGState(ctx)
+        CGContextTranslateCTM(ctx, 0.0, yDiff)
+        super.drawInContext(ctx)
+        CGContextRestoreGState(ctx)
     }
 }

@@ -19,11 +19,14 @@ public class Login {
         user.username = "luhonghai@gmail.com"
         user.name = "Hai Lu"
         user.loginType = UserProfile.TYPE_GOOGLE_PLUS
-        user.token = "3e08755b-d906-4afa-948a-6f239836c4be"
+        user.token = "6a3fddb4-79ed-472e-83e9-c899e5db8634"
         user.licenseCode = "8FvYvh"
         user.isActivatedLicence = true
         user.isSubscription = true
         user.profileImage = "https://en.gravatar.com/userimage/43514054/ee7d72e67f6b776a9b03a6361f2d0517.png?size=320"
+        let deviceInfo = UserProfile.DeviceInfo()
+        deviceInfo.emei = "2a38d560-c9d5-3b42-8ac7-7b642b92339f"
+        user.deviceInfo = deviceInfo
         return user
     }
 }
