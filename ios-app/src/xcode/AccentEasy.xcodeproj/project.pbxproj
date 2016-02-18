@@ -12,11 +12,20 @@
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
 		9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */; };
+		9B9BE6EF1C62F3C100C84823 /* GraphPageItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE6EE1C62F3C100C84823 /* GraphPageItemController.swift */; };
+		9B9BE6F11C62F70200C84823 /* GraphHistoryDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */; };
+		9B9BE6F31C62F8F400C84823 /* GraphPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE6F21C62F8F400C84823 /* GraphPageViewController.swift */; };
+		9B9BE6F71C6305E900C84823 /* ColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE6F61C6305E900C84823 /* ColorHelper.swift */; };
+		9B9BE7091C63136B00C84823 /* CustomLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE7081C63136B00C84823 /* CustomLineChartView.swift */; };
+		9B9BE71A1C632BC600C84823 /* HistoryTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE7191C632BC600C84823 /* HistoryTableController.swift */; };
+		9B9BE71C1C632D4600C84823 /* HistoryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9BE71B1C632D4600C84823 /* HistoryTableCell.swift */; };
 		9BA3AB2E1C4F839800C6631D /* BaseDatabaseAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3AB2D1C4F839800C6631D /* BaseDatabaseAdapter.swift */; };
 		9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */; };
 		9BA3AB671C4F862300C6631D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA3AB661C4F862300C6631D /* libz.tbd */; };
 		9BA3AB801C4F976900C6631D /* database.zip in Resources */ = {isa = PBXBuildFile; fileRef = 9BA3AB7F1C4F976900C6631D /* database.zip */; };
 		9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */; };
+		9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA896641C7417D700BEE9CE /* AnalyzingView.swift */; };
+		9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */; };
 		9BEF044E1C59B6D200E474F3 /* RecordingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044B1C59B6D200E474F3 /* RecordingView.m */; };
 		9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */; };
 		9BEF04501C59B81800E474F3 /* EZAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */; };
@@ -171,6 +180,13 @@
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
 		};
+		9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0238D1A93148CD5FF90AFA609BB066AF;
+			remoteInfo = Charts;
+		};
 		9BC5E0DA1C507C57003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C13CDA781C48D991009E649F /* SwiftClient.xcodeproj */;
@@ -270,11 +286,20 @@
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollectionDbApdater.swift; path = Data/SQLite/WordCollectionDbApdater.swift; sourceTree = "<group>"; };
+		9B9BE6EE1C62F3C100C84823 /* GraphPageItemController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphPageItemController.swift; path = Graph/GraphPageItemController.swift; sourceTree = "<group>"; };
+		9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphHistoryDemoController.swift; sourceTree = "<group>"; };
+		9B9BE6F21C62F8F400C84823 /* GraphPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GraphPageViewController.swift; path = Graph/GraphPageViewController.swift; sourceTree = "<group>"; };
+		9B9BE6F61C6305E900C84823 /* ColorHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorHelper.swift; path = Utils/ColorHelper.swift; sourceTree = "<group>"; };
+		9B9BE7081C63136B00C84823 /* CustomLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomLineChartView.swift; path = Graph/CustomLineChartView.swift; sourceTree = "<group>"; };
+		9B9BE7191C632BC600C84823 /* HistoryTableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableController.swift; path = History/HistoryTableController.swift; sourceTree = "<group>"; };
+		9B9BE71B1C632D4600C84823 /* HistoryTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableCell.swift; path = History/HistoryTableCell.swift; sourceTree = "<group>"; };
 		9BA3AB2D1C4F839800C6631D /* BaseDatabaseAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseDatabaseAdapter.swift; path = Data/SQLite/BaseDatabaseAdapter.swift; sourceTree = "<group>"; };
 		9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DatabaseHelper.swift; path = Data/SQLite/DatabaseHelper.swift; sourceTree = "<group>"; };
 		9BA3AB661C4F862300C6631D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9BA3AB7F1C4F976900C6631D /* database.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; name = database.zip; path = AccentEasy/Data/SQLite/database.zip; sourceTree = "<group>"; };
 		9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HttpDownloader.swift; path = Utils/HttpDownloader.swift; sourceTree = "<group>"; };
+		9BA896641C7417D700BEE9CE /* AnalyzingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyzingView.swift; path = RecordingView/AnalyzingView.swift; sourceTree = "<group>"; };
+		9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AnalyzingViewController.swift; path = RecordingView/AnalyzingViewController.swift; sourceTree = "<group>"; };
 		9BC5E0DF1C507DF2003CF8E9 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Pods/../build/Debug-iphoneos/ObjectMapper.framework"; sourceTree = "<group>"; };
 		9BC5E0E01C507DF2003CF8E9 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "Pods/../build/Debug-iphoneos/SQLite.framework"; sourceTree = "<group>"; };
 		9BC5E0E11C507DF2003CF8E9 /* SSZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SSZipArchive.framework; path = "Pods/../build/Debug-iphoneos/SSZipArchive.framework"; sourceTree = "<group>"; };
@@ -480,6 +505,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9B9BE6DF1C62F38800C84823 /* GraphController */ = {
+			isa = PBXGroup;
+			children = (
+				9B9BE6EE1C62F3C100C84823 /* GraphPageItemController.swift */,
+				9B9BE6F21C62F8F400C84823 /* GraphPageViewController.swift */,
+				9B9BE7081C63136B00C84823 /* CustomLineChartView.swift */,
+			);
+			name = GraphController;
+			sourceTree = "<group>";
+		};
+		9B9BE7181C632BA500C84823 /* HistoryController */ = {
+			isa = PBXGroup;
+			children = (
+				9B9BE7191C632BC600C84823 /* HistoryTableController.swift */,
+				9B9BE71B1C632D4600C84823 /* HistoryTableCell.swift */,
+			);
+			name = HistoryController;
+			sourceTree = "<group>";
+		};
 		9BA3AB2C1C4F82D600C6631D /* SQLite */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,6 +541,7 @@
 				C14CE27A1C4E187D001EE55A /* SweetAlert.swift */,
 				9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */,
 				9B320E8A1C5B1971001D8A95 /* FileHelper.swift */,
+				9B9BE6F61C6305E900C84823 /* ColorHelper.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -537,6 +582,8 @@
 				9BEF044B1C59B6D200E474F3 /* RecordingView.m */,
 				9BEF044C1C59B6D200E474F3 /* RecordingViewController.h */,
 				9BEF044D1C59B6D200E474F3 /* RecordingViewController.m */,
+				9BA896641C7417D700BEE9CE /* AnalyzingView.swift */,
+				9BA8967A1C74525200BEE9CE /* AnalyzingViewController.swift */,
 			);
 			name = RecordingView;
 			sourceTree = "<group>";
@@ -708,7 +755,8 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
-				C11DD2811C71C65D000ED4AF /* SearchController */,
+				9B9BE7181C632BA500C84823 /* HistoryController */,
+				9B9BE6DF1C62F38800C84823 /* GraphController */,
 				C13A5D581C58C7A70036A5E9 /* MenuController */,
 				9BEF043D1C59B6BF00E474F3 /* RecordingView */,
 				C1410BAA1C47845200E781B4 /* LaunchController */,
@@ -718,6 +766,7 @@
 				C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */,
 				C141C8351C3E4684001D1F9C /* OurTableViewController.swift */,
 				C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */,
+				9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */,
 			);
 			name = ScreenController;
 			sourceTree = "<group>";
@@ -934,7 +983,7 @@
 				TargetAttributes = {
 					C141C7FC1C3E203C001D1F9C = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 9J4RS2EYG7;
+						DevelopmentTeam = WG75H77A6K;
 					};
 					C141C8101C3E203C001D1F9C = {
 						CreatedOnToolsVersion = 7.2;
@@ -989,6 +1038,13 @@
 			fileType = wrapper.framework;
 			path = EZAudio.framework;
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B961CE11C60BC2A001FB87E /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0DB1C507C57003CF8E9 /* SwiftClient.framework */ = {
@@ -1271,10 +1327,14 @@
 				C13E44C01C60902F00EB6075 /* UserVoiceModel.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
 				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
+				9B9BE6F31C62F8F400C84823 /* GraphPageViewController.swift in Sources */,
+				9B9BE6F71C6305E900C84823 /* ColorHelper.swift in Sources */,
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */,
 				C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */,
 				C1410BA71C47821E00E781B4 /* RegisterVC.swift in Sources */,
+				9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */,
+				9B9BE6F11C62F70200C84823 /* GraphHistoryDemoController.swift in Sources */,
 				C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */,
 				C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */,
 				C141C8321C3E21FA001D1F9C /* SWRevealViewController.m in Sources */,
@@ -1284,8 +1344,13 @@
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
 				C13E44C21C6093C300EB6075 /* SphinxResult.swift in Sources */,
 				C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */,
+				9B9BE7091C63136B00C84823 /* CustomLineChartView.swift in Sources */,
 				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
+				9B9BE6EF1C62F3C100C84823 /* GraphPageItemController.swift in Sources */,
+				9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */,
 				9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */,
+				9B9BE71A1C632BC600C84823 /* HistoryTableController.swift in Sources */,
+				9B9BE71C1C632D4600C84823 /* HistoryTableCell.swift in Sources */,
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				C141C8361C3E4684001D1F9C /* OurTableViewController.swift in Sources */,
 				C13E44BE1C60615B00EB6075 /* Multimedia.swift in Sources */,
@@ -1438,6 +1503,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1465,6 +1531,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

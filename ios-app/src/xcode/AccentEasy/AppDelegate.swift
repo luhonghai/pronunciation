@@ -25,20 +25,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         Fabric.with([Crashlytics.self])
         
         //let databaseHelper = DatabaseHelper()
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        print(DatabaseHelper.getLessonDatabaseFile())
+        //let dbPath = DatabaseHelper.getLessonDatabaseFile()
+        //print(DatabaseHelper.getLessonDatabaseFile())
         
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
-        do {
-        //try print(adapter.search("hel"))
-            let resultCount:Int = try adapter.search("hel").count - 1
-            for index in 0...resultCount{
-                try print(adapter.search("hel")[index].word)
-            }
-        } catch (let e as NSError) {
-            print(e)
-        }
-        
+        //let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+//        do {
+//        try print(adapter.search("hel"))
+//        } catch (let e as NSError) {
+//            print(e)
+//        }
         // Initialize google sign-in
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
