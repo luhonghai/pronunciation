@@ -37,15 +37,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         // Do any additional setup after loading the view.
         
-        //button style
+        //button style cricle
         btnRecord.layer.cornerRadius = btnRecord.frame.size.width/2
         btnRecord.clipsToBounds = true
-        //btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
-        //btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Highlighted)
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
-        //btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Application)
-        //btnPlay.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Highlighted)
         viewSound.layer.cornerRadius = viewSound.frame.size.width/2
         viewSound.clipsToBounds = true
         
@@ -67,16 +63,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
         //lblUsername.text = userProfile.username
         
+        //init audioPlayer for check playing
         do{
         audioPlayer = try AVAudioPlayer(contentsOfURL:  NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw", ofType: "wav")!))
         }catch{
             print("Error getting the audio file")
         }
         
-        //load data default
+        //load word default
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        print(DatabaseHelper.getLessonDatabaseFile())
-        
         let adapter = WordCollectionDbApdater(dbFile: dbPath!)
         do{
             selectWord(try adapter.search("hello")[0])
@@ -100,16 +95,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //loginParameter.setObject(nil, forKey: "username")
     }
     
+    //define for search bar
     var arrSearchResultData = [WordCollection]()
-    var appleProducts = [String]()
+    //var appleProducts = [String]()
     var filteredAppleProducts = [String]()
     var resultSearchController = UISearchController()
     let resultsController = UITableViewController(style: .Plain)
     var searchSelectRow:Int!
     
     @IBAction func barbuttonSearchClick(sender: AnyObject) {
-
-        
         //
         resultsController.tableView.dataSource = self
         resultsController.tableView.delegate = self
@@ -130,13 +124,13 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if cell == nil{
             cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
         }
-        cell?.textLabel?.text = appleProducts[indexPath.row]
+        cell?.textLabel?.text = arrSearchResultData[indexPath.row].word
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print (self.appleProducts.count)
-        return self.appleProducts.count
+        print (self.arrSearchResultData.count)
+        return self.arrSearchResultData.count
     }
     
     
@@ -145,13 +139,6 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //load data for ViewControll when select word
         searchSelectRow = indexPath.row
         print("Row \(searchSelectRow) selected")
-        /*
-        var word: String!
-        var arpabet: String!
-        var definition: String!
-        var mp3Path: String!
-        var pronunciation: String!
-        */
         selectWord(arrSearchResultData[searchSelectRow])
     }
     
@@ -167,39 +154,28 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func updateSearchResultsForSearchController(searchController: UISearchController)
     {
+        //searching word process
         print (searchController.searchBar.text!)
-        
-        /*self.filteredAppleProducts.removeAll(keepCapacity: false)
-        
-        let searchPredicate = NSPredicate(format: "SELF CONTAINS[c] %@", searchController.searchBar.text!)
-        let array = (self.appleProducts as NSArray).filteredArrayUsingPredicate(searchPredicate)
-        self.filteredAppleProducts = array as! [String]
-        
-        resultsController.reloadInputViews()*/
-        
-        //let databaseHelper = DatabaseHelper()
+        //get database
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        //print(DatabaseHelper.getLessonDatabaseFile())
-        
         let adapter = WordCollectionDbApdater(dbFile: dbPath!)
         do {
-            //try print(adapter.search("hel"))
-            appleProducts.removeAll(keepCapacity: false)
+            //appleProducts.removeAll(keepCapacity: false)
             arrSearchResultData = try adapter.search(searchController.searchBar.text!)
-            let resultCount:Int = arrSearchResultData.count - 1
-            if resultCount >= 0 {
-                for index in 0...resultCount{
-                    print(arrSearchResultData[index].word)
+            //let resultCount:Int = arrSearchResultData.count - 1
+            //if resultCount >= 0 {
+                //for index in 0...resultCount{
+                    //print(arrSearchResultData[index].word)
                     //print(arrSearchResultData[index].mp3Path)
-                    appleProducts.append(arrSearchResultData[index].word)
-                }
-            }
+                    //appleProducts.append(arrSearchResultData[index].word)
+                //}
+            //}
         
         } catch (let e as NSError) {
             print(e)
         }
         
-        print(appleProducts)
+        //print(appleProducts)
         print(arrSearchResultData)
         //reload data for table view search
         resultsController.tableView.reloadData();
