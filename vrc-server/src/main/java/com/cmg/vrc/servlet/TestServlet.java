@@ -16,14 +16,18 @@ public class TestServlet {
         StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
 
         try{
-for(int i=0;i<10;i++) {
-    StudentMappingTeacher country = new StudentMappingTeacher();
-    country.setTeacherName("cmgteacher@c-mg.com");
-    country.setIsDeleted(false);
-    country.setStudentName("nambui"+i);
+            for(int i=0;i<5;i++) {
+                StudentMappingTeacher country = new StudentMappingTeacher();
+                country.setTeacherName("demoTeacher1@c-mg.com");
+                country.setIsDeleted(false);
+                country.setStudentName("nambui"+i);
+                country.setLicence(false);
+                country.setLastTeacherName("bui");
+                country.setFirstTeacherName("nam");
+                country.setStatus("reject");
 
-    studentMappingTeacherDAO.put(country);
-}
+                studentMappingTeacherDAO.put(country);
+            }
 
         }catch (Exception e){
             e.getStackTrace();

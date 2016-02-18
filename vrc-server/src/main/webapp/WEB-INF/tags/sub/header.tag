@@ -127,14 +127,25 @@
 					<a href="pronunciation-score.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 				<%}else {
-					if(role.equals("3")){%>
+					if(role.equals("3") || role.equals("4")){
+						if(role.equals("3")){
+				%>
 						<li>
 						<a href="teacher-management.jsp"><i class="fa fa-users"></i> Teacher Management </a>
 						</li>
-					<%}else {%>
+					<%}%>
 						<li>
-							<a href="class.jsp"><i class="fa fa-slideshare"></i> Class Management </a>
+							<a href="class.jsp"><i class="fa fa-slideshare"></i> Student Management </a>
 							<ul>
+								<li>
+									<a href="class.jsp"><i class="fa fa-envelope-o"></i>  Class Management </a>
+								</li>
+								<li>
+									<a href="my-students.jsp"><i class="fa fa-envelope-o"></i>  My Students </a>
+								</li>
+								<li>
+									<a href="licensed-students.jsp"><i class="fa fa-envelope-o"></i>  Licensed Students </a>
+								</li>
 								<li>
 									<a href="mail-user.jsp"><i class="fa fa-envelope-o"></i>  Send invitation </a>
 								</li>

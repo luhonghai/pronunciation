@@ -141,7 +141,7 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE " +metadata.getTable()+ " WHERE StaffName='"+username+"' ");
+        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE FROM " +metadata.getTable()+ " WHERE StaffName='"+username+"' ");
         try {
             tx.begin();
             q.execute();

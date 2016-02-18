@@ -21,10 +21,21 @@ public class StudentMappingTeacher implements Mirrorable {
     private String teacherName;
 
     @Persistent
+    private String firstTeacherName;
+
+    @Persistent
+    private String lastTeacherName;
+
+    @Persistent
     private boolean isDeleted;
 
     @Persistent
     private String status;
+
+    @Persistent
+    private boolean licence;
+
+
 
     @Override
     public String getId() {
@@ -66,5 +77,29 @@ public class StudentMappingTeacher implements Mirrorable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFirstTeacherName() {
+        return firstTeacherName;
+    }
+
+    public void setFirstTeacherName(String firstTeacherName) {
+        this.firstTeacherName = firstTeacherName;
+    }
+
+    public String getLastTeacherName() {
+        return lastTeacherName;
+    }
+
+    public void setLastTeacherName(String lastTeacherName) {
+        this.lastTeacherName = lastTeacherName;
+    }
+
+    public boolean isLicence() {
+        return licence;
+    }
+
+    public void setLicence(boolean licence) {
+        this.licence = licence;
     }
 }

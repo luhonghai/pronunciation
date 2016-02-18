@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +36,65 @@ public class SendMailUser extends HttpServlet{
         private String message;
         private List<String> users;
     }
-    private class ResponseDataExt extends ResponseData<StudentMappingTeacher> {
-        public List<StudentMappingTeacher> studentMappingTeachers;
+    class student{
+        public int draw;
+        public int recordsTotal;
+        public int recordsFiltered;
+
+        List<StudentMappingTeacher> data;
+    }
+    class myStudent{
+        private List<info> listStudent;
+
+        public List<info> getListStudent() {
+            return listStudent;
+        }
+
+        public void setListStudent(List<info> listStudent) {
+            this.listStudent = listStudent;
+        }
+    }
+    class info{
+        private String id;
+        private boolean licence;
+        private String studentName;
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public boolean isLicence() {
+            return licence;
+        }
+
+        public void setLicence(boolean licence) {
+            this.licence = licence;
+        }
+
+        public String getStudentName() {
+            return studentName;
+        }
+
+        public void setStudentName(String studentName) {
+            this.studentName = studentName;
+        }
+    }
+    class listAdd{
+        private List<String> listStudent;
+
+        public List<String> getListStudent() {
+            return listStudent;
+        }
+
+        public void setListStudent(List<String> listStudent) {
+            this.listStudent = listStudent;
+        }
+    }
+    private class ResponseDataExt extends ResponseData<StudentMappingTeacherClient> {
+        public List<StudentMappingTeacherClient> studentMappingTeachers;
     }
     private File currentLogFile;
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault());
@@ -80,6 +138,8 @@ public class SendMailUser extends HttpServlet{
             try{
                 MailToUser mailToUser= gson.fromJson(jsonClient,MailToUser.class);
                 String teacher=mailToUser.getTeacher();
+                AdminDAO adminDAO=new AdminDAO();
+                Admin admin=adminDAO.getUserByEmail(teacher);
                 String []listMail=mailToUser.getListmail();
                 int n=0;
                 for(String mail:listMail){
@@ -94,7 +154,10 @@ public class SendMailUser extends HttpServlet{
                             StudentMappingTeacher studentMappingTeacher1=new StudentMappingTeacher();
                             studentMappingTeacher1.setStudentName(mailStudent);
                             studentMappingTeacher1.setTeacherName(teacher);
+                            studentMappingTeacher1.setFirstTeacherName(admin.getFirstName());
+                            studentMappingTeacher1.setLastTeacherName(admin.getLastName());
                             studentMappingTeacher1.setIsDeleted(false);
+                            studentMappingTeacher1.setLicence(false);
                             studentMappingTeacher1.setStatus("pending");
                             studentMappingTeacherDAO.put(studentMappingTeacher1);
                             send.add(mailStudent);
@@ -132,11 +195,11 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("infoUser")){
             Gson gson=new Gson();
             String username=request.getParameter("username");
-            List<StudentMappingTeacher> studentMappingTeachers=new ArrayList<StudentMappingTeacher>();
+            List<StudentMappingTeacherClient> studentMappingTeachers=new ArrayList<StudentMappingTeacherClient>();
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             try {
                 if(username!="") {
-                    studentMappingTeachers = studentMappingTeacherDAO.getByStudent(username);
+                    studentMappingTeachers = studentMappingTeacherDAO.getStudentMappingTeaccher(username);
                     responseData.setStatus(true);
                     responseData.setMessage("success");
                     responseData.studentMappingTeachers = studentMappingTeachers;
@@ -152,32 +215,136 @@ public class SendMailUser extends HttpServlet{
             }
 
 
-        }else if(action.equalsIgnoreCase("searchTeacher")) {
-            AdminDAO adminDAO=new AdminDAO();
+//        }else if(action.equalsIgnoreCase("searchTeacher")) {
+//            AdminDAO adminDAO=new AdminDAO();
+//            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+//            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+//            String mailTeacher=request.getParameter("mailTeacher");
+//            String userName=request.getParameter("username");
+//            try {
+//                Admin admin = adminDAO.getUserByTeacher(mailTeacher);
+//                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
+//                if(admin!=null && studentMappingTeacher==null){
+//                    StudentMappingTeacher studentMapping=new StudentMappingTeacher();
+//                    studentMapping.setIsDeleted(false);
+//                    studentMapping.setStatus("accept");
+//                    studentMapping.setTeacherName(mailTeacher);
+//                    studentMapping.setStudentName(userName);
+//                    studentMappingTeacherDAO.put(studentMapping);
+//                    out.print("success");
+//                }else if(admin==null){
+//                    out.print("not exits");
+//                }else {
+//                    out.print("exits");
+//                }
+//            }catch (Exception e){
+//                out.print("error");
+//            }
+
+        }else if(action.equalsIgnoreCase("listLicensedStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
-            String mailTeacher=request.getParameter("mailTeacher");
-            String userName=request.getParameter("username");
-            try {
-                Admin admin = adminDAO.getUserByTeacher(mailTeacher);
-                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
-                if(admin!=null && studentMappingTeacher==null){
-                    StudentMappingTeacher studentMapping=new StudentMappingTeacher();
-                    studentMapping.setIsDeleted(false);
-                    studentMapping.setStatus("accept");
-                    studentMapping.setTeacherName(mailTeacher);
-                    studentMapping.setStudentName(userName);
-                    studentMappingTeacherDAO.put(studentMapping);
-                    out.print("success");
-                }else if(admin==null){
-                    out.print("not exits");
-                }else {
-                    out.print("exits");
-                }
+            student st=new student();
+            String teacher=request.getSession().getAttribute("username").toString();
+            String s = request.getParameter("start");
+            String l = request.getParameter("length");
+            String d = request.getParameter("draw");
+            String search = request.getParameter("search[value]");
+            String column = request.getParameter("order[0][column]");
+            String oder = request.getParameter("order[0][dir]");
+            int start = Integer.parseInt(s);
+            int length = Integer.parseInt(l);
+            int col = Integer.parseInt(column);
+            int draw = Integer.parseInt(d);
+            int count=0;
+            try{
+                count=studentMappingTeacherDAO.getCountStudentHaveLicence(search,col,oder,teacher).size();
+                st.draw=draw;
+                st.recordsTotal=count;
+                st.recordsFiltered=count;
+                st.data=studentMappingTeacherDAO.getStudentHaveLicence(start,length,search,col,oder,teacher);
+                Gson gson=new Gson();
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
+
             }catch (Exception e){
-                out.print("error");
+                e.printStackTrace();
             }
 
+
+        }else if(action.equalsIgnoreCase("addStudents")){
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            listAdd listAdd=new listAdd();
+            Gson gson=new Gson();
+            String list=request.getParameter("listStudent");
+            listAdd listStudent=gson.fromJson(list,listAdd.class);
+            List<String> lists=listStudent.getListStudent();
+            try {
+                for (String id : lists) {
+                    StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+                    studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                    studentMappingTeacher.setStatus("accept");
+                    studentMappingTeacherDAO.put(studentMappingTeacher);
+                }
+                response.getWriter().write("success");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(action.equalsIgnoreCase("listMyStudents")){
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            student st=new student();
+            String teacher=request.getSession().getAttribute("username").toString();
+            String s = request.getParameter("start");
+            String l = request.getParameter("length");
+            String d = request.getParameter("draw");
+            String search = request.getParameter("search[value]");
+            String column = request.getParameter("order[0][column]");
+            String oder = request.getParameter("order[0][dir]");
+            int start = Integer.parseInt(s);
+            int length = Integer.parseInt(l);
+            int col = Integer.parseInt(column);
+            int draw = Integer.parseInt(d);
+            int count=0;
+            try{
+                count=studentMappingTeacherDAO.getCountMyStudents(search, col, oder, teacher).size();
+                st.draw=draw;
+                st.recordsTotal=count;
+                st.recordsFiltered=count;
+                st.data=studentMappingTeacherDAO.getMyStudents(start, length, search, col, oder, teacher);
+                Gson gson=new Gson();
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }else if(action.equalsIgnoreCase("deleteStudent")){
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            String teacher=request.getSession().getAttribute("username").toString();
+            myStudent myStudent=new myStudent();
+            Gson gson=new Gson();
+            String list=request.getParameter("listStudent");
+            myStudent student=gson.fromJson(list,myStudent.class);
+            List<info> infos=student.getListStudent();
+            try {
+                for (info info : infos) {
+                    boolean lecence=info.isLicence();
+                    String id=info.getId();
+                    StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+                    if(lecence==true) {
+                        studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                        studentMappingTeacher.setStatus("pending");
+                        studentMappingTeacherDAO.put(studentMappingTeacher);
+                    }else{
+                        studentMappingTeacherDAO.delete(id);
+                    }
+
+                }
+                response.getWriter().write("success");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }else {
             Gson gson=new Gson();
             String username=request.getParameter("username");
