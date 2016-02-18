@@ -106,7 +106,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         
         self.waveformLayer = RecordingViewWaveformLayer()
         self.waveformLayer.frame = self.bounds
-        self.waveformLayer.lineWidth = 2.0
+        self.waveformLayer.lineWidth = 2.6
         self.waveformLayer.strokeColor = UIColor.whiteColor().CGColor
         self.waveformLayer.fillColor = nil
         self.waveformLayer.backgroundColor = nil
@@ -162,12 +162,18 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.redraw()
     }
     
-    func showScore(_score: Int) {
+    func showScore(_score: Int, showAnimation: Bool = true) {
         if animationState != .WAIT_FOR_MIN {
             self.score = 0
         }
+        if showAnimation {
+            animationState = AnimationState.WAIT_FOR_MAX
+        } else {
+            self.score = _score
+            animationState = AnimationState.DEFAULT
+        }
         self.originScore = _score
-        animationState = AnimationState.WAIT_FOR_MAX
+        
         switchType(AnalyzingType.SHOW_SCORE)
     }
     
@@ -243,7 +249,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             CATransaction.setDisableActions(true)
             if (self.score > 9) {
                 scoreLayer.string = String(self.score)
-            } else {
+            } else if (self.score >= 0) {
                 scoreLayer.string = "0\(self.score)"
             }
             CATransaction.commit()

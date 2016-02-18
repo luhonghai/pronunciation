@@ -22,7 +22,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var userProfile = UserProfile()
     var fileName:String = "tmp_record_file"
     var fileType:String = "wav"
-    var scoreResult:Float = 0
+    var scoreResult:Float = -1
     var LinkFile:String!
     var selectedWord: WordCollection!
     var isRecording:Bool = false
@@ -137,7 +137,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         dispatch_async(dispatch_get_main_queue(), {
             let player = notification.object as! EZAudioPlayer
             let isPlaying = player.isPlaying
-            if (isPlaying) {
+            if (isPlaying && weakSelf!.recorder != nil) {
                 weakSelf!.recorder.delegate = nil
             }
         });
@@ -295,8 +295,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                                 //[unowned self] in NSThread.isMainThread()
                                 //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                                weakSelf!.scoreResult = userVoiceModel.score
-                                weakSelf!.showColorOfScoreResult(floor(userVoiceModel.score))
+                                weakSelf!.scoreResult = floor(userVoiceModel.score)
+                                weakSelf!.showColorOfScoreResult(weakSelf!.scoreResult)
+                                weakSelf!.analyzingView.showScore(Int(weakSelf!.scoreResult))
                                 weakSelf!.ennableViewRecord()
                                 weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
                                 //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
@@ -352,7 +353,12 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             self.player.pause()
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
-            showColorOfScoreResult(scoreResult)
+            self.btnRecord.enabled = true
+            if (self.scoreResult >= 0.0) {
+                showColorOfScoreResult(scoreResult)
+                self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+            }
+            
         } else {
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff3333")
@@ -380,10 +386,14 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func doFinishPlaying() {
-        self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
-        self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        showColorOfScoreResult(scoreResult)
-        ennableViewPlay()
+        if (self.scoreResult >= 0.0) {
+            self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
+            self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
+            showColorOfScoreResult(scoreResult)
+            self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+                    ennableViewPlay()
+        }
+
     }
     
     func playSound(fileUrl: NSURL) {
@@ -405,7 +415,6 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             //color >= 80 green
             changeColorGreen()
         }
-        self.analyzingView.showScore(Int(scoreResult))
     }
     
     func changeColorLoadWord(){
