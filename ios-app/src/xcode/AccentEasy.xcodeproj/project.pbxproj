@@ -34,6 +34,10 @@
 		9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04551C59B90200E474F3 /* GLKit.framework */; };
 		9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04571C59B90B00E474F3 /* AVFoundation.framework */; };
 		9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */; };
+		C109066F1C7579FA0071206D /* Menu-100.png in Resources */ = {isa = PBXBuildFile; fileRef = C109066E1C7579FA0071206D /* Menu-100.png */; };
+		C10906811C757A120071206D /* Menu-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906801C757A120071206D /* Menu-25@2x.png */; };
+		C10906831C75B5DB0071206D /* Menu-20.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906821C75B5DB0071206D /* Menu-20.png */; };
+		C10906851C75B61A0071206D /* Menu-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906841C75B61A0071206D /* Menu-25.png */; };
 		C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */; };
 		C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D561C58B75C0036A5E9 /* Login.swift */; };
 		C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */; };
@@ -180,13 +184,6 @@
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
 		};
-		9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0238D1A93148CD5FF90AFA609BB066AF;
-			remoteInfo = Charts;
-		};
 		9BC5E0DA1C507C57003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C13CDA781C48D991009E649F /* SwiftClient.xcodeproj */;
@@ -257,6 +254,13 @@
 			remoteGlobalIDString = 214A00C7CB8BD5242ABF63AAB7E6F5BD;
 			remoteInfo = SSZipArchive;
 		};
+		C109067C1C7579FA0071206D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0238D1A93148CD5FF90AFA609BB066AF;
+			remoteInfo = Charts;
+		};
 		C13E44B51C6051ED00EB6075 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -315,6 +319,10 @@
 		9BEF04571C59B90B00E474F3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingPlayController.h; path = RecordingView/RecordingPlayController.h; sourceTree = "<group>"; };
 		9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingPlayViewController.m; path = RecordingView/RecordingPlayViewController.m; sourceTree = "<group>"; };
+		C109066E1C7579FA0071206D /* Menu-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-100.png"; sourceTree = "<group>"; };
+		C10906801C757A120071206D /* Menu-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-25@2x.png"; sourceTree = "<group>"; };
+		C10906821C75B5DB0071206D /* Menu-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-20.png"; sourceTree = "<group>"; };
+		C10906841C75B61A0071206D /* Menu-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-25.png"; sourceTree = "<group>"; };
 		C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
@@ -559,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
+				C109067D1C7579FA0071206D /* Charts.framework */,
 				9B320E981C5B1972001D8A95 /* DLHamburguerMenu.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
@@ -799,6 +808,10 @@
 		C16CD2441C44B1EC00537461 /* drawable */ = {
 			isa = PBXGroup;
 			children = (
+				C10906841C75B61A0071206D /* Menu-25.png */,
+				C10906821C75B5DB0071206D /* Menu-20.png */,
+				C10906801C757A120071206D /* Menu-25@2x.png */,
+				C109066E1C7579FA0071206D /* Menu-100.png */,
 				C16CD2451C44B1EC00537461 /* above_shadow.xml */,
 				C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */,
 				C16CD2471C44B1EC00537461 /* ae_icon.png */,
@@ -1041,13 +1054,6 @@
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9B961CE11C60BC2A001FB87E /* Charts.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Charts.framework;
-			remoteRef = 9B961CE01C60BC2A001FB87E /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9BC5E0DB1C507C57003CF8E9 /* SwiftClient.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1118,6 +1124,13 @@
 			remoteRef = 9BC5E1001C50803C003CF8E9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C109067D1C7579FA0071206D /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = C109067C1C7579FA0071206D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1138,6 +1151,7 @@
 				C16CD2C11C44B1EC00537461 /* p_menu_ipa.png in Resources */,
 				C16CD2F01C44B1EC00537461 /* ic_slider_up.png in Resources */,
 				C16CD2DF1C44B1EC00537461 /* gb_round.png in Resources */,
+				C109066F1C7579FA0071206D /* Menu-100.png in Resources */,
 				C141C80B1C3E203C001D1F9C /* LaunchScreen.storyboard in Resources */,
 				C16CD2CC1C44B1EC00537461 /* rounded_corner_color_default.xml in Resources */,
 				C16CD2E11C44B1EC00537461 /* ic_close.png in Resources */,
@@ -1145,6 +1159,7 @@
 				C16CD2E41C44B1EC00537461 /* ic_google_plus_white.png in Resources */,
 				C16CD2D41C44B1EC00537461 /* sl_background.png in Resources */,
 				C16CD2BC1C44B1EC00537461 /* p_logout_red.png in Resources */,
+				C10906831C75B5DB0071206D /* Menu-20.png in Resources */,
 				C16CD2E71C44B1EC00537461 /* ic_menu.png in Resources */,
 				C16CD2B41C44B1EC00537461 /* p_btn_register.png in Resources */,
 				C16CD2F41C44B1EC00537461 /* vn_round.png in Resources */,
@@ -1152,6 +1167,7 @@
 				C16CD2FF1C44B1EC00537461 /* help_content_8.png in Resources */,
 				C16CD2EE1C44B1EC00537461 /* ic_slider.png in Resources */,
 				C16CD2B71C44B1EC00537461 /* p_help_hand.png in Resources */,
+				C10906811C757A120071206D /* Menu-25@2x.png in Resources */,
 				C16CD2CB1C44B1EC00537461 /* rounded_corner.xml in Resources */,
 				C16CD2BA1C44B1EC00537461 /* p_history_blue_blur.png in Resources */,
 				C16CD2D31C44B1EC00537461 /* scrollbar.xml in Resources */,
@@ -1235,6 +1251,7 @@
 				C16CD2E31C44B1EC00537461 /* ic_facebook_white.png in Resources */,
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,
+				C10906851C75B61A0071206D /* Menu-25.png in Resources */,
 				C16CD3001C44B1EC00537461 /* help_content_9.png in Resources */,
 				C16CD2EC1C44B1EC00537461 /* ic_redo.png in Resources */,
 			);

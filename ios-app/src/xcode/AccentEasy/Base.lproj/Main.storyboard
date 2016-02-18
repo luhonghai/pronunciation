@@ -771,7 +771,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fPL-gl-tiM">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="MSm-IG-hsA"/>
+                        <barButtonItem key="leftBarButtonItem" image="Menu-25.png" id="MSm-IG-hsA"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="KdN-oA-qMm">
                             <connections>
                                 <action selector="barbuttonSearchClick:" destination="ma6-zi-wIz" id="JKh-XW-6iT"/>
@@ -1650,6 +1650,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Menu-25.png" width="25" height="25"/>
         <image name="accenteasy_icon_text.png" width="745" height="100"/>
         <image name="ae_icon.png" width="90" height="90"/>
         <image name="default_avatar.png" width="338" height="338"/>
@@ -1678,11 +1679,11 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eFf-YZ-v5D"/>
-        <segue reference="jMS-2y-5xw"/>
-        <segue reference="TPh-X3-TuQ"/>
-        <segue reference="w7l-a7-zju"/>
-        <segue reference="ZoM-vd-D1g"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="y7T-RE-Gak"/>
+        <segue reference="UNY-bE-rXo"/>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="TPh-X3-TuQ"/>
+        <segue reference="jMS-2y-5xw"/>
     </inferredMetricsTieBreakers>
 </document>
