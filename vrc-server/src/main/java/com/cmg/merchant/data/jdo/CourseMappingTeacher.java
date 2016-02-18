@@ -19,7 +19,7 @@ public class CourseMappingTeacher implements Mirrorable{
     private String cpID;//company id
 
     @Persistent
-    private String tID;//merchant id
+    private String tID;//teacher id
 
     @Persistent
     private String cID;//course id
@@ -44,6 +44,23 @@ public class CourseMappingTeacher implements Mirrorable{
 
     @Persistent
     private boolean isDeleted;
+
+    public CourseMappingTeacher(){}
+
+    public CourseMappingTeacher(String tID, String cpID, String cID,
+                                String sr, String status, String state, Date dateCreated,
+                                String cpIdClone, String cIdClone, boolean isDeleted){
+        this.tID = tID;
+        this.cpID = cpID;
+        this.cID = cID;
+        this.sr = sr;
+        this.status = status;
+        this.state = state;
+        this.dateCreated = dateCreated;
+        this.cpIdClone = cpIdClone;
+        this.cIdClone = cIdClone;
+        this.isDeleted = isDeleted;
+    }
 
     public boolean isDeleted() {
         return isDeleted;

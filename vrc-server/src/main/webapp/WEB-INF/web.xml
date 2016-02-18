@@ -597,7 +597,23 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.SuggestionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <url-pattern>/SuggestionServlet</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ReviewServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.ReviewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReviewServlet</servlet-name>
+        <url-pattern>/ReviewServlet</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>

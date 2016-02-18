@@ -48,7 +48,7 @@ public class ListMenuAdapter extends BaseAdapter {
         FREESTYLE(R.string.menu_freestyle, R.drawable.p_menu_freestyle),
         LESSON(R.string.menu_lesson, R.drawable.p_menu_lesson),
         HELP(R.string.menu_help, R.drawable.p_menu_help),
-        IPA(R.string.menu_ipa,R.drawable.ae_icon),
+        IPA(R.string.menu_ipa,R.drawable.ipa_icon),
         ACTIVATE_SUBSCRIPTION(R.string.menu_subscription, R.drawable.ic_menu_accenteasy, ColorHelper.getColor(R.color.app_purple)),
         SETTING(R.string.menu_settings, R.drawable.p_menu_setting),
         ABOUT(R.string.menu_about, R.drawable.p_menu_about),

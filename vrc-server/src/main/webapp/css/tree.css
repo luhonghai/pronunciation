@@ -1,0 +1,72 @@
+.aciTree .aciTreeIcon.course {
+    background-image: url("../images/treeview/ic_course.png") !important;
+    width: 24px;
+    height: 24px;
+}
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.course {
+    /* comment next line to keep the same icon on hover */
+    background-image: url("../images/treeview/ic_course.png")  !important;
+    width: 24px;
+    height: 24px;
+}
+
+.aciTree .aciTreeIcon.level {
+    background-image: url("../images/treeview/ic_level.png")  !important;
+    width: 24px;
+    height: 24px;
+}
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.level {
+    /* comment next line to keep the same icon on hover */
+    background-image: url("../images/treeview/ic_level.png")  !important;
+    width: 24px;
+    height: 24px;
+}
+
+.aciTree .aciTreeIcon.obj {
+    background-image: url("../images/treeview/ic_obj.png")  !important;
+    width: 24px;
+    height: 24px;
+}
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.obj {
+    /* comment next line to keep the same icon on hover */
+    background-image: url("../images/treeview/ic_obj.png") !important;
+    width: 24px;
+    height: 24px;
+}
+
+.aciTree .aciTreeIcon.test {
+    background-image: url("../images/treeview/ic_test.png") !important;
+    width: 24px;
+    height: 24px;
+}
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.test {
+    /* comment next line to keep the same icon on hover */
+    background-image: url("../images/treeview/ic_test.png") !important;
+    width: 24px;
+    height: 24px;
+}
+
+.aciTree .aciTreeIcon.lessons {
+
+}
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.lessons {
+    /* comment next line to keep the same icon on hover */
+
+}
+
+.aciTree .aciTreeIcon.question {
+
+}
+
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.question {
+    /* comment next line to keep the same icon on hover */
+
+}
+
+.aciTree .btnAdd{
+
+}
+
+.aciTree .btnEdit{
+
+}
