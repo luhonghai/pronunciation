@@ -360,7 +360,7 @@ public class Admins extends HttpServlet {
                     }
                 }
 
-                    response.getWriter().write("success");
+                response.getWriter().write("success");
 
             }catch (Exception e){
                 e.getStackTrace();

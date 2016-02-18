@@ -81,7 +81,7 @@ public class TeacherMappingCompanyDAO extends DataAccess<TeacherMappingCompany> 
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
         TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE " +metadata.getTable()+ " WHERE teacherName='"+username+"' ");
+        Query q = pm.newQuery("javax.jdo.query.SQL","DELETE FROM " +metadata.getTable()+ " WHERE teacherName='"+username+"' ");
         try {
             tx.begin();
             q.execute();

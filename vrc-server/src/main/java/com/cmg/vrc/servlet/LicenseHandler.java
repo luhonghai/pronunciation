@@ -138,6 +138,7 @@ public class LicenseHandler extends BaseServlet {
                     if (!StringUtils.isEmpty(code)) {
                         LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
                         licenseCodeCompany=licenseCodeCompanyDAO.getByCode(code);
+                        AdminDAO adminDAO=new AdminDAO();
                         if (licenseCode != null) {
                             if (licenseCode.isActivated()) {
                                 if (StringUtils.isEmpty(licenseCode.getAccount())) {
@@ -150,11 +151,15 @@ public class LicenseHandler extends BaseServlet {
                                         String company=licenseCodeCompany.getCompany();
                                         List<TeacherMappingCompany> teacherMappingCompanies=teacherMappingCompanyDAO.getByCompany(company);
                                         for(TeacherMappingCompany mappingCompany:teacherMappingCompanies){
+                                            Admin admin=adminDAO.getUserByEmail(mappingCompany.getTeacherName());
                                            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                                             studentMappingTeacher.setStudentName(account);
                                             studentMappingTeacher.setTeacherName(mappingCompany.getTeacherName());
+                                            studentMappingTeacher.setFirstTeacherName(admin.getFirstName());
+                                            studentMappingTeacher.setLastTeacherName(admin.getLastName());
                                             studentMappingTeacher.setIsDeleted(false);
-                                            studentMappingTeacher.setStatus("accept");
+                                            studentMappingTeacher.setStatus("pending");
+                                            studentMappingTeacher.setLicence(true);
                                             studentMappingTeacherDAO.put(studentMappingTeacher);
                                         }
 
