@@ -56,12 +56,16 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //loginParameter = NSUserDefaults()
         
         userProfileSaveInApp = NSUserDefaults()
-        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
-        print("login successfull")
-        print(JSONStringUserProfile)
-        userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
-        //lblUsername.text = userProfile.username
+        if Login.IS_DEBUG {
+            userProfile = Login.getTestUserProfile()
+        } else {
+            let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
+            JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
+            print("login successfull")
+            print(JSONStringUserProfile)
+            userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
+            //lblUsername.text = userProfile.username
+        }
         
         //init audioPlayer for check playing
         do{

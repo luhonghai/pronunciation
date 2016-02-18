@@ -33,9 +33,13 @@ class MenuTVC: UITableViewController {
         
         //load User profile
         userProfileSaveInApp = NSUserDefaults()
-        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
-        userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
+        if Login.IS_DEBUG {
+            userProfile = Login.getTestUserProfile()
+        } else {
+            let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
+            JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
+            userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
+        }
         lblName.text = userProfile.name
         lblEmail.text = userProfile.username
         

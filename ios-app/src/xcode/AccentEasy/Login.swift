@@ -9,14 +9,17 @@
 import Foundation
 
 public class Login {
+    
     public static let KeyUserProfile:String = "KeyUserProfile"
+    
+    public static let IS_DEBUG:Bool = true
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()
         user.username = "luhonghai@gmail.com"
         user.name = "Hai Lu"
         user.loginType = UserProfile.TYPE_GOOGLE_PLUS
-        user.token = ""
+        user.token = "3e08755b-d906-4afa-948a-6f239836c4be"
         user.licenseCode = "8FvYvh"
         user.isActivatedLicence = true
         user.isSubscription = true
