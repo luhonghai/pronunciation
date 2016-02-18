@@ -757,6 +757,7 @@
 			children = (
 				9B9BE7181C632BA500C84823 /* HistoryController */,
 				9B9BE6DF1C62F38800C84823 /* GraphController */,
+				C11DD2811C71C65D000ED4AF /* SearchController */,
 				C13A5D581C58C7A70036A5E9 /* MenuController */,
 				9BEF043D1C59B6BF00E474F3 /* RecordingView */,
 				C1410BAA1C47845200E781B4 /* LaunchController */,

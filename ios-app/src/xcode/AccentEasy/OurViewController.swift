@@ -232,7 +232,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             
             //upload to server
             let client = Client()
-                .baseUrl("http://localhost:8080")
+                .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in print(e)});
             
             //client.post("/VoiceRecordHandler").attach("imageKey", NSData(contentsOfFile: "image.png")!, "image.png", withMimeType: "image/png")
