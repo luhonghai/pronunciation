@@ -74,8 +74,6 @@
 //    self.recordingAudioPlot.backgroundColor = [UIColor colorWithRed: 0.984 green: 0.71 blue: 0.365 alpha: 1];
     self.recordingAudioPlot.color           = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     self.recordingAudioPlot.plotType        = EZPlotTypeBuffer;
-//    self.recordingAudioPlot.shouldFill      = YES;
-//    self.recordingAudioPlot.shouldMirror    = YES;
     self.recordingAudioPlot.gain = 2.0f;
 
     //
@@ -229,7 +227,7 @@
         [self.microphone startFetchingAudio];
         self.recorder = [EZRecorder recorderWithURL:[self testFilePathURL]
                                        clientFormat:[self.microphone audioStreamBasicDescription]
-                                           fileType:EZRecorderFileTypeM4A
+                                           fileType:EZRecorderFileTypeWAV
                                            delegate:self];
         self.playButton.enabled = YES;
     }
