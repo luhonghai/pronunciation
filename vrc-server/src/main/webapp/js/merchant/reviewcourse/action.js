@@ -12,8 +12,7 @@ function initTree(){
             url: serlvet
         },
         autoInit: false,
-        selectable :true,
-        sortable: false,
+        sortable: true,
         ajaxHook: function(item, settings){
             var itemData = this.itemData(item);
             if(itemData!=null){
@@ -29,7 +28,7 @@ function initTree(){
         },
         itemHook: function(parent, item, itemData, level) {
              // a custom item implementation to show a link
-            item.attr('id',itemData['id']);
+            //item.attr('id',itemData['id']);
             item.find('.aciTreeItem').css('background-color', itemData['_backgroundColor']);
             item.find('.aciTreeItem').css('padding', '5px');
             item.find('.aciTreeItem').css('border-radius', '5px');
@@ -38,10 +37,9 @@ function initTree(){
             item.find('.aciTreeText').css('color', itemData['_textColor']);
             item.find('.aciTreeText').css('font-size', 'larger');
             item.find('.aciTreeText').css('padding-left', '5px');
-            //alert(itemData['label']);
         }
     });
-    treeAPI = $('#tree4').aciTree('api');
+    treeAPI = theTree.aciTree('api');
     treeAPI.init({
         success: function(item) {
             this.open(item);
@@ -53,10 +51,11 @@ function initTree(){
     theTree.addClass("aciTreeBig");
 }
 
-function destroy(){
+function reloadRoot(){
     treeAPI = theTree.aciTree('api');
     treeAPI.destroy({
         success: function(item) {
+            initTree();
         }
     });
 }
@@ -73,10 +72,8 @@ function reload(){
     treeAPI = theTree.aciTree('api');
     var itemData = treeAPI.itemData(currentParent);
     var target = itemData._targetLoad;
-    if(target == 'course'){
-        destroy();
-        initTree();
-
+    if(target == loadcourse){
+        reloadRoot();
     }else{
         treeAPI.unload(currentParent, {
             success: function(item) {
@@ -89,7 +86,16 @@ function reload(){
             }
         });
     }
-
+    treeAPI.searchId(true,true,{
+       success : function(item,options){
+           var itemData = treeAPI.itemData(item);
+           alert(itemData);
+       },
+       fail : function (item,options){
+            alert('a')
+       } ,
+        id : "obj1"
+    });
 }
 
 
@@ -111,6 +117,9 @@ function copyAndPaste(){
                 name: 'Paste',
                 callback: function() {
                     var data = api.itemData(nodeCopied);
+                    var lblcopied = data['label'];
+                    lblcopied = 'copy of ' + lblcopied;
+                    data['label'] = lblcopied;
                     api.append(item,{
                         itemData : [data]
                     })
@@ -123,8 +132,39 @@ function copyAndPaste(){
         }
     });
 }
+
+function drag2drop(){
+    theTree.on('acitree', function(event, api, item, eventName, options) {
+        switch (eventName) {
+            case 'checkdrop':
+                if (options.isContainer) {
+                    // mark the drop target as invalid
+                    return false;
+                } else {
+                    if (options.before === null) {
+                        // container creation is disabled
+                        return false;
+                    }
+                    // check to have the same parent
+                    var target = api.itemFrom(options.hover);
+                    if (!api.sameParent(item, target)) {
+                        // mark the drop target as invalid
+                        return false;
+                    }
+
+                    var itemData = api.itemData(item);
+                    var label = itemData['label'];
+                    if(label == 'Test'){
+                        return false;
+                    }
+                }
+                break;
+        }
+    });
+}
 $(function() {
+    drag2drop();
+    copyAndPaste();
     saveParent();
     initTree();
-    copyAndPaste();
 });
