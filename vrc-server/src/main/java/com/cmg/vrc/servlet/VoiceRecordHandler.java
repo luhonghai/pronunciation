@@ -9,6 +9,8 @@ import com.cmg.vrc.data.jdo.LoginToken;
 import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.job.CheckNumberDateJob;
 import com.cmg.vrc.job.SummaryReportJob;
+import com.cmg.vrc.processor.CustomFFMPEGLocator;
+import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.service.PhonemeScoreService;
 import com.cmg.vrc.service.UserVoiceModelService;
 import com.cmg.vrc.sphinx.PhonemesDetector;
@@ -17,6 +19,9 @@ import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
+import it.sauronsoftware.jave.AudioAttributes;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -92,7 +97,7 @@ public class VoiceRecordHandler extends HttpServlet {
             }
             //String targetDir = Configuration.getValue(Configuration.VOICE_RECORD_DIR);
             String targetDir = voiceRecordDir.getAbsolutePath();
-            String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID();
+            String tmpFile = UUID.randomUUID().toString() + UUIDGenerator.generateUUID() + ".wav";
             String tmpDir = FileHelper.getTmpSphinx4DataDir().getAbsolutePath();
             while (iter.hasNext()) {
                 FileItemStream item = iter.next();
@@ -108,9 +113,8 @@ public class VoiceRecordHandler extends HttpServlet {
                         String getName = item.getName();
                         logger.info("getname = :" +getName);
                         // Process the input stream
-                        if(getName.endsWith(".wav")){
+                        if (getName.toLowerCase().endsWith(".wav")) {
                             FileUtils.copyInputStreamToFile(stream, new File(tmpDir, tmpFile));
-                            //FileHelper.saveFile(tmpDir, tmpFile, stream);
                         }
                     }
                 }finally {
@@ -138,7 +142,32 @@ public class VoiceRecordHandler extends HttpServlet {
                     File targetRaw = new File(target, fileTempName);
                     //String fileClean = word + "_" + uuid + "_clean" + ".wav";
                     //File targetClean = new File(target, fileClean);
-                    FileUtils.moveFile(tmpFileIn, targetRaw);
+                    AudioAttributes audio = new AudioAttributes();
+                  //  audio.setBitRate(128000);
+                    audio.setChannels(1);
+                    audio.setSamplingRate(16000);
+                    EncodingAttributes attrs = new EncodingAttributes();
+                    attrs.setFormat("wav");
+                    attrs.setAudioAttributes(audio);
+                    logger.info("Origin file path :" + tmpFileIn.getAbsolutePath());
+                    String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                    Encoder encoder;
+                    if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                            || env.equalsIgnoreCase("int")
+                            || env.equalsIgnoreCase("aws")) {
+                        encoder = new Encoder(
+                                new CustomFFMPEGLocator()
+                        );
+                    } else {
+                        encoder = new Encoder();
+                    }
+                    try {
+                        encoder.encode(tmpFileIn, targetRaw, attrs);
+                    } catch (Exception e) {
+                        // ingore
+                    }
+
+                    //FileUtils.moveFile(tmpFileIn, targetRaw);
                     try {
                         if (tmpFileIn.exists())
                             FileUtils.forceDelete(tmpFileIn);
