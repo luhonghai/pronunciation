@@ -28,7 +28,7 @@ function initTree(){
         },
         itemHook: function(parent, item, itemData, level) {
              // a custom item implementation to show a link
-            item.attr('id',itemData['id']);
+            //item.attr('id',itemData['id']);
             item.find('.aciTreeItem').css('background-color', itemData['_backgroundColor']);
             item.find('.aciTreeItem').css('padding', '5px');
             item.find('.aciTreeItem').css('border-radius', '5px');
@@ -86,7 +86,16 @@ function reload(){
             }
         });
     }
-
+    treeAPI.searchId(true,true,{
+       success : function(item,options){
+           var itemData = treeAPI.itemData(item);
+           alert(itemData);
+       },
+       fail : function (item,options){
+            alert('a')
+       } ,
+        id : "obj1"
+    });
 }
 
 
