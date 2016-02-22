@@ -23,7 +23,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var fileName:String = "tmp_record_file"
     var fileType:String = "wav"
     var scoreResult:Float = -1
-    var LinkFile:String!
+    var linkFile:String!
     var selectedWord: WordCollection!
     var isRecording:Bool = false
     
@@ -175,11 +175,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     //define for search bar
     var arrSearchResultData = [WordCollection]()
-    //var appleProducts = [String]()
     var filteredAppleProducts = [String]()
     var resultSearchController = UISearchController()
     let resultsController = UITableViewController(style: .Plain)
-    var searchSelectRow:Int!
     
     @IBAction func barbuttonSearchClick(sender: AnyObject) {
         //
@@ -215,9 +213,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     // MARK- UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //load data for ViewControll when select word
-        searchSelectRow = indexPath.row
-        print("Row \(searchSelectRow) selected")
-        selectWord(arrSearchResultData[searchSelectRow])
+        print("Row \(indexPath.row) selected")
+        selectWord(arrSearchResultData[indexPath.row])
     }
     
     func selectWord(wordCollection : WordCollection){
@@ -225,7 +222,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
         tvDescription.text = wordCollection.definition
-        LinkFile = wordCollection.mp3Path
+        linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
         resultSearchController.active = false
@@ -239,22 +236,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
         let adapter = WordCollectionDbApdater(dbFile: dbPath!)
         do {
-            //appleProducts.removeAll(keepCapacity: false)
             arrSearchResultData = try adapter.search(searchController.searchBar.text!)
-            //let resultCount:Int = arrSearchResultData.count - 1
-            //if resultCount >= 0 {
-                //for index in 0...resultCount{
-                    //print(arrSearchResultData[index].word)
-                    //print(arrSearchResultData[index].mp3Path)
-                    //appleProducts.append(arrSearchResultData[index].word)
-                //}
-            //}
         
         } catch (let e as NSError) {
             print(e)
         }
-        
-        //print(appleProducts)
         print(arrSearchResultData)
         //reload data for table view search
         resultsController.tableView.reloadData();
@@ -376,10 +362,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
-        if !LinkFile.isEmpty {
-            print("link mp3: " + LinkFile)
+        if !linkFile.isEmpty {
+            print("link mp3: " + linkFile)
             //playSound(LinkFile)
-            HttpDownloader.loadFileSync(NSURL(string: LinkFile)!, completion: { (path, error) -> Void in
+            HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
                 self.playSound(NSURL(fileURLWithPath: path))
             })
         }
