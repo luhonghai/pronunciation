@@ -89,7 +89,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
     /**
      *
      * @param id
-     * @param state
+     * @param share
      * @return true if update success
      * @throws Exception
      */

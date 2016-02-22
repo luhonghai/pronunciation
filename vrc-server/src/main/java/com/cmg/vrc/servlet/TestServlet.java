@@ -8,30 +8,55 @@ import com.cmg.lesson.services.question.QuestionService;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
 public class TestServlet {
     public static void main(String[] args) {
-        StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+        User user1;
+        UserDAO userDAO=new UserDAO();
+        NumberDateDAO numberDateDAO=new NumberDateDAO();
+        Date date=new Date(System.currentTimeMillis());
 
-        try{
-            for(int i=0;i<5;i++) {
-                StudentMappingTeacher country = new StudentMappingTeacher();
-                country.setTeacherName("demoTeacher1@c-mg.com");
-                country.setIsDeleted(false);
-                country.setStudentName("nambui"+i);
-                country.setLicence(false);
-                country.setLastTeacherName("bui");
-                country.setFirstTeacherName("nam");
-                country.setStatus("reject");
-
-                studentMappingTeacherDAO.put(country);
+        try {
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(date);
+            int number= 0;
+            number = numberDateDAO.numberDate().getNumberDate();
+            user1 = userDAO.getUserByEmail("minhquang19@gmail.com");
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(user1.getCreatedDate());
+            cal2.add(Calendar.DATE, number);
+            if (cal2.compareTo(cal1)>=0) {
+                System.out.print("yes");
+            } else {
+               System.out.print("no");
             }
-
-        }catch (Exception e){
-            e.getStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+//        StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+//
+//        try{
+//            for(int i=0;i<5;i++) {
+//                StudentMappingTeacher country = new StudentMappingTeacher();
+//                country.setTeacherName("demoTeacher1@c-mg.com");
+//                country.setIsDeleted(false);
+//                country.setStudentName("nambui"+i);
+//                country.setLicence(false);
+//                country.setLastTeacherName("bui");
+//                country.setFirstTeacherName("nam");
+//                country.setStatus("reject");
+//
+//                studentMappingTeacherDAO.put(country);
+//            }
+//
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
 //        LicenseCodeDAO lis=new LicenseCodeDAO();
 //        FeedbackDAO feedbackDAO = new FeedbackDAO();
 //        UsageDAO usageDAO=new UsageDAO();
