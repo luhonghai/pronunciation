@@ -39,13 +39,37 @@ public class Constant {
     //color of the tree view
     public static String BG_COLOR = "#558ED5";
     public static String TEXT_COLOR = "#FFFFFF";
+    public static String BG_COLOR_BUTTON = "#E46C0A";
 
 
-    //icon of the treeview
+
+    //icon of the tree view
     public static String IC_COURSE = "course";
     public static String IC_LEVEL = "level";
     public static String IC_OBJ = "obj";
     public static String IC_TEST = "test";
     public static String IC_LESSON = "lesson";
+    public static String IC_QUESTION = "question";
+    public static String IC_BTN_ADD_LEVEL = "icBtnAddLevel";
+    public static String IC_BTN_ADD_OBJ = "icBtnAddObj";
+    public static String IC_BTN_ADD_TEST = "icBtnAddTest";
+    public static String IC_BTN_ADD_LESSON = "icBtnAddLesson";
+    public static String IC_BTN_ADD_QUESTION = "icBtnAddQuestion";
+    public static String IC_LEFT_ADD = "icLeftAdd";
+    public static String IC_RIGHT_EDIT = "icRightEdit";
 
+
+    //id of button in the tree
+    public static String ID_ADD_LEVEL_BTN = "addlevel";
+    public static String ID_ADD_OBJ_BTN = "addobj";
+    public static String ID_ADD_TEST_BTN = "addtest";
+    public static String ID_ADD_LESSON_BTN = "addlesson";
+    public static String ID_ADD_QUESTION_BTN = "addquestion";
+
+    //label of button in the tree
+    public static String LABEL_ADD_LEVEL = "add level";
+    public static String LABEL_ADD_OBJ = "add objective";
+    public static String LABEL_ADD_TEST = "add test";
+    public static String LABEL_ADD_LESSON = "add lesson";
+    public static String LABEL_ADD_QUESTION = "add question";
 }

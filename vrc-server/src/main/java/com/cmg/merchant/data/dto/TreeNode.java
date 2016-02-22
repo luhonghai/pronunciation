@@ -43,7 +43,7 @@ public class TreeNode {
     /*
         populate the image action for  this node
      */
-    private String _imageActionUrl;
+    private String _iconLeft;
 
     /*
         populate the special case for load all the question in the test
@@ -62,6 +62,26 @@ public class TreeNode {
 
     private String _textColor;
 
+    private String _message;
+
+    private String _title;
+
+    public String get_title() {
+        return _title;
+    }
+
+    public void set_title(String _title) {
+        this._title = _title;
+    }
+
+    public String get_message() {
+        return _message;
+    }
+
+    public void set_message(String _message) {
+        this._message = _message;
+    }
+
     public String get_textColor() {
         return _textColor;
     }
@@ -78,13 +98,14 @@ public class TreeNode {
         this.open = open;
     }
 
-    public String get_imageActionUrl() {
-        return _imageActionUrl;
+    public String get_iconLeft() {
+        return _iconLeft;
     }
 
-    public void set_imageActionUrl(String _imageActionUrl) {
-        this._imageActionUrl = _imageActionUrl;
+    public void set_iconLeft(String _iconLeft) {
+        this._iconLeft = _iconLeft;
     }
+
     public String get_targetLoad() {
         return _targetLoad;
     }

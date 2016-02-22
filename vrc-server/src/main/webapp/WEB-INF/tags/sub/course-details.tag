@@ -61,7 +61,7 @@
         var serlvet = "<%=request.getContextPath() %>/" + "ReviewServlet";
       $(function() {
         // listen for the events
-    /*    $('#tree4').on('acitree', function(event, api, item, eventName, options) {
+    /*    $('#tree4').course-details.tag('acitree', function(event, api, item, eventName, options) {
           switch (eventName) {
             case 'checkdrop':
               if (options.isContainer) {
