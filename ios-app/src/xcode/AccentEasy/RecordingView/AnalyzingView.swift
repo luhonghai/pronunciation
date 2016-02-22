@@ -97,7 +97,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         
         scoreLayer = LCTextLayer()
         
-        scoreLayer.font = UIFont.systemFontOfSize(kFontSize, weight: UIFontWeightBold)
+        scoreLayer.font = UIFont.boldSystemFontOfSize(kFontSize)
         scoreLayer.foregroundColor = UIColor.whiteColor().CGColor
         scoreLayer.frame = self.bounds
         scoreLayer.fontSize = kFontSize

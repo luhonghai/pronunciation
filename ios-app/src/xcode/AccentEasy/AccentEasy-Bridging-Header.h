@@ -4,6 +4,8 @@
 
 #import "SWRevealViewController.h"
 #import <Google/SignIn.h>
+#import <sqlite3.h>
+#import "SQLite-Bridging.h"
 //#import "RecordingView.h"
 //#import <GoogleSignIn/GoogleSignIn.h>
 //#import "SSZipArchive.h"

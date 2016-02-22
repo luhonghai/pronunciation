@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 8.0, *)
 class SearchTVC: UITableViewController, UISearchResultsUpdating {
 
     let appleProducts = ["Mac","iPhone","Apple Watch","iPad"]

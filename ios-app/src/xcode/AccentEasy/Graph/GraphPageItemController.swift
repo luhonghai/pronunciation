@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Charts
 
 class GraphPageItemController: UIViewController, ChartViewDelegate {
 
@@ -92,7 +91,7 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
         }
         chartView.descriptionText = des
         chartView.descriptionTextColor = ColorHelper.APP_LIGHT_GRAY
-        chartView.descriptionFont = UIFont.systemFontOfSize(25.0, weight: 5)
+        chartView.descriptionFont = UIFont.boldSystemFontOfSize(25.0)
     }
     
     func setDataCount(count: Int, range: Double) {

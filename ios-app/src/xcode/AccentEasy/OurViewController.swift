@@ -14,8 +14,8 @@ import EZAudio
 import ObjectMapper
 import Darwin
 
-class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate {
-
+class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+    let kCellIdentifier = "cellIdentifier"
     //var loginParameter:NSUserDefaults!
     var userProfileSaveInApp:NSUserDefaults!
     var JSONStringUserProfile:String!
@@ -46,7 +46,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.edgesForExtendedLayout = UIRectEdge.None;
         //
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
         // if you don't do this!
@@ -149,7 +149,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     {
         weak var weakSelf = self
         dispatch_async(dispatch_get_main_queue(), {
-           weakSelf!.doFinishPlaying()
+            weakSelf!.doFinishPlaying()
         });
     }
     
@@ -162,10 +162,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //loginParameter = NSUserDefaults()
         //let username:String = loginParameter.objectForKey("username") as! String
         //if username != "hoang" {
-            //self.performSegueWithIdentifier("goto_login", sender: self)
+        //self.performSegueWithIdentifier("goto_login", sender: self)
         //}else{
-            //lblUsername.text = username
-            //lblUsername.text = ""
+        //lblUsername.text = username
+        //lblUsername.text = ""
         //}
     }
     
@@ -177,27 +177,120 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var arrSearchResultData = [WordCollection]()
     //var appleProducts = [String]()
     var filteredAppleProducts = [String]()
-    var resultSearchController = UISearchController()
+    
+    var resultSearchController: AnyObject!
+    
     let resultsController = UITableViewController(style: .Plain)
     var searchSelectRow:Int!
     
-    @IBAction func barbuttonSearchClick(sender: AnyObject) {
-        //
+    func initSearchResultController() {
         resultsController.tableView.dataSource = self
         resultsController.tableView.delegate = self
+    }
+    
+    @IBAction func barbuttonSearchClick(sender: AnyObject) {
+        if #available(iOS 8.0, *) {
+            initSearchViewController()
+        } else {
+            initSearchViewControllerOS7()
+        }
+    }
+    
+    func initSearchViewControllerOS7() {
+        initSearchResultController()
+        let searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.sizeToFit()
+        resultsController.tableView.tableHeaderView = searchBar
+        resultSearchController = UISearchDisplayController(searchBar: searchBar, contentsController: resultsController)
+        (resultSearchController as! UISearchDisplayController).searchResultsDataSource = self
+        (resultSearchController as! UISearchDisplayController).searchResultsDelegate = self
+        (resultSearchController as! UISearchDisplayController).searchResultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
+        self.presentViewController(resultsController, animated: true, completion: nil)
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        updateSearchTableData(searchText)
+    }
+    
+    @available(iOS 8.0, *)
+    func initSearchViewController() {
+        //
+        initSearchResultController()
         //
         resultSearchController = UISearchController(searchResultsController: resultsController)
-        self.resultSearchController.searchResultsUpdater = self
-        self.resultSearchController.dimsBackgroundDuringPresentation = false
+        (resultSearchController as! UISearchController).searchResultsUpdater = self
+        (resultSearchController as! UISearchController).dimsBackgroundDuringPresentation = false
         //self.resultSearchController.searchBar.sizeToFit()
         
-        self.presentViewController(resultSearchController, animated: true, completion: nil)
+        self.presentViewController(resultSearchController as! UISearchController, animated: true, completion: nil)
+        
+    }
+    
+    @available(iOS 8.0, *)
+    func updateSearchResultsForSearchController(searchController: UISearchController)
+    {
+        //searching word process
+        updateSearchTableData(searchController.searchBar.text!)
+    }
+    
+    func updateSearchTableData(searchText: String) {
+        //get database
+        let dbPath = DatabaseHelper.getLessonDatabaseFile()
+        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+        do {
+            //appleProducts.removeAll(keepCapacity: false)
+            arrSearchResultData = try adapter.search(searchText)
+            //let resultCount:Int = arrSearchResultData.count - 1
+            //if resultCount >= 0 {
+            //for index in 0...resultCount{
+            //print(arrSearchResultData[index].word)
+            //print(arrSearchResultData[index].mp3Path)
+            //appleProducts.append(arrSearchResultData[index].word)
+            //}
+            //}
+            
+        } catch (let e as NSError) {
+            print(e)
+        }
+        
+        //print(appleProducts)
+        print(arrSearchResultData)
+        //reload data for table view search
+        resultsController.tableView.reloadData();
+    }
+    
+    func selectWord(wordCollection : WordCollection){
+        selectedWord = wordCollection
+        btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
+        lblIPA.text = wordCollection.pronunciation
+        tvDescription.text = wordCollection.definition
+        LinkFile = wordCollection.mp3Path
+        changeColorLoadWord()
+        //close searchControler
+        if resultSearchController != nil {
+            if #available(iOS 8.0, *) {
+                setActiveSearchView(false)
+            } else {
+                setActiveSearchViewOS7(false)
+            }
+        }
+    }
+    
+    func setActiveSearchViewOS7(active: Bool) {
+        self.dismissViewControllerAnimated(true, completion: {})
+        //(resultSearchController as! UISearchDisplayController).active = active
+    }
+    
+    @available(iOS 8.0, *)
+    func setActiveSearchView(active: Bool) {
+        (resultSearchController as! UISearchController).active = active
     }
     
     
     //MARK- UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let identifier = "cellIdentifier"
+        let identifier = kCellIdentifier
         var cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier)
         if cell == nil{
             cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
@@ -220,46 +313,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         selectWord(arrSearchResultData[searchSelectRow])
     }
     
-    func selectWord(wordCollection : WordCollection){
-        selectedWord = wordCollection
-        btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
-        lblIPA.text = wordCollection.pronunciation
-        tvDescription.text = wordCollection.definition
-        LinkFile = wordCollection.mp3Path
-        changeColorLoadWord()
-        //close searchControler
-        resultSearchController.active = false
-    }
     
-    func updateSearchResultsForSearchController(searchController: UISearchController)
-    {
-        //searching word process
-        print (searchController.searchBar.text!)
-        //get database
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
-        do {
-            //appleProducts.removeAll(keepCapacity: false)
-            arrSearchResultData = try adapter.search(searchController.searchBar.text!)
-            //let resultCount:Int = arrSearchResultData.count - 1
-            //if resultCount >= 0 {
-                //for index in 0...resultCount{
-                    //print(arrSearchResultData[index].word)
-                    //print(arrSearchResultData[index].mp3Path)
-                    //appleProducts.append(arrSearchResultData[index].word)
-                //}
-            //}
-        
-        } catch (let e as NSError) {
-            print(e)
-        }
-        
-        //print(appleProducts)
-        print(arrSearchResultData)
-        //reload data for table view search
-        resultsController.tableView.reloadData();
-    }
-
     func analyzeVoice() {
         weak var weakSelf = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -288,7 +342,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         let status:Bool = result!.status
                         let message:String = result!.message
                         let userVoiceModel = result!.data
-                      //  print (userVoiceModel.word)
+                        //  print (userVoiceModel.word)
                         if status {
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
@@ -327,7 +381,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             self.microphone.stopFetchingAudio()
             if (self.recorder != nil) {
                 self.recorder.closeAudioFile()
-
+                
             }
             self.analyzingView.switchType(AnalyzingType.DEFAULT)
             self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
@@ -343,7 +397,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
             self.analyzingView.switchType(AnalyzingType.RECORDING)
         }
-
+        
     }
     
     @IBAction func btnPlayTouchUp(sender: AnyObject) {
@@ -391,9 +445,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
             showColorOfScoreResult(scoreResult)
             self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
-                    ennableViewPlay()
+            ennableViewPlay()
         }
-
+        
     }
     
     func playSound(fileUrl: NSURL) {
@@ -478,31 +532,31 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnPlay.enabled = true
         btnPlayDemo.enabled = true
     }
-        
+    
     /*
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    super.didReceiveMemoryWarning()
+    // Dispose of any resources that can be recreated.
     }*/
     
-
+    
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
     
     
     /**
-        Recorder delegate
+    Recorder delegate
     */
     func microphone(microphone: EZMicrophone!, changedPlayingState isPlaying: Bool) {
-       // self.microphoneStateLabel.text = isPlaying ? "Microphone On" : "Microphone Off"
-       // self.microphoneSwitch.on = isPlaying
+        // self.microphoneStateLabel.text = isPlaying ? "Microphone On" : "Microphone Off"
+        // self.microphoneSwitch.on = isPlaying
     }
     
     func microphone(microphone: EZMicrophone!, hasAudioReceived buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize bufferSize: UInt32, withNumberOfChannels numberOfChannels: UInt32) {
@@ -562,5 +616,5 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func onAnimationMax() {
         
     }
-
+    
 }
