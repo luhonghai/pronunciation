@@ -1678,6 +1678,9 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="TPh-X3-TuQ"/>
+        <segue reference="jMS-2y-5xw"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="y7T-RE-Gak"/>
         <segue reference="UNY-bE-rXo"/>
         <segue reference="VlK-rN-iWT"/>

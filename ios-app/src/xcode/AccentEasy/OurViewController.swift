@@ -263,7 +263,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
         tvDescription.text = wordCollection.definition
-        LinkFile = wordCollection.mp3Path
+        linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
         if resultSearchController != nil {
@@ -309,8 +309,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         print("Row \(indexPath.row) selected")
         selectWord(arrSearchResultData[indexPath.row])
     }
-    
-    
+
     func analyzeVoice() {
         weak var weakSelf = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
