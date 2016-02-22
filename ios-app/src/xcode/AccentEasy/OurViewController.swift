@@ -23,7 +23,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var fileName:String = "tmp_record_file"
     var fileType:String = "wav"
     var scoreResult:Float = -1
-    var LinkFile:String!
+    var linkFile:String!
     var selectedWord: WordCollection!
     var isRecording:Bool = false
     
@@ -175,13 +175,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     //define for search bar
     var arrSearchResultData = [WordCollection]()
-    //var appleProducts = [String]()
     var filteredAppleProducts = [String]()
     
     var resultSearchController: AnyObject!
     
     let resultsController = UITableViewController(style: .Plain)
-    var searchSelectRow:Int!
     
     func initSearchResultController() {
         resultsController.tableView.dataSource = self
@@ -308,9 +306,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     // MARK- UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //load data for ViewControll when select word
-        searchSelectRow = indexPath.row
-        print("Row \(searchSelectRow) selected")
-        selectWord(arrSearchResultData[searchSelectRow])
+        print("Row \(indexPath.row) selected")
+        selectWord(arrSearchResultData[indexPath.row])
     }
     
     
@@ -430,10 +427,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
-        if !LinkFile.isEmpty {
-            print("link mp3: " + LinkFile)
+        if !linkFile.isEmpty {
+            print("link mp3: " + linkFile)
             //playSound(LinkFile)
-            HttpDownloader.loadFileSync(NSURL(string: LinkFile)!, completion: { (path, error) -> Void in
+            HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
                 self.playSound(NSURL(fileURLWithPath: path))
             })
         }
