@@ -24,6 +24,18 @@ public class StringUtil {
             return o;
         }
     }
+
+    public static Boolean switchBoolean (String params, boolean isNull){
+        if(params == null){
+            return isNull;
+        }else{
+            if(params.equalsIgnoreCase("false")){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
 	
 	public static String list2String(ArrayList<String> list){
        if(list.size() > 0 ){

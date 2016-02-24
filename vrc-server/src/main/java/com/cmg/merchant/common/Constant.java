@@ -72,4 +72,19 @@ public class Constant {
     public static String LABEL_ADD_TEST = "add test";
     public static String LABEL_ADD_LESSON = "add lesson";
     public static String LABEL_ADD_QUESTION = "add question";
+
+
+
+    //poup level
+    public static String POPUP_LEVEL = "popupLevel";
+    public static String ACTION_ADD_LEVEL = "addLevel";
+    public static String ACTION_EDIT_LEVEL = "editLevel";
+    public static String ACTION_DELETE_LEVEL = "deleteLevel";
+
+
+    //poup obj
+    public static String POPUP_OBJ = "popupObjective";
+    public static String ACTION_ADD_OBJ = "addObj";
+    public static String ACTION_EDIT_OBJ = "editObj";
+    public static String ACTION_DELETE_OBJ = "deleteObj";
 }

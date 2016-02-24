@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class NodeServices {
     TreeUtil util = new TreeUtil();
     DataServices dataServices = new DataServices();
-    public ArrayList<TreeNode> loadRoot(String idCourse, boolean firstLoad, boolean showBtnAction) throws Exception {
+    public ArrayList<TreeNode> loadRoot(String idCourse, boolean firstLoad, boolean showBtnAction) {
         ArrayList<TreeNode> list = new ArrayList<>();
         if(firstLoad){
             TreeNode root = util.switchCourseToRoot(dataServices.getRootNode(idCourse),showBtnAction);
@@ -24,9 +24,18 @@ public class NodeServices {
         return list;
     }
 
-
+    /**
+     *
+     * @param idLevel
+     * @param showBtnAction
+     * @return all child in specific level
+     */
     public ArrayList<TreeNode> loadLevel(String idLevel, boolean showBtnAction){
-        return null;
+        ArrayList<TreeNode> list = new ArrayList<>();
+        //load all obj
+        ArrayList<TreeNode> listObj = util.switchObjToNode(dataServices.getObjDB(idLevel),showBtnAction);
+        list = listObj;
+        return list;
     }
 
     public ArrayList<TreeNode> loadObjective (String idObj, boolean showBtnAction){

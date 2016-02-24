@@ -23,6 +23,7 @@ import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
+import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.util.AWSHelper;
@@ -63,8 +64,13 @@ public class UnitTesting {
             }*/
           /* String s =  StringEscapeUtils.escapeJava("country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
             System.out.println(s);*/
-           QuestionDAO dao = new QuestionDAO();
-            List<Question> list = dao.searchName(null, "country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
+           /*QuestionDAO dao = new QuestionDAO();
+            List<Question> list = dao.searchName(null, "country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");*/
+
+            LVMODAO dao = new LVMODAO();
+            System.out.println(dao.getMaxIndex("cd3360ec-ab41-4127-bfdd-0417d7452932"));
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -66,6 +66,26 @@ public class TreeNode {
 
     private String _title;
 
+    private String _popupId;
+
+    private String _actionClick;
+
+    public String get_actionClick() {
+        return _actionClick;
+    }
+
+    public void set_actionClick(String _actionClick) {
+        this._actionClick = _actionClick;
+    }
+
+    public String get_popupId() {
+        return _popupId;
+    }
+
+    public void set_popupId(String _popupId) {
+        this._popupId = _popupId;
+    }
+
     public String get_title() {
         return _title;
     }

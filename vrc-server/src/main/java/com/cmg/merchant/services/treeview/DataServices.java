@@ -8,6 +8,7 @@ import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LvDAO;
+import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.merchant.data.dto.TreeNode;
 import org.apache.log4j.Logger;
 
@@ -51,7 +52,19 @@ public class DataServices {
         return null;
     }
 
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
     public ArrayList<Objective> getObjDB(String idLevel){
+        ODAO dao = new ODAO();
+        try {
+            ArrayList<Objective> list = (ArrayList<Objective>) dao.getAllByIdLevel(idLevel);
+            return list;
+        }catch (Exception e){
+            logger.error(e);
+        }
         return null;
     }
 

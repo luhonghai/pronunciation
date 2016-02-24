@@ -61,6 +61,7 @@ function reloadRoot(){
 }
 function saveParent(){
     theTree.on('acitree', function(event, api, item, eventName, options) {
+        alert(eventName);
         if (eventName == 'selected'){
             // do something when a item is selected
             var itemData = api.itemData(item);

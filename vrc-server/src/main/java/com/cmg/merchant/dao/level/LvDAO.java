@@ -1,6 +1,7 @@
 package com.cmg.merchant.dao.level;
 
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
@@ -12,7 +13,35 @@ import java.util.List;
 /**
  * Created by lantb on 2016-02-22.
  */
-public class LvDAO {
+public class LvDAO extends DataAccess<Level> {
+
+
+    public LvDAO(){super(Level.class);}
+
+    /**
+     *  use for get latest version in table
+     * @return latest version
+     * @throws Exception
+     */
+    public int getLatestVersion() throws Exception{
+        int version = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("SELECT max(version) FROM " + Level.class.getCanonicalName());
+        try {
+            if (q != null) {
+                version = (int) q.execute();
+            }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return version;
+    }
+
+
     /**
      *
      * @param idCourse
@@ -55,6 +84,59 @@ public class LvDAO {
             pm.close();
         }
         return listLv;
+    }
+
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateLevel(String id, String name, String description) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?  WHERE id=?");
+        try {
+            q.execute(name,description,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+
+    /**
+     *
+     * @param id
+     * @return true if update deleted success
+     */
+    public boolean updateDeleted(String id){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
     }
 
 }
