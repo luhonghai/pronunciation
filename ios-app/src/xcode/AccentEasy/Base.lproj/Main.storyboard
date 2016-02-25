@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Launch ImageVC-->
@@ -1679,9 +1679,9 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="w7l-a7-zju"/>
-        <segue reference="b3j-3D-4fV"/>
         <segue reference="y7T-RE-Gak"/>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="t7Q-vO-CVy"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="eFf-YZ-v5D"/>
         <segue reference="8uH-2d-FMf"/>
