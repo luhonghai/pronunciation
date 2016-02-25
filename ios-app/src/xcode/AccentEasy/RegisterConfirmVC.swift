@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import SwiftClient
-import ObjectMapper
 
 class RegisterConfirmVC: UIViewController {
 

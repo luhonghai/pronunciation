@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ObjectMapper
 
 public class SphinxResult: Mappable{
     
@@ -31,8 +30,8 @@ public class SphinxResult: Mappable{
         
         // Mappable
         public func mapping(map: Map) {
-            name    <- map["name"]
-            count   <- map["count"]
+            name    <= map["name"]
+            count   <= map["count"]
         }
     }
     
@@ -57,15 +56,15 @@ public class SphinxResult: Mappable{
         
         // Mappable
         public func mapping(map: Map) {
-            name    <- map["name"]
-            index   <- map["index"]
-            totalScore      <- map["totalScore"]
-            time       <- map["time"]
-            username  <- map["username"]
-            version  <- map["version"]
-            userVoiceId     <- map["userVoiceId"]
-            phonemes     <- map["phonemes"]
-            ipa     <- map["ipa"]
+            name    <= map["name"]
+            index   <= map["index"]
+            totalScore      <= map["totalScore"]
+            time       <= map["time"]
+            username  <= map["username"]
+            version  <= map["version"]
+            userVoiceId     <= map["userVoiceId"]
+            phonemes     <= map["phonemes"]
+            ipa     <= map["ipa"]
         }
     }
     
@@ -90,10 +89,10 @@ public class SphinxResult: Mappable{
         
         // Mappable
         public func mapping(map: Map) {
-            index    <- map["index"]
-            type   <- map["type"]
-            name      <- map["name"]
-            count       <- map["count"]
+            index    <= map["index"]
+            type   <= map["type"]
+            name      <= map["name"]
+            count       <= map["count"]
         }
 
         
@@ -109,11 +108,11 @@ public class SphinxResult: Mappable{
     
     // Mappable
     public func mapping(map: Map) {
-        score    <- map["score"]
-        correctPhonemes   <- map["correctPhonemes"]
-        bestPhonemes      <- map["bestPhonemes"]
-        rawBestPhonemes       <- map["rawBestPhonemes"]
-        phonemeScores  <- map["phonemeScores"]
+        score    <= map["score"]
+        correctPhonemes   <= map["correctPhonemes"]
+        bestPhonemes      <= map["bestPhonemes"]
+        rawBestPhonemes       <= map["rawBestPhonemes"]
+        phonemeScores  <= map["phonemeScores"]
     }
 
     
