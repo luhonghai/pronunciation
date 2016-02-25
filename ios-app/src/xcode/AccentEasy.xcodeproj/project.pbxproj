@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
 		90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */; };
+		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
@@ -389,6 +390,7 @@
 /* Begin PBXFileReference section */
 		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomTabBarController.swift; sourceTree = "<group>"; };
+		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
@@ -762,6 +764,14 @@
 				67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		90F33B441C7EC2CA00E28BC4 /* TipController */ = {
+			isa = PBXGroup;
+			children = (
+				90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */,
+			);
+			name = TipController;
 			sourceTree = "<group>";
 		};
 		9B5F32A81C77128100E85629 /* Charts */ = {
@@ -1339,6 +1349,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				90F33B441C7EC2CA00E28BC4 /* TipController */,
 				9B9BE7181C632BA500C84823 /* HistoryController */,
 				9B9BE6DF1C62F38800C84823 /* GraphController */,
 				C11DD2811C71C65D000ED4AF /* SearchController */,
@@ -2047,6 +2058,7 @@
 				9B5F33571C77129A00E85629 /* ChartComponentBase.swift in Sources */,
 				9B5F337D1C77129A00E85629 /* ChartDataSet.swift in Sources */,
 				9B5F34151C771D6800E85629 /* CustomFunctions.swift in Sources */,
+				90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */,
 				9B5F33AB1C77129A00E85629 /* ChartLegendRenderer.swift in Sources */,
 				9B5F33AD1C77129A00E85629 /* ChartXAxisRenderer.swift in Sources */,
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
