@@ -293,6 +293,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         cell?.textLabel?.text = arrSearchResultData[indexPath.row].word
         //cell.textLabel!.text = arrSearchResultData[indexPath.row].word
         cell.detailTextLabel!.text = arrSearchResultData[indexPath.row].pronunciation
+        cell.detailTextLabel!.textColor = ColorHelper.APP_GRAY
         return cell
     }
     
