@@ -2,6 +2,7 @@ package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.services.CourseServices;
+import com.cmg.merchant.services.LevelServices;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class TreeAddNodeServlet extends BaseServlet {
     private static final Logger logger = Logger.getLogger(TreeAddNodeServlet.class
             .getName());
-    private static String ADD_LEVEL = "addLevel";
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
@@ -28,10 +29,16 @@ public class TreeAddNodeServlet extends BaseServlet {
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
-            System.out.println("idCourse : " + idCourse + "-" + name + "-" + description);
             CourseServices cServices = new CourseServices();
             String text = cServices.addLevelToCourse(idCourse,name,description);
             response.getWriter().println(text);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_OBJ)){
+            String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
+            String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            LevelServices lvServices = new LevelServices();
+            String txt = lvServices.addObjToLv(idLevel,name,description);
+            response.getWriter().println(txt);
         }
     }
 

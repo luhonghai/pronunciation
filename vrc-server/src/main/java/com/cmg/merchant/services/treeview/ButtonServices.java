@@ -45,7 +45,7 @@ public class ButtonServices {
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_OBJ_BTN);
         node.setLabel(Constant.LABEL_ADD_OBJ);
-        node.setIcon(Constant.IC_OBJ);
+        node.setIcon(Constant.IC_BTN_ADD_OBJ);
         node.set_popupId(Constant.POPUP_OBJ);
         node.set_actionClick(Constant.ACTION_ADD_OBJ);
         return node;

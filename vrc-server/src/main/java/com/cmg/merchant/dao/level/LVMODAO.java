@@ -6,6 +6,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.metadata.TypeMetadata;
 
 /**
  * Created by lantb on 2016-02-24.
@@ -59,6 +60,34 @@ public class LVMODAO extends DataAccess<CourseMappingDetail> {
         }
         return index;
     }
+
+
+    /**
+     *
+     * @param
+     * @return
+     */
+    public boolean updateDeleted(String idObjective,String idLevel){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted = true WHERE idChild=? and idLevel=?");
+        try {
+            q.execute(idObjective,idLevel);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+
 
 
 }

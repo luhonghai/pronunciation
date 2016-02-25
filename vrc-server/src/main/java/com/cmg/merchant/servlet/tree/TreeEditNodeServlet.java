@@ -2,6 +2,7 @@ package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.services.LevelServices;
+import com.cmg.merchant.services.OServices;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -30,6 +31,14 @@ public class TreeEditNodeServlet extends BaseServlet {
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvServices = new LevelServices();
             String txt = lvServices.updateLevel(idCourse,idLevel,name,description);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_OBJ)){
+            String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
+            String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
+            String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            OServices oServices = new OServices();
+            String txt = oServices.updateObj(idLevel,idObj,name,description);
             response.getWriter().println(txt);
         }
     }

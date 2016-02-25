@@ -2,14 +2,19 @@ package com.cmg.merchant.services;
 
 import com.cmg.lesson.dao.level.LevelDAO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.course.CMLDAO;
+import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.level.LvDAO;
+import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lantb on 2016-02-23.
@@ -39,12 +44,12 @@ public class LevelServices {
      * @param name, description,color
      * @return true if question was added to table.
      */
-    public String addLevelToDB(String name, String description){
+    public String addLevelToDB(String id,String name, String description){
         LvDAO dao = new LvDAO();
         String message;
         try {
             Level lv = new Level();
-            lv.setId(UUIDGenerator.generateUUID().toString());
+            lv.setId(id);
             lv.setName(name);
             lv.setDescription(description);
             lv.setDateCreated(new Date(System.currentTimeMillis()));
@@ -53,7 +58,7 @@ public class LevelServices {
             lv.setIsDemo(false);
             lv.setIsDefaultActivated(false);
             dao.create(lv);
-            message = lv.getId();
+            message = SUCCESS;
         }catch(Exception e){
             message = ERROR + ":" + e.getMessage();
             logger.error("can not add level : " + name + " because : " + e.getMessage());
@@ -141,7 +146,7 @@ public class LevelServices {
      * @return
      */
     public String deleteLevel(String idCourse, String idLevel){
-        if(removeMappingLevelFromCourse(idCourse,idLevel)){
+        if(removeMappingLevelFromCourse(idCourse, idLevel)){
             LvDAO dao = new LvDAO();
             if(dao.updateDeleted(idLevel)){
                 return SUCCESS;
@@ -150,6 +155,106 @@ public class LevelServices {
         return ERROR + ": an error has been occurred in server!";
 
     }
+
+    /**
+     *
+     * @param idLevel
+     * @param nameObj
+     * @param descriptionObj
+     * @return
+     */
+    public String addObjToLv(String idLevel, String nameObj, String descriptionObj){
+        OServices oServices = new OServices();
+        if(oServices.isExistedObjInLv(idLevel, nameObj, null)){
+            return ERROR + ": name already existed in level!";
+        }
+        String idObj = UUIDGenerator.generateUUID().toString();
+        String message = oServices.addObjToDB(idObj,nameObj,descriptionObj);
+        if(message.equalsIgnoreCase(ERROR)){
+            return ERROR + ": an error has been occurred in server!";
+        }
+        message = addMappingObjToLv(idLevel,idObj);
+        return message;
+    }
+
+    /**
+     *
+     * @param idLevel
+     * @param idObj
+     * @return
+     */
+    public String addMappingObjToLv(String idLevel, String idObj){
+        LVMODAO dao = new LVMODAO();
+        try {
+            CourseMappingDetail cmd = new CourseMappingDetail();
+            cmd.setIsTest(false);
+            cmd.setId(UUIDGenerator.generateUUID().toString());
+            cmd.setVersion(getVersionForObj());
+            cmd.setIdChild(idObj);
+            cmd.setIdLevel(idLevel);
+            cmd.setIndex(getIndexForObj(idLevel));
+            cmd.setIsDeleted(false);
+            boolean check = dao.create(cmd);
+            if(!check){
+                return ERROR + ": an error has been occurred in server!";
+            }
+        }catch (Exception e){e.printStackTrace();
+            return ERROR + ": an error has been occurred in server!";
+        }
+        return SUCCESS;
+    }
+
+
+    /**
+     *
+     *
+     * @return
+     */
+    public int getVersionForObj(){
+        int version = 0;
+        LVMODAO dao = new LVMODAO();
+        try {
+            version = dao.getLatestVersion();
+        }catch (Exception e){
+
+        }
+        return version +1;
+    }
+
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public int getIndexForObj(String idLevel){
+        int index = 0;
+        LVMODAO dao = new LVMODAO();
+        try {
+            index = dao.getMaxIndex(idLevel);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error(e);
+        }
+        return index +1;
+    }
+
+    /**
+     *
+     * @param idLevel
+     * @param idObj
+     * @return
+     */
+    public boolean removeMappingObjToLv(String idLevel, String idObj){
+        LVMODAO dao = new LVMODAO();
+        try {
+            boolean check = dao.updateDeleted(idObj,idLevel);
+            return check;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+
 
 
 

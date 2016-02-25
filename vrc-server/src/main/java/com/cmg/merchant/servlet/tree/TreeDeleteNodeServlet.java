@@ -2,6 +2,7 @@ package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.services.LevelServices;
+import com.cmg.merchant.services.OServices;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -30,6 +31,12 @@ public class TreeDeleteNodeServlet extends BaseServlet {
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvService = new LevelServices();
             String txt = lvService.deleteLevel(idCourse,idLevel);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_DELETE_OBJ)){
+            String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
+            String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
+            OServices oServices = new OServices();
+            String txt = oServices.deleteObj(idLevel,idObj);
             response.getWriter().println(txt);
         }
     }

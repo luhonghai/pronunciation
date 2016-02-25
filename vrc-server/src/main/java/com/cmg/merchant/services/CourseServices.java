@@ -57,11 +57,12 @@ public class CourseServices {
         if(lvServices.existedName(idCourse,null,nameLv)){
            return ERROR + " : name already existed!";
         }
-        String message = lvServices.addLevelToDB(nameLv, descriptionLv);
+        String idLevel = UUIDGenerator.generateUUID().toString();
+        String message = lvServices.addLevelToDB(idLevel,nameLv, descriptionLv);
         if (message.indexOf(ERROR) != -1) {
             return ERROR;
         }
-        message = addMappingLevel(idCourse, message);
+        message = addMappingLevel(idCourse, idLevel);
         return message;
     }
 

@@ -87,4 +87,57 @@ public class ODAO extends DataAccess<Objective> {
         }
         return listObjective;
     }
+
+
+
+    /**
+     *
+     * @param id
+     * @param name
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateObjective(String id, String name, String description) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=? WHERE id=?");
+        try {
+            q.execute(name,description,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
+     * @param id
+     * @return true if update deleted success
+     */
+    public boolean deletedObjective(String id){
+        boolean isDelete = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        try {
+            q.execute(true,id);
+            isDelete=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return isDelete;
+    }
 }

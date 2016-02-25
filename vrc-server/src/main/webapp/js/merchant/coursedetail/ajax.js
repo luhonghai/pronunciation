@@ -26,13 +26,13 @@ function addLevel(){
                 swal("Success!", "You have add Level success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Could not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
@@ -60,13 +60,13 @@ function editLevel(){
                 swal("Success!", "You have update Level success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Could not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
@@ -94,13 +94,13 @@ function deleteLevel(){
                 swal("Success!", "You have delete Level success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Can not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Can not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
@@ -129,13 +129,13 @@ function addObj(){
                 swal("Success!", "You have add Objective success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Could not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
@@ -151,8 +151,8 @@ function editObj(){
             action: action_edit_obj,
             idObj : currentPopup.find(".idHidden").val(),
             idLevel : getObjName().attr("idLevel"),
-            name: getLevelName().val(),
-            description: getLevelDescription().val()
+            name: getObjName().val(),
+            description: getObjDescription().val()
         },
         dataType : "text",
         success : function(data){
@@ -163,13 +163,13 @@ function editObj(){
                 swal("Success!", "You have update Objective success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Could not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
@@ -184,8 +184,7 @@ function deleteObj(){
         data : {
             action: action_delete_obj,
             idLevel : getObjName().attr("idLevel"),
-            name: getObjName().val(),
-            description: getObjDescription().val()
+            idObj : currentPopup.find(".idHidden").val()
         },
         dataType : "text",
         success : function(data){
@@ -196,13 +195,13 @@ function deleteObj(){
                 swal("Success!", "You have delete Objective success!", "success");
             }else{
                 //add false show the error
-                currentPopup.find(".validateLvMsg").html(data);
-                currentPopup.find(".validateLvMsg").show();
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            currentPopup.find(".validateLvMsg").html("Can not connect to server!");
-            currentPopup.find(".validateLvMsg").show();
+            currentPopup.find(".validateMsg").html("Can not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
