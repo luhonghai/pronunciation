@@ -7,11 +7,8 @@
 //
 
 import UIKit
-import ObjectMapper
 import AVFoundation
-import SwiftClient
 import EZAudio
-import ObjectMapper
 import Darwin
 
 class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {

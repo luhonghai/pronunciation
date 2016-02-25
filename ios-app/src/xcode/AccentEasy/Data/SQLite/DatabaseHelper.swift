@@ -8,9 +8,6 @@
 
 import Foundation
 import SSZipArchive
-import SwiftClient
-import ObjectMapper
-
 public class DatabaseHelper {
     
     class func checkDatabaseVersion() -> Bool {

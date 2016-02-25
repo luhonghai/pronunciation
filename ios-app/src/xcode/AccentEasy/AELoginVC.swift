@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import ObjectMapper
-import SwiftClient
-
 class AELoginVC: UIViewController {
 
     @IBOutlet weak var txtEmail: UITextField!

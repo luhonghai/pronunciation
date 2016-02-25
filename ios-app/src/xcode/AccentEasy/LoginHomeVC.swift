@@ -9,8 +9,6 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
-import ObjectMapper
-import SwiftClient
 
 
 class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{

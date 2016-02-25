@@ -1294,10 +1294,10 @@
             </objects>
             <point key="canvasLocation" x="-529" y="-4168"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Bottom Tab Bar Controller-->
         <scene sceneID="g5c-uI-D9E">
             <objects>
-                <tabBarController id="t93-HT-Mrj" sceneMemberID="viewController">
+                <tabBarController id="t93-HT-Mrj" customClass="BottomTabBarController" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="lLq-rl-y8q">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -1305,6 +1305,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tabbar" destination="lLq-rl-y8q" id="Obh-sa-CtZ"/>
                         <segue destination="K44-T9-qG4" kind="relationship" relationship="viewControllers" id="7Xn-Nj-Yvw"/>
                         <segue destination="4xT-0f-VJX" kind="relationship" relationship="viewControllers" id="8uH-2d-FMf"/>
                     </connections>
@@ -1678,12 +1679,12 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="b3j-3D-4fV"/>
         <segue reference="y7T-RE-Gak"/>
-        <segue reference="UNY-bE-rXo"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="eFf-YZ-v5D"/>
         <segue reference="8uH-2d-FMf"/>
         <segue reference="7Xn-Nj-Yvw"/>
-        <segue reference="b3j-3D-4fV"/>
     </inferredMetricsTieBreakers>
 </document>
