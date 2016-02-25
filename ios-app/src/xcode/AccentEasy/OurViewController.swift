@@ -37,6 +37,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBOutlet weak var analyzingView: AnalyzingView!
     
+    var freestyleDBAdapter:FreeStyleDBAdapter!
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -112,6 +114,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //load word default
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
         let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+        freestyleDBAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
         do{
             selectWord(try adapter.search("hello")[0])
         }catch{
@@ -340,6 +343,14 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         let userVoiceModel = result!.data
                         //  print (userVoiceModel.word)
                         if status {
+                            let pScore = PronunciationScore()
+                            pScore.username = weakSelf!.userProfile.username
+                            pScore.score = Int(floor(userVoiceModel.score))
+                            pScore.word = userVoiceModel.word
+                            pScore.dataId = userVoiceModel.uuid
+                            pScore.time = NSDate().timeIntervalSince1970 * 1000.0
+                            weakSelf!.freestyleDBAdapter.insertPronunciationScore(pScore)
+                            NSNotificationCenter.defaultCenter().postNotificationName("load", object: nil)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)

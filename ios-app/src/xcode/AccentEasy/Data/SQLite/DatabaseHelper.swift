@@ -43,6 +43,10 @@ public class DatabaseHelper {
         return false;
     }
     
+    class func getFreeStyleDatabaseFile() -> String? {
+        return FileHelper.getFilePath("database/freestyle.db")
+    }
+    
     class func getLessonDatabaseFile() -> String? {
         let databaseBundle = NSBundle.mainBundle()
         let dbZipPath = databaseBundle.pathForResource("database", ofType: "zip")

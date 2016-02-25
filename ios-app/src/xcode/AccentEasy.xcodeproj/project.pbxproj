@@ -10,6 +10,8 @@
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
 		90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */; };
 		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
+		90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */; };
+		90F33B4A1C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
@@ -391,6 +393,8 @@
 		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomTabBarController.swift; sourceTree = "<group>"; };
 		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
+		90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FreeStyleDBAdapter.swift; path = Data/SQLite/FreeStyleDBAdapter.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
@@ -1133,6 +1137,7 @@
 				9BA3AB2D1C4F839800C6631D /* BaseDatabaseAdapter.swift */,
 				9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */,
 				9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */,
+				90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */,
 			);
 			name = SQLite;
 			sourceTree = "<group>";
@@ -1145,6 +1150,7 @@
 				9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */,
 				9B320E8A1C5B1971001D8A95 /* FileHelper.swift */,
 				9B9BE6F61C6305E900C84823 /* ColorHelper.swift */,
+				90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1911,6 +1917,7 @@
 				9B5F33C01C77129A00E85629 /* ChartTransformerHorizontalBarChart.swift in Sources */,
 				9B5F33831C77129A00E85629 /* PieChartData.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
+				90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */,
 				9B5F34131C771D6800E85629 /* Collation.swift in Sources */,
 				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
 				9B5F339C1C77129A00E85629 /* ChartRange.swift in Sources */,
@@ -1968,6 +1975,7 @@
 				9B5F34271C771E6000E85629 /* FormData.swift in Sources */,
 				9B5F33961C77129A00E85629 /* ChartDefaultXAxisValueFormatter.swift in Sources */,
 				9B5F33A51C77129A00E85629 /* ScatterChartDataProvider.swift in Sources */,
+				90F33B4A1C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift in Sources */,
 				9B5F33881C77129A00E85629 /* ScatterChartDataSet.swift in Sources */,
 				C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */,
 				9B5F33AF1C77129A00E85629 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,

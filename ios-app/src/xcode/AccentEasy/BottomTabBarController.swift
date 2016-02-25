@@ -14,9 +14,9 @@ class BottomTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         let tabbarHeight:CGFloat = 50;
-        self.tabbar.frame = CGRectMake(0,0,self.view.frame.width,tabbarHeight);
-        for subView:UIView  in self.tabbar.subviews {
-            subView.frame = CGRectMake(0,tabbarHeight,subView.frame.width,subView.frame.height - tabbarHeight);
-        }
+        //self.tabbar.frame = CGRectMake(0,0,self.view.frame.width,tabbarHeight);
+//        for subView:UIView  in self.tabbar.subviews {
+//            subView.frame = CGRectMake(0,tabbarHeight,subView.frame.width,subView.frame.height - tabbarHeight);
+//        }
     }
 }
