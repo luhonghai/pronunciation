@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ObjectMapper
 
 class RegisterResult: Mappable{
     var status:Bool!
@@ -21,8 +20,8 @@ class RegisterResult: Mappable{
     
     // Mappable
     func mapping(map: Map) {
-        status    <- map["status"]
-        message   <- map["message"]
+        status    <= map["status"]
+        message   <= map["message"]
     }
 }
 
@@ -39,8 +38,8 @@ class VoidModelResult: Mappable{
     
     // Mappable
     func mapping(map: Map) {
-        status    <- map["status"]
-        message   <- map["message"]
-        data   <- map["data"]
+        status    <= map["status"]
+        message   <= map["message"]
+        data   <= map["data"]
     }
 }

@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import ObjectMapper
-
 public class UserVoiceModel: Mappable{
     public var id:String!
     public var username:String!
@@ -45,30 +43,30 @@ public class UserVoiceModel: Mappable{
     
     // Mappable
     public func mapping(map: Map) {
-        id    <- map["id"]
-        username   <- map["username"]
-        nativeEnglish      <- map["nativeEnglish"]
-        gender       <- map["gender"]
-        dob  <- map["dob"]
-        country  <- map["country"]
-        englishProficiency     <- map["englishProficiency"]
-        time    <- map["time"]
-        serverTime    <- map["serverTime"]
-        duration    <- map["duration"]
-        score    <- map["score"]
-        latitude    <- map["latitude"]
-        longitude    <- map["longitude"]
-        uuid    <- map["uuid"]
-        word    <- map["word"]
-        recordFile    <- map["recordFile"]
-        cleanRecordFile    <- map["cleanRecordFile"]
-        phonemes    <- map["phonemes"]
-        hypothesis    <- map["hypothesis"]
-        rawSphinxResult    <- map["rawSphinxResult"]
-        version    <- map["version"]
-        result    <- map["result"]
-        serverDate    <- map["serverDate"]
-        versionPhoneme    <- map["versionPhoneme"]
+        id    <= map["id"]
+        username   <= map["username"]
+        nativeEnglish      <= map["nativeEnglish"]
+        gender       <= map["gender"]
+        dob  <= map["dob"]
+        country  <= map["country"]
+        englishProficiency     <= map["englishProficiency"]
+        time    <= map["time"]
+        serverTime    <= map["serverTime"]
+        duration    <= map["duration"]
+        score    <= map["score"]
+        latitude    <= map["latitude"]
+        longitude    <= map["longitude"]
+        uuid    <= map["uuid"]
+        word    <= map["word"]
+        recordFile    <= map["recordFile"]
+        cleanRecordFile    <= map["cleanRecordFile"]
+        phonemes    <= map["phonemes"]
+        hypothesis    <= map["hypothesis"]
+        rawSphinxResult    <= map["rawSphinxResult"]
+        version    <= map["version"]
+        result    <= map["result"]
+        serverDate    <= map["serverDate"]
+        versionPhoneme    <= map["versionPhoneme"]
     }
     
 }

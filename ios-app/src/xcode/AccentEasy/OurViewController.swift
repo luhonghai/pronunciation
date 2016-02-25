@@ -7,11 +7,8 @@
 //
 
 import UIKit
-import ObjectMapper
 import AVFoundation
-import SwiftClient
 import EZAudio
-import ObjectMapper
 import Darwin
 
 class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
@@ -291,9 +288,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let identifier = kCellIdentifier
         var cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier)
         if cell == nil{
-            cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: identifier)
         }
         cell?.textLabel?.text = arrSearchResultData[indexPath.row].word
+        //cell.textLabel!.text = arrSearchResultData[indexPath.row].word
+        cell.detailTextLabel!.text = arrSearchResultData[indexPath.row].pronunciation
         return cell
     }
     

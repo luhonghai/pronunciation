@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import ObjectMapper
 
 public class UserProfile: Mappable {
     public static let TYPE_EASYACCENT:String = "easyaccent"
@@ -79,14 +78,14 @@ public class UserProfile: Mappable {
         
         // Mappable
         public func mapping(map: Map) {
-            appVersion    <- map["appVersion"]
-            appName   <- map["appName"]
-            model      <- map["model"]
-            osVersion       <- map["osVersion"]
-            osApiLevel  <- map["osApiLevel"]
-            deviceName  <- map["deviceName"]
-            emei     <- map["emei"]
-            gcmId     <- map["gcmId"]
+            appVersion    <= map["appVersion"]
+            appName   <= map["appName"]
+            model      <= map["model"]
+            osVersion       <= map["osVersion"]
+            osApiLevel  <= map["osApiLevel"]
+            deviceName  <= map["deviceName"]
+            emei     <= map["emei"]
+            gcmId     <= map["gcmId"]
         }
 
         
@@ -123,32 +122,32 @@ public class UserProfile: Mappable {
     
     // Mappable
     public func mapping(map: Map) {
-        username    <- map["username"]
-        firstName   <- map["firstName"]
-        lastName      <- map["lastName"]
-        name       <- map["name"]
-        loginType  <- map["loginType"]
-        profileImage  <- map["profileImage"]
-        password     <- map["password"]
-        isSetup    <- map["isSetup"]
-        gender    <- map["gender"]
-        dob    <- map["dob"]
-        englishProficiency    <- map["englishProficiency"]
-        time    <- map["time"]
-        duration    <- map["duration"]
-        location    <- map["location"]
-        deviceInfo    <- map["deviceInfo"]
-        uuid    <- map["uuid"]
-        helpStatus    <- map["helpStatus"]
-        isLogin    <- map["isLogin"]
-        lastSelectedMenuItem    <- map["lastSelectedMenuItem"]
-        licenseCode    <- map["licenseCode"]
-        token    <- map["token"]
-        additionalToken    <- map["additionalToken"]
-        isActivatedLicence    <- map["isActivatedLicence"]
-        isSubscription    <- map["isSubscription"]
-        isExpired    <- map["isExpired"]
-        licenseData    <- map["licenseData"]
+        username    <= map["username"]
+        firstName   <= map["firstName"]
+        lastName      <= map["lastName"]
+        name       <= map["name"]
+        loginType  <= map["loginType"]
+        profileImage  <= map["profileImage"]
+        password     <= map["password"]
+        isSetup    <= map["isSetup"]
+        gender    <= map["gender"]
+        dob    <= map["dob"]
+        englishProficiency    <= map["englishProficiency"]
+        time    <= map["time"]
+        duration    <= map["duration"]
+        location    <= map["location"]
+        deviceInfo    <= map["deviceInfo"]
+        uuid    <= map["uuid"]
+        helpStatus    <= map["helpStatus"]
+        isLogin    <= map["isLogin"]
+        lastSelectedMenuItem    <= map["lastSelectedMenuItem"]
+        licenseCode    <= map["licenseCode"]
+        token    <= map["token"]
+        additionalToken    <= map["additionalToken"]
+        isActivatedLicence    <= map["isActivatedLicence"]
+        isSubscription    <= map["isSubscription"]
+        isExpired    <= map["isExpired"]
+        licenseData    <= map["licenseData"]
     }
 
 }
