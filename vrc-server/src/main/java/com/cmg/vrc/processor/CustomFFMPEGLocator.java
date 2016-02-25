@@ -7,11 +7,12 @@ import it.sauronsoftware.jave.FFMPEGLocator;
  */
 public class CustomFFMPEGLocator extends FFMPEGLocator {
     private static final String DEFAULT_LINUX_PATH = "/usr/bin/ffmpeg";
+    private static final String DEFAULT_MAX_OS_X_PATH = "/usr/local/bin/ffmpeg";
 
     private final String path;
 
     public CustomFFMPEGLocator() {
-        this(DEFAULT_LINUX_PATH);
+        this(DEFAULT_MAX_OS_X_PATH);
     }
 
     public CustomFFMPEGLocator(String path) {

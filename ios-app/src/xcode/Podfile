@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '8.0'
+platform :ios, '7.0'
 # Uncomment this line if you're using Swift
 use_frameworks!
 
@@ -7,16 +7,16 @@ target 'AccentEasy' do
 	#pod 'GoogleAnalytics'
     pod 'Google/Analytics'
 	pod 'Google/SignIn'
-	pod 'ObjectMapper', '~> 1.1'
+	#pod 'ObjectMapper', '~> 1.1'
 	pod 'SSZipArchive'
-	pod 'SQLite.swift', '~> 0.9.2'
+	#pod 'SQLite.swift'
 	pod 'FBSDKCoreKit'
 	pod 'FBSDKLoginKit'
 	pod 'FBSDKShareKit'
-    pod 'DLHamburguerMenu'
+    #pod 'DLHamburguerMenu'
 	pod 'EZAudio', '1.1.2' 
 	pod 'EZAudio/Core', '1.1.2'	
-	pod 'Charts'
+	#pod 'Charts'
 end
 
 target 'AccentEasyTests' do
