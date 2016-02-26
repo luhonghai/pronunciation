@@ -46,6 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         GIDSignIn.sharedInstance().delegate = self
         
+        
+        //swipe screen
+        //window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        //window!.rootViewController = FreestyleSwipeVC()
+        //window!.makeKeyAndVisible()
+        
         return true
     }
     

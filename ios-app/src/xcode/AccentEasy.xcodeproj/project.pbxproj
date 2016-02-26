@@ -189,6 +189,8 @@
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
 		C13A5D601C58CBD80036A5E9 /* london_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */; };
 		C13A5D611C58CBD80036A5E9 /* london-sunset-1920x1080.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */; };
+		C13C28FD1C800D4E000CC11D /* EZSwipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */; };
+		C13C29011C800EC0000CC11D /* FreestyleSwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */; };
 		C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CDA831C48E19A009E649F /* UserProfile.swift */; };
 		C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */ = {isa = PBXBuildFile; fileRef = C13E44B91C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav */; };
 		C13E44BC1C60556D00EB6075 /* sautatca.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C13E44BB1C60556D00EB6075 /* sautatca.mp3 */; };
@@ -580,6 +582,8 @@
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
 		C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = london_3.jpg; sourceTree = "<group>"; };
 		C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "london-sunset-1920x1080.jpg"; sourceTree = "<group>"; };
+		C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EZSwipeController.swift; sourceTree = "<group>"; };
+		C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreestyleSwipeVC.swift; sourceTree = "<group>"; };
 		C13CDA831C48E19A009E649F /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		C13E44B91C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav"; sourceTree = "<group>"; };
 		C13E44BB1C60556D00EB6075 /* sautatca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sautatca.mp3; sourceTree = "<group>"; };
@@ -1130,6 +1134,7 @@
 		9BA3AB811C4F98AB00C6631D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */,
 				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
 				C14CE27A1C4E187D001EE55A /* SweetAlert.swift */,
 				9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */,
@@ -1218,6 +1223,14 @@
 				C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */,
 			);
 			name = background;
+			sourceTree = "<group>";
+		};
+		C13C28F31C800C98000CC11D /* FreeStyleController */ = {
+			isa = PBXGroup;
+			children = (
+				C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */,
+			);
+			name = FreeStyleController;
 			sourceTree = "<group>";
 		};
 		C13CDA0B1C48B706009E649F /* LIB */ = {
@@ -1339,6 +1352,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				C13C28F31C800C98000CC11D /* FreeStyleController */,
 				9B9BE7181C632BA500C84823 /* HistoryController */,
 				9B9BE6DF1C62F38800C84823 /* GraphController */,
 				C11DD2811C71C65D000ED4AF /* SearchController */,
@@ -1995,6 +2009,7 @@
 				9B5F33E91C771B5A00E85629 /* EnumTransform.swift in Sources */,
 				9B5F335A1C77129A00E85629 /* ChartMarker.swift in Sources */,
 				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
+				C13C29011C800EC0000CC11D /* FreestyleSwipeVC.swift in Sources */,
 				9B5F339D1C77129A00E85629 /* CombinedHighlighter.swift in Sources */,
 				9B5F340F1C771D6800E85629 /* R*Tree.swift in Sources */,
 				9B5F33B71C77129A00E85629 /* LineRadarChartRenderer.swift in Sources */,
@@ -2034,6 +2049,7 @@
 				9B5F33941C77129A00E85629 /* ChartDataApproximatorFilter.swift in Sources */,
 				C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */,
 				C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */,
+				C13C28FD1C800D4E000CC11D /* EZSwipeController.swift in Sources */,
 				9B5F33E81C771B5A00E85629 /* DateTransform.swift in Sources */,
 				9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */,
 				9B5F337A1C77129A00E85629 /* CandleChartDataSet.swift in Sources */,

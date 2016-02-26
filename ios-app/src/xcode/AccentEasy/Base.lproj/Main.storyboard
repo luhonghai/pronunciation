@@ -715,7 +715,7 @@
         <!--Our View Controller-->
         <scene sceneID="70w-kc-OIi">
             <objects>
-                <viewController id="ma6-zi-wIz" customClass="OurViewController" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OurViewController" id="ma6-zi-wIz" customClass="OurViewController" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="KCn-ey-IO0"/>
                         <viewControllerLayoutGuide type="bottom" id="7yM-yO-gMG"/>
@@ -794,6 +794,29 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IbU-Kz-ZxO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1168.5" y="-35.5"/>
+        </scene>
+        <!--Freestyle SwipeVC-->
+        <scene sceneID="chC-7x-gBa">
+            <objects>
+                <viewController id="VuA-vW-zH3" customClass="FreestyleSwipeVC" customModule="AccentEasy" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xxs-vR-gPB"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZNv-cQ-0pI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wa6-BQ-Rhh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <segue destination="B8p-da-2pF" kind="custom" identifier="FSGoToMenu" customClass="SWRevealViewControllerSeguePushController" id="SIe-9Q-k60"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ipl-v3-U82" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="533.5" y="688.5"/>
         </scene>
         <!--MenuTVC-->
         <scene sceneID="NEI-Tt-d2B">
@@ -918,6 +941,9 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="VuA-vW-zH3" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="Lc1-3Z-N8M"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3Sg-cE-bjI">
                                         <rect key="frame" x="0.0" y="374" width="375" height="44"/>
@@ -1679,10 +1705,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="y7T-RE-Gak"/>
-        <segue reference="w7l-a7-zju"/>
+        <segue reference="SIe-9Q-k60"/>
         <segue reference="t7Q-vO-CVy"/>
-        <segue reference="VlK-rN-iWT"/>
+        <segue reference="y7T-RE-Gak"/>
+        <segue reference="Udu-EY-icj"/>
+        <segue reference="w7l-a7-zju"/>
         <segue reference="eFf-YZ-v5D"/>
         <segue reference="8uH-2d-FMf"/>
         <segue reference="7Xn-Nj-Yvw"/>
