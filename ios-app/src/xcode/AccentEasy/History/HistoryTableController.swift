@@ -73,10 +73,23 @@ class HistoryTableController: UITableViewController {
         HistoryRow(_word: "hello", _score: 15)
     ]
     
+    var historyList: Array<PronunciationScore>!
+    
+    var freestyleDBAdapter: FreeStyleDBAdapter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        freestyleDBAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
+        historyList = freestyleDBAdapter.listPronunciationScore()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
         self.tableView.allowsSelection = false
+    }
+    
+    func loadList(notification: NSNotification){
+        //load data here
+        historyList = freestyleDBAdapter.listPronunciationScore()
+        self.tableView.reloadData()
+        self.tableView.setContentOffset(CGPoint.zero, animated: true)
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -84,13 +97,13 @@ class HistoryTableController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return histories.count
+        return historyList.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("HistoryTableCell", forIndexPath: indexPath) as! HistoryTableCell
         cell.applyCircleButton()
-        let history = histories[indexPath.row]
+        let history = historyList[indexPath.row]
         var color:UIColor = UIColor.clearColor()
         if history.score >= 80 {
             color = ColorHelper.APP_GREEN
