@@ -1369,6 +1369,7 @@
 			isa = PBXGroup;
 			children = (
 				C13C28F31C800C98000CC11D /* FreeStyleController */,
+				90F33B441C7EC2CA00E28BC4 /* TipController */,
 				9B9BE7181C632BA500C84823 /* HistoryController */,
 				9B9BE6DF1C62F38800C84823 /* GraphController */,
 				C11DD2811C71C65D000ED4AF /* SearchController */,

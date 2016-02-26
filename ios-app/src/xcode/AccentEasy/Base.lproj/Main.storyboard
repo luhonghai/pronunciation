@@ -1858,12 +1858,15 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="hKc-VP-pia"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="SIe-9Q-k60"/>
         <segue reference="t7Q-vO-CVy"/>
         <segue reference="y7T-RE-Gak"/>
         <segue reference="Udu-EY-icj"/>
         <segue reference="w7l-a7-zju"/>
         <segue reference="eFf-YZ-v5D"/>
+        <segue reference="iRg-MO-4bh"/>
         <segue reference="8uH-2d-FMf"/>
         <segue reference="ZoM-vd-D1g"/>
         <segue reference="WR5-An-sLd"/>
