@@ -626,6 +626,42 @@
         <url-pattern>/ReviewServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+    <servlet-name>TreeLoadServlet</servlet-name>
+    <servlet-class>com.cmg.merchant.servlet.tree.TreeLoadServlet</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>TreeLoadServlet</servlet-name>
+        <url-pattern>/TreeLoadServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>TreeAddNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeAddNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeAddNodeServlet</servlet-name>
+        <url-pattern>/TreeAddNodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TreeEditNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeEditNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeEditNodeServlet</servlet-name>
+        <url-pattern>/TreeEditNodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TreeDeleteNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeDeleteNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeDeleteNodeServlet</servlet-name>
+        <url-pattern>/TreeDeleteNodeServlet</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>

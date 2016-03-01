@@ -1,0 +1,55 @@
+package com.cmg.merchant.servlet.tree;
+
+import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.data.dto.TreeNode;
+import com.cmg.merchant.services.treeview.NodeServices;
+import com.cmg.merchant.servlet.ReviewServlet;
+import com.cmg.vrc.servlet.BaseServlet;
+import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * Created by lantb on 2016-02-22.
+ */
+@WebServlet(name = "TreeLoadServlet")
+public class TreeLoadServlet extends BaseServlet {
+    private static final Logger logger = Logger.getLogger(ReviewServlet.class
+            .getName());
+    private static NodeServices nService = new NodeServices();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
+        Gson gson = new Gson();
+        String target = (String) StringUtil.isNull(request.getParameter("target"), "").toString();
+        String idTarget = (String) StringUtil.isNull(request.getParameter("idTarget"), "").toString();
+        Boolean showBtnAction =  (Boolean) StringUtil.switchBoolean(request.getParameter("showBtnAction"), false);
+        if(target.equalsIgnoreCase(Constant.TARGET_LOAD_COURSE)){
+            Boolean firstLoad =  (Boolean) StringUtil.switchBoolean(request.getParameter("firstLoad"), false);
+            ArrayList<TreeNode> list = nService.loadRoot(idTarget,firstLoad,showBtnAction);
+            String json = gson.toJson(list);
+            response.getWriter().println(json);
+        }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LEVEL)){
+            ArrayList<TreeNode> list = nService.loadLevel(idTarget,showBtnAction);
+            String json = gson.toJson(list);
+            response.getWriter().println(json);
+        }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_OBJECTIVE)){
+
+        }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_TEST)){
+
+        }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LESSONS)){
+
+        }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
+    }
+}

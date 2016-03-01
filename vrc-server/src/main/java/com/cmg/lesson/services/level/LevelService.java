@@ -60,7 +60,7 @@ public class LevelService {
 //                    return dto;
 //
 //                }
-                Level lv = new Level();
+            Level lv = new Level();
             lv.setName(name);
             lv.setDescription(description);
             lv.setColor(color);
