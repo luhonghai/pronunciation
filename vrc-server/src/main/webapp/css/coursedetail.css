@@ -1,17 +1,26 @@
 .saveBtnPopUp{
-    background-image: url("../images/popup/save_button.gif") !important;
-    width: 24px;
-    height: 24px;
+    background-image: url("../images/popup/save.gif") !important;
+    background-size: 36px 36px;
+    width: 36px;
+    height: 36px;
+    border-style: none;
+    background-color: transparent;
 }
 
 .deleteBtnPopUp{
-    background-image: url("../images/popup/save_button.gif") !important;
-    width: 24px;
-    height: 24px;
+    background-image: url("../images/popup/trash.gif") !important;
+    background-size: 36px 36px;
+    width: 36px;
+    height: 36px;
+    border-style: none;
+    background-color: transparent;
 }
 
 .helpBtnPopUp{
-    background-image: url("../images/popup/save_button.gif") !important;
-    width: 24px;
-    height: 24px;
+    background-image: url("../images/popup/help.gif") !important;
+    background-size: 36px 36px;
+    width: 36px;
+    height: 36px;
+    border-style: none;
+    background-color: transparent;
 }

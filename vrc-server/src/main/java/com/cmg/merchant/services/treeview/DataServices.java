@@ -1,14 +1,17 @@
 package com.cmg.merchant.services.treeview;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.dao.course.CDAO;
+import com.cmg.merchant.dao.level.LVMTDAO;
 import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.objective.ODAO;
+import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.data.dto.TreeNode;
 import org.apache.log4j.Logger;
 
@@ -68,7 +71,26 @@ public class DataServices {
         return null;
     }
 
-    public ArrayList<Test> getTestObjDB(String idLevel){
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public Test getTestDB(String idLevel){
+        TDAO dao = new TDAO();
+        LVMTDAO mDao = new LVMTDAO();
+        try {
+            CourseMappingDetail cmd = mDao.getBy(idLevel,true);
+            if(cmd!=null){
+                String idTest = cmd.getIdChild();
+                Test test = dao.getById(idTest);
+                if(test!=null){
+                    return test;
+                }
+            }
+        }catch (Exception e){
+            logger.error(e);
+        }
         return null;
     }
 

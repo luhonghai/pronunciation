@@ -38,11 +38,13 @@ function initTree(){
             item.find('.aciTreeItem').css('background-color', itemData['_backgroundColor']);
             item.find('.aciTreeItem').css('padding', '5px');
             item.find('.aciTreeItem').css('border-radius', '5px');
-            item.find('.aciTreeButton').css('padding-top', '5px');
+            item.find('.aciTreeButton').css('padding-top', '9px');
             item.find('.aciTreeButton').css('padding-bottom', '5px');
             item.find('.aciTreeText').css('color', itemData['_textColor']);
             item.find('.aciTreeText').css('font-size', 'larger');
             item.find('.aciTreeText').css('padding-left', '5px');
+            item.find('.aciTreeText').css('vertical-align', 'middle');
+            item.find('.aciTreeIcon').css('vertical-align', 'middle');
         }
     });
     treeAPI = theTree.aciTree('api');

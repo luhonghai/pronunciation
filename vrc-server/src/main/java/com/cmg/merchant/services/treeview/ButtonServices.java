@@ -51,8 +51,17 @@ public class ButtonServices {
         return node;
     }
 
+    /**
+     *
+     * @return btn add test
+     */
     public TreeNode createBtnAddTest(){
         TreeNode node = getDefaultBtn();
+        node.setId(Constant.ID_ADD_TEST_BTN);
+        node.setLabel(Constant.LABEL_ADD_TEST);
+        node.setIcon(Constant.IC_BTN_ADD_TEST);
+        node.set_popupId(Constant.POPUP_TEST);
+        node.set_actionClick(Constant.ACTION_ADD_TEST);
         return node;
     }
 

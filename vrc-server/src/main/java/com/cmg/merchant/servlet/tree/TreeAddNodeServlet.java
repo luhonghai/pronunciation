@@ -3,6 +3,7 @@ package com.cmg.merchant.servlet.tree;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.services.CourseServices;
 import com.cmg.merchant.services.LevelServices;
+import com.cmg.merchant.services.TestServices;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -38,6 +39,12 @@ public class TreeAddNodeServlet extends BaseServlet {
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvServices = new LevelServices();
             String txt = lvServices.addObjToLv(idLevel,name,description);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_TEST)){
+            String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
+            Double percent = Double.parseDouble((String)StringUtil.isNull(request.getParameter("percent"), "0"));
+            TestServices tServices = new TestServices();
+            String txt = tServices.addTest(idLevel,percent);
             response.getWriter().println(txt);
         }
     }

@@ -77,60 +77,45 @@ label {
 
 
 .aciTree .aciTreeIcon.course {
-    background-image: url("../images/treeview/ic_course.png") !important;
+    background-image: url("../images/treeview/course_icon.gif") !important;
     width: 24px;
     height: 24px;
+    background-size: 24px 24px !important;
 }
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.course {
-    /* comment next line to keep the same icon on hover */
-    background-image: url("../images/treeview/ic_course.png")  !important;
-    width: 24px;
-    height: 24px;
-}
+
 
 .aciTree .aciTreeIcon.level {
-    background-image: url("../images/treeview/ic_level.png")  !important;
+    background-image: url("../images/treeview/level_icon.gif")  !important;
     width: 24px;
     height: 24px;
+    background-size: 24px 24px !important;
 }
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.level {
-    /* comment next line to keep the same icon on hover */
-    background-image: url("../images/treeview/ic_level.png")  !important;
-    width: 24px;
-    height: 24px;
-}
+
 
 .aciTree .aciTreeIcon.obj {
-    background-image: url("../images/treeview/ic_obj.png")  !important;
+    background-image: url("../images/treeview/objective_icon.gif")  !important;
     width: 24px;
     height: 24px;
+    background-size: 24px 24px !important;
 }
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.obj {
-    /* comment next line to keep the same icon on hover */
-    background-image: url("../images/treeview/ic_obj.png") !important;
-    width: 24px;
-    height: 24px;
-}
+
 
 .aciTree .aciTreeIcon.test {
-    background-image: url("../images/treeview/ic_test.png") !important;
+    background-image: url("../images/treeview/test_icon.gif") !important;
     width: 24px;
     height: 24px;
+    background-size: 24px 24px !important;
 }
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.test {
-    /* comment next line to keep the same icon on hover */
-    background-image: url("../images/treeview/ic_test.png") !important;
-    width: 24px;
-    height: 24px;
-}
+
 
 .aciTree .aciTreeIcon.lessons {
-
-}
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.lessons {
     /* comment next line to keep the same icon on hover */
-
+    background-image: url("../images/treeview/lesson_icon.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
 }
+
 
 .aciTree .aciTreeIcon.question {
 

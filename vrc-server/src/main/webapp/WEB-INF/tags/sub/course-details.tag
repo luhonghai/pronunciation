@@ -19,6 +19,9 @@
     var action_add_obj = "<%=Constant.ACTION_ADD_OBJ%>";
     var action_delete_obj = "<%=Constant.ACTION_DELETE_OBJ%>";
     var action_edit_obj = "<%=Constant.ACTION_EDIT_OBJ%>";
+    var action_add_test = "<%=Constant.ACTION_ADD_TEST%>";
+    var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
+    var action_delete_test = "<%=Constant.ACTION_DELETE_TEST%>";
 </script>
 <style>
     .welcome {
@@ -96,13 +99,13 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img style="float:left;cursor: pointer" class="helpBtnPopUp">
+                            <input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                            <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
                         </div>
                         <div class="col-md-5">
-                            <img id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">
+                            <input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">
                         </div>
                     </div>
                 </form>
@@ -151,13 +154,59 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">
+                            <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                            <input type="button" id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
                         </div>
                         <div class="col-md-5">
-                            <img id="btnSaveObj"  style="float:right;cursor:pointer" class="saveBtnPopUp">
+                            <input type="button" id="btnSaveObj"  style="float:right;cursor:pointer" class="saveBtnPopUp">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+
+
+<div id="popupTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <label id="arrowTest" class="modal-title"
+                       style="text-align: left;font-weight: 200"><%=nameOfCourse%>
+                </label>
+                <h2 id='titlePopupTest' class="modal-title" style="text-align: center;font-weight: 200">Add Test</h2>
+                <h4 id="validateTestMsg" class="modal-title validateMsg"
+                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    name</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addObj" name="addform">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="percent">Pass %:</label>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="percent" name="percent"
+                                   placeholder="Percent pass">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <input type="hidden" class="action">
+                            <input type="hidden" class="idHidden">
+                            <input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">
                         </div>
                     </div>
                 </form>

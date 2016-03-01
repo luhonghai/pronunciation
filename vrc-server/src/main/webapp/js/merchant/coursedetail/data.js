@@ -45,3 +45,14 @@ function getObjValidateMessage(){
     var validateMsg = $("#validateObjMsg");
     return validateMsg;
 }
+
+
+function getPercentPass(){
+    var percentPass = $("#percent");
+    return percentPass;
+}
+
+function getTestValidateMessage(){
+    var validateMsg = $("#validateTestMsg");
+    return validateMsg;
+}

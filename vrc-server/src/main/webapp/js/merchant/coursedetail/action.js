@@ -31,6 +31,20 @@ function openPopup(itemData){
         getObjName().attr("idLevel", level.id);
         currentPopup.find("#btnDeleteObj").show();
         currentPopup.find("#arrowObj").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+    }else if(itemData._actionClick == action_add_test){
+        clearForm();
+        var level = treeAPI.itemData(currentParent);
+        getPercentPass().attr("idLevel",level.id);
+        currentPopup.find("#titlePopupTest").html("Add Test");
+        currentPopup.find("#btnDeleteTest").hide();
+    }else if(itemData._actionClick == action_edit_test){
+        currentPopup.find("#titlePopupTest").html("Test management");
+        var percent = itemData._title.split("%")[0];
+        getPercentPass().val(percent);
+        var level = treeAPI.itemData(currentParent);
+        getPercentPass().attr("idLevel",level.id);
+        currentPopup.find("#btnDeleteTest").show();
+        currentPopup.find("#arrowObj").html(nameOfCourse+">" + level.label + ">" + itemData.label);
     }
     currentPopup.modal('show');
 }
@@ -82,9 +96,34 @@ function btnDeleteObj(){
 }
 
 
+/**
+ *click on save button
+ */
+function btnSaveTest(){
+    $(document).on("click","#btnSaveTest",function(){
+        if(validateFormTest()){
+            if(currentPopup.find(".action").val() == action_add_test){
+                addTest();
+            }else if(currentPopup.find(".action").val() == action_edit_test){
+                editTest();
+            }
+        }
+    });
+}
+
+function btnDeleteTest(){
+    $(document).on("click","#btnDeleteTest",function(){
+        deleteTest();
+    });
+}
+
+
+
 $(document).ready(function(){
     btnSaveLevel();
     btnDeleteLevel();
     btnSaveObj();
     btnDeleteObj();
+    btnSaveTest();
+    btnDeleteTest();
 });

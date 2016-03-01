@@ -87,4 +87,10 @@ public class Constant {
     public static String ACTION_ADD_OBJ = "addObj";
     public static String ACTION_EDIT_OBJ = "editObj";
     public static String ACTION_DELETE_OBJ = "deleteObj";
+
+    //poup test
+    public static String POPUP_TEST = "popupTest";
+    public static String ACTION_ADD_TEST = "addTest";
+    public static String ACTION_EDIT_TEST = "editTest";
+    public static String ACTION_DELETE_TEST = "deleteTest";
 }

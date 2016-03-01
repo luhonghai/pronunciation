@@ -3,7 +3,9 @@ package com.cmg.merchant.util;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.data.dto.TreeNode;
 import com.cmg.merchant.services.treeview.ButtonServices;
 
@@ -120,4 +122,37 @@ public class TreeUtil {
         return nodes;
     }
 
+    /**
+     *
+     * @param test
+     * @param showBtnAction
+     * @return
+     */
+    public TreeNode switchTestToNode(Test test, boolean showBtnAction){
+        ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+        if(test != null){
+            String idLessons = "";
+            try {
+                TMLDAO dao = new TMLDAO();
+                idLessons = dao.getByIdTest(test.getId()).getIdLessonCollection();
+            }catch (Exception e){
+            }
+            TreeNode node = getDefaultInstance(false);
+            node.setId(test.getId());
+            node.set_idLessonForTest(idLessons);
+            node.setLabel(test.getName());
+            node.set_title(test.getPercentPass()+"%");
+            node.setIcon(Constant.IC_TEST);
+            node.set_targetLoad(Constant.TARGET_LOAD_TEST);
+            node.set_popupId(Constant.POPUP_TEST);
+            node.set_actionClick(Constant.ACTION_EDIT_TEST);
+            node.setOpen(false);
+            nodes.add(node);
+        }else{
+            if(showBtnAction){
+                nodes.add(btnService.createBtnAddTest());
+            }
+        }
+        return nodes.get(0);
+    }
 }

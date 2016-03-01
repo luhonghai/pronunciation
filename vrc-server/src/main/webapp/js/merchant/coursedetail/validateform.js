@@ -47,3 +47,18 @@ function validateFormObj() {
     getObjValidateMessage().hide();
     return true;
 }
+
+/**
+ *
+ * @returns {boolean}
+ */
+function validateFormTest(){
+    var percent = getPercentPass().val();
+    if (percent == '' || typeof name === "undefined") {
+        getPercentPass().focus();
+        getTestValidateMessage().html("Please enter a number!");
+        getTestValidateMessage.show();
+    }
+    getTestValidateMessage().hide();
+    return true;
+}
