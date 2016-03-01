@@ -5,6 +5,7 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by CMGT400 on 1/5/2016.
@@ -30,10 +31,19 @@ public class StudentMappingTeacher implements Mirrorable {
     private boolean isDeleted;
 
     @Persistent
+    private Date createdDate;
+
+    @Persistent
+    private String mappingBy;
+
+    @Persistent
     private String status;
 
     @Persistent
     private boolean licence;
+
+    @Persistent
+    private boolean isView;
 
 
 
@@ -101,5 +111,29 @@ public class StudentMappingTeacher implements Mirrorable {
 
     public void setLicence(boolean licence) {
         this.licence = licence;
+    }
+
+    public String getMappingBy() {
+        return mappingBy;
+    }
+
+    public void setMappingBy(String mappingBy) {
+        this.mappingBy = mappingBy;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public boolean isView() {
+        return isView;
+    }
+
+    public void setIsView(boolean isView) {
+        this.isView = isView;
     }
 }

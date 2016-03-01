@@ -2,7 +2,7 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%
-  String company = (String) StringUtil.isNull(request.getSession().getAttribute("companyName"),"");
+  String company = (String) StringUtil.isNull(request.getSession().getAttribute("company"),"");
 %>
 <style>
   .welcome{

@@ -78,82 +78,82 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
-    public List<StudentMappingTeacher> listAll(int start, int length,String search,int column,String order,String teacherName){
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        StringBuffer second=new StringBuffer();
-        StringBuffer query = new StringBuffer();
-        String firstQuery = "select *  from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='accept'";
-        String secondQuery = "select * from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='pending' and mappingBy='student'";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and studentName like '%"+search+"%'");
-        second.append("and studentName like '%"+search+"%'");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.username ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.username DESC");
-        }
-        query.append(" limit " + start + "," + length);
-        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-        try {
-            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
-            List<Object> objects = (List<Object>) q.execute();
-            for (Object object : objects) {
-                Object[] data = (Object[]) object;
-                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
-                studentMappingTeacher.setId(data[0].toString());
-                studentMappingTeacher.setStudentName(data[1].toString());
-                studentMappingTeachers.add(studentMappingTeacher);
-            }
-            return studentMappingTeachers;
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            q.closeAll();
-            pm.close();
-        }
-    }
-    public List<StudentMappingTeacher> getCountSearch(String search,int column,String order,String teacherName){
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        StringBuffer second=new StringBuffer();
-        StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, teacherName, status, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='accept'";
-        String secondQuery = "select id, studentName, teacherName, status, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='pending' and mappingBy='student'";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and studentName like '%"+search+"%'");
-        second.append("and studentName like '%"+search+"%'");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.studentName ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.studentName DESC");
-        }
-        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-        try {
-            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
-            List<Object> objects = (List<Object>) q.execute();
-            for (Object object : objects) {
-                Object[] data = (Object[]) object;
-                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
-                studentMappingTeacher.setId(data[0].toString());
-                studentMappingTeacher.setStudentName(data[1].toString());
-                studentMappingTeacher.setStatus(data[3].toString());
-                studentMappingTeachers.add(studentMappingTeacher);
-            }
-            return studentMappingTeachers;
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            q.closeAll();
-            pm.close();
-        }
-    }
+//    public List<StudentMappingTeacher> listAll(int start, int length,String search,int column,String order,String teacherName){
+//        PersistenceManager pm = PersistenceManagerHelper.get();
+//        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+//        StringBuffer first=new StringBuffer();
+//        StringBuffer second=new StringBuffer();
+//        StringBuffer query = new StringBuffer();
+//        String firstQuery = "select *  from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='accept'";
+//        String secondQuery = "select * from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='pending' and mappingBy='student'";
+//        first.append(firstQuery);
+//        second.append(secondQuery);
+//        first.append(" and studentName like '%"+search+"%'");
+//        second.append("and studentName like '%"+search+"%'");
+//        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+//        if (column == 0 && order.equals("asc")) {
+//            query.append(" ORDER BY tmp.username ASC");
+//        } else if (column == 0 && order.equals("desc")) {
+//            query.append(" ORDER BY tmp.username DESC");
+//        }
+//        query.append(" limit " + start + "," + length);
+//        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+//        try {
+//            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+//            List<Object> objects = (List<Object>) q.execute();
+//            for (Object object : objects) {
+//                Object[] data = (Object[]) object;
+//                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+//                studentMappingTeacher.setId(data[0].toString());
+//                studentMappingTeacher.setStudentName(data[1].toString());
+//                studentMappingTeachers.add(studentMappingTeacher);
+//            }
+//            return studentMappingTeachers;
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//            q.closeAll();
+//            pm.close();
+//        }
+//    }
+//    public List<StudentMappingTeacher> getCountSearch(String search,int column,String order,String teacherName){
+//        PersistenceManager pm = PersistenceManagerHelper.get();
+//        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+//        StringBuffer first=new StringBuffer();
+//        StringBuffer second=new StringBuffer();
+//        StringBuffer query = new StringBuffer();
+//        String firstQuery = "select id, studentName, teacherName, status, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='accept'";
+//        String secondQuery = "select id, studentName, teacherName, status, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName="+teacherName+" and status='pending' and mappingBy='student'";
+//        first.append(firstQuery);
+//        second.append(secondQuery);
+//        first.append(" and studentName like '%"+search+"%'");
+//        second.append("and studentName like '%"+search+"%'");
+//        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+//        if (column == 0 && order.equals("asc")) {
+//            query.append(" ORDER BY tmp.studentName ASC");
+//        } else if (column == 0 && order.equals("desc")) {
+//            query.append(" ORDER BY tmp.studentName DESC");
+//        }
+//        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+//        try {
+//            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+//            List<Object> objects = (List<Object>) q.execute();
+//            for (Object object : objects) {
+//                Object[] data = (Object[]) object;
+//                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+//                studentMappingTeacher.setId(data[0].toString());
+//                studentMappingTeacher.setStudentName(data[1].toString());
+//                studentMappingTeacher.setStatus(data[3].toString());
+//                studentMappingTeachers.add(studentMappingTeacher);
+//            }
+//            return studentMappingTeachers;
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//            q.closeAll();
+//            pm.close();
+//        }
+//    }
 
     public List<StudentMappingTeacherClient> getStudentMappingTeaccher(String studentName){
         PersistenceManager pm = PersistenceManagerHelper.get();
@@ -216,19 +216,12 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         }
     }
 
-    public List<StudentMappingTeacher> getStudentHaveLicence(int start, int length,String search,int column,String order,String teacherName){
+    public List<StudentMappingTeacher> getStudentHaveLicence(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
         String firstQuery = "select id, studentName, teacherName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=true";
         query.append(firstQuery);
-        query.append(" and studentName like '%"+search+"%'");
-        if (column == 1 && order.equals("asc")) {
-            query.append(" ORDER BY studentName ASC");
-        } else if (column == 1 && order.equals("desc")) {
-            query.append(" ORDER BY studentName DESC");
-        }
-        query.append(" limit " + start + "," + length);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
@@ -251,18 +244,100 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
-    public List<StudentMappingTeacher> getCountStudentHaveLicence(String search,int column,String order,String teacherName){
+//    public List<StudentMappingTeacher> getCountStudentHaveLicence(String search,int column,String order,String teacherName){
+//        PersistenceManager pm = PersistenceManagerHelper.get();
+//        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+//        StringBuffer query = new StringBuffer();
+//        String firstQuery = "select id, studentName, teacherName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=true";
+//        query.append(firstQuery);
+//        query.append(" and studentName like '%"+search+"%'");
+//        if (column == 1 && order.equals("asc")) {
+//            query.append(" ORDER BY studentName ASC");
+//        } else if (column == 1 && order.equals("desc")) {
+//            query.append(" ORDER BY studentName DESC");
+//        }
+//        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+//        try {
+//            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+//            List<Object> objects = (List<Object>) q.execute();
+//            for (Object object : objects) {
+//                Object[] data = (Object[]) object;
+//                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+//                studentMappingTeacher.setId(data[0].toString());
+//                studentMappingTeacher.setStudentName(data[1].toString());
+//                studentMappingTeacher.setTeacherName(data[2].toString());
+//                studentMappingTeacher.setStatus(data[3].toString());
+//                studentMappingTeacher.setLicence(Boolean.parseBoolean(data[4].toString()));
+//                studentMappingTeachers.add(studentMappingTeacher);
+//            }
+//            return studentMappingTeachers;
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//            q.closeAll();
+//            pm.close();
+//        }
+//    }
+    public List<StudentMappingTeacher> getMyStudents(String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+        StringBuffer first=new StringBuffer();
+        StringBuffer second=new StringBuffer();
+        StringBuffer query = new StringBuffer();
+        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
+        String secondQuery = "select id, studentName, status, licence, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
+        first.append(firstQuery);
+        second.append(secondQuery);
+        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+        query.append(" ORDER BY tmp.studentName ASC");
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        try {
+            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+                if (data[0] != null) {
+                    studentMappingTeacher.setId(data[0].toString());
+                }else {
+                    studentMappingTeacher.setId(null);
+                }
+                if (data[1] != null) {
+                    studentMappingTeacher.setStudentName(data[1].toString());
+                }else{
+                    studentMappingTeacher.setStudentName(null);
+                }
+                if (data[2] != null) {
+                    studentMappingTeacher.setStatus(data[2].toString());
+                }else {
+                    studentMappingTeacher.setStatus(null);
+                }
+                if (data[3] != null) {
+                    studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
+                }else{
+                    studentMappingTeacher.setLicence(false);
+                }
+                if (data[4] != null) {
+                    studentMappingTeacher.setMappingBy(data[4].toString());
+                }else{
+                    studentMappingTeacher.setMappingBy(null);
+                }
+                studentMappingTeachers.add(studentMappingTeacher);
+            }
+            return studentMappingTeachers;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+    public List<StudentMappingTeacher> notificationAccept(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, teacherName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=true";
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' and isView=false and mappingBy='teacher' and isDeleted=false";
         query.append(firstQuery);
-        query.append(" and studentName like '%"+search+"%'");
-        if (column == 1 && order.equals("asc")) {
-            query.append(" ORDER BY studentName ASC");
-        } else if (column == 1 && order.equals("desc")) {
-            query.append(" ORDER BY studentName DESC");
-        }
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
@@ -272,9 +347,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
                 studentMappingTeacher.setId(data[0].toString());
                 studentMappingTeacher.setStudentName(data[1].toString());
-                studentMappingTeacher.setTeacherName(data[2].toString());
-                studentMappingTeacher.setStatus(data[3].toString());
-                studentMappingTeacher.setLicence(Boolean.parseBoolean(data[4].toString()));
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
@@ -285,25 +357,12 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
-    public List<StudentMappingTeacher> getMyStudents(int start, int length,String search,int column,String order,String teacherName){
+    public List<StudentMappingTeacher> notificationReject(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        StringBuffer second=new StringBuffer();
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
-        String secondQuery = "select id, studentName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and studentName like '%"+search+"%'");
-        second.append(" and studentName like '%"+search+"%'");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.studentName ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.studentName DESC");
-        }
-        query.append(" limit " + start + "," + length);
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='reject' and isView=false and mappingBy='teacher' and isDeleted=false";
+        query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
@@ -313,8 +372,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
                 studentMappingTeacher.setId(data[0].toString());
                 studentMappingTeacher.setStudentName(data[1].toString());
-                studentMappingTeacher.setStatus(data[2].toString());
-                studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
@@ -325,24 +382,12 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
-    public List<StudentMappingTeacher> getCountMyStudents(String search,int column,String order,String teacherName){
+    public List<StudentMappingTeacher> notificationInvitation(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        StringBuffer second=new StringBuffer();
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
-        String secondQuery = "select id, studentName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
-        first.append(firstQuery);
-        second.append(secondQuery);
-        first.append(" and studentName like '%"+search+"%'");
-        second.append(" and studentName like '%"+search+"%'");
-        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY tmp.studentName ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY tmp.studentName DESC");
-        }
+        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and isView=false and mappingBy='student' and isDeleted=false";
+        query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
@@ -352,8 +397,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
                 StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
                 studentMappingTeacher.setId(data[0].toString());
                 studentMappingTeacher.setStudentName(data[1].toString());
-                studentMappingTeacher.setStatus(data[2].toString());
-                studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
@@ -364,4 +407,43 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
+//    public List<StudentMappingTeacher> getCountMyStudents(String search,int column,String order,String teacherName){
+//        PersistenceManager pm = PersistenceManagerHelper.get();
+//        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+//        StringBuffer first=new StringBuffer();
+//        StringBuffer second=new StringBuffer();
+//        StringBuffer query = new StringBuffer();
+//        String firstQuery = "select id, studentName, status, licence  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
+//        String secondQuery = "select id, studentName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
+//        first.append(firstQuery);
+//        second.append(secondQuery);
+//        first.append(" and studentName like '%"+search+"%'");
+//        second.append(" and studentName like '%"+search+"%'");
+//        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+//        if (column == 0 && order.equals("asc")) {
+//            query.append(" ORDER BY tmp.studentName ASC");
+//        } else if (column == 0 && order.equals("desc")) {
+//            query.append(" ORDER BY tmp.studentName DESC");
+//        }
+//        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+//        try {
+//            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+//            List<Object> objects = (List<Object>) q.execute();
+//            for (Object object : objects) {
+//                Object[] data = (Object[]) object;
+//                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+//                studentMappingTeacher.setId(data[0].toString());
+//                studentMappingTeacher.setStudentName(data[1].toString());
+//                studentMappingTeacher.setStatus(data[2].toString());
+//                studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
+//                studentMappingTeachers.add(studentMappingTeacher);
+//            }
+//            return studentMappingTeachers;
+//        } catch (Exception e) {
+//            throw e;
+//        } finally {
+//            q.closeAll();
+//            pm.close();
+//        }
+//    }
 }

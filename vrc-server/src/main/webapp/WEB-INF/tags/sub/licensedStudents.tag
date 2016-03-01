@@ -1,50 +1,55 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <div id="page-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Manage Mapping Studnet</h1>
+     <div class="row" style="margin-top: 20px;">
+         <a href="#"><label id="company"></label> </a><i class="fa fa-angle-right"></i><p style="display: inline;"> students</p>
+         <a href="my-students.jsp" title="go to my students" style="float: right;"><img src="/images/teacher/my%20students48x48.gif" style="background-color: #00e6ac"></a>
+     </div>
+    <div>
+        <p style="font-size: 20px;">Licensed students</p>
+        <p>Select from the list of students that are licensed to your institution to add to 'my students'.</p>
+        <p>(Click in the checkbox to add. Once added, they will need to be removed individually from your list on 'my students').</p>
+        <p>Go to 'my students' to invite students that have installed the application directly (without a licence)</p>
+
     </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <!-- /.row -->
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
+    <div id="students">
+        <div>
+            <input type="checkbox" id="checkAll" title="select all" style="width: 20px;height: 20px;">
+            <i id="addStudents" class="fa fa-plus fa-2x" style="color: #008000;margin-left: 10px;display: inline;" title="Add student(s) to my students"></i>
         </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-          <div class="dataTable_wrapper">
-            <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
-              <thead>
-              <tr>
-                <th><input id="selectAll" type="checkbox" style="width: 30px;height: 30px;"><i id="addStudents" class="fa fa-plus fa-3x" style="color: #008000;margin-left: 10px;" title="Add student(s) to my students"></i></th>
-                <th>StudentName</th>
 
-              </tr>
-              </thead>
-              <tbody>
+        <div id="listStudent">
 
-              </tbody>
-            </table>
-              </div>
-
-          </div>
-          <!-- /.panel-body -->
         </div>
-        <!-- /.panel -->
-      </div>
-      <!-- /.col-lg-12 -->
     </div>
 
-  </div>
-  <!-- /#page-wrapper -->
 
 </div>
 <!-- /#wrapper -->
+<div id="helpLicensedStudentModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
 
+                        <h1 align="center">licenced Students</h1>
+                        <p>This page displays a list of all students that are associated with your institution with a licence key (by username).</p>
+                        <p>You will need create your own subset of students on your 'my students' page to enable you to add them to classes.</p>
+                        <p>Check the boxes next to the students you want to add to your classes.</p>
+                        <p>Selecting students here will automatically update your list in 'my students'.</p>
+                        <p>Once students have been added here, you will need to select them individually from your list on 'my students' if you wish to remove them.</p>
+                        <p>To add students that did not install the app with a licence key, (installed directly from the Google Play store), you will need to invite them using the button on your 'my students' page.</p>
+                        <p>If a student's licence key expires or it is revoked they will be removed from all lists and will no longer have access to any courses that have been shared with them.</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
 <script src="<%=request.getContextPath() %>/js/licensedStudents.js"></script>
 
 

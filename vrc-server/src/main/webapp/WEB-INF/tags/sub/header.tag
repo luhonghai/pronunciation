@@ -135,19 +135,50 @@
 						</li>
 					<%}%>
 						<li>
-							<a href="class.jsp"><i class="fa fa-slideshare"></i> Student Management </a>
+							<a href="#"><img src="/images/teacher/classes24x24.gif"> class </a>
 							<ul>
 								<li>
-									<a href="class.jsp"><i class="fa fa-envelope-o"></i>  Class Management </a>
+									<a href="class.jsp"><img src="/images/teacher/classes24x24.gif"> classes </a>
 								</li>
 								<li>
-									<a href="my-students.jsp"><i class="fa fa-envelope-o"></i>  My Students </a>
+									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes24x24.gif">  my classes </a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"><img src="/images/teacher/courses24x24.gif"> course </a>
+							<ul>
+								<li>
+									<a href="class.jsp"><img src="/images/teacher/courses24x24.gif"> courses </a>
 								</li>
 								<li>
-									<a href="licensed-students.jsp"><i class="fa fa-envelope-o"></i>  Licensed Students </a>
+									<a href="class.jsp"><img src="/images/teacher/my%20courses24x24.gif">  my courses </a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"><img src="/images/teacher/reports24x24.gif"> report </a>
+							<ul>
+								<li>
+									<a href="reports.jsp"><img src="/images/teacher/reports24x24.gif"> reports </a>
 								</li>
 								<li>
-									<a href="mail-user.jsp"><i class="fa fa-envelope-o"></i>  Send invitation </a>
+									<a href="reports-lessons.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
+								</li>
+								<li>
+									<a href="reports-phonemes.jsp"><i class="fa fa-envelope-o"></i>  phonemes </a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#"><img src="/images/teacher/student24x24.gif"> student </a>
+							<ul>
+								<li>
+									<a href="licensed-students.jsp"><img src="/images/teacher/student24x24.gif"> students </a>
+								</li>
+								<li>
+									<a href="my-students.jsp"><img src="/images/teacher/my%20students24x24.gif">  my students</a>
 								</li>
 							</ul>
 						</li>

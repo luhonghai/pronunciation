@@ -1,7 +1,9 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.dao.impl.TeacherMappingCompanyDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -36,6 +38,7 @@ import java.io.IOException;
     }
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AdminDAO adminDAO=new AdminDAO();
+        TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
         HttpSession session=request.getSession();
         String name=request.getParameter("account");
         String pass=request.getParameter("pass");
@@ -48,6 +51,17 @@ import java.io.IOException;
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
+                    if(admin.getRole()==3 || admin.getRole()==4){
+                        TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
+                        teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
+                        if(teacherMappingCompany!=null) {
+                            session.setAttribute("company", teacherMappingCompany.getCompany());
+                            session.setAttribute("idCompany", teacherMappingCompany.getIdCompany());
+                        }else{
+                            session.setAttribute("company", "");
+                            session.setAttribute("idCompany", "");
+                        }
+                    }
                     logins.message="success";
                     logins.role=admin.getRole();
                     Gson gson = new Gson();

@@ -54,7 +54,6 @@ public class Admins extends HttpServlet {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         AdminDAO adminDAO = new AdminDAO();
         TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
-        StaffMappingCompanyDAO staffMappingCompanyDAO=new StaffMappingCompanyDAO();
 
         String roless = request.getSession().getAttribute("role").toString();
         if (request.getParameter("list") != null) {
@@ -203,12 +202,7 @@ public class Admins extends HttpServlet {
                         response.getWriter().write("error");
                     }
                 }else{
-                    if(role.equals("3")){
-                        staffMappingCompanyDAO.updateEdit(username);
-                    }else {
-                        teacherMappingCompanyDAO.updateEdit(username);
-
-                    }
+                    teacherMappingCompanyDAO.updateEdit(username);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -263,12 +257,13 @@ public class Admins extends HttpServlet {
                     if (ro == 3) {
                         for (Company company : companies) {
 
-                            StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
-                            staffMappingCompany.setIsDeleted(false);
-                            staffMappingCompany.setIdCompany(company.getIdCompany());
-                            staffMappingCompany.setCompany(company.getCompanyName());
-                            staffMappingCompany.setStaffName(dto.getFullName());
-                            staffMappingCompanyDAO.put(staffMappingCompany);
+                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
+                            teacherMappingCompany.setIsDeleted(false);
+                            teacherMappingCompany.setIdCompany(company.getIdCompany());
+                            teacherMappingCompany.setCompany(company.getCompanyName());
+                            teacherMappingCompany.setUserName(dto.getFullName());
+                            teacherMappingCompany.setType("staff");
+                            teacherMappingCompanyDAO.put(teacherMappingCompany);
                         }
                     } else {
                         for (Company company : companies) {
@@ -276,7 +271,8 @@ public class Admins extends HttpServlet {
                             teacherMappingCompany.setIsDeleted(false);
                             teacherMappingCompany.setIdCompany(company.getIdCompany());
                             teacherMappingCompany.setCompany(company.getCompanyName());
-                            teacherMappingCompany.setTeacherName(dto.getFullName());
+                            teacherMappingCompany.setUserName(dto.getFullName());
+                            teacherMappingCompany.setType("teacher");
                             teacherMappingCompanyDAO.put(teacherMappingCompany);
                         }
                     }
@@ -315,47 +311,26 @@ public class Admins extends HttpServlet {
 
                     List<Company> companies = dto.getCompanies();
                 if(ro==roleold) {
-                    if (ro == 3) {
-                        staffMappingCompanyDAO.deleteStaff(dto.getFullName());
-                        for (Company company : companies) {
-                            StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
-                            staffMappingCompany.setIsDeleted(false);
-                            staffMappingCompany.setIdCompany(company.getIdCompany());
-                            staffMappingCompany.setCompany(company.getCompanyName());
-                            staffMappingCompany.setStaffName(dto.getFullName());
-                            staffMappingCompanyDAO.put(staffMappingCompany);
-                        }
-                    } else {
-                        teacherMappingCompanyDAO.deleteTeacher(dto.getFullName());
                         for (Company company : companies) {
                             TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-
                             teacherMappingCompany.setIsDeleted(false);
                             teacherMappingCompany.setIdCompany(company.getIdCompany());
                             teacherMappingCompany.setCompany(company.getCompanyName());
-                            teacherMappingCompany.setTeacherName(dto.getFullName());
+                            teacherMappingCompany.setUserName(dto.getFullName());
                             teacherMappingCompanyDAO.put(teacherMappingCompany);
                         }
-                    }
-                }else if(ro==3){
-                    teacherMappingCompanyDAO.updateEdit(username);
-                    for (Company company : companies) {
-
-                        StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
-                        staffMappingCompany.setIsDeleted(false);
-                        staffMappingCompany.setIdCompany(company.getIdCompany());
-                        staffMappingCompany.setCompany(company.getCompanyName());
-                        staffMappingCompany.setStaffName(dto.getFullName());
-                        staffMappingCompanyDAO.put(staffMappingCompany);
-                    }
-                }else {
-                    staffMappingCompanyDAO.updateEdit(username);
+                }else{
                     for (Company company : companies) {
                         TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
                         teacherMappingCompany.setIsDeleted(false);
                         teacherMappingCompany.setIdCompany(company.getIdCompany());
                         teacherMappingCompany.setCompany(company.getCompanyName());
-                        teacherMappingCompany.setTeacherName(dto.getFullName());
+                        teacherMappingCompany.setUserName(dto.getFullName());
+                        if(ro==3){
+                            teacherMappingCompany.setType("staff");
+                        }else{
+                            teacherMappingCompany.setType("teacher");
+                        }
                         teacherMappingCompanyDAO.put(teacherMappingCompany);
                     }
                 }

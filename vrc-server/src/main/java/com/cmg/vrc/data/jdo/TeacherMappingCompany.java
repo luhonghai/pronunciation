@@ -21,7 +21,10 @@ public class TeacherMappingCompany implements Mirrorable {
     private String company;
 
     @Persistent
-    private String teacherName;
+    private String userName;
+
+    @Persistent
+    private String type;
 
     @Persistent
     private boolean isDeleted;
@@ -54,19 +57,27 @@ public class TeacherMappingCompany implements Mirrorable {
     }
 
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
-    }
-
     public String getCompany() {
         return company;
     }
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

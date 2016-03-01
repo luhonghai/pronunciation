@@ -151,10 +151,10 @@ public class LicenseHandler extends BaseServlet {
                                         String company=licenseCodeCompany.getCompany();
                                         List<TeacherMappingCompany> teacherMappingCompanies=teacherMappingCompanyDAO.getByCompany(company);
                                         for(TeacherMappingCompany mappingCompany:teacherMappingCompanies){
-                                            Admin admin=adminDAO.getUserByEmail(mappingCompany.getTeacherName());
+                                            Admin admin=adminDAO.getUserByEmail(mappingCompany.getUserName());
                                            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                                             studentMappingTeacher.setStudentName(account);
-                                            studentMappingTeacher.setTeacherName(mappingCompany.getTeacherName());
+                                            studentMappingTeacher.setTeacherName(mappingCompany.getUserName());
                                             studentMappingTeacher.setFirstTeacherName(admin.getFirstName());
                                             studentMappingTeacher.setLastTeacherName(admin.getLastName());
                                             studentMappingTeacher.setIsDeleted(false);
