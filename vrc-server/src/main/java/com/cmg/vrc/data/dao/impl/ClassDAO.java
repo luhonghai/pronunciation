@@ -32,7 +32,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         return null;
     }
 
-    public List<ClassJDO> listAll(int start, int length,String search,int column,String order,String username,String classNames,Date dateFrom,Date dateTo) throws Exception {
+    public List<ClassJDO> listAll(String teacherName) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
 
@@ -41,38 +41,9 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
         String firstQuery = "select class.id, class.className , class.definition, class.createdDate from  " + metaClassJDO.getTable()
                 + " class inner join " + metaClassMappingTeacher.getTable()
-                + " mapping on mapping.idClass=class.id where ";
+                + " mapping on mapping.idClass=class.id where teacherName='"+teacherName+"'";
         query.append(firstQuery);
-        query.append(" (class.className LIKE '%" + search + "%')");
-        query.append(" and mapping.teacherName ='"+username+"'");
-        query.append(" and mapping.isDeleted =false");
-        query.append(" and class.isDeleted =false");
-        if (classNames.length() > 0) {
-            query.append(" and class.className LIKE '%" + classNames + "%'");
-        }
-        if (dateFrom!=null && dateTo==null) {
-            query.append(" and class.createdDate >= '" + dateFrom + "'");
-        }
-        if (dateFrom==null && dateTo!=null) {
-            query.append(" and  class.createdDate <= '" + dateTo + "'");
-        }
-
-        if (dateFrom!=null && dateTo!=null) {
-            query.append(" and  class.createdDate >= '" + dateFrom + "' and  class.createdDate <= '" + dateTo + "'");
-        }
-
-
-        if (column == 0 && order.equals("asc")) {
-            query.append(" ORDER BY class.className ASC");
-        } else if (column == 0 && order.equals("desc")) {
-            query.append(" ORDER BY class.className DESC");
-        }
-        if (column == 2 && order.equals("asc")) {
-            query.append(" ORDER BY class.createdDate ASC");
-        } else if (column == 2 && order.equals("desc")) {
-            query.append(" ORDER BY class.createdDate DESC");
-        }
-        query.append(" limit " + start + "," + length);
+        query.append(" ORDER BY class.createdDate DESC");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
 
         List<ClassJDO> list = new ArrayList<ClassJDO>();

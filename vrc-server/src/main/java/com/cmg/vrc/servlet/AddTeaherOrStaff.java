@@ -30,7 +30,6 @@ public class AddTeaherOrStaff extends HttpServlet {
         AdminDAO adminDAO = new AdminDAO();
         ManageTeacherOrStaffDAO manageTeacherOrStaffDAO=new ManageTeacherOrStaffDAO();
         TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
-        StaffMappingCompanyDAO staffMappingCompanyDAO=new StaffMappingCompanyDAO();
         Admin ad = new Admin();
         teacherorStaff teacherorStaff=new teacherorStaff();
         if (request.getParameter("list") != null) {
@@ -93,23 +92,18 @@ public class AddTeaherOrStaff extends HttpServlet {
                     ad.setPassword(StringUtil.md5(password));
                     ad.setRole(ro);
                     adminDAO.put(ad);
-                    if (ro == 3) {
-                            StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
-                            staffMappingCompany.setIsDeleted(false);
-                            staffMappingCompany.setIdCompany(idCompany);
-                            staffMappingCompany.setCompany(company);
-                            staffMappingCompany.setStaffName(username);
-                            staffMappingCompanyDAO.put(staffMappingCompany);
 
-                    } else {
-                            TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
-                            teacherMappingCompany.setIsDeleted(false);
-                            teacherMappingCompany.setIdCompany(idCompany);
-                            teacherMappingCompany.setCompany(company);
-                            teacherMappingCompany.setTeacherName(username);
-                            teacherMappingCompanyDAO.put(teacherMappingCompany);
-
+                    TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
+                    teacherMappingCompany.setIsDeleted(false);
+                    teacherMappingCompany.setIdCompany(idCompany);
+                    if(ro == 3){
+                        teacherMappingCompany.setType("staff");
+                    }else{
+                        teacherMappingCompany.setType("teacher");
                     }
+                    teacherMappingCompany.setCompany(company);
+                    teacherMappingCompany.setUserName(username);
+                    teacherMappingCompanyDAO.put(teacherMappingCompany);
 
                     response.getWriter().write("success");
                 }
@@ -118,8 +112,6 @@ public class AddTeaherOrStaff extends HttpServlet {
             }
         }
         if (request.getParameter("edit") != null) {
-            String idd = request.getSession().getAttribute("id").toString();
-            String id = request.getParameter("id");
             String password = request.getParameter("password");
             String role = request.getParameter("role");
             String username = request.getParameter("username");
@@ -140,31 +132,21 @@ public class AddTeaherOrStaff extends HttpServlet {
                     admin.setPassword(StringUtil.md5(password));
                     adminDAO.put(admin);
                 }else{
-                    if(role.equals("Staff") && roleold.equals("Teacher")){
                         Admin admin = adminDAO.getUserByEmail(username);
                         admin.setPassword(StringUtil.md5(password));
                         admin.setRole(ro);
                         adminDAO.put(admin);
-                        teacherMappingCompanyDAO.updateEdit(username);
-                        StaffMappingCompany staffMappingCompany = new StaffMappingCompany();
-                        staffMappingCompany.setCompany(company);
-                        staffMappingCompany.setIsDeleted(false);
-                        staffMappingCompany.setIdCompany(idCompany);
-                        staffMappingCompany.setStaffName(username);
-                        staffMappingCompanyDAO.put(staffMappingCompany);
-                    }else {
-                        Admin admin = adminDAO.getUserByEmail(username);
-                        admin.setPassword(StringUtil.md5(password));
-                        admin.setRole(ro);
-                        adminDAO.put(admin);
-                        staffMappingCompanyDAO.updateEdit(username);
                         TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
                         teacherMappingCompany.setIdCompany(idCompany);
                         teacherMappingCompany.setCompany(company);
                         teacherMappingCompany.setIsDeleted(false);
-                        teacherMappingCompany.setTeacherName(username);
+                        teacherMappingCompany.setUserName(username);
+                        if(role.equals("Staff")){
+                            teacherMappingCompany.setType("staff");
+                        }else {
+                            teacherMappingCompany.setType("teacher");
+                        }
                         teacherMappingCompanyDAO.put(teacherMappingCompany);
-                    }
                 }
                 response.getWriter().write("success");
 
@@ -181,11 +163,7 @@ public class AddTeaherOrStaff extends HttpServlet {
             try {
                 Admin admin=adminDAO.getUserByEmail(username);
                 adminDAO.delete(admin.getId());
-                if (role.length() > 0 && role.equals("Staff")) {
-                    staffMappingCompanyDAO.updateEdit(username);
-                }else {
                   teacherMappingCompanyDAO.updateEdit(username);
-                }
                 response.getWriter().write("success");
             } catch (Exception e) {
                 e.printStackTrace();

@@ -24,12 +24,9 @@ import java.util.List;
  * Created by CMGT400 on 6/9/2015.
  */
 public class ClassServlet extends HttpServlet {
-    class admin{
-        public int draw;
-        public Double recordsTotal;
-        public Double recordsFiltered;
-
-        List<ClassJDO> data;
+    class ListClass{
+        private String message;
+        private List<ClassJDO> listclass;
     }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
@@ -37,59 +34,16 @@ public class ClassServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDAO classDAO=new ClassDAO();
         ClassMappingTeacherDAO classMappingTeacherDAO=new ClassMappingTeacherDAO();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        if (request.getParameter("list") != null) {
-            String username = request.getSession().getAttribute("username").toString();
-            ClassServlet.admin admin = new admin();
-            String s = request.getParameter("start");
-            String l = request.getParameter("length");
-            String d = request.getParameter("draw");
-            String search = request.getParameter("search[value]");
-            String column = request.getParameter("order[0][column]");
-            String oder = request.getParameter("order[0][dir]");
-            int start = Integer.parseInt(s);
-            int length = Integer.parseInt(l);
-            int col = Integer.parseInt(column);
-            int draw = Integer.parseInt(d);
-            String classname = request.getParameter("classname");
-            String dateFrom =(String) StringUtil.isNull(request.getParameter("CreateDateFrom"), "");
-            String dateTo =(String) StringUtil.isNull(request.getParameter("CreateDateTo"), "");
-            Date dateFrom1=null;
-            Date dateTo1=null;
-
-
-            if(dateFrom.length()>0){
-                try {
-                    dateFrom1=df.parse(dateFrom);
-
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            if(dateTo.length()>0){
-                try {
-                    dateTo1=df.parse(dateTo);
-
-                }catch (Exception e){
-                    e.getStackTrace();
-                }
-            }
-            Double count;
-
+        ListClass listClass=new ListClass();
+        String action=request.getParameter("action");
+        String teacher=request.getSession().getAttribute("username").toString();
+        if (action.equalsIgnoreCase("listMyClass")) {
             try {
-                if(search.length()>0|| username.length()>0|| classname.length()>0|| dateFrom1!=null||dateTo1!=null){
-                    count=(double)classDAO.getCountSearch(search,col,oder,username,classname,dateFrom1,dateTo1).size();
-                }else {
-                    count = classDAO.getCount();
-                }
-                admin.data=classDAO.listAll(start,length,search,col,oder,username,classname,dateFrom1,dateTo1);
-                admin.draw = draw;
-                admin.recordsTotal = count;
-                admin.recordsFiltered = count;
-                Gson gson = new Gson();
-                String admins = gson.toJson(admin);
-                response.getWriter().write(admins);
-
+                listClass.message="success";
+                listClass.listclass=classDAO.listAll(teacher);
+                Gson gson=new Gson();
+                String list=gson.toJson(listClass);
+                response.getWriter().write(list);
             } catch (Exception e) {
                 response.getWriter().write("error");
                 e.printStackTrace();

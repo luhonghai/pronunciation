@@ -3,7 +3,7 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%
-  String company = (String) StringUtil.isNull(request.getSession().getAttribute("companyName"),"CMG");
+  String company = (String) StringUtil.isNull(request.getSession().getAttribute("company"),"CMG");
 %>
 <style>
   .welcome{
@@ -119,7 +119,7 @@
                         <input id="fromdate" class="form-control input-group-lg reg_name" type="text"
                                name="fromdate" title="From Date" placeholder="Date From">
                       </div>
-                      <div class="col-sm-6" style="padding-right: 0px;>
+                      <div class="col-sm-6" style="padding-right: 0px;">
                         <label for="todate" class="sr-only"></label>
                         <input id="todate" class="form-control input-group-lg reg_name" type="text"
                                name="todate" title="To Date" placeholder="Date To">

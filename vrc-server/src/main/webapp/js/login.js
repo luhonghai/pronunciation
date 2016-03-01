@@ -38,7 +38,7 @@ function login(){
                     if(result.role=="3"){
                         window.location =CONTEXT_PATH + "/teacher-management.jsp";
                     }else{
-                        window.location =CONTEXT_PATH + "/class.jsp";
+                        window.location =CONTEXT_PATH + "/welcome-teacher.jsp";
                     }
                 }
 

@@ -245,6 +245,17 @@
 
 
     <servlet>
+        <servlet-name>NotificationServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.NotificationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NotificationServlet</servlet-name>
+        <url-pattern>/NotificationServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>TranscriptionServlet</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.TranscriptionServlet</servlet-class>
     </servlet>

@@ -2,7 +2,7 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.AppDetail;
-import com.cmg.vrc.data.jdo.StaffMappingCompany;
+
 import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -17,15 +17,15 @@ import java.util.Map;
 /**
  * Created by luhonghai on 4/13/15.
  */
-public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
+public class StaffMappingCompanyDAO extends DataAccess<TeacherMappingCompany> {
 
     public StaffMappingCompanyDAO() {
-        super(StaffMappingCompany.class);
+        super(TeacherMappingCompany.class);
     }
 
-    public List<StaffMappingCompany> listAll() throws Exception {
+    public List<TeacherMappingCompany> listAll() throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + StaffMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + TeacherMappingCompany.class.getCanonicalName());
 
         try {
             return detachCopyAllList(pm, q.execute());
@@ -37,19 +37,19 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
         }
     }
 
-    public List<StaffMappingCompany> getByStaff(String staff) throws Exception {
-        List<StaffMappingCompany> userList = list("WHERE StaffName == :1, idDelete == :2", staff, false);
+    public List<TeacherMappingCompany> getByStaff(String staff) throws Exception {
+        List<TeacherMappingCompany> userList = list("WHERE StaffName == :1, idDelete == :2", staff, false);
         return userList;
     }
-    public List<StaffMappingCompany> getByIdCompany(String idCompany) throws Exception {
-        List<StaffMappingCompany> userList = list("WHERE idCompany == :1", idCompany);
+    public List<TeacherMappingCompany> getByIdCompany(String idCompany) throws Exception {
+        List<TeacherMappingCompany> userList = list("WHERE idCompany == :1", idCompany);
         return userList;
     }
 
     public double getCountSearch(String search,String user) throws Exception {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Long count;
-        Query q = pm.newQuery("SELECT COUNT(id) FROM " + StaffMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT COUNT(id) FROM " + TeacherMappingCompany.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((company.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((company == null || company.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -79,10 +79,10 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
             pm.close();
         }
     }
-    public List<StaffMappingCompany> listAll(int start, int length,String search,int column,String order,String user) throws Exception {
+    public List<TeacherMappingCompany> listAll(int start, int length,String search,int column,String order,String user) throws Exception {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("SELECT FROM " + StaffMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("SELECT FROM " + TeacherMappingCompany.class.getCanonicalName());
         StringBuffer string=new StringBuffer();
         String a="((company.toLowerCase().indexOf(search.toLowerCase()) != -1))";
         String b="((company == null || company.toLowerCase().indexOf(search.toLowerCase()) != -1))";
@@ -121,7 +121,7 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
     public void updateEdit(String username) {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
-        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL","UPDATE " +metadata.getTable()+ " SET isDeleted=true WHERE StaffName='"+username+"' ");
         try {
             tx.begin();
@@ -140,7 +140,7 @@ public class StaffMappingCompanyDAO extends DataAccess<StaffMappingCompany> {
     public void deleteStaff(String username) {
         PersistenceManager pm = PersistenceManagerHelper.get();
         Transaction tx = pm.currentTransaction();
-        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
+        TypeMetadata metadata = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL","DELETE FROM " +metadata.getTable()+ " WHERE StaffName='"+username+"' ");
         try {
             tx.begin();

@@ -26,14 +26,13 @@ public class ManagementTeacherOrStaff extends HttpServlet {
         public Double recordsTotal;
         public Double recordsFiltered;
 
-        List<StaffMappingCompany> data;
+        List<TeacherMappingCompany> data;
     }
 
     private static final Logger logger = Logger.getLogger(ManagementTeacherOrStaff.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
-        StaffMappingCompanyDAO staffMappingCompanyDAO=new StaffMappingCompanyDAO();
         listCompany listCompany=new listCompany();
         if (request.getParameter("list") != null) {
             String s = request.getParameter("start");
@@ -52,12 +51,12 @@ public class ManagementTeacherOrStaff extends HttpServlet {
 
             try {
                 if (search.length() > 0 || userName.length() > 0) {
-                    count = staffMappingCompanyDAO.getCountSearch(search, userName);
+                    count = teacherMappingCompanyDAO.getCountSearch(search, userName);
                 }
                 listCompany.draw = draw;
                 listCompany.recordsTotal = count;
                 listCompany.recordsFiltered = count;
-                listCompany.data = staffMappingCompanyDAO.listAll(start, length, search, col, oder, userName);
+                listCompany.data = teacherMappingCompanyDAO.listAll(start, length, search, col, oder, userName);
                 Gson gson = new Gson();
                 String admins = gson.toJson(listCompany);
                 response.getWriter().write(admins);

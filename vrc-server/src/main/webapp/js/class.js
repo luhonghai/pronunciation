@@ -1,70 +1,36 @@
-var myTable;
 
-function listAdmin(){
 
-        myTable = $('#dataTables-example').dataTable({
-            "retrieve": true,
-            "destroy": true,
-            "responsive": true,
-            "bProcessing": true,
-            "bServerSide": true,
-
-            "ajax": {
-                "url": "ClassServlet",
-                "type": "POST",
-                "dataType": "json",
-                "data": {
-                    list: "list",
-                    classname: $("#class").val(),
-                    CreateDateFrom: $("#CreateDateFrom").val(),
-                    CreateDateTo: $("#CreateDateTo").val()
+function listMyClasses(){
+    $.ajax({
+        url: "ClassServlet",
+        type: "POST",
+        dataType: "json",
+        data: {
+           action:"listMyClass"
+        },
+        success: function (data) {
+            if(data.message=="success" && data.listclass!=null){
+                var listMyClass=data.listclass;
+                for(var i=0;i<listMyClass.length;i++){
+                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title='+listMyClass[i].definition+'><img src="/images/teacher/my%20classes24x24.gif" style="width: 30px;height: 30px"> '+listMyClass[i].className+'</button>');
+                    $button.attr("id-column", listMyClass[i].id);
+                    $button.attr("className", listMyClass[i].className);
+                    $button.attr("definition", listMyClass[i].definition);
+                    $button.css({"background-color": "#003366","color":"#ffffff"});
+                    $("#listMyClass").append($button).html();
                 }
-            },
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
 
-            "columns": [{
-                "sWidth": "25%",
-                "data": "className",
-                "sDefaultContent": ""
-
-            }, {
-                "sWidth": "20%",
-                "data": "definition",
-                "bSortable": false,
-                "sDefaultContent": ""
-            }, {
-                "sWidth": "20%",
-                "data": "createdDate",
-                "sDefaultContent": ""
-            }, {
-                "data": null,
-                "bSortable": false,
-                "sDefaultContent": "",
-                "mRender": function (data, type, full) {
-                    $button = $('<button type="button" style="margin-right:10px" id="edit" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Edit' + '</button>' + '<button type="button" style="margin-right:10px" id="delete" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Delete' + '</button>' + '<a href="student-manage.jsp?idClass='+ data.id +'" style="margin-right:10px" type="button" id="addStudent" class="btn btn-info btn-sm" ' + full[0] + '>' + ' Add Student' + '</a>' + '<a href="student-manage.jsp?idClass='+ data.id +'" type="button" id="report" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Report' + '</a>');
-                    $button.attr("id-column", data.id);
-                    $button.attr("classname", data.className);
-                    $button.attr("definition", data.definition);
-                    return $("<div/>").append($button).html();
-                }
-            }]
-
-        });
-
-
-}
-
-function dateFrom1(){
-    $('#CreateDateFrom').datetimepicker({
-        format: 'DD/MM/YYYY'
     });
-}
-function dateTo1(){
-    $('#CreateDateTo').datetimepicker({
-        format: 'DD/MM/YYYY'
-    });
+
 }
 
-function adduser(){
+
+function addClass(){
     $(document).on("click","#yesadd", function(){
         var valide=validateFormAdd();
         if(valide==true) {
@@ -82,7 +48,6 @@ function adduser(){
                 success: function (data) {
                     if (data == "success") {
                         $("tbody").html("");
-                        myTable.fnDraw();
                         $("#add").modal('hide');
                         swal("Success!", "Add class success.", "success");
                     }
@@ -150,7 +115,6 @@ function deleteuser(){
                     if (data == "success") {
 
                         $("tbody").html("");
-                        myTable.fnDraw();
                         $("#deletes").modal('hide');
                         swal("Success!", "Delete class success", "success");
                     }else{
@@ -199,7 +163,6 @@ function edituser(){
                 success: function (data) {
                     if (data == "success") {
                         $("tbody").html("");
-                        myTable.fnDraw();
                         $("#edits").modal('hide');
                         swal("Success!", "Update class success", "success");
                     }else{
@@ -216,38 +179,17 @@ function edituser(){
 
     });
 }
-function searchAdvanted(){
-    $(document).on("click","#button-filter", function(){
-        myTable.fnSettings().ajax = {
-            "url": "ClassServlet",
-            "type": "POST",
-            "dataType": "json",
-            "data": {
-                list: "list",
-                classname: $("#class").val(),
-                CreateDateFrom: $("#CreateDateFrom").val(),
-                CreateDateTo: $("#CreateDateTo").val()
-            }
-        };
-        $("tbody").html("");
-        myTable.fnDraw();
-
-
+function helpMyClass(){
+    $(document).on("click","#help-icons",function() {
+        $("#helpMyClassModal").modal('show');
     });
 }
 
-
 $(document).ready(function(){
-    var roleAdmin=$("#role").val();
-    dateFrom1();
-    dateTo1;
+    $('#help-icons').show();
     add();
-    adduser();
-    edit();
-    edituser();
-    deletes();
-    deleteuser();
-    listAdmin();
-    searchAdvanted();
+    addClass();
+    helpMyClass();
+    listMyClasses();
 });
 

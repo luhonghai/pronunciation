@@ -9,19 +9,16 @@ import javax.jdo.annotations.PrimaryKey;
 /**
  * Created by CMGT400 on 1/5/2016.
  */
-@PersistenceCapable(table = "STAFFMAPPINGCOMPANY", detachable = "true")
-public class StaffMappingCompany implements Mirrorable {
+@PersistenceCapable(table = "COURSEMAPPINGCLASS", detachable = "true")
+public class CourseMappingClass implements Mirrorable {
     @PrimaryKey
     private String id;
 
     @Persistent
-    private String idCompany;
+    private String idClass;
 
     @Persistent
-    private String company;
-
-    @Persistent
-    private String StaffName;
+    private String idCourse;
 
     @Persistent
     private boolean isDeleted;
@@ -44,28 +41,22 @@ public class StaffMappingCompany implements Mirrorable {
         this.isDeleted = isDeleted;
     }
 
-    public String getIdCompany() {
-        return idCompany;
+
+
+    public String getIdClass() {
+        return idClass;
     }
 
-    public void setIdCompany(String idCompany) {
-        this.idCompany = idCompany;
-    }
-
-    public String getStaffName() {
-        return StaffName;
-    }
-
-    public void setStaffName(String staffName) {
-        StaffName = staffName;
+    public void setIdClass(String idClass) {
+        this.idClass = idClass;
     }
 
 
-    public String getCompany() {
-        return company;
+    public String getIdCourse() {
+        return idCourse;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setIdCourse(String idCourse) {
+        this.idCourse = idCourse;
     }
 }

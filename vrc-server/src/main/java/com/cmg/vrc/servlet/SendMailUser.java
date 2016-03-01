@@ -37,11 +37,8 @@ public class SendMailUser extends HttpServlet{
         private List<String> users;
     }
     class student{
-        public int draw;
-        public int recordsTotal;
-        public int recordsFiltered;
-
-        List<StudentMappingTeacher> data;
+        private String message;
+        List<StudentMappingTeacher> students;
     }
     class myStudent{
         private List<info> listStudent;
@@ -245,23 +242,10 @@ public class SendMailUser extends HttpServlet{
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
             String teacher=request.getSession().getAttribute("username").toString();
-            String s = request.getParameter("start");
-            String l = request.getParameter("length");
-            String d = request.getParameter("draw");
-            String search = request.getParameter("search[value]");
-            String column = request.getParameter("order[0][column]");
-            String oder = request.getParameter("order[0][dir]");
-            int start = Integer.parseInt(s);
-            int length = Integer.parseInt(l);
-            int col = Integer.parseInt(column);
-            int draw = Integer.parseInt(d);
-            int count=0;
             try{
-                count=studentMappingTeacherDAO.getCountStudentHaveLicence(search,col,oder,teacher).size();
-                st.draw=draw;
-                st.recordsTotal=count;
-                st.recordsFiltered=count;
-                st.data=studentMappingTeacherDAO.getStudentHaveLicence(start,length,search,col,oder,teacher);
+
+                st.message="success";
+                st.students=studentMappingTeacherDAO.getStudentHaveLicence(teacher);
                 Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
@@ -293,23 +277,9 @@ public class SendMailUser extends HttpServlet{
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
             String teacher=request.getSession().getAttribute("username").toString();
-            String s = request.getParameter("start");
-            String l = request.getParameter("length");
-            String d = request.getParameter("draw");
-            String search = request.getParameter("search[value]");
-            String column = request.getParameter("order[0][column]");
-            String oder = request.getParameter("order[0][dir]");
-            int start = Integer.parseInt(s);
-            int length = Integer.parseInt(l);
-            int col = Integer.parseInt(column);
-            int draw = Integer.parseInt(d);
-            int count=0;
             try{
-                count=studentMappingTeacherDAO.getCountMyStudents(search, col, oder, teacher).size();
-                st.draw=draw;
-                st.recordsTotal=count;
-                st.recordsFiltered=count;
-                st.data=studentMappingTeacherDAO.getMyStudents(start, length, search, col, oder, teacher);
+                st.message="success";
+                st.students=studentMappingTeacherDAO.getMyStudents(teacher);
                 Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
@@ -319,28 +289,49 @@ public class SendMailUser extends HttpServlet{
             }
 
 
-        }else if(action.equalsIgnoreCase("deleteStudent")){
+        }else if(action.equalsIgnoreCase("deletedStudentInMyStudent")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             String teacher=request.getSession().getAttribute("username").toString();
-            myStudent myStudent=new myStudent();
+            String id=request.getParameter("id");
             Gson gson=new Gson();
-            String list=request.getParameter("listStudent");
-            myStudent student=gson.fromJson(list,myStudent.class);
-            List<info> infos=student.getListStudent();
             try {
-                for (info info : infos) {
-                    boolean lecence=info.isLicence();
-                    String id=info.getId();
-                    StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
-                    if(lecence==true) {
-                        studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                        studentMappingTeacher.setStatus("pending");
-                        studentMappingTeacherDAO.put(studentMappingTeacher);
-                    }else{
-                        studentMappingTeacherDAO.delete(id);
-                    }
+                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                if(studentMappingTeacher.isLicence()==true){
+                    StudentMappingTeacher smt=new StudentMappingTeacher();
+                    smt.setStatus("pending");
+                    studentMappingTeacherDAO.put(smt);
+                }else{
+                    StudentMappingTeacher smt=new StudentMappingTeacher();
+                    smt.setIsDeleted(true);
+                    studentMappingTeacherDAO.put(smt);
 
                 }
+                response.getWriter().write("success");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(action.equalsIgnoreCase("rejectStudent")){
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            String teacher=request.getSession().getAttribute("username").toString();
+            String id=request.getParameter("id");
+            Gson gson=new Gson();
+            try {
+                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                studentMappingTeacher.setStatus("reject");
+                studentMappingTeacherDAO.put(studentMappingTeacher);
+                response.getWriter().write("success");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(action.equalsIgnoreCase("acceptStudent")){
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            String teacher=request.getSession().getAttribute("username").toString();
+            String id=request.getParameter("id");
+            Gson gson=new Gson();
+            try {
+                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
+                studentMappingTeacher.setStatus("accept");
+                studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
                 e.printStackTrace();

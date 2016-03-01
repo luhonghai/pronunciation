@@ -1,7 +1,6 @@
 package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
-import com.cmg.vrc.data.jdo.StaffMappingCompany;
 import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.data.jdo.TeacherOrStaffList;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -19,7 +18,7 @@ public class ManageTeacherOrStaffDAO {
     public List<TeacherOrStaffList> listAll(int start, int length,String search,int column,String order,String idCompany) {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
+        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
@@ -91,7 +90,7 @@ public class ManageTeacherOrStaffDAO {
     public List<TeacherOrStaffList> listAll(String search,int column,String order,String idCompany) {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
-        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StaffMappingCompany.class.getCanonicalName());
+        TypeMetadata metaStaff = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
         StringBuffer first = new StringBuffer();
         StringBuffer second = new StringBuffer();
