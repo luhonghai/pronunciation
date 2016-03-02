@@ -12,6 +12,10 @@
 		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
 		90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */; };
 		90F33B4A1C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */; };
+		90F430821C86904800D6DF81 /* LiteCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430811C86904800D6DF81 /* LiteCommon.swift */; };
+		90F4308F1C86957A00D6DF81 /* PronunciationScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */; };
+		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
+		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
@@ -397,6 +401,10 @@
 		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
 		90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FreeStyleDBAdapter.swift; path = Data/SQLite/FreeStyleDBAdapter.swift; sourceTree = "<group>"; };
+		90F430811C86904800D6DF81 /* LiteCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiteCommon.swift; path = Data/SQLite/LiteCommon.swift; sourceTree = "<group>"; };
+		90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PronunciationScore.swift; path = Data/Entity/PronunciationScore.swift; sourceTree = "<group>"; };
+		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
+		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
@@ -782,6 +790,16 @@
 			name = TipController;
 			sourceTree = "<group>";
 		};
+		90F4308B1C86953600D6DF81 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */,
+				90F430901C8695B300D6DF81 /* WordCollection.swift */,
+				90F430921C86963200D6DF81 /* IPAMapArpabet.swift */,
+			);
+			name = Entity;
+			sourceTree = "<group>";
+		};
 		9B5F32A81C77128100E85629 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1142,6 +1160,7 @@
 				9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */,
 				9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */,
 				90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */,
+				90F430811C86904800D6DF81 /* LiteCommon.swift */,
 			);
 			name = SQLite;
 			sourceTree = "<group>";
@@ -1269,6 +1288,7 @@
 		C13CDA821C48DE70009E649F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				90F4308B1C86953600D6DF81 /* Entity */,
 				9BA3AB2C1C4F82D600C6631D /* SQLite */,
 				C13CDA831C48E19A009E649F /* UserProfile.swift */,
 				C13E44BF1C60902F00EB6075 /* UserVoiceModel.swift */,
@@ -1958,6 +1978,7 @@
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
 				9B5F33A91C77129A00E85629 /* ChartAxisRendererBase.swift in Sources */,
+				90F4308F1C86957A00D6DF81 /* PronunciationScore.swift in Sources */,
 				9B5F33771C77129A00E85629 /* BubbleChartDataSet.swift in Sources */,
 				9B5F34261C771E6000E85629 /* Constants.swift in Sources */,
 				C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */,
@@ -2049,8 +2070,10 @@
 				9B5F338A1C77129A00E85629 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				9B9BE71A1C632BC600C84823 /* HistoryTableController.swift in Sources */,
 				9B5F33E61C771B5A00E85629 /* CustomDateFormatTransform.swift in Sources */,
+				90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */,
 				9B9BE71C1C632D4600C84823 /* HistoryTableCell.swift in Sources */,
 				9B5F33EA1C771B5A00E85629 /* ISO8601DateTransform.swift in Sources */,
+				90F430821C86904800D6DF81 /* LiteCommon.swift in Sources */,
 				9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */,
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				9B5F33EC1C771B5A00E85629 /* TransformType.swift in Sources */,
@@ -2088,6 +2111,7 @@
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
 				9B5F341A1C771D6800E85629 /* Setter.swift in Sources */,
 				9B5F33841C77129A00E85629 /* PieChartDataSet.swift in Sources */,
+				90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

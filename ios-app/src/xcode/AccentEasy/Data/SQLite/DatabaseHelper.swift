@@ -44,7 +44,7 @@ public class DatabaseHelper {
     }
     
     class func getFreeStyleDatabaseFile() -> String? {
-        return FileHelper.getFilePath("database/freestyle.db")
+        return FileHelper.getFilePath(LiteDatabase.FREESTYLE)
     }
     
     class func getLessonDatabaseFile() -> String? {
@@ -55,7 +55,7 @@ public class DatabaseHelper {
         // get the documents folder url
         let dataPath = FileHelper.getFilePath("database", directory: true)
         print("Database directory path \(dataPath)")
-        let lessonDbFilePath = FileHelper.getFilePath("database/lesson.db")
+        let lessonDbFilePath = FileHelper.getFilePath(LiteDatabase.LESSON)
         print("Lesson database path \(lessonDbFilePath)")
         if !fileManager.fileExistsAtPath(lessonDbFilePath) {
             do {

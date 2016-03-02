@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 public class BaseDatabaseAdapter {
     
     public var db:Connection?
@@ -19,5 +21,9 @@ public class BaseDatabaseAdapter {
             print(error.localizedDescription);
         }
     }
-    
+
+    func insert<T: LiteEntity>(obj: T) -> Bool {
+        
+        return false;
+    }
 }

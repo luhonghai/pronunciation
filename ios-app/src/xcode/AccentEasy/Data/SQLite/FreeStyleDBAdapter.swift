@@ -7,58 +7,36 @@
 //
 
 import Foundation
-
-class PronunciationScore {
-    var word:String!
-    var score:Int!
-    var dataId:String!
-    var username:String!
-    var version:Int!
-    var time:Double!
-}
-
-class PhonemeScore {
-    var index:Int!
-    var name:String!
-    var ipa:String!
-    var totalScore:Float!
-    var username:String!
-    var version:Int!
-    var userVoiceId:String!
-    var time:Double!
-}
+import Darwin
 
 class FreeStyleDBAdapter: BaseDatabaseAdapter {
-    
-    var tblPronunciationScore = Table("PronunciationScore")
-    var tblPhonemeScore = Table("PhonemeScore")
     
     override init(dbFile: String) {
         super.init(dbFile: dbFile)
         do {
-            try db!.run(tblPronunciationScore.create(ifNotExists: true) { t in
-                t.column(Expression<Int64>("id"), primaryKey: .Autoincrement)
-                t.column(Expression<String?>("word"))
-                t.column(Expression<Int?>("score"))
-                t.column(Expression<String?>("dataId"))
-                t.column(Expression<String?>("username"))
-                t.column(Expression<Int?>("version"))
-                t.column(Expression<Double?>("time"))
+            try db!.run(LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
+                t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+                t.column(LiteColumn.WORD)
+                t.column(LiteColumn.SCORE)
+                t.column(LiteColumn.DATA_ID)
+                t.column(LiteColumn.USERNAME)
+                t.column(LiteColumn.VERSION)
+                t.column(LiteColumn.TIME)
             })
         } catch {
             
         }
         do {
-            try db!.run(tblPhonemeScore.create(ifNotExists: true) { t in
-                t.column(Expression<Int64>("id"), primaryKey: .Autoincrement)
-                t.column(Expression<Int?>("index"))
-                t.column(Expression<String?>("name"))
-                t.column(Expression<String?>("ipa"))
-                t.column(Expression<Int?>("totalScore"))
-                t.column(Expression<String?>("username"))
-                t.column(Expression<Int?>("version"))
-                t.column(Expression<String?>("userVoiceId"))
-                t.column(Expression<Double?>("time"))
+            try db!.run(LiteTable.PHONEME_SCORE.create(ifNotExists: true) { t in
+                t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+                t.column(LiteColumn.INDEX)
+                t.column(LiteColumn.NAME)
+                t.column(LiteColumn.IPA)
+                t.column(LiteColumn.SCORE)
+                t.column(LiteColumn.USERNAME)
+                t.column(LiteColumn.VERSION)
+                t.column(LiteColumn.DATA_ID)
+                t.column(LiteColumn.TIME)
                 })
         } catch {
             
@@ -67,13 +45,13 @@ class FreeStyleDBAdapter: BaseDatabaseAdapter {
     
     func insertPronunciationScore(obj: PronunciationScore) -> Bool {
         do {
-            try db!.run(tblPronunciationScore.insert(
-                Expression<String?>("word") <- obj.word,
-                Expression<Int?>("score") <- obj.score,
-                Expression<String?>("dataId") <- obj.dataId,
-                Expression<String?>("username") <- obj.username,
-                Expression<Int?>("version") <- obj.version,
-                Expression<Double?>("time") <- obj.time
+            try db!.run(LiteTable.PRONUNCIATION_SCORE.insert(
+                LiteColumn.WORD <- obj.word,
+                LiteColumn.SCORE <- obj.score,
+                LiteColumn.DATA_ID <- obj.dataId,
+                LiteColumn.USERNAME <- obj.username,
+                LiteColumn.VERSION <- obj.version,
+                LiteColumn.TIME <- obj.time
             ))
             return true
         } catch {
@@ -82,14 +60,55 @@ class FreeStyleDBAdapter: BaseDatabaseAdapter {
         return false
     }
     
-    func listPronunciationScore() -> Array<PronunciationScore> {
+    func listPronunciationScore(limit: Int?) -> Array<PronunciationScore> {
         var list = [PronunciationScore]()
         do {
-            for user in try db!.prepare(tblPronunciationScore.order(Expression<Double?>("time") .desc)) {
+            for row in try db!.prepare(
+                limit == 0
+                    ?
+                    LiteTable.PRONUNCIATION_SCORE.order(LiteColumn.TIME .desc)
+                    :
+                    LiteTable.PRONUNCIATION_SCORE.order(LiteColumn.TIME .desc).limit(limit)) {
                 let pScore = PronunciationScore()
-                pScore.word = user[Expression<String?>("word")]
-                pScore.score = user[Expression<Int?>("score")]
-                pScore.time = user[Expression<Double?>("time")]
+                pScore.word = row[LiteColumn.WORD]
+                pScore.score = row[LiteColumn.SCORE]
+                pScore.time = row[LiteColumn.TIME]
+                list.append(pScore)
+            }
+        } catch {
+            
+        }
+        return list
+    }
+    
+    func insertPhonemeScore(obj: SphinxResult.PhonemeScore) -> Bool {
+        do {
+            try db!.run(LiteTable.PHONEME_SCORE.insert(
+                LiteColumn.NAME <- obj.name,
+                LiteColumn.SCORE <- Int(floor(obj.totalScore)),
+                LiteColumn.DATA_ID <- obj.userVoiceId,
+                LiteColumn.USERNAME <- obj.username,
+                LiteColumn.IPA <- obj.ipa,
+                LiteColumn.INDEX <- obj.index,
+                LiteColumn.VERSION <- obj.version,
+                LiteColumn.TIME <- obj.time
+                ))
+            return true
+        } catch {
+            
+        }
+        return false
+    }
+    
+    func listPhonemeScore() -> Array<SphinxResult.PhonemeScore> {
+        var list = Array<SphinxResult.PhonemeScore>()
+        do {
+            for row in try db!.prepare(LiteTable.PHONEME_SCORE.order(LiteColumn.TIME .desc).limit(30)) {
+                let pScore = SphinxResult.PhonemeScore()
+                pScore.name = row[LiteColumn.NAME]
+                pScore.ipa = row[LiteColumn.IPA]
+                pScore.totalScore = Float(row[LiteColumn.SCORE]!)
+                pScore.time = row[LiteColumn.TIME]
                 list.append(pScore)
             }
         } catch {

@@ -80,14 +80,14 @@ class HistoryTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         freestyleDBAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
-        historyList = freestyleDBAdapter.listPronunciationScore()
+        historyList = freestyleDBAdapter.listPronunciationScore(0)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
         self.tableView.allowsSelection = false
     }
     
     func loadList(notification: NSNotification){
         //load data here
-        historyList = freestyleDBAdapter.listPronunciationScore()
+        historyList = freestyleDBAdapter.listPronunciationScore(0)
         self.tableView.reloadData()
         self.tableView.setContentOffset(CGPoint.zero, animated: true)
     }

@@ -35,11 +35,11 @@ public class SphinxResult: Mappable{
         }
     }
     
-    public class PhonemeScore: Mappable{
+    public class PhonemeScore: LiteEntity, Mappable {
         public var name:String!
         public var index:Int!
         public var totalScore:Float!
-        public var time:CLong!
+        public var time:Double!
         public var username:String!
         public var version:Int!
         public var userVoiceId:String!
@@ -50,7 +50,7 @@ public class SphinxResult: Mappable{
             
         }
         
-        required public init(){
+        required public override init(){
             
         }
         

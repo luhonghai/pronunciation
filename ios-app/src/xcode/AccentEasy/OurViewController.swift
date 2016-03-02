@@ -343,13 +343,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         let userVoiceModel = result!.data
                         //  print (userVoiceModel.word)
                         if status {
-                            let pScore = PronunciationScore()
-                            pScore.username = weakSelf!.userProfile.username
-                            pScore.score = Int(floor(userVoiceModel.score))
-                            pScore.word = userVoiceModel.word
-                            pScore.dataId = userVoiceModel.uuid
-                            pScore.time = NSDate().timeIntervalSince1970 * 1000.0
-                            weakSelf!.freestyleDBAdapter.insertPronunciationScore(pScore)
+                            weakSelf!.saveDatabase(userVoiceModel)
                             NSNotificationCenter.defaultCenter().postNotificationName("load", object: nil)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
@@ -377,6 +371,26 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //print(result?.status)
                     }
                 })
+        }
+    }
+    
+    private func saveDatabase(model: UserVoiceModel) {
+        let pScore = PronunciationScore()
+        pScore.username = userProfile.username
+        pScore.score = Int(floor(model.score))
+        pScore.word = model.word
+        pScore.dataId = model.uuid
+        pScore.time = NSDate().timeIntervalSince1970 * 1000.0
+        freestyleDBAdapter.insertPronunciationScore(pScore)
+        
+        let result = model.result
+        if (result != nil) {
+            let phoneScores = result.phonemeScores
+            if  !phoneScores.isEmpty {
+                for phoneScore in phoneScores {
+                    freestyleDBAdapter.insertPhonemeScore(phoneScore)
+                }
+            }
         }
     }
     

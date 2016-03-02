@@ -51,14 +51,14 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
         }
         
         do {
-            for row in try db!.prepare("SELECT WORD, ARPABET, DEFINITION, MP3PATH, PRONUNCIATION FROM WordCollection where WORD like '\(search)%' LIMIT 10") {
-                //print("id: \(row[0]), email: \(row[1])")
+
+            for row in try db!.prepare(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD.like("\(search)%")).limit(10)) {
                 let wc = WordCollection()
-                wc.word = row[0] as? String
-                wc.arpabet = row[1] as? String
-                wc.definition = row[2] as? String
-                wc.mp3Path = row[3] as? String
-                wc.pronunciation = row[4] as? String
+                wc.word = row[LiteColumn.WORD]
+                wc.arpabet = row[LiteColumn.ARPABET]
+                wc.definition = row[LiteColumn.DEFINITION]
+                wc.mp3Path = row[LiteColumn.MP3_PATH]
+                wc.pronunciation = row[LiteColumn.PRONUNCIATION]
                 list.append(wc)
             }
         } catch (let e as NSError) {
@@ -70,18 +70,18 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     public func getIPAMapArpabets() throws -> Array<IPAMapArpabet> {
         var list = [IPAMapArpabet] ()
         do {
-            for row in try db!.prepare("SELECT ARPABET, COLOR, DESCRIPTION, IPA, MP3URL, TIP, TYPE, WORDS, IMGTONGUE, MP3URLSHORT FROM IPAMapArpabet") {
+            for row in try db!.prepare(LiteTable.IPA_MAP_ARPABET) {
                 let wc = IPAMapArpabet()
-                wc.arpabet = row[0] as? String
-                wc.color = row[1] as? String
-                wc.description = row[2] as? String
-                wc.ipa = row[3] as? String
-                wc.mp3URL = row[4] as? String
-                wc.tip = row[5] as? String
-                wc.type = row[6] as? String
-                wc.words = row[7] as? String
-                wc.imgTongue = row[8] as? String
-                wc.mp3URLShort = row[9] as? String
+                wc.arpabet = row[LiteColumn.ARPABET]
+                wc.color = row[LiteColumn.COLOR]
+                wc.description = row[LiteColumn.DESCRIPTION]
+                wc.ipa = row[LiteColumn.IPA]
+                wc.mp3URL = row[LiteColumn.MP3_URL]
+                wc.tip = row[LiteColumn.TIP]
+                wc.type = row[LiteColumn.TYPE]
+                wc.words = row[LiteColumn.WORDS]
+                wc.imgTongue = row[LiteColumn.IMG_TONGUE]
+                wc.mp3URLShort = row[LiteColumn.MP3_URL_SHORT]
                 list.append(wc)
             }
         } catch (let e as NSError) {
