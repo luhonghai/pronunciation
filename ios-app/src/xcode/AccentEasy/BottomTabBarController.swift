@@ -3,7 +3,7 @@
 //  AccentEasy
 //
 //  Created by Minh Kelly on 2/25/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import Foundation

@@ -161,6 +161,7 @@
 		9B5F34281C771E6000E85629 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34221C771E6000E85629 /* Request.swift */; };
 		9B5F34291C771E6000E85629 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34231C771E6000E85629 /* Response.swift */; };
 		9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F342D1C77223800E85629 /* SQLite-Bridging.m */; };
+		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
 		9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */; };
@@ -329,6 +330,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
+		};
+		9B7867611C86DC3A00192940 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B48FB6AF0C2E3A6F182388B907EA1A38;
+			remoteInfo = NHSlidingController;
 		};
 		9BC5E0F21C50803C003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -554,6 +562,7 @@
 		9B5F342B1C77223800E85629 /* fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fts3_tokenizer.h; sourceTree = "<group>"; };
 		9B5F342C1C77223800E85629 /* SQLite-Bridging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridging.h"; sourceTree = "<group>"; };
 		9B5F342D1C77223800E85629 /* SQLite-Bridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SQLite-Bridging.m"; sourceTree = "<group>"; };
+		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollectionDbApdater.swift; path = Data/SQLite/WordCollectionDbApdater.swift; sourceTree = "<group>"; };
@@ -796,6 +805,7 @@
 				90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */,
 				90F430901C8695B300D6DF81 /* WordCollection.swift */,
 				90F430921C86963200D6DF81 /* IPAMapArpabet.swift */,
+				9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */,
 			);
 			name = Entity;
 			sourceTree = "<group>";
@@ -1187,6 +1197,7 @@
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
+				9B7867621C86DC3A00192940 /* NHSlidingController.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
@@ -1618,9 +1629,10 @@
 		C141C7F51C3E203C001D1F9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "Hoang Nguyen";
+				ORGANIZATIONNAME = "Claybourne McGregor Consulting Ltd (CMG Ltd)";
 				TargetAttributes = {
 					C141C7FC1C3E203C001D1F9C = {
 						CreatedOnToolsVersion = 7.2;
@@ -1668,6 +1680,13 @@
 			fileType = wrapper.framework;
 			path = EZAudio.framework;
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B7867621C86DC3A00192940 /* NHSlidingController.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = NHSlidingController.framework;
+			remoteRef = 9B7867611C86DC3A00192940 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0F31C50803C003CF8E9 /* Bolts.framework */ = {
@@ -2002,6 +2021,7 @@
 				9B5F340D1C771D6800E85629 /* Value.swift in Sources */,
 				9B5F335D1C77129A00E85629 /* ChartBaseDataSet.swift in Sources */,
 				9B5F33581C77129A00E85629 /* ChartLegend.swift in Sources */,
+				9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */,
 				9B5F33591C77129A00E85629 /* ChartLimitLine.swift in Sources */,
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,

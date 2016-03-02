@@ -3,7 +3,7 @@
 //  SwiftSidebarMenu
 //
 //  Created by CMGVN on 1/7/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
@@ -336,7 +336,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     }
                     else {
                         //handleErrorJson(res.body)
-                        print(res.text)
+                        print("Analyze result \(res.text)")
                         let result = Mapper<VoidModelResult>().map(res.text)
                         let status:Bool = result!.status
                         let message:String = result!.message
@@ -375,22 +375,26 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     private func saveDatabase(model: UserVoiceModel) {
-        let pScore = PronunciationScore()
-        pScore.username = userProfile.username
-        pScore.score = Int(floor(model.score))
-        pScore.word = model.word
-        pScore.dataId = model.uuid
-        pScore.time = NSDate().timeIntervalSince1970 * 1000.0
-        freestyleDBAdapter.insertPronunciationScore(pScore)
-        
-        let result = model.result
-        if (result != nil) {
-            let phoneScores = result.phonemeScores
-            if  !phoneScores.isEmpty {
-                for phoneScore in phoneScores {
-                    freestyleDBAdapter.insertPhonemeScore(phoneScore)
+        do {
+            let pScore = PronunciationScore()
+            pScore.username = userProfile.username
+            pScore.score = Int(floor(model.score))
+            pScore.word = model.word
+            pScore.dataId = model.uuid
+            pScore.time = NSDate().timeIntervalSince1970 * 1000.0
+            try freestyleDBAdapter.insert(pScore)
+            
+            let result = model.result
+            if (result != nil) {
+                let phoneScores = result.phonemeScores
+                if  !phoneScores.isEmpty {
+                    for phoneScore in phoneScores {
+                        try freestyleDBAdapter.insert(PhonemeScore.parse(phoneScore))
+                    }
                 }
             }
+        } catch {
+            
         }
     }
     
@@ -589,7 +593,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func microphone(microphone: EZMicrophone!, hasBufferList bufferList: UnsafeMutablePointer<AudioBufferList>, withBufferSize bufferSize: UInt32, withNumberOfChannels numberOfChannels: UInt32) {
-        if self.isRecording {
+        if self.isRecording && self.recorder != nil {
             self.recorder.appendDataFromBufferList(bufferList, withBufferSize:bufferSize)
         }
     }

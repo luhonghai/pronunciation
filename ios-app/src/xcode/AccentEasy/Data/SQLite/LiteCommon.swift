@@ -18,6 +18,29 @@ public class LiteTable {
     public static let PHONEME_SCORE = Table("PhonemeScore")
     public static let IPA_MAP_ARPABET = Table("IPAMapArpabet")
     public static let WORD_COLLECTION = Table("WordCollection")
+    
+    public static let CREATE_TABLE_QUERIES = [
+        LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+            t.column(LiteColumn.WORD)
+            t.column(LiteColumn.SCORE)
+            t.column(LiteColumn.DATA_ID)
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.VERSION)
+            t.column(LiteColumn.TIME)
+        },
+        LiteTable.PHONEME_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+            t.column(LiteColumn.INDEX)
+            t.column(LiteColumn.NAME)
+            t.column(LiteColumn.IPA)
+            t.column(LiteColumn.SCORE)
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.VERSION)
+            t.column(LiteColumn.DATA_ID)
+            t.column(LiteColumn.TIME)
+        }
+    ]
 }
 
 public class LiteColumn {
@@ -48,16 +71,24 @@ public class LiteColumn {
 public class LiteEntity {
     public var id:Int64!
     
-    public func parse(row: Row) {
+    public required init() {
         
     }
     
+    public required init(id: Int64) {
+        self.id = id
+    }
+    
+    public func parse(row: Row) {
+        fatalError(__FUNCTION__ + " Must be overridden");
+    }
+    
     public func setters() -> [Setter]? {
-        return nil
+        fatalError(__FUNCTION__ + " Must be overridden");
     }
     
     public func table() -> Table? {
-        return nil
+        fatalError(__FUNCTION__ + " Must be overridden");
     }
 }
 

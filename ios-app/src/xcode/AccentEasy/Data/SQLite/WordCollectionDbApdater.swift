@@ -3,21 +3,43 @@
 //  AccentEasy
 //
 //  Created by CMG on 02/02/2016.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Hai Lu. All rights reserved.
 //
 
 import Foundation
 
 
-public class WordCollection {
+public class WordCollection: LiteEntity {
     var word: String!
     var arpabet: String!
     var definition: String!
     var mp3Path: String!
     var pronunciation: String!
+    
+    public override func parse(row: Row) {
+        self.word = row[LiteColumn.WORD]
+        self.arpabet = row[LiteColumn.ARPABET]
+        self.definition = row[LiteColumn.DEFINITION]
+        self.mp3Path = row[LiteColumn.MP3_PATH]
+        self.pronunciation = row[LiteColumn.PRONUNCIATION]
+    }
+    
+    public override func table() -> Table? {
+        return LiteTable.WORD_COLLECTION
+    }
+    
+    public override func setters() -> [Setter]? {
+        return [
+            LiteColumn.WORD <- self.word,
+            LiteColumn.ARPABET <- self.arpabet,
+            LiteColumn.DEFINITION <- self.definition,
+            LiteColumn.MP3_PATH <- self.mp3Path,
+            LiteColumn.PRONUNCIATION <- self.pronunciation
+        ]
+    }
 }
 
-public class IPAMapArpabet {
+public class IPAMapArpabet: LiteEntity {
     var arpabet:String!
     var color:String!
     var description:String!
@@ -39,54 +61,53 @@ public class IPAMapArpabet {
         }
         return list;
     }
+    
+    public override func parse(row: Row) {
+        self.arpabet = row[LiteColumn.ARPABET]
+        self.color = row[LiteColumn.COLOR]
+        self.description = row[LiteColumn.DESCRIPTION]
+        self.ipa = row[LiteColumn.IPA]
+        self.type = row[LiteColumn.TYPE]
+        self.mp3URL = row[LiteColumn.MP3_URL]
+        self.tip = row[LiteColumn.TIP]
+        self.words = row[LiteColumn.WORDS]
+        self.mp3URLShort = row[LiteColumn.MP3_URL_SHORT]
+        self.imgTongue = row[LiteColumn.IMG_TONGUE]
+    }
+    
+    public override func setters() -> [Setter]? {
+        return [
+            LiteColumn.ARPABET <- self.arpabet,
+            LiteColumn.COLOR <- self.color,
+            LiteColumn.DESCRIPTION <- self.description,
+            LiteColumn.IPA <- self.ipa,
+            LiteColumn.TYPE <- self.type,
+            LiteColumn.MP3_URL <- self.mp3URL,
+            LiteColumn.TIP <- self.tip,
+            LiteColumn.WORDS <- self.words,
+            LiteColumn.MP3_URL_SHORT <- self.mp3URLShort,
+            LiteColumn.IMG_TONGUE <- self.imgTongue
+        ]
+
+    }
+    
+    public override func table() -> Table? {
+        return LiteTable.IPA_MAP_ARPABET
+    }
 }
 
 public class WordCollectionDbApdater: BaseDatabaseAdapter {
     
     public func search(search:String) throws -> Array<WordCollection> {
-        
-        var list = [WordCollection]()
         if search.isEmpty {
-            return list
+            return [WordCollection]()
+        } else {
+            return try query(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD.like("\(search)%")).limit(20))
         }
-        
-        do {
-
-            for row in try db!.prepare(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD.like("\(search)%")).limit(10)) {
-                let wc = WordCollection()
-                wc.word = row[LiteColumn.WORD]
-                wc.arpabet = row[LiteColumn.ARPABET]
-                wc.definition = row[LiteColumn.DEFINITION]
-                wc.mp3Path = row[LiteColumn.MP3_PATH]
-                wc.pronunciation = row[LiteColumn.PRONUNCIATION]
-                list.append(wc)
-            }
-        } catch (let e as NSError) {
-            throw e
-        }
-        return list
     }
     
     public func getIPAMapArpabets() throws -> Array<IPAMapArpabet> {
-        var list = [IPAMapArpabet] ()
-        do {
-            for row in try db!.prepare(LiteTable.IPA_MAP_ARPABET) {
-                let wc = IPAMapArpabet()
-                wc.arpabet = row[LiteColumn.ARPABET]
-                wc.color = row[LiteColumn.COLOR]
-                wc.description = row[LiteColumn.DESCRIPTION]
-                wc.ipa = row[LiteColumn.IPA]
-                wc.mp3URL = row[LiteColumn.MP3_URL]
-                wc.tip = row[LiteColumn.TIP]
-                wc.type = row[LiteColumn.TYPE]
-                wc.words = row[LiteColumn.WORDS]
-                wc.imgTongue = row[LiteColumn.IMG_TONGUE]
-                wc.mp3URLShort = row[LiteColumn.MP3_URL_SHORT]
-                list.append(wc)
-            }
-        } catch (let e as NSError) {
-            throw e
-        }
-        return list
+        return try findAll()
     }
+    
 }

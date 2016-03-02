@@ -2,8 +2,8 @@
 //  PronunciationScore.swift
 //  AccentEasy
 //
-//  Created by Minh Kelly on 3/2/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Created by Hai Lu on 3/2/16.
+//  Copyright © 2016 Hai Lu. All rights reserved.
 //
 
 import Foundation

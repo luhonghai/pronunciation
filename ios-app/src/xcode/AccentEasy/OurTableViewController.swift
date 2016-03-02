@@ -3,7 +3,7 @@
 //  SwiftSidebarMenu
 //
 //  Created by CMGVN on 1/7/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit

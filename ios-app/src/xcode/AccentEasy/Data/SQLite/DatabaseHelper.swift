@@ -2,7 +2,7 @@
 //  DatabaseHelper.swift
 //  AccentEasy
 //
-//  Created by CMG on 20/01/2016.
+//  Created by Hai Lu on 20/01/2016.
 //  Copyright © 2016 Hai Lu. All rights reserved.
 //
 

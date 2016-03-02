@@ -2,7 +2,7 @@
 //  BaseDatabaseAdapter.swift
 //  AccentEasy
 //
-//  Created by CMG on 20/01/2016.
+//  Created by Hai Lu on 20/01/2016.
 //  Copyright © 2016 Hai Lu. All rights reserved.
 //
 
@@ -21,9 +21,51 @@ public class BaseDatabaseAdapter {
             print(error.localizedDescription);
         }
     }
+    
+    public func prepare() {
+    }
 
-    func insert<T: LiteEntity>(obj: T) -> Bool {
-        
-        return false;
+    public func insert<T: LiteEntity>(obj: T) throws {
+        try db!.run(obj.table()!.insert(obj.setters()!))
+    }
+    
+    public func query<T: LiteEntity>(table: Table) throws -> Array<T> {
+        var list = Array<T>()
+        for row in try db!.prepare(table) {
+            let obj = T()
+            obj.parse(row)
+            list.append(obj)
+        }
+        return list
+    }
+    
+    public func findAll<T: LiteEntity>() throws -> Array<T> {
+        return try query(T().table()!)
+    }
+    
+    public func delete<T: LiteEntity>(obj: T) throws -> T {
+        try db!.run((obj.table()?.filter(LiteColumn.ID == obj.id).delete())!)
+        return obj
+    }
+    
+    public func delete<T: LiteEntity>(id: Int64) throws -> T {
+        return try delete(T(id: id))
+    }
+    
+    public func update<T: LiteEntity>(obj: T) throws {
+        try db!.run(obj.table()!.filter(LiteColumn.ID == obj.id).update(obj.setters()!))
+    }
+    
+    public func find<T: LiteEntity>(table: Table) throws -> T? {
+        for row in try db!.prepare(table) {
+            let obj = T()
+            obj.parse(row)
+            return obj
+        }
+        return nil
+    }
+    
+    public func findById<T: LiteEntity>(id: Int64) throws -> T? {
+        return try find((T(id: id).table()?.filter(LiteColumn.ID == id))!)
     }
 }
