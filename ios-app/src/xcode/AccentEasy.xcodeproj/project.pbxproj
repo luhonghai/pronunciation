@@ -12,6 +12,10 @@
 		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
 		90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */; };
 		90F33B4A1C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */; };
+		90F430821C86904800D6DF81 /* LiteCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430811C86904800D6DF81 /* LiteCommon.swift */; };
+		90F4308F1C86957A00D6DF81 /* PronunciationScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */; };
+		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
+		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
@@ -157,6 +161,7 @@
 		9B5F34281C771E6000E85629 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34221C771E6000E85629 /* Request.swift */; };
 		9B5F34291C771E6000E85629 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34231C771E6000E85629 /* Response.swift */; };
 		9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F342D1C77223800E85629 /* SQLite-Bridging.m */; };
+		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
 		9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */; };
@@ -331,6 +336,13 @@
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
 		};
+		9B7867611C86DC3A00192940 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B48FB6AF0C2E3A6F182388B907EA1A38;
+			remoteInfo = NHSlidingController;
+		};
 		9BC5E0F21C50803C003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -402,6 +414,10 @@
 		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
 		90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FreeStyleDBAdapter.swift; path = Data/SQLite/FreeStyleDBAdapter.swift; sourceTree = "<group>"; };
+		90F430811C86904800D6DF81 /* LiteCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LiteCommon.swift; path = Data/SQLite/LiteCommon.swift; sourceTree = "<group>"; };
+		90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PronunciationScore.swift; path = Data/Entity/PronunciationScore.swift; sourceTree = "<group>"; };
+		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
+		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
@@ -551,6 +567,7 @@
 		9B5F342B1C77223800E85629 /* fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fts3_tokenizer.h; sourceTree = "<group>"; };
 		9B5F342C1C77223800E85629 /* SQLite-Bridging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridging.h"; sourceTree = "<group>"; };
 		9B5F342D1C77223800E85629 /* SQLite-Bridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SQLite-Bridging.m"; sourceTree = "<group>"; };
+		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
 		9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollectionDbApdater.swift; path = Data/SQLite/WordCollectionDbApdater.swift; sourceTree = "<group>"; };
@@ -790,6 +807,17 @@
 				90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */,
 			);
 			name = TipController;
+			sourceTree = "<group>";
+		};
+		90F4308B1C86953600D6DF81 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				90F4308E1C86957A00D6DF81 /* PronunciationScore.swift */,
+				90F430901C8695B300D6DF81 /* WordCollection.swift */,
+				90F430921C86963200D6DF81 /* IPAMapArpabet.swift */,
+				9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */,
+			);
+			name = Entity;
 			sourceTree = "<group>";
 		};
 		9B5F32A81C77128100E85629 /* Charts */ = {
@@ -1152,6 +1180,7 @@
 				9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */,
 				9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */,
 				90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */,
+				90F430811C86904800D6DF81 /* LiteCommon.swift */,
 			);
 			name = SQLite;
 			sourceTree = "<group>";
@@ -1178,6 +1207,7 @@
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
+				9B7867621C86DC3A00192940 /* NHSlidingController.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
@@ -1284,6 +1314,7 @@
 		C13CDA821C48DE70009E649F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				90F4308B1C86953600D6DF81 /* Entity */,
 				9BA3AB2C1C4F82D600C6631D /* SQLite */,
 				C13CDA831C48E19A009E649F /* UserProfile.swift */,
 				C13E44BF1C60902F00EB6075 /* UserVoiceModel.swift */,
@@ -1613,9 +1644,10 @@
 		C141C7F51C3E203C001D1F9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = "";
 				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0720;
-				ORGANIZATIONNAME = "Hoang Nguyen";
+				ORGANIZATIONNAME = "Claybourne McGregor Consulting Ltd (CMG Ltd)";
 				TargetAttributes = {
 					C141C7FC1C3E203C001D1F9C = {
 						CreatedOnToolsVersion = 7.2;
@@ -1663,6 +1695,13 @@
 			fileType = wrapper.framework;
 			path = EZAudio.framework;
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B7867621C86DC3A00192940 /* NHSlidingController.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = NHSlidingController.framework;
+			remoteRef = 9B7867611C86DC3A00192940 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0F31C50803C003CF8E9 /* Bolts.framework */ = {
@@ -1976,6 +2015,7 @@
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
 				9B5F33A91C77129A00E85629 /* ChartAxisRendererBase.swift in Sources */,
+				90F4308F1C86957A00D6DF81 /* PronunciationScore.swift in Sources */,
 				9B5F33771C77129A00E85629 /* BubbleChartDataSet.swift in Sources */,
 				9B5F34261C771E6000E85629 /* Constants.swift in Sources */,
 				C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */,
@@ -1999,6 +2039,7 @@
 				9B5F340D1C771D6800E85629 /* Value.swift in Sources */,
 				9B5F335D1C77129A00E85629 /* ChartBaseDataSet.swift in Sources */,
 				9B5F33581C77129A00E85629 /* ChartLegend.swift in Sources */,
+				9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */,
 				9B5F33591C77129A00E85629 /* ChartLimitLine.swift in Sources */,
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,
@@ -2068,8 +2109,10 @@
 				9B5F338A1C77129A00E85629 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				9B9BE71A1C632BC600C84823 /* HistoryTableController.swift in Sources */,
 				9B5F33E61C771B5A00E85629 /* CustomDateFormatTransform.swift in Sources */,
+				90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */,
 				9B9BE71C1C632D4600C84823 /* HistoryTableCell.swift in Sources */,
 				9B5F33EA1C771B5A00E85629 /* ISO8601DateTransform.swift in Sources */,
+				90F430821C86904800D6DF81 /* LiteCommon.swift in Sources */,
 				9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */,
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				9B5F33EC1C771B5A00E85629 /* TransformType.swift in Sources */,
@@ -2108,6 +2151,7 @@
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
 				9B5F341A1C771D6800E85629 /* Setter.swift in Sources */,
 				9B5F33841C77129A00E85629 /* PieChartDataSet.swift in Sources */,
+				90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

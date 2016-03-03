@@ -3,7 +3,7 @@
 //  SwiftSidebarMenu
 //
 //  Created by CMGVN on 1/7/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
@@ -27,17 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //let databaseHelpebr = DatabaseHelper()
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
         print(DatabaseHelper.getLessonDatabaseFile())
-        
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
-        do {
-        //try print(adapter.search("hel"))
-            let resultCount:Int = try adapter.search("hel").count - 1
-            for index in 0...resultCount{
-                try print(adapter.search("hel")[index].word)
-            }
-        } catch (let e as NSError) {
-            print(e)
-        }
+        let freestyleDbAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
+        freestyleDbAdapter.prepare()
         
         // Initialize google sign-in
         var configureError: NSError?

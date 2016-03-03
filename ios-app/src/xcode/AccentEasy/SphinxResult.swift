@@ -3,10 +3,11 @@
 //  AccentEasy
 //
 //  Created by CMGVN on 2/2/16.
-//  Copyright © 2016 Hoang Nguyen. All rights reserved.
+//  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import Foundation
+import Darwin
 
 public class SphinxResult: Mappable{
     
@@ -35,17 +36,17 @@ public class SphinxResult: Mappable{
         }
     }
     
-    public class PhonemeScore: Mappable{
+    public class PhonemeScore: Mappable {
         public var name:String!
         public var index:Int!
         public var totalScore:Float!
-        public var time:CLong!
+        public var time:Double!
         public var username:String!
         public var version:Int!
         public var userVoiceId:String!
         public var phonemes = [PhonemeScoreUnit]()
         public var ipa:String!
-        
+    
         required public init?(_ map: Map) {
             
         }

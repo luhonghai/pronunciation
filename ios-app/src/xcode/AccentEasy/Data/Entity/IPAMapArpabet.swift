@@ -1,13 +1,9 @@
 //
-//  CustomLineChartView.swift
+//  IPAMapArpabet.swift
 //  AccentEasy
 //
-//  Created by CMG on 04/02/2016.
+//  Created by Hai Lu on 3/2/16.
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import Foundation
-
-class CustomLineChartView: LineChartView {
-    
-}
