@@ -12,9 +12,9 @@ class FileHelper {
     
     class func getAccentEasyBaseUrl() -> String {
         // TODO try to get base url by environment
-       // return "http://localhost:8080"
+        return "http://localhost:8080"
         //return "http://reg.accenteasy.com"
-        return "http://localhost:8080/vrc"
+        //return "http://192.168.1.196:8080"
     }
     
     class func getFilePath(path: String, directory: Bool = false) -> String {

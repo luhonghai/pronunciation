@@ -232,7 +232,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         if currentTime - lastUpdateAnimationTime > updateTime {
             if (self.score >= self.originScore && animationState == .WAIT_FOR_MAX) {
                 self.score = self.originScore
-                delegate.onAnimationMax()
+                delegate?.onAnimationMax()
                 if type == .SHOW_SCORE {
                     animationState = .DEFAULT
                 } else if type == .ANALYZING {
@@ -240,7 +240,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
                 }
             } else if (self.score <= 0 && animationState == .WAIT_FOR_MIN) {
                 self.score = 0
-                delegate.onAnimationMin()
+                delegate?.onAnimationMin()
                 if type == .ANALYZING {
                     animationState = .WAIT_FOR_MAX
                 }

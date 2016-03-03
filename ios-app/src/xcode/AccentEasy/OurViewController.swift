@@ -12,9 +12,11 @@ import EZAudio
 import Darwin
 
 class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+    
+    var userProfileSaveInApp:NSUserDefaults!
+    
     let kCellIdentifier = "cellIdentifier"
     //var loginParameter:NSUserDefaults!
-    var userProfileSaveInApp:NSUserDefaults!
     var JSONStringUserProfile:String!
     var userProfile = UserProfile()
     var fileName:String = "tmp_record_file"
@@ -98,7 +100,6 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         //login parameter
         //loginParameter = NSUserDefaults()
-        
         userProfileSaveInApp = NSUserDefaults()
         if Login.IS_DEBUG {
             userProfile = Login.getTestUserProfile()
@@ -177,7 +178,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     //define for search bar
     var arrSearchResultData = [WordCollection]()
-    var filteredAppleProducts = [String]()
+    //var filteredAppleProducts = [String]()
     
     var resultSearchController: AnyObject!
     
@@ -316,17 +317,22 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
 
     func analyzeVoice() {
+        //fix file test
+        let databaseBundle = NSBundle.mainBundle()
+        let dbZipPath = databaseBundle.pathForResource("fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw", ofType: "wav")
+        print(dbZipPath)
+        
+        
         weak var weakSelf = self
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             //btnRecord.backgroundColor = Multimedia.colorWithHexString("#7030a0")
             //btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
-            
             //upload to server
             let client = Client()
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in print(e)});
             NSLog(weakSelf!.getTmpFilePath().path!)
-            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", weakSelf!.getTmpFilePath().path!)
+            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav")/*selectedWord.word).attach("imageKey", weakSelf!.getTmpFilePath().path!)*/
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
@@ -345,6 +351,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         let userVoiceModel = result!.data
                         //  print (userVoiceModel.word)
                         if status {
+                            self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
+                    
                             weakSelf!.saveDatabase(userVoiceModel)
                             NSNotificationCenter.defaultCenter().postNotificationName("load", object: userVoiceModel.word)
                             //register suceess
@@ -359,6 +367,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
                                 //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
                                 weakSelf!.isRecording = false
+                                
+                                //move detail screen
+                                weakSelf!.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
                             })
                             
                             
@@ -649,5 +660,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func onAnimationMax() {
         
     }
+    
+    @IBAction func analyzingViewTapped(sender: AnyObject) {
+        self.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+    }
+    
     
 }

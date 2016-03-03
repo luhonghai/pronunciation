@@ -191,6 +191,8 @@
 		9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04551C59B90200E474F3 /* GLKit.framework */; };
 		9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BEF04571C59B90B00E474F3 /* AVFoundation.framework */; };
 		9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */; };
+		C1056C1F1C84052F00F75CCC /* FSDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */; };
+		C1056C2B1C85437000F75CCC /* FSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1056C2A1C85437000F75CCC /* FSScreen.swift */; };
 		C109066F1C7579FA0071206D /* Menu-100.png in Resources */ = {isa = PBXBuildFile; fileRef = C109066E1C7579FA0071206D /* Menu-100.png */; };
 		C10906811C757A120071206D /* Menu-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906801C757A120071206D /* Menu-25@2x.png */; };
 		C10906831C75B5DB0071206D /* Menu-20.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906821C75B5DB0071206D /* Menu-20.png */; };
@@ -201,6 +203,9 @@
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
 		C13A5D601C58CBD80036A5E9 /* london_3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */; };
 		C13A5D611C58CBD80036A5E9 /* london-sunset-1920x1080.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */; };
+		C13B656F1C86D9C200318336 /* IPAPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13B656D1C86D9C200318336 /* IPAPopupVC.swift */; };
+		C13B65701C86D9C200318336 /* IPAPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C13B656E1C86D9C200318336 /* IPAPopupVC.xib */; };
+		C13B65721C86DC6700318336 /* UIVViewController-SLPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13B65711C86DC6700318336 /* UIVViewController-SLPopup.swift */; };
 		C13C28FD1C800D4E000CC11D /* EZSwipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */; };
 		C13C29011C800EC0000CC11D /* FreestyleSwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */; };
 		C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CDA831C48E19A009E649F /* UserProfile.swift */; };
@@ -602,6 +607,8 @@
 		9BEF04571C59B90B00E474F3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		9BEF04661C59CE1B00E474F3 /* RecordingPlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecordingPlayController.h; path = RecordingView/RecordingPlayController.h; sourceTree = "<group>"; };
 		9BEF04671C59CE1B00E474F3 /* RecordingPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecordingPlayViewController.m; path = RecordingView/RecordingPlayViewController.m; sourceTree = "<group>"; };
+		C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSDetailVC.swift; sourceTree = "<group>"; };
+		C1056C2A1C85437000F75CCC /* FSScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSScreen.swift; sourceTree = "<group>"; };
 		C109066E1C7579FA0071206D /* Menu-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-100.png"; sourceTree = "<group>"; };
 		C10906801C757A120071206D /* Menu-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-25@2x.png"; sourceTree = "<group>"; };
 		C10906821C75B5DB0071206D /* Menu-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-20.png"; sourceTree = "<group>"; };
@@ -612,6 +619,9 @@
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
 		C13A5D5D1C58CBD80036A5E9 /* london_3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = london_3.jpg; sourceTree = "<group>"; };
 		C13A5D5E1C58CBD80036A5E9 /* london-sunset-1920x1080.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "london-sunset-1920x1080.jpg"; sourceTree = "<group>"; };
+		C13B656D1C86D9C200318336 /* IPAPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAPopupVC.swift; sourceTree = "<group>"; };
+		C13B656E1C86D9C200318336 /* IPAPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IPAPopupVC.xib; sourceTree = "<group>"; };
+		C13B65711C86DC6700318336 /* UIVViewController-SLPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIVViewController-SLPopup.swift"; sourceTree = "<group>"; };
 		C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EZSwipeController.swift; sourceTree = "<group>"; };
 		C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreestyleSwipeVC.swift; sourceTree = "<group>"; };
 		C13CDA831C48E19A009E649F /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -1186,8 +1196,8 @@
 		9BA3AB811C4F98AB00C6631D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C13B65711C86DC6700318336 /* UIVViewController-SLPopup.swift */,
 				C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */,
-				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
 				C14CE27A1C4E187D001EE55A /* SweetAlert.swift */,
 				9BA3AB821C4F98C600C6631D /* HttpDownloader.swift */,
 				9B320E8A1C5B1971001D8A95 /* FileHelper.swift */,
@@ -1284,6 +1294,9 @@
 			isa = PBXGroup;
 			children = (
 				C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */,
+				C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */,
+				C13B656D1C86D9C200318336 /* IPAPopupVC.swift */,
+				C13B656E1C86D9C200318336 /* IPAPopupVC.xib */,
 			);
 			name = FreeStyleController;
 			sourceTree = "<group>";
@@ -1864,6 +1877,7 @@
 				C16CD2E31C44B1EC00537461 /* ic_facebook_white.png in Resources */,
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,
+				C13B65701C86D9C200318336 /* IPAPopupVC.xib in Resources */,
 				C10906851C75B61A0071206D /* Menu-25.png in Resources */,
 				C16CD3001C44B1EC00537461 /* help_content_9.png in Resources */,
 				C16CD2EC1C44B1EC00537461 /* ic_redo.png in Resources */,
@@ -1992,6 +2006,7 @@
 				9B5F33701C77129A00E85629 /* BarChartData.swift in Sources */,
 				9B5F33A31C77129A00E85629 /* ChartDataProvider.swift in Sources */,
 				9B5F33851C77129A00E85629 /* RadarChartData.swift in Sources */,
+				C1056C1F1C84052F00F75CCC /* FSDetailVC.swift in Sources */,
 				9B5F33B01C77129A00E85629 /* ChartXAxisRendererRadarChart.swift in Sources */,
 				9B5F33A21C77129A00E85629 /* CandleChartDataProvider.swift in Sources */,
 				9B5F33751C77129A00E85629 /* BubbleChartData.swift in Sources */,
@@ -2007,6 +2022,7 @@
 				9B5F339B1C77129A00E85629 /* ChartHighlighter.swift in Sources */,
 				9B5F335B1C77129A00E85629 /* ChartXAxis.swift in Sources */,
 				9B5F341C1C771DB300E85629 /* SQLiteOperators.swift in Sources */,
+				C13B656F1C86D9C200318336 /* IPAPopupVC.swift in Sources */,
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
 				9B5F33A91C77129A00E85629 /* ChartAxisRendererBase.swift in Sources */,
@@ -2094,6 +2110,7 @@
 				9B5F34191C771D6800E85629 /* Schema.swift in Sources */,
 				9B5F33AC1C77129A00E85629 /* ChartRendererBase.swift in Sources */,
 				9B5F33551C77129A00E85629 /* ScatterChartView.swift in Sources */,
+				C13B65721C86DC6700318336 /* UIVViewController-SLPopup.swift in Sources */,
 				9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */,
 				9B5F337C1C77129A00E85629 /* ChartDataEntry.swift in Sources */,
 				9B5F335C1C77129A00E85629 /* ChartYAxis.swift in Sources */,
@@ -2126,6 +2143,7 @@
 				C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */,
 				C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */,
 				C13C28FD1C800D4E000CC11D /* EZSwipeController.swift in Sources */,
+				C1056C2B1C85437000F75CCC /* FSScreen.swift in Sources */,
 				9B5F33E81C771B5A00E85629 /* DateTransform.swift in Sources */,
 				9B961CD31C60BC29001FB87E /* WordCollectionDbApdater.swift in Sources */,
 				9B5F337A1C77129A00E85629 /* CandleChartDataSet.swift in Sources */,

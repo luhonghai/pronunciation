@@ -74,7 +74,7 @@ extension FreestyleSwipeVC: EZSwipeControllerDataSource {
             var sImage = UIImage(named: "Menu-25")!
             sImage = scaleTo(image: sImage, w: 22, h: 22)
             let rightButtonItem = UIBarButtonItem(image: sImage, style: UIBarButtonItemStyle.Plain, target: self, action: "a")
-            rightButtonItem.tintColor = UIColor.blueColor()
+            rightButtonItem.tintColor = UIColor.redColor()
             
             navigationItem.leftBarButtonItem = leftButtonItem
             navigationItem.rightBarButtonItem = rightButtonItem
