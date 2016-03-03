@@ -430,7 +430,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 
                                 //move detail screen
                                 delay (1) {
-                                    weakSelf!.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+                                    weakSelf!.navigationController?.pushViewController(weakSelf!.fsDetailVC, animated: true)
                                 }
                             })
                             
