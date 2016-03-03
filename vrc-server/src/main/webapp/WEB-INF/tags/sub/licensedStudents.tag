@@ -18,7 +18,7 @@
             <i id="addStudents" class="fa fa-plus fa-2x" style="color: #008000;margin-left: 10px;display: inline;" title="Add student(s) to my students"></i>
         </div>
 
-        <div id="listStudent">
+        <div id="listStudent" style="overflow: auto;height: 350px;">
 
         </div>
     </div>

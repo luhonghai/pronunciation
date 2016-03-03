@@ -40,16 +40,21 @@ public class TestServlet {
 //            e.printStackTrace();
 //        }
 
-        CMTDAO teacher=new CMTDAO();
+        StudentMappingTeacherDAO teacher=new StudentMappingTeacherDAO();
 
         try{
-
-                CourseMappingTeacher country = new CourseMappingTeacher();
-                country.settID("790b2928-2617-41c3-9a10-f3f56f03c874");
-                country.setcID("f8c92e4a-1ca6-4b77-a420-21aa19c4cf12");
+            for(int i=0;i<5;i++) {
+                StudentMappingTeacher country = new StudentMappingTeacher();
+                country.setIsView(false);
+                country.setStatus("pending");
+                country.setLicence(true);
+                country.setTeacherName("demoTeacher1@c-mg.com");
+                country.setStudentName("Student_"+i+"@gmail.com");
+                country.setLastTeacherName("Teacher");
+                country.setFirstTeacherName("demo");
                 country.setIsDeleted(false);
-
-            teacher.put(country);
+                teacher.put(country);
+            }
 
 
         }catch (Exception e){

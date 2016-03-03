@@ -9,12 +9,12 @@
   </div>
   <div>
     <p style="font-size: 20px;">My students</p>
-    <button id="inviteStudents"><img src=""> invite students <i class="fa fa-plus"></i> </button>
+    <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 5px;"><img src=""> invite students <i class="fa fa-plus"></i> </button>
     <p>Use this page o manage the student that you want to assign to classes.</p>
     <p>Select the button above to invite students that have installed the application without a company licence.</p>
 
   </div>
-  <div id="listMyStudent">
+  <div id="listMyStudent" style="overflow: auto; height: 350px;">
 
   </div>
 
@@ -74,7 +74,7 @@
               </div>
               <div class="modal-footer">
 
-                <button type="button" name="help" id="helpInvite" class="btn btn-default" data-dismiss="modal" value="Close" ><img src="/images/popup/help.gif" style="width: 24px;height: 24px;"> </button>
+                <button type="button" name="help" id="helpInvite" class="btn btn-default"><img src="/images/popup/help.gif" style="width: 24px;height: 24px;"> </button>
                 <button type="button" name="invite" id="invite" class="btn btn-default" value="yes" ><img src="/images/popup/save.gif" style="width: 24px;height: 24px;"> </button>
 
               </div>
@@ -152,10 +152,11 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Remove Students</h1>
-            <label id="student"></label>
+            <u style="color: #0044cc;"> <p align="center" id="student"></p></u>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
                 <input type="hidden" id="idStudent">
+                <input type="hidden" id="studentName">
                 <p>Do you wish to remove this student from yourlist?</p>
                 <p>Select the 'delete' button to continue.</p>
                 <p id="text"></p>
@@ -204,7 +205,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h1 align="center">Invitation from Student</h1>
-            <label id="studentInvitation"></label>
+            <u style="color: #0044cc;"> <p align="center" id="studentInvitation"></p></u>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
 
@@ -234,7 +235,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
             <input type="hidden" id="idStudentReject">
             <h1 align="center">Confirm rejection</h1>
-            <label id="studentconfirmReject"></label>
+            <u style="color: #0044cc;"> <p align="center" id="studentconfirmReject"></p></u>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
 
@@ -263,7 +264,8 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
             <input type="hidden" id="idStudentRemove">
             <h1 align="center">Comfirm deletion</h1>
-            <label id="studentconfirmRemove"></label>
+            <%--<u align="center" style="color: #003399;"><label id="studentconfirmRemove"></label></u>--%>
+           <u style="color: #0044cc;"> <p align="center" id="studentconfirmRemove"></p></u>
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
               <div class="modal-footer">
