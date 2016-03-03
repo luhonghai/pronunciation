@@ -4,8 +4,8 @@
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
   <input type="hidden" id="teacher" value="<%=teacherName%>">
-  <div class="row" style="margin-top: 20px;">
-    <a href="#"><h3><%=company%></h3></a>><p style="display: inline;"> students</p>
+  <div class="row">
+    <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my students</p>
   </div>
   <div>
     <p style="font-size: 20px;">My students</p>
@@ -32,9 +32,9 @@
             <h1 align="center">My Students</h1>
             <p>This page displays a list of students that are available to add to your classes (added or invited by you) and students that have sent a request to join your classes.</p>
             <p>The students are colour coded as follows:</p>
-            <img src=""> <p>licensed by your institution</p>
-            <img src=""> <p>external (not licensed by your institution)</p>
-            <img src=""> <p>pending approval to join your class/s (select to approve or reject the request)</p>
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #003366;"> <p>licensed by your institution</p>
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p>external (not licensed by your institution)</p>
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #990099;"> <p>pending approval to join your class/s (select to approve or reject the request)</p>
             <p>External student have the following status indicators:</p>
             <img src=""> <p>invitation has been accepted, the student can be added to your classes.</p>
             <img src=""> <p>invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
@@ -74,8 +74,8 @@
               </div>
               <div class="modal-footer">
 
-                <button type="button" name="help" id="helpInvite" class="btn btn-default" data-dismiss="modal" value="Close" ><img src=""> </button>
-                <button type="button" name="invite" id="invite" class="btn btn-default" value="yes" ><img src=""> </button>
+                <button type="button" name="help" id="helpInvite" class="btn btn-default" data-dismiss="modal" value="Close" ><img src="/images/popup/help.gif" style="width: 24px;height: 24px;"> </button>
+                <button type="button" name="invite" id="invite" class="btn btn-default" value="yes" ><img src="/images/popup/save.gif" style="width: 24px;height: 24px;"> </button>
 
               </div>
 
@@ -160,8 +160,8 @@
                 <p>Select the 'delete' button to continue.</p>
                 <p id="text"></p>
                 <div class="modal-footer">
-                  <button type="button" name="help" id="helpRemove" class="btn btn-default" data-dismiss="modal" value="Close" ><img src=""> </button>
-                  <button type="button" name="invite" id="removeStudent" class="btn btn-default" value="yes" ><img src=""> </button>
+                  <img src="/images/popup/help.gif" id="helpRemove" style="width: 24px;height: 24px;">
+                  <img src="/images/popup/trash.gif" id="removeStudent" style="width: 24px;height: 24px;">
 
 
                 </div>
@@ -211,8 +211,8 @@
               <p>Select the 'accept' button to make the student available to add to your classes</p>
               <p>If you reject the request the student will be removed from your list on 'my detail'.</p>
               <div class="modal-footer">
-                <button type="button" name="reject" id="reject" class="btn btn-default" value="yes" ><img src=""> </button>
-                <button type="button" name="accept" id="accept" class="btn btn-default" data-dismiss="modal" value="Close" ><img src=""> </button>
+                <button type="button" name="reject" id="reject" class="btn btn-default" ><img src="/images/popup/trash.gif" style="width: 24px;height: 24px;"> </button>
+                <button type="button" name="accept" id="accept" class="btn btn-default" ><img src=""> </button>
 
               </div>
             </form>

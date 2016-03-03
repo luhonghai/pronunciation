@@ -12,7 +12,7 @@ function listMyClasses(){
             if(data.message=="success" && data.listclass!=null){
                 var listMyClass=data.listclass;
                 for(var i=0;i<listMyClass.length;i++){
-                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title='+listMyClass[i].definition+'><img src="/images/teacher/my%20classes24x24.gif" style="width: 30px;height: 30px"> '+listMyClass[i].className+'</button>');
+                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title='+listMyClass[i].definition+'><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px"> '+listMyClass[i].className+'</button>');
                     $button.attr("id-column", listMyClass[i].id);
                     $button.attr("className", listMyClass[i].className);
                     $button.attr("definition", listMyClass[i].definition);
@@ -29,9 +29,67 @@ function listMyClasses(){
 
 }
 
+function openAdd(){
+    $(document).on("click","#addClass", function(){
+        $("#add").modal('show');
+        $("#addClassName").val("");
+        $("#addDefinition").val("");
+        $.ajax({
+            url: "ClassServlet",
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "openAdd"
+            },
+            success: function (data) {
+                if(data.message=="success"){
+                    $("#addCourses").empty();
+                    if(data.courses!=null && data.courses.length>0){
+                        var items=data.courses;
+                        $(items).each(function(){
+                            $("#addCourses").append('<option title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                        });
+                    }
+                    $('#addCourses').multiselect('destroy');
+                    $('#addCourses').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                    $('#addCourses').multiselect('refresh');
+
+                    $("#addStudents").empty();
+                    if(data.studentMappingTeachers!=null && data.studentMappingTeachers.length>0){
+                        var items=data.studentMappingTeachers;
+                        $(items).each(function(){
+                            $("#addStudents").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                        });
+                    }
+                    $('#addStudents').multiselect('destroy');
+                    $('#addStudents').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                    $('#addStudents').multiselect('refresh');
+                }else{
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+    });
+}
+
+
 
 function addClass(){
     $(document).on("click","#yesadd", function(){
+        var courses=[];
+        var students = [];
+        $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+        var dto={
+            courses:courses,
+            students:students
+        }
         var valide=validateFormAdd();
         if(valide==true) {
             var classname = $("#addClassName").val();
@@ -41,18 +99,17 @@ function addClass(){
                 type: "POST",
                 dataType: "text",
                 data: {
-                    add: "add",
+                    action: "addClass",
+                    objDto: JSON.stringify(dto),
                     classname: classname,
                     definition: definition
                 },
                 success: function (data) {
                     if (data == "success") {
-                        $("tbody").html("");
                         $("#add").modal('hide');
+                        $("#listMyClass").empty();
+                        listMyClasses();
                         swal("Success!", "Add class success.", "success");
-                    }
-                    if (data == "error") {
-                        $("#addClassNameExits").show();
                     }
                 },
                 error: function () {
@@ -70,14 +127,6 @@ function addClass(){
 
 }
 
-function add(){
-    $(document).on("click","#addUser", function(){
-        $("#add").modal('show');
-        $("#addClassName").val("");
-        $("#addDefinition").val("");
-
-    });
-}
 
 function validateFormAdd(){
     var className=$.trim($("#addClassName").val());
@@ -131,16 +180,55 @@ function deleteuser(){
 });
 }
 
-function edit(){
+function openEdit(){
     $(document).on("click","#edit", function() {
         $("#edits").modal('show');
         var idd = $(this).attr('id-column');
         var classname = $(this).attr('classname');
         var difinition=$(this).attr('definition');
-
         $("#idedit").val(idd);
         $("#editClassName").val(classname);
-       $("#editDefinition").val(difinition);
+        $("#editDefinition").val(difinition);
+        $.ajax({
+            url: "ClassServlet",
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "openEdit",
+                id:idd
+            },
+            success: function (data) {
+                if(data.message=="success"){
+                    $("#editCourses").empty();
+                    if(data.courses!=null && data.courses.length>0){
+                        var items=data.courses;
+                        $(items).each(function(){
+                            $("#editCourses").append('<option title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                        });
+                    }
+                    $('#editCourses').multiselect('destroy');
+                    $('#editCourses').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                    $('#editCourses').multiselect('refresh');
+
+                    $("#editStudents").empty();
+                    if(data.studentMappingTeachers!=null && data.studentMappingTeachers.length>0){
+                        var items=data.studentMappingTeachers;
+                        $(items).each(function(){
+                            $("#editStudents").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                        });
+                    }
+                    $('#editStudents').multiselect('destroy');
+                    $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                    $('#editStudents').multiselect('refresh');
+                }else{
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
 
 }
@@ -187,7 +275,8 @@ function helpMyClass(){
 
 $(document).ready(function(){
     $('#help-icons').show();
-    add();
+    openEdit();
+    openAdd();
     addClass();
     helpMyClass();
     listMyClasses();

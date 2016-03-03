@@ -1,8 +1,9 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row" style="margin-top: 20px;">
-         <a href="#"><label id="company"></label> </a><i class="fa fa-angle-right"></i><p style="display: inline;"> students</p>
+     <div class="row">
+         <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> studnets</p>
          <a href="my-students.jsp" title="go to my students" style="float: right;"><img src="/images/teacher/my%20students48x48.gif" style="background-color: #00e6ac"></a>
      </div>
     <div>

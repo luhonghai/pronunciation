@@ -13,7 +13,7 @@ function listLicensedStudent(){
                 var listStudent=data.students;
                 for(var i=0;i<listStudent.length;i++){
                    // $("#listStudent").append('<input type="checkbox" id="check" id-column='+listStudent[i].id+'>');
-                    $("#listStudent").append('<div style="display: block; margin-top: 5px;"><input type="checkbox" id="check" id-column='+listStudent[i].id+'> <button><img src="/images/teacher/student24x24.gif"> '+listStudent[i].studentName+'</button></div>');
+                    $("#listStudent").append('<div style="display: block; margin-top: 5px;"><input type="checkbox" id="check" id-column='+listStudent[i].id+'> <button><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listStudent[i].studentName+'</button></div>');
                 }
             }
         },

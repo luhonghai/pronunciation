@@ -5,6 +5,8 @@ import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.country.Country;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
+import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 
@@ -38,15 +40,13 @@ public class TestServlet {
 //            e.printStackTrace();
 //        }
 
-        TeacherMappingCompanyDAO teacher=new TeacherMappingCompanyDAO();
+        CMTDAO teacher=new CMTDAO();
 
         try{
 
-                TeacherMappingCompany country = new TeacherMappingCompany();
-                country.setUserName("demoTeacher1@c-mg.com");
-            country.setCompany("cmg1");
-            country.setIdCompany("02354aca-32e3-430f-bf88-b4dd472085be");
-            country.setType("teacher");
+                CourseMappingTeacher country = new CourseMappingTeacher();
+                country.settID("790b2928-2617-41c3-9a10-f3f56f03c874");
+                country.setcID("f8c92e4a-1ca6-4b77-a420-21aa19c4cf12");
                 country.setIsDeleted(false);
 
             teacher.put(country);
