@@ -354,14 +354,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //  print (userVoiceModel.word)
                         if status {
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
-                            
-                            let pScore = PronunciationScore()
-                            pScore.username = weakSelf!.userProfile.username
-                            pScore.score = Int(floor(userVoiceModel.score))
-                            pScore.word = userVoiceModel.word
-                            pScore.dataId = userVoiceModel.uuid
-                            pScore.time = NSDate().timeIntervalSince1970 * 1000.0
-                            weakSelf!.freestyleDBAdapter.insertPronunciationScore(pScore)
+                    
+                            weakSelf!.saveDatabase(userVoiceModel)
                             NSNotificationCenter.defaultCenter().postNotificationName("load", object: nil)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
