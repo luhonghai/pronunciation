@@ -24,3 +24,17 @@
     border-style: none;
     background-color: transparent;
 }
+
+#titlePopup,#titlePopupObj,#titlePopupTest {
+    padding-top : 10px;
+}
+
+#arrow , #arrowObj, #arrowTest{
+    color : #A6A6A6;
+    font-size: 12px;
+}
+
+.modal-content{
+    width : 400px;
+}
+

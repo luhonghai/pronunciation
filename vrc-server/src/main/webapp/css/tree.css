@@ -121,11 +121,6 @@ label {
 }
 
 .aciTree .btnAdd{
-    background-image: url("../images/treeview/plus.png") !important;
-    width: 24px;
-    height: 24px;
-    background-size: 24px 24px !important;
-    border-style: none;
-    background-color: transparent;
+
 }
 

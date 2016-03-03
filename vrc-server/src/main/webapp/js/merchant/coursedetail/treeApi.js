@@ -47,7 +47,7 @@ function initTree(){
             item.find('.aciTreeIcon').css('vertical-align', 'middle');
             if(itemData['_isButton']){
                 this.setLabel(item, {
-                    label: '<label style="padding-right: 5px">' + itemData.label + '</label>' + '<img class="btnAdd"></img>'
+                    label:  itemData.label + '<img class="btnAdd"/>'
                 });
             }
 

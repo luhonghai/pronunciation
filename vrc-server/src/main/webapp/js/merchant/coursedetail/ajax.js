@@ -99,7 +99,7 @@ function deleteLevel(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Can not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -200,7 +200,7 @@ function deleteObj(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Can not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -298,7 +298,7 @@ function deleteTest(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Can not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
         }
     });

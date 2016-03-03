@@ -60,12 +60,19 @@
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-lg-11">
+            <img style="float:right" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
+        </div>
+        <div class="col-lg-1">
+            <img style="float:right" src="/images/treeview/publish_button.gif" width="50px" height="50px"/>
+        </div>
+    </div>
 </div>
 
 <div id="popupLevel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -82,7 +89,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="lvName">Name:</label>
 
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <input type="text" class="form-control" id="lvName" name="name"
                                    placeholder="Level name">
                         </div>
@@ -90,8 +97,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="lvDesc">Description:</label>
 
-                        <div class="col-md-6">
-                            <textarea rows="3" class="form-control" id="lvDesc" name="description"
+                        <div class="col-md-8">
+                            <textarea rows="2" class="form-control" id="lvDesc" name="description"
                                       placeholder="Level description"></textarea>
                         </div>
                     </div>
@@ -99,13 +106,16 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">
+                            <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                            <img src="/images/popup/help.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                            <img src="/images/popup/trash.gif" width="36px" height="36px"/>
+                           <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">
+                            <img src="/images/popup/save.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
                 </form>
@@ -120,7 +130,7 @@
 
 <div id="popupObjective" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -137,7 +147,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="objName">Name:</label>
 
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <input type="text" class="form-control" id="objName" name="name"
                                    placeholder="Objective name">
                         </div>
@@ -145,8 +155,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="objDesc">Description:</label>
 
-                        <div class="col-md-6">
-                            <textarea rows="3" class="form-control" id="objDesc" name="description"
+                        <div class="col-md-8">
+                            <textarea rows="2" class="form-control" id="objDesc" name="description"
                                       placeholder="Objective description"></textarea>
                         </div>
                     </div>
@@ -175,7 +185,7 @@
 
 <div id="popupTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -188,7 +198,7 @@
                     name</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="addObj" name="addform">
+                <form class="form-horizontal" id="addTest" name="addform">
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="percent">Pass %:</label>
                         <div class="col-md-6">
