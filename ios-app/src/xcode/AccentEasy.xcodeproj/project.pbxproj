@@ -329,6 +329,8 @@
 		C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */; };
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
+		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
+		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
 		C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -753,6 +755,8 @@
 		C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_right.png; sourceTree = "<group>"; };
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
+		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
+		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
 		C1FAD50F1C55DCCC00385D74 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E34A34897D2BD671737AD050 /* Pods-AccentEasy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AccentEasy.release.xcconfig"; path = "Pods/Target Support Files/Pods-AccentEasy/Pods-AccentEasy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1470,6 +1474,8 @@
 		C16CD2441C44B1EC00537461 /* drawable */ = {
 			isa = PBXGroup;
 			children = (
+				C1FA8A9E1C88195600051958 /* Back-25.png */,
+				C1FA8AA91C881A2900051958 /* Back-25@2x.png */,
 				C10906841C75B61A0071206D /* Menu-25.png */,
 				C10906821C75B5DB0071206D /* Menu-20.png */,
 				C10906801C757A120071206D /* Menu-25@2x.png */,
@@ -1803,6 +1809,7 @@
 				C16CD2D81C44B1EC00537461 /* sl_dog_3.png in Resources */,
 				C16CD2E61C44B1EC00537461 /* ic_lesson_tip.png in Resources */,
 				C16CD2FD1C44B1EC00537461 /* help_content_6.png in Resources */,
+				C1FA8A9F1C88195600051958 /* Back-25.png in Resources */,
 				C16CD2DD1C44B1EC00537461 /* berty_antialias_clear.png in Resources */,
 				C16CD2C91C44B1EC00537461 /* pointing_tilting_app.png in Resources */,
 				C16CD2B51C44B1EC00537461 /* p_graph_blue.png in Resources */,
@@ -1840,6 +1847,7 @@
 				C16CD2C61C44B1EC00537461 /* p_prev.png in Resources */,
 				C16CD3011C44B1EC00537461 /* icon_popover_arrow_down.png in Resources */,
 				C16CD2D01C44B1EC00537461 /* rounded_corner_color_orange_dialog.xml in Resources */,
+				C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */,
 				C16CD2EF1C44B1EC00537461 /* ic_slider_down.png in Resources */,
 				C16CD2BE1C44B1EC00537461 /* p_menu_feedback.png in Resources */,
 				C16CD2F71C44B1EC00537461 /* help_content_10.png in Resources */,
