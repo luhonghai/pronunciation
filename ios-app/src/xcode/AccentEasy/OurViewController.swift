@@ -262,6 +262,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func selectWord(wordCollection : WordCollection){
         NSNotificationCenter.defaultCenter().postNotificationName("load", object: wordCollection.word)
+        //set word select for detail screen
+        let JSONWordSelected:String = Mapper().toJSONString(wordCollection, prettyPrint: true)!
+        userProfileSaveInApp.setObject(JSONWordSelected, forKey: FSScreen.KeyWordSelectedInMainScreen)
+        
         selectedWord = wordCollection
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation

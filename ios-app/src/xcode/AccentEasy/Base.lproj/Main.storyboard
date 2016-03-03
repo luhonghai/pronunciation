@@ -1973,11 +1973,18 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="XeS-ak-5h3"/>
+        <segue reference="UNY-bE-rXo"/>
         <segue reference="VlK-rN-iWT"/>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="SIe-9Q-k60"/>
         <segue reference="y7T-RE-Gak"/>
         <segue reference="SIe-9Q-k60"/>
         <segue reference="ZoM-vd-D1g"/>
         <segue reference="WR5-An-sLd"/>
         <segue reference="w7l-a7-zju"/>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="TPh-X3-TuQ"/>
+        <segue reference="jMS-2y-5xw"/>
     </inferredMetricsTieBreakers>
 </document>

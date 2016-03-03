@@ -15,6 +15,9 @@ public class WordCollection: LiteEntity, Mappable {
     var mp3Path: String!
     var pronunciation: String!
     
+    required public init(){
+        super.init()
+    }
     func getArpabetList() -> Array<String> {
         var list:Array<String> = []
         if arpabet == nil || arpabet.isEmpty {
@@ -27,6 +30,14 @@ public class WordCollection: LiteEntity, Mappable {
                 ))
         }
         return list;
+    }
+    
+    required public init?(_ map: Map) {
+        super.init()
+    }
+
+    public required init(id: Int64) {
+        super.init(id: id)
     }
     
     public override func parse(row: Row) {

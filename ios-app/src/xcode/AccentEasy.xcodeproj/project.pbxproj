@@ -1268,6 +1268,8 @@
 				C13A5D561C58B75C0036A5E9 /* Login.swift */,
 				C13E44BD1C60615B00EB6075 /* Multimedia.swift */,
 				9053FDFB1C87D8FC0059A423 /* Global.swift */,
+				C1056C2A1C85437000F75CCC /* FSScreen.swift */,
+				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";

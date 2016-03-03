@@ -70,8 +70,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         //set data for view
         btnPlayDemo.setTitle(wordSelected.word, forState: UIControlState.Normal)
         
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+        let adapter = WordCollectionDbApdater()
         
         //print("X:\(viewIPAList.frame.origin.x) Y:\(viewIPAList.frame.origin.y) width:\(viewIPAList.frame.width) sizewidth:\(viewIPAList.frame.size.width) height:\(viewIPAList.frame.height) sizeheight:\(viewIPAList.frame.size.height)")
         
