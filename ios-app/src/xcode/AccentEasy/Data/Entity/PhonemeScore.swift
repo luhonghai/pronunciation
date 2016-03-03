@@ -27,7 +27,7 @@ public class PhonemeScore: LiteEntity {
         super.init(id: id)
     }
     
-    public class func parse(origin: SphinxResult.PhonemeScore) -> PhonemeScore {
+    public class func parseData(origin: SphinxResult.PhonemeScore) -> PhonemeScore {
         let obj = PhonemeScore()
         obj.name = origin.name
         obj.index = origin.index

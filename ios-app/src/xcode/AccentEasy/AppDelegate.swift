@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //let databaseHelpebr = DatabaseHelper()
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
         print(DatabaseHelper.getLessonDatabaseFile())
-        let freestyleDbAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
+        let freestyleDbAdapter = FreeStyleDBAdapter()
         freestyleDbAdapter.prepare()
         
         // Initialize google sign-in

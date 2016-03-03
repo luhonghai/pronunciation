@@ -11,8 +11,8 @@ import Darwin
 
 class FreeStyleDBAdapter: BaseDatabaseAdapter {
     
-    override init(dbFile: String) {
-        super.init(dbFile: dbFile)
+    init() {
+        super.init(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
     }
     
     override func prepare() {
@@ -25,15 +25,27 @@ class FreeStyleDBAdapter: BaseDatabaseAdapter {
         }
     }
     
-    func listPronunciationScore(limit: Int?) throws -> Array<PronunciationScore> {
+    func listPronunciationScore(limit: Int, username: String) throws -> Array<PronunciationScore> {
         return try query(limit <= 0
             ?
-                LiteTable.PRONUNCIATION_SCORE.order(LiteColumn.TIME .desc)
+                LiteTable.PRONUNCIATION_SCORE
+                    .filter(LiteColumn.USERNAME == username)
+                    .order(LiteColumn.TIME .desc)
             :
-            LiteTable.PRONUNCIATION_SCORE.order(LiteColumn.TIME .desc).limit(limit))
+            LiteTable.PRONUNCIATION_SCORE
+                .filter(LiteColumn.USERNAME == username)
+                .order(LiteColumn.TIME .desc).limit(limit))
     }
 
-    func listPhonemeScore() throws -> Array<PhonemeScore> {
-        return try query(LiteTable.PHONEME_SCORE.order(LiteColumn.TIME .desc).limit(30))
+    func listPhonemeScore(phoneme: String, limit: Int, username: String) throws -> Array<PhonemeScore> {
+        return try query(LiteTable.PHONEME_SCORE
+                                .filter(LiteColumn.USERNAME == username && LiteColumn.NAME == phoneme)
+                                .order(LiteColumn.TIME .desc).limit(limit))
+    }
+    
+    func listPronunciationScore(word: String, limit: Int, username: String) throws -> Array<PronunciationScore> {
+        return try query(LiteTable.PRONUNCIATION_SCORE
+            .filter(LiteColumn.USERNAME == username && LiteColumn.WORD == word)
+            .order(LiteColumn.TIME .desc).limit(limit))
     }
 }

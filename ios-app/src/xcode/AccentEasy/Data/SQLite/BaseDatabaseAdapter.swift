@@ -56,16 +56,15 @@ public class BaseDatabaseAdapter {
         try db!.run(obj.table()!.filter(LiteColumn.ID == obj.id).update(obj.setters()!))
     }
     
-    public func find<T: LiteEntity>(table: Table) throws -> T? {
-        for row in try db!.prepare(table) {
-            let obj = T()
-            obj.parse(row)
-            return obj
+    public func find<T: LiteEntity>(table: Table) throws -> T! {
+        let list:Array<T> = try query(table)
+        if !list.isEmpty {
+            return list[0]
         }
         return nil
     }
     
-    public func findById<T: LiteEntity>(id: Int64) throws -> T? {
+    public func findById<T: LiteEntity>(id: Int64) throws -> T {
         return try find((T(id: id).table()?.filter(LiteColumn.ID == id))!)
     }
 }

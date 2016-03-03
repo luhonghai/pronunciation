@@ -16,6 +16,20 @@ public class WordCollection: LiteEntity {
     var mp3Path: String!
     var pronunciation: String!
     
+    func getArpabetList() -> Array<String> {
+        var list:Array<String> = []
+        if arpabet == nil || arpabet.isEmpty {
+            return list
+        }
+        let wordArray = arpabet.componentsSeparatedByString(" ")
+        for word in wordArray {
+            list.append(word.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet()
+                ))
+        }
+        return list;
+    }
+    
     public override func parse(row: Row) {
         self.word = row[LiteColumn.WORD]
         self.arpabet = row[LiteColumn.ARPABET]
@@ -98,12 +112,20 @@ public class IPAMapArpabet: LiteEntity {
 
 public class WordCollectionDbApdater: BaseDatabaseAdapter {
     
+    init() {
+        super.init(dbFile: DatabaseHelper.getLessonDatabaseFile()!)
+    }
+    
     public func search(search:String) throws -> Array<WordCollection> {
         if search.isEmpty {
             return [WordCollection]()
         } else {
             return try query(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD.like("\(search)%")).limit(20))
         }
+    }
+    
+    public func findByWord(word: String) throws -> WordCollection {
+        return try find(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD == word).limit(1));
     }
     
     public func getIPAMapArpabets() throws -> Array<IPAMapArpabet> {

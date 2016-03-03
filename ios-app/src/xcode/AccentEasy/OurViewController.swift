@@ -112,13 +112,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
         //load word default
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
-        freestyleDBAdapter = FreeStyleDBAdapter(dbFile: DatabaseHelper.getFreeStyleDatabaseFile()!)
-        do{
-            selectWord(try adapter.search("hello")[0])
-        }catch{
-            print("load word default error")
+        let adapter = WordCollectionDbApdater()
+        freestyleDBAdapter = FreeStyleDBAdapter()
+         delay(0.5) {
+            do{
+                self.selectWord(try adapter.findByWord("hello"))
+            
+            }catch{
+                print("load word default error")
+            }
         }
     }
     
@@ -234,8 +236,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func updateSearchTableData(searchText: String) {
         //get database
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        let adapter = WordCollectionDbApdater(dbFile: dbPath!)
+        let adapter = WordCollectionDbApdater()
         do {
             //appleProducts.removeAll(keepCapacity: false)
             arrSearchResultData = try adapter.search(searchText)
@@ -259,6 +260,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func selectWord(wordCollection : WordCollection){
+        NSNotificationCenter.defaultCenter().postNotificationName("load", object: wordCollection.word)
         selectedWord = wordCollection
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
@@ -344,7 +346,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //  print (userVoiceModel.word)
                         if status {
                             weakSelf!.saveDatabase(userVoiceModel)
-                            NSNotificationCenter.defaultCenter().postNotificationName("load", object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName("load", object: userVoiceModel.word)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
@@ -376,12 +378,13 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     private func saveDatabase(model: UserVoiceModel) {
         do {
+            let time = NSDate().timeIntervalSince1970 * 1000.0
             let pScore = PronunciationScore()
             pScore.username = userProfile.username
             pScore.score = Int(floor(model.score))
             pScore.word = model.word
             pScore.dataId = model.uuid
-            pScore.time = NSDate().timeIntervalSince1970 * 1000.0
+            pScore.time = time
             try freestyleDBAdapter.insert(pScore)
             
             let result = model.result
@@ -389,7 +392,12 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 let phoneScores = result.phonemeScores
                 if  !phoneScores.isEmpty {
                     for phoneScore in phoneScores {
-                        try freestyleDBAdapter.insert(PhonemeScore.parse(phoneScore))
+                        let ps = PhonemeScore.parseData(phoneScore)
+                        ps.username = userProfile.username
+                        ps.time = time
+                        ps.dataId = model.uuid
+                        print("insert \(ps.name) score \(ps.score)")
+                        try freestyleDBAdapter.insert(ps)
                     }
                 }
             }

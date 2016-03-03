@@ -17,6 +17,7 @@ target 'AccentEasy' do
 	pod 'EZAudio', '1.1.2' 
 	pod 'EZAudio/Core', '1.1.2'	
 	#pod 'Charts'
+    pod 'RDVTabBarController'
 end
 
 target 'AccentEasyTests' do

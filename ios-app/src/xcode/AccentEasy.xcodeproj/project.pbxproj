@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
+		9053FDFC1C87D8FC0059A423 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053FDFB1C87D8FC0059A423 /* Global.swift */; };
+		9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053FE101C87E92E0059A423 /* RDVTabBarController.framework */; };
+		9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE121C87F7910059A423 /* tab-background-selected.png */; };
+		9053FE151C87F7910059A423 /* tab-background-unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE131C87F7910059A423 /* tab-background-unselected.png */; };
 		90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */; };
 		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
 		90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */; };
@@ -324,19 +328,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9053FE0F1C87E92E0059A423 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE8E6DB873A2B30D563C0B550C00F7BA;
+			remoteInfo = RDVTabBarController;
+		};
 		9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
-		};
-		9B7867611C86DC3A00192940 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B48FB6AF0C2E3A6F182388B907EA1A38;
-			remoteInfo = NHSlidingController;
 		};
 		9BC5E0F21C50803C003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -405,6 +409,9 @@
 
 /* Begin PBXFileReference section */
 		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9053FDFB1C87D8FC0059A423 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		9053FE121C87F7910059A423 /* tab-background-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-selected.png"; sourceTree = "<group>"; };
+		9053FE131C87F7910059A423 /* tab-background-unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-unselected.png"; sourceTree = "<group>"; };
 		90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomTabBarController.swift; sourceTree = "<group>"; };
 		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
 		90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
@@ -745,6 +752,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */,
 				9B5F33F01C771D5300E85629 /* libsqlite3.tbd in Frameworks */,
 				9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */,
 				9BEF04561C59B90200E474F3 /* GLKit.framework in Frameworks */,
@@ -1197,8 +1205,8 @@
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
-				9B7867621C86DC3A00192940 /* NHSlidingController.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
+				9053FE101C87E92E0059A423 /* RDVTabBarController.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
 			);
@@ -1249,6 +1257,7 @@
 			children = (
 				C13A5D561C58B75C0036A5E9 /* Login.swift */,
 				C13E44BD1C60615B00EB6075 /* Multimedia.swift */,
+				9053FDFB1C87D8FC0059A423 /* Global.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1453,6 +1462,8 @@
 				C16CD2451C44B1EC00537461 /* above_shadow.xml */,
 				C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */,
 				C16CD2471C44B1EC00537461 /* ae_icon.png */,
+				9053FE121C87F7910059A423 /* tab-background-selected.png */,
+				9053FE131C87F7910059A423 /* tab-background-unselected.png */,
 				C16CD2481C44B1EC00537461 /* ae_phone_detail.png */,
 				C16CD2491C44B1EC00537461 /* app_icon.png */,
 				C16CD24A1C44B1EC00537461 /* below_shadow.xml */,
@@ -1675,18 +1686,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9053FE101C87E92E0059A423 /* RDVTabBarController.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = RDVTabBarController.framework;
+			remoteRef = 9053FE0F1C87E92E0059A423 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = EZAudio.framework;
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9B7867621C86DC3A00192940 /* NHSlidingController.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = NHSlidingController.framework;
-			remoteRef = 9B7867611C86DC3A00192940 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9BC5E0F31C50803C003CF8E9 /* Bolts.framework */ = {
@@ -1749,6 +1760,7 @@
 				C16CD2AA1C44B1EC00537461 /* app_icon.png in Resources */,
 				C16CD2AB1C44B1EC00537461 /* below_shadow.xml in Resources */,
 				C16CD2C11C44B1EC00537461 /* p_menu_ipa.png in Resources */,
+				9053FE151C87F7910059A423 /* tab-background-unselected.png in Resources */,
 				C16CD2F01C44B1EC00537461 /* ic_slider_up.png in Resources */,
 				C16CD2DF1C44B1EC00537461 /* gb_round.png in Resources */,
 				C109066F1C7579FA0071206D /* Menu-100.png in Resources */,
@@ -1757,6 +1769,7 @@
 				C16CD2E11C44B1EC00537461 /* ic_close.png in Resources */,
 				C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */,
 				C16CD2E41C44B1EC00537461 /* ic_google_plus_white.png in Resources */,
+				9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */,
 				C16CD2D41C44B1EC00537461 /* sl_background.png in Resources */,
 				C16CD2BC1C44B1EC00537461 /* p_logout_red.png in Resources */,
 				C10906831C75B5DB0071206D /* Menu-20.png in Resources */,
@@ -2007,6 +2020,7 @@
 				9B5F33DF1C771B5A00E85629 /* FromJSON.swift in Sources */,
 				9B5F338F1C77129A00E85629 /* ILineRadarChartDataSet.swift in Sources */,
 				9B5F34091C771D6800E85629 /* Blob.swift in Sources */,
+				9053FDFC1C87D8FC0059A423 /* Global.swift in Sources */,
 				9B5F33911C77129A00E85629 /* IPieChartDataSet.swift in Sources */,
 				C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */,
 				9B5F334B1C77129A00E85629 /* BarLineChartViewBase.swift in Sources */,

@@ -29,4 +29,15 @@ public class Login {
         user.deviceInfo = deviceInfo
         return user
     }
+    
+    class func getCurrentUser() -> UserProfile {
+        if IS_DEBUG {
+            return getTestUserProfile()
+        } else {
+            let userDefaults = NSUserDefaults()
+            let keyForUserProfile:String = userDefaults.objectForKey(Login.KeyUserProfile) as! String
+            let rawString = userDefaults.objectForKey(keyForUserProfile) as! String
+            return Mapper<UserProfile>().map(rawString)!
+        }
+    }
 }

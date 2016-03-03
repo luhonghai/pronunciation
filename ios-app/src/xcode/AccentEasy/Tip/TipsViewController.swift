@@ -69,7 +69,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
             
         }
         
-        wordAdapter = WordCollectionDbApdater(dbFile: DatabaseHelper.getLessonDatabaseFile()!)
+        wordAdapter = WordCollectionDbApdater()
         do {
             try tipList = wordAdapter.getIPAMapArpabets();
             let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
@@ -111,14 +111,16 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if weakSelf!.selectedTip!.imgTongue != nil && !weakSelf!.selectedTip!.imgTongue.isEmpty {
                 let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
-                let data = NSData(contentsOfURL: url!) 
-                dispatch_async(dispatch_get_main_queue(),{
-                    do {
-                        try weakSelf!.imgTip.image = ImageHelper.imageWithImage(UIImage(data: data!)!, scaledToSize: CGSize(width: weakSelf!.imgTip.frame.width,height: weakSelf!.imgTip.frame.width))
-                    } catch {
-                        
-                    }
-                })
+                let data = NSData(contentsOfURL: url!)
+                if (data != nil) {
+                    dispatch_async(dispatch_get_main_queue(),{
+                        do {
+                            try weakSelf!.imgTip.image = ImageHelper.imageWithImage(UIImage(data: data!)!, scaledToSize: CGSize(width: weakSelf!.imgTip.frame.width,height: weakSelf!.imgTip.frame.width))
+                        } catch {
+                            
+                        }
+                    })
+                }
             }
         }
     }
