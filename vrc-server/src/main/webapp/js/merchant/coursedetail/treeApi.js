@@ -45,6 +45,12 @@ function initTree(){
             item.find('.aciTreeText').css('padding-left', '5px');
             item.find('.aciTreeText').css('vertical-align', 'middle');
             item.find('.aciTreeIcon').css('vertical-align', 'middle');
+            if(itemData['_isButton']){
+                this.setLabel(item, {
+                    label: '<label style="padding-right: 5px">' + itemData.label + '</label>' + '<img class="btnAdd"></img>'
+                });
+            }
+
         }
     });
     treeAPI = theTree.aciTree('api');
