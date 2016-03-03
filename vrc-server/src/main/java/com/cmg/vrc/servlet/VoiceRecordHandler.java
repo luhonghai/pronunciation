@@ -159,7 +159,9 @@ public class VoiceRecordHandler extends HttpServlet {
                                 new CustomFFMPEGLocator()
                         );
                     } else {
-                        encoder = new Encoder();
+                        encoder = new Encoder(
+                                new CustomFFMPEGLocator()
+                        );
                     }
                     try {
                         encoder.encode(tmpFileIn, targetRaw, attrs);

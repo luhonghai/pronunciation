@@ -8,13 +8,30 @@
 
 import Foundation
 
-
-public class WordCollection {
+public class WordCollection: Mappable {
     var word: String!
     var arpabet: String!
     var definition: String!
     var mp3Path: String!
     var pronunciation: String!
+    
+    required public init?(_ map: Map) {
+        
+    }
+    
+    required public init(){
+        
+    }
+    
+    // Mappable
+    public func mapping(map: Map) {
+        word    <= map["word"]
+        arpabet   <= map["arpabet"]
+        definition      <= map["definition"]
+        mp3Path       <= map["mp3Path"]
+        pronunciation  <= map["pronunciation"]
+    }
+
 }
 
 public class IPAMapArpabet {
@@ -89,4 +106,28 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
         }
         return list
     }
+    
+    public func getIPAMapArpabet(arpabet: String) throws -> IPAMapArpabet {
+
+        do {
+            for row in try db!.prepare("SELECT ARPABET, COLOR, DESCRIPTION, IPA, MP3URL, TIP, TYPE, WORDS, IMGTONGUE, MP3URLSHORT FROM IPAMapArpabet WHERE ARPABET='" + arpabet + "'") {
+                let wc = IPAMapArpabet()
+                wc.arpabet = row[0] as? String
+                wc.color = row[1] as? String
+                wc.description = row[2] as? String
+                wc.ipa = row[3] as? String
+                wc.mp3URL = row[4] as? String
+                wc.tip = row[5] as? String
+                wc.type = row[6] as? String
+                wc.words = row[7] as? String
+                wc.imgTongue = row[8] as? String
+                wc.mp3URLShort = row[9] as? String
+                return wc
+            }
+        } catch (let e as NSError) {
+            throw e
+        }
+        return IPAMapArpabet()
+    }
+    
 }
