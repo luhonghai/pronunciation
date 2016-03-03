@@ -32,6 +32,13 @@ public class ClassServlet extends HttpServlet {
         private List<StudentMappingTeacher> studentMappingTeachers;
         private List<Course> courses;
     }
+    class ListOpenEdit{
+        private String message;
+        private List<StudentMappingTeacher> smt;
+        private List<StudentMappingTeacher> smtOnClass;
+        private List<Course> courses;
+        private List<Course> coursesOnClass;
+    }
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
@@ -45,6 +52,7 @@ public class ClassServlet extends HttpServlet {
         ListClass listClass=new ListClass();
         Gson gson=new Gson();
         ListOpenAdd listOpenAdd=new ListOpenAdd();
+        ListOpenEdit listOpenEdit=new ListOpenEdit();
         String action=request.getParameter("action");
         String teacherName=request.getSession().getAttribute("username").toString();
         String teacherID=request.getSession().getAttribute("id").toString();
@@ -117,10 +125,12 @@ public class ClassServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("openEdit")){
+            String idClass=request.getParameter("id");
             try {
-                listOpenAdd.message = "success";
-                listOpenAdd.studentMappingTeachers = studentMappingTeacherDAO.getMyStudents(teacherName);
-                listOpenAdd.courses = cmtdao.getMyCourses(teacherID);
+                listOpenEdit.message = "success";
+                listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass,teacherName);
+                listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass,teacherName);
+                listOpenEdit.courses = classDAO.getMyCourses(idClass,teacherID);
                 String list = gson.toJson(listOpenAdd);
                 response.getWriter().write(list);
             }catch (Exception e){
@@ -129,28 +139,6 @@ public class ClassServlet extends HttpServlet {
         }else{
             response.getWriter().write("error");
         }
-
-        if(request.getParameter("edit")!=null){
-            String id=request.getParameter("id");
-            String difinition = request.getParameter("difinition");
-
-            try{
-                ClassJDO classJDO=new ClassJDO();
-                classJDO=classDAO.getById(id);
-                if(classJDO!=null) {
-                    classJDO.setDefinition(difinition);
-                    classDAO.put(classJDO);
-                    response.getWriter().write("success");
-                }else{
-                    response.getWriter().write("null");
-                }
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
-            }
-
-        }
-
         if(request.getParameter("delete")!=null){
 
             String id=request.getParameter("id");

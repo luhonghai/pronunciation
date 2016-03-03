@@ -102,6 +102,7 @@ function listMyStudent(){
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
+                        $button.attr("studentName", listMyStudent[i].studentName);
                         $button.css({"background-color": "#003366","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
@@ -111,6 +112,7 @@ function listMyStudent(){
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
+                        $button.attr("studentName", listMyStudent[i].studentName);
                         $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
@@ -120,6 +122,7 @@ function listMyStudent(){
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
+                        $button.attr("studentName", listMyStudent[i].studentName);
                         $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
@@ -129,6 +132,7 @@ function listMyStudent(){
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
+                        $button.attr("studentName", listMyStudent[i].studentName);
                         $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
@@ -138,6 +142,7 @@ function listMyStudent(){
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
+                        $button.attr("studentName", listMyStudent[i].studentName);
                         $button.css({"background-color": "#990099","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
@@ -158,18 +163,26 @@ function info(){
         var licence=$(this).attr('licence');
         var status=$(this).attr('status');
         var mappingBy=$(this).attr('mappingBy');
+        var studentName=$(this).attr('studentName');
+        $("#student").text("");
+        $("#studentInvitation").text("");
         if(licence=="true"){
             $("#text").html("This action will also remove the student from your classes and they will no longer have access to any associated courses.");
             $("#idStudent").val(idd);
+            $("#studentName").val(studentName);
+            $("#student").text(studentName);
             $("#remove").modal('show');
         }else{
             if(mappingBy=="student" && status=="pending"){
                 $("#idStudent").val(idd);
+                $("#studentInvitation").text(studentName);
                 $("#invitationFromStudent").modal('show');
 
             }else{
                 $("#text").html("This action will also remove the student from your classes and they will no longer have access to any associated courses. The invitation process will need to be used if you wish to add them again in the future.");
                 $("#idStudent").val(idd);
+                $("#studentName").val(studentName);
+                $("#student").text(studentName);
                 $("#remove").modal('show');
             }
         }
@@ -234,7 +247,9 @@ function accept(){
 function deleted(){
     $(document).on("click","#removeStudent",function() {
         var id=$("#idStudent").val();
+        var name=$("#studentName").val();
         $("#idStudentRemove").val(id);
+        $("#studentconfirmRemove").text(name);
         $("#confirmRemove").modal('show');
     })
 }

@@ -78,7 +78,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
-
 //    public List<StudentMappingTeacher> listAll(int start, int length,String search,int column,String order,String teacherName){
 //        PersistenceManager pm = PersistenceManagerHelper.get();
 //        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
@@ -223,6 +222,7 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         StringBuffer query = new StringBuffer();
         String firstQuery = "select id, studentName, teacherName, status, licence from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=true";
         query.append(firstQuery);
+        query.append(" ORDER BY studentName ASC");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();

@@ -2,9 +2,8 @@
 <%@attribute name="pageTitle" required="true" %>
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row">
-         <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> studnets</p>
-         <a href="my-students.jsp" title="go to my students" style="float: right;"><img src="/images/teacher/my%20students48x48.gif" style="background-color: #00e6ac"></a>
+     <div class="row" style="color:lightgrey; margin-left: 0px;">
+         <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> students</p>
      </div>
     <div>
         <p style="font-size: 20px;">Licensed students</p>
@@ -19,9 +18,12 @@
             <i id="addStudents" class="fa fa-plus fa-2x" style="color: #008000;margin-left: 10px;display: inline;" title="Add student(s) to my students"></i>
         </div>
 
-        <div id="listStudent">
+        <div id="listStudent" style="overflow: auto;height: 350px;">
 
         </div>
+    </div>
+    <div style="float: right;">
+        <a href="my-students.jsp" title="go to my students" style="float: right;"><img src="/images/teacher/my%20students48x48.gif" style="background-color: #00e6ac"></a>
     </div>
 
 
@@ -51,6 +53,24 @@
         </div>
     </div>
 </div>
+
+<div id="checkAllModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+                        <p>Do you really want to add all licenced students to ‘my students’ You will need to remove them individually from your list after they have been added?</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
 <script src="<%=request.getContextPath() %>/js/licensedStudents.js"></script>
 
 
