@@ -10,6 +10,7 @@ import Foundation
 
 public class HistoryTableCell: UITableViewCell {
     
+    var pc : PronunciationScore!
     
     @IBOutlet weak var btnPlay: UIButton!
     
@@ -20,9 +21,11 @@ public class HistoryTableCell: UITableViewCell {
     @IBOutlet weak var lblScore: UILabel!
     
     @IBAction func btnUpTouchUpInside(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: pc.word)
     }
     
     @IBAction func btnPlayTouchUpInside(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("playFile", object: FileHelper.getFilePath("audio/\(pc.dataId).wav"))
     }
     
     public func applyCircleButton() {

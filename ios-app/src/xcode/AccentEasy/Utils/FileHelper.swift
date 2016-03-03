@@ -12,7 +12,7 @@ class FileHelper {
     
     class func getAccentEasyBaseUrl() -> String {
         // TODO try to get base url by environment
-        return "http://localhost:8080"
+        return "http://localhost:8080/vrc"
         //return "http://reg.accenteasy.com"
         //return "http://192.168.1.196:8080"
     }
@@ -58,6 +58,14 @@ class FileHelper {
             return try String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         } catch let e as NSError {
             throw e;
+        }
+    }
+    
+    class func copyFile(fromPath: String, toPath: String) {
+        do {
+            try NSFileManager.defaultManager().copyItemAtPath(fromPath, toPath: toPath)
+        } catch {
+            
         }
     }
 }

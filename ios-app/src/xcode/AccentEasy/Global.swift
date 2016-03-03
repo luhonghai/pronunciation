@@ -8,6 +8,8 @@
 
 import Foundation
 
+let IS_DEBUG = false
+
 func delay(delay:Double, closure:()->()) {
     dispatch_after(
         dispatch_time(

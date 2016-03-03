@@ -27,8 +27,20 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     
     var player: EZAudioPlayer!
     
+    
+    @IBOutlet weak var btnNext: UIButton!
+
+    @IBOutlet weak var btnPrev: UIButton!
+    
+    @IBAction func tapPrev(sender: AnyObject) {
+        prevWord()
+    }
+    
+    @IBAction func tapNext(sender: AnyObject) {
+        nextWord()
+    }
     @IBAction func btnUpOnTouch(sender: UIButton) {
-        
+        NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: words[selectedWordIndex])
     }
     
     @IBAction func btnPlayOnTouch(sender: UIButton) {
@@ -46,6 +58,10 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     var tipList:Array<IPAMapArpabet>!
     
     var selectedTip:IPAMapArpabet!
+    
+    var selectedWordIndex = 0
+    
+    var words: [String]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,12 +95,13 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         }
         self.showTip()
         self.initUI()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"loadTip", object: nil)
         // Do any additional setup after loading the view.
     }
     
     func loadList(notification: NSNotification){
         //load data here
+        selectedWordIndex = 0
         let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
         selectedTip = tipList[index]
         self.showTip()
@@ -98,12 +115,48 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         self.player.playAudioFile(EZAudioFile(URL: fileUrl))
     }
     
+    func showWord() {
+        if (words.count > 0) {
+            lblWord.text = words[selectedWordIndex]
+        } else {
+            lblWord.text = ""
+        }
+        if (selectedWordIndex == 0) {
+            btnPrev.hidden = true
+        } else {
+            btnPrev.hidden = false
+        }
+        if (selectedWordIndex == words.count - 1) {
+            btnNext.hidden = true
+        } else {
+            btnNext.hidden = false
+        }
+    }
     
-
+    func prevWord() {
+        selectedWordIndex--
+        if (selectedWordIndex < 0) {
+            selectedWordIndex = 0
+        }
+        
+        showWord()
+    }
+    
+    func nextWord() {
+        selectedWordIndex++;
+        if (selectedWordIndex >= words.count) {
+            selectedWordIndex = words.count - 1;
+        }
+        if (selectedWordIndex < 0) {
+            selectedWordIndex = 0
+        }
+        showWord()
+    }
     
     func showTip() {
         weak var weakSelf = self;
-        lblWord.text = selectedTip!.getWordList()[0]
+        words = selectedTip!.getWordList()
+        showWord()
         lblTitle.text = selectedTip!.ipa
         lblSubTitle.text = "<\(selectedTip!.arpabet)> \(selectedTip.words)"
         lblDescription.text = selectedTip!.tip
@@ -113,6 +166,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
                 let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
                 let data = NSData(contentsOfURL: url!)
                 if (data != nil) {
+                    weakSelf!.imgTip.hidden = false
                     dispatch_async(dispatch_get_main_queue(),{
                         do {
                             try weakSelf!.imgTip.image = ImageHelper.imageWithImage(UIImage(data: data!)!, scaledToSize: CGSize(width: weakSelf!.imgTip.frame.width,height: weakSelf!.imgTip.frame.width))
@@ -120,6 +174,8 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
                             
                         }
                     })
+                } else {
+                    weakSelf!.imgTip.hidden = true
                 }
             }
         }

@@ -22,20 +22,27 @@ class HistoryTableController: UITableViewController {
         } catch {
             
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"load", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"loadHistory", object: nil)
         self.tableView.allowsSelection = false
     }
     
     func loadList(notification: NSNotification){
         //load data here
+        let word = notification.object as? String
         do {
-            try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
+            if !word!.isEmpty {
+                try historyList = freestyleDBAdapter.listPronunciationScoreByWord(word!, limit: 0, username: Login.getCurrentUser().username)
+            } else {
+                try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
+            }
+
         } catch {
             
         }
         self.tableView.reloadData()
         self.tableView.setContentOffset(CGPoint.zero, animated: true)
     }
+    
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -57,6 +64,7 @@ class HistoryTableController: UITableViewController {
         } else {
             color = ColorHelper.APP_RED
         }
+        cell.pc = history
         cell.lblScore.textColor = color
         cell.lblTitle.textColor = color
         cell.btnPlay.backgroundColor = color

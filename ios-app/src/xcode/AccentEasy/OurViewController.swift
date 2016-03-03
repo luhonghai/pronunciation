@@ -41,8 +41,35 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     var freestyleDBAdapter:FreeStyleDBAdapter!
     
+    
+    var lessonDBAdapter: WordCollectionDbApdater!
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    var isShowSlider = true
+    
+    @IBOutlet weak var sliderContainer: UIView!
+    
+    @IBOutlet weak var sliderContent: UIView!
+    
+    @IBOutlet weak var btnSlider: UIButton!
+    @IBAction func sliderClick(sender: AnyObject) {
+        toggleSlider()
+    }
+    
+    func toggleSlider() {
+        if (isShowSlider) {
+            print("Origin y = \(CGRectGetMinY(sliderContainer.frame))")
+            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(btnSlider.frame) + 3, CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        } else {
+            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(sliderContainer.frame), CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        }
+        isShowSlider = !isShowSlider
+
     }
     
     override func viewDidLoad() {
@@ -113,21 +140,42 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
         //load word default
-        let adapter = WordCollectionDbApdater()
+        lessonDBAdapter = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
+
          delay(0.5) {
-            do{
-                self.selectWord(try adapter.findByWord("hello"))
-            
-            }catch{
-                print("load word default error")
-            }
+            self.chooseWord("hello")
+        }
+        delay(1) {
+            self.toggleSlider()
         }
     }
     
     func setupNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidChangePlayState:", name: EZAudioPlayerDidChangePlayStateNotification, object: self.player)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidReachEndOfFile:", name: EZAudioPlayerDidReachEndOfFileNotification, object: self.player)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:", name: "loadWord", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playFile:", name: "playFile", object: nil)
+    }
+    
+    func playFile(notification: NSNotification) {
+        let filePath = notification.object as? String
+        if filePath != nil && !filePath!.isEmpty && FileHelper.isExists(filePath!) {
+            playSound(NSURL(fileURLWithPath: filePath!))
+        }
+    }
+    
+    func loadWord(notification: NSNotification) {
+        chooseWord(notification.object as! String)
+    }
+    
+    func chooseWord(word: String) {
+        do{
+            self.selectWord(try lessonDBAdapter.findByWord(word))
+        }catch{
+            print("load word default error")
+        }
     }
     
     //------------------------------------------------------------------------------
@@ -261,7 +309,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func selectWord(wordCollection : WordCollection){
-        NSNotificationCenter.defaultCenter().postNotificationName("load", object: wordCollection.word)
+        NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordCollection.word)
         //set word select for detail screen
         let JSONWordSelected:String = Mapper().toJSONString(wordCollection, prettyPrint: true)!
         userProfileSaveInApp.setObject(JSONWordSelected, forKey: FSScreen.KeyWordSelectedInMainScreen)
@@ -336,7 +384,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in print(e)});
             NSLog(weakSelf!.getTmpFilePath().path!)
-            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav")/*selectedWord.word).attach("imageKey", weakSelf!.getTmpFilePath().path!)*/
+            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
@@ -358,7 +406,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
                     
                             weakSelf!.saveDatabase(userVoiceModel)
-                            NSNotificationCenter.defaultCenter().postNotificationName("load", object: userVoiceModel.word)
+                            FileHelper.getFilePath("audio", directory: true)
+                            FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.uuid).wav"))
+                            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
+                             NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                             NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
@@ -373,7 +425,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 weakSelf!.isRecording = false
                                 
                                 //move detail screen
-                                weakSelf!.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+                                delay (1) {
+                                    weakSelf!.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+                                }
                             })
                             
                             

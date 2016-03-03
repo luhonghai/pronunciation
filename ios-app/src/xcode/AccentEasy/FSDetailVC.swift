@@ -99,6 +99,12 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         //init audio plaer
         player = EZAudioPlayer(delegate: self)
         
+        delay(1) {
+            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
+            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
+            self.toggleSlider()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -320,5 +326,28 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         self.performSegueWithIdentifier("DetailScreenGoToMain", sender: self)
     }
     
+    
+    var isShowSlider = true
+    
+    @IBAction func sliderClick(sender: AnyObject) {
+         toggleSlider()
+    }
+    @IBOutlet weak var btnSlider: UIButton!
+    @IBOutlet weak var sliderContent: UIView!
+    
+    @IBOutlet weak var sliderContainer: UIView!
+    
+    func toggleSlider() {
+        if (isShowSlider) {
+            print("Origin y = \(CGRectGetMinY(sliderContainer.frame))")
+            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(btnSlider.frame) + 3, CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        } else {
+            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(sliderContainer.frame), CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        }
+        isShowSlider = !isShowSlider
+        
+    }
     
 }

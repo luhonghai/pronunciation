@@ -28,7 +28,7 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
         let firstController = self.storyboard!.instantiateViewControllerWithIdentifier("GraphItemController") as! GraphPageItemController
         let startingViewControllers: NSArray = [firstController]
         self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:",name:"load", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:",name:"loadGraph", object: nil)
     }
     
     func loadWord(notification: NSNotification){
