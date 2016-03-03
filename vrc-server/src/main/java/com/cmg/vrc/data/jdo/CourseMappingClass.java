@@ -5,11 +5,12 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by CMGT400 on 1/5/2016.
  */
-@PersistenceCapable(table = "COURSEMAPPINGCLASS", detachable = "true")
+@PersistenceCapable(table = "STUDENTMAPPINGCLASS", detachable = "true")
 public class CourseMappingClass implements Mirrorable {
     @PrimaryKey
     private String id;
@@ -19,6 +20,9 @@ public class CourseMappingClass implements Mirrorable {
 
     @Persistent
     private String idCourse;
+
+    @Persistent
+    private Date createdDate;
 
     @Persistent
     private boolean isDeleted;
@@ -41,14 +45,19 @@ public class CourseMappingClass implements Mirrorable {
         this.isDeleted = isDeleted;
     }
 
-
-
     public String getIdClass() {
         return idClass;
     }
 
     public void setIdClass(String idClass) {
         this.idClass = idClass;
+    }
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
 

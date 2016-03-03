@@ -2,7 +2,7 @@
 <%@attribute name="pageTitle" required="true" %>
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row" style="margin-top: 20px;">
+     <div class="row">
          <h3><%=company%></h3>>reports
          <img src="" alt="Help page" style="width:30px;height:30px;float: right;">
      </div>

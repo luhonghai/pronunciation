@@ -2,11 +2,11 @@
 <%@attribute name="pageTitle" required="true" %>
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row" style="margin-top: 20px;">
-         <h3><%=company%></h3>
+     <div class="row">
+         <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my classes</p>
      </div>
     <p style="font-size: 20px;">my classes</p>
-    <button id="addClass">add class<i class="fa fa-plus"></i></button>
+    <button id="addClass" style="background-color: #ffA500">add class<i class="fa fa-plus"></i></button>
     <div>
         <p>Select the button above to create a new class.</p>
     </div>
@@ -73,13 +73,25 @@
                             <div class="form-group">
                                 <label class="col-xs-4  col-sm-3 control-label ">add/remove courses:</label>
                                 <div class="col-xs-8  col-sm-9">
-
+                                    <select style="display:none;" multiple class="form-control" id="addCourses">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4  col-sm-3 control-label ">add/remove students:</label>
                                 <div class="col-xs-8  col-sm-9">
-
+                                    <select style="display:none;" multiple class="form-control" id="addStudents">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -127,13 +139,25 @@
                             <div class="form-group">
                                 <label class="col-xs-4  col-sm-3 control-label ">add/remove courses:</label>
                                 <div class="col-xs-8  col-sm-9">
-
+                                    <select style="display:none;" multiple class="form-control" id="editCourses">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-xs-4  col-sm-3 control-label ">add/remove students:</label>
                                 <div class="col-xs-8  col-sm-9">
-
+                                    <select style="display:none;" multiple class="form-control" id="editStudents">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="modal-footer">

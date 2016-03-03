@@ -67,4 +67,5 @@ public class StudentMappingClass implements Mirrorable {
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
+
 }

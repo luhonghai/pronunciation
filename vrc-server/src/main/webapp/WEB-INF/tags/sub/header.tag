@@ -135,32 +135,32 @@
 						</li>
 					<%}%>
 						<li>
-							<a href="#"><img src="/images/teacher/classes24x24.gif"> class </a>
+							<a href="#"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> class </a>
 							<ul>
 								<li>
-									<a href="class.jsp"><img src="/images/teacher/classes24x24.gif"> classes </a>
+									<a href="class.jsp"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> classes </a>
 								</li>
 								<li>
-									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes24x24.gif">  my classes </a>
+									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px;">  my classes </a>
 								</li>
 							</ul>
 						</li>
 						<li>
-							<a href="#"><img src="/images/teacher/courses24x24.gif"> course </a>
+							<a href="#"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> course </a>
 							<ul>
 								<li>
-									<a href="class.jsp"><img src="/images/teacher/courses24x24.gif"> courses </a>
+									<a href="class.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
 								</li>
 								<li>
-									<a href="class.jsp"><img src="/images/teacher/my%20courses24x24.gif">  my courses </a>
+									<a href="class.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
 								</li>
 							</ul>
 						</li>
 						<li>
-							<a href="#"><img src="/images/teacher/reports24x24.gif"> report </a>
+							<a href="#"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> report </a>
 							<ul>
 								<li>
-									<a href="reports.jsp"><img src="/images/teacher/reports24x24.gif"> reports </a>
+									<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
 								</li>
 								<li>
 									<a href="reports-lessons.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
@@ -172,13 +172,13 @@
 						</li>
 
 						<li>
-							<a href="#"><img src="/images/teacher/student24x24.gif"> student </a>
+							<a href="#"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> student </a>
 							<ul>
 								<li>
-									<a href="licensed-students.jsp"><img src="/images/teacher/student24x24.gif"> students </a>
+									<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
 								</li>
 								<li>
-									<a href="my-students.jsp"><img src="/images/teacher/my%20students24x24.gif">  my students</a>
+									<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
 								</li>
 							</ul>
 						</li>

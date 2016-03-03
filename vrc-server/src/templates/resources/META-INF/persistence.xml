@@ -49,6 +49,7 @@
 		<class>com.cmg.lesson.data.jdo.test.TestMapping</class>
 		<class>com.cmg.lesson.data.jdo.ipa.IpaMapArpabet</class>
 		<class>com.cmg.vrc.data.jdo.ClassJDO</class>
+		<class>com.cmg.vrc.data.jdo.CourseMappingClass</class>
 		<class>com.cmg.vrc.data.jdo.ClassMappingTeacher</class>
 		<class>com.cmg.vrc.data.jdo.StudentMappingClass</class>
 		<class>com.cmg.vrc.data.jdo.StudentMappingTeacher</class>

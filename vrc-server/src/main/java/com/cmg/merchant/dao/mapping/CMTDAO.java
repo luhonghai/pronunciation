@@ -1,6 +1,7 @@
 package com.cmg.merchant.dao.mapping;
 
 
+import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -8,10 +9,7 @@ import com.cmg.vrc.util.PersistenceManagerHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lantb on 2016-01-26.
@@ -263,6 +261,45 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
             return a.substring(0,a.length() - needToCut.length());
         }
         return a;
+    }
+    public List<Course> getMyCourses(String teacherID){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
+        TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
+        StringBuffer query = new StringBuffer();
+        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where mapping.tID='"+teacherID+"'";
+        query.append(firstQuery);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        try {
+            List<Course> courses = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                Course course = new Course();
+                if (data[0] != null) {
+                    course.setId(data[0].toString());
+                }else{
+                    course.setId(null);
+                }
+                if (data[1] != null) {
+                    course.setName(data[1].toString());
+                }else{
+                    course.setName(null);
+                }
+                if (data[2] != null) {
+                    course.setDescription(data[2].toString());
+                }else{
+                    course.setDescription(null);
+                }
+                courses.add(course);
+            }
+            return courses;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
     }
 
 }
