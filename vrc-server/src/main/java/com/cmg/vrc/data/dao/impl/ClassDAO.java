@@ -1,5 +1,7 @@
 package com.cmg.vrc.data.dao.impl;
 
+import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -229,7 +231,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='"+idClass+"' and isDeleted = false) and teacherName='"+teacherName+"' and isDeleted = false and status='accept'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + "teacher inner join "+metaStudentMappingClass.getTable()+" class on teacher.studentName=class.studentName WHERE teacher.teacherName='"+teacherName+"' and class.idClass='"+idClass+"'");
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();
@@ -242,6 +244,48 @@ public class ClassDAO extends DataAccess<ClassJDO> {
                 studentMappingTeachers.add(studentMappingTeacher);
             }
             return studentMappingTeachers;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+    public List<Course> getMyCourses(String idClass, String teacherID){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
+        TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
+        TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
+        //Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and teacherName='" + teacherName + "' and isDeleted = false and status='accept'");
+        StringBuffer query = new StringBuffer();
+        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where studentName not IN (select course.id FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"'";
+        query.append(firstQuery);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        try {
+            List<Course> courses = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                Course course = new Course();
+                if (data[0] != null) {
+                    course.setId(data[0].toString());
+                }else{
+                    course.setId(null);
+                }
+                if (data[1] != null) {
+                    course.setName(data[1].toString());
+                }else{
+                    course.setName(null);
+                }
+                if (data[2] != null) {
+                    course.setDescription(data[2].toString());
+                }else{
+                    course.setDescription(null);
+                }
+                courses.add(course);
+            }
+            return courses;
         } catch (Exception e) {
             throw e;
         } finally {

@@ -2,7 +2,7 @@
 <%@attribute name="pageTitle" required="true" %>
 <% String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row">
+     <div class="row" style="color:lightgrey; margin-left: 0px;">
          <h3><%=company%></h3>
      </div>
     <div>

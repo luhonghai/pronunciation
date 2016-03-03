@@ -13,7 +13,7 @@ function listLicensedStudent(){
                 var listStudent=data.students;
                 for(var i=0;i<listStudent.length;i++){
                    // $("#listStudent").append('<input type="checkbox" id="check" id-column='+listStudent[i].id+'>');
-                    $("#listStudent").append('<div style="display: block; margin-top: 5px;"><input type="checkbox" id="check" id-column='+listStudent[i].id+'> <button><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listStudent[i].studentName+'</button></div>');
+                    $("#listStudent").append('<div style="display: block; margin-top: 5px;"><input type="checkbox" id="check" style="width: 20px;height: 20px;" id-column='+listStudent[i].id+'> <button class="btn btn-default" style="background-color: #003366;color: #ffffff;border-radius: 5px;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listStudent[i].studentName+'</button></div>');
                 }
             }
         },
@@ -70,6 +70,9 @@ function helpLicenceStudent(){
 
 $(document).ready(function(){
     $('#checkAll').click(function (e) {
+        if ($(this).is(':checked')) {
+            $("#checkAllModal").modal('show');
+        }
         $('input:checkbox').prop('checked', this.checked);
     });
     $('#help-icons').show();

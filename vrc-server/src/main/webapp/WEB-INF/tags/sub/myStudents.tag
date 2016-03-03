@@ -4,7 +4,7 @@
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
   <input type="hidden" id="teacher" value="<%=teacherName%>">
-  <div class="row">
+  <div class="row" style="color:lightgrey; margin-left: 0px;">
     <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my students</p>
   </div>
   <div>
