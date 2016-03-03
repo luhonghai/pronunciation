@@ -26,6 +26,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var selectedWord: WordCollection!
     var isRecording:Bool = false
     
+    var fsDetailVC:FSDetailVC!
+    
     var microphone: EZMicrophone!
     var player: EZAudioPlayer!
     var recorder: EZRecorder!
@@ -149,6 +151,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         delay(1) {
             self.toggleSlider()
         }
+        
+        fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
     }
     
     func setupNotifications() {
@@ -720,7 +724,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func analyzingViewTapped(sender: AnyObject) {
-        self.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+        //self.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
+        //let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
+        self.navigationController?.pushViewController(fsDetailVC, animated: true)
+
     }
     
     

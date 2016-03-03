@@ -323,7 +323,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
 
     
     @IBAction func clickMenuButton(sender: AnyObject) {
-        self.performSegueWithIdentifier("DetailScreenGoToMain", sender: self)
+        //self.performSegueWithIdentifier("DetailScreenGoToMain", sender: self)
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     
