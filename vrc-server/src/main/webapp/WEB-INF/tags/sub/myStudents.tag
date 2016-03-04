@@ -14,7 +14,7 @@
     <p>Select the button above to invite students that have installed the application without a company licence.</p>
 
   </div>
-  <div id="listMyStudent" style="overflow: auto; height: 350px;">
+  <div id="listMyStudent">
 
   </div>
 
@@ -36,9 +36,9 @@
             <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p>external (not licensed by your institution)</p>
             <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #990099;"> <p>pending approval to join your class/s (select to approve or reject the request)</p>
             <p>External student have the following status indicators:</p>
-            <img src=""> <p>invitation has been accepted, the student can be added to your classes.</p>
-            <img src=""> <p>invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
-            <img src=""> <p>your invitation is waiting for a response from the student</p>
+            <img src="/images/teacher/accepted_48x48.gif" style="width: 24px;height: 24px;background-color:#33ccff;"> <p>invitation has been accepted, the student can be added to your classes.</p>
+            <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p>invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
+            <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p>your invitation is waiting for a response from the student</p>
             <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
             <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
 
@@ -74,8 +74,8 @@
               </div>
               <div class="modal-footer">
 
-                <button type="button" name="help" id="helpInvite" class="btn btn-default"><img src="/images/popup/help.gif" style="width: 24px;height: 24px;"> </button>
-                <button type="button" name="invite" id="invite" class="btn btn-default" value="yes" ><img src="/images/popup/save.gif" style="width: 24px;height: 24px;"> </button>
+                <img src="/images/popup/help.gif" id="helpInvite" style="width: 24px;height: 24px;">
+                <img src="/images/popup/save.gif" id="invite" style="width: 24px;height: 24px;">
 
               </div>
 
@@ -212,8 +212,8 @@
               <p>Select the 'accept' button to make the student available to add to your classes</p>
               <p>If you reject the request the student will be removed from your list on 'my detail'.</p>
               <div class="modal-footer">
-                <button type="button" name="reject" id="reject" class="btn btn-default" ><img src="/images/popup/trash.gif" style="width: 24px;height: 24px;"> </button>
-                <button type="button" name="accept" id="accept" class="btn btn-default" ><img src=""> </button>
+                <img src="/images/popup/trash.gif" id="reject" style="width: 24px;height: 24px;">
+                <img src="/images/popup/accepted_48x48.gif" id="accept" style="width: 24px;height: 24px; color: green;">
 
               </div>
             </form>
@@ -241,9 +241,8 @@
 
               <p>Are you sure that you want to reject the request from this student?</p>
               <div class="modal-footer">
-                <button type="button" name="cancel" id="cancel" class="btn btn-default" data-dismiss="modal" value="Close" >Cancel</button>
-                <button type="button" name="reject" id="yesReject" class="btn btn-default" value="yes" ><img src=""> </button>
-
+                <p id="cancel"><u>cancel</u></p>
+                <img src="/images/popup/accepted_48x48.gif" id="yesReject" style="width: 24px;height: 24px;">
               </div>
             </form>
           </div>
@@ -269,9 +268,8 @@
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
               <div class="modal-footer">
-                <button type="button" name="cancel" id="cancelRemove" class="btn btn-default" data-dismiss="modal" value="Close" >Cancel</button>
-                <button type="button" name="reject" id="yesRemove" class="btn btn-default" value="yes" ><img src=""> </button>
-
+                <p id="cancelRemove"><u>cancel</u></p>
+                <img src="/images/popup/accepted_48x48.gif" id="yesRemove" style="width: 24px;height: 24px;">
               </div>
             </form>
           </div>

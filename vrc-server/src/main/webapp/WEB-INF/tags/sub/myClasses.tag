@@ -6,7 +6,7 @@
          <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my classes</p>
      </div>
     <p style="font-size: 20px;">my classes</p>
-    <button id="addClass" style="background-color: #ffA500">add class<i class="fa fa-plus"></i></button>
+    <button id="addClass" class="btn btn-default" style="background-color: #ffA500;border-radius: 5px;color: white;"><img src="/images/teacher/invite_students_48x48.gif" style="height: 24px;width: 24px;">add class <i class="fa fa-plus"></i></button>
     <div>
         <p>Select the button above to create a new class.</p>
     </div>
@@ -48,6 +48,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
 
@@ -95,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+                                <button type="button" name="closeadd" id="helpAddClass" class="btn btn-default">Close</button>
                                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
 
                             </div>
@@ -115,9 +116,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
-
+                        <input type="hidden" id="classname">
                         <h1 align="center">Edit Class</h1>
                         <form name="Edit" class="form-horizontal"
                               style="margin-top: 25px" id="editform">
@@ -161,9 +163,9 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" name="closeedit" id="closeedit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-                                <button type="button" name="delete" id="delete" class="btn btn-default" value="yes" >Yes</button>
-                                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
+                                <img src="/images/popup/help.gif" id="closeedit" style="width: 24px;height: 24px; float: left;">
+                                <img align="center" src="/images/popup/trash.gif" id="delete" style="width: 24px;height: 24px;">
+                                <img src="/images/popup/save.gif" id="yesedit" style="width: 24px;height: 24px;">
 
                             </div>
 
@@ -171,6 +173,66 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="helpAddClassModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+
+                        <h1 align="center">class management</h1>
+                        <p><strong>Add a class:</strong></p>
+                        <p>1. Enter the name of the class you wish to add.</p>
+                        <p>   This name is for your reference only.</p>
+                        <p>2. Enter a description (not mandatory).</p>
+                        <p>3. Select the course/s that you wish to make available for your class from the drop down list.</p>
+                        <p>4. Select the students that you wish to add to your class from the drop down list.</p>
+                        <p>5. Select 'save'.</p>
+                        <p><strong>Note:</strong> You will only be able to add courses that have been published, licenced students and external students that have been linked to you. You will not be able to add external students that are pending acceptance or that have rejected an invitation.</p>
+                        <p><strong>Edit or delete a class:</strong></p>
+                        <p>You can add and remove students and courses to and from your class at any time. You will need to save your changes. Select the class title bar to view, edit or delete.</p>
+                        <p>Selecting the delete button will remove the class from your list and any associated students will no longer have access to the courses that were assigned to the class.</p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div id="confirmDelete" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+                        <input type="hidden" id="iddelete">
+                        <h1 align="center">Confirm deletion</h1>
+                        <p align="center" id="classNameDelete"></p>
+                        <form name="add" class="form-horizontal"
+                              style="margin-top: 25px">
+
+                            <p>If you delete this class, the associated students will no longer have access to the courses assigned.</p>
+                            <p>Do you wish to continue?</p>
+                            <div class="modal-footer">
+                                <p id="cancel" style="float:left;cursor: pointer;"><u>cancel</u></p>
+                                <span type="button" id="deleteItems" style="color:lightgreen" class="fa fa-check-circle fa-2x"> </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 </div>

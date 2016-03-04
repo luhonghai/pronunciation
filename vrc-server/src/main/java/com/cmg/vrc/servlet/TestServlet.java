@@ -40,18 +40,13 @@ public class TestServlet {
 //            e.printStackTrace();
 //        }
 
-        StudentMappingTeacherDAO teacher=new StudentMappingTeacherDAO();
+        CourseMappingClassDAO teacher=new CourseMappingClassDAO();
 
         try{
             for(int i=0;i<5;i++) {
-                StudentMappingTeacher country = new StudentMappingTeacher();
-                country.setIsView(false);
-                country.setStatus("pending");
-                country.setLicence(true);
-                country.setTeacherName("demoTeacher1@c-mg.com");
-                country.setStudentName("Student_"+i+"@gmail.com");
-                country.setLastTeacherName("Teacher");
-                country.setFirstTeacherName("demo");
+                CourseMappingClass country = new CourseMappingClass();
+                country.setIdCourse("0c57b111-edc9-4a2f-8c22-f21432a21d18");
+                country.setIdClass("643511ef-1b92-4fdc-9f77-cdb3a4625273");
                 country.setIsDeleted(false);
                 teacher.put(country);
             }
