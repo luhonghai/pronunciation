@@ -70,12 +70,6 @@ label {
 }
 
 
-
-
-
-
-
-
 .aciTree .aciTreeIcon.course {
     background-image: url("../images/treeview/course_icon.gif") !important;
     width: 24px;
@@ -130,6 +124,3 @@ label {
 
 }
 
-.aciTree .btnEdit{
-
-}

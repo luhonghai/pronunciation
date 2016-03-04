@@ -54,10 +54,10 @@ function validateFormObj() {
  */
 function validateFormTest(){
     var percent = getPercentPass().val();
-    if (percent == '' || typeof name === "undefined") {
+    if (percent == '' || typeof percent === "undefined") {
         getPercentPass().focus();
         getTestValidateMessage().html("Please enter a number!");
-        getTestValidateMessage.show();
+        getTestValidateMessage().show();
     }
     getTestValidateMessage().hide();
     return true;

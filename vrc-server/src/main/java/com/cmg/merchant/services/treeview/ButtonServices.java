@@ -31,7 +31,7 @@ public class ButtonServices {
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_LEVEL_BTN);
         node.setLabel(Constant.LABEL_ADD_LEVEL);
-        node.setIcon(Constant.IC_BTN_ADD_LEVEL);
+        node.setIcon(Constant.IC_LEVEL);
         node.set_popupId(Constant.POPUP_LEVEL);
         node.set_actionClick(Constant.ACTION_ADD_LEVEL);
         return node;
@@ -45,7 +45,7 @@ public class ButtonServices {
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_OBJ_BTN);
         node.setLabel(Constant.LABEL_ADD_OBJ);
-        node.setIcon(Constant.IC_BTN_ADD_OBJ);
+        node.setIcon(Constant.IC_OBJ);
         node.set_popupId(Constant.POPUP_OBJ);
         node.set_actionClick(Constant.ACTION_ADD_OBJ);
         return node;
@@ -59,7 +59,7 @@ public class ButtonServices {
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_TEST_BTN);
         node.setLabel(Constant.LABEL_ADD_TEST);
-        node.setIcon(Constant.IC_BTN_ADD_TEST);
+        node.setIcon(Constant.IC_TEST);
         node.set_popupId(Constant.POPUP_TEST);
         node.set_actionClick(Constant.ACTION_ADD_TEST);
         return node;

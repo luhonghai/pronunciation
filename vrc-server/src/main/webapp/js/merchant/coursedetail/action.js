@@ -10,10 +10,10 @@ function openPopup(itemData){
     currentPopup.find(".idHidden").val(itemData.id);
     if (itemData._actionClick == action_add_level){
         clearForm();
-        currentPopup.find("#titlePopup").html("Add Level");
+        currentPopup.find("#titlePopup").html("add level");
         currentPopup.find("#btnDeleteLevel").hide();
     }else if(itemData._actionClick == action_edit_level){
-        currentPopup.find("#titlePopup").html("Level management");
+        currentPopup.find("#titlePopup").html("level management");
         getLevelName().val(itemData.label);
         getLevelDescription().val(itemData._title);
         currentPopup.find("#btnDeleteLevel").show();
@@ -21,30 +21,32 @@ function openPopup(itemData){
         clearForm();
         var level = treeAPI.itemData(currentParent);
         getObjName().attr("idLevel", level.id);
-        currentPopup.find("#titlePopupObj").html("Add Objective");
+        currentPopup.find("#titlePopupObj").html("add objective");
         currentPopup.find("#btnDeleteObj").hide();
+        currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label);
     }else if(itemData._actionClick == action_edit_obj){
-        currentPopup.find("#titlePopupObj").html("Objective management");
+        currentPopup.find("#titlePopupObj").html("objective management");
         getObjName().val(itemData.label);
         getObjDescription().val(itemData._title);
         var level = treeAPI.itemData(currentParent);
         getObjName().attr("idLevel", level.id);
         currentPopup.find("#btnDeleteObj").show();
-        currentPopup.find("#arrowObj").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+        currentPopup.find("#arrowObj").html(nameOfCourse+" > " + level.label + " > " + itemData.label);
     }else if(itemData._actionClick == action_add_test){
         clearForm();
         var level = treeAPI.itemData(currentParent);
         getPercentPass().attr("idLevel",level.id);
-        currentPopup.find("#titlePopupTest").html("Add Test");
+        currentPopup.find("#titlePopupTest").html("add test");
         currentPopup.find("#btnDeleteTest").hide();
+        currentPopup.find("#arrowTest").html(nameOfCourse + " > " + level.label);
     }else if(itemData._actionClick == action_edit_test){
-        currentPopup.find("#titlePopupTest").html("Test management");
+        currentPopup.find("#titlePopupTest").html("test management");
         var percent = itemData._title.split("%")[0];
         getPercentPass().val(percent);
         var level = treeAPI.itemData(currentParent);
         getPercentPass().attr("idLevel",level.id);
         currentPopup.find("#btnDeleteTest").show();
-        currentPopup.find("#arrowObj").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+        currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
     }
     currentPopup.modal('show');
 }
@@ -117,7 +119,11 @@ function btnDeleteTest(){
     });
 }
 
-
+function showHelpIconTop(){
+    $("#help-icons").show();
+    $("#help-icons").css("padding-top","5px");
+    $("#help-icons").css("padding-bottom","5px");
+}
 
 $(document).ready(function(){
     btnSaveLevel();
@@ -126,4 +132,5 @@ $(document).ready(function(){
     btnDeleteObj();
     btnSaveTest();
     btnDeleteTest();
+    showHelpIconTop();
 });
