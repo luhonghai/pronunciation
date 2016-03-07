@@ -730,5 +730,20 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
     }
     
+    @IBAction func handleSlide(sender: UIPanGestureRecognizer) {
+        let translation = sender.translationInView(self.view)
+        if let view = sliderContainer {
+            let destY = view.center.y + translation.y
+            let maxY = CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(btnSlider.frame) + 3
+            let minY = CGRectGetHeight(self.view.frame)
+                - CGRectGetHeight(sliderContainer.frame)
+            if (destY <= maxY && destY >= minY) {
+                view.center = CGPoint(x:view.center.x,
+                    y:destY)
+            }
+        }
+        sender.setTranslation(CGPointZero, inView: self.view)
+    }
     
 }

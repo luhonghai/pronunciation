@@ -253,7 +253,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func getTmpFilePath() -> NSURL
     {
-        return NSURL(fileURLWithPath: FileHelper.getFilePath("\(fileName).\(fileType)"))
+        return NSURL(fileURLWithPath: FileHelper.getFilePath("audio/\(voidModelResult.data.uuid).wav"))
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {

@@ -788,9 +788,11 @@
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3y-X1-Dwx">
                                         <rect key="frame" x="163" y="-2" width="49" height="22"/>
+                                        <gestureRecognizers/>
                                         <state key="normal" image="ic_slider.png"/>
                                         <connections>
                                             <action selector="sliderClick:" destination="ma6-zi-wIz" eventType="touchUpInside" id="KTB-EI-HIu"/>
+                                            <outletCollection property="gestureRecognizers" destination="YSw-NT-VI6" appends="YES" id="tUb-sH-sq4"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -830,6 +832,11 @@
                         <action selector="analyzingViewTapped:" destination="ma6-zi-wIz" id="3jr-6T-nAL"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="YSw-NT-VI6">
+                    <connections>
+                        <action selector="handleSlide:" destination="ma6-zi-wIz" id="vqU-6Y-L1b"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1168.5" y="-35.5"/>
         </scene>
@@ -2064,7 +2071,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="Ceg-og-m1t"/>
-        <segue reference="cQm-kD-9I0"/>
+        <segue reference="0GI-4W-Bce"/>
         <segue reference="WR5-An-sLd"/>
         <segue reference="SIe-9Q-k60"/>
         <segue reference="t7Q-vO-CVy"/>
