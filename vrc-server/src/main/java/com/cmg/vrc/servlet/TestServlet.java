@@ -39,22 +39,30 @@ public class TestServlet {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
-        CourseMappingClassDAO teacher=new CourseMappingClassDAO();
-
+        StudentMappingClass studentMappingClass=new StudentMappingClass();
+        StudentMappingClassDAO studentMappingClassDAO=new StudentMappingClassDAO();
         try{
-            for(int i=0;i<5;i++) {
-                CourseMappingClass country = new CourseMappingClass();
-                country.setIdCourse("0c57b111-edc9-4a2f-8c22-f21432a21d18");
-                country.setIdClass("643511ef-1b92-4fdc-9f77-cdb3a4625273");
-                country.setIsDeleted(false);
-                teacher.put(country);
-            }
-
-
+            studentMappingClass.setStudentName("Sdasda");
+            studentMappingClassDAO.put(studentMappingClass);
         }catch (Exception e){
-            e.getStackTrace();
+            e.printStackTrace();
         }
+
+//        CourseMappingClassDAO teacher=new CourseMappingClassDAO();
+//
+//        try{
+//            for(int i=0;i<5;i++) {
+//                CourseMappingClass country = new CourseMappingClass();
+//                country.setIdCourse("0c57b111-edc9-4a2f-8c22-f21432a21d18");
+//                country.setIdClass("643511ef-1b92-4fdc-9f77-cdb3a4625273");
+//                country.setIsDeleted(false);
+//                teacher.put(country);
+//            }
+//
+//
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
 //        LicenseCodeDAO lis=new LicenseCodeDAO();
 //        FeedbackDAO feedbackDAO = new FeedbackDAO();
 //        UsageDAO usageDAO=new UsageDAO();

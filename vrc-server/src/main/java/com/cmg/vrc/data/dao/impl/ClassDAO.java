@@ -31,6 +31,13 @@ public class ClassDAO extends DataAccess<ClassJDO> {
             return userList.get(0);
         return null;
     }
+    public ClassJDO getClassName(String classname) throws Exception {
+        List<ClassJDO> userList = list("WHERE className == :1", classname);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
+
 
     public List<ClassJDO> listAll(String teacherName) throws Exception {
 
@@ -41,7 +48,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
         String firstQuery = "select class.id, class.className , class.definition, class.createdDate from  " + metaClassJDO.getTable()
                 + " class inner join " + metaClassMappingTeacher.getTable()
-                + " mapping on mapping.idClass=class.id where teacherName='"+teacherName+"' and isDeleted=false ";
+                + " mapping on mapping.idClass=class.id where mapping.teacherName='"+teacherName+"' and class.isDeleted=false and mapping.isDeleted=false ";
         query.append(firstQuery);
         query.append(" ORDER BY class.createdDate DESC");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
@@ -300,7 +307,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
         TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select DISTINCT course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join "+metaCourseMappingClass.getTable()+" class on course.id=class.idCourse where class.idClass='"+idClass+"'  and mapping.tID='"+teacherID+"'";
+        String firstQuery = "select DISTINCT course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join "+metaCourseMappingClass.getTable()+" class on course.id=class.idCourse where class.idClass='"+idClass+"'  and mapping.tID='"+teacherID+"' and course.isDeleted=false and mapping.isDeleted=false and class.isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
@@ -373,7 +380,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE " + metaCourseMappingClass.getTable() + " WHERE idClass=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE FROM " + metaCourseMappingClass.getTable() + " WHERE idClass=?");
         try {
             q.execute(idClass);
         } catch (Exception e) {
@@ -390,7 +397,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE " + metaStudentMappingClass.getTable() + " WHERE idClass=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE FROM " + metaStudentMappingClass.getTable() + " WHERE idClass=?");
         try {
             q.execute(idClass);
         } catch (Exception e) {

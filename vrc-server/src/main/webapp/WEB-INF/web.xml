@@ -672,6 +672,24 @@
         <url-pattern>/acoustic_model</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ReportsLessons</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ReportsLessons</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportsLessons</servlet-name>
+        <url-pattern>/ReportsLessons</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReportsPhonemes</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ReportsPhonemes</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportsPhonemes</servlet-name>
+        <url-pattern>/ReportsPhonemes</url-pattern>
+    </servlet-mapping>
+
 
 
     <welcome-file-list>

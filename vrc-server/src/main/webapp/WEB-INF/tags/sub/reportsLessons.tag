@@ -2,34 +2,27 @@
 <%@attribute name="pageTitle" required="true" %>
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
-     <div class="row">
-         <h3><%=company%></h3>>reports
-         <img src="" alt="Help page" style="width:30px;height:30px;float: right;">
+     <div class="row" style="color:lightgrey; margin-left: 0px;">
+         <h3 style="float: left;"><%=company%></h3><p style="margin-top: 25px;">>reports>lessons</p>
      </div>
     <div>
+        <p style="float:left; margin-top: 10px";>student:</p>
+        <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+        <span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>
 
     </div>
 </div>
 <!-- /#wrapper -->
 
-<div id="helpReportModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="row">
-                    <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-                    </div>
-                </div>
-            </div>
 
 
-        </div>
-    </div>
-</div>
-
-
-<script src="<%=request.getContextPath() %>/js/licensedStudents.js"></script>
+<script src="<%=request.getContextPath() %>/js/reportsLessons.js"></script>
 
 
 

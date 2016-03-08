@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" name="closeadd" id="helpAddClass" class="btn btn-default">Close</button>
+                                <button type="button" name="closeadd" id="helpAddClass" class="btn btn-default">Help</button>
                                 <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
 
                             </div>
@@ -162,10 +162,16 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <img src="/images/popup/help.gif" id="closeedit" style="width: 24px;height: 24px; float: left;">
-                                <img align="center" src="/images/popup/trash.gif" id="delete" style="width: 24px;height: 24px;">
-                                <img src="/images/popup/save.gif" id="yesedit" style="width: 24px;height: 24px;">
+                            <div class="row">
+                                <div class="col-xs-6  col-sm-6">
+                                     <img src="/images/popup/help.gif" id="closeedit" style="width: 24px;height: 24px; float: left;">
+                                </div>
+                                <div class="col-xs-5  col-sm-5" style="padding: 0px;">
+                                    <img align="center" src="/images/popup/trash.gif" id="delete" style="width: 24px;height: 24px;">
+                                </div>
+                                <div class="col-xs-1  col-sm-1">
+                                    <img src="/images/popup/save.gif" id="yesedit" style="width: 24px;height: 24px;">
+                                </div>
 
                             </div>
 
