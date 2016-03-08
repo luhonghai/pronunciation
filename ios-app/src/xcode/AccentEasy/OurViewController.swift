@@ -62,21 +62,23 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func toggleSlider() {
-        if (isShowSlider) {
-            print("Origin y = \(CGRectGetMinY(sliderContainer.frame))")
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(btnSlider.frame) + 3, CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
-        } else {
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(sliderContainer.frame), CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        weak var weakSelf = self
+        UIView.animateWithDuration(0.3) { () -> Void in
+            if (weakSelf!.isShowSlider) {
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            } else {
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            }
+            weakSelf!.isShowSlider = !weakSelf!.isShowSlider
         }
-        isShowSlider = !isShowSlider
-
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        //self.edgesForExtendedLayout = UIRectEdge.None;
         //
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
         // if you don't do this!
@@ -148,11 +150,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
          delay(0.5) {
             self.chooseWord("hello")
         }
-        delay(1) {
-            self.toggleSlider()
-        }
         
         fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
+    }
+    
+    override func viewDidLayoutSubviews() {
+        delay(0.5) {
+            //self.toggleSlider()
+        }
+
     }
     
     func setupNotifications() {
@@ -731,19 +737,37 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func handleSlide(sender: UIPanGestureRecognizer) {
-        let translation = sender.translationInView(self.view)
-        if let view = sliderContainer {
-            let destY = view.center.y + translation.y
-            let maxY = CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(btnSlider.frame) + 3
-            let minY = CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(sliderContainer.frame)
-            if (destY <= maxY && destY >= minY) {
-                view.center = CGPoint(x:view.center.x,
-                    y:destY)
+        if sender.state == UIGestureRecognizerState.Ended {
+            if let view = sliderContainer {
+                let currentY = view.center.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+                //print("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
+                isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    view.center = CGPoint(x:view.center.x,
+                        y: (self.isShowSlider ? minY : maxY))
+                })
             }
+        } else {
+            let translation = sender.translationInView(self.view)
+            if let view = sliderContainer {
+                let destY = view.center.y + translation.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+                if (destY <= maxY && destY >= minY) {
+                    view.center = CGPoint(x:view.center.x,
+                        y:destY)
+                }
+            }
+            sender.setTranslation(CGPointZero, inView: self.view)
         }
-        sender.setTranslation(CGPointZero, inView: self.view)
     }
     
 }
