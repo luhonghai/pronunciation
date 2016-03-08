@@ -95,7 +95,7 @@
     </div>
     <div class="col-lg-8 pull-right">
       <div class="input-group" id="adv-search" style="float:right">
-        <input id="suggestCourse" type="text" class="form-control suggestCourse" data-provide="typeahead" placeholder="Search course" />
+        <input id="suggestCourseHeader" type="text" class="form-control suggestCourse" data-provide="typeahead" placeholder="Search course" />
         <div class="input-group-btn">
           <div class="btn-group" role="group">
             <div class="dropdown dropdown-lg">
@@ -103,12 +103,12 @@
               <div class="dropdown-menu dropdown-menu-right" role="menu">
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
-                    <label for="contain">Company</label>
+                    <label for="suggestCompany">Company</label>
                     <input id="suggestCompany" placeholder="Enter company name" class="form-control suggestCompany" type="text" />
                   </div>
                   <div class="form-group">
-                    <label for="contain">Course title</label>
-                    <input placeholder="Enter course title" class="form-control suggestCourse" type="text" />
+                    <label for="suggestCourse">Course title</label>
+                    <input id="suggestCourse" placeholder="Enter course title" class="form-control suggestCourse" type="text" />
                   </div>
                   <div class="form-group">
                     <label>created date range</label>
@@ -171,7 +171,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h4 class="modal-title" style="text-align: center;font-weight: 200">Add Course</h4>
+        <h2 class="modal-title" style="text-align: center;font-weight: 200">Add Course</h2>
+        <h4 id="validateCourseMsg" class="modal-title validateMsg"
+            style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="addCourseForm" name="addform">
@@ -210,11 +212,10 @@
           </div>
           <div class="form-group">
             <div class="col-md-6">
-              <img style="float:left;cursor: pointer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFhElEQVRIS32WW2wUVRzGv3POzM7eeqellaittRdusS2ReMMWUjCEthTkATSRbSQmyJPGJwmB+iJBE4g+mrCNAlZIqBINWkxaEIOEVApSpFIpWHrvdre7vezu7Mwx58zsttjgZGdndvfs9/v+3//sOUvwP0d549eFpmn6OCfVhNAKQpAJQgCQEAjpJgQXYSotd77ddv9xMmL0okMIGwnD7/W4asqKC5CV4YXL5URcN+SpGyamIlFMReYwPhmGric6uYKmO62LQYsAJfUnfV635l9bUYy83AwMjscxOqkjEjUxG+PSjKYSqAzQFEClwFRkGpNTQQBmU09rQ8tCx48ASrac8GdneX2bqldjMmzg5r05zMU5kBpF5u9FVASgBHCJJ9NEMDyKREJvud26pSkJSX1VOM/O8PiFeN9gHHcHoyJr+ah7MRt76pYiP0sB51yevQNRHP9pApd7ZiSfEYBzEzORMZgJvann1GZZiQSIzF2a2l9fW4m7C8TT3AxH9haiqsQN0xTCwqgFSJ6HT4+h/XokKSUhs6FhKCxR1N2y+b4ElNSd6Njw8soaRfPg6p8zKedet4K2j0rhcVIp+Ki4cMwRmTWw/eOBBTECemwWsUiw89ZXteuJcO/WHP11G6vQcT28IHMrnsoSDz7b9xT87QG0XJiEqOrTPQUozldlRQKy74tR9I/q8xAOTE+OgJpmESltOHlozaqig+60bNy4F7UH2c0kBIQSFOSoGAkZIHZjXyh3o3lXbgqw69gIxsMGmGg2AArAiM0gPhdqJiX1pzo2rltd82ACGA0aFkAKWVOEEoJ4giNuyokCTgmO7M7DuhVuCRgJJfDm52P2788CMM6hGAnMzEx0ktKG1mDDxqrMa3/NYUbOc3vuEYKYbs19TgiYQsEYwZbn07B/R47dZKD5bAhX+uK2p2QFHF4A44HhECnd2spfq34OV+7EUs2N6hzTc4YlzKglrlAp/uHr2dI5wHHhVgzH2qdljFbRFkD0JdcBPHg4DFLW+A2veWkVuvp0CQhOJxCN85RoUnxZrorj+/LhdRIJ+OOhjv1nI6CMggqADbEAQIGbo/fukACcDr6ydnnm7QEDD8d1GCZAbceKuKqW+7drM7G7Ji3l8J0vwwjMApSReYisgMvlY6mH48bNwRAp23amY1XZ0zW9g8BEBGCKnbeEMAlQVIamDel461WRLDAd49jdEoE0oFBpSFZhR+R1cLh5HDd7xjpJ+fYzh3Kysg9GTQ+GQvN5y2hUBsUGVBU7UVGkSbeBWY5f7hmpzyWEURkTOPBEOsfkWBh9fwebSXljW6Gi0f6szHzcD1BwakGEsLw6BIQhw6tgb60XSzMZLvUZuPzAhOoQFVomxFgBcDDg2SUcHReHMD0XLbLWoh1tHWnenJqY4UIwbgsnK3BYEb27KR1b17hSK/H738UR0qmEJE2IfhTnAmNDEXT9HujsOrpivQXY2VbIoPZrWh6mdQadLIjHruCD+nTUrnRKgMj6wI9xDM1SqJoCVWMStCyHIdtp4tz3/4RM06j87fBya7GzIOd8jDj8hC5BjDBANNh2LxxWFjlxoDEN6W6GrgETRy/FbXEFDifDk3kK8jMo2n8exmQg2nTtk9L55ToJWbHzBz+hDp9Bc2AqCqhosF2BuMo4pFvbtabA42F4Jl9Bmoug89dxTIUSLVcPFy/ecJKQlW+c94GqfoNlgDtccKi2sIOCinuNwe1S4PUw5KQzLMlUMB6Ioqc3HNJ1vJd0vmhHW7iPVvjOFyYMxQ+m1hBHGpyaEx6nBreHwe1mcLkZODERjScwPDqHaAydqkaaROYLdVI72n/fTL6u8HUUmhQ+Tlg1pbQClGUSSkEIDYGybkLJRZOipftY5WP/tvwLMRJAhxNK6h8AAAAASUVORK5CYII=">
+              <img id="helpAddCourse" style="cursor: pointer"  src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
             </div>
             <div class="col-md-6">
-              <img style="float:right;cursor:pointer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEUUlEQVRIS7XWe2wURRzA8e+99u4orRRqBQttgQo20ICk2OvJQ5CChSpWRCRBjEqMghIM8iYUIUAMRDFIUESqJhgJUhBBFIEij96V1x8oigkKpaWvu2t7d33c7d7tmF0IssY/LjFMMsluMvv7zG92dn5r4h430z2Ozx1g67eLulKcvRyYTLQFQrjyJpCakg6IhObQ4K/huv9XBIJwZyAyb+pGp/bgHeCLHzeIcSNLcNqSaahvJLNPDnZJH5NQCwSbsHczE413UnnuIC8WLdZj3wE+/2G9eNI9nfZoC02Nfh7KGIbD3g0hEsugua0Okz1CiiOdI549zJr4L6D88DoxqXAabV2NNDf5GdR3BA4pCVXEE8qgubUW7F30TMrgiKeC2ZOWGDPYeWitKHKX4u+4ga+xhdzMR5GsDuJqLDGgrRbh6CC9+wCOevbxUvEyI7Dj4BoxofBpmsJ/4m9qJTezAJvVjpooEKxDlcL0SRnEMe8BXp68wgh8+t27YnzhFOqDV3RgSJYbi8lKXCSWga+tFtXRTt8eQzjuPcSrU1Yage0HysQ4VzE3Wn8h0BxkSKYbs9mCEosmtET+0E2Eo53snsOp9H7PnKfKjMDH+1eJxwsnci1wkZbmIEOzRqMKFSUWSQgIhBvA2cHAtHxOeI7w2tTVRmDbvpVijOsJrvrO0uILkZc1mvu63Z9QcG3Qb7VV4OxkUHohP3uP8voza4zA1ooVYoxrHFeaTtPqCyNZnZhN5oSBWFwmuZeD3AfGcMpbyRvPrjUCH32zTIxyjeVyQ2XCQf9r4NAHx3Pae5J509YZgS17lgp3wWNcqv8JyaIdSYnPXoNUEUOJywzLmERV9WnefG6DEfhw92Lhdrm5WHsQh607jXUtpCcNNExSOzbu7k2tNURjnTidDjL6pxFR2hnRrwTPWQ/zp79nBDZ//Y5wFRRw7sZ+HLZkbl5vpmzmXj2gqgri8RixWAxF0bqCrCjsOr4OX+dVrBYbA3IziChhRmaV4q2uZsGMjUbg/a8WigJXPt5re3SgvsZH2Yz9LNg6AavNzKoX9upBFVlGlhVkWaaieiMt8jWsFonswb11oLD/81RXn+ftmZuMwPryufoSXQ1UEYr4uXndx/LSvSzdWYxVMrNwyi5kRQsuE41qPcrhS1toi9XoGfR/uDedcpDRObM4673AotmbjcCibZNP9JIGjx3+SB4NoT/wXKhkSeluln9Wgs1uYX5xuR48Eo0SjUSIRCIc+307oXgdNqtEv5w0OqJBivJewXvmPKvnfWIEtLf51gdFp1JNOaPy8/NpqK+nZNQc4vG4vvbx2K13ELt9r11f/usMsujAYrGQPbAfHZGgvilOnqhi07IvDYAdSJUkKXXq3OHlpvbUApMwk9ojDaGqt3eOqhdPof6zk8LtIQQqJrOZ5O5JeoaYTXQpQaVix0mt3oY0RauLSYB0d4X7X1/brYe1StV1z/8q/gbObAFIajwRCAAAAABJRU5ErkJggg==">
-
+              <img style="float: right;cursor: pointer" id="btnSaveCourse" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
             </div>
           </div>
         </form>
@@ -225,11 +226,13 @@
 
 
 </div>
-<script src="<%=request.getContextPath() %>/js/merchant/typeahead.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/suggestion.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/suggestion/typeahead.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/suggestion/suggestion.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/maincourses/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/maincourses/ajax.js"></script>
 <!-- /#wrapper -->
 
 

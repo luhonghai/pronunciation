@@ -1,7 +1,9 @@
 package com.cmg.merchant.dao.mapping;
 
 
-import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.course.Course;;
+import com.cmg.merchant.common.SQL;
+import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -172,7 +174,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @return list if have record and null if not
      * @throws Exception
      */
-    public List<CourseMappingTeacher> getAllCourses(String cpId, String tId, String cId,
+    public List<CourseMappingTeacher> getCourses(String cpId, String tId, String cId,
                                                     String status, String state, String sr,Date createDateFrom,Date createDateTo) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("SELECT FROM " + CourseMappingTeacher.class.getCanonicalName());
@@ -301,5 +303,98 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
             pm.close();
         }
     }
+
+
+
+
+    /**
+     *
+     * @param cpId
+     * @param tId
+     * @param status
+     * @param sr
+     * @return list if have record and null if not
+     * @throws Exception
+     */
+    public List<CourseDTO> getCoursesShareInCompany(String cpId, String tId,
+                                                 String status, String sr) throws Exception{
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SQL sqlUtil = new SQL();
+        String sql = sqlUtil.getSqlShareIN(cpId,tId,status,sr);
+        List<CourseDTO> list = new ArrayList<CourseDTO>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    CourseDTO dto = new CourseDTO();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setIdCourse(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setNameCourse(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescriptionCourse(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        dto.setCompanyName(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        dto.setState(array[4].toString());
+                    }
+                    if(array[5]!=null){
+                        dto.setDateCreated(array[5].toString());
+                    }
+
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param cpId
+     * @param tId
+     * @param status
+     * @param sr
+     * @return list if have record and null if not
+     * @throws Exception
+     */
+    public List<CourseDTO> getCoursesCreateByTeacher(String cpId, String tId,
+                                                               String status, String sr) throws Exception{
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SQL sqlUtil = new SQL();
+        String sql = sqlUtil.getSqlCreatedByTeacher(cpId, tId, status, sr);
+        return null;
+    }
+
+    /**
+     *
+     * @param cpId
+     * @param tId
+     * @param status
+     * @param sr
+     * @return list if have record and null if not
+     * @throws Exception
+     */
+    public List<CourseDTO> getCoursesShareAll(String cpId, String tId,
+                                                                String status, String sr) throws Exception{
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SQL sqlUtil = new SQL();
+        String sql = sqlUtil.getSqlShareAll(cpId, tId, status, sr);
+        return null;
+    }
+
 
 }

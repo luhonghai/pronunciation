@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.dao.impl.TeacherMappingCompanyDAO;
 import com.cmg.vrc.data.jdo.Admin;
@@ -55,8 +56,9 @@ import java.io.IOException;
                         TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
                         teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
                         if(teacherMappingCompany!=null) {
-                            session.setAttribute("company", teacherMappingCompany.getCompany());
-                            session.setAttribute("idCompany", teacherMappingCompany.getIdCompany());
+                            session.setAttribute(SessionUtil.ATT_CPNAME, teacherMappingCompany.getCompany());
+                            session.setAttribute(SessionUtil.ATT_CPID, teacherMappingCompany.getIdCompany());
+                            session.setAttribute(SessionUtil.ATT_TID, admin.getId());
                         }else{
                             session.setAttribute("company", "");
                             session.setAttribute("idCompany", "");
