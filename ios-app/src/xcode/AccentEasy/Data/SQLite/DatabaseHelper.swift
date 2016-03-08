@@ -37,9 +37,9 @@ public class DatabaseHelper {
                 }
             })
         
-        HttpDownloader.loadFileSync(NSURL(fileURLWithPath: "")) { (path, error) -> Void in
-            
-        }
+//        HttpDownloader.loadFileSync(NSURL(fileURLWithPath: "")) { (path, error) -> Void in
+//            
+//        }
         return false;
     }
     

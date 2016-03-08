@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //fb login
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
-        
+        DatabaseHelper.checkDatabaseVersion()
         //let databaseHelpebr = DatabaseHelper()
         let dbPath = DatabaseHelper.getLessonDatabaseFile()
         print(DatabaseHelper.getLessonDatabaseFile())

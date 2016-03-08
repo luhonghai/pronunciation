@@ -150,7 +150,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
          delay(0.5) {
             self.chooseWord("hello")
         }
-        
+        GlobalData.getInstance().selectedWord = ""
         fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
     }
     

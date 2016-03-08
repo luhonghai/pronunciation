@@ -101,6 +101,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         
         delay(1) {
             NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
+            GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
             NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
             //self.toggleSlider()
         }

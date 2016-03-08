@@ -10,32 +10,38 @@ import Foundation
 
 class HistoryTableController: UITableViewController {
     
-    var historyList: Array<PronunciationScore>!
+    var historyList = Array<PronunciationScore>()
     
     var freestyleDBAdapter: FreeStyleDBAdapter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         freestyleDBAdapter = FreeStyleDBAdapter()
-        do {
-            try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
-        } catch {
-            
-        }
+//        do {
+//            try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
+//        } catch {
+//            
+//        }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"loadHistory", object: nil)
+        loadTable(GlobalData.getInstance().selectedWord)
         self.tableView.allowsSelection = false
     }
     
     func loadList(notification: NSNotification){
         //load data here
         let word = notification.object as? String
+        loadTable(word)
+    }
+    
+    func loadTable(word: String?) {
+        print("load history of word \(word)")
         do {
             if !word!.isEmpty {
                 try historyList = freestyleDBAdapter.listPronunciationScoreByWord(word!, limit: 0, username: Login.getCurrentUser().username)
             } else {
                 try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
             }
-
+            
         } catch {
             
         }
