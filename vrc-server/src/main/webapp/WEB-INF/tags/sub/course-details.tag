@@ -54,7 +54,7 @@
 
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-12" style="padding-top: 20px">
+        <div class="col-lg-12">
             <div id="tree" class="aciTree">
 
             </div>
@@ -107,14 +107,14 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                            <img src="/images/popup/help.gif" width="36px" height="36px"/>
+                            <img id="helpAddLevel" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <img src="/images/popup/trash.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteLevel" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
                            <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img src="/images/popup/save.gif" width="36px" height="36px"/>
+                            <img id="btnSaveLevel" style="float: right" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -164,13 +164,16 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">
+                            <img id="helpObj" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
+                           <%-- <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
-                            <input type="button" id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                            <img id="btnDeleteObj" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <input type="button" id="btnSaveObj"  style="float:right;cursor:pointer" class="saveBtnPopUp">
+                            <img id="btnSaveObj" style="float: right"  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveObj"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
                 </form>
@@ -210,13 +213,16 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">
+                            <img id="helpTest" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
-                            <input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">
+                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">
+                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
                 </form>

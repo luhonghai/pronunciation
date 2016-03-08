@@ -149,7 +149,7 @@ public class CourseServices {
      * @return
      */
     public String addCourse(String name, String description, String share, HttpServletRequest request) {
-        String result = "success";
+        String result = SUCCESS;
         CDAO cDao = new CDAO();
         CMTDAO cmtDao = new CMTDAO();
         SessionUtil util = new SessionUtil();
@@ -172,14 +172,14 @@ public class CourseServices {
                 cmt.setcIdClone(Constant.DEFAULT_VALUE_CLONE);
                 check = cmtDao.create(cmt);
                 if (!check) {
-                    result = "error:An error has been occurred in server";
+                    result = ERROR + ": An error has been occurred in server";
                 }
             } else {
-                result = "error:An error has been occurred in server";
+                result = ERROR + ": An error has been occurred in server";
             }
         } catch (Exception e) {
             logger.error("can not add course : " + e);
-            result = "error:An error has been occurred in server";
+            result = ERROR + ": An error has been occurred in server";
         }
         return result;
     }

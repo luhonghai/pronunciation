@@ -19,6 +19,7 @@ import java.io.IOException;
 @WebServlet(name = "MainCourseServlet")
 public class MainCourseServlet extends BaseServlet {
     private static String ACTION_ADD_COURSE = "addcourse";
+    private static String ACTION_LIST_ALL = "listall";
     private static final Logger logger = Logger.getLogger(MainCourseServlet.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +33,9 @@ public class MainCourseServlet extends BaseServlet {
             CourseServices services = new CourseServices();
             String result = services.addCourse(name,description,share,request);
             response.getWriter().print(result);
+        }else if(action.equalsIgnoreCase(ACTION_LIST_ALL) && util.checkSessionValid(request)){
+            CourseServices services = new CourseServices();
+
         }
     }
 

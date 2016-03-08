@@ -13,9 +13,9 @@ import javax.servlet.http.HttpSession;
 public class SessionUtil {
     private static final Logger logger = Logger.getLogger(SessionUtil.class
             .getName());
-    private static String ATT_CPID = "";
-    private static String ATT_TID = "";
-    private static String ATT_CPNAME = "";
+    public static String ATT_CPID = "companyId";
+    public static String ATT_TID = "teacherId";
+    public static String ATT_CPNAME = "companyName";
     private static String INVALID = "invalid";
 
 

@@ -607,7 +607,14 @@
         <url-pattern>/SendMailUser</url-pattern>
     </servlet-mapping>
 
-
+    <servlet>
+        <servlet-name>MainCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.MainCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainCourseServlet</servlet-name>
+        <url-pattern>/MainCourseServlet</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>SuggestionServlet</servlet-name>
         <servlet-class>com.cmg.merchant.servlet.SuggestionServlet</servlet-class>
