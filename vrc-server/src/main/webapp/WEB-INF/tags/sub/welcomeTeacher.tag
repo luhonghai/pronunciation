@@ -9,7 +9,7 @@
      </div>
     <div>
         <p>Welcome to the accenteasy teacher's console.</p>
-        <p>Choose your option fro the menu to create, anage and share courses, set up student access and classes or to view reports</p>
+        <p>Choose your option from the menu to create, manage and share courses, set up student access and classes or to view reports</p>
     </div>
 </div>
 <!-- /#wrapper -->

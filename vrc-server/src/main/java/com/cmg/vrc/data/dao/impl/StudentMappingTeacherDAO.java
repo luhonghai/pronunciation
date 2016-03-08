@@ -333,6 +333,58 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
             pm.close();
         }
     }
+
+    public List<StudentMappingTeacher> getListStudentForClass(String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
+        StringBuffer first=new StringBuffer();
+        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept'";
+        first.append(firstQuery);
+        first.append(" ORDER BY studentName ASC");
+        Query q = pm.newQuery("javax.jdo.query.SQL", first.toString());
+        try {
+            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+                if (data[0] != null) {
+                    studentMappingTeacher.setId(data[0].toString());
+                }else {
+                    studentMappingTeacher.setId(null);
+                }
+                if (data[1] != null) {
+                    studentMappingTeacher.setStudentName(data[1].toString());
+                }else{
+                    studentMappingTeacher.setStudentName(null);
+                }
+                if (data[2] != null) {
+                    studentMappingTeacher.setStatus(data[2].toString());
+                }else {
+                    studentMappingTeacher.setStatus(null);
+                }
+                if (data[3] != null) {
+                    studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
+                }else{
+                    studentMappingTeacher.setLicence(false);
+                }
+                if (data[4] != null) {
+                    studentMappingTeacher.setMappingBy(data[4].toString());
+                }else{
+                    studentMappingTeacher.setMappingBy(null);
+                }
+                studentMappingTeachers.add(studentMappingTeacher);
+            }
+            return studentMappingTeachers;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
     public List<StudentMappingTeacher> notificationAccept(String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());

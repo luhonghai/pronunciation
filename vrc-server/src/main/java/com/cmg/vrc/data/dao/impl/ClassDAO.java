@@ -41,7 +41,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
         String firstQuery = "select class.id, class.className , class.definition, class.createdDate from  " + metaClassJDO.getTable()
                 + " class inner join " + metaClassMappingTeacher.getTable()
-                + " mapping on mapping.idClass=class.id where teacherName='"+teacherName+"'";
+                + " mapping on mapping.idClass=class.id where teacherName='"+teacherName+"' and isDeleted=false ";
         query.append(firstQuery);
         query.append(" ORDER BY class.createdDate DESC");
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
@@ -231,7 +231,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + "teacher inner join "+metaStudentMappingClass.getTable()+" class on teacher.studentName=class.studentName WHERE teacher.teacherName='"+teacherName+"' and class.idClass='"+idClass+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT teacher.id, teacher.studentName, teacher.teacherName FROM " + metaStudentMappingTeacher.getTable() + " teacher inner join "+metaStudentMappingClass.getTable()+" class on teacher.studentName=class.studentName WHERE teacher.teacherName='"+teacherName+"' and class.idClass='"+idClass+"' and class.isDeleted = false and teacher.isDeleted = false and teacher.status='accept'");
         try {
             List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();
@@ -259,7 +259,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
         //Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and teacherName='" + teacherName + "' and isDeleted = false and status='accept'");
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where studentName not IN (select course.id FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"'";
+        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where course.id not IN (select idCourse FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"'";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {
@@ -294,6 +294,113 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         }
     }
 
+    public List<Course> getMyCoursesOnClass(String idClass, String teacherID){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
+        TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
+        TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
+        StringBuffer query = new StringBuffer();
+        String firstQuery = "select DISTINCT course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID inner join "+metaCourseMappingClass.getTable()+" class on course.id=class.idCourse where class.idClass='"+idClass+"'  and mapping.tID='"+teacherID+"'";
+        query.append(firstQuery);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        try {
+            List<Course> courses = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                Course course = new Course();
+                if (data[0] != null) {
+                    course.setId(data[0].toString());
+                }else{
+                    course.setId(null);
+                }
+                if (data[1] != null) {
+                    course.setName(data[1].toString());
+                }else{
+                    course.setName(null);
+                }
+                if (data[2] != null) {
+                    course.setDescription(data[2].toString());
+                }else{
+                    course.setDescription(null);
+                }
+                courses.add(course);
+            }
+            return courses;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
 
+    public void updateCourseMappingClassDelete(String idClass) throws Exception{
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaCourseMappingClass.getTable() + " SET isDeleted= ? WHERE idClass=?");
+        try {
+            q.execute(true,idClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    public void updateStudentMappingClassDelete(String idClass) throws Exception{
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaStudentMappingClass.getTable() + " SET isDeleted= ? WHERE idClass=?");
+        try {
+            q.execute(true,idClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    public void updateCourseMappingClassEdit(String idClass) throws Exception{
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE " + metaCourseMappingClass.getTable() + " WHERE idClass=?");
+        try {
+            q.execute(idClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    public void updateStudentMappingClassEdit(String idClass) throws Exception{
+
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStudentMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingClass.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "DELETE " + metaStudentMappingClass.getTable() + " WHERE idClass=?");
+        try {
+            q.execute(idClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
 
 }

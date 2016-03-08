@@ -69,7 +69,7 @@ public class ClassServlet extends HttpServlet {
         }else if(action.equalsIgnoreCase("openAdd")){
             try {
                 listOpenAdd.message = "success";
-                listOpenAdd.studentMappingTeachers = studentMappingTeacherDAO.getMyStudents(teacherName);
+                listOpenAdd.studentMappingTeachers = studentMappingTeacherDAO.getListStudentForClass(teacherName);
                 listOpenAdd.courses = cmtdao.getMyCourses(teacherID);
                 String list = gson.toJson(listOpenAdd);
                 response.getWriter().write(list);
@@ -128,36 +128,50 @@ public class ClassServlet extends HttpServlet {
             String idClass=request.getParameter("id");
             try {
                 listOpenEdit.message = "success";
-                listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass,teacherName);
-                listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass,teacherName);
+                listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass, teacherName);
+                listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
                 listOpenEdit.courses = classDAO.getMyCourses(idClass,teacherID);
-                String list = gson.toJson(listOpenAdd);
+                listOpenEdit.coursesOnClass=classDAO.getMyCoursesOnClass(idClass,teacherID);
+                String list = gson.toJson(listOpenEdit);
                 response.getWriter().write(list);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(action.equalsIgnoreCase("editClass")){
+            String idClass=request.getParameter("id");
+            try {
+                ClassJDO classJDO=new ClassJDO();
+                classJDO=classDAO.getById(idClass);
+                if(classJDO!=null) {
+
+                }else {
+                    response.getWriter().write("error");
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(action.equalsIgnoreCase("deleteClass")){
+            String idClass=request.getParameter("id");
+            try {
+                ClassJDO classJDO=new ClassJDO();
+                classJDO=classDAO.getById(idClass);
+                if(classJDO!=null) {
+                    classJDO.setIsDeleted(true);
+                    classDAO.put(classJDO);
+                    classDAO.updateStudentMappingClassDelete(idClass);
+                    classDAO.updateCourseMappingClassDelete(idClass);
+                    response.getWriter().write("success");
+                }else {
+                    response.getWriter().write("error");
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }else{
             response.getWriter().write("error");
         }
-        if(request.getParameter("delete")!=null){
 
-            String id=request.getParameter("id");
-            try {
-                ClassJDO classJDO=new ClassJDO();
-                classJDO=classDAO.getById(id);
-                if(classJDO!=null) {
-                    classJDO.setIsDeleted(true);
-                    classDAO.put(classJDO);
-                    classMappingTeacherDAO.updateEdit(id);
-                    response.getWriter().write("success");
-                }else {
-                    response.getWriter().write("null");
-                }
-            }catch (Exception e){
-                response.getWriter().write("error");
-                e.printStackTrace();
-            }
-        }
 
     }
 

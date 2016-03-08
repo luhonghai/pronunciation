@@ -140,16 +140,22 @@ function validateFormAdd(){
     return true;
 }
 
-
+function cancelDelete(){
+    $(document).on("click","#cancel", function(){
+        $("#confirmDelete").modal('hide');
+    });
+}
 function deletes(){
     $(document).on("click","#delete", function(){
-        $("#deletes").modal('show');
-        var idd=$(this).attr('id-column');
-        $("#iddelete").val(idd);
+        var name=$("#classname").val();
+        $("#classNameDelete").val(name);
+        var id = $("#idedit").val();
+        $("#iddelete").val(id);
+        $("#confirmDelete").modal('show');
     });
 }
 
-function deleteuser(){
+function deleteClass(){
     $(document).on("click","#deleteItems", function(){
         var id=$("#iddelete").val();
             $.ajax({
@@ -157,17 +163,17 @@ function deleteuser(){
                 type: "POST",
                 dataType: "text",
                 data: {
-                    delete: "delete",
+                    action: "deleteClass",
                     id: id
                 },
                 success: function (data) {
                     if (data == "success") {
-
-                        $("tbody").html("");
-                        $("#deletes").modal('hide');
+                        $("#confirmDelete").modal('hide');
+                        $("#edits").modal('hide');
                         swal("Success!", "Delete class success", "success");
                     }else{
-                        $("#deletes").modal('hide');
+                        $("#confirmDelete").modal('hide');
+                        $("#edits").modal('hide');
                         swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
                     }
@@ -181,14 +187,15 @@ function deleteuser(){
 }
 
 function openEdit(){
-    $(document).on("click","#edit", function() {
-        $("#edits").modal('show');
+    $(document).on("click","#info", function() {
         var idd = $(this).attr('id-column');
         var classname = $(this).attr('classname');
         var difinition=$(this).attr('definition');
         $("#idedit").val(idd);
         $("#editClassName").val(classname);
+        $("#classname").val(classname);
         $("#editDefinition").val(difinition);
+        $("#edits").modal('show');
         $.ajax({
             url: "ClassServlet",
             type: "POST",
@@ -200,8 +207,12 @@ function openEdit(){
             success: function (data) {
                 if(data.message=="success"){
                     $("#editCourses").empty();
-                    if(data.courses!=null && data.courses.length>0){
+                    if((data.courses!=null && data.courses.length>0) || (data.coursesOnClass!=null && data.coursesOnClass.length>0) ){
+                        var item=data.coursesOnClass;
                         var items=data.courses;
+                        $(item).each(function(){
+                            $("#editCourses").append('<option selected=selected title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                        });
                         $(items).each(function(){
                             $("#editCourses").append('<option title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
                         });
@@ -211,8 +222,12 @@ function openEdit(){
                     $('#editCourses').multiselect('refresh');
 
                     $("#editStudents").empty();
-                    if(data.studentMappingTeachers!=null && data.studentMappingTeachers.length>0){
-                        var items=data.studentMappingTeachers;
+                    if((data.smt!=null && data.smt.length>0)||(data.smtOnClass!=null && data.smtOnClass.length>0)){
+                        var item=data.smtOnClass;
+                        var items=data.smt;
+                        $(item).each(function(){
+                            $("#editStudents").append('<option selected=selected value="' + this.studentName + '">' + this.studentName + '</option>');
+                        });
                         $(items).each(function(){
                             $("#editStudents").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                         });
@@ -221,7 +236,7 @@ function openEdit(){
                     $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                     $('#editStudents').multiselect('refresh');
                 }else{
-                    swal("Error!", data.message.split(":")[1], "error");
+                    swal("Error!", "Could not connect to server", "error");
                 }
             },
             error: function () {
@@ -233,18 +248,16 @@ function openEdit(){
 
 }
 
-function edituser(){
+function editClass(){
     $(document).on("click","#yesedit", function(){
             var id = $("#idedit").val();
             var difinition = $("#editDefinition").val();
-
-
             $.ajax({
                 url: "ClassServlet",
                 type: "POST",
                 dataType: "text",
                 data: {
-                    edit: "edit",
+                    action: "editClass",
                     id: id,
                     difinition: difinition
                 },
@@ -272,9 +285,19 @@ function helpMyClass(){
         $("#helpMyClassModal").modal('show');
     });
 }
+function helpAddMyClass(){
+    $(document).on("click","#helpAddClass",function() {
+        $("#helpAddClassModal").modal('show');
+    });
+}
 
 $(document).ready(function(){
     $('#help-icons').show();
+    editClass();
+    cancelDelete();
+    deletes();
+    deleteClass();
+    helpAddMyClass();
     openEdit();
     openAdd();
     addClass();

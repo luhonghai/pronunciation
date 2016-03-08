@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * Created by CMGT400 on 1/5/2016.
  */
-@PersistenceCapable(table = "STUDENTMAPPINGCLASS", detachable = "true")
+@PersistenceCapable(table = "COURSEMAPPINGCLASS", detachable = "true")
 public class CourseMappingClass implements Mirrorable {
     @PrimaryKey
     private String id;
