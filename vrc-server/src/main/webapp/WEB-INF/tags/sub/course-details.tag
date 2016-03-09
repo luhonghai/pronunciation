@@ -1,12 +1,13 @@
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@ tag import="com.cmg.merchant.common.Constant" %>
 <%@ tag import="com.cmg.merchant.services.CourseServices" %>
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%
     CourseServices cServices = new CourseServices();
-    String company = (String) StringUtil.isNull(request.getSession().getAttribute("companyName"), "CMG");
-    String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "66b3510d-8964-47a0-8c33-72dc14f8dded");
+    String company = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPNAME), "CMG");
+    String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), "66b3510d-8964-47a0-8c33-72dc14f8dded");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
 %>
 <script>

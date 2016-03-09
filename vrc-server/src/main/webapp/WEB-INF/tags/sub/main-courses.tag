@@ -5,83 +5,13 @@
 <%
   String company = (String) StringUtil.isNull(request.getSession().getAttribute("company"),"CMG");
 %>
-<style>
-  .welcome{
-    color : #376092;
-    font-weight: 200;
-  }
-  .header-company{
-    color: #A6A6A6
-  }
-
-  .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
-    padding: 6px 20px;
-  }
-  .input-group-btn .btn-group {
-    display: flex !important;
-  }
-  .btn-group .btn {
-    border-radius: 0;
-    margin-left: -1px;
-  }
-  .btn-group .btn:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-  .btn-group .form-horizontal .btn[type="submit"] {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-  }
-  .form-horizontal .form-group {
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .form-group .form-control:last-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-  }
-
-  .cbstyle{
-    box-shadow: inset 0 1px 1px rgba(255, 250, 250, 0.075) !important;
-    width: 10%;
-  }
-  .lbl_addForm{
-    font-weight: 200;
-  }
-
-  .container-course{
-    margin-bottom: 5px;
-  }
-
-  .lbl_cname{
-    font-weight: 200;
-  }
-  .lbl_cinfor{
-    font-weight: 200;
-    font-size: 10px;
-    padding-left: 15px;
-  }
-
-
-  @media screen and (min-width: 768px) {
-    #adv-search {
-      width: 500px;
-      margin: 0 auto;
-    }
-    .dropdown.dropdown-lg {
-      position: static !important;
-    }
-    .dropdown.dropdown-lg .dropdown-menu {
-      min-width: 500px;
-    }
-  }
-
-</style>
+<link rel="stylesheet" type="text/css"
+      href="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/css/jquery.progresstimer.min.css" media="all">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/maincourse.css" media="all">
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h4 class="page-header header-company"><%=company%> > all courses</h4>
+      <h4 style="margin-top: 10px;border-bottom: transparent" class="page-header header-company"><%=company%> > all courses</h4>
     </div>
     <!-- /.col-lg-12 -->
   </div>
@@ -89,13 +19,13 @@
   <!-- /.row header-->
   <div class="row">
     <div class="col-lg-4 pull-left">
-      <a href="#add" data-toggle="modal" class="btn btn-info" style="background-color: #E46C0A;border-color: #E46C0A">
-        add course<span class="glyphicon glyphicon-plus" style="padding-left: 5px"></span>
+      <a id="open_popup" data-toggle="modal" class="btn btn-info" style="background-color: #E46C0A;border-color: #E46C0A">
+          add course<span class="glyphicon glyphicon-plus" style="padding-left: 5px"></span>
       </a>
     </div>
     <div class="col-lg-8 pull-right">
       <div class="input-group" id="adv-search" style="float:right">
-        <input id="suggestCourseHeader" type="text" class="form-control suggestCourse" data-provide="typeahead" placeholder="Search course" />
+        <input id="suggestCourseHeader" type="text" autocomplete="off"  class="form-control suggestCourse" data-provide="typeahead" placeholder="Search course" />
         <div class="input-group-btn">
           <div class="btn-group" role="group">
             <div class="dropdown dropdown-lg">
@@ -104,11 +34,11 @@
                 <form class="form-horizontal" role="form">
                   <div class="form-group">
                     <label for="suggestCompany">Company</label>
-                    <input id="suggestCompany" placeholder="Enter company name" class="form-control suggestCompany" type="text" />
+                    <input id="suggestCompany" autocomplete="off" placeholder="Enter company name" class="form-control suggestCompany" type="text" />
                   </div>
                   <div class="form-group">
                     <label for="suggestCourse">Course title</label>
-                    <input id="suggestCourse" placeholder="Enter course title" class="form-control suggestCourse" type="text" />
+                    <input id="suggestCourse" autocomplete="off" placeholder="Enter course title" class="form-control suggestCourse" type="text" />
                   </div>
                   <div class="form-group">
                     <label>created date range</label>
@@ -126,11 +56,11 @@
                       </div>
 
                   </div>
-                  <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                  <button id="btnSearchDetail" type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                 </form>
               </div>
             </div>
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            <button id="btnSearchHeader" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
           </div>
         </div>
       </div>
@@ -145,23 +75,11 @@
   </div>
 
 <div class="row">
-  <div id="content-courses" class="col-lg-12" style="padding-top:20px;padding-left: 0px">
-    <div class="col-lg-12 pull-left" class="container-course">
-      <a class="btn btn-info" style="background-color: #558ED5;border-color: #E46C0A">
-        <label class="lbl_cname">Aa Course for Vietnamese Students</label><label class="lbl_cinfor">created by CMG 03/12/2015</label>
-      </a>
-    </div>
-    <div class="col-lg-12 pull-left" class="container-course">
-      <a class="btn btn-info" style="background-color: #558ED5;border-color: #E46C0A">
-        <label class="lbl_cname">Aa Course for Singapore Students</label><label class="lbl_cinfor">created by CMG 03/12/2015></label>
-      </a>
-    </div>
-    <div class="col-lg-12 pull-left" class="container-course">
-      <a class="btn btn-info" style="background-color: #17375E;border-color: #E46C0A">
-        <label class="lbl_cname">Aa Course for Thai Students</label> <label class="lbl_cinfor">created by  BiZZ 06/11/2015</label>
-      </a>
-    </div>
+  <div id="content-courses" class="col-lg-12" style="padding-top:20px">
   </div>
+  <div id="first-process" class="col-lg-4" style="padding-top: 20px"></div>
+  <div id="process-bar" class="col-lg-4" style="padding-top: 20px"></div>
+  <div id="last-process" class="col-lg-4" style="padding-top: 20px"></div>
 </div>
   <!-- /#page-wrapper -->
 
@@ -207,7 +125,7 @@
             <label class="control-label col-md-4 lbl_addForm" for="private">Private:</label>
             <div class="col-md-6">
               <input type="checkbox" style="padding-top: 10px" class="form-control cbstyle"
-                     id="private" name="share" values="<%=Constant.SHARE_PRIVATE%>">
+                     id="private" name="share" value="<%=Constant.SHARE_PRIVATE%>">
             </div>
           </div>
           <div class="form-group">
@@ -233,6 +151,7 @@
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/data.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/validateform.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/maincourses/ajax.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
 <!-- /#wrapper -->
 
 

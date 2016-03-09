@@ -12,7 +12,6 @@ function suggestCourse(){
                dataType : "JSON",
                async : true,
                success : function(data){
-                   console.log(data);
                    process(data);
                }
             });
@@ -29,7 +28,6 @@ function suggestCompany(){
                 dataType : "JSON",
                 async : true,
                 success : function(data){
-                    console.log(data);
                     process(data);
                 }
             });

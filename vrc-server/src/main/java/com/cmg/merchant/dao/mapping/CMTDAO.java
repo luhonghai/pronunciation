@@ -316,12 +316,13 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @return list if have record and null if not
      * @throws Exception
      */
-    public List<CourseDTO> getCoursesShareInCompany(String cpId, String tId,
+    public ArrayList<CourseDTO> getCoursesShareInCompany(String cpId, String tId,
                                                  String status, String sr) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
-        String sql = sqlUtil.getSqlShareIN(cpId,tId,status,sr);
-        List<CourseDTO> list = new ArrayList<CourseDTO>();
+        String sql = sqlUtil.getSqlShareIN(cpId,tId,sr,status);
+        System.out.println("sql share in company : " +  sql);
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
         Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -347,6 +348,9 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     if(array[5]!=null){
                         dto.setDateCreated(array[5].toString());
                     }
+                    if(array[6]!=null){
+                        dto.setIdCompany(array[6].toString());
+                    }
 
                     list.add(dto);
                 }
@@ -371,12 +375,53 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @return list if have record and null if not
      * @throws Exception
      */
-    public List<CourseDTO> getCoursesCreateByTeacher(String cpId, String tId,
-                                                               String status, String sr) throws Exception{
+    public ArrayList<CourseDTO> getCoursesCreateByTeacher(String cpId, String tId,
+                                                               String status) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
-        String sql = sqlUtil.getSqlCreatedByTeacher(cpId, tId, status, sr);
-        return null;
+        String sql = sqlUtil.getSqlCreatedByTeacher(status,tId,cpId);
+        System.out.println("sql create by teacher : " +  sql);
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    CourseDTO dto = new CourseDTO();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setIdCourse(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setNameCourse(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescriptionCourse(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        dto.setCompanyName(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        dto.setState(array[4].toString());
+                    }
+                    if(array[5]!=null){
+                        dto.setDateCreated(array[5].toString());
+                    }
+                    if(array[6]!=null){
+                        dto.setIdCompany(array[6].toString());
+                    }
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
     }
 
     /**
@@ -388,12 +433,53 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @return list if have record and null if not
      * @throws Exception
      */
-    public List<CourseDTO> getCoursesShareAll(String cpId, String tId,
+    public ArrayList<CourseDTO> getCoursesShareAll(String cpId, String tId,
                                                                 String status, String sr) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
-        String sql = sqlUtil.getSqlShareAll(cpId, tId, status, sr);
-        return null;
+        String sql = sqlUtil.getSqlShareAll(status,tId,cpId,sr);
+        System.out.println("sql share all : " +  sql);
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    CourseDTO dto = new CourseDTO();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setIdCourse(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setNameCourse(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescriptionCourse(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        dto.setCompanyName(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        dto.setState(array[4].toString());
+                    }
+                    if(array[5]!=null){
+                        dto.setDateCreated(array[5].toString());
+                    }
+                    if(array[6]!=null){
+                        dto.setIdCompany(array[6].toString());
+                    }
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
     }
 
 

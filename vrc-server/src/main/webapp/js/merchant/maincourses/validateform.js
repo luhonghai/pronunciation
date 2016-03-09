@@ -28,3 +28,19 @@ function validateFormSearchHeader(){
     }
     return true;
 }
+
+
+function clearFormAdd(){
+    getMsgAddCourse().hide();
+    getPoupAdd().find("input[type=text]").each(function(){
+        //Do stuff here
+        $(this).val('');
+    });
+    getPoupAdd().find("textarea").each(function(){
+        //Do stuff here
+        $(this).val('');
+    });
+
+    $('#shareall').prop('checked', true);
+    $('input[type="checkbox"]').not($('#shareall')).prop('checked', false);
+}

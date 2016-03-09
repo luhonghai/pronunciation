@@ -16,6 +16,7 @@ public class SessionUtil {
     public static String ATT_CPID = "companyId";
     public static String ATT_TID = "teacherId";
     public static String ATT_CPNAME = "companyName";
+    public static String ATT_COURSE_ID = "idCourse";
     private static String INVALID = "invalid";
 
 

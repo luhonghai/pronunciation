@@ -17,6 +17,24 @@ public class CourseDTO {
     String companyName;
     String dateCreated;
     String pageLink;
+    String backgroundColor;
+    String textColor;
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
     public String getPageLink() {
         return pageLink;
