@@ -21,7 +21,7 @@ public class DatabaseHelper {
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in print(e)});
         
-         client.get("/CheckVersion").send([])
+        client.get("/CheckVersion").type("json").query(["version" : "1"]).send([])
             .end({(res:Response) -> Void in
                 print(res)
                 if(res.error) { // status of 2xx
@@ -33,7 +33,14 @@ public class DatabaseHelper {
                     //handleErrorJson(res.body)
                     print(res.text)
                     let result:String = res.text!
-                    
+                    do {
+                    let json = try NSJSONSerialization.JSONObjectWithData(res.data!, options: .AllowFragments) as! [String: AnyObject]
+                    let message = json["message"] as! String!
+                    let status = json["status"] as! Bool!
+                    print("Message: \(message) status \(status)")
+                    } catch {
+                        
+                    }
                 }
             })
         
