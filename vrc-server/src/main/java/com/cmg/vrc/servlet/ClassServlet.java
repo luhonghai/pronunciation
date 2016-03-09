@@ -77,47 +77,54 @@ public class ClassServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("addClass")){
+            ClassJDO classs=new ClassJDO();
             String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
             String className=request.getParameter("classname");
             String definition=request.getParameter("definition");
             int version=0;
             String uuid="";
+
             try {
-                StudentCourse studentCourse=gson.fromJson(jsonClient,StudentCourse.class);
-                uuid= UUIDGenerator.generateUUID();
-                version=classDAO.getLatestVersion() +1;
-                ClassJDO classJDO=new ClassJDO();
-                ClassMappingTeacher classMappingTeacher=new ClassMappingTeacher();
-                classJDO.setId(uuid);
-                classJDO.setClassName(className);
-                classJDO.setDefinition(definition);
-                classJDO.setCreatedDate(new Date(System.currentTimeMillis()));
-                classJDO.setIsDeleted(false);
-                classJDO.setVersion(version);
-                classDAO.put(classJDO);
-                classMappingTeacher.setIdClass(uuid);
-                classMappingTeacher.setTeacherName(teacherName);
-                classMappingTeacher.setIsDeleted(false);
-                classMappingTeacherDAO.put(classMappingTeacher);
-                String[] listStudent=studentCourse.getStudents();
-                for(String s:listStudent){
-                    StudentMappingClass studentMappingClass=new StudentMappingClass();
-                    studentMappingClass.setIdClass(uuid);
-                    studentMappingClass.setStudentName(s);
-                    studentMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
-                    studentMappingClass.setIsDeleted(false);
-                    studentMappingClassDAO.put(studentMappingClass);
+                classs=classDAO.getClassName(className);
+                if(classs==null) {
+                    StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
+                    uuid = UUIDGenerator.generateUUID();
+                    version = classDAO.getLatestVersion() + 1;
+                    ClassJDO classJDO = new ClassJDO();
+                    ClassMappingTeacher classMappingTeacher = new ClassMappingTeacher();
+                    classJDO.setId(uuid);
+                    classJDO.setClassName(className);
+                    classJDO.setDefinition(definition);
+                    classJDO.setCreatedDate(new Date(System.currentTimeMillis()));
+                    classJDO.setIsDeleted(false);
+                    classJDO.setVersion(version);
+                    classDAO.put(classJDO);
+                    classMappingTeacher.setIdClass(uuid);
+                    classMappingTeacher.setTeacherName(teacherName);
+                    classMappingTeacher.setIsDeleted(false);
+                    classMappingTeacherDAO.put(classMappingTeacher);
+                    String[] listStudent = studentCourse.getStudents();
+                    for (String s : listStudent) {
+                        StudentMappingClass studentMappingClass = new StudentMappingClass();
+                        studentMappingClass.setIdClass(uuid);
+                        studentMappingClass.setStudentName(s);
+                        studentMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        studentMappingClass.setIsDeleted(false);
+                        studentMappingClassDAO.put(studentMappingClass);
+                    }
+                    String[] listCourse = studentCourse.getCourses();
+                    for (String s : listCourse) {
+                        CourseMappingClass courseMappingClass = new CourseMappingClass();
+                        courseMappingClass.setIdClass(uuid);
+                        courseMappingClass.setIdCourse(s);
+                        courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        courseMappingClass.setIsDeleted(false);
+                        courseMappingClassDAO.put(courseMappingClass);
+                    }
+                    response.getWriter().write("success");
+                }else{
+                    response.getWriter().write("exist");
                 }
-                String[] listCourse=studentCourse.getCourses();
-                for(String s:listCourse){
-                    CourseMappingClass courseMappingClass=new CourseMappingClass();
-                    courseMappingClass.setIdClass(uuid);
-                    courseMappingClass.setIdCourse(s);
-                    courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
-                    courseMappingClass.setIsDeleted(false);
-                    courseMappingClassDAO.put(courseMappingClass);
-                }
-                response.getWriter().write("success");
 
 
 
@@ -139,13 +146,40 @@ public class ClassServlet extends HttpServlet {
             }
         }else if(action.equalsIgnoreCase("editClass")){
             String idClass=request.getParameter("id");
+            String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
+            String className=request.getParameter("classname");
+            String definition=request.getParameter("difinition");
             try {
                 ClassJDO classJDO=new ClassJDO();
                 classJDO=classDAO.getById(idClass);
+                StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
                 if(classJDO!=null) {
+                    classJDO.setDefinition(definition);
+                    classDAO.put(classJDO);
+                    classDAO.updateCourseMappingClassEdit(idClass);
+                    classDAO.updateStudentMappingClassEdit(idClass);
+                    String[] listStudent = studentCourse.getStudents();
+                    for (String s : listStudent) {
+                        StudentMappingClass studentMappingClass = new StudentMappingClass();
+                        studentMappingClass.setIdClass(idClass);
+                        studentMappingClass.setStudentName(s);
+                        studentMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        studentMappingClass.setIsDeleted(false);
+                        studentMappingClassDAO.put(studentMappingClass);
+                    }
+                    String[] listCourse = studentCourse.getCourses();
+                    for (String s : listCourse) {
+                        CourseMappingClass courseMappingClass = new CourseMappingClass();
+                        courseMappingClass.setIdClass(idClass);
+                        courseMappingClass.setIdCourse(s);
+                        courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        courseMappingClass.setIsDeleted(false);
+                        courseMappingClassDAO.put(courseMappingClass);
+                    }
+                    response.getWriter().write("success");
 
                 }else {
-                    response.getWriter().write("error");
+                    response.getWriter().write("not exist");
                 }
 
             }catch (Exception e){

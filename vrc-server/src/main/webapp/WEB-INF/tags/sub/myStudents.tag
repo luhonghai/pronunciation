@@ -74,8 +74,8 @@
               </div>
               <div class="modal-footer">
 
-                <img src="/images/popup/help.gif" id="helpInvite" style="width: 24px;height: 24px;">
-                <img src="/images/popup/save.gif" id="invite" style="width: 24px;height: 24px;">
+                <img src="/images/popup/help.gif" id="helpInvite" style="width: 80px;height: 60px; float: left;">
+                <img src="/images/popup/save.gif" id="invite" style="width: 80px;height: 60px;">
 
               </div>
 
@@ -161,8 +161,8 @@
                 <p>Select the 'delete' button to continue.</p>
                 <p id="text"></p>
                 <div class="modal-footer">
-                  <img src="/images/popup/help.gif" id="helpRemove" style="width: 24px;height: 24px;">
-                  <img src="/images/popup/trash.gif" id="removeStudent" style="width: 24px;height: 24px;">
+                  <img src="/images/popup/help.gif" id="helpRemove" style="width: 80px;height: 60px;float: left;">
+                  <img src="/images/popup/trash.gif" id="removeStudent" style="width: 80px;height: 60px;">
 
 
                 </div>
@@ -212,8 +212,8 @@
               <p>Select the 'accept' button to make the student available to add to your classes</p>
               <p>If you reject the request the student will be removed from your list on 'my detail'.</p>
               <div class="modal-footer">
-                <img src="/images/popup/trash.gif" id="reject" style="width: 24px;height: 24px;">
-                <img src="/images/popup/accepted_48x48.gif" id="accept" style="width: 24px;height: 24px; color: green;">
+                <img src="/images/popup/trash.gif" id="reject" style="width: 80px;height: 60px; float: left;">
+                <span type="button" id="accept" style="color:lightgreen; padding-top: 15px;" class="fa fa-check-circle fa-2x"> </span>
 
               </div>
             </form>
@@ -241,8 +241,8 @@
 
               <p>Are you sure that you want to reject the request from this student?</p>
               <div class="modal-footer">
-                <p id="cancel"><u>cancel</u></p>
-                <img src="/images/popup/accepted_48x48.gif" id="yesReject" style="width: 24px;height: 24px;">
+                <p id="cancel" style="float:left;cursor: pointer;"><u>cancel</u></p>
+                <span type="button" id="yesReject" style="color:lightgreen" class="fa fa-check-circle fa-2x"> </span>
               </div>
             </form>
           </div>
@@ -268,8 +268,8 @@
             <form name="add" class="form-horizontal"
                   style="margin-top: 25px">
               <div class="modal-footer">
-                <p id="cancelRemove"><u>cancel</u></p>
-                <img src="/images/popup/accepted_48x48.gif" id="yesRemove" style="width: 24px;height: 24px;">
+                <p id="cancelRemove" style="float:left;cursor: pointer;"><u>cancel</u></p>
+                <span type="button" id="yesRemove" style="color:lightgreen" class="fa fa-check-circle fa-2x"> </span>
               </div>
             </form>
           </div>

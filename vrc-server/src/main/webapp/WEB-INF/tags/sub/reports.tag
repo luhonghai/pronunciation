@@ -3,7 +3,7 @@
 <%String company=session.getAttribute("company").toString();%>
 <div id="page-wrapper">
      <div class="row">
-         <h3><%=company%></h3>>reports
+         <h3 style="float: left;"><%=company%></h3><p style="margin-top: 25px;">>reports</p>
      </div>
     <div>
         <p>Select a report type from the side menu to view scores for a student and compare with other students in their classes.</p>
@@ -42,7 +42,7 @@
 </div>
 
 
-<script src="<%=request.getContextPath() %>/js/licensedStudents.js"></script>
+<script src="<%=request.getContextPath() %>/js/reports.js"></script>
 
 
 

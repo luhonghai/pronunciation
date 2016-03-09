@@ -107,7 +107,7 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='accept'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</button>');
+                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;"></button>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -117,7 +117,7 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='reject'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</button>');
+                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;"></button>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -127,7 +127,7 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].mappingBy=='teacher'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</button>');
+                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;"></button>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -137,7 +137,7 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else{
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</button>');
+                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_48x48.gif" style="width: 24px;height: 24px;"></button>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);

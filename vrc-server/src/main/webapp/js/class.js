@@ -12,7 +12,8 @@ function listMyClasses(){
             if(data.message=="success" && data.listclass!=null){
                 var listMyClass=data.listclass;
                 for(var i=0;i<listMyClass.length;i++){
-                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title='+listMyClass[i].definition+'><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px"> '+listMyClass[i].className+'</button>');
+                    var definition=listMyClass[i].definition;
+                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title="'+definition+'"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px"> '+listMyClass[i].className+'</button>');
                     $button.attr("id-column", listMyClass[i].id);
                     $button.attr("className", listMyClass[i].className);
                     $button.attr("definition", listMyClass[i].definition);
@@ -110,6 +111,8 @@ function addClass(){
                         $("#listMyClass").empty();
                         listMyClasses();
                         swal("Success!", "Add class success.", "success");
+                    }else{
+                        swal("Warning!", "class exist.", "warning");
                     }
                 },
                 error: function () {
@@ -250,33 +253,45 @@ function openEdit(){
 
 function editClass(){
     $(document).on("click","#yesedit", function(){
-            var id = $("#idedit").val();
-            var difinition = $("#editDefinition").val();
-            $.ajax({
-                url: "ClassServlet",
-                type: "POST",
-                dataType: "text",
-                data: {
-                    action: "editClass",
-                    id: id,
-                    difinition: difinition
-                },
-                success: function (data) {
-                    if (data == "success") {
-                        $("tbody").html("");
-                        $("#edits").modal('hide');
-                        swal("Success!", "Update class success", "success");
-                    }else{
-                        $("#deletes").modal('hide');
-                        swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
-                        location.reload();
-                    }
-                },
-                error: function () {
-                    swal("Error!", "Could not connect to server", "error");
+        var courses=[];
+        var students = [];
+        $('#editCourses option:selected').map(function(a, item){ courses.push(item.value);});
+        $('#editStudents option:selected').map(function(a, item){ students.push(item.value);});
+        var dto={
+            courses:courses,
+            students:students
+        }
+        var id = $("#idedit").val();
+        var classname = $("#editClassName").val();
+        var definition = $("#editDefinition").val();
+        $.ajax({
+            url: "ClassServlet",
+            type: "POST",
+            dataType: "text",
+            data: {
+                action: "editClass",
+                id: id,
+                difinition: definition,
+                classname:classname,
+                objDto: JSON.stringify(dto)
+            },
+            success: function (data) {
+                if (data == "success") {
+                    $("#listMyClass").empty();
+                    listMyClasses();
+                    $("#edits").modal('hide');
+                    swal("Success!", "Update class success", "success");
+                }else{
+                    $("#deletes").modal('hide');
+                    swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
+                    location.reload();
                 }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
 
-            });
+        });
 
     });
 }

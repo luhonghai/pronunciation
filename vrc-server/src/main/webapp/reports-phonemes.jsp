@@ -3,6 +3,6 @@
 <%@taglib prefix="x" tagdir="/WEB-INF/tags/sub"%>
 <t:main pageTitle="Wholesale delivery system" index="0">
   <%--<x:admin pageTitle="admin"></x:admin>--%>
-  <x:reports pageTitle="class"></x:reports>
+  <x:reportsPhonemes pageTitle="class"></x:reportsPhonemes>
 
 </t:main>
