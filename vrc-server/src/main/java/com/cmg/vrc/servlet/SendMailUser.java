@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.GcmMessage;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -155,7 +156,8 @@ public class SendMailUser extends HttpServlet{
                             studentMappingTeacher1.setLastTeacherName(admin.getLastName());
                             studentMappingTeacher1.setIsDeleted(false);
                             studentMappingTeacher1.setLicence(false);
-                            studentMappingTeacher1.setStatus("pending");
+                            studentMappingTeacher1.setMappingBy(Constant.TEACHER);
+                            studentMappingTeacher1.setStatus(Constant.STATUS_PENDING);
                             studentMappingTeacherDAO.put(studentMappingTeacher1);
                             send.add(mailStudent);
                             users.add(user);
@@ -212,31 +214,35 @@ public class SendMailUser extends HttpServlet{
             }
 
 
-//        }else if(action.equalsIgnoreCase("searchTeacher")) {
-//            AdminDAO adminDAO=new AdminDAO();
-//            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-//            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
-//            String mailTeacher=request.getParameter("mailTeacher");
-//            String userName=request.getParameter("username");
-//            try {
-//                Admin admin = adminDAO.getUserByTeacher(mailTeacher);
-//                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
-//                if(admin!=null && studentMappingTeacher==null){
-//                    StudentMappingTeacher studentMapping=new StudentMappingTeacher();
-//                    studentMapping.setIsDeleted(false);
-//                    studentMapping.setStatus("accept");
-//                    studentMapping.setTeacherName(mailTeacher);
-//                    studentMapping.setStudentName(userName);
-//                    studentMappingTeacherDAO.put(studentMapping);
-//                    out.print("success");
-//                }else if(admin==null){
-//                    out.print("not exits");
-//                }else {
-//                    out.print("exits");
-//                }
-//            }catch (Exception e){
-//                out.print("error");
-//            }
+        }else if(action.equalsIgnoreCase("searchTeacher")) {
+            AdminDAO adminDAO=new AdminDAO();
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
+            StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+            String mailTeacher=request.getParameter("mailTeacher");
+            String userName=request.getParameter("username");
+            try {
+                Admin admin = adminDAO.getUserByTeacher(mailTeacher);
+                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(userName,mailTeacher);
+                if(admin!=null && studentMappingTeacher==null){
+                    StudentMappingTeacher studentMapping=new StudentMappingTeacher();
+                    studentMapping.setIsDeleted(false);
+                    studentMapping.setStatus(Constant.STATUS_PENDING);
+                    studentMapping.setMappingBy(Constant.STUDENT);
+                    studentMapping.setTeacherName(mailTeacher);
+                    studentMapping.setStudentName(userName);
+                    studentMapping.setFirstTeacherName(admin.getFirstName());
+                    studentMapping.setLastTeacherName(admin.getLastName());
+                    studentMapping.setLicence(false);
+                    studentMappingTeacherDAO.put(studentMapping);
+                    out.print("success");
+                }else if(admin==null){
+                    out.print("not exits");
+                }else {
+                    out.print("exits");
+                }
+            }catch (Exception e){
+                out.print("error");
+            }
 
         }else if(action.equalsIgnoreCase("listLicensedStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
@@ -266,7 +272,7 @@ public class SendMailUser extends HttpServlet{
                 for (String id : lists) {
                     StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                     studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                    studentMappingTeacher.setStatus("accept");
+                    studentMappingTeacher.setStatus(Constant.STATUS_ACCEPT);
                     studentMappingTeacherDAO.put(studentMappingTeacher);
                 }
                 response.getWriter().write("success");
@@ -298,7 +304,7 @@ public class SendMailUser extends HttpServlet{
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
                 if(studentMappingTeacher.isLicence()==true){
                     StudentMappingTeacher smt=new StudentMappingTeacher();
-                    smt.setStatus("pending");
+                    smt.setStatus(Constant.STATUS_PENDING);
                     studentMappingTeacherDAO.put(smt);
                 }else{
                     StudentMappingTeacher smt=new StudentMappingTeacher();
@@ -317,7 +323,7 @@ public class SendMailUser extends HttpServlet{
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                studentMappingTeacher.setStatus("reject");
+                studentMappingTeacher.setStatus(Constant.STATUS_REJECT);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
@@ -330,7 +336,7 @@ public class SendMailUser extends HttpServlet{
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
-                studentMappingTeacher.setStatus("accept");
+                studentMappingTeacher.setStatus(Constant.STATUS_ACCEPT);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){

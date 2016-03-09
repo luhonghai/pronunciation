@@ -2,6 +2,7 @@ package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.data.dto.objectives.ObjectiveMappingDTO;
 import com.cmg.lesson.services.objectives.ObjectiveService;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 import com.cmg.vrc.data.dao.impl.StaffMappingCompanyDAO;
@@ -110,10 +111,10 @@ public class Admins extends HttpServlet {
 
             int ro = 0;
             if (role.length() > 0 && role.equals("Admin")) {
-                ro = 1;
+                ro = Constant.ROLE_ADMIN;
             }
             if (role.length() > 0 && role.equals("User")) {
-                ro = 2;
+                ro = Constant.ROLE_USER;
             }
             try {
                 Admin a = adminDAO.getUserByEmail(username);
@@ -144,10 +145,10 @@ public class Admins extends HttpServlet {
             String role = request.getParameter("role");
             int ro = 0;
             if (role.length() > 0 && role.equals("Admin")) {
-                ro = 1;
+                ro = Constant.ROLE_ADMIN;
             }
             if (role.length() > 0 && role.equals("User")) {
-                ro = 2;
+                ro = Constant.ROLE_USER;
             }
             try {
                 if (!id.equals(idd)) {
@@ -237,10 +238,10 @@ public class Admins extends HttpServlet {
                 String role=dto.getRole();
                 int ro = 0;
                 if (role.length() > 0 && role.equals("Staff")) {
-                    ro = 3;
+                    ro = Constant.ROLE_STAFF;
                 }
                 if (role.length() > 0 && role.equals("Teacher")) {
-                    ro = 4;
+                    ro = Constant.ROLE_TEACHER;
                 }
                 Admin a = adminDAO.getUserByEmail(dto.getFullName());
                 if (a != null) {
@@ -254,7 +255,7 @@ public class Admins extends HttpServlet {
                     adminDAO.put(ad);
 
                     List<Company> companies = dto.getCompanies();
-                    if (ro == 3) {
+                    if (ro == Constant.ROLE_STAFF) {
                         for (Company company : companies) {
 
                             TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
@@ -262,7 +263,7 @@ public class Admins extends HttpServlet {
                             teacherMappingCompany.setIdCompany(company.getIdCompany());
                             teacherMappingCompany.setCompany(company.getCompanyName());
                             teacherMappingCompany.setUserName(dto.getFullName());
-                            teacherMappingCompany.setType("staff");
+                            teacherMappingCompany.setType(Constant.STAFF);
                             teacherMappingCompanyDAO.put(teacherMappingCompany);
                         }
                     } else {
@@ -272,7 +273,7 @@ public class Admins extends HttpServlet {
                             teacherMappingCompany.setIdCompany(company.getIdCompany());
                             teacherMappingCompany.setCompany(company.getCompanyName());
                             teacherMappingCompany.setUserName(dto.getFullName());
-                            teacherMappingCompany.setType("teacher");
+                            teacherMappingCompany.setType(Constant.TEACHER);
                             teacherMappingCompanyDAO.put(teacherMappingCompany);
                         }
                     }
@@ -292,10 +293,10 @@ public class Admins extends HttpServlet {
                 String role=dto.getRole();
                 int ro = 0;
                 if (role.length() > 0 && role.equals("Staff")) {
-                    ro = 3;
+                    ro = Constant.ROLE_STAFF;
                 }
                 if (role.length() > 0 && role.equals("Teacher")) {
-                    ro = 4;
+                    ro = Constant.ROLE_TEACHER;
                 }
                 Admin admin = adminDAO.getUserByEmail(dto.getFullName());
                 int roleold=admin.getRole();
@@ -326,10 +327,10 @@ public class Admins extends HttpServlet {
                         teacherMappingCompany.setIdCompany(company.getIdCompany());
                         teacherMappingCompany.setCompany(company.getCompanyName());
                         teacherMappingCompany.setUserName(dto.getFullName());
-                        if(ro==3){
-                            teacherMappingCompany.setType("staff");
+                        if(ro==Constant.ROLE_STAFF){
+                            teacherMappingCompany.setType(Constant.STAFF);
                         }else{
-                            teacherMappingCompany.setType("teacher");
+                            teacherMappingCompany.setType(Constant.TEACHER);
                         }
                         teacherMappingCompanyDAO.put(teacherMappingCompany);
                     }
@@ -349,7 +350,7 @@ public class Admins extends HttpServlet {
             try {
                 Admin admin=adminDAO.getUserByEmail(username);
                 int ro=admin.getRole();
-                if(ro==3) {
+                if(ro==Constant.ROLE_STAFF) {
                     List<ClientCode> clientCode = clientCodeDAO.getCompanyByStaff(username);
                     List<ClientCode> check=clientCodeDAO.CompanyStaff(username);
                     company.message = "success";
@@ -388,7 +389,7 @@ public class Admins extends HttpServlet {
                 Admin admin=adminDAO.getById(id);
                 if(admin!=null) {
                     int role = admin.getRole();
-                    if (role == 1 || role == 2) {
+                    if (role == Constant.ROLE_ADMIN || role == Constant.ROLE_USER) {
                         test.content = "<select name=\"editrole\" id=\"editrole\" class=\"form-control\" required=\"required\"> ' +\n" +
                                 "            '<option value=\"Admin\">Admin</option> ' +\n" +
                                 "            '<option value=\"User\">User</option> ' +\n" +

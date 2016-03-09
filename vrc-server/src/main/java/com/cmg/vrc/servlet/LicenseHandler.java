@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -158,7 +159,7 @@ public class LicenseHandler extends BaseServlet {
                                             studentMappingTeacher.setFirstTeacherName(admin.getFirstName());
                                             studentMappingTeacher.setLastTeacherName(admin.getLastName());
                                             studentMappingTeacher.setIsDeleted(false);
-                                            studentMappingTeacher.setStatus("pending");
+                                            studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
                                             studentMappingTeacher.setLicence(true);
                                             studentMappingTeacherDAO.put(studentMappingTeacher);
                                         }
