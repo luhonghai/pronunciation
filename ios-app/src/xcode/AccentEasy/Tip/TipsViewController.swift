@@ -8,6 +8,7 @@
 
 import UIKit
 import EZAudio
+import ImageLoader
 
 class TipsViewController: UIViewController, EZAudioPlayerDelegate {
 
@@ -164,19 +165,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if weakSelf!.selectedTip!.imgTongue != nil && !weakSelf!.selectedTip!.imgTongue.isEmpty {
                 let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
-                let data = NSData(contentsOfURL: url!)
-                if (data != nil) {
-                    weakSelf!.imgTip.hidden = false
-                    dispatch_async(dispatch_get_main_queue(),{
-                        do {
-                            try weakSelf!.imgTip.image = ImageHelper.imageWithImage(UIImage(data: data!)!, scaledToSize: CGSize(width: weakSelf!.imgTip.frame.width,height: weakSelf!.imgTip.frame.width))
-                        } catch {
-                            
-                        }
-                    })
-                } else {
-                    weakSelf!.imgTip.hidden = true
-                }
+                weakSelf!.imgTip.load(url)
             }
         }
     }

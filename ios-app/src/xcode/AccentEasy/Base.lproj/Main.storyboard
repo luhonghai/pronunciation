@@ -727,7 +727,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D8p-Qg-ant">
-                                <rect key="frame" x="20" y="28" width="50" height="50"/>
+                                <rect key="frame" x="13" y="75" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.3411764705882353" green="0.61960784313725492" blue="0.066666666666666666" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" backgroundImage="ic_play.png"/>
                                 <connections>
@@ -749,7 +749,7 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKt-Tf-EpY" customClass="AnalyzingView" customModule="AccentEasy" customModuleProvider="target">
-                                <rect key="frame" x="67" y="88" width="240" height="240"/>
+                                <rect key="frame" x="80" y="113" width="215" height="215"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -757,23 +757,25 @@
                                 </connections>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-oI-D7b">
-                                <rect key="frame" x="0.0" y="369" width="375" height="233"/>
+                                <rect key="frame" x="0.0" y="336" width="375" height="331"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-9N-Sp0">
-                                        <rect key="frame" x="0.0" y="18" width="375" height="135"/>
+                                        <rect key="frame" x="0.0" y="20" width="375" height="311"/>
                                         <color key="backgroundColor" red="0.14509803921568629" green="0.65490196078431373" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Vf-e5b">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="213"/>
+                                        <rect key="frame" x="0.0" y="23" width="375" height="308"/>
                                         <connections>
                                             <segue destination="t93-HT-Mrj" kind="embed" id="0GI-4W-Bce"/>
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I3y-X1-Dwx">
-                                        <rect key="frame" x="163" y="-2" width="49" height="22"/>
+                                        <rect key="frame" x="163" y="0.0" width="49" height="22"/>
+                                        <gestureRecognizers/>
                                         <state key="normal" image="ic_slider.png"/>
                                         <connections>
                                             <action selector="sliderClick:" destination="ma6-zi-wIz" eventType="touchUpInside" id="KTB-EI-HIu"/>
+                                            <outletCollection property="gestureRecognizers" destination="YSw-NT-VI6" appends="YES" id="tUb-sH-sq4"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -830,6 +832,11 @@
                         <action selector="analyzingViewTapped:" destination="ma6-zi-wIz" id="3jr-6T-nAL"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="YSw-NT-VI6">
+                    <connections>
+                        <action selector="handleSlide:" destination="ma6-zi-wIz" id="vqU-6Y-L1b"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1168.5" y="-35.5"/>
         </scene>
@@ -1961,23 +1968,25 @@
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Li1-Q4-1W2">
-                                <rect key="frame" x="0.0" y="434" width="375" height="233"/>
+                                <rect key="frame" x="0.0" y="371" width="375" height="296"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
-                                        <rect key="frame" x="0.0" y="18" width="375" height="135"/>
+                                        <rect key="frame" x="0.0" y="21" width="375" height="193"/>
                                         <color key="backgroundColor" red="0.1450980392" green="0.65490196079999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fc-EU-rZS">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="213"/>
+                                        <rect key="frame" x="0.0" y="23" width="375" height="273"/>
                                         <connections>
                                             <segue destination="t93-HT-Mrj" kind="embed" id="cQm-kD-9I0"/>
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oih-mk-Oe1">
-                                        <rect key="frame" x="163" y="-2" width="49" height="22"/>
+                                        <rect key="frame" x="163" y="0.0" width="49" height="22"/>
+                                        <gestureRecognizers/>
                                         <state key="normal" image="ic_slider.png"/>
                                         <connections>
                                             <action selector="sliderClick:" destination="cOY-Ek-PbP" eventType="touchUpInside" id="rYa-lY-Snp"/>
+                                            <outletCollection property="gestureRecognizers" destination="uKX-G5-cxr" appends="YES" id="Chm-qY-M5b"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -2007,6 +2016,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="znD-CV-Gd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="uKX-G5-cxr">
+                    <connections>
+                        <action selector="handlePan:" destination="cOY-Ek-PbP" id="p2t-lE-h6Q"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2173.5" y="-35.5"/>
         </scene>

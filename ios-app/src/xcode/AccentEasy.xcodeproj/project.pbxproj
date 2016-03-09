@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
+		9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */; };
 		9053FDFC1C87D8FC0059A423 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053FDFB1C87D8FC0059A423 /* Global.swift */; };
 		9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053FE101C87E92E0059A423 /* RDVTabBarController.framework */; };
 		9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE121C87F7910059A423 /* tab-background-selected.png */; };
@@ -341,6 +342,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4242BDA364D39707141DAC4CEF6AFFB0;
+			remoteInfo = Diskcached;
+		};
+		9053C2751C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E83608DC684E36CDE4DF678B00377C6F;
+			remoteInfo = ImageLoader;
+		};
 		9053FE0F1C87E92E0059A423 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -778,6 +793,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */,
 				9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */,
 				9B5F33F01C771D5300E85629 /* libsqlite3.tbd in Frameworks */,
 				9BEF04581C59B90B00E474F3 /* AVFoundation.framework in Frameworks */,
@@ -1228,10 +1244,12 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
+				9053C2741C8EE2D2009BA3DF /* Diskcached.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
+				9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
 				9053FE101C87E92E0059A423 /* RDVTabBarController.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
@@ -1725,6 +1743,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9053C2741C8EE2D2009BA3DF /* Diskcached.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Diskcached.framework;
+			remoteRef = 9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ImageLoader.framework;
+			remoteRef = 9053C2751C8EE2D2009BA3DF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9053FE101C87E92E0059A423 /* RDVTabBarController.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

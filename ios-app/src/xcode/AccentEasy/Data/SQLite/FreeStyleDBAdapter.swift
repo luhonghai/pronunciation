@@ -60,6 +60,6 @@ class FreeStyleDBAdapter: BaseDatabaseAdapter {
     func listPronunciationScoreByWord(word: String, limit: Int, username: String) throws -> Array<PronunciationScore> {
         return try query(LiteTable.PRONUNCIATION_SCORE
             .filter(LiteColumn.USERNAME == username && LiteColumn.WORD == word)
-            .order(LiteColumn.TIME .desc).limit(limit))
+            .order(LiteColumn.TIME .desc))
     }
 }
