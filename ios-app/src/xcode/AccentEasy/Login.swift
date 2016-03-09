@@ -11,8 +11,17 @@ import Foundation
 public class Login {
     
     public static let KeyUserProfile:String = "KeyUserProfile"
+    public static let KeyRegisterUser:String = "KeyRegisterUser"
+    public static let KeyIsShowLogin:String = "KeyIsShowLogin"
     
-    public static let IS_DEBUG:Bool = true
+    public static func showError(){
+        dispatch_async(dispatch_get_main_queue(),{
+            SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
+            
+        })
+    }
+    
+    public static let IS_DEBUG:Bool = false
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()

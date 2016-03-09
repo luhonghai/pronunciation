@@ -10,6 +10,8 @@ import UIKit
 
 class LaunchImageVC: UIViewController {
 
+    var userProfileSaveInApp:NSUserDefaults!
+    
     var timer:NSTimer!
     var number:Int!
     var nextScreen:Int!
@@ -23,6 +25,8 @@ class LaunchImageVC: UIViewController {
         number = 1
         nextScreen = 0
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
+        
+        userProfileSaveInApp = NSUserDefaults()
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,7 +42,7 @@ class LaunchImageVC: UIViewController {
             number=1
         }
         nextScreen = nextScreen + 1
-        if nextScreen == 1 {
+        if nextScreen == 10 {
             self.performSegueWithIdentifier("GoToLogin", sender: self)
             //self.dismissViewControllerAnimated(true, completion: nil)
         }
@@ -46,14 +50,15 @@ class LaunchImageVC: UIViewController {
 
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        userProfileSaveInApp.setObject(false, forKey: Login.KeyIsShowLogin)
     }
-    */
+    
 
 }

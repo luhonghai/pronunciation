@@ -26,8 +26,7 @@ class RegisterConfirmVC: UIViewController {
 
         // Do any additional setup after loading the view.
         userProfileSaveInApp = NSUserDefaults()
-        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
+        JSONStringUserProfile = userProfileSaveInApp.objectForKey(Login.KeyRegisterUser) as! String
         userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
         txtcode.placeholder = userProfile.username
     }
@@ -49,8 +48,10 @@ class RegisterConfirmVC: UIViewController {
         let codeConfirm:String = txtcode.text!
     
         let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in print(e)
+                Login.showError()
+            });
         
         client.post("/activate").type("form").send(["acc":codeConfirm,"version_code" : "40000","user":userProfile.username,"lang_prefix":"BE","imei":"32131232131"])
             .set("header", "headerValue")
@@ -60,6 +61,7 @@ class RegisterConfirmVC: UIViewController {
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    Login.showError()
                 }
                 else {
                     //handleErrorJson(res.body)
@@ -93,8 +95,10 @@ class RegisterConfirmVC: UIViewController {
         */
         
         let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in print(e)
+                Login.showError()
+            });
         
         client.post("/activate").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
             .set("header", "headerValue")
@@ -104,6 +108,7 @@ class RegisterConfirmVC: UIViewController {
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    Login.showError()
                 }
                 else {
                     //handleErrorJson(res.body)

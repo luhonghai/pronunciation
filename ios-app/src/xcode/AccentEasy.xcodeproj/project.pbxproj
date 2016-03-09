@@ -209,6 +209,11 @@
 		C13C28FD1C800D4E000CC11D /* EZSwipeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */; };
 		C13C29011C800EC0000CC11D /* FreestyleSwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */; };
 		C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13CDA831C48E19A009E649F /* UserProfile.swift */; };
+		C13D48521C8954F800D630A4 /* FreeStyleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13D48511C8954F800D630A4 /* FreeStyleVC.swift */; };
+		C13D48551C89559A00D630A4 /* FSMainSwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13D48531C89559A00D630A4 /* FSMainSwipeVC.swift */; };
+		C13D48561C89559A00D630A4 /* FSMainSwipeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C13D48541C89559A00D630A4 /* FSMainSwipeVC.xib */; };
+		C13D48591C896BAD00D630A4 /* FSDetailSwipeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13D48571C896BAD00D630A4 /* FSDetailSwipeVC.swift */; };
+		C13D485A1C896BAD00D630A4 /* FSDetailSwipeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C13D48581C896BAD00D630A4 /* FSDetailSwipeVC.xib */; };
 		C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */ = {isa = PBXBuildFile; fileRef = C13E44B91C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav */; };
 		C13E44BC1C60556D00EB6075 /* sautatca.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C13E44BB1C60556D00EB6075 /* sautatca.mp3 */; };
 		C13E44BE1C60615B00EB6075 /* Multimedia.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13E44BD1C60615B00EB6075 /* Multimedia.swift */; };
@@ -233,6 +238,7 @@
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
+		C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */; };
 		C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2451C44B1EC00537461 /* above_shadow.xml */; };
 		C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */; };
 		C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2471C44B1EC00537461 /* ae_icon.png */; };
@@ -627,6 +633,11 @@
 		C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EZSwipeController.swift; sourceTree = "<group>"; };
 		C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreestyleSwipeVC.swift; sourceTree = "<group>"; };
 		C13CDA831C48E19A009E649F /* UserProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		C13D48511C8954F800D630A4 /* FreeStyleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FreeStyleVC.swift; sourceTree = "<group>"; };
+		C13D48531C89559A00D630A4 /* FSMainSwipeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSMainSwipeVC.swift; sourceTree = "<group>"; };
+		C13D48541C89559A00D630A4 /* FSMainSwipeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSMainSwipeVC.xib; sourceTree = "<group>"; };
+		C13D48571C896BAD00D630A4 /* FSDetailSwipeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSDetailSwipeVC.swift; sourceTree = "<group>"; };
+		C13D48581C896BAD00D630A4 /* FSDetailSwipeVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSDetailSwipeVC.xib; sourceTree = "<group>"; };
 		C13E44B91C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav"; sourceTree = "<group>"; };
 		C13E44BB1C60556D00EB6075 /* sautatca.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sautatca.mp3; sourceTree = "<group>"; };
 		C13E44BD1C60615B00EB6075 /* Multimedia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multimedia.swift; sourceTree = "<group>"; };
@@ -659,6 +670,7 @@
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
+		C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOverlays.swift; sourceTree = "<group>"; };
 		C16CD2451C44B1EC00537461 /* above_shadow.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = above_shadow.xml; sourceTree = "<group>"; };
 		C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accenteasy_icon_text.png; sourceTree = "<group>"; };
 		C16CD2471C44B1EC00537461 /* ae_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ae_icon.png; sourceTree = "<group>"; };
@@ -1200,6 +1212,7 @@
 		9BA3AB811C4F98AB00C6631D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */,
 				C13B65711C86DC6700318336 /* UIVViewController-SLPopup.swift */,
 				C13C28FC1C800D4E000CC11D /* EZSwipeController.swift */,
 				C14CE27A1C4E187D001EE55A /* SweetAlert.swift */,
@@ -1443,6 +1456,11 @@
 				C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */,
 				9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */,
 				90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */,
+				C13D48511C8954F800D630A4 /* FreeStyleVC.swift */,
+				C13D48531C89559A00D630A4 /* FSMainSwipeVC.swift */,
+				C13D48541C89559A00D630A4 /* FSMainSwipeVC.xib */,
+				C13D48571C896BAD00D630A4 /* FSDetailSwipeVC.swift */,
+				C13D48581C896BAD00D630A4 /* FSDetailSwipeVC.xib */,
 			);
 			name = ScreenController;
 			sourceTree = "<group>";
@@ -1866,9 +1884,11 @@
 				C16CD2C21C44B1EC00537461 /* p_menu_lesson.png in Resources */,
 				C16CD2E91C44B1EC00537461 /* ic_play.png in Resources */,
 				C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */,
+				C13D48561C89559A00D630A4 /* FSMainSwipeVC.xib in Resources */,
 				C16CD2B61C44B1EC00537461 /* p_graph_blue_blur.png in Resources */,
 				C16CD2DE1C44B1EC00537461 /* berty_head_antialias_alpha.png in Resources */,
 				C16CD2EB1C44B1EC00537461 /* ic_record.png in Resources */,
+				C13D485A1C896BAD00D630A4 /* FSDetailSwipeVC.xib in Resources */,
 				C16CD2A91C44B1EC00537461 /* ae_phone_detail.png in Resources */,
 				C16CD2EA1C44B1EC00537461 /* ic_question.png in Resources */,
 				C16CD2C81C44B1EC00537461 /* p_tip_blue_blur.png in Resources */,
@@ -1989,6 +2009,7 @@
 				90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */,
 				9B5F33541C77129A00E85629 /* RadarChartView.swift in Sources */,
 				C1410BA31C474D9200E781B4 /* AELoginVC.swift in Sources */,
+				C13D48551C89559A00D630A4 /* FSMainSwipeVC.swift in Sources */,
 				C141C8031C3E203C001D1F9C /* ViewController.swift in Sources */,
 				9B5F33921C77129A00E85629 /* IRadarChartDataSet.swift in Sources */,
 				9B5F33E21C771B5A00E85629 /* Mapper.swift in Sources */,
@@ -2031,6 +2052,7 @@
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				9B5F339B1C77129A00E85629 /* ChartHighlighter.swift in Sources */,
 				9B5F335B1C77129A00E85629 /* ChartXAxis.swift in Sources */,
+				C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */,
 				9B5F341C1C771DB300E85629 /* SQLiteOperators.swift in Sources */,
 				C13B656F1C86D9C200318336 /* IPAPopupVC.swift in Sources */,
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
@@ -2075,6 +2097,7 @@
 				C1410BA51C4762E200E781B4 /* ResetPassVC.swift in Sources */,
 				9B5F33AF1C77129A00E85629 /* ChartXAxisRendererHorizontalBarChart.swift in Sources */,
 				9B5F33501C77129A00E85629 /* HorizontalBarChartView.swift in Sources */,
+				C13D48591C896BAD00D630A4 /* FSDetailSwipeVC.swift in Sources */,
 				9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */,
 				9B5F33931C77129A00E85629 /* IScatterChartDataSet.swift in Sources */,
 				9B5F34281C771E6000E85629 /* Request.swift in Sources */,
@@ -2090,6 +2113,7 @@
 				9B5F33511C77129A00E85629 /* LineChartView.swift in Sources */,
 				9B5F33A01C77129A00E85629 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
+				C13D48521C8954F800D630A4 /* FreeStyleVC.swift in Sources */,
 				9B5F33B81C77129A00E85629 /* LineScatterCandleRadarChartRenderer.swift in Sources */,
 				C13E44C21C6093C300EB6075 /* SphinxResult.swift in Sources */,
 				9B5F33721C77129A00E85629 /* BarChartDataSet.swift in Sources */,

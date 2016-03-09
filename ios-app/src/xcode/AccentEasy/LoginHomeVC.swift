@@ -13,10 +13,11 @@ import FBSDKLoginKit
 
 class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
-    var showLog:Int!
+    var showLogin:Int!
     var JSONStringUserProfile:String!
     var userProfileSaveInApp:NSUserDefaults!
     var keyForProfile:String!
+    var isShowLogin:Bool!
 
 
     //@IBOutlet weak var signInButton: GIDSignInButton!
@@ -30,11 +31,33 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        //process show login button
         userProfileSaveInApp = NSUserDefaults()
-        showLog = 1
+        isShowLogin = userProfileSaveInApp.objectForKey(Login.KeyIsShowLogin) as? Bool
+        if (isShowLogin != nil && isShowLogin == true) {
+            btnLoginFB.hidden = false
+            btnLoginAC.hidden = false
+            btnAltLogin.hidden = true
+        }
+        showLogin = 1
+        
+        //google login delegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
-        print("view did load")
+        
+        
+        //check login
+        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
+        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
+        if (!JSONStringUserProfile.isEmpty){
+            print("move")
+            print(JSONStringUserProfile)
+            dispatch_async(dispatch_get_main_queue(),{
+                self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+            })
+        }
+        
+        print("login view did load")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,6 +70,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 appDelegate.window?.rootViewController = mainPageNav
         }*/
         
+        //super.viewWillDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,12 +79,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //userProfileSaveInApp.setObject(JSONStringUserProfile, forKey: keyForProfile)
+        userProfileSaveInApp.setObject(false, forKey: Login.KeyIsShowLogin)
     }
     
     
     @IBAction func btnLoginGTapped(sender: AnyObject) {
-        //[[GIDSignIn sharedInstance] signIn]
         GIDSignIn.sharedInstance().signIn()
     }
     
@@ -114,6 +137,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
                 print(self.JSONStringUserProfile)
                 self.registerUserProfile()
+                //show loadding
+                self.showLoadding()
                 
             } else {
                 print("\(error.localizedDescription)")
@@ -166,6 +191,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 // Process error
                 print(error)
                 self.removeFbData()
+                self.showError()
             } else if result.isCancelled {
                 // User Cancellation
                 self.removeFbData()
@@ -199,10 +225,14 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
                 if ((error) != nil) {
                     //Handle error
+                    print(error)
+                    self.showError()
                 } else {
                     print(result)
+                    
                     //Handle Profile Photo URL String
-                    let userId =  result["id"] as! String
+                    //let userId:String =  result["id"] as! String
+                    let userId:String =  result.valueForKey("id") as! String
                     let profilePictureUrl:String = "https://graph.facebook.com/\(userId)/picture?type=square"
                     //https://graph.facebook.com/1093146987371181/picture?type=square&width=320&height=320
                     //enum{small, normal, album, large, square}
@@ -229,24 +259,41 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
                     print(self.JSONStringUserProfile)
                     self.registerUserProfile()
+                    
+                    //show loadding
+                    self.showLoadding()
                 }
             })
         }
     }
     
-
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+    
+    func showError(){
+        dispatch_async(dispatch_get_main_queue(),{
+            self.removeAllOverlays()
+            SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
+            
+        })
+    }
 
     
     func registerUserProfile() {
         print("run in register fb")
         let client = Client()
-            .baseUrl("http://localhost:8080")
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in
                 print(e)
-                dispatch_async(dispatch_get_main_queue(),{
-                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                    
-                })
+                self.showError()
             });
         
         client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":self.JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
@@ -257,10 +304,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 //handleResponseJson(res.body)
                 //print(res.body)
                     print(res.text)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                        
-                    })
+                    self.showError()
                 }
                 else {
                     print("run in register fb sucess")
@@ -298,13 +342,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func loginMainPage(){
         print(JSONStringUserProfile)
         let client = Client()
-            .baseUrl("http://localhost:8080")
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in
                 print(e)
-                dispatch_async(dispatch_get_main_queue(),{
-                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                    
-                })
+                self.showError()
             });
         
         client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
@@ -315,10 +356,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
-                        
-                    })
+                    self.showError()
                 }
                 else {
                     //handleErrorJson(res.body)
@@ -338,9 +376,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                                 self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                             })
                             
+                            // hidden loadding
+                            self.hidenLoadding()
+                            
                             
                         } else {
-                            //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                             dispatch_async(dispatch_get_main_queue(),{
                                 SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
                                 
@@ -353,20 +393,43 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                             
                         })
                     }
-                                        //print(result?.message)
-                    //print(result?.status)
                 }
             })
 
     }
     
+    
+    @IBAction func btnLoginACTouchUp(sender: AnyObject) {
+        print("run in here")
+        
+        //let aELoginVC = self.storyboard?.instantiateViewControllerWithIdentifier("AELoginVC") as! AELoginVC
+        //let aELoginVC = AELoginVC(nibName: "AELoginVC", bundle:nil)
+        //self.navigationController?.pushViewController(aELoginVC, animated: true)
+        //self.performSegueWithIdentifier("AELoginVC", sender: self)
+        
+        
+        //let mainPage = self.storyboard?.instantiateViewControllerWithIdentifier("AELoginVC") as! AELoginVC
+        //let mainPageNav = UINavigationController(rootViewController: mainPage)
+        
+        //let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //appDelegate.window?.rootViewController = mainPageNav
+    }
+    
     @IBAction func tappedAltLogin(sender: AnyObject) {
-        showLog = showLog + 1
-        if showLog == 2 {
+        if (isShowLogin != nil && isShowLogin == true) {
             btnLoginFB.hidden = false
-        } else if showLog == 3{
             btnLoginAC.hidden = false
             btnAltLogin.hidden = true
+        } else{
+            showLogin = showLogin + 1
+            if showLogin == 2 {
+                btnLoginFB.hidden = false
+            } else if showLogin == 3{
+                btnLoginAC.hidden = false
+                btnAltLogin.hidden = true
+            } 
+
         }
     }
 

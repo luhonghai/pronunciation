@@ -12,7 +12,6 @@ class RegisterVC: UIViewController {
 
     var userProfileSaveInApp:NSUserDefaults!
     var JSONStringUserProfile:String!
-    var keyForUserProfile:String!
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -33,6 +32,7 @@ class RegisterVC: UIViewController {
         // Do any additional setup after loading the view.
         userProfileSaveInApp = NSUserDefaults()
         
+        txtEmail.autocorrectionType = UITextAutocorrectionType.No
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
     }
 
@@ -50,6 +50,14 @@ class RegisterVC: UIViewController {
         //}
     }
     
+    func isValidEmail(testStr:String) -> Bool {
+        // println("validate calendar: \(testStr)")
+        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluateWithObject(testStr)
+    }
+    
     @IBAction func registerTapped(sender: AnyObject) {
         /*
         data.put("version_code", AndroidHelper.getVersionCode(context));
@@ -63,21 +71,15 @@ class RegisterVC: UIViewController {
         let password:String = txtPassword.text!
         let confirmPassword:String = txtConfirmPassword.text!
         
-        let alertView:UIAlertView = UIAlertView()
-        
-        if username.isEmpty || password.isEmpty {
-            alertView.title = "Register Failed!"
-            alertView.message = "Please enter Username and Password"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+        if username.isEmpty || !isValidEmail(username) {
+            SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
             return
+        } else if password.characters.count < 6 {
+            SweetAlert().showAlert("invalid password", subTitle: "passwords must be at least 6 characters in length", style: AlertStyle.Error)
+            return
+            
         }else if password != confirmPassword {
-            alertView.title = "Register Failed!"
-            alertView.message = "Passwords doesn't Match"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            SweetAlert().showAlert("invalid password", subTitle: "passwords doesn't match", style: AlertStyle.Error)
             return
         }
         
@@ -88,8 +90,6 @@ class RegisterVC: UIViewController {
         userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
-        //set userProfile key
-        keyForUserProfile = username
         
         JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
         
@@ -97,8 +97,10 @@ class RegisterVC: UIViewController {
         print("JSONStringUserProfile is:" + JSONStringUserProfile)
         print("------------------------------------------------------")
         let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in print(e)
+                Login.showError()
+            });
     
         client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
             .set("header", "headerValue")
@@ -108,6 +110,7 @@ class RegisterVC: UIViewController {
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    Login.showError()
                 }
                 else {
                     //handleErrorJson(res.body)
@@ -121,8 +124,7 @@ class RegisterVC: UIViewController {
                             //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                             //[unowned self] in NSThread.isMainThread()
                             //save UserProfile
-                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForUserProfile)
-                            self.userProfileSaveInApp.setObject(self.keyForUserProfile, forKey: Login.KeyUserProfile)
+                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: Login.KeyRegisterUser)
                             //next page
                             self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                         })

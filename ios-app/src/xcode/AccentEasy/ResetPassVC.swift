@@ -44,8 +44,10 @@ class ResetPassVC: UIViewController {
         }
         
         let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in print(e)
+                Login.showError()
+            });
         
         client.post("/ResetPasswordHandler").type("form").send(["acc":username,"action":"request","imei":"32131232131"])
             .set("header", "headerValue")
@@ -55,6 +57,7 @@ class ResetPassVC: UIViewController {
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    Login.showError()
                 }
                 else {
                     //handleErrorJson(res.body)
