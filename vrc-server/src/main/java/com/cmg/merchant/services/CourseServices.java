@@ -26,8 +26,8 @@ import java.util.List;
 public class CourseServices {
     private static final Logger logger = Logger.getLogger(CourseServices.class
             .getName());
-    private String SUCCESS = "success";
-    private String ERROR = "error";
+    public String SUCCESS = "success";
+    public String ERROR = "error";
 
     /**
      * use for get max version
@@ -153,8 +153,8 @@ public class CourseServices {
         CDAO cDao = new CDAO();
         CMTDAO cmtDao = new CMTDAO();
         SessionUtil util = new SessionUtil();
+        String cId = UUIDGenerator.generateUUID().toString();
         try {
-            String cId = UUIDGenerator.generateUUID().toString();
             Course c = new Course(cId, name, description, false,
                     getMaxVersion(), new Date(System.currentTimeMillis()));
             boolean check = cDao.create(c);
@@ -181,7 +181,7 @@ public class CourseServices {
             logger.error("can not add course : " + e);
             result = ERROR + ": An error has been occurred in server";
         }
-        return result;
+        return cId;
     }
 
     /**

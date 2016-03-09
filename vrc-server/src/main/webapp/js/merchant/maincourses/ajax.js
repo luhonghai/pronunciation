@@ -15,41 +15,67 @@ function addCourse(){
         },
         dataType : "text",
         success : function(data){
-            if (data.indexOf("success") !=-1) {
-                //add success will draw again the list or redirect to the new page
-                alert(data);
+            if (data.indexOf("error") !=-1) {
+                getMsgAddCourse().html("An error has been occurred in server!");
+                getMsgAddCourse().show();
             }else{
-                //add false show the error
-                alert('error');
+                //add success will draw again the list or redirect to the new page
+                window.location.href = "/course-details.jsp";
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            getMsgAddCourse().html("An error has been occurred in server!");
+            getMsgAddCourse().show();
         }
     });
 }
 
 
 function loadAllCourse(){
+    getDivContainCourse().empty();
+    getDivContainCourse().hide();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 10,
+        onFinish: function () {
+            getProcessBar().delay(2000).hide();
+            getDivContainCourse().show();
+        }
+    });
     $.ajax({
         url : servlet,
         type : "POST",
         data : {
-            action: "addcourse",
-            name: getCourseName().val(),
-            description: getCourseDescription().val(),
-            share : getCourseShare().val()
+            action: "listall"
         },
-        dataType : "text",
+        dataType : "json",
         success : function(data){
-            if (data.indexOf("success") !=-1) {
-                //add success will draw again the list or redirect to the new page.
+            if(data.length > 0 ){
+                $(data).each(function(){
+                    buildCourse(this);
+                });
             }else{
-                //add false show the error
+                getDivContainCourse().html("<label class='welcome'>There is no course available in the system!</label>");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'ERROR!',
+            onFinish:function(){
+                getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+                getDivContainCourse().show();
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }
+
+
+function searchCourseHeader(){
+
+}
+
+function searchCourseDetail(){}

@@ -60,8 +60,8 @@ import java.io.IOException;
                             session.setAttribute(SessionUtil.ATT_CPID, teacherMappingCompany.getIdCompany());
                             session.setAttribute(SessionUtil.ATT_TID, admin.getId());
                         }else{
-                            session.setAttribute("company", "");
-                            session.setAttribute("idCompany", "");
+                            session.setAttribute(SessionUtil.ATT_CPNAME, "");
+                            session.setAttribute(SessionUtil.ATT_CPID, "");
                         }
                     }
                     logins.message="success";

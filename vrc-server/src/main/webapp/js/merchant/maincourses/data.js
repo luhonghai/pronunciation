@@ -1,6 +1,16 @@
 /**
  * Created by lantb on 2016-02-02.
  */
+function getDivContainCourse(){
+    return $("#content-courses");
+}
+
+function getProcessBar(){
+    return $("#process-bar");
+}
+function getPoupAdd(){
+    return $("#add");
+}
 function getCourseShare(){
    return $('input[type=checkbox]:checked');
 }
