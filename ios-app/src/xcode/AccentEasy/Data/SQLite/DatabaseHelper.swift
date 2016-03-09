@@ -8,6 +8,11 @@
 
 import Foundation
 import SSZipArchive
+
+class DatabaseVersion {
+    
+}
+
 public class DatabaseHelper {
     
     class func checkDatabaseVersion() -> Bool {

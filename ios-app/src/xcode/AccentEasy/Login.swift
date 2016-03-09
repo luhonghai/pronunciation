@@ -21,7 +21,7 @@ public class Login {
         })
     }
     
-    public static let IS_DEBUG:Bool = false
+    public static let IS_DEBUG:Bool = true
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()
@@ -31,6 +31,7 @@ public class Login {
         user.token = "6a3fddb4-79ed-472e-83e9-c899e5db8634"
         user.licenseCode = "8FvYvh"
         user.isActivatedLicence = true
+        user.isLogin = true
         user.isSubscription = true
         user.profileImage = "https://en.gravatar.com/userimage/43514054/ee7d72e67f6b776a9b03a6361f2d0517.png?size=320"
         let deviceInfo = UserProfile.DeviceInfo()
@@ -44,9 +45,13 @@ public class Login {
             return getTestUserProfile()
         } else {
             let userDefaults = NSUserDefaults()
-            let keyForUserProfile:String = userDefaults.objectForKey(Login.KeyUserProfile) as! String
-            let rawString = userDefaults.objectForKey(keyForUserProfile) as! String
-            return Mapper<UserProfile>().map(rawString)!
+            let keyForUserProfile:String? = userDefaults.objectForKey(Login.KeyUserProfile) as! String
+            if (keyForUserProfile != nil) {
+                let rawString = userDefaults.objectForKey(keyForUserProfile!) as! String
+                return Mapper<UserProfile>().map(rawString)!
+            } else {
+                return UserProfile()
+            }
         }
     }
 }
