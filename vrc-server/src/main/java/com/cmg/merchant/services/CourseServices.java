@@ -9,6 +9,7 @@ import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.course.CMLDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -127,13 +128,13 @@ public class CourseServices {
      * @return
      */
     public ArrayList<String> suggestionCourse(String course) {
-        CDAO dao = new CDAO();
+        CMTDAO dao = new CMTDAO();
         ArrayList<String> listSuggestion = new ArrayList<>();
         try {
-            List<Course> courses = dao.suggestionCourse(0, 3, course);
+            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_NOT_PUBLISH,course);
             if (courses != null && courses.size() > 0) {
-                for (Course c : courses) {
-                    listSuggestion.add(c.getName());
+                for (CourseDTO c : courses) {
+                    listSuggestion.add(c.getNameCourse());
                 }
             }
         } catch (Exception e) {

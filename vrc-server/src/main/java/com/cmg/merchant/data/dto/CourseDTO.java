@@ -19,6 +19,16 @@ public class CourseDTO {
     String pageLink;
     String backgroundColor;
     String textColor;
+    String sr;
+
+
+    public String getSr() {
+        return sr;
+    }
+
+    public void setSr(String sr) {
+        this.sr = sr;
+    }
 
     public String getTextColor() {
         return textColor;

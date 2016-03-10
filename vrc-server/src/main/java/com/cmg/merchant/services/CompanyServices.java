@@ -1,8 +1,11 @@
 package com.cmg.merchant.services;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.company.CPDAO;
 import com.cmg.merchant.dao.course.CDAO;
+import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.vrc.data.jdo.ClientCode;
 import org.apache.log4j.Logger;
 
@@ -17,13 +20,13 @@ public class CompanyServices {
     private static final Logger logger = Logger.getLogger(CompanyServices.class
             .getName());
 
-    public ArrayList<String> suggestionCompany(String course){
-        CPDAO dao = new CPDAO();
+    public ArrayList<String> suggestionCompany(String company){
+        CMTDAO dao = new CMTDAO();
         ArrayList<String> listSuggestion = new ArrayList<>();
         try {
-            List<ClientCode> cpList = dao.suggestionCompany(0, 3, course);
+            List<CourseDTO> cpList = dao.suggestCompany(Constant.STATUS_NOT_PUBLISH, company);
             if(cpList!=null && cpList.size() > 0){
-                for(ClientCode c : cpList){
+                for(CourseDTO c : cpList){
                     listSuggestion.add(c.getCompanyName());
                 }
             }

@@ -34,7 +34,9 @@ function getBtnSaveCourse(){
 }
 
 
-
+function getDropDownSearch(){
+    return $('.dropdown');
+}
 function getSuggestCourseHeader(){
     return $('#suggestCourseHeader');
 }
