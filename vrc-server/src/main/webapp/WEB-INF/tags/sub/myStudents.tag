@@ -1,7 +1,9 @@
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
+<%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%String teacherName=session.getAttribute("username").toString();%>
-<%String company=session.getAttribute("company").toString();%>
+<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
 <div id="page-wrapper">
   <input type="hidden" id="teacher" value="<%=teacherName%>">
   <div class="row" style="color:lightgrey; margin-left: 0px;">

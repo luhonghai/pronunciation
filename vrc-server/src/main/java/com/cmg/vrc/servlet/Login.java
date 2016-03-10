@@ -1,6 +1,7 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.merchant.util.SessionUtil;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.dao.impl.TeacherMappingCompanyDAO;
 import com.cmg.vrc.data.jdo.Admin;
@@ -52,7 +53,7 @@ import java.io.IOException;
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
-                    if(admin.getRole()==3 || admin.getRole()==4){
+                    if(admin.getRole()== Constant.ROLE_STAFF || admin.getRole()==Constant.ROLE_TEACHER){
                         TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
                         teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
                         if(teacherMappingCompany!=null) {

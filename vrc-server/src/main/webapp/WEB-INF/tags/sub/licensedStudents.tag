@@ -1,6 +1,8 @@
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
+<%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%String company=session.getAttribute("company").toString();%>
+<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
 <div id="page-wrapper">
      <div class="row" style="color:lightgrey; margin-left: 0px;">
          <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> students</p>

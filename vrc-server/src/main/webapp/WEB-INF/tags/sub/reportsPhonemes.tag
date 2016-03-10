@@ -1,6 +1,8 @@
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
+<%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%String company=session.getAttribute("company").toString();%>
+<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
 <div id="page-wrapper">
     <div class="row" style="color:lightgrey; margin-left: 0px;">
         <h3 style="float: left;"><%=company%></h3><p style="margin-top: 25px;">>reports>lessons</p>
@@ -90,9 +92,12 @@
 
     </div>
     <div class="row" id="scoreavg" style="margin-bottom: -10px; margin-top: 20px">
+        <label class="col-sm-2" style="text-align: right; margin-left: 40px">phoneme: </label>
+        <label class="col-sm-2" id="phoneme" style="padding-left: 0px;"></label>
+        <label class="col-sm-2" style="text-align: right; margin-left: 40px">top score </label>
+        <label class="col-sm-2" id="score" style="padding-left: 0px;"></label>
+        <label class="col-sm-2" id="studentName" style="padding-left: 0px;"></label>
 
-        <label class="col-sm-2" style="text-align: right; margin-left: 40px">Score average: </label>
-        <label class="col-sm-2" id="avg" style="padding-left: 0px;"></label>
     </div>
     <div class="row" style="margin-top: 5px;">
         <div id="dashboard">

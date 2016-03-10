@@ -1,5 +1,6 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.StringUtil;
@@ -77,10 +78,10 @@ public class AddTeaherOrStaff extends HttpServlet {
             try{
                 int ro = 0;
                 if (role.length() > 0 && role.equals("Staff")) {
-                    ro = 3;
+                    ro =Constant.ROLE_STAFF;
                 }
                 if (role.length() > 0 && role.equals("Teacher")) {
-                    ro = 4;
+                    ro =Constant.ROLE_TEACHER;
                 }
                 Admin a = adminDAO.getUserByEmail(username);
                 if (a != null) {
@@ -96,10 +97,10 @@ public class AddTeaherOrStaff extends HttpServlet {
                     TeacherMappingCompany teacherMappingCompany = new TeacherMappingCompany();
                     teacherMappingCompany.setIsDeleted(false);
                     teacherMappingCompany.setIdCompany(idCompany);
-                    if(ro == 3){
-                        teacherMappingCompany.setType("staff");
+                    if(ro == Constant.ROLE_STAFF){
+                        teacherMappingCompany.setType(Constant.STAFF);
                     }else{
-                        teacherMappingCompany.setType("teacher");
+                        teacherMappingCompany.setType(Constant.TEACHER);
                     }
                     teacherMappingCompany.setCompany(company);
                     teacherMappingCompany.setUserName(username);
@@ -120,10 +121,10 @@ public class AddTeaherOrStaff extends HttpServlet {
             String company = request.getParameter("company");
             int ro = 0;
             if (role.length() > 0 && role.equals("Staff")) {
-                ro = 3;
+                ro = Constant.ROLE_STAFF;
             }
             if (role.length() > 0 && role.equals("Teacher")) {
-                ro = 4;
+                ro = Constant.ROLE_TEACHER;
             }
             try {
 
@@ -142,9 +143,9 @@ public class AddTeaherOrStaff extends HttpServlet {
                         teacherMappingCompany.setIsDeleted(false);
                         teacherMappingCompany.setUserName(username);
                         if(role.equals("Staff")){
-                            teacherMappingCompany.setType("staff");
+                            teacherMappingCompany.setType(Constant.STAFF);
                         }else {
-                            teacherMappingCompany.setType("teacher");
+                            teacherMappingCompany.setType(Constant.TEACHER);
                         }
                         teacherMappingCompanyDAO.put(teacherMappingCompany);
                 }
