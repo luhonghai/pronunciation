@@ -31,9 +31,6 @@ public class StudentMappingTeacher implements Mirrorable {
     private boolean isDeleted;
 
     @Persistent
-    private Date createdDate;
-
-    @Persistent
     private String mappingBy;
 
     @Persistent
@@ -119,14 +116,6 @@ public class StudentMappingTeacher implements Mirrorable {
 
     public void setMappingBy(String mappingBy) {
         this.mappingBy = mappingBy;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public boolean isView() {

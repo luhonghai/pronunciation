@@ -97,55 +97,49 @@ function listMyStudent(){
                 var listMyStudent=data.students;
                 for(var i=0;i<listMyStudent.length;i++){
                     if(listMyStudent[i].licence==true){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</button>');
+                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#17375E;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</p></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
-                        $button.css({"background-color": "#003366","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='accept'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;"></button>');
+                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/popup/accepted_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
-                        $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='reject'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;"></button>');
+                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/rejected_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
-                        $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].mappingBy=='teacher'){
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;"></button>');
+                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
-                        $button.css({"background-color": "#33ccff","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
 
                     }else{
-                        $button = $('<button type="button" style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_48x48.gif" style="width: 24px;height: 24px;"></button>');
+                        $button = $('<div style="margin-top: 5px; cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#7330A5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
                         $button.attr("mappingBy", listMyStudent[i].mappingBy);
                         $button.attr("studentName", listMyStudent[i].studentName);
-                        $button.css({"background-color": "#990099","color":"#ffffff"});
                         $("#listMyStudent").append($button).html();
-
                     }
                 }
             }
@@ -204,16 +198,23 @@ function rejects(){
         $.ajax({
             url: "SendMailUser",
             type: "POST",
-            dataType: "json",
+            dataType: "text",
             data: {
                 action: "rejectStudent",
                 id:id
             },
             success: function (data) {
-                if (data.message == "success") {
-
+                if (data == "success") {
+                    $("#invitationFromStudent").modal('hide');
+                    ("#confirmReject").modal('hide');
+                    $("#listMyStudent").empty();
+                    listMyStudent();
+                    swal("Success!", "Reject student success!", "success");
                 }
 
+            },
+            error:function(e){
+                swal("Error!", "Could not connect to server", "error");
             }
 
         })
@@ -227,16 +228,22 @@ function accept(){
         $.ajax({
             url: "SendMailUser",
             type: "POST",
-            dataType: "json",
+            dataType: "text",
             data: {
                 action: "acceptStudent",
                 id:id
             },
             success: function (data) {
-                if (data.message == "success") {
-
+                if (data == "success") {
+                    $("#invitationFromStudent").modal('hide');
+                    $("#listMyStudent").empty();
+                    listMyStudent();
+                    swal("Success!", "Accept student success!", "success");
                 }
 
+            },
+            error:function(e){
+                swal("Error!", "Could not connect to server", "error");
             }
 
         })
@@ -260,16 +267,23 @@ function deleteStudent(){
         $.ajax({
             url: "SendMailUser",
             type: "POST",
-            dataType: "json",
+            dataType: "text",
             data: {
                 action: "deletedStudentInMyStudent",
                 id:id
             },
             success: function (data) {
-                if (data.message == "success") {
-
+                if (data == "success") {
+                    $("#remove").modal('hide');
+                    $("#confirmRemove").modal('hide');
+                    $("#listMyStudent").empty();
+                    listMyStudent();
+                    swal("Success!", "Delete student success!", "success");
                 }
 
+            },
+            error:function(e){
+                swal("Error!", "Could not connect to server", "error");
             }
 
         })
@@ -285,6 +299,7 @@ function invite(){
 
 function inviteStudents(){
     $(document).on("click","#invite",function(){
+        $("#listMailError").empty();
         var mail=$("#listmail").val();
         var teacher=$("#teacher").val();
         var obj= {
@@ -302,15 +317,39 @@ function inviteStudents(){
                 },
                 success: function (data) {
                     if (data.message == "success") {
+                        $("#listMyStudent").empty();
+                        listMyStudent();
                         swal("Success!", "Send success!", "success");
-                    } else if(data.message == "notExit") {
-                        var list=data.users;
-                        var listmail=list.toString();
-                        swal("Error!", "User: "+listmail+" do not exist", "error");
                     }else{
-                        var list=data.users;
-                        var listmail=list.toString();
-                        swal("Warning!", "User: "+listmail+" have on list your student", "warning");
+                        var listMailError=data.mailError;
+                        var listMailExist=data.mailExist;
+                        if(listMailError!=null && listMailError.length>0 && listMailExist!=null && listMailExist.length>0){
+                            var listError=listMailError.toString();
+                            var listExist=listMailExist.toString();
+                            $("#listMailError").append(listError);
+                            $("#errorInviteModal").modal('show');
+                            $("#listMailExist").append(listExist);
+                            $("#existInviteModal").modal('show');
+                            $("#inviteModal").modal('hide');
+                            $("#listMyStudent").empty();
+                            listMyStudent();
+                        }else if(listMailError!=null && listMailError.length>0){
+                            var listError=listMailError.toString();
+                            $("#listMailError").append(listError);
+                            $("#inviteModal").modal('hide');
+                            $("#errorInviteModal").modal('show');
+                            $("#listMyStudent").empty();
+                            listMyStudent();
+                        }else if(listMailExist!=null && listMailExist.length>0){
+                            var listExist=listMailExist.toString();
+                            $("#listMailExist").append(listExist);
+                            $("#inviteModal").modal('hide');
+                            $("#existInviteModal").modal('show');
+                            $("#listMyStudent").empty();
+                            listMyStudent();
+                        }
+
+                        //swal("Warning!", "User: "+listmail+" have on list your student", "warning");
                     }
 
                 }
