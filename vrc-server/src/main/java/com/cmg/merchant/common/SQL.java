@@ -26,6 +26,31 @@ public class SQL {
             "where c.isDeleted=false and m.isDeleted=false and m.status='paramStatus' " +
             "and m.tId !='paramTeacherId' and m.sr='paramSharing'";
 
+
+    private String SQL_SUGGEST_COURSE = "Select c.id,c.name, c.description, cp.companyName, " +
+            "m.state, m.dateCreated,cp.id,m.sr from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus'";
+
+    private String SQL_SUGGEST_COMPANY = "Select companyName " +
+            "from CLIENTCODE " +
+            "where isDeleted=false and LCASE(companyName) like '%paramName%'";
+
+
+    private String SQL_SEARCH_COURSE_HEADER = "Select c.id,c.name, c.description, cp.companyName, " +
+            "m.state, m.dateCreated,m.sr,cp.id from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus'";
+
+    private String SQL_SEARCH_COURSE_DETAIL = "Select c.id,c.name, c.description, cp.companyName, " +
+            "m.state, m.dateCreated,m.sr,cp.id from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
+            "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus'";
+
     /**
      *
      * @param status
@@ -73,6 +98,20 @@ public class SQL {
         sql = sql.replaceAll("paramStatus", status);
         sql = sql.replaceAll("paramTeacherId", tId);
         sql = sql.replaceAll("paramCompanyId", cpId);
+        return sql;
+    }
+
+
+    public String getSqlSuggestCourse(String status, String courseName){
+        String sql = SQL_SUGGEST_COURSE;
+        sql = sql.replaceAll("paramStatus", status);
+        sql = sql.replaceAll("paramName", courseName);
+        return sql;
+    }
+
+    public String getSqlSuggestCompany(String status, String companyName){
+        String sql = SQL_SUGGEST_COMPANY;
+        sql = sql.replaceAll("paramName", companyName);
         return sql;
     }
 }

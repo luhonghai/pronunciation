@@ -47,7 +47,7 @@ public class CMTSERVICES {
                                             String status, String sr){
         CMTDAO dao = new CMTDAO();
         try {
-            return dao.getCoursesShareInCompany(cpId,tId,status,sr);
+            return dao.getCoursesShareInCompany(cpId, tId, status, sr);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -103,4 +103,12 @@ public class CMTSERVICES {
         }
         return list;
     }
+
+    public ArrayList<CourseDTO> searchCourseHeader(String name){
+        CMTDAO dao = new CMTDAO();
+        ArrayList<CourseDTO> list = new ArrayList<>();
+        return null;
+    }
+
+
 }

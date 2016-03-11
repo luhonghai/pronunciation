@@ -24,6 +24,12 @@ function openPopup(){
     });
 }
 
+function openSearchDetail(){
+    $('.dropdown').on('shown.bs.dropdown', function(){
+       clearFormSearch();
+    });
+}
+
 function searchHeader(){
     $(document).on("click","#btnSaveCourse", function(){
 
@@ -37,9 +43,12 @@ function searchDetail(){
     });
 }
 
+
+
 $(document).ready(function(){
     makeOnceCheckboxSelected();
     saveCourse();
     openPopup();
     loadAllCourse();
+    openSearchDetail()
 });

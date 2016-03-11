@@ -44,3 +44,9 @@ function clearFormAdd(){
     $('#shareall').prop('checked', true);
     $('input[type="checkbox"]').not($('#shareall')).prop('checked', false);
 }
+
+function clearFormSearch(){
+    getDropDownSearch().find("input[type=text]").each(function(){
+        $(this).val('');
+    });
+}

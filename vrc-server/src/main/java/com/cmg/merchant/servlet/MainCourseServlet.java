@@ -38,11 +38,13 @@ public class MainCourseServlet extends BaseServlet {
             String share = (String) StringUtil.isNull(request.getParameter("share"), 0).toString();
             CourseServices services = new CourseServices();
             String result = services.addCourse(name,description,share,request);
-            if(result.indexOf(services.SUCCESS)!=-1){
+            if(result.indexOf(services.ERROR)!=-1){
+                response.getWriter().print(result);
+            }else{
                 request.getSession().setAttribute(SessionUtil.ATT_COURSE_ID,result);
+                response.getWriter().print(result);
             }
-            response.getWriter().print(result);
-        }else if(action.equalsIgnoreCase(ACTION_LIST_ALL) && util.checkSessionValid(request)){
+        }else if (action.equalsIgnoreCase(ACTION_LIST_ALL) && util.checkSessionValid(request)){
             CMTSERVICES services = new CMTSERVICES();
             ArrayList<CourseDTO> list = services.getCoursesForMainPage(util.getCpId(request),util.getTid(request));
             Gson gson = new Gson();
