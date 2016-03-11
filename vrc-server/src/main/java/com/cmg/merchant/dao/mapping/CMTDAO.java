@@ -371,7 +371,6 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @param cpId
      * @param tId
      * @param status
-     * @param sr
      * @return list if have record and null if not
      * @throws Exception
      */
@@ -561,6 +560,115 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     String array = (String) obj;
                     if(array!=null){
                         dto.setCompanyName(array.toString());
+                    }
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
+
+
+    public ArrayList<CourseDTO> searchCourseHeader(String status,String name){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SQL sqlUtil = new SQL();
+        String sql = sqlUtil.getSqlSearchCourseHeader(status, name);
+        System.out.println("sql search course header : " +  sql);
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    CourseDTO dto = new CourseDTO();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setIdCourse(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setNameCourse(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescriptionCourse(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        dto.setCompanyName(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        dto.setState(array[4].toString());
+                    }
+                    if(array[5]!=null){
+                        dto.setDateCreated(array[5].toString());
+                    }
+                    if(array[6]!=null){
+                        dto.setSr(array[6].toString());
+                    }
+                    if(array[7]!=null){
+                        dto.setIdCompany(array[7].toString());
+                    }
+                    if(array[8]!=null){
+                        dto.setIdTeacher(array[8].toString());
+                    }
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
+
+    public ArrayList<CourseDTO> searchCourseDetail(String status,String cpName, String cName, String dateFrom, String dateTo){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SQL sqlUtil = new SQL();
+        String sql = sqlUtil.getSqlSearchCourseDetail(status, cpName,cName,dateFrom,dateTo);
+        System.out.println("sql search course detail : " +  sql);
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    CourseDTO dto = new CourseDTO();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setIdCourse(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setNameCourse(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescriptionCourse(array[2].toString());
+                    }
+                    if(array[3]!=null){
+                        dto.setCompanyName(array[3].toString());
+                    }
+                    if(array[4]!=null){
+                        dto.setState(array[4].toString());
+                    }
+                    if(array[5]!=null){
+                        dto.setDateCreated(array[5].toString());
+                    }
+                    if(array[6]!=null){
+                        dto.setSr(array[6].toString());
+                    }
+                    if(array[7]!=null){
+                        dto.setIdCompany(array[7].toString());
+                    }
+                    if(array[8]!=null){
+                        dto.setIdTeacher(array[8].toString());
                     }
                     list.add(dto);
                 }

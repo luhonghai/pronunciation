@@ -36,7 +36,7 @@
                         <div class="dropdown dropdown-lg">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
                                     aria-expanded="false"><span class="caret"></span></button>
-                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                            <div id="containSearchDetail" class="dropdown-menu dropdown-menu-right" role="menu">
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group">
                                         <label for="suggestCompany">company</label>
@@ -65,7 +65,7 @@
                                         </div>
 
                                     </div>
-                                    <button  id="btnSearchDetail" type="submit"
+                                    <button id="btnSearchDetail" type="button"
                                             class="btn btn-primary"><span class="glyphicon glyphicon-search"
                                                                           aria-hidden="true"></span></button>
                                 </form>
@@ -161,6 +161,25 @@
                             </div>
                         </div>
                     </form>
+                </div>
+                <!-- End of Modal body -->
+            </div>
+            <!-- End of Modal content -->
+        </div>
+        <!-- End of Modal dialog -->
+    </div>
+
+
+    <div id="help-popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         style="display: none;color:#957F7F">
+        <div class="modal-dialog" style="width:500px">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h2 class="modal-title" style="font-weight: 700;">add course</h2>
+                </div>
+                <div class="modal-body">
+
                 </div>
                 <!-- End of Modal body -->
             </div>

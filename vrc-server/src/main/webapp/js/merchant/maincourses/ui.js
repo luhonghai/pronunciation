@@ -16,7 +16,7 @@ function buildCourse(dto){
     $link.addClass("btn btn-info");
     $link.css("background-color", dto.backgroundColor);
     $link.css("color", dto.textColor);
-    $link.css("padding", "3px 9px");
+    $link.css("padding-bottom", "0px");
     $link.css("border-radius", "5px");
     $link.css("border-color","transparent");
     $link.attr("title",dto.descriptionCourse);

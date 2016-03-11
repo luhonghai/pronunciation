@@ -104,11 +104,75 @@ public class CMTSERVICES {
         return list;
     }
 
-    public ArrayList<CourseDTO> searchCourseHeader(String name){
+    public ArrayList<CourseDTO> searchCourseHeader(String name, String cpId, String tId){
         CMTDAO dao = new CMTDAO();
-        ArrayList<CourseDTO> list = new ArrayList<>();
-        return null;
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        ArrayList<CourseDTO> dbList = dao.searchCourseHeader(Constant.STATUS_NOT_PUBLISH, name);
+        if(dbList.size() > 0){
+            for(CourseDTO dto : dbList){
+                if(dto.getSr().equalsIgnoreCase(Constant.SHARE_ALL)){
+                    list.add(dto);
+                    continue;
+                }
+                if(dto.getIdCompany().equalsIgnoreCase(cpId) && dto.getSr().equalsIgnoreCase(Constant.SHARE_IN_COMPANY)){
+                    list.add(dto);
+                    continue;
+                }
+                if(dto.getIdCompany().equalsIgnoreCase(cpId) && dto.getIdTeacher().equalsIgnoreCase(tId)){
+                    list.add(dto);
+                    continue;
+                }
+            }
+        }
+        if(list.size() > 0) {
+            for (CourseDTO dto : list) {
+                if (dto.getIdCompany().equalsIgnoreCase(cpId)) {
+                    dto.setBackgroundColor(Color.COURSE_CREATE_BY_COMPANY);
+                } else {
+                    dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
+                }
+                dto.setTextColor(Color.TEXT_COLOR);
+            }
+        }
+        return list;
     }
 
-
+    public ArrayList<CourseDTO> searchCourseDetail(String cpName,String cName,String dateFrom, String dateTo ,String cpId, String tId){
+        CMTDAO dao = new CMTDAO();
+        ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
+        if(dateFrom == ""){
+            dateFrom = "1999-01-01";
+        }
+        if(dateTo == ""){
+            dateTo = "2100-01-01";
+        }
+        ArrayList<CourseDTO> dbList = dao.searchCourseDetail(Constant.STATUS_NOT_PUBLISH, cpName,cName,dateFrom,dateTo);
+        if(dbList.size() > 0){
+            for(CourseDTO dto : dbList){
+                if(dto.getSr().equalsIgnoreCase(Constant.SHARE_ALL)){
+                    list.add(dto);
+                    continue;
+                }
+                if(dto.getIdCompany().equalsIgnoreCase(cpId) && dto.getSr().equalsIgnoreCase(Constant.SHARE_IN_COMPANY)){
+                    list.add(dto);
+                    continue;
+                }
+                if(dto.getIdCompany().equalsIgnoreCase(cpId) && dto.getIdTeacher().equalsIgnoreCase(tId)){
+                    list.add(dto);
+                    continue;
+                }
+            }
+        }
+        if(list.size() > 0) {
+            for (CourseDTO dto : list) {
+                if (dto.getIdCompany().equalsIgnoreCase(cpId)) {
+                    dto.setBackgroundColor(Color.COURSE_CREATE_BY_COMPANY);
+                } else {
+                    dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
+                }
+                dto.setTextColor(Color.TEXT_COLOR);
+            }
+        }
+        return list;
+    }
 }

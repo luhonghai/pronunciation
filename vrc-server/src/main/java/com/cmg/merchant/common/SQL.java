@@ -39,17 +39,18 @@ public class SQL {
 
 
     private String SQL_SEARCH_COURSE_HEADER = "Select c.id,c.name, c.description, cp.companyName, " +
-            "m.state, m.dateCreated,m.sr,cp.id from COURSE as c " +
+            "m.state, m.dateCreated,m.sr,cp.id,m.tId from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
-            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus'";
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus' order by c.name";
 
     private String SQL_SEARCH_COURSE_DETAIL = "Select c.id,c.name, c.description, cp.companyName, " +
-            "m.state, m.dateCreated,m.sr,cp.id from COURSE as c " +
+            "m.state, m.dateCreated,m.sr,cp.id,m.tId from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
-            "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus'";
+            "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
+            "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
     /**
      *
@@ -112,6 +113,24 @@ public class SQL {
     public String getSqlSuggestCompany(String status, String companyName){
         String sql = SQL_SUGGEST_COMPANY;
         sql = sql.replaceAll("paramName", companyName);
+        return sql;
+    }
+
+    public String getSqlSearchCourseHeader(String status, String courseName){
+        String sql = SQL_SEARCH_COURSE_HEADER;
+        sql = sql.replaceAll("paramStatus", status);
+        sql = sql.replaceAll("paramName", courseName);
+        return sql;
+    }
+
+
+    public String getSqlSearchCourseDetail(String status,String companyName ,String courseName, String dateFrom, String dateTo){
+        String sql = SQL_SEARCH_COURSE_DETAIL;
+        sql = sql.replaceAll("paramStatus", status);
+        sql = sql.replaceAll("paramCourseName", courseName);
+        sql = sql.replaceAll("paramCompanyName", companyName);
+        sql = sql.replaceAll("paramDateFrom", dateFrom);
+        sql = sql.replaceAll("paramDateTo", dateTo);
         return sql;
     }
 }
