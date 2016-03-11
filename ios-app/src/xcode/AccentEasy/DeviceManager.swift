@@ -7,10 +7,31 @@
 //
 
 import Foundation
+import SystemConfiguration
 
 class DeviceManager {
+    
+    class func isConnectedToNetwork() -> Bool {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
+            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        }
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
+    }
+    
     class func imei() -> String {
-        return "1236534534534"
+        let newUniqueID = CFUUIDCreate(kCFAllocatorDefault)
+        let newUniqueIDString = CFUUIDCreateString(kCFAllocatorDefault, newUniqueID);
+        let guid = newUniqueIDString as NSString
+        return guid.lowercaseString
     }
     
     class func appVersion() -> String {
@@ -26,7 +47,7 @@ class DeviceManager {
     }
     
     class func deviceName() -> String {
-        return "iPhone"
+        return UIDevice.currentDevice().name
     }
     
     class func deviceInfo() -> UserProfile.DeviceInfo {
