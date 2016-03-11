@@ -2452,10 +2452,17 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="8jd-vc-94q"/>
+        <segue reference="eFf-YZ-v5D"/>
         <segue reference="hKc-VP-pia"/>
         <segue reference="Udu-EY-icj"/>
         <segue reference="ZoM-vd-D1g"/>
         <segue reference="WR5-An-sLd"/>
+        <segue reference="y7T-RE-Gak"/>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="t7Q-vO-CVy"/>
+        <segue reference="Udu-EY-icj"/>
         <segue reference="y7T-RE-Gak"/>
         <segue reference="0GI-4W-Bce"/>
     </inferredMetricsTieBreakers>

@@ -25,9 +25,7 @@ class AELoginVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        userProfileSaveInApp = NSUserDefaults()
-        //txtEmail.autocorrectionType = UITextAutocorrectionType.No
+        txtEmail.autocorrectionType = UITextAutocorrectionType.No
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
