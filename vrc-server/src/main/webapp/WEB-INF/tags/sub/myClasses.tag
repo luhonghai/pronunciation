@@ -8,7 +8,7 @@
          <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my classes</p>
      </div>
     <p style="font-size: 20px;">my classes</p>
-    <button id="addClass" class="btn btn-default" style="background-color: #ffA500;border-radius: 5px;color: white;"><img src="/images/teacher/invite_students_48x48.gif" style="height: 24px;width: 24px;">add class <i class="fa fa-plus"></i></button>
+    <button id="addClass" class="btn btn-default" style="background-color: #F7964A;border-radius: 5px;color: white;"><img src="/images/teacher/invite_students_48x48.gif" style="height: 24px;width: 24px;">add class <i class="fa fa-plus"></i></button>
     <div>
         <p>Select the button above to create a new class.</p>
     </div>
@@ -166,7 +166,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-6  col-sm-6">
-                                     <img src="/images/popup/help.gif" id="closeedit" style="width: 24px;height: 24px; float: left;">
+                                     <img src="/images/popup/Help_50x50.gif" id="closeedit" style="width: 24px;height: 24px; float: left;">
                                 </div>
                                 <div class="col-xs-5  col-sm-5" style="padding: 0px;">
                                     <img align="center" src="/images/popup/trash.gif" id="delete" style="width: 24px;height: 24px;">

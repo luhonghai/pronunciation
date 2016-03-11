@@ -35,7 +35,8 @@ import java.util.logging.Level;
 public class SendMailUser extends HttpServlet{
     class Mail{
         private String message;
-        private List<String> users;
+        private List<String> mailError;
+        private List<String> mailExist;
     }
     class student{
         private String message;
@@ -130,7 +131,7 @@ public class SendMailUser extends HttpServlet{
             String jsonClient = (String) StringUtil.isNull(request.getParameter("listmail"), "");
             Gson gson = new Gson();
             List<String> notExist=new ArrayList<>();
-            List<String> Exist=new ArrayList<>();
+            List<String> exist=new ArrayList<>();
             List<String> send=new ArrayList<>();
             List<User> users=new ArrayList<>();
             try{
@@ -162,7 +163,7 @@ public class SendMailUser extends HttpServlet{
                             send.add(mailStudent);
                             users.add(user);
                         }else{
-                            Exist.add(mailStudent);
+                            exist.add(mailStudent);
                             n++;
                         }
                     }else {
@@ -172,17 +173,14 @@ public class SendMailUser extends HttpServlet{
                 if(users!=null) {
                     sendGcmMessage(users,teacher);
                 }
-                if(notExist.size()==0){
-                    if(n==0) {
-                        mails.message = "success";
-                        mails.users = new ArrayList<String>();
-                    }else {
-                        mails.message = "exist";
-                        mails.users = Exist;
-                    }
+                if(notExist.size()==0 && exist.size()==0){
+                    mails.message = "success";
+                    mails.mailError = new ArrayList<String>();
+                    mails.mailExist = new ArrayList<String>();
                 }else{
-                    mails.message="notExit";
-                    mails.users=notExist;
+                    mails.message="error";
+                    mails.mailError=notExist;
+                    mails.mailExist=exist;
                 }
                 String listMails = gson.toJson(mails);
                 response.getWriter().write(listMails);
@@ -233,6 +231,7 @@ public class SendMailUser extends HttpServlet{
                     studentMapping.setFirstTeacherName(admin.getFirstName());
                     studentMapping.setLastTeacherName(admin.getLastName());
                     studentMapping.setLicence(false);
+                    studentMapping.setIsView(false);
                     studentMappingTeacherDAO.put(studentMapping);
                     out.print("success");
                 }else if(admin==null){
@@ -297,17 +296,16 @@ public class SendMailUser extends HttpServlet{
 
         }else if(action.equalsIgnoreCase("deletedStudentInMyStudent")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-            String teacher=request.getSession().getAttribute("username").toString();
             String id=request.getParameter("id");
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
                 if(studentMappingTeacher.isLicence()==true){
-                    StudentMappingTeacher smt=new StudentMappingTeacher();
+                    StudentMappingTeacher smt=studentMappingTeacher;
                     smt.setStatus(Constant.STATUS_PENDING);
                     studentMappingTeacherDAO.put(smt);
                 }else{
-                    StudentMappingTeacher smt=new StudentMappingTeacher();
+                    StudentMappingTeacher smt=studentMappingTeacher;
                     smt.setIsDeleted(true);
                     studentMappingTeacherDAO.put(smt);
 
