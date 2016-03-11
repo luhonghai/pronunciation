@@ -21,7 +21,7 @@ public class Login {
         })
     }
     
-    public static let IS_DEBUG:Bool = true
+    public static let IS_DEBUG:Bool = false
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()
