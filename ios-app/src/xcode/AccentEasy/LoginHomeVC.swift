@@ -14,11 +14,9 @@ import FBSDKLoginKit
 class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     var showLogin:Int!
-    var JSONStringUserProfile:String!
-    var userProfileSaveInApp:NSUserDefaults!
-    var keyForProfile:String!
     var isShowLogin:Bool!
 
+    var currentUser: UserProfile!
 
     //@IBOutlet weak var signInButton: GIDSignInButton!
     //@IBOutlet weak var btnLoginG: GIDSignInButton!
@@ -32,29 +30,15 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         
         // Do any additional setup after loading the view.
         //process show login button
-        userProfileSaveInApp = NSUserDefaults()
-        isShowLogin = userProfileSaveInApp.objectForKey(Login.KeyIsShowLogin) as? Bool
-        if (isShowLogin != nil && isShowLogin == true) {
-            btnLoginFB.hidden = false
-            btnLoginAC.hidden = false
-            btnAltLogin.hidden = true
-        }
+        btnLoginFB.hidden = false
+        btnLoginAC.hidden = false
+        btnAltLogin.hidden = true
         showLogin = 1
         
         //google login delegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
         
-        
-        //check login
-        if (Login.getCurrentUser().isLogin){
-            print("move")
-            dispatch_async(dispatch_get_main_queue(),{
-                self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-            })
-        }
-        
-        print("login view did load")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -76,7 +60,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        userProfileSaveInApp.setObject(false, forKey: Login.KeyIsShowLogin)
+        //userProfileSaveInApp.setObject(false, forKey: Login.KeyIsShowLogin)
     }
     
     
@@ -122,17 +106,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 userProfile.username = email
                 userProfile.profileImage = urlImage
                 //userProfile.dob = result.valueForKey("birthday") as! String
-                userProfile.deviceInfo = UserProfile.DeviceInfo()
                 userProfile.additionalToken = idToken
                 userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
-                userProfile.deviceInfo.appVersion = "400000"
-                userProfile.deviceInfo.appName = "400000"
                 
-                //set key for NSUserDefault
-                keyForProfile = email
-                
-                self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                print(self.JSONStringUserProfile)
+                currentUser = userProfile
                 self.registerUserProfile()
                 //show loadding
                 self.showLoadding()
@@ -250,17 +227,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                         userProfile.dob = dob as! String
                     }
                     userProfile.profileImage = profilePictureUrl
-                    userProfile.deviceInfo = UserProfile.DeviceInfo()
                     userProfile.additionalToken = FBSDKAccessToken.currentAccessToken().tokenString
                     userProfile.loginType = UserProfile.TYPE_FACEBOOK
-                    userProfile.deviceInfo.appVersion = "400000"
-                    userProfile.deviceInfo.appName = "400000"
                     
-                    //set key for NSUserDefault
-                    self.keyForProfile = userProfile.username
-                    
-                    self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                    print(self.JSONStringUserProfile)
+                    self.currentUser = userProfile
                     self.registerUserProfile()
                     
                     //show loadding
@@ -283,122 +253,36 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     func showError(){
         dispatch_async(dispatch_get_main_queue(),{
-            self.removeAllOverlays()
-            SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-            
+            self.hidenLoadding()
+            AccountManager.showError()
         })
     }
 
     
     func registerUserProfile() {
-        print("run in register fb")
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in
-                print(e)
-                self.showError()
-            });
-        
-        client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":self.JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                //handleResponseJson(res.body)
-                //print(res.body)
-                    print(res.text)
-                    self.showError()
-                }
-                else {
-                    print("run in register fb sucess")
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    //dispatch_async(dispatch_get_main_queue(),{
-                        //self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                    //})
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    self.loginMainPage()
-                    /*if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                        //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                        //[unowned self] in NSThread.isMainThread()
-                        //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
-                        })
-                    
-                    
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
-                        
-                        })
-                    }*/
-                    //print(result?.message)
-                    //print(result?.status)
-                }
+        weak var weakSelf = self;
+        AccountManager.register(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                
+                 weakSelf!.loginMainPage()
             })
+        }
     }
     
     func loginMainPage(){
-        print(JSONStringUserProfile)
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in
-                print(e)
-                self.showError()
-            });
-        
-        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    self.showError()
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print("run in login process")
-                    print(res.text)
-                    if let result = Mapper<RegisterResult>().map(res.text) {
-                        let status:Bool = result.status
-                        let message:String = result.message
-                        if status {
-                            //register suceess
-                            dispatch_async(dispatch_get_main_queue(),{
-                                //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                                //[unowned self] in NSThread.isMainThread()
-                                //save userProfile
-                                self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
-                                self.userProfileSaveInApp.setObject(self.keyForProfile, forKey: Login.KeyUserProfile)
-                                self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                            })
-                            
-                            // hidden loadding
-                            self.hidenLoadding()
-                            
-                            
-                        } else {
-                            dispatch_async(dispatch_get_main_queue(),{
-                                SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
-                                
-                            })
-                        }
-
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
-                            
-                        })
-                    }
+        weak var weakSelf = self;
+        AccountManager.auth(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    userProfile.isLogin = true
+                    AccountManager.updateProfile(userProfile)
+                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                } else {
+                    weakSelf!.hidenLoadding()
+                    AccountManager.showError("could not login", message: message)
                 }
             })
-
+        }
     }
     
     

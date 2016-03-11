@@ -9,9 +9,8 @@
 import UIKit
 class AELoginVC: UIViewController {
 
-    var userProfileSaveInApp:NSUserDefaults!
-    var keyForProfile:String!
-    var JSONStringUserProfile:String!
+
+    var currentUser: UserProfile!
     
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
@@ -51,168 +50,56 @@ class AELoginVC: UIViewController {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        userProfileSaveInApp.setObject(true, forKey: Login.KeyIsShowLogin)
+        
     }
     
 
     
     @IBAction func loginTapped(sender: AnyObject) {
-        /*
-        data.put("profile", gson.toJson(profile));
-        data.put("check", "true");
-        data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
-        */
         
         let username:String = txtEmail.text!
         let password:String = txtPassword.text!
         
         if username.isEmpty || password.isEmpty {
             dispatch_async(dispatch_get_main_queue(),{
-                SweetAlert().showAlert("Login Failed!", subTitle: "please enter username and password", style: AlertStyle.Error)
+                SweetAlert().showAlert("not enough data", subTitle: "please enter username and password", style: AlertStyle.Error)
                 
             })
             return
         }
         
         let userProfile = UserProfile()
-        userProfile.deviceInfo = UserProfile.DeviceInfo()
         userProfile.username = txtEmail.text!
         userProfile.password = txtPassword.text!
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
-        userProfile.deviceInfo.appVersion = "400000"
-        userProfile.deviceInfo.appName = "400000"
-        keyForProfile = txtEmail.text!
         
+        currentUser = userProfile
         
-        //deviceIn
-        
-        JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-        
-        print(JSONStringUserProfile)
-        
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in
-                print(e)
-                Login.showError()
-            });
-        
-        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    Login.showError()
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    //print(res.body)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            
-                            /*let userProfile:UserProfile = UserProfile()
-                            userProfile.name = res.text["id"] as! String
-                            userProfile.username = email
-                            userProfile.profileImage = urlImage
-                            //userProfile.dob = result.valueForKey("birthday") as! String
-                            userProfile.deviceInfo = UserProfile.DeviceInfo()
-                            userProfile.additionalToken = idToken
-                            userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
-                            userProfile.deviceInfo.appVersion = "400000"
-                            userProfile.deviceInfo.appName = "400000"
-                            
-                            //set key for NSUserDefault
-                            keyForProfile = email
-                            
-                            self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                            print(self.JSONStringUserProfile)*/
-                            
-                            //self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
-                            //self.userProfileSaveInApp.setObject(self.keyForProfile, forKey: Login.KeyUserProfile)
-                            //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                            self.getUserProfile()
-                        })
-                        
-                        
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
-                            
-                        })
-                    }
-                    print(result?.message)
-                    print(result?.status)
+        weak var weakSelf = self;
+        AccountManager.auth(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    weakSelf!.currentUser = userProfile
+                    weakSelf!.getUserProfile()
+                } else {
+                    AccountManager.showError("could not login", message: message)
                 }
             })
+        }
     }
 
-    
     func getUserProfile () {
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in
-                print(e)
-                Login.showError()
-            });
-
-        
-        client.post("/userprofile").type("form").send(["profile":JSONStringUserProfile,"action":"get"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    Login.showError()
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print("profile")
-                    print(res.text)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            
-                            let userProfile:UserProfile = result!.data
-                            self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                            print(self.JSONStringUserProfile)
-                            
-                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
-                            self.userProfileSaveInApp.setObject(self.keyForProfile, forKey: Login.KeyUserProfile)
-                            self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                        })
-                        
-                        
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
-                            
-                        })
-                    }
+        weak var weakSelf = self
+        AccountManager.fetchProfile(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    userProfile.isLogin = true
+                    AccountManager.updateProfile(userProfile)
+                    weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)
+                } else {
+                    AccountManager.showError("could not fetch user data")
                 }
             })
-
-        
+        }
     }
-
 }

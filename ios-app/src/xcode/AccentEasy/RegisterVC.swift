@@ -9,9 +9,6 @@
 import UIKit
 
 class RegisterVC: UIViewController {
-
-    var userProfileSaveInApp:NSUserDefaults!
-    var JSONStringUserProfile:String!
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -19,6 +16,7 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var txtPassword: UITextField!
     @IBOutlet weak var txtConfirmPassword: UITextField!
     
+    var currentUser: UserProfile!
     
     @IBAction func btnOpenUrlTC(sender: AnyObject) {
         let url = NSURL(string: "http://www.accenteasy.com/useraccounts/TnC")!
@@ -27,9 +25,6 @@ class RegisterVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-        userProfileSaveInApp = NSUserDefaults()
         
         txtEmail.autocorrectionType = UITextAutocorrectionType.No
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
@@ -89,55 +84,16 @@ class RegisterVC: UIViewController {
         userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
-        
-        JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-        
-        
-        print("JSONStringUserProfile is:" + JSONStringUserProfile)
-        print("------------------------------------------------------")
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in print(e)
-                Login.showError()
-            });
-    
-        client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    Login.showError()
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            //save UserProfile
-                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: Login.KeyRegisterUser)
-                            //next page
-                            self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
-                        })
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
-                            
-                        })
-                    }
-                    //print(result?.message)
-                    //print(result?.status)
+        currentUser = userProfile
+        AccountManager.register(userProfile) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+                } else {
+                    AccountManager.showError("could not register")
                 }
             })
+        }
         
     }
 

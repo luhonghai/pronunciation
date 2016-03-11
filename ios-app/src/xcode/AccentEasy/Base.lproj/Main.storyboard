@@ -91,6 +91,7 @@
                     <connections>
                         <outlet property="imgDog" destination="eRg-lr-Ehf" id="7f3-eV-Hxa"/>
                         <segue destination="ULa-Ui-4qE" kind="presentation" identifier="GoToLogin" id="b3j-3D-4fV"/>
+                        <segue destination="BYZ-38-t0r" kind="presentation" identifier="gotoMainPage" id="8jd-vc-94q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XFd-gf-E6I" userLabel="First Responder" sceneMemberID="firstResponder"/>

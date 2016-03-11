@@ -52,7 +52,10 @@ public class DatabaseHelper {
         }
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in print(e)});
+            .onError({e in
+                print(e)
+                completion(success: false)
+            });
         var willLoad = false
         client.get("/CheckVersion").type("json").query(["version" : String(dbVersion.version)]).send([])
             .end({(res:Response) -> Void in
