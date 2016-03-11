@@ -236,13 +236,19 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     print(profilePictureUrl)
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
-                    
-                    
                     //add data for JSONStringUserProfile
                     let userProfile:UserProfile = UserProfile()
                     userProfile.name = result.valueForKey("name") as! String
-                    userProfile.username = result.valueForKey("email") as! String
-                    userProfile.dob = result.valueForKey("birthday") as! String
+                    let username = result.valueForKey("email")
+                    if username != nil {
+                        userProfile.username = username as! String
+                    } else {
+                        userProfile.username = "\(userId)@facebook.com"
+                    }
+                    let dob = result.valueForKey("birthday");
+                    if dob != nil {
+                        userProfile.dob = dob as! String
+                    }
                     userProfile.profileImage = profilePictureUrl
                     userProfile.deviceInfo = UserProfile.DeviceInfo()
                     userProfile.additionalToken = FBSDKAccessToken.currentAccessToken().tokenString

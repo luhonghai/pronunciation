@@ -176,8 +176,7 @@ class MenuTVC: UITableViewController {
                         } else {
                         }
                         
-                        let keyForUserProfile:String = self.userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-                        self.userProfileSaveInApp.setObject("", forKey: keyForUserProfile)
+                        Login.logout()
                         
                         dispatch_async(dispatch_get_main_queue(),{
                             self.performSegueWithIdentifier("MenuGoToLogin", sender: self)

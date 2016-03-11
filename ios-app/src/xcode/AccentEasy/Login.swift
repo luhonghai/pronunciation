@@ -45,13 +45,22 @@ public class Login {
             return getTestUserProfile()
         } else {
             let userDefaults = NSUserDefaults()
-            let keyForUserProfile:String? = userDefaults.objectForKey(Login.KeyUserProfile) as! String
+            let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
             if (keyForUserProfile != nil) {
-                let rawString = userDefaults.objectForKey(keyForUserProfile!) as! String
-                return Mapper<UserProfile>().map(rawString)!
-            } else {
-                return UserProfile()
+                let rawString = userDefaults.objectForKey(keyForUserProfile! as! String)
+                if rawString != nil && !(rawString as! String).isEmpty {
+                    return Mapper<UserProfile>().map(rawString as! String)!
+                }
             }
+            return UserProfile()
+        }
+    }
+    
+    class func logout() {
+        let userDefaults = NSUserDefaults()
+        let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
+        if keyForUserProfile != nil {
+            userDefaults.setObject(nil, forKey: keyForUserProfile as! String)
         }
     }
 }
