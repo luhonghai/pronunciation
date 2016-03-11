@@ -10,6 +10,8 @@ import Foundation
 
 let IS_DEBUG = false
 
+let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, please try again"
+
 class GlobalData {
     static var instance:GlobalData?
     

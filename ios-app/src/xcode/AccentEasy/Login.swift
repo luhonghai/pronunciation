@@ -13,14 +13,7 @@ public class Login {
     public static let KeyUserProfile:String = "KeyUserProfile"
     public static let KeyRegisterUser:String = "KeyRegisterUser"
     public static let KeyIsShowLogin:String = "KeyIsShowLogin"
-    
-    public static func showError(){
-        dispatch_async(dispatch_get_main_queue(),{
-            SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-            
-        })
-    }
-    
+
     public static let IS_DEBUG:Bool = false
     
     class func getTestUserProfile() -> UserProfile {
@@ -40,27 +33,24 @@ public class Login {
         return user
     }
     
+    class func updateProfile(profile: UserProfile) {
+        AccountManager.updateProfile(profile)
+    }
+    
     class func getCurrentUser() -> UserProfile {
         if IS_DEBUG {
             return getTestUserProfile()
         } else {
-            let userDefaults = NSUserDefaults()
-            let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
-            if (keyForUserProfile != nil) {
-                let rawString = userDefaults.objectForKey(keyForUserProfile! as! String)
-                if rawString != nil && !(rawString as! String).isEmpty {
-                    return Mapper<UserProfile>().map(rawString as! String)!
-                }
-            }
-            return UserProfile()
+            return AccountManager.currentUser()
         }
     }
     
     class func logout() {
-        let userDefaults = NSUserDefaults()
-        let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
-        if keyForUserProfile != nil {
-            userDefaults.setObject(nil, forKey: keyForUserProfile as! String)
-        }
+        AccountManager.logout()
+    }
+    
+    
+    class func showError(title: String = "could not connect to server"){
+        AccountManager.showError(title)
     }
 }

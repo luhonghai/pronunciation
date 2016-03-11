@@ -42,44 +42,21 @@ class ResetPassVC: UIViewController {
             })
             return
         }
-        
-        let client = Client()
-            .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in print(e)
-                Login.showError()
-            });
-        
-        client.post("/ResetPasswordHandler").type("form").send(["acc":username,"action":"request","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    Login.showError()
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result:String = res.text!
-                    if result == "success" {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("successfully submitted!", subTitle: "please check message in your email \(username)", style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
-                                if isOk == true {
-                                    self.performSegueWithIdentifier("ResetPassGoToLogin", sender: self)
-                                }
-                            }
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("reset password failed!", subTitle: result, style: AlertStyle.Error)
-                            
-                        })
+        let profile = UserProfile()
+        profile.username = username
+        AccountManager.resetPassword(profile) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    SweetAlert().showAlert("successfully submitted!", subTitle: message, style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
+                        if isOk == true {
+                            self.performSegueWithIdentifier("ResetPassGoToLogin", sender: self)
+                        }
                     }
+                } else {
+                    AccountManager.showError("could not reset password")
                 }
             })
-
+        }
     }
 
     /*

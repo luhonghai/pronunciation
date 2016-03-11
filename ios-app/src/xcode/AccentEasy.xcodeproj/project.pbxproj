@@ -15,6 +15,7 @@
 		9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053FE101C87E92E0059A423 /* RDVTabBarController.framework */; };
 		9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE121C87F7910059A423 /* tab-background-selected.png */; };
 		9053FE151C87F7910059A423 /* tab-background-unselected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE131C87F7910059A423 /* tab-background-unselected.png */; };
+		90F2D45F1C92A741009F2A41 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F2D45E1C92A741009F2A41 /* DeviceManager.swift */; };
 		90F33B391C7EB05300E28BC4 /* BottomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */; };
 		90F33B461C7EC2EF00E28BC4 /* TipsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */; };
 		90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */; };
@@ -444,6 +445,7 @@
 		9053FDFB1C87D8FC0059A423 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		9053FE121C87F7910059A423 /* tab-background-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-selected.png"; sourceTree = "<group>"; };
 		9053FE131C87F7910059A423 /* tab-background-unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-unselected.png"; sourceTree = "<group>"; };
+		90F2D45E1C92A741009F2A41 /* DeviceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		90F33B381C7EB05300E28BC4 /* BottomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomTabBarController.swift; sourceTree = "<group>"; };
 		90F33B451C7EC2EF00E28BC4 /* TipsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TipsViewController.swift; path = Tip/TipsViewController.swift; sourceTree = "<group>"; };
 		90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
@@ -1311,6 +1313,7 @@
 				C1056C2A1C85437000F75CCC /* FSScreen.swift */,
 				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
 				9053C2861C902598009BA3DF /* AccountManager.swift */,
+				90F2D45E1C92A741009F2A41 /* DeviceManager.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2227,6 +2230,7 @@
 				C13CDA841C48E19A009E649F /* UserProfile.swift in Sources */,
 				9B5F33B91C77129A00E85629 /* PieChartRenderer.swift in Sources */,
 				9B5F33E01C771B5A00E85629 /* Map.swift in Sources */,
+				90F2D45F1C92A741009F2A41 /* DeviceManager.swift in Sources */,
 				9B5F337E1C77129A00E85629 /* CombinedChartData.swift in Sources */,
 				9B5F33571C77129A00E85629 /* ChartComponentBase.swift in Sources */,
 				9B5F337D1C77129A00E85629 /* ChartDataSet.swift in Sources */,

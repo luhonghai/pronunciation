@@ -423,7 +423,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             //upload to server
             let client = Client()
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
-                .onError({e in print(e)});
+                .onError({e in
+                    print(e)
+                    weakSelf!.showColorOfScoreResult(0)
+                    Login.showError("could not calculate score")
+                });
             NSLog(weakSelf!.getTmpFilePath().path!)
             client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
@@ -434,6 +438,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //handleResponseJson(res.body)
                         //print(res.body)
                         print(res.text)
+                        weakSelf!.showColorOfScoreResult(0)
+                        Login.showError("could not calculate score")
+                        
                     }
                     else {
                         //handleErrorJson(res.body)
@@ -480,8 +487,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         } else {
                             //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                             dispatch_async(dispatch_get_main_queue(),{
-                                SweetAlert().showAlert("Submit to server error!", subTitle: message, style: AlertStyle.Error)
-                                
+                                Login.showError("could not calculate score")
                             })
                         }
                         //print(result?.message)
