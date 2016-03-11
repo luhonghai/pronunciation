@@ -9,50 +9,96 @@
 import Foundation
 import SSZipArchive
 
-class DatabaseVersion {
+public class DatabaseVersion: Mappable {
+    var status = false
+    var message: String!
+    var data: String!
+    var version = 0
     
+    required public init?(_ map: Map) {
+        
+    }
+    
+    required public init(){
+        
+    }
+    
+    // Mappable
+    public func mapping(map: Map) {
+        version    <= map["version"]
+        status    <= map["status"]
+        message    <= map["message"]
+        data    <= map["data"]
+    }
+
 }
 
 public class DatabaseHelper {
     
-    class func checkDatabaseVersion() -> Bool {
+    class func checkDatabaseVersion(completion:(success: Bool) -> Void) {
+        let fileManager = NSFileManager.defaultManager()
         // Create database folder if not exist
-        FileHelper.getFilePath("database", directory: true)
+        let dataPath = FileHelper.getFilePath("database", directory: true)
         let versionPath = FileHelper.getFilePath("database/version")
+        let tmpZip = FileHelper.getFilePath("database/tmp.zip")
+        var dbVersion = DatabaseVersion()
         if (FileHelper.isExists(versionPath)) {
-            
+            do {
+                dbVersion = try JSONHelper.fromJson(FileHelper.readFile(versionPath))
+                print("Previous version \(dbVersion.version)")
+            } catch {
+                
+            }
         }
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in print(e)});
-        
-        client.get("/CheckVersion").type("json").query(["version" : "1"]).send([])
+        var willLoad = false
+        client.get("/CheckVersion").type("json").query(["version" : String(dbVersion.version)]).send([])
             .end({(res:Response) -> Void in
-                print(res)
                 if(res.error) { // status of 2xx
                     //handleResponseJson(res.body)
                     //print(res.body)
                     print(res.text)
+                    completion(success: false)
                 }
                 else {
                     //handleErrorJson(res.body)
                     print(res.text)
-                    let result:String = res.text!
-                    do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(res.data!, options: .AllowFragments) as! [String: AnyObject]
-                    let message = json["message"] as! String!
-                    let status = json["status"] as! Bool!
-                    print("Message: \(message) status \(status)")
-                    } catch {
-                        
+                    let dbVersionRes: DatabaseVersion = JSONHelper.fromJson(res.text!)
+                    if dbVersionRes.status {
+                        willLoad = true
+                        dbVersion = dbVersionRes
                     }
+                    let lessonDbFilePath = FileHelper.getFilePath(LiteDatabase.LESSON)
+                    if willLoad {
+                        FileHelper.deleteFile(tmpZip)
+                        print("Try to load database zip from url \(dbVersion.data) to \(tmpZip)")
+                        HttpDownloader.loadFileAsync(NSURL(string: dbVersion.data)!, skipCache: true, destPath: tmpZip) { (path, error) -> Void in
+                            do {
+                                if (FileHelper.isExists(tmpZip)) {
+                                    FileHelper.deleteFile(lessonDbFilePath)
+                                    print("Try to unzip dabase version")
+                                    SSZipArchive.unzipFileAtPath(tmpZip, toDestination: dataPath)
+                                    if fileManager.fileExistsAtPath(lessonDbFilePath) {
+                                        print("Lesson database found. Try to save database version info")
+                                        try FileHelper.writeFile(versionPath, content: JSONHelper.toJson(dbVersion))
+                                    } else {
+                                        print("No lesson database found at path \(lessonDbFilePath)")
+                                    }
+                                } else {
+                                    print("No zip file found at path \(tmpZip)")
+                                }
+                            } catch {
+                                
+                            }
+                        }
+                    } else {
+                        print("Use current version. Skip update database")
+                    }
+                    completion(success: fileManager.fileExistsAtPath(lessonDbFilePath))
                 }
             })
-        
-//        HttpDownloader.loadFileSync(NSURL(fileURLWithPath: "")) { (path, error) -> Void in
-//            
-//        }
-        return false;
     }
     
     class func getFreeStyleDatabaseFile() -> String? {
@@ -60,33 +106,6 @@ public class DatabaseHelper {
     }
     
     class func getLessonDatabaseFile() -> String? {
-        let databaseBundle = NSBundle.mainBundle()
-        let dbZipPath = databaseBundle.pathForResource("database", ofType: "zip")
-        print("Database zip path on bunddle \(dbZipPath)")
-        let fileManager = NSFileManager.defaultManager()
-        // get the documents folder url
-        let dataPath = FileHelper.getFilePath("database", directory: true)
-        print("Database directory path \(dataPath)")
-        let lessonDbFilePath = FileHelper.getFilePath(LiteDatabase.LESSON)
-        print("Lesson database path \(lessonDbFilePath)")
-        if !fileManager.fileExistsAtPath(lessonDbFilePath) {
-            do {
-                var isDir = ObjCBool(true)
-                if !fileManager.fileExistsAtPath(dataPath, isDirectory: &isDir) {
-                    try fileManager.createDirectoryAtPath(dataPath, withIntermediateDirectories: false, attributes: nil)
-                }
-                } catch let error as NSError {
-                    print(error.localizedDescription);
-            }
-            print("Try to unzip lesson database")
-            SSZipArchive.unzipFileAtPath(dbZipPath, toDestination: dataPath)
-        } else {
-            print("Lesson database exist. Skip by default")
-        }
-        //let enumerator:NSDirectoryEnumerator = fileManager.enumeratorAtPath(documentsDirectory.stringByAppendingPathComponent(""))!
-        //for url in enumerator.allObjects {
-        //    print("\(url)")
-        //}
-        return lessonDbFilePath
+        return FileHelper.getFilePath(LiteDatabase.LESSON)
     }
 }

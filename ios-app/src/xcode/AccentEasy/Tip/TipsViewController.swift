@@ -41,6 +41,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         nextWord()
     }
     @IBAction func btnUpOnTouch(sender: UIButton) {
+        NSNotificationCenter.defaultCenter().postNotificationName("closeDetail", object: nil)
         NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: words[selectedWordIndex])
     }
     

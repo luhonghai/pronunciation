@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -774,14 +774,14 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-oI-D7b">
-                                <rect key="frame" x="0.0" y="336" width="375" height="331"/>
+                                <rect key="frame" x="0.0" y="354" width="375" height="313"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-9N-Sp0">
-                                        <rect key="frame" x="0.0" y="20" width="375" height="311"/>
+                                        <rect key="frame" x="0.0" y="22" width="375" height="288"/>
                                         <color key="backgroundColor" red="0.14509803921568629" green="0.65490196078431373" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Vf-e5b">
-                                        <rect key="frame" x="0.0" y="23" width="375" height="308"/>
+                                        <rect key="frame" x="0.0" y="25" width="375" height="288"/>
                                         <connections>
                                             <segue destination="t93-HT-Mrj" kind="embed" id="0GI-4W-Bce"/>
                                         </connections>
@@ -1583,39 +1583,70 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4W-7U-Gca">
-                                            <rect key="frame" x="8" y="4" width="220" height="35"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNK-gO-ake">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNK-gO-ake">
                                             <rect key="frame" x="331" y="3" width="36" height="36"/>
                                             <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="36" id="kg8-Wi-7v7"/>
+                                            </constraints>
                                             <state key="normal" backgroundImage="ic_up.png"/>
                                             <connections>
                                                 <action selector="btnUpTouchUpInside:" destination="hPr-to-F3p" eventType="touchUpInside" id="ts7-oZ-OgJ"/>
                                             </connections>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYo-9d-vXe">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYo-9d-vXe">
                                             <rect key="frame" x="231" y="3" width="42" height="36"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="42" id="8r9-Tv-Quz"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4E0-OD-0qD">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4E0-OD-0qD">
                                             <rect key="frame" x="281" y="3" width="36" height="36"/>
                                             <color key="backgroundColor" red="0.57254901960000004" green="0.57254901960000004" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="36" id="dy5-QF-qUP"/>
+                                            </constraints>
                                             <state key="normal" backgroundImage="ic_play.png"/>
                                             <connections>
                                                 <action selector="btnPlayTouchUpInside:" destination="hPr-to-F3p" eventType="touchUpInside" id="EKL-cX-EIx"/>
                                             </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I4W-7U-Gca">
+                                            <rect key="frame" x="8" y="4" width="220" height="35"/>
+                                            <gestureRecognizers/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
+                                    <gestureRecognizers/>
+                                    <constraints>
+                                        <constraint firstItem="FYo-9d-vXe" firstAttribute="firstBaseline" secondItem="4E0-OD-0qD" secondAttribute="firstBaseline" id="3xb-Ga-d9s"/>
+                                        <constraint firstItem="I4W-7U-Gca" firstAttribute="baseline" secondItem="FYo-9d-vXe" secondAttribute="baseline" id="4Fb-IP-zmy"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="top" secondItem="nNK-gO-ake" secondAttribute="top" id="Huo-iP-ivR"/>
+                                        <constraint firstItem="FYo-9d-vXe" firstAttribute="centerY" secondItem="I4W-7U-Gca" secondAttribute="centerY" id="N0C-SE-4sX"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="leading" secondItem="FYo-9d-vXe" secondAttribute="trailing" constant="8" symbolic="YES" id="NkB-3p-As9"/>
+                                        <constraint firstItem="FYo-9d-vXe" firstAttribute="leading" secondItem="I4W-7U-Gca" secondAttribute="trailing" constant="3" id="Omp-LI-yxF"/>
+                                        <constraint firstItem="I4W-7U-Gca" firstAttribute="leading" secondItem="P4A-6I-YOD" secondAttribute="leadingMargin" id="UG9-km-94M"/>
+                                        <constraint firstItem="I4W-7U-Gca" firstAttribute="top" secondItem="P4A-6I-YOD" secondAttribute="topMargin" constant="-4" id="Uhv-pE-yx3"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="bottom" secondItem="FYo-9d-vXe" secondAttribute="bottom" id="Yej-88-CLE"/>
+                                        <constraint firstItem="nNK-gO-ake" firstAttribute="trailing" secondItem="P4A-6I-YOD" secondAttribute="trailingMargin" id="cuW-Dh-Ptl"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="baseline" secondItem="nNK-gO-ake" secondAttribute="baseline" id="fqG-hz-8gs"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="top" secondItem="FYo-9d-vXe" secondAttribute="top" id="ik2-q7-Pi3"/>
+                                        <constraint firstItem="nNK-gO-ake" firstAttribute="leading" secondItem="4E0-OD-0qD" secondAttribute="trailing" constant="14" id="vXr-hf-gnd"/>
+                                        <constraint firstItem="nNK-gO-ake" firstAttribute="bottom" secondItem="4E0-OD-0qD" secondAttribute="bottom" id="vqR-F7-csP"/>
+                                        <constraint firstItem="4E0-OD-0qD" firstAttribute="centerY" secondItem="P4A-6I-YOD" secondAttribute="centerY" id="wAJ-Mi-iUT"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
                                 <connections>
                                     <outlet property="btnPlay" destination="4E0-OD-0qD" id="Wu4-dh-juN"/>
                                     <outlet property="btnUp" destination="nNK-gO-ake" id="DLJ-Ao-jsT"/>
+                                    <outlet property="constantWidthPlay" destination="dy5-QF-qUP" id="Dn0-Tn-0kO"/>
+                                    <outlet property="constantWidthUp" destination="kg8-Wi-7v7" id="J0W-ma-jX6"/>
                                     <outlet property="lblScore" destination="FYo-9d-vXe" id="RrL-cR-BgZ"/>
                                     <outlet property="lblTitle" destination="I4W-7U-Gca" id="aWO-gO-2cl"/>
                                 </connections>
@@ -1968,18 +1999,12 @@
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Li1-Q4-1W2">
-                                <rect key="frame" x="0.0" y="371" width="375" height="296"/>
+                                <rect key="frame" x="0.0" y="350" width="375" height="317"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
-                                        <rect key="frame" x="0.0" y="21" width="375" height="193"/>
+                                        <rect key="frame" x="0.0" y="21" width="375" height="294"/>
                                         <color key="backgroundColor" red="0.1450980392" green="0.65490196079999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
-                                    <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fc-EU-rZS">
-                                        <rect key="frame" x="0.0" y="23" width="375" height="273"/>
-                                        <connections>
-                                            <segue destination="t93-HT-Mrj" kind="embed" id="cQm-kD-9I0"/>
-                                        </connections>
-                                    </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oih-mk-Oe1">
                                         <rect key="frame" x="163" y="0.0" width="49" height="22"/>
                                         <gestureRecognizers/>
@@ -1989,6 +2014,12 @@
                                             <outletCollection property="gestureRecognizers" destination="uKX-G5-cxr" appends="YES" id="Chm-qY-M5b"/>
                                         </connections>
                                     </button>
+                                    <containerView opaque="NO" contentMode="bottom" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fc-EU-rZS">
+                                        <rect key="frame" x="0.0" y="23" width="375" height="294"/>
+                                        <connections>
+                                            <segue destination="t93-HT-Mrj" kind="embed" id="cQm-kD-9I0"/>
+                                        </connections>
+                                    </containerView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -2098,11 +2129,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eFf-YZ-v5D"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="0GI-4W-Bce"/>
         <segue reference="w7l-a7-zju"/>
         <segue reference="b3j-3D-4fV"/>
-        <segue reference="y7T-RE-Gak"/>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="0GI-4W-Bce"/>
+        <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>

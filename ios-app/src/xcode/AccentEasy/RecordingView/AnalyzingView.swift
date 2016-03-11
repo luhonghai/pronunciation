@@ -35,6 +35,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     var innerCircleLayer: RecordingViewCircleLayer!
     var outerCircleLayer: RecordingViewCircleLayer!
     var scoreLayer: LCTextLayer!
+    var loadingLayer: CALayer!
     
     var displayLink: EZAudioDisplayLink!
     var historyInfo: UnsafeMutablePointer<EZPlotHistoryInfo>!
@@ -128,10 +129,17 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.color = UIColor(hue: 0, saturation: 1.0, brightness: 1.0, alpha: 1.0)
         self.backgroundColor = nil
         
+        self.loadingLayer = CALayer()
+        self.loadingLayer.backgroundColor = UIColor.clearColor().CGColor
+        let rect = getLoadingFrame(inRect: self.frame)
+        self.loadingLayer.contents = ImageHelper.imageWithImage(UIImage(named: "p_hour_glass.png")!, scaledToSize: CGSize(width: CGRectGetWidth(rect), height: CGRectGetHeight(rect))).CGImage
+        self.loadingLayer.frame = rect
+        
         self.layer.addSublayer(self.outerCircleLayer)
         self.layer.addSublayer(self.innerCircleLayer)
         self.layer.addSublayer(self.waveformLayer)
         self.layer.addSublayer(self.scoreLayer)
+        self.layer.addSublayer(self.loadingLayer)
         //
         // Allow subclass to initialize plot
         //
@@ -147,7 +155,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         case .DEFAULT:
             animationState = AnimationState.DEFAULT
             break
-        case .ANALYZING:
+        case .ANALYZING, .SEARCHING:
             self.score = 0
             self.originScore = 100
             animationState = AnimationState.WAIT_FOR_MAX
@@ -235,7 +243,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
                 delegate?.onAnimationMax()
                 if type == .SHOW_SCORE {
                     animationState = .DEFAULT
-                } else if type == .ANALYZING {
+                } else if type == .ANALYZING || type == .SEARCHING {
                     animationState = .WAIT_FOR_MIN
                 }
             } else if (self.score <= 0 && animationState == .WAIT_FOR_MIN) {
@@ -243,6 +251,8 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
                 delegate?.onAnimationMin()
                 if type == .ANALYZING {
                     animationState = .WAIT_FOR_MAX
+                } else if type == .SEARCHING {
+                    switchType(.DEFAULT)
                 }
             }
             CATransaction.begin()
@@ -300,6 +310,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = true;
             self.scoreLayer.hidden = true;
+            self.loadingLayer.hidden = true
             break;
         case .RECORDING:
             self.outerCircleLayer.fillColor = Multimedia.colorWithHexString("#FFDDBE").CGColor
@@ -308,8 +319,9 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = false;
             self.scoreLayer.hidden = true;
+            self.loadingLayer.hidden = true
             break;
-        case .SHOW_SCORE, .ANALYZING:
+        case .SHOW_SCORE, .ANALYZING, .SEARCHING:
             var fromColorState: ColorState!
             var toColorState: ColorState!
             let radio = CGFloat(score) / 100.0
@@ -322,12 +334,25 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             }
             self.outerCircleLayer.fillColor = ColorHelper.generateGradientColor(toColorState.outerBackground, color2: fromColorState.outerBackground, radio: radio).CGColor
             self.innerCircleLayer.fillColor = ColorHelper.generateGradientColor(toColorState.innerBackground, color2: fromColorState.innerBackground, radio: radio).CGColor
-            self.scoreLayer.hidden = false;
+            
             self.waveformLayer.hidden = true;
             self.innerCircleLayer.hidden = false;
             self.outerCircleLayer.hidden = false;
+            if type == .SEARCHING {
+                self.scoreLayer.hidden = true;
+                self.loadingLayer.hidden = false
+            } else {
+                self.scoreLayer.hidden = false;
+                self.loadingLayer.hidden = true
+            }
             break;
         }
+    }
+    
+    private func getLoadingFrame(inRect rect: EZRect) -> CGRect {
+        let width: CGFloat = min(rect.size.width, rect.size.height);
+        let radio = self.radio * 0.8
+        return CGRectMake(width / 2 - radio * width/4, width / 2 - radio * width/4, radio * width/2, radio * width/2)
     }
         
     private func createInnerCirclePathWithPoints(points: UnsafeMutablePointer<CGPoint>,
@@ -362,7 +387,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             }
         }
         maxY = self.lastMax;
-        if (type == .SHOW_SCORE || type == .ANALYZING) {
+        if (type == .SHOW_SCORE || type == .ANALYZING || type == .SEARCHING) {
             maxY = CGFloat(score) / 100.0
         }
         let scaleX: CGFloat = (1.0 - maxY) * (width / 2 - radio * width/4);
@@ -593,6 +618,8 @@ public enum AnalyzingType : Int {
     case DEFAULT
     
     case RECORDING
+    
+    case SEARCHING
     
     case ANALYZING
     

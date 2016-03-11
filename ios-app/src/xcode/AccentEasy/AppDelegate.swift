@@ -23,13 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //fb login
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
-        DatabaseHelper.checkDatabaseVersion()
-        //let databaseHelpebr = DatabaseHelper()
-        let dbPath = DatabaseHelper.getLessonDatabaseFile()
-        print(DatabaseHelper.getLessonDatabaseFile())
-        let freestyleDbAdapter = FreeStyleDBAdapter()
-        freestyleDbAdapter.prepare()
-        
         // Initialize google sign-in
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)

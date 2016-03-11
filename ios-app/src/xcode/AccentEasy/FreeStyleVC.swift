@@ -55,7 +55,7 @@ class FreeStyleVC: UIViewController, UIScrollViewDelegate, SWRevealViewControlle
     }
     
     func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
-        let tagId = 4207868622
+        let tagId = 123456
         
         if revealController.frontViewPosition == FrontViewPosition.Right {
             print("right")

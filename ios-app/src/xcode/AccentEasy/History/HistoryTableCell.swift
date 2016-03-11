@@ -20,9 +20,14 @@ public class HistoryTableCell: UITableViewCell {
     
     @IBOutlet weak var lblScore: UILabel!
     
+    @IBOutlet weak var constantWidthPlay: NSLayoutConstraint!
+    @IBOutlet weak var constantWidthUp: NSLayoutConstraint!
+    var isDetail = false
+    
     @IBAction func btnUpTouchUpInside(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: pc.word)
     }
+    
     
     @IBAction func btnPlayTouchUpInside(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("playFile", object: FileHelper.getFilePath("audio/\(pc.dataId).wav"))

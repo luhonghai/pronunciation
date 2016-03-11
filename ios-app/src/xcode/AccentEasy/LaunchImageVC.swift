@@ -15,6 +15,7 @@ class LaunchImageVC: UIViewController {
     var timer:NSTimer!
     var number:Int!
     var nextScreen:Int!
+    var willClose = false
     
     @IBOutlet weak var imgDog: UIImageView!
     
@@ -27,6 +28,17 @@ class LaunchImageVC: UIViewController {
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
         
         userProfileSaveInApp = NSUserDefaults()
+        weak var weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
+                let freestyleDbAdapter = FreeStyleDBAdapter()
+                freestyleDbAdapter.prepare()
+                if !success {
+                    //TODO show alert no database found
+                }
+                weakSelf!.willClose = true
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,7 +54,9 @@ class LaunchImageVC: UIViewController {
             number=1
         }
         nextScreen = nextScreen + 1
-        if nextScreen == 10 {
+        if self.willClose {
+            timer.invalidate()
+            timer = nil
             self.performSegueWithIdentifier("GoToLogin", sender: self)
             //self.dismissViewControllerAnimated(true, completion: nil)
         }

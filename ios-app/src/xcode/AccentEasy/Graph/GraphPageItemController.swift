@@ -151,7 +151,9 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
             ds.drawValuesEnabled = false
             let chartData = LineChartData(xVals: xVals, dataSet: ds)
             dispatch_async(dispatch_get_main_queue(),{
-                weakSelf!.chartView.data = chartData
+                if weakSelf != nil && weakSelf!.chartView != nil {
+                    weakSelf!.chartView.data = chartData
+                }
             })
 
         }
