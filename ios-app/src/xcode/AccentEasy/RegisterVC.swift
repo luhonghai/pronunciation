@@ -20,7 +20,6 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var txtConfirmPassword: UITextField!
     
     
-    
     @IBAction func btnOpenUrlTC(sender: AnyObject) {
         let url = NSURL(string: "http://www.accenteasy.com/useraccounts/TnC")!
         UIApplication.sharedApplication().openURL(url)
@@ -128,8 +127,6 @@ class RegisterVC: UIViewController {
                             //next page
                             self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                         })
-                        
-                        
                     } else {
                         //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                         dispatch_async(dispatch_get_main_queue(),{

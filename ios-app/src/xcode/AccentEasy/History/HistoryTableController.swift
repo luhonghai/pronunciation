@@ -14,6 +14,8 @@ class HistoryTableController: UITableViewController {
     
     var freestyleDBAdapter: FreeStyleDBAdapter!
     
+    var isDetail = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         freestyleDBAdapter = FreeStyleDBAdapter()
@@ -37,8 +39,10 @@ class HistoryTableController: UITableViewController {
         print("load history of word \(word)")
         do {
             if !word!.isEmpty {
+                isDetail = true
                 try historyList = freestyleDBAdapter.listPronunciationScoreByWord(word!, limit: 0, username: Login.getCurrentUser().username)
             } else {
+                isDetail = false
                 try historyList = freestyleDBAdapter.listPronunciationScore(0, username: Login.getCurrentUser().username)
             }
             
@@ -58,9 +62,24 @@ class HistoryTableController: UITableViewController {
         return historyList.count
     }
     
+    func tapLabelTitle(sender: UITapGestureRecognizer) {
+        let row: Int = sender.view!.tag
+        print("Select row id \(row)")
+        let historyItem = historyList[row]
+        print("Select detail \(historyItem.word)")
+        if historyItem.dataId != nil {
+            if isDetail {
+                NSNotificationCenter.defaultCenter().postNotificationName("selectDetail", object: historyItem.dataId)
+            } else {
+                NSNotificationCenter.defaultCenter().postNotificationName("showDetail", object: historyItem.dataId)
+            }
+        }
+    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("HistoryTableCell", forIndexPath: indexPath) as! HistoryTableCell
         cell.applyCircleButton()
+        cell.isDetail = isDetail
         let history = historyList[indexPath.row]
         var color:UIColor = UIColor.clearColor()
         if history.score >= 80 {
@@ -70,12 +89,30 @@ class HistoryTableController: UITableViewController {
         } else {
             color = ColorHelper.APP_RED
         }
+//        cell.lblTitle.setValue(history.dataId, forKey: "dataId")
+        let tapGusture = UITapGestureRecognizer(target: self, action: Selector("tapLabelTitle:"))
+        tapGusture.numberOfTapsRequired = 1
+        cell.lblTitle.tag = indexPath.row
+        cell.lblTitle.addGestureRecognizer(tapGusture)
+        cell.lblTitle.userInteractionEnabled = true
         cell.pc = history
         cell.lblScore.textColor = color
         cell.lblTitle.textColor = color
         cell.btnPlay.backgroundColor = color
+        cell.btnPlay.hidden = isDetail
         cell.btnUp.backgroundColor = color
-        cell.lblTitle.text = history.word
+        cell.btnUp.hidden = isDetail
+        if isDetail {
+            let styler = NSDateFormatter()
+            styler.dateFormat = "dd/MM/yyyy"
+            cell.lblTitle.text = styler.stringFromDate(NSDate(timeIntervalSince1970: history.time / 1000))
+            cell.constantWidthPlay.constant = 0
+            cell.constantWidthUp.constant = 0
+        } else {
+            cell.lblTitle.text = history.word
+            cell.constantWidthPlay.constant = 36
+            cell.constantWidthUp.constant = 36
+        }
         cell.lblScore.text = "\(history.score)%"
         return cell
     }

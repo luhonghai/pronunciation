@@ -47,11 +47,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         
         
         //check login
-        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
-        if (!JSONStringUserProfile.isEmpty){
+        if (Login.getCurrentUser().isLogin){
             print("move")
-            print(JSONStringUserProfile)
             dispatch_async(dispatch_get_main_queue(),{
                 self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
             })
@@ -425,7 +422,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
             showLogin = showLogin + 1
             if showLogin == 2 {
                 btnLoginFB.hidden = false
-            } else if showLogin == 3{
+            } else if showLogin == 3 {
                 btnLoginAC.hidden = false
                 btnAltLogin.hidden = true
             } 

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5A59DE5701A5C70EA7F0F77F /* Pods_AccentEasy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */; };
 		9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */; };
+		9053C27A1C9004D6009BA3DF /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053C2791C9004D6009BA3DF /* JSONHelper.swift */; };
+		9053C2871C902598009BA3DF /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053C2861C902598009BA3DF /* AccountManager.swift */; };
 		9053FDFC1C87D8FC0059A423 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053FDFB1C87D8FC0059A423 /* Global.swift */; };
 		9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9053FE101C87E92E0059A423 /* RDVTabBarController.framework */; };
 		9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9053FE121C87F7910059A423 /* tab-background-selected.png */; };
@@ -437,6 +439,8 @@
 
 /* Begin PBXFileReference section */
 		67BE54BC2706CB7681C8E90F /* Pods_AccentEasy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AccentEasy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9053C2791C9004D6009BA3DF /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONHelper.swift; path = Utils/JSONHelper.swift; sourceTree = "<group>"; };
+		9053C2861C902598009BA3DF /* AccountManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
 		9053FDFB1C87D8FC0059A423 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		9053FE121C87F7910059A423 /* tab-background-selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-selected.png"; sourceTree = "<group>"; };
 		9053FE131C87F7910059A423 /* tab-background-unselected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-background-unselected.png"; sourceTree = "<group>"; };
@@ -1236,6 +1240,7 @@
 				9B320E8A1C5B1971001D8A95 /* FileHelper.swift */,
 				9B9BE6F61C6305E900C84823 /* ColorHelper.swift */,
 				90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */,
+				9053C2791C9004D6009BA3DF /* JSONHelper.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1305,6 +1310,7 @@
 				9053FDFB1C87D8FC0059A423 /* Global.swift */,
 				C1056C2A1C85437000F75CCC /* FSScreen.swift */,
 				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
+				9053C2861C902598009BA3DF /* AccountManager.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2161,6 +2167,7 @@
 				9B5F334C1C77129A00E85629 /* BubbleChartView.swift in Sources */,
 				9B5F33781C77129A00E85629 /* CandleChartData.swift in Sources */,
 				9B9BE7091C63136B00C84823 /* CustomLineChartView.swift in Sources */,
+				9053C27A1C9004D6009BA3DF /* JSONHelper.swift in Sources */,
 				9B5F33981C77129A00E85629 /* ChartXAxisValueFormatter.swift in Sources */,
 				9B5F33E91C771B5A00E85629 /* EnumTransform.swift in Sources */,
 				9B5F335A1C77129A00E85629 /* ChartMarker.swift in Sources */,
@@ -2194,6 +2201,7 @@
 				9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */,
 				C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */,
 				9B5F33EC1C771B5A00E85629 /* TransformType.swift in Sources */,
+				9053C2871C902598009BA3DF /* AccountManager.swift in Sources */,
 				9B5F340E1C771D6800E85629 /* FTS4.swift in Sources */,
 				C141C8361C3E4684001D1F9C /* OurTableViewController.swift in Sources */,
 				9B5F34121C771D6800E85629 /* AggregateFunctions.swift in Sources */,
