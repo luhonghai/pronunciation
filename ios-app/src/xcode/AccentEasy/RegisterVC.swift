@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterVC: UIViewController {
+class RegisterVC: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -25,6 +25,12 @@ class RegisterVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        txtFirstname.delegate = self
+        txtLastname.delegate = self
+        txtEmail.delegate = self
+        txtPassword.delegate = self
+        txtConfirmPassword.delegate = self
         
         txtEmail.autocorrectionType = UITextAutocorrectionType.No
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
@@ -44,15 +50,93 @@ class RegisterVC: UIViewController {
         //}
     }
     
-    func isValidEmail(testStr:String) -> Bool {
-        // println("validate calendar: \(testStr)")
-        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    func keyboardWasShown(notification: NSNotification) {
+        var info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
         
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluateWithObject(testStr)
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = keyboardFrame.size.height + 20
+        })
     }
     
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        animateViewMoving(true, moveValue: 100)
+        print("textFieldDidBeginEditing")
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        animateViewMoving(false, moveValue: 100)
+        print("textFieldDidEndEditing")
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+    
+    
+    
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        switch textField {
+        case self.txtFirstname:
+            self.txtLastname.becomeFirstResponder()
+            break
+        case self.txtLastname:
+            self.txtEmail.becomeFirstResponder()
+            break
+        case self.txtEmail:
+            self.txtPassword.becomeFirstResponder()
+            break
+        case self.txtPassword:
+            self.txtConfirmPassword.becomeFirstResponder()
+            break
+        case self.txtConfirmPassword:
+            textField.resignFirstResponder()
+            registerAE()
+            break
+        default:
+            textField.resignFirstResponder()
+            break
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+
+    
+        
     @IBAction func registerTapped(sender: AnyObject) {
+        registerAE()
+    }
+
+    func registerAE(){
+        showLoadding()
         /*
         data.put("version_code", AndroidHelper.getVersionCode(context));
         data.put("profile", gson.toJson(profile));
@@ -65,14 +149,17 @@ class RegisterVC: UIViewController {
         let password:String = txtPassword.text!
         let confirmPassword:String = txtConfirmPassword.text!
         
-        if username.isEmpty || !isValidEmail(username) {
+        if username.isEmpty || !Login.isValidEmail(username) {
+            hidenLoadding()
             SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
             return
         } else if password.characters.count < 6 {
+            hidenLoadding()
             SweetAlert().showAlert("invalid password", subTitle: "passwords must be at least 6 characters in length", style: AlertStyle.Error)
             return
             
         }else if password != confirmPassword {
+            hidenLoadding()
             SweetAlert().showAlert("invalid password", subTitle: "passwords doesn't match", style: AlertStyle.Error)
             return
         }
@@ -90,13 +177,12 @@ class RegisterVC: UIViewController {
                 if success {
                     self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                 } else {
+                    self.hidenLoadding()
                     AccountManager.showError("could not register")
                 }
             })
         }
-        
     }
-
 
     /*
     // MARK: - Navigation

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegisterConfirmVC: UIViewController {
+class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
 
     var currentUser:UserProfile!
     
@@ -22,6 +22,8 @@ class RegisterConfirmVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         currentUser = AccountManager.currentUser()
+        
+        txtcode.delegate = self
         txtcode.placeholder = currentUser.username
     }
 
@@ -30,7 +32,43 @@ class RegisterConfirmVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.txtcode {
+            textField.resignFirstResponder()
+            confirmCodeAE()
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+    
     @IBAction func confirmCodeTapped(sender: AnyObject) {
+        confirmCodeAE()
+    }
+    
+    func confirmCodeAE() {
+        showLoadding()
         let codeConfirm:String = txtcode.text!
         AccountManager.activate(codeConfirm, userProfile: currentUser) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
@@ -41,18 +79,23 @@ class RegisterConfirmVC: UIViewController {
                         }
                     }
                 } else {
+                    self.hidenLoadding()
                     AccountManager.showError("could not activate", message: message)
                 }
             })
         }
+
     }
 
     @IBAction func sendCodeAgainTapped(sender: AnyObject) {
+        showLoadding()
         AccountManager.resendCode(currentUser) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
                 if success {
+                    self.hidenLoadding()
                     SweetAlert().showAlert("successfully submitted!", subTitle: message, style: AlertStyle.Success)
                 } else {
+                    self.hidenLoadding()
                     AccountManager.showError("could resend code", message: message)
                 }
             })

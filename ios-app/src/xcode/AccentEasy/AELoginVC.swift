@@ -7,7 +7,7 @@
 //
 
 import UIKit
-class AELoginVC: UIViewController {
+class AELoginVC: UIViewController, UITextFieldDelegate {
 
 
     var currentUser: UserProfile!
@@ -26,10 +26,11 @@ class AELoginVC: UIViewController {
         super.viewDidLoad()
 
         txtEmail.autocorrectionType = UITextAutocorrectionType.No
-        
+        txtEmail.delegate = self
+        txtPassword.delegate = self
         //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-        view.addGestureRecognizer(tap)
+        //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+       // view.addGestureRecognizer(tap)
         
     }
     
@@ -38,6 +39,28 @@ class AELoginVC: UIViewController {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }
+    
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.txtEmail {
+            self.txtPassword.becomeFirstResponder()
+        }else if textField == self.txtPassword {
+            textField.resignFirstResponder()
+            loginAE()
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -51,18 +74,40 @@ class AELoginVC: UIViewController {
         
     }
     
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+
 
     
     @IBAction func loginTapped(sender: AnyObject) {
-        
+        loginAE()
+    }
+    
+    func loginAE() {
+        showLoadding()
         let username:String = txtEmail.text!
         let password:String = txtPassword.text!
         
         if username.isEmpty || password.isEmpty {
             dispatch_async(dispatch_get_main_queue(),{
                 SweetAlert().showAlert("not enough data", subTitle: "please enter username and password", style: AlertStyle.Error)
-                
+                self.hidenLoadding()
             })
+            return
+        }else if !Login.isValidEmail(username) {
+            dispatch_async(dispatch_get_main_queue(),{
+                SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
+                self.hidenLoadding()
+            })
+            
             return
         }
         
@@ -81,9 +126,11 @@ class AELoginVC: UIViewController {
                     weakSelf!.getUserProfile()
                 } else {
                     AccountManager.showError("could not login", message: message)
+                    weakSelf!.hidenLoadding()
                 }
             })
         }
+
     }
 
     func getUserProfile () {
@@ -93,9 +140,11 @@ class AELoginVC: UIViewController {
                 if success {
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
+                    weakSelf!.hidenLoadding()
                     weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)
                 } else {
                     AccountManager.showError("could not fetch user data")
+                    weakSelf!.hidenLoadding()
                 }
             })
         }

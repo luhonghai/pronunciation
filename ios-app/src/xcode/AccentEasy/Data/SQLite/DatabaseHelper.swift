@@ -67,6 +67,7 @@ public class DatabaseHelper {
                 }
                 else {
                     //handleErrorJson(res.body)
+                    print("success CheckVersion")
                     print(res.text)
                     let dbVersionRes: DatabaseVersion = JSONHelper.fromJson(res.text!)
                     if dbVersionRes.status {

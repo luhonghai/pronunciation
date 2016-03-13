@@ -31,10 +31,12 @@ class LaunchImageVC: UIViewController {
         weak var weakSelf = self;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
+                print (success)
                 let freestyleDbAdapter = FreeStyleDBAdapter()
                 freestyleDbAdapter.prepare()
                 if !success {
                     //TODO show alert no database found
+                    print ("error checkDatabaseVersion")
                 }
                 weakSelf!.willClose = true
             }

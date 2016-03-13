@@ -70,6 +70,7 @@ class AccountManager {
     }
     
     class func currentUser() -> UserProfile {
+        print ("run in currentUser")
         let userDefaults = NSUserDefaults()
         let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
         if (keyForUserProfile != nil) {
@@ -100,7 +101,8 @@ class AccountManager {
         userProfile.deviceInfo = DeviceManager.deviceInfo()
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in
+            .onError({e in print(e)
+                print("run in auth")
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
         client.post("/AuthHandler").type("form").send(["profile":JSONHelper.toJson(userProfile), "check": String(isCheck),"imei": DeviceManager.imei()])
