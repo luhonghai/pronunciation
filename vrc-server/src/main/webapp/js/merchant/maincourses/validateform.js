@@ -16,6 +16,12 @@ function validateFormAddCourse(){
         getMsgAddCourse().show();
         return false;
     }
+    var share = getCourseShare().val();
+    if(share == '' || typeof share ==="undefined"){
+        getMsgAddCourse().html("Please select a share option!");
+        getMsgAddCourse().show();
+        return false;
+    }
     getMsgAddCourse().hide();
     return true;
 }
@@ -26,6 +32,7 @@ function validateFormSearchHeader(){
         getSuggestCourseHeader().focus();
         return false;
     }
+
     return true;
 }
 

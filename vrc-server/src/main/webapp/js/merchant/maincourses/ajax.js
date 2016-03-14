@@ -57,7 +57,7 @@ function loadAllCourse(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>There is no course available in the system!</label>");
+                getDivContainCourse().html("<label class='welcome'>There are no courses currently available.</label>");
             }
         },
         error: function () {
@@ -103,7 +103,7 @@ function searchCourseHeader(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>There is no course! </label><a id='reload'>Click here</a><label class='welcome'> to reload the search</label>");
+                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria. &nbsp</label><a id='reload'>Click here</a><label class='welcome'> &nbsp to load all the courses.</label>");
             }
         },
         error: function () {

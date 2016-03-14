@@ -56,6 +56,7 @@ public class SQL {
             "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
             "WHERE o.id='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
 
+
     /**
      *
      * @param status
