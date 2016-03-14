@@ -2505,11 +2505,15 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="ZNM-TN-klg"/>
+        <segue reference="hKc-VP-pia"/>
         <segue reference="b3j-3D-4fV"/>
         <segue reference="8jd-vc-94q"/>
         <segue reference="Ceg-og-m1t"/>
         <segue reference="VlK-rN-iWT"/>
+        <segue reference="cQm-kD-9I0"/>
         <segue reference="WR5-An-sLd"/>
+        <segue reference="ZoM-vd-D1g"/>
         <segue reference="cQm-kD-9I0"/>
     </inferredMetricsTieBreakers>
 </document>
