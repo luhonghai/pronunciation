@@ -111,12 +111,19 @@ class AccountManager {
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 } else {
                     print("auth response: \(res.text)")
-                    let result: AuthResponse = JSONHelper.fromJson(res.text!)
-                    if  result.data != nil {
-                        userProfile.token = result.data.token
-                        print("login token \(userProfile.token)")
+                    if let result: AuthResponse = JSONHelper.fromJson(res.text!) as AuthResponse {
+                        if  result.data != nil {
+                            userProfile.token = result.data.token
+                            print("login token \(userProfile.token)")
+                        } else {
+                            print("\(result.message)")
+                        }
+                        completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    } else {
+                        completion(userProfile: userProfile, success: false, message:  DEFAULT_ERROR_MESSAGE)
+
                     }
-                    completion(userProfile: userProfile, success: result.status, message:  result.message)
+                    
                 }
             })
 
