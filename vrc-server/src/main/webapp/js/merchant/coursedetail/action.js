@@ -121,8 +121,6 @@ function btnDeleteTest(){
 
 function showHelpIconTop(){
     $("#help-icons").show();
-    $("#help-icons").css("padding-top","5px");
-    $("#help-icons").css("padding-bottom","5px");
 }
 
 $(document).ready(function(){
