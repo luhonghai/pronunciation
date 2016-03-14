@@ -40,7 +40,7 @@
 <script src="<%=request.getContextPath() %>/bower_components/circleplayer-master/js/circle.player.js"></script>
 
 
-<script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/buildd/js/bootstrap-datetimepicker.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/bootstrap-datetimepicker-master/src/js/bootstrap-datetimepicker.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <%--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>--%>

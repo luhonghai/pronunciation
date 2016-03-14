@@ -17,6 +17,8 @@
 
         <link href="<%=request.getContextPath()%>/bower_components/bootstrap-glyphicons-master/css/bootstrap.icon-large.min.css" rel="stylesheet">
 
+        <link href="<%=request.getContextPath()%>/bower_components/bootstrap-datetimepicker-master/buildd/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
         <!-- MetisMenu CSS -->
         <link href="<%=request.getContextPath()%>/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 

@@ -24,21 +24,6 @@
     var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
     var action_delete_test = "<%=Constant.ACTION_DELETE_TEST%>";
 </script>
-<style>
-    .welcome {
-        color: #376092;
-        font-weight: 200;
-    }
-
-    .header-company {
-        color: #A6A6A6
-    }
-
-    .aciTree {
-        width: 100% !important;
-        height: 100% !important;
-    }
-</style>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
       media="all">
 <link rel="stylesheet" type="text/css"
@@ -78,9 +63,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrow" class="modal-title"
-                    style="text-align: left;font-weight: 200"><%=nameOfCourse%>
+                    style="text-align: left;"><%=nameOfCourse%>
                 </label>
-                <h2 id='titlePopup' class="modal-title" style="text-align: center;font-weight: 200">Add Level</h2>
+                <h2 id='titlePopup' class="modal-title">Add Level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
                     name</h4>
@@ -88,7 +73,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addLevel" name="addform">
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="lvName">Name:</label>
+                        <label class="control-label col-md-4 lbl_addForm" for="lvName">name:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="lvName" name="name"
@@ -96,7 +81,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="lvDesc">Description:</label>
+                        <label class="control-label col-md-4 lbl_addForm" for="lvDesc">description:</label>
 
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="lvDesc" name="description"
@@ -108,10 +93,10 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                            <img id="helpAddLevel" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
+                            <img id="helpAddLevel" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteLevel" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteLevel" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                            <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
@@ -136,9 +121,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrowObj" class="modal-title"
-                    style="text-align: left;font-weight: 200"><%=nameOfCourse%>
+                    style="text-align: left;"><%=nameOfCourse%>
                 </label>
-                <h2 id='titlePopupObj' class="modal-title" style="text-align: center;font-weight: 200">Add Objective</h2>
+                <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
                     name</h4>
@@ -146,7 +131,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addObj" name="addform">
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objName">Name:</label>
+                        <label class="control-label col-md-4 lbl_addForm" for="objName">name:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="objName" name="name"
@@ -154,7 +139,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objDesc">Description:</label>
+                        <label class="control-label col-md-4 lbl_addForm" for="objDesc">description:</label>
 
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="objDesc" name="description"
@@ -165,11 +150,11 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpObj" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
+                            <img id="helpObj" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                            <%-- <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteObj" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteObj" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
@@ -194,9 +179,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrowTest" class="modal-title"
-                       style="text-align: left;font-weight: 200"><%=nameOfCourse%>
+                       style="text-align: left;"><%=nameOfCourse%>
                 </label>
-                <h2 id='titlePopupTest' class="modal-title" style="text-align: center;font-weight: 200">Add Test</h2>
+                <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
                     name</h4>
@@ -204,8 +189,8 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addTest" name="addform">
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="percent">Pass %:</label>
-                        <div class="col-md-6">
+                        <label class="control-label col-md-3 lbl_addForm" for="percent">pass %:</label>
+                        <div class="col-md-8">
                             <input type="text" class="form-control" id="percent" name="percent"
                                    placeholder="Percent pass">
                         </div>
@@ -214,11 +199,11 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpTest" src="/images/popup/Help_50x50.gif" width="36px" height="36px"/>
+                            <img id="helpTest" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">

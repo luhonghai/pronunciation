@@ -17,7 +17,7 @@
 }
 
 .helpBtnPopUp{
-    background-image: url("../images/popup/help.gif") !important;
+    background-image: url("../images/popup/help_50_50.png") !important;
     background-size: 48px 48px;
     width: 48px;
     height: 48px;
@@ -27,14 +27,127 @@
 
 #titlePopup,#titlePopupObj,#titlePopupTest {
     padding-top : 10px;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
 }
 
 #arrow , #arrowObj, #arrowTest{
     color : #A6A6A6;
-    font-size: 12px;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
 }
-
+.modal-header{
+    border-bottom: transparent;
+    padding-bottom: 0px;
+}
 .modal-content{
     width : 400px;
+    border-radius: 20px;
 }
 
+#popupLevel #arrow{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupLevel #titlePopup{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+#popupLevel .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addLevel label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+
+#popupObjective #arrowObj{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    color : #A6A6A6;
+    text-align:left;
+}
+#popupObjective #titlePopupObj{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+#popupObjective .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addObj label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+#popupTest #arrowTest{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupTest #titlePopupTest{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+#popupTest .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addTest label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+.welcome {
+    color: #376092;
+    font-weight: 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+.aciTreeText{
+    font-weight: 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+.header-company {
+    font-weight: 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+.aciTree {
+    width: 100% !important;
+    height: 100% !important;
+}
