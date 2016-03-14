@@ -1112,9 +1112,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-oI-D7b">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-9N-Sp0">
-                                        <rect key="frame" x="0.0" y="40" width="375" height="527"/>
-                                        <color key="backgroundColor" red="0.14509803921568629" green="0.65490196078431373" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-9N-Sp0">
+                                        <rect key="frame" x="0.0" y="35" width="375" height="527"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392156862748" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Vf-e5b">
                                         <rect key="frame" x="0.0" y="45" width="375" height="522"/>
@@ -2386,9 +2386,9 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Li1-Q4-1W2">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
-                                        <rect key="frame" x="0.0" y="41" width="375" height="526"/>
-                                        <color key="backgroundColor" red="0.1450980392" green="0.65490196079999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
+                                        <rect key="frame" x="0.0" y="21" width="375" height="294"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392156862748" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0fc-EU-rZS">
                                         <rect key="frame" x="0.0" y="46" width="375" height="521"/>
@@ -2552,7 +2552,11 @@
         <segue reference="b3j-3D-4fV"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="Ceg-og-m1t"/>
+        <segue reference="cQm-kD-9I0"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="0GI-4W-Bce"/>
         <segue reference="WR5-An-sLd"/>
+        <segue reference="8jd-vc-94q"/>
+        <segue reference="b3j-3D-4fV"/>
     </inferredMetricsTieBreakers>
 </document>
