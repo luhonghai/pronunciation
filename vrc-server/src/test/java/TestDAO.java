@@ -1,3 +1,4 @@
+import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.service.RecorderSentenceService;
@@ -57,6 +58,8 @@ public class TestDAO {
         RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
         LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+        QuestionDAO questionDAO = new QuestionDAO();
+
 
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");

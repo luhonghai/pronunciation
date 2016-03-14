@@ -65,7 +65,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     
     @IBAction func btnLoginGTapped(sender: AnyObject) {
-        GIDSignIn.sharedInstance().signIn()
+        DeviceManager.doIfConnectedToNetwork { () -> Void in
+            GIDSignIn.sharedInstance().signIn()
+        }
     }
     
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
@@ -154,8 +156,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     }
     
     @IBAction func btnLoginFBTapped(sender: AnyObject) {
-        fbLoginInitiate()
-        print("click login fb")
+        DeviceManager.doIfConnectedToNetwork { () -> Void in
+            self.fbLoginInitiate()
+            print("click login fb")
+        }
     }
     
     func fbLoginInitiate() {

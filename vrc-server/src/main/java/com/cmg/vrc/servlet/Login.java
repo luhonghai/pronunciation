@@ -41,7 +41,9 @@ import java.io.IOException;
         String pass=request.getParameter("pass");
         logins logins=new logins();
         try {
-           Admin admin= adminDAO.getUserByEmailPassword(name, StringUtil.md5(pass));
+            String password = StringUtil.md5(pass);
+            //logger.info("Password: " + password);
+           Admin admin= adminDAO.getUserByEmailPassword(name, password);
             if (admin!=null){
                     session.setAttribute("nambui",admin);
                     session.setAttribute("id",admin.getId());
@@ -56,7 +58,7 @@ import java.io.IOException;
             }
             else {
                 logins.message="error";
-                logins.role=admin.getRole();
+               // logins.role=admin.getRole();
                 Gson gson = new Gson();
                 String admins = gson.toJson(logins);
                 response.getWriter().write(admins);

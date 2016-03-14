@@ -59,9 +59,8 @@ class LaunchImageVC: UIViewController {
         nextScreen = nextScreen + 1
         if self.willClose {
             if currentUser.isLogin {
-                timer.invalidate()
-                timer = nil
                 if willCheckLogin {
+                    willCheckLogin = false
                     AccountManager.auth(currentUser, isCheck: true, completion: { (userProfile, success, message) -> Void in
                         dispatch_async(dispatch_get_main_queue(),{
                             if success {
@@ -71,7 +70,6 @@ class LaunchImageVC: UIViewController {
                             }
                         })
                     })
-                    willCheckLogin = false
                 }
             } else {
                gotoLoginPage()
@@ -80,13 +78,20 @@ class LaunchImageVC: UIViewController {
     }
     
     func gotoMainPage() {
+        clearTimer()
         self.performSegueWithIdentifier("gotoMainPage", sender: self)
         
     }
     
+    func clearTimer() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+    }
+    
     func gotoLoginPage() {
-        timer.invalidate()
-        timer = nil
+        clearTimer()
         self.performSegueWithIdentifier("GoToLogin", sender: self)
     }
 

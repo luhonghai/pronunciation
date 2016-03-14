@@ -11,6 +11,16 @@ import SystemConfiguration
 
 class DeviceManager {
     
+    class func doIfConnectedToNetwork(completion:() -> Void) {
+        if isConnectedToNetwork() {
+            completion()
+        } else {
+            dispatch_async(dispatch_get_main_queue(),{
+                SweetAlert().showAlert("no network available", subTitle: "sorry but your internet connection does not appear to be working", style: AlertStyle.Error)
+            })
+        }
+    }
+    
     class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
