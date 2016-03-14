@@ -58,7 +58,43 @@ function validateFormTest(){
         getPercentPass().focus();
         getTestValidateMessage().html("Please enter a number!");
         getTestValidateMessage().show();
+        return false;
     }
     getTestValidateMessage().hide();
+    return true;
+}
+
+function validateFormLesson(){
+    var name = getNameLesson().val();
+    if(name == '' || typeof name === 'undefined'){
+        getNameLesson().focus();
+        getLessonValidateMessage().html("Please enter a name");
+        getLessonValidateMessage().show();
+        return false;
+    }
+
+    var description = getDescriptionLesson().val();
+    if(description == '' || typeof description === 'undefined'){
+        getDescriptionLesson().focus();
+        getLessonValidateMessage().html("Please enter a description");
+        getLessonValidateMessage().show();
+        return false;
+    }
+
+    var type = getTypeLesson().val();
+    if(type == '' || typeof type === 'undefined'){
+        getTypeLesson().focus();
+        getLessonValidateMessage().html("Please enter a type");
+        getLessonValidateMessage().show();
+        return false;
+    }
+    var detail = getDetailLesson().val();
+    if(detail == '' || typeof detail === 'undefined'){
+        getDetailLesson().focus();
+        getLessonValidateMessage().html("Please enter a details lesson");
+        getLessonValidateMessage().show();
+        return false;
+    }
+    getLessonValidateMessage().hide();
     return true;
 }

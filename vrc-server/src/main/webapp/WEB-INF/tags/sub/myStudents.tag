@@ -328,6 +328,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h3 align="center">student invitation</h3>
+            <p>The following students:</p>
             <div id="listStudentInvitation">
 
             </div>
@@ -349,7 +350,7 @@
           <div class="col-xs-12 col-md-10 col-md-offset-1">
 
             <h3 align="center">invitations rejected</h3>
-            <p>the following student/s:</p>
+            <p>the following students:</p>
             <div id="listInvitationReject">
 
             </div>
@@ -370,7 +371,7 @@
         <div class="row">
           <div class="col-xs-12 col-md-10 col-md-offset-1">
             <h3 align="center">invitation accept</h3>
-            <p>The following student/s:</p>
+            <p>The following students:</p>
             <div id="listInvitationAccept">
 
             </div>

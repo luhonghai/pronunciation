@@ -46,6 +46,8 @@ public class TreeAddNodeServlet extends BaseServlet {
             TestServices tServices = new TestServices();
             String txt = tServices.addTest(idLevel,percent);
             response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_LESSON)){
+
         }
     }
 

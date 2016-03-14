@@ -41,7 +41,9 @@ public class TreeLoadServlet extends BaseServlet {
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_OBJECTIVE)){
-
+            ArrayList<TreeNode> list = nService.loadObjective(idTarget,showBtnAction);
+            String json = gson.toJson(list);
+            response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_TEST)){
 
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LESSONS)){

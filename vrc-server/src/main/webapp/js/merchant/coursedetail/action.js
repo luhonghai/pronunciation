@@ -47,6 +47,15 @@ function openPopup(itemData){
         getPercentPass().attr("idLevel",level.id);
         currentPopup.find("#btnDeleteTest").show();
         currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+    }else if(itemData._actionClick == action_add_lesson){
+        clearForm();
+        currentPopup.find("#titlePopupLesson").html("add lesson");
+        currentPopup.find("#btnDeleteLesson").hide();
+        var objParent = treeAPI.itemData(currentParent);
+        getNameLesson().attr("objID",objParent.id);
+        var level = treeAPI.parent(currentParent);
+        var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }
     currentPopup.modal('show');
 }
@@ -119,6 +128,24 @@ function btnDeleteTest(){
     });
 }
 
+
+/**
+ * click on save lesson button
+ */
+function btnSaveLesson(){
+    $(document).on("click","#btnSaveLevel",function(){
+        if(validateFormLesson()){
+            if(currentPopup.find(".action").val() == action_add_lesson){
+                addLesson();
+            }else if(currentPopup.find(".action").val() == action_edit_lesson){
+                editLesson();
+            }
+        }
+    });
+}
+
+
+
 function showHelpIconTop(){
     $("#help-icons").show();
     $("#help-icons").css("padding-top","5px");
@@ -126,6 +153,7 @@ function showHelpIconTop(){
 }
 
 $(document).ready(function(){
+    btnSaveLesson();
     btnSaveLevel();
     btnDeleteLevel();
     btnSaveObj();

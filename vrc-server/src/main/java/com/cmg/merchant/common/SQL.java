@@ -52,6 +52,10 @@ public class SQL {
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
+    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,o.index FROM LESSONCOLLECTION l " +
+            "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
+            "WHERE o.id='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
+
     /**
      *
      * @param status
@@ -131,6 +135,11 @@ public class SQL {
         sql = sql.replaceAll("paramCompanyName", companyName);
         sql = sql.replaceAll("paramDateFrom", dateFrom);
         sql = sql.replaceAll("paramDateTo", dateTo);
+        return sql;
+    }
+    public String getSqlLessonMappingObjective(String idObjective){
+        String sql=SQL_LESSON_MAPPING_OBJECTIVE;
+        sql=sql.replaceAll("paramMappingId",idObjective);
         return sql;
     }
 }

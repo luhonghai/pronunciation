@@ -56,3 +56,23 @@ function getTestValidateMessage(){
     var validateMsg = $("#validateTestMsg");
     return validateMsg;
 }
+
+function getLessonValidateMessage(){
+    return $("#validateLessonMsg");
+}
+function getNameLesson(){
+    var lessonName=$('#lessonName');
+    return lessonName;
+}
+function getDescriptionLesson(){
+    var lessonDescription=$('#lessonDesc');
+    return lessonDescription;
+}
+function getTypeLesson(){
+    var lessonType=$('#lessonType');
+    return lessonType;
+}
+function getDetailLesson(){
+    var lessonDetails=$('#lessonDetail');
+    return lessonDetails;
+}

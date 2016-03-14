@@ -51,6 +51,7 @@ public class ButtonServices {
         return node;
     }
 
+
     /**
      *
      * @return btn add test
@@ -67,6 +68,11 @@ public class ButtonServices {
 
     public TreeNode createBtnAddLesson(){
         TreeNode node = getDefaultBtn();
+        node.setId(Constant.ID_ADD_LESSON_BTN);
+        node.setLabel(Constant.LABEL_ADD_LESSON);
+        node.setIcon(Constant.IC_LESSON);
+        node.set_popupId(Constant.POPUP_LESSON);
+        node.set_actionClick(Constant.ACTION_ADD_LESSON);
         return node;
     }
 

@@ -1,6 +1,7 @@
 package com.cmg.merchant.util;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
@@ -155,4 +156,37 @@ public class TreeUtil {
         }
         return nodes.get(0);
     }
+
+    /**
+     *
+     * @param list
+     * @param showBtnAction
+     * @return
+     */
+    public ArrayList<TreeNode> switchLessonToNode(ArrayList<LessonCollection> list, boolean showBtnAction){
+        ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+        if(showBtnAction){
+            nodes.add(btnService.createBtnAddLesson());
+        }
+        if(list!=null){
+            for(LessonCollection lesson : list){
+                TreeNode node = getDefaultInstance(showBtnAction);
+                node.setId(lesson.getId());
+                node.setLabel(lesson.getName());
+                node.set_title(lesson.getDescription());
+                node.setIcon(Constant.IC_LESSON);
+                node.set_targetLoad(Constant.TARGET_LOAD_LESSONS);
+                node.set_popupId(Constant.POPUP_LESSON);
+                node.set_actionClick(Constant.ACTION_EDIT_LESSON);
+                node.setOpen(false);
+                nodes.add(node);
+            }
+        }else{
+            TreeNode node = getDefaultInstance(showBtnAction);
+            node.set_message(ERROR);
+            nodes.add(node);
+        }
+        return nodes;
+    }
+
 }
