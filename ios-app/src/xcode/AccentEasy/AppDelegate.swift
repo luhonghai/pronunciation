@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //fb login
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         Fabric.with([Crashlytics.self])
+        self.logUser()
         // Initialize google sign-in
         var configureError: NSError?
         GGLContext.sharedInstance().configureWithError(&configureError)
@@ -37,6 +38,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //window!.makeKeyAndVisible()
         
         return true
+    }
+    
+    func logUser() {
+        let currentUser = AccountManager.currentUser()
+        if currentUser.isLogin {
+            Crashlytics.sharedInstance().setUserEmail(currentUser.username)
+            Crashlytics.sharedInstance().setUserIdentifier(currentUser.username)
+            Crashlytics.sharedInstance().setUserName(currentUser.name)
+        }
     }
     
     //fb login

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>4.0.013</version>
+	<version>4.0.014</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
@@ -134,7 +134,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>deploy</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>
@@ -499,11 +499,11 @@
 				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
 				<recipients>feedback@accenteasy.com</recipients>
 				<aws.s3.bucket.name>com-accenteasy-bbc-accent-dev</aws.s3.bucket.name>
-				<url.active.account>http://accenteasytomcat-sat.elasticbeanstalk.com/activate</url.active.account>
-				<url.reset.password>http://accenteasytomcat-sat.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
+				<url.active.account>http://accenteasytomcat-sat.ap-southeast-1.elasticbeanstalk.com/activate</url.active.account>
+				<url.reset.password>http://accenteasytomcat-sat.ap-southeast-1.elasticbeanstalk.com/reset-password.jsp</url.reset.password>
 				<beanstalk.environmentName>accenteasytomcat-sat</beanstalk.environmentName>
-				<beanstalk.environmentRef>accenteasytomcat-sat.elasticbeanstalk.com</beanstalk.environmentRef>
-				<beanstalk.cnamePrefix>accenteasytomcat-sat</beanstalk.cnamePrefix>
+				<beanstalk.environmentRef>accenteasytomcat-sat.ap-southeast-1.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-sat.ap-southeast-1</beanstalk.cnamePrefix>
 			</properties>
 		</profile>
 

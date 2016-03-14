@@ -12,7 +12,7 @@ public class CustomFFMPEGLocator extends FFMPEGLocator {
     private final String path;
 
     public CustomFFMPEGLocator() {
-        this(DEFAULT_MAX_OS_X_PATH);
+        this(DEFAULT_LINUX_PATH);
     }
 
     public CustomFFMPEGLocator(String path) {
