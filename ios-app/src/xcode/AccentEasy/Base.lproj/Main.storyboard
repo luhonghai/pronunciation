@@ -158,7 +158,7 @@
                                                     <action selector="btnLoginGTapped:" destination="ULa-Ui-4qE" eventType="touchUpInside" id="X6A-S5-QYH"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80N-mp-Kr3">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80N-mp-Kr3">
                                                 <rect key="frame" x="21" y="123" width="288" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="80N-mp-Kr3" secondAttribute="height" multiplier="270:43" id="0Mr-TS-ead"/>
@@ -179,7 +179,7 @@
                                                     <action selector="tappedAltLogin:" destination="ULa-Ui-4qE" eventType="touchUpInside" id="SCo-11-0kk"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-Pf-OkB">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mxj-Pf-OkB">
                                                 <rect key="frame" x="21" y="197" width="288" height="46"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Mxj-Pf-OkB" secondAttribute="height" multiplier="270:43" id="GEU-8Z-Jiu"/>
@@ -2549,10 +2549,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="WR5-An-sLd"/>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="Ceg-og-m1t"/>
-        <segue reference="0GI-4W-Bce"/>
+        <segue reference="Udu-EY-icj"/>
         <segue reference="b3j-3D-4fV"/>
         <segue reference="8jd-vc-94q"/>
+        <segue reference="0GI-4W-Bce"/>
+        <segue reference="Ceg-og-m1t"/>
     </inferredMetricsTieBreakers>
 </document>
