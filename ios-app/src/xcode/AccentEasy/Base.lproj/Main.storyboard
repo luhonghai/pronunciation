@@ -2543,7 +2543,7 @@
         <image name="p_prev.png" width="128" height="128"/>
         <image name="p_tip_blue.png" width="128" height="128"/>
         <image name="p_tip_blue_blur.png" width="128" height="128"/>
-        <image name="sl_background.png" width="355" height="540"/>
+        <image name="sl_background.png" width="1242" height="2208"/>
         <image name="sl_dog.png" width="308" height="376"/>
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>

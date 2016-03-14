@@ -58,6 +58,10 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectDetail:",name:"selectDetail", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
         showDetail()
+        
+    }
+    
+    func roundButton() {
         //button style cricle
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
@@ -117,6 +121,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     override func viewDidAppear(animated: Bool) {
+        roundButton()
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
         GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
