@@ -29,7 +29,6 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     //varible for data
     var wordSelected:WordCollection!
-    var voidModelResult:VoidModelResult!
     var userVoiceModelResult:UserVoiceModel!
     
     //play audio
@@ -52,28 +51,30 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-        //collection view
         cViewIPAList.delegate = self
         cViewIPAList.dataSource = self
-        
+        //init audio plaer
+        player = EZAudioPlayer(delegate: self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectDetail:",name:"selectDetail", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
+        showDetail()
+        //button style cricle
+        btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
+        btnPlay.clipsToBounds = true
+    }
+    
+    func showDetail() {
+        let adapter = WordCollectionDbApdater()
+        do {
+            wordSelected = try adapter.findByWord(userVoiceModelResult.word)
+        } catch {
+            
+        }
         //load data for detail screen
         userProfileSaveInApp = NSUserDefaults()
-        let keyWordSelectedInMainScreen:String = userProfileSaveInApp.objectForKey(FSScreen.KeyWordSelectedInMainScreen) as! String
-        let keyVoidModelResult:String = userProfileSaveInApp.objectForKey(FSScreen.KeyVoidModelResult) as! String
-        wordSelected = Mapper<WordCollection>().map(keyWordSelectedInMainScreen)
-        voidModelResult = Mapper<VoidModelResult>().map(keyVoidModelResult)
-        userVoiceModelResult = voidModelResult.data
-        
         //set data for view
+        arrIPAMapArpabet = [IPAMapArpabet]()
         btnPlayDemo.setTitle(wordSelected.word, forState: UIControlState.Normal)
-        
-        let adapter = WordCollectionDbApdater()
-        
-        //print("X:\(viewIPAList.frame.origin.x) Y:\(viewIPAList.frame.origin.y) width:\(viewIPAList.frame.width) sizewidth:\(viewIPAList.frame.size.width) height:\(viewIPAList.frame.height) sizeheight:\(viewIPAList.frame.size.height)")
-        
         for index in 0...userVoiceModelResult.result.phonemeScores.count-1 {
             //print(userVoiceModelResult.result.phonemeScores[index].name)
             do{
@@ -83,28 +84,47 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
             }catch{
                 print("load word default error")
             }
-
+            
         }
         //print(arrIPAMapArpabet.count)
         
-        //button style cricle
-        btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
-        btnPlay.clipsToBounds = true
-        
         //change view color
-        showColorOfScoreResult(voidModelResult.data.score)
-        
-        viewAnalyzing.showScore(Int(voidModelResult.data.score), showAnimation: true)
-        
-        //init audio plaer
-        player = EZAudioPlayer(delegate: self)
-        
-        delay(1) {
-            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
-            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
-            self.toggleSlider()
+        showColorOfScoreResult(userVoiceModelResult.score)
+        cViewIPAList.reloadData()
+        viewAnalyzing.showScore(Int(userVoiceModelResult.score), showAnimation: true)
+    }
+    
+    func selectDetail(notification: NSNotification) {
+        let uuid = notification.object as! String
+        let modelJsonPath = FileHelper.getFilePath("audio/\(uuid).json")
+        if FileHelper.isExists(modelJsonPath) {
+            do {
+                let model: UserVoiceModel = try JSONHelper.fromJson(FileHelper.readFile(modelJsonPath))
+                userVoiceModelResult = model
+                showDetail()
+            } catch {
+                
+            }
         }
         
+    }
+    
+    func closeDetail(notification: NSNotification) {
+        GlobalData.getInstance().selectedWord = ""
+       
+        self.navigationController?.popViewControllerAnimated(true)
+         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
+        GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
+        NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
+        delay(1) {
+            if self.isShowSlider {
+                self.toggleSlider()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -253,7 +273,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func getTmpFilePath() -> NSURL
     {
-        return NSURL(fileURLWithPath: FileHelper.getFilePath("\(fileName).\(fileType)"))
+        return NSURL(fileURLWithPath: FileHelper.getFilePath("audio/\(userVoiceModelResult.id).wav"))
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
@@ -324,7 +344,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     @IBAction func clickMenuButton(sender: AnyObject) {
         //self.performSegueWithIdentifier("DetailScreenGoToMain", sender: self)
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        //self.navigationController?.popToRootViewControllerAnimated(true)
+        GlobalData.getInstance().selectedWord = ""
+        
+        self.navigationController?.popViewControllerAnimated(true)
+        NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
     }
     
     
@@ -339,16 +363,52 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBOutlet weak var sliderContainer: UIView!
     
     func toggleSlider() {
-        if (isShowSlider) {
-            print("Origin y = \(CGRectGetMinY(sliderContainer.frame))")
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(btnSlider.frame) + 3, CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
-        } else {
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(sliderContainer.frame), CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        weak var weakSelf = self
+        UIView.animateWithDuration(0.3) { () -> Void in
+            if (weakSelf!.isShowSlider) {
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            } else {
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            }
+            weakSelf!.isShowSlider = !weakSelf!.isShowSlider
+            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
-        isShowSlider = !isShowSlider
         
     }
     
+    @IBAction func handlePan(sender: UIPanGestureRecognizer) {
+        if sender.state == UIGestureRecognizerState.Ended {
+            if let view = sliderContainer {
+                let currentY = view.center.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+               // print("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
+                isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    view.center = CGPoint(x:view.center.x,
+                        y: (self.isShowSlider ? minY : maxY))
+                })
+            }
+        } else {
+            let translation = sender.translationInView(self.view)
+            if let view = sliderContainer {
+                let destY = view.center.y + translation.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+                if (destY <= maxY && destY >= minY) {
+                    view.center = CGPoint(x:view.center.x,
+                        y:destY)
+                }
+            }
+            sender.setTranslation(CGPointZero, inView: self.view)
+        }
+    }
 }

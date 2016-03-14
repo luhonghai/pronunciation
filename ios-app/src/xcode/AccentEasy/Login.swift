@@ -11,8 +11,10 @@ import Foundation
 public class Login {
     
     public static let KeyUserProfile:String = "KeyUserProfile"
-    
-    public static let IS_DEBUG:Bool = true
+    public static let KeyRegisterUser:String = "KeyRegisterUser"
+    public static let KeyIsShowLogin:String = "KeyIsShowLogin"
+
+    public static let IS_DEBUG:Bool = false
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()
@@ -22,6 +24,7 @@ public class Login {
         user.token = "6a3fddb4-79ed-472e-83e9-c899e5db8634"
         user.licenseCode = "8FvYvh"
         user.isActivatedLicence = true
+        user.isLogin = true
         user.isSubscription = true
         user.profileImage = "https://en.gravatar.com/userimage/43514054/ee7d72e67f6b776a9b03a6361f2d0517.png?size=320"
         let deviceInfo = UserProfile.DeviceInfo()
@@ -30,14 +33,33 @@ public class Login {
         return user
     }
     
+    class func updateProfile(profile: UserProfile) {
+        AccountManager.updateProfile(profile)
+    }
+    
     class func getCurrentUser() -> UserProfile {
         if IS_DEBUG {
             return getTestUserProfile()
         } else {
-            let userDefaults = NSUserDefaults()
-            let keyForUserProfile:String = userDefaults.objectForKey(Login.KeyUserProfile) as! String
-            let rawString = userDefaults.objectForKey(keyForUserProfile) as! String
-            return Mapper<UserProfile>().map(rawString)!
+            return AccountManager.currentUser()
         }
     }
+    
+    class func logout() {
+        AccountManager.logout()
+    }
+    
+    
+    class func showError(title: String = "could not connect to server"){
+        AccountManager.showError(title)
+    }
+    
+    class func isValidEmail(testStr:String) -> Bool {
+        // println("validate calendar: \(testStr)")
+        let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluateWithObject(testStr)
+    }
+
 }

@@ -7,8 +7,11 @@
 //
 
 import UIKit
-class AELoginVC: UIViewController {
+class AELoginVC: UIViewController, UITextFieldDelegate {
 
+
+    var currentUser: UserProfile!
+    
     @IBOutlet weak var txtEmail: UITextField!
     @IBOutlet weak var txtPassword: UITextField!
     
@@ -21,99 +24,129 @@ class AELoginVC: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        txtEmail.autocorrectionType = UITextAutocorrectionType.No
 
-        // Do any additional setup after loading the view.
+        txtEmail.autocorrectionType = UITextAutocorrectionType.No
+        txtEmail.delegate = self
+        txtPassword.delegate = self
+        //Looks for single or multiple taps.
+        //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+       // view.addGestureRecognizer(tap)
         
     }
+    
+    //Calls this function when the tap is recognized.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.txtEmail {
+            self.txtPassword.becomeFirstResponder()
+        }else if textField == self.txtPassword {
+            textField.resignFirstResponder()
+            loginAE()
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func loginTapped(sender: AnyObject) {
-        /*
-        data.put("profile", gson.toJson(profile));
-        data.put("check", "true");
-        data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
-        */
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
+    }
+    
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+
+
+    
+    @IBAction func loginTapped(sender: AnyObject) {
+        loginAE()
+    }
+    
+    func loginAE() {
+        showLoadding()
         let username:String = txtEmail.text!
         let password:String = txtPassword.text!
         
         if username.isEmpty || password.isEmpty {
             dispatch_async(dispatch_get_main_queue(),{
-                SweetAlert().showAlert("Login Failed!", subTitle: "please enter username and password", style: AlertStyle.Error)
-                
+                SweetAlert().showAlert("not enough data", subTitle: "please enter username and password", style: AlertStyle.Error)
+                self.hidenLoadding()
             })
+            return
+        }else if !Login.isValidEmail(username) {
+            dispatch_async(dispatch_get_main_queue(),{
+                SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
+                self.hidenLoadding()
+            })
+            
             return
         }
         
         let userProfile = UserProfile()
-        userProfile.deviceInfo = UserProfile.DeviceInfo()
         userProfile.username = txtEmail.text!
         userProfile.password = txtPassword.text!
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
-        userProfile.deviceInfo.appVersion = "400000"
-        userProfile.deviceInfo.appName = "400000"
         
+        currentUser = userProfile
         
-        //deviceIn
-        
-        let JSONStringUserProfile:String = Mapper().toJSONString(userProfile, prettyPrint: true)!
-        
-        print(JSONStringUserProfile)
-        
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
-        
-        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                        })
-                        
-                        
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
-                            
-                        })
-                    }
-                    //print(result?.message)
-                    //print(result?.status)
+        weak var weakSelf = self;
+        AccountManager.auth(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    weakSelf!.currentUser = userProfile
+                    weakSelf!.getUserProfile()
+                } else {
+                    AccountManager.showError("could not login", message: message)
+                    weakSelf!.hidenLoadding()
                 }
             })
+        }
+
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func getUserProfile () {
+        weak var weakSelf = self
+        AccountManager.fetchProfile(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    userProfile.isLogin = true
+                    AccountManager.updateProfile(userProfile)
+                    weakSelf!.hidenLoadding()
+                    weakSelf!.performSegueWithIdentifier("AELoginGoToMain", sender: weakSelf!)
+                } else {
+                    AccountManager.showError("could not fetch user data")
+                    weakSelf!.hidenLoadding()
+                }
+            })
+        }
     }
-    */
-
 }

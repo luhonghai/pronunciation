@@ -13,11 +13,10 @@ import FBSDKLoginKit
 
 class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
-    var showLog:Int!
-    var JSONStringUserProfile:String!
-    var userProfileSaveInApp:NSUserDefaults!
-    var keyForProfile:String!
+    var showLogin:Int!
+    var isShowLogin:Bool!
 
+    var currentUser: UserProfile!
 
     //@IBOutlet weak var signInButton: GIDSignInButton!
     //@IBOutlet weak var btnLoginG: GIDSignInButton!
@@ -30,11 +29,16 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        userProfileSaveInApp = NSUserDefaults()
-        showLog = 1
+        //process show login button
+        btnLoginFB.hidden = false
+        btnLoginAC.hidden = false
+        btnAltLogin.hidden = true
+        showLogin = 1
+        
+        //google login delegate
         GIDSignIn.sharedInstance().uiDelegate = self
         GIDSignIn.sharedInstance().delegate = self
-        print("view did load")
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,6 +51,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 appDelegate.window?.rootViewController = mainPageNav
         }*/
         
+        //super.viewWillDisappear(animated)
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,12 +60,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //userProfileSaveInApp.setObject(JSONStringUserProfile, forKey: keyForProfile)
+        //userProfileSaveInApp.setObject(false, forKey: Login.KeyIsShowLogin)
     }
     
     
     @IBAction func btnLoginGTapped(sender: AnyObject) {
-        //[[GIDSignIn sharedInstance] signIn]
         GIDSignIn.sharedInstance().signIn()
     }
     
@@ -102,18 +106,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 userProfile.username = email
                 userProfile.profileImage = urlImage
                 //userProfile.dob = result.valueForKey("birthday") as! String
-                userProfile.deviceInfo = UserProfile.DeviceInfo()
                 userProfile.additionalToken = idToken
                 userProfile.loginType = UserProfile.TYPE_GOOGLE_PLUS
-                userProfile.deviceInfo.appVersion = "400000"
-                userProfile.deviceInfo.appName = "400000"
                 
-                //set key for NSUserDefault
-                keyForProfile = email
-                
-                self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                print(self.JSONStringUserProfile)
+                currentUser = userProfile
                 self.registerUserProfile()
+                //show loadding
+                self.showLoadding()
                 
             } else {
                 print("\(error.localizedDescription)")
@@ -166,6 +165,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 // Process error
                 print(error)
                 self.removeFbData()
+                self.showError()
             } else if result.isCancelled {
                 // User Cancellation
                 self.removeFbData()
@@ -199,174 +199,124 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
                 if ((error) != nil) {
                     //Handle error
+                    print(error)
+                    self.showError()
                 } else {
                     print(result)
+                    
                     //Handle Profile Photo URL String
-                    let userId =  result["id"] as! String
+                    //let userId:String =  result["id"] as! String
+                    let userId:String =  result.valueForKey("id") as! String
                     let profilePictureUrl:String = "https://graph.facebook.com/\(userId)/picture?type=square"
                     //https://graph.facebook.com/1093146987371181/picture?type=square&width=320&height=320
                     //enum{small, normal, album, large, square}
                     print(profilePictureUrl)
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
-                    
-                    
                     //add data for JSONStringUserProfile
                     let userProfile:UserProfile = UserProfile()
                     userProfile.name = result.valueForKey("name") as! String
-                    userProfile.username = result.valueForKey("email") as! String
-                    userProfile.dob = result.valueForKey("birthday") as! String
+                    let username = result.valueForKey("email")
+                    if username != nil {
+                        userProfile.username = username as! String
+                    } else {
+                        userProfile.username = "\(userId)@facebook.com"
+                    }
+                    let dob = result.valueForKey("birthday");
+                    if dob != nil {
+                        userProfile.dob = dob as! String
+                    }
                     userProfile.profileImage = profilePictureUrl
-                    userProfile.deviceInfo = UserProfile.DeviceInfo()
                     userProfile.additionalToken = FBSDKAccessToken.currentAccessToken().tokenString
                     userProfile.loginType = UserProfile.TYPE_FACEBOOK
-                    userProfile.deviceInfo.appVersion = "400000"
-                    userProfile.deviceInfo.appName = "400000"
                     
-                    //set key for NSUserDefault
-                    self.keyForProfile = userProfile.username
-                    
-                    self.JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-                    print(self.JSONStringUserProfile)
+                    self.currentUser = userProfile
                     self.registerUserProfile()
+                    
+                    //show loadding
+                    self.showLoadding()
                 }
             })
         }
     }
     
-
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+    
+    func showError(){
+        dispatch_async(dispatch_get_main_queue(),{
+            self.hidenLoadding()
+            AccountManager.showError()
+        })
+    }
 
     
     func registerUserProfile() {
-        print("run in register fb")
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in
-                print(e)
-                dispatch_async(dispatch_get_main_queue(),{
-                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                    
-                })
-            });
-        
-        client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":self.JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                //handleResponseJson(res.body)
-                //print(res.body)
-                    print(res.text)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                        
-                    })
-                }
-                else {
-                    print("run in register fb sucess")
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    //dispatch_async(dispatch_get_main_queue(),{
-                        //self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                    //})
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    self.loginMainPage()
-                    /*if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                        //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                        //[unowned self] in NSThread.isMainThread()
-                        //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
-                        })
-                    
-                    
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
-                        
-                        })
-                    }*/
-                    //print(result?.message)
-                    //print(result?.status)
-                }
+        weak var weakSelf = self;
+        AccountManager.register(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                
+                 weakSelf!.loginMainPage()
             })
+        }
     }
     
     func loginMainPage(){
-        print(JSONStringUserProfile)
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in
-                print(e)
-                dispatch_async(dispatch_get_main_queue(),{
-                    SweetAlert().showAlert("Login Failed!", subTitle: "sorry our engineers are just upgrading the server, please try again", style: AlertStyle.Error)
-                    
-                })
-            });
-        
-        client.post("/AuthHandler").type("form").send(["profile":JSONStringUserProfile,"check":"false","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                    dispatch_async(dispatch_get_main_queue(),{
-                        SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
-                        
-                    })
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print("run in login process")
-                    print(res.text)
-                    if let result = Mapper<RegisterResult>().map(res.text) {
-                        let status:Bool = result.status
-                        let message:String = result.message
-                        if status {
-                            //register suceess
-                            dispatch_async(dispatch_get_main_queue(),{
-                                //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                                //[unowned self] in NSThread.isMainThread()
-                                //save userProfile
-                                self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForProfile)
-                                self.userProfileSaveInApp.setObject(self.keyForProfile, forKey: Login.KeyUserProfile)
-                                self.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
-                            })
-                            
-                            
-                        } else {
-                            //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                            dispatch_async(dispatch_get_main_queue(),{
-                                SweetAlert().showAlert("Login Failed!", subTitle: message, style: AlertStyle.Error)
-                                
-                            })
-                        }
-
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Login Failed!", subTitle: res.text, style: AlertStyle.Error)
-                            
-                        })
-                    }
-                                        //print(result?.message)
-                    //print(result?.status)
+        weak var weakSelf = self;
+        AccountManager.auth(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    userProfile.isLogin = true
+                    AccountManager.updateProfile(userProfile)
+                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                } else {
+                    weakSelf!.hidenLoadding()
+                    AccountManager.showError("could not login", message: message)
                 }
             })
-
+        }
+    }
+    
+    
+    @IBAction func btnLoginACTouchUp(sender: AnyObject) {
+        print("run in here")
+        
+        //let aELoginVC = self.storyboard?.instantiateViewControllerWithIdentifier("AELoginVC") as! AELoginVC
+        //let aELoginVC = AELoginVC(nibName: "AELoginVC", bundle:nil)
+        //self.navigationController?.pushViewController(aELoginVC, animated: true)
+        //self.performSegueWithIdentifier("AELoginVC", sender: self)
+        
+        
+        //let mainPage = self.storyboard?.instantiateViewControllerWithIdentifier("AELoginVC") as! AELoginVC
+        //let mainPageNav = UINavigationController(rootViewController: mainPage)
+        
+        //let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        //appDelegate.window?.rootViewController = mainPageNav
     }
     
     @IBAction func tappedAltLogin(sender: AnyObject) {
-        showLog = showLog + 1
-        if showLog == 2 {
+        if (isShowLogin != nil && isShowLogin == true) {
             btnLoginFB.hidden = false
-        } else if showLog == 3{
             btnLoginAC.hidden = false
             btnAltLogin.hidden = true
+        } else{
+            showLogin = showLogin + 1
+            if showLogin == 2 {
+                btnLoginFB.hidden = false
+            } else if showLogin == 3 {
+                btnLoginAC.hidden = false
+                btnAltLogin.hidden = true
+            } 
+
         }
     }
 

@@ -147,7 +147,7 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     }
     
     public func findByWord(word: String) throws -> WordCollection {
-        return try find(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD == word).limit(1));
+        return try find(LiteTable.WORD_COLLECTION.filter(LiteColumn.WORD == word).limit(1))
     }
     
     public func getIPAMapArpabets() throws -> Array<IPAMapArpabet> {
@@ -155,26 +155,6 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     }
     
     public func getIPAMapArpabet(arpabet: String) throws -> IPAMapArpabet {
-
-        do {
-            for row in try db!.prepare("SELECT ARPABET, COLOR, DESCRIPTION, IPA, MP3URL, TIP, TYPE, WORDS, IMGTONGUE, MP3URLSHORT FROM IPAMapArpabet WHERE ARPABET='" + arpabet + "'") {
-                let wc = IPAMapArpabet()
-                wc.arpabet = row[0] as? String
-                wc.color = row[1] as? String
-                wc.description = row[2] as? String
-                wc.ipa = row[3] as? String
-                wc.mp3URL = row[4] as? String
-                wc.tip = row[5] as? String
-                wc.type = row[6] as? String
-                wc.words = row[7] as? String
-                wc.imgTongue = row[8] as? String
-                wc.mp3URLShort = row[9] as? String
-                return wc
-            }
-        } catch (let e as NSError) {
-            throw e
-        }
-        return IPAMapArpabet()
+        return try find(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.ARPABET == arpabet))
     }
-    
 }

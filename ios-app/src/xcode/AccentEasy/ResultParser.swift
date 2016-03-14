@@ -8,23 +8,6 @@
 
 import Foundation
 
-class RegisterResult: Mappable{
-    var status:Bool!
-    var message:String!
-    
-    required init?(_ map: Map) {
-        
-    }
-    
-    required init(){}
-    
-    // Mappable
-    func mapping(map: Map) {
-        status    <= map["status"]
-        message   <= map["message"]
-    }
-}
-
 class VoidModelResult: Mappable{
     var status:Bool!
     var message:String!

@@ -8,11 +8,7 @@
 
 import UIKit
 
-class RegisterVC: UIViewController {
-
-    var userProfileSaveInApp:NSUserDefaults!
-    var JSONStringUserProfile:String!
-    var keyForUserProfile:String!
+class RegisterVC: UIViewController, UITextFieldDelegate{
     
     @IBOutlet weak var txtFirstname: UITextField!
     @IBOutlet weak var txtLastname: UITextField!
@@ -20,7 +16,7 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var txtPassword: UITextField!
     @IBOutlet weak var txtConfirmPassword: UITextField!
     
-    
+    var currentUser: UserProfile!
     
     @IBAction func btnOpenUrlTC(sender: AnyObject) {
         let url = NSURL(string: "http://www.accenteasy.com/useraccounts/TnC")!
@@ -30,9 +26,13 @@ class RegisterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
-        userProfileSaveInApp = NSUserDefaults()
+        txtFirstname.delegate = self
+        txtLastname.delegate = self
+        txtEmail.delegate = self
+        txtPassword.delegate = self
+        txtConfirmPassword.delegate = self
         
+        txtEmail.autocorrectionType = UITextAutocorrectionType.No
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
     }
 
@@ -50,7 +50,93 @@ class RegisterVC: UIViewController {
         //}
     }
     
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    func keyboardWasShown(notification: NSNotification) {
+        var info = notification.userInfo!
+        let keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
+        
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.bottomConstraint.constant = keyboardFrame.size.height + 20
+        })
+    }
+    
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        animateViewMoving(true, moveValue: 100)
+        print("textFieldDidBeginEditing")
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        animateViewMoving(false, moveValue: 100)
+        print("textFieldDidEndEditing")
+    }
+    
+    func animateViewMoving (up:Bool, moveValue :CGFloat){
+        let movementDuration:NSTimeInterval = 0.3
+        let movement:CGFloat = ( up ? -moveValue : moveValue)
+        UIView.beginAnimations( "animateView", context: nil)
+        UIView.setAnimationBeginsFromCurrentState(true)
+        UIView.setAnimationDuration(movementDuration )
+        self.view.frame = CGRectOffset(self.view.frame, 0,  movement)
+        UIView.commitAnimations()
+    }
+    
+    
+    
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        switch textField {
+        case self.txtFirstname:
+            self.txtLastname.becomeFirstResponder()
+            break
+        case self.txtLastname:
+            self.txtEmail.becomeFirstResponder()
+            break
+        case self.txtEmail:
+            self.txtPassword.becomeFirstResponder()
+            break
+        case self.txtPassword:
+            self.txtConfirmPassword.becomeFirstResponder()
+            break
+        case self.txtConfirmPassword:
+            textField.resignFirstResponder()
+            registerAE()
+            break
+        default:
+            textField.resignFirstResponder()
+            break
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+
+    
+        
     @IBAction func registerTapped(sender: AnyObject) {
+        registerAE()
+    }
+
+    func registerAE(){
+        showLoadding()
         /*
         data.put("version_code", AndroidHelper.getVersionCode(context));
         data.put("profile", gson.toJson(profile));
@@ -63,21 +149,18 @@ class RegisterVC: UIViewController {
         let password:String = txtPassword.text!
         let confirmPassword:String = txtConfirmPassword.text!
         
-        let alertView:UIAlertView = UIAlertView()
-        
-        if username.isEmpty || password.isEmpty {
-            alertView.title = "Register Failed!"
-            alertView.message = "Please enter Username and Password"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+        if username.isEmpty || !Login.isValidEmail(username) {
+            hidenLoadding()
+            SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
             return
+        } else if password.characters.count < 6 {
+            hidenLoadding()
+            SweetAlert().showAlert("invalid password", subTitle: "passwords must be at least 6 characters in length", style: AlertStyle.Error)
+            return
+            
         }else if password != confirmPassword {
-            alertView.title = "Register Failed!"
-            alertView.message = "Passwords doesn't Match"
-            alertView.delegate = self
-            alertView.addButtonWithTitle("OK")
-            alertView.show()
+            hidenLoadding()
+            SweetAlert().showAlert("invalid password", subTitle: "passwords doesn't match", style: AlertStyle.Error)
             return
         }
         
@@ -88,60 +171,18 @@ class RegisterVC: UIViewController {
         userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
-        //set userProfile key
-        keyForUserProfile = username
-        
-        JSONStringUserProfile = Mapper().toJSONString(userProfile, prettyPrint: true)!
-        
-        
-        print("JSONStringUserProfile is:" + JSONStringUserProfile)
-        print("------------------------------------------------------")
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
-    
-        client.post("/RegisterHandler").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result = Mapper<RegisterResult>().map(res.text)
-                    let status:Bool = result!.status
-                    let message:String = result!.message
-                    if status {
-                        //register suceess
-                        dispatch_async(dispatch_get_main_queue(),{
-                            //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                            //[unowned self] in NSThread.isMainThread()
-                            //save UserProfile
-                            self.userProfileSaveInApp.setObject(self.JSONStringUserProfile, forKey: self.keyForUserProfile)
-                            self.userProfileSaveInApp.setObject(self.keyForUserProfile, forKey: Login.KeyUserProfile)
-                            //next page
-                            self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
-                        })
-                        
-                        
-                    } else {
-                        //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("Register Failed!", subTitle: message, style: AlertStyle.Error)
-                            
-                        })
-                    }
-                    //print(result?.message)
-                    //print(result?.status)
+        currentUser = userProfile
+        AccountManager.register(userProfile) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+                } else {
+                    self.hidenLoadding()
+                    AccountManager.showError("could not register")
                 }
             })
-        
+        }
     }
-
 
     /*
     // MARK: - Navigation

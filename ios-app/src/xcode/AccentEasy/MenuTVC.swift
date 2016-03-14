@@ -9,6 +9,7 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import ImageLoader
 
 class MenuTVC: UITableViewController {
 
@@ -48,8 +49,9 @@ class MenuTVC: UITableViewController {
         
         if (userProfile.profileImage != nil && userProfile.profileImage != "") {
             let url = NSURL(string: userProfile.profileImage + "&width=320&height=320")
-            let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
-            imgUserAvata.image = UIImage(data: data!)
+//            let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
+//            imgUserAvata.image = UIImage(data: data!)
+            imgUserAvata.load(url)
         }
         
         
@@ -158,20 +160,30 @@ class MenuTVC: UITableViewController {
                 print(rowMenu)
             case 8:
                 print(rowMenu)
-                //logout  row
-                if userProfile.loginType == UserProfile.TYPE_GOOGLE_PLUS {
-                    GIDSignIn.sharedInstance().signOut()
-                } else if userProfile.loginType == UserProfile.TYPE_FACEBOOK {
-                    //Remove FB Data
-                    let fbManager = FBSDKLoginManager()
-                    fbManager.logOut()
-                    FBSDKAccessToken.setCurrentAccessToken(nil)
-                } else {
+                SweetAlert().showAlert("logout account?", subTitle: "are you sure you want to logout this account?", style: AlertStyle.Warning, buttonTitle:"no", buttonColor:Multimedia.colorWithHexString("D0D0D0") , otherButtonTitle:  "logout", otherButtonColor: Multimedia.colorWithHexString("DD6B55")) { (isOtherButton) -> Void in
+                    if isOtherButton == true {
+                        print("Cancel Button  Pressed")
+                    }
+                    else {
+                        //logout  row
+                        if self.userProfile.loginType == UserProfile.TYPE_GOOGLE_PLUS {
+                            GIDSignIn.sharedInstance().signOut()
+                        } else if self.userProfile.loginType == UserProfile.TYPE_FACEBOOK {
+                            //Remove FB Data
+                            let fbManager = FBSDKLoginManager()
+                            fbManager.logOut()
+                            FBSDKAccessToken.setCurrentAccessToken(nil)
+                        } else {
+                        }
+                        
+                        Login.logout()
+                        
+                        dispatch_async(dispatch_get_main_queue(),{
+                            self.performSegueWithIdentifier("MenuGoToLogin", sender: self)
+                        })
+                    }
                 }
-                
-                dispatch_async(dispatch_get_main_queue(),{
-                    self.performSegueWithIdentifier("MenuGoToLogin", sender: self)
-                })
+            
             default:
                 print("case default")
         }

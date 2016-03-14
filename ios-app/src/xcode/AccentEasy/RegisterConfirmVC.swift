@@ -8,11 +8,9 @@
 
 import UIKit
 
-class RegisterConfirmVC: UIViewController {
+class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
 
-    var userProfileSaveInApp:NSUserDefaults!
-    var userProfile = UserProfile()
-    var JSONStringUserProfile:String!
+    var currentUser:UserProfile!
     
     @IBOutlet weak var txtcode: UITextField!
     
@@ -23,13 +21,10 @@ class RegisterConfirmVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        userProfileSaveInApp = NSUserDefaults()
-        let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-        JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
-        userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
-        txtcode.placeholder = userProfile.username
+        currentUser = AccountManager.currentUser()
+        
+        txtcode.delegate = self
+        txtcode.placeholder = currentUser.username
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,94 +32,74 @@ class RegisterConfirmVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func confirmCodeTapped(sender: AnyObject) {
-        /*
-        data.put("acc", code);
-        data.put("user", profile.getUsername());
-        data.put("lang_prefix", "BE");
-        data.put("version_code", AndroidHelper.getVersionCode(context));
-        data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
-        */
-        
-        let codeConfirm:String = txtcode.text!
     
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
-        
-        client.post("/activate").type("form").send(["acc":codeConfirm,"version_code" : "40000","user":userProfile.username,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result:String = res.text!
-                    if result == "success" {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("validation successful!", subTitle: "your acount has already been activated. please login with your email address and password.", style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
-                                if isOk == true {
-                                    self.performSegueWithIdentifier("ConfirmRegisterGoToLogin", sender: self)
-                                }
-                            }
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("validation failed!", subTitle: result, style: AlertStyle.Error)
-                            
-                        })
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.txtcode {
+            textField.resignFirstResponder()
+            confirmCodeAE()
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+    
+    @IBAction func confirmCodeTapped(sender: AnyObject) {
+        confirmCodeAE()
+    }
+    
+    func confirmCodeAE() {
+        showLoadding()
+        let codeConfirm:String = txtcode.text!
+        AccountManager.activate(codeConfirm, userProfile: currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    SweetAlert().showAlert("validation successful!", subTitle: message, style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
+                        if isOk == true {
+                            self.performSegueWithIdentifier("ConfirmRegisterGoToLogin", sender: self)
+                        }
                     }
+                } else {
+                    self.hidenLoadding()
+                    AccountManager.showError("could not activate", message: message)
                 }
             })
-        
+        }
+
     }
 
     @IBAction func sendCodeAgainTapped(sender: AnyObject) {
-        /*
-        data.put("profile", gson.toJson(profile));
-        data.put("lang_prefix", "BE");
-        data.put("version_code", AndroidHelper.getVersionCode(context));
-        data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
-        */
-        
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
-        
-        client.post("/activate").type("form").send(["version_code" : "40000","profile":JSONStringUserProfile,"lang_prefix":"BE","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result:String = res.text!
-                    if result == "success" {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("successfully submitted!", subTitle: "please check message in your email \(self.userProfile.username)", style: AlertStyle.Success)
-                            //self.performSegueWithIdentifier("ConfirmCodeGoToLogin", sender: self)
-                            
-                            
-                            
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("send code failed!", subTitle: result, style: AlertStyle.Error)
-                            
-                        })
-                    }
+        showLoadding()
+        AccountManager.resendCode(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    self.hidenLoadding()
+                    SweetAlert().showAlert("successfully submitted!", subTitle: message, style: AlertStyle.Success)
+                } else {
+                    self.hidenLoadding()
+                    AccountManager.showError("could resend code", message: message)
                 }
             })
+        }
     }
     
     @IBAction func proceeedLoginTapped(sender: AnyObject) {

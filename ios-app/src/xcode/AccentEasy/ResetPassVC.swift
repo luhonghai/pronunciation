@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ResetPassVC: UIViewController {
+class ResetPassVC: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var txtEmail: UITextField!
     
@@ -21,6 +21,7 @@ class ResetPassVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        txtEmail.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,55 +29,76 @@ class ResetPassVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     * Called when 'return' key pressed. return NO to ignore.
+     */
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.txtEmail {
+            textField.resignFirstResponder()
+            resetAE()
+        }
+        return true
+    }
+    
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+
+    
+    func showLoadding(){
+        //show watting..
+        let text = "Please wait..."
+        self.showWaitOverlayWithText(text)
+    }
+    
+    func hidenLoadding(){
+        // Remove watting
+        self.removeAllOverlays()
+    }
+
+    
     @IBAction func resetTapped(sender: AnyObject) {
+        resetAE()
+    }
+    
+    func resetAE(){
         /*
         data.put("acc", profile.getUsername());
         data.put("action", "request");
         data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
         */
+        showLoadding()
         let username = txtEmail.text!
-        if username.isEmpty {
+        
+        if !Login.isValidEmail(username) {
             dispatch_async(dispatch_get_main_queue(),{
-                SweetAlert().showAlert("Missing email address!", subTitle: "please enter email", style: AlertStyle.Error)
-                
+                SweetAlert().showAlert("invalid email address", subTitle: "please enter a valid email address", style: AlertStyle.Error)
+                self.hidenLoadding()
             })
+            
             return
         }
         
-        let client = Client()
-            .baseUrl("http://localhost:8080")
-            .onError({e in print(e)});
-        
-        client.post("/ResetPasswordHandler").type("form").send(["acc":username,"action":"request","imei":"32131232131"])
-            .set("header", "headerValue")
-            .end({(res:Response) -> Void in
-                print(res)
-                if(res.error) { // status of 2xx
-                    //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
-                }
-                else {
-                    //handleErrorJson(res.body)
-                    print(res.text)
-                    let result:String = res.text!
-                    if result == "success" {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("successfully submitted!", subTitle: "please check message in your email \(username)", style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
-                                if isOk == true {
-                                    self.performSegueWithIdentifier("ResetPassGoToLogin", sender: self)
-                                }
-                            }
-                        })
-                    } else {
-                        dispatch_async(dispatch_get_main_queue(),{
-                            SweetAlert().showAlert("reset password failed!", subTitle: result, style: AlertStyle.Error)
-                            
-                        })
+        let profile = UserProfile()
+        profile.username = username
+        AccountManager.resetPassword(profile) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    SweetAlert().showAlert("successfully submitted!", subTitle: message, style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
+                        if isOk == true {
+                            self.performSegueWithIdentifier("ResetPassGoToLogin", sender: self)
+                        }
                     }
+                } else {
+                    self.hidenLoadding()
+                    AccountManager.showError("could not reset password")
                 }
             })
-
+        }
     }
 
     /*

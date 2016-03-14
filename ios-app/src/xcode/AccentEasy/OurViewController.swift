@@ -26,11 +26,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     var selectedWord: WordCollection!
     var isRecording:Bool = false
     
-    var fsDetailVC:FSDetailVC!
-    
     var microphone: EZMicrophone!
     var player: EZAudioPlayer!
     var recorder: EZRecorder!
+    
+    var currentMode: UserVoiceModel!
     
     @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnRecord: UIButton!
@@ -62,21 +62,26 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func toggleSlider() {
-        if (isShowSlider) {
-            print("Origin y = \(CGRectGetMinY(sliderContainer.frame))")
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(btnSlider.frame) + 3, CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
-        } else {
-            sliderContainer.frame = CGRectMake(CGRectGetMinX(sliderContainer.frame), CGRectGetHeight(self.view.frame)
-                - CGRectGetHeight(sliderContainer.frame), CGRectGetWidth(sliderContainer.frame), CGRectGetHeight(sliderContainer.frame))
+        weak var weakSelf = self
+        UIView.animateWithDuration(0.3) { () -> Void in
+            if (weakSelf!.isShowSlider) {
+                weakSelf!.lblIPA.hidden = false
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            } else {
+                weakSelf!.lblIPA.hidden = true
+                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+            }
+            weakSelf!.isShowSlider = !weakSelf!.isShowSlider
+            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
-        isShowSlider = !isShowSlider
-
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.edgesForExtendedLayout = UIRectEdge.None;
+        //self.edgesForExtendedLayout = UIRectEdge.None;
         //
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
         // if you don't do this!
@@ -145,14 +150,14 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         lessonDBAdapter = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
 
-         delay(0.5) {
-            self.chooseWord("hello")
-        }
-        delay(1) {
-            self.toggleSlider()
-        }
+        GlobalData.getInstance().selectedWord = ""
         
-        fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+
+
     }
     
     func setupNotifications() {
@@ -161,6 +166,20 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:", name: "loadWord", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playFile:", name: "playFile", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showDetail:", name: "showDetail", object: nil)
+    }
+    
+    func showDetail(notification: NSNotification) {
+        let uuid = notification.object as! String
+        let modelJsonPath = FileHelper.getFilePath("audio/\(uuid).json")
+        if FileHelper.isExists(modelJsonPath) {
+            do {
+                let model: UserVoiceModel = try JSONHelper.fromJson(FileHelper.readFile(modelJsonPath))
+                openDetailView(model)
+            } catch {
+                
+            }
+        }
     }
     
     func playFile(notification: NSNotification) {
@@ -222,6 +241,19 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //lblUsername.text = username
         //lblUsername.text = ""
         //}
+        if currentMode == nil  {
+            if selectedWord == nil {
+                self.chooseWord("hello")
+            } else {
+                self.chooseWord(selectedWord.word)
+            }
+        }
+
+        delay(0.5) {
+            if self.isShowSlider {
+                self.toggleSlider()
+            }
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -313,6 +345,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func selectWord(wordCollection : WordCollection){
+        currentMode = nil
+        analyzingView.clear()
+        analyzingView.switchType(AnalyzingType.SEARCHING)
+        scoreResult = -1
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordCollection.word)
         //set word select for detail screen
         let JSONWordSelected:String = Mapper().toJSONString(wordCollection, prettyPrint: true)!
@@ -325,6 +361,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
+
         if resultSearchController != nil {
             if #available(iOS 8.0, *) {
                 setActiveSearchView(false)
@@ -386,7 +423,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             //upload to server
             let client = Client()
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
-                .onError({e in print(e)});
+                .onError({e in
+                    print(e)
+                    weakSelf!.showColorOfScoreResult(0)
+                    Login.showError("could not calculate score")
+                });
             NSLog(weakSelf!.getTmpFilePath().path!)
             client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
@@ -397,6 +438,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //handleResponseJson(res.body)
                         //print(res.body)
                         print(res.text)
+                        weakSelf!.showColorOfScoreResult(0)
+                        Login.showError("could not calculate score")
+                        
                     }
                     else {
                         //handleErrorJson(res.body)
@@ -408,10 +452,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //  print (userVoiceModel.word)
                         if status {
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
-                    
+                            weakSelf!.currentMode = userVoiceModel
                             weakSelf!.saveDatabase(userVoiceModel)
                             FileHelper.getFilePath("audio", directory: true)
-                            FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.uuid).wav"))
+                            do {
+                                try FileHelper.writeFile(FileHelper.getFilePath("audio/\(userVoiceModel.id).json"), content: JSONHelper.toJson(userVoiceModel))
+                            } catch {
+                                
+                            }
+                            FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
                             NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                              NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                              NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
@@ -430,7 +479,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 
                                 //move detail screen
                                 delay (1) {
-                                    weakSelf!.navigationController?.pushViewController(weakSelf!.fsDetailVC, animated: true)
+                                    weakSelf!.openDetailView(userVoiceModel)
                                 }
                             })
                             
@@ -438,8 +487,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         } else {
                             //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                             dispatch_async(dispatch_get_main_queue(),{
-                                SweetAlert().showAlert("Submit to server error!", subTitle: message, style: AlertStyle.Error)
-                                
+                                Login.showError("could not calculate score")
                             })
                         }
                         //print(result?.message)
@@ -449,6 +497,12 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
+    func openDetailView(model: UserVoiceModel) {
+        let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
+        fsDetailVC.userVoiceModelResult = model
+        self.navigationController?.pushViewController(fsDetailVC, animated: true)
+    }
+    
     private func saveDatabase(model: UserVoiceModel) {
         do {
             let time = NSDate().timeIntervalSince1970 * 1000.0
@@ -456,8 +510,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             pScore.username = userProfile.username
             pScore.score = Int(floor(model.score))
             pScore.word = model.word
-            pScore.dataId = model.uuid
+            pScore.dataId = model.id
             pScore.time = time
+            print("insert \(pScore.word) score \(pScore.score) uuid \(pScore.dataId)")
             try freestyleDBAdapter.insert(pScore)
             
             let result = model.result
@@ -468,7 +523,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         let ps = PhonemeScore.parseData(phoneScore)
                         ps.username = userProfile.username
                         ps.time = time
-                        ps.dataId = model.uuid
+                        ps.dataId = model.id
                         print("insert \(ps.name) score \(ps.score)")
                         try freestyleDBAdapter.insert(ps)
                     }
@@ -724,11 +779,44 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func analyzingViewTapped(sender: AnyObject) {
-        //self.performSegueWithIdentifier("MainScreenGoToDetail", sender: self)
-        //let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
-        self.navigationController?.pushViewController(fsDetailVC, animated: true)
-
+        if currentMode != nil {
+            openDetailView(currentMode)
+        }
     }
     
+    @IBAction func handleSlide(sender: UIPanGestureRecognizer) {
+        if sender.state == UIGestureRecognizerState.Ended {
+            if let view = sliderContainer {
+                let currentY = view.center.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+                //print("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
+                isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    view.center = CGPoint(x:view.center.x,
+                        y: (self.isShowSlider ? minY : maxY))
+                    self.lblIPA.hidden = self.isShowSlider
+                })
+            }
+        } else {
+            let translation = sender.translationInView(self.view)
+            if let view = sliderContainer {
+                let destY = view.center.y + translation.y
+                let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
+                let maxY = CGRectGetHeight(self.view.frame)
+                    - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
+                let minY = CGRectGetHeight(self.view.frame)
+                    - halfHeight
+                if (destY <= maxY && destY >= minY) {
+                    view.center = CGPoint(x:view.center.x,
+                        y:destY)
+                }
+            }
+            sender.setTranslation(CGPointZero, inView: self.view)
+        }
+    }
     
 }

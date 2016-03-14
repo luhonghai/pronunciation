@@ -15,6 +15,9 @@ class FileHelper {
         return "http://localhost:8080"
         //return "http://reg.accenteasy.com"
         //return "http://192.168.1.196:8080"
+        //hoang pc
+        //return "http://192.168.1.15:8080"
+        return "http://localhost:8080"
     }
     
     class func getFilePath(path: String, directory: Bool = false) -> String {
@@ -64,6 +67,14 @@ class FileHelper {
     class func copyFile(fromPath: String, toPath: String) {
         do {
             try NSFileManager.defaultManager().copyItemAtPath(fromPath, toPath: toPath)
+        } catch {
+            
+        }
+    }
+    
+    class func deleteFile(path: String) {
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(path)
         } catch {
             
         }

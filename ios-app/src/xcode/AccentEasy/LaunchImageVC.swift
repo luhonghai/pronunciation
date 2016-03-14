@@ -9,20 +9,38 @@
 import UIKit
 
 class LaunchImageVC: UIViewController {
-
+    
     var timer:NSTimer!
     var number:Int!
     var nextScreen:Int!
+    var willClose = false
+    var willCheckLogin = true
+    
+    var currentUser: UserProfile!
     
     @IBOutlet weak var imgDog: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        currentUser = AccountManager.currentUser()
         // Do any additional setup after loading the view.
         number = 1
         nextScreen = 0
         timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("launchingImage"), userInfo: nil, repeats: true)
+        
+        weak var weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            DatabaseHelper.checkDatabaseVersion() {(success) -> Void in
+                print (success)
+                let freestyleDbAdapter = FreeStyleDBAdapter()
+                freestyleDbAdapter.prepare()
+                if !success {
+                    //TODO show alert no database found
+                    print ("error checkDatabaseVersion")
+                }
+                weakSelf!.willClose = true
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -31,6 +49,7 @@ class LaunchImageVC: UIViewController {
     }
     
     func launchingImage(){
+        weak var weakSelf = self
         let imgSwap:String = "sl_dog_"+String(number)+".png"
         imgDog.image = UIImage(named: imgSwap)
         number = number + 1
@@ -38,15 +57,42 @@ class LaunchImageVC: UIViewController {
             number=1
         }
         nextScreen = nextScreen + 1
-        if nextScreen == 1 {
-            self.performSegueWithIdentifier("GoToLogin", sender: self)
-            //self.dismissViewControllerAnimated(true, completion: nil)
+        if self.willClose {
+            if currentUser.isLogin {
+                timer.invalidate()
+                timer = nil
+                if willCheckLogin {
+                    AccountManager.auth(currentUser, isCheck: true, completion: { (userProfile, success, message) -> Void in
+                        dispatch_async(dispatch_get_main_queue(),{
+                            if success {
+                                weakSelf!.gotoMainPage()
+                            } else {
+                                weakSelf!.gotoLoginPage()
+                            }
+                        })
+                    })
+                    willCheckLogin = false
+                }
+            } else {
+               gotoLoginPage()
+            }
         }
+    }
+    
+    func gotoMainPage() {
+        self.performSegueWithIdentifier("gotoMainPage", sender: self)
+        
+    }
+    
+    func gotoLoginPage() {
+        timer.invalidate()
+        timer = nil
+        self.performSegueWithIdentifier("GoToLogin", sender: self)
     }
 
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -54,6 +100,6 @@ class LaunchImageVC: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
+    
 
 }

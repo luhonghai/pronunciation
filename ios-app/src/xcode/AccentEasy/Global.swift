@@ -10,6 +10,21 @@ import Foundation
 
 let IS_DEBUG = false
 
+let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, please try again"
+
+class GlobalData {
+    static var instance:GlobalData?
+    
+    var selectedWord = ""
+    
+    static func getInstance() -> GlobalData {
+        if (instance == nil) {
+            instance = GlobalData()
+        }
+        return instance!
+    }
+}
+
 func delay(delay:Double, closure:()->()) {
     dispatch_after(
         dispatch_time(

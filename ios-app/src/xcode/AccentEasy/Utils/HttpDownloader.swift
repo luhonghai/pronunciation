@@ -10,10 +10,10 @@ import Foundation
 
 class HttpDownloader {
     
-    class func loadFileSync(url: NSURL, completion:(path:String, error:NSError!) -> Void) {
+    class func loadFileSync(url: NSURL, skipCache: Bool = false, destPath: String = "", completion:(path:String, error:NSError!) -> Void) {
         let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        let destinationUrl = documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!)
-        if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
+        let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
+        if NSFileManager().fileExistsAtPath(destinationUrl.path!) && !skipCache {
             print("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
         } else if let dataFromURL = NSData(contentsOfURL: url){
@@ -31,10 +31,10 @@ class HttpDownloader {
         }
     }
     
-    class func loadFileAsync(url: NSURL, completion:(path:String, error:NSError!) -> Void) {
+    class func loadFileAsync(url: NSURL, skipCache: Bool = false, destPath: String = "", completion:(path:String, error:NSError!) -> Void) {
         let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        let destinationUrl = documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!)
-        if NSFileManager().fileExistsAtPath(destinationUrl.path!) {
+        let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
+        if NSFileManager().fileExistsAtPath(destinationUrl.path!)  && !skipCache {
             print("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
         } else {
