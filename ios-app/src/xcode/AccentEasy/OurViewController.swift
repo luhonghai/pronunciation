@@ -550,13 +550,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             isRecording = false
             return
         } else{
-            self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
-            self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-            isRecording = true
-            self.analyzingView.clear()
-            self.microphone.startFetchingAudio()
-            self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
-            self.analyzingView.switchType(AnalyzingType.RECORDING)
+            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+                self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
+                self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
+                self.isRecording = true
+                self.analyzingView.clear()
+                self.microphone.startFetchingAudio()
+                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
+                self.analyzingView.switchType(AnalyzingType.RECORDING)
+            })
         }
         
     }
@@ -592,10 +594,12 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
         if !linkFile.isEmpty {
-            print("link mp3: " + linkFile)
-            //playSound(LinkFile)
-            HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
-                self.playSound(NSURL(fileURLWithPath: path))
+            DeviceManager.doIfConnectedToNetwork({ () -> Void in
+                print("link mp3: " + self.linkFile)
+                //playSound(LinkFile)
+                HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
+                    self.playSound(NSURL(fileURLWithPath: path))
+                })
             })
         }
     }

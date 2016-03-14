@@ -115,10 +115,8 @@ class AccountManager {
                     if  result.data != nil {
                         userProfile.token = result.data.token
                         print("login token \(userProfile.token)")
-                        completion(userProfile: userProfile, success: result.status, message:  result.message)
-                    } else {
-                        completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                     }
+                    completion(userProfile: userProfile, success: result.status, message:  result.message)
                 }
             })
 
