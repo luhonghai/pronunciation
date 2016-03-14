@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -1114,7 +1114,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NjV-9N-Sp0">
                                         <rect key="frame" x="0.0" y="35" width="375" height="527"/>
-                                        <color key="backgroundColor" red="0.14509803921568629" green="0.65490196078431373" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392156862748" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <containerView opaque="NO" contentMode="bottom" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cw6-Vf-e5b">
                                         <rect key="frame" x="0.0" y="44" width="375" height="521"/>
@@ -2379,7 +2379,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
                                         <rect key="frame" x="0.0" y="21" width="375" height="294"/>
-                                        <color key="backgroundColor" red="0.1450980392" green="0.65490196079999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.70980392156862748" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oih-mk-Oe1">
                                         <rect key="frame" x="163" y="0.0" width="49" height="22"/>
@@ -2500,20 +2500,16 @@
         <image name="p_prev.png" width="128" height="128"/>
         <image name="p_tip_blue.png" width="128" height="128"/>
         <image name="p_tip_blue_blur.png" width="128" height="128"/>
-        <image name="sl_background.png" width="355" height="540"/>
+        <image name="sl_background.png" width="1242" height="2208"/>
         <image name="sl_dog.png" width="308" height="376"/>
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZNM-TN-klg"/>
-        <segue reference="hKc-VP-pia"/>
-        <segue reference="b3j-3D-4fV"/>
-        <segue reference="8jd-vc-94q"/>
         <segue reference="Ceg-og-m1t"/>
+        <segue reference="cQm-kD-9I0"/>
         <segue reference="VlK-rN-iWT"/>
-        <segue reference="cQm-kD-9I0"/>
         <segue reference="WR5-An-sLd"/>
-        <segue reference="ZoM-vd-D1g"/>
-        <segue reference="cQm-kD-9I0"/>
+        <segue reference="8jd-vc-94q"/>
+        <segue reference="b3j-3D-4fV"/>
     </inferredMetricsTieBreakers>
 </document>
