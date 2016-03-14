@@ -414,6 +414,13 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         print("Row \(indexPath.row) selected")
         selectWord(arrSearchResultData[indexPath.row])
     }
+    
+    func showErrorAnalyzing() {
+        btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
+        analyzingView.showScore(0)
+        showColorOfScoreResult(0)
+        Login.showError("could not calculate score")
+    }
 
     func analyzeVoice() {
         //fix file test
@@ -431,8 +438,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
                     print(e)
-                    weakSelf!.showColorOfScoreResult(0)
-                    Login.showError("could not calculate score")
+                    weakSelf!.showErrorAnalyzing()
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
@@ -445,8 +451,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //print(res.body)
                         print(res.text)
                         dispatch_async(dispatch_get_main_queue(),{
-                            weakSelf!.showColorOfScoreResult(0)
-                            Login.showError("could not calculate score")
+                            weakSelf!.showErrorAnalyzing()
                         })
                     }
                     else {
