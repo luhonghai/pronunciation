@@ -2386,7 +2386,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Li1-Q4-1W2">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Gw-7q-wCR">
                                         <rect key="frame" x="0.0" y="21" width="375" height="294"/>
                                         <color key="backgroundColor" red="0.20000000000000001" green="0.70980392156862748" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
@@ -2548,15 +2548,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8jd-vc-94q"/>
-        <segue reference="b3j-3D-4fV"/>
+        <segue reference="WR5-An-sLd"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="Ceg-og-m1t"/>
-        <segue reference="cQm-kD-9I0"/>
-        <segue reference="VlK-rN-iWT"/>
         <segue reference="0GI-4W-Bce"/>
-        <segue reference="WR5-An-sLd"/>
-        <segue reference="8jd-vc-94q"/>
         <segue reference="b3j-3D-4fV"/>
+        <segue reference="8jd-vc-94q"/>
     </inferredMetricsTieBreakers>
 </document>
