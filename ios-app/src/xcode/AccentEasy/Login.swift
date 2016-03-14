@@ -14,7 +14,7 @@ public class Login {
     public static let KeyRegisterUser:String = "KeyRegisterUser"
     public static let KeyIsShowLogin:String = "KeyIsShowLogin"
 
-    public static let IS_DEBUG:Bool = false
+    public static let IS_DEBUG:Bool = true
     
     class func getTestUserProfile() -> UserProfile {
         let user = UserProfile()
