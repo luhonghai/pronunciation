@@ -118,11 +118,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         // Do any additional setup after loading the view.
         
-        //button style cricle
-        btnRecord.layer.cornerRadius = btnRecord.frame.size.width/2
-        btnRecord.clipsToBounds = true
-        btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
-        btnPlay.clipsToBounds = true
+        
         
         
         //menu
@@ -152,6 +148,14 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
 
         GlobalData.getInstance().selectedWord = ""
         
+    }
+    
+    func roundButton() {
+        //button style cricle
+        btnRecord.layer.cornerRadius = btnRecord.frame.size.width/2
+        btnRecord.clipsToBounds = true
+        btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
+        btnPlay.clipsToBounds = true
     }
     
     
@@ -248,6 +252,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 self.chooseWord(selectedWord.word)
             }
         }
+        
+        roundButton()
 
         delay(0.5) {
             if self.isShowSlider {
