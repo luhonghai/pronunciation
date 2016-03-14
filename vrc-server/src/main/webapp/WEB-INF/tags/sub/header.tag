@@ -16,7 +16,7 @@
 			<img class="img-responsive" style="margin: 0 auto;float:left;height:50px" alt="accenteasy logo" src="http://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-prod/images/accenteasy_icon_text.png"/>
 		</div>
 		<div class="col-xs-3 col-sm-2">
-			<img id="help-icons" class="img-responsive" style="display:none;margin: 0 auto;float:right;height:50px;cursor: pointer;" alt="accenteasy logo" src="/images/popup/Help_50x50.gif"/>
+			<img id="help-icons" class="img-responsive" style="display:none;margin: 0 auto;float:right;height:50px;cursor: pointer;" alt="accenteasy logo" src="/images/popup/help_50_50.png"/>
 		</div>
 	</div>
 	<!-- /.navbar-header -->

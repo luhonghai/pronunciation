@@ -152,7 +152,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-6">
-                                <img id="helpAddCourse" style="cursor: pointer" src="/images/popup/Help_50x50.gif"
+                                <img id="helpAddCourse" style="cursor: pointer" src="/images/popup/help_50_50.png"
                                      width="36px" height="36px"/>
                             </div>
                             <div class="col-md-6">
