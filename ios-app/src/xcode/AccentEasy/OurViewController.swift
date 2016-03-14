@@ -438,9 +438,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         //handleResponseJson(res.body)
                         //print(res.body)
                         print(res.text)
-                        weakSelf!.showColorOfScoreResult(0)
-                        Login.showError("could not calculate score")
-                        
+                        dispatch_async(dispatch_get_main_queue(),{
+                            weakSelf!.showColorOfScoreResult(0)
+                            Login.showError("could not calculate score")
+                        })
                     }
                     else {
                         //handleErrorJson(res.body)
