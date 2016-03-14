@@ -2,15 +2,23 @@
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<style>
+    .title{
+        font-size: 14px;
+    }
+    .textNormal{
+        font-size: 16px;
+    }
+</style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
 <div id="page-wrapper">
-     <div class="row">
-         <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my classes</p>
+     <div class="row" style="color:lightgrey; margin-left: 0px;padding-top: 10px;">
+         <p class="title" style="float: left;"><%=company%></p> <p class="textNormal">> my classes</p>
      </div>
     <p style="font-size: 20px;">my classes</p>
     <button id="addClass" class="btn btn-default" style="background-color: #F7964A;border-radius: 5px;color: white;"><img src="/images/teacher/invite_students_48x48.gif" style="height: 24px;width: 24px;">add class <i class="fa fa-plus"></i></button>
     <div>
-        <p>Select the button above to create a new class.</p>
+        <p class="textNormal">Select the button above to create a new class.</p>
     </div>
     <div id="listMyClass">
 
@@ -26,16 +34,16 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
 
-                        <h1 align="center">My classes</h1>
-                        <p>Use this page to create and manage your classes.</p>
-                        <p>Add a class (name and description) and assign courses and students that you have availale in 'my courses' and 'my students' respectively.</p>
-                        <p><strong>Note</strong>: You will only be able to add courses that have been published, licenced students and external student that have been linked to you. You will not be able to add external students that are pending acceptence or that have reiected an invitation.</p>
-                        <p>Select a class from the list to view or edit the detail or to delete the class completely.</p>
-                        <p>When a class has been created (or edited) and saved, the students will receive a notification on their phones.</p>
-                        <p>If new courses are added, they will be available for use by the students assigned to class.</p>
-                        <p>If you remove a course from your class, it will be removed from the phones of all students that are currently assigned to the class.</p>
-                        <p>If you remove a student from your class, all courses that are currently assigned to the class it will be removed from their phone.</p>
-                        <p>If you delete the class, it will be removed from your list and any associated students will no longer have access to the courses that were assigned to the class.</p>
+                        <p class="title" align="center">My classes</p>
+                        <p class="textNormal">Use this page to create and manage your classes.</p>
+                        <p class="textNormal">Add a class (name and description) and assign courses and students that you have availale in 'my courses' and 'my students' respectively.</p>
+                        <p class="textNormal"><strong>Note</strong>: You will only be able to add courses that have been published, licenced students and external student that have been linked to you. You will not be able to add external students that are pending acceptence or that have reiected an invitation.</p>
+                        <p class="textNormal">Select a class from the list to view or edit the detail or to delete the class completely.</p>
+                        <p class="textNormal">When a class has been created (or edited) and saved, the students will receive a notification on their phones.</p>
+                        <p class="textNormal">If new courses are added, they will be available for use by the students assigned to class.</p>
+                        <p class="textNormal">If you remove a course from your class, it will be removed from the phones of all students that are currently assigned to the class.</p>
+                        <p class="textNormal">If you remove a student from your class, all courses that are currently assigned to the class it will be removed from their phone.</p>
+                        <p class="textNormal">If you delete the class, it will be removed from your list and any associated students will no longer have access to the courses that were assigned to the class.</p>
                     </div>
                 </div>
             </div>
