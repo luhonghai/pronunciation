@@ -70,6 +70,14 @@ public class TreeNode {
 
     private String _actionClick;
 
+    private String _description;
+
+    private String _details;
+
+    private String _type;
+
+
+
     public String get_actionClick() {
         return _actionClick;
     }
@@ -196,5 +204,29 @@ public class TreeNode {
 
     public void setBranch(List<TreeNode> branch) {
         this.branch = branch;
+    }
+
+    public String get_description() {
+        return _description;
+    }
+
+    public void set_description(String _description) {
+        this._description = _description;
+    }
+
+    public String get_details() {
+        return _details;
+    }
+
+    public void set_details(String _details) {
+        this._details = _details;
+    }
+
+    public String get_type() {
+        return _type;
+    }
+
+    public void set_type(String _type) {
+        this._type = _type;
     }
 }

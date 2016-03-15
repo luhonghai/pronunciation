@@ -1,12 +1,14 @@
 package com.cmg.merchant.dao.lessons;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.metadata.TypeMetadata;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,6 +81,85 @@ public class LDAO extends DataAccess<LessonCollection> {
         return isDelete;
     }
 
+
+    public boolean updateLesson(String id,String name, String description,String type,String detail) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name='"+name+"', description='"+description+"', nameUnique='"+detail+"', type='"+type+"' WHERE id='"+id+"'");
+        try {
+            q.execute();
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+    public boolean updateDeleted(String idObjective,String idLesson){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted = true WHERE idObjective=? and idLessonCollection=?");
+        try {
+            q.execute(idObjective,idLesson);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+    public List<LessonCollection> getAllByIdObj(String idObj) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        TypeMetadata metaObjectiveMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
+        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index from  " + metaLessonCollection.getTable()
+                + " lesson inner join " + metaObjectiveMapping.getTable()
+                + " mapping on mapping.idLessonCollection=lesson.id where ";
+        clause.append(firstQuery);
+        clause.append(" mapping.idObjective= '"+idObj+"' and lesson.isDeleted=false and mapping.isDeleted=false");
+        clause.append(" ORDER BY mapping.index ASC");
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());
+        List<LessonCollection> list = new ArrayList<LessonCollection>();
+
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    LessonCollection lessonCollection = new LessonCollection();
+                    Object[] array = (Object[]) obj;
+                    lessonCollection.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lessonCollection.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        lessonCollection.setDescription(array[2].toString());
+                    }
+                    list.add(lessonCollection);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
 
 
 

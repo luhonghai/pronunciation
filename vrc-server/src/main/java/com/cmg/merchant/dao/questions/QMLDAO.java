@@ -1,22 +1,22 @@
-package com.cmg.merchant.dao.lessons;
+package com.cmg.merchant.dao.questions;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.merchant.common.SQL;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
-import javax.jdo.metadata.TypeMetadata;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lantb on 2016-03-01.
  */
-public class LMODAO extends DataAccess<LessonCollection> {
-    public LMODAO() {
-        super(LessonCollection.class);
+public class QMLDAO extends DataAccess<Question> {
+    public QMLDAO() {
+        super(Question.class);
     }
 
     /**
@@ -24,18 +24,18 @@ public class LMODAO extends DataAccess<LessonCollection> {
      * @return latest version
      * @throws Exception
      */
-    public ArrayList<LessonCollection> getLessonMappingObjective(String idObjective){
+    public ArrayList<Question> getLessonMappingObjective(String idLesson){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
-        String sql = sqlUtil.getSqlLessonMappingObjective(idObjective);
-        System.out.println("sql lesson mapping obj  : " +  sql);
-        ArrayList<LessonCollection> list = new ArrayList<LessonCollection>();
+        String sql = sqlUtil.getSqlQuestionMappingLesson(idLesson);
+        System.out.println("sql question mapping lesson  : " +  sql);
+        ArrayList<Question> list = new ArrayList<Question>();
         Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
                 for(Object obj : tmp){
-                    LessonCollection dto = new LessonCollection();
+                    Question dto = new Question();
                     Object[] array = (Object[]) obj;
                     if(array[0]!=null){
                         dto.setId(array[0].toString());
@@ -45,15 +45,6 @@ public class LMODAO extends DataAccess<LessonCollection> {
                     }
                     if(array[2] != null) {
                         dto.setDescription(array[2].toString());
-                    }
-                    if(array[3] != null) {
-                        dto.setNameUnique(array[3].toString());
-                    }
-                    if(array[4] != null) {
-                        dto.setType(array[4].toString());
-                    }
-                    if(array[5] != null) {
-                        dto.setIndex(Integer.parseInt(array[5].toString()));
                     }
                     list.add(dto);
                 }

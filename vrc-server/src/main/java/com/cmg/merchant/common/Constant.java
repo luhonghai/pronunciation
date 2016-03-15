@@ -33,6 +33,7 @@ public class Constant {
     public static String TARGET_LOAD_TEST = "test";
 
     public static String TARGET_LOAD_LESSONS = "lessons";
+    public static String TARGET_LOAD_QUESTION = "question";
 
 
 
@@ -93,6 +94,12 @@ public class Constant {
     public static String ACTION_ADD_LESSON = "addLesson";
     public static String ACTION_EDIT_LESSON = "editLesson";
     public static String ACTION_DELETE_LESSON = "deleteLesson";
+
+    //popup question
+    public static String POPUP_QUESTION = "popupQuestion";
+    public static String ACTION_ADD_QUESTION = "addQuestion";
+    public static String ACTION_EDIT_QUESTION = "editQuestion";
+    public static String ACTION_DELETE_QUESTION = "deleteQuestion";
 
     //poup test
     public static String POPUP_TEST = "popupTest";

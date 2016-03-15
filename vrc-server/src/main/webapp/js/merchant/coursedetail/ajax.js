@@ -316,8 +316,10 @@ function addLesson(){
         data : {
             action: action_add_lesson,
             idObj : getNameLesson().attr("objID"),
-            name: "",
-            description:""
+            name: getNameLesson().val(),
+            description:getDescriptionLesson().val(),
+            type:getTypeLesson().val(),
+            details:getDetailLesson().val()
         },
         dataType : "text",
         success : function(data){
@@ -339,46 +341,124 @@ function addLesson(){
     });
 }
 
-function publishCourse(){
+
+function editLesson(){
     $.ajax({
-        url : servletPublish,
+        url : servletEdit,
         type : "POST",
         data : {
-            action: "publish",
-            idCourse : idCourse
+            action: action_edit_lesson,
+            idObj : getNameLesson().attr("objID"),
+            idLesson : currentPopup.find(".idHidden").val(),
+            name: getNameLesson().val(),
+            description:getDescriptionLesson().val(),
+            type:getTypeLesson().val(),
+            details:getDetailLesson().val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have add Objective success!", "success");
             }else{
                 //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
     });
 }
-
-function enablePublishBtn(){
+function deleteLesson(){
     $.ajax({
-        url : servletPublish,
+        url : servletDelete,
         type : "POST",
         data : {
-            action: "checkButton",
-            idCourse : idCourse
+            action: action_delete_lesson,
+            idObj : getNameLesson().attr("objID"),
+            idLesson : currentPopup.find(".idHidden").val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                $("#publish").removeAttr("disabled");
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have delete Objective success!", "success");
             }else{
-                $("#publish").attr("disabled","disabled");
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
-            $("#publish").attr("disabled","disabled");
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
         }
+    });
+}
+function loadPhonemes(){
+    $("#loadPhonemes").click(function(){
+        $("#loadPhonemes").attr("disabled",true);
+        var word = $("#addWord").val();
+        if (word == null || typeof word == "undefined" || word.length == 0){
+            $("#loadPhonemes").attr("disabled",false);
+            $("#addWord").focus();
+            swal("Warning!", "Word not null!", "warning");
+            return;
+        }
+        $.ajax({
+            url: "ManagementWordOfQuestionServlet",
+            type: "POST",
+            dataType: "json",
+            data: {
+                listPhonemes: "listPhonemes",
+                word: word
+            },
+            success: function (data) {
+                var message = data.message;
+                if(message.indexOf("success") != -1){
+                    $("#addWord").attr("idWord", data.id);
+                    //$("#loadPhonemes").attr("disabled",true);
+                    $(".phoneme-lable").html("Arpabet:").css("padding-top","10px");;
+                    $(".weight-lable").html("Weight:").css("padding-top","15px");;
+                    $(".ipa-lable").html("Ipa:").css("padding-top","10px");;
+                    $("#listPhonmes").html("");
+                    $("#listWeight").html("");
+                    $("#listIpa").html("");
+                    //$("#addWord").attr("readonly","readonly");
+                    $("#addWord").attr("disabled",true);
+                    $.each(data.phonemes, function (idx, obj) {
+                        var phonmeName = obj.phoneme;
+                        //alert(jsonItem);
+                        $("#listPhonmes").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
+                        $("#listIpa").append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
+                        $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
+                        $("#listPhonmes").css({"width":(idx+1)*35});
+                        $("#listWeight").css({"width":(idx+1)*35});
+                        $("#listIpa").css({"width":(idx+1)*35});
+                    });
+                    $("#yesadd").attr("disabled", false);
+                }else{
+                    $("#loadPhonemes").attr("disabled",false);
+                    $("#listPhonmes").html("");
+                    $("#listWeight").html("");
+                    $(".phoneme-lable").html("");
+                    $(".weight-lable").html("");
+                    $("#yesadd").attr("disabled", true);
+                    $("#addWord").focus();
+                    swal("Error!",message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
     });
 }

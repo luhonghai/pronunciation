@@ -1,6 +1,7 @@
 package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.LevelServices;
 import com.cmg.merchant.services.OServices;
 import com.cmg.merchant.services.TestServices;
@@ -44,6 +45,12 @@ public class TreeDeleteNodeServlet extends BaseServlet {
             String idTest = (String) StringUtil.isNull(request.getParameter("idTest"), "").toString();
             TestServices tServices = new TestServices();
             String txt = tServices.deleteTest(idTest,idLevel);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_DELETE_LESSON)){
+            String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
+            String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
+            LessonServices lessonServices = new LessonServices();
+            String txt = lessonServices.deleteLesson(idObj, idLesson);
             response.getWriter().println(txt);
         }
     }
