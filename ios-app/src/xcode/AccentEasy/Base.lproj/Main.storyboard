@@ -1356,9 +1356,6 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="MzC-Mu-Ouo" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="hN1-fz-cx2"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oHq-7h-imF">
                                         <rect key="frame" x="0.0" y="286" width="375" height="44"/>
@@ -1378,9 +1375,6 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="7Yt-Zd-c7X" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="Un3-2o-Ga3"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="8sO-Rw-cKJ">
                                         <rect key="frame" x="0.0" y="330" width="375" height="44"/>
@@ -1400,9 +1394,6 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="4eI-Z6-7CS" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="ouf-OE-p4b"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3Sg-cE-bjI">
                                         <rect key="frame" x="0.0" y="374" width="375" height="44"/>
@@ -2548,11 +2539,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WR5-An-sLd"/>
+        <segue reference="y7T-RE-Gak"/>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="t7Q-vO-CVy"/>
         <segue reference="Udu-EY-icj"/>
-        <segue reference="b3j-3D-4fV"/>
-        <segue reference="8jd-vc-94q"/>
+        <segue reference="WR5-An-sLd"/>
         <segue reference="0GI-4W-Bce"/>
-        <segue reference="Ceg-og-m1t"/>
     </inferredMetricsTieBreakers>
 </document>
