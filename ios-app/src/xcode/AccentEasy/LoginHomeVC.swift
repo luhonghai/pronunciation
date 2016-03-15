@@ -30,9 +30,11 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         
         // Do any additional setup after loading the view.
         //process show login button
-        btnLoginFB.hidden = false
-        btnLoginAC.hidden = false
-        btnAltLogin.hidden = true
+        if (GlobalData.getInstance().isShowLogin){
+            btnLoginFB.hidden = false
+            btnLoginAC.hidden = false
+            btnAltLogin.hidden = true
+        }
         showLogin = 1
         
         //google login delegate

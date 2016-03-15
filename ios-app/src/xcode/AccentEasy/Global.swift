@@ -17,6 +17,8 @@ class GlobalData {
     
     var selectedWord = ""
     
+    var isShowLogin = false
+    
     static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()
