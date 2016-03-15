@@ -58,7 +58,7 @@ public class SQL {
 
     private String SQL_QUESTION_MAPPING_LESSON="Select question.id,question.name FROM QUESTION question " +
             "inner join LESSONMAPPINGQUESTION mapping on question.id=mapping.idQuestion " +
-            "WHERE mapping.idLesson='paramMappingId' and l.isDeleted=false and o.isDeleted=false";
+            "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false";
 
 
 

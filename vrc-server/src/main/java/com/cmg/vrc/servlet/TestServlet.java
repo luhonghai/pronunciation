@@ -1,8 +1,10 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
+import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
 import com.cmg.merchant.dao.mapping.CMTDAO;
@@ -39,14 +41,23 @@ public class TestServlet {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        StudentMappingClass studentMappingClass=new StudentMappingClass();
-        StudentMappingClassDAO studentMappingClassDAO=new StudentMappingClassDAO();
+//        StudentMappingClass studentMappingClass=new StudentMappingClass();
+//        StudentMappingClassDAO studentMappingClassDAO=new StudentMappingClassDAO();
+//        try{
+//            studentMappingClass.setStudentName("Sdasda");
+//            studentMappingClassDAO.put(studentMappingClass);
+//        }catch (Exception e){
+//            e.printStackTrace();
+        //}
+        LessonCollection lessonCollection=new LessonCollection();
+        LessonCollectionDAO lessonCollectionDAO=new LessonCollectionDAO();
         try{
-            studentMappingClass.setStudentName("Sdasda");
-            studentMappingClassDAO.put(studentMappingClass);
+            lessonCollection.setType("dsad");
+            lessonCollectionDAO.put(lessonCollection);
         }catch (Exception e){
             e.printStackTrace();
         }
+
 
 //        CourseMappingClassDAO teacher=new CourseMappingClassDAO();
 //

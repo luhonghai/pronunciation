@@ -69,6 +69,16 @@ function openPopup(itemData){
         var level = treeAPI.parent(currentParent);
         var levelItemData = treeAPI.itemData(level);
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+    }else if(itemData._actionClick == action_add_question){
+        clearForm();
+        currentPopup.find("#titlePopupLesson").html("add question");
+        currentPopup.find("#btnDeleteQuestion").hide();
+        var lesson = treeAPI.itemData(currentParent);
+        var obj = treeAPI.parent(currentParent);
+        var objItemData = treeAPI.itemData(obj);
+        var level = treeAPI.parent(currentParent);
+        var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + ">"+ lesson.label);
     }
     currentPopup.modal('show');
 }
@@ -169,7 +179,14 @@ function showHelpIconTop(){
     $("#help-icons").show();
 }
 
+function showAddWord(){
+    $(document).on("click","#btnAddWord",function() {
+        $("#add").modal('show');
+    });
+}
+
 $(document).ready(function(){
+    showAddWord();
     btnSaveLesson();
     btnDeleteLesson();
     btnSaveLevel();

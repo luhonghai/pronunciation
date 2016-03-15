@@ -10,6 +10,21 @@
     String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), "66b3510d-8964-47a0-8c33-72dc14f8dded");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
 %>
+<style>
+    #listPhonmes input{
+        margin: 5px 5px 5px 0;
+    }
+
+    #listIpa input{
+        margin: 5px 5px 5px 0;
+    }
+
+    #listWeight input{
+        margin: 0px 5px 5px 0;
+    }
+
+</style>
+
 <script>
     var idCourse = "<%=idCourse%>";
     var nameOfCourse = "<%=nameOfCourse%>";
@@ -26,6 +41,9 @@
     var action_add_lesson = "<%=Constant.ACTION_ADD_LESSON%>";
     var action_edit_lesson = "<%=Constant.ACTION_EDIT_LESSON%>";
     var action_delete_lesson = "<%=Constant.ACTION_DELETE_LESSON%>";
+    var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
+    var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
+    var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
       media="all">
@@ -298,6 +316,113 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+
+
+<div id="popupQuestion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <label id="arrowQuestion" class="modal-title"
+                       style="text-align: left;"><%=nameOfCourse%>
+                </label>
+                <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addQuestion" name="addform">
+                    <div class="form-group">
+                        <label class="control-label" style="text-align: left" for="objName">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button id="btnAddWord" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i> </button>
+                        <div id="listWord">
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-5">
+                            <input type="hidden" class="action">
+                            <input type="hidden" class="idHidden">
+                            <img id="helpAddQuestion" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                        </div>
+                        <div class="col-md-2">
+                            <img id="btnDeleteQuestion" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
+                        </div>
+                        <div class="col-md-5">
+                            <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+
+<div id="add" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1">
+
+                        <h1 align="center">add word</h1>
+                        <form name="add" class="form-horizontal" id="addform">
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-xs-4  col-sm-3">
+                                        <div class="row"><label class="control-label ">Word:</label></div>
+                                    </div>
+                                    <div class="col-xs-5  col-sm-6">
+                                        <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
+                                    </div>
+                                    <div class="col-xs-3  col-sm-2">
+                                        <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" style="background-color: lightgreen;" value="yes" >Load Phonemes</button></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-4 col-sm-3">
+                                        <div class="row"><label class="control-label phoneme-lable"></label></div>
+                                        <div class="row"><label class="control-label ipa-lable"></label></div>
+                                        <div class="row"><label class="control-label weight-lable"></label></div>
+                                    </div>
+                                    <div class="col-xs-8 col-sm-9 group-phoneme-weight">
+                                        <div class="row" id="listPhonmes"></div>
+                                        <div class="row" id="listIpa"></div>
+                                        <div class="row" id="listWeight"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row add-word-group">
+                                    <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Submit</button>
+                                    <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
 
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciPlugin.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciSortable.min.js"></script>

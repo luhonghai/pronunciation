@@ -34,7 +34,6 @@ public class WDAO extends DataAccess<WordCollection> {
         Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE mapping.idQuestion='" + idQuestion + "'");
         try {
             List<String> list=(List<String>) q.execute();
-            System.out.print(StringUtils.join(list, ','));
             return list;
         } catch (Exception e) {
             throw e;

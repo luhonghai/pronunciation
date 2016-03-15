@@ -203,7 +203,7 @@ public class TreeUtil {
     public ArrayList<TreeNode> switchQuestionToNode(ArrayList<Question> list, boolean showBtnAction){
         ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
         if(showBtnAction){
-            nodes.add(btnService.createBtnAddLesson());
+            nodes.add(btnService.createBtnAddQuestion());
         }
         if(list!=null){
             for(Question question : list){
