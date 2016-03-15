@@ -3,8 +3,10 @@ package com.cmg.merchant.services;
 import com.cmg.lesson.dao.level.LevelDAO;
 import com.cmg.lesson.data.dto.level.LevelDTO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
+import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.services.course.CourseService;
 import com.cmg.merchant.dao.course.CMLDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.level.LvDAO;
@@ -37,6 +39,22 @@ public class LevelServices {
             logger.info("can not get max version in table because : " + e.getMessage());
         }
         return version +1;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public ArrayList<Level> getAllByCourseId(String idCourse){
+        LvDAO dao = new LvDAO();
+        try {
+            ArrayList<Level> listAll = (ArrayList<Level>) dao.listIn(idCourse);
+            return listAll;
+        }catch (Exception e){
+
+        }
+        return null;
     }
 
     /**
@@ -254,6 +272,29 @@ public class LevelServices {
         }
     }
 
+    /**
+     *
+     * @param idCourseMapping
+     * @param idLevelNeedDuplicated
+     * @return
+     */
+    public String copyLevel(String idCourseMapping,String idLevelNeedDuplicated){
+        LvDAO dao = new LvDAO();
+        CourseServices courseService = new CourseServices();
+        try {
+            Level lv = dao.getById(idLevelNeedDuplicated);
+            if(lv!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                lv.setId(newId);
+                dao.create(lv);
+                courseService.addMappingLevel(idCourseMapping,newId);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
 
 
 

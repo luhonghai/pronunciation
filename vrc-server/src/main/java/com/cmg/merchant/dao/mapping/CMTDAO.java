@@ -3,6 +3,7 @@ package com.cmg.merchant.dao.mapping;
 
 import com.cmg.lesson.data.jdo.course.Course;;
 import com.cmg.merchant.common.SQL;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.DataAccess;
@@ -27,6 +28,21 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      */
     public CourseMappingTeacher getById(String id) throws Exception{
         List<CourseMappingTeacher> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public CourseMappingTeacher getByIdCourse(String idCourse) throws Exception{
+        List<CourseMappingTeacher> list = list("WHERE cID == :1 && isDeleted == :2 ", idCourse, false);
         if(list!=null && list.size() > 0){
             return list.get(0);
         }
@@ -633,7 +649,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
     public ArrayList<CourseDTO> searchCourseDetail(String status,String cpName, String cName, String dateFrom, String dateTo){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
-        String sql = sqlUtil.getSqlSearchCourseDetail(status, cpName,cName,dateFrom,dateTo);
+        String sql = sqlUtil.getSqlSearchCourseDetail(status, cpName, cName, dateFrom, dateTo);
         System.out.println("sql search course detail : " +  sql);
         ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
         Query q = pm.newQuery("javax.jdo.query.SQL", sql);
@@ -684,4 +700,62 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         return list;
     }
 
+
+    /**
+     *
+     * @param idCourse
+     * @param tId
+     * @param cpId
+     * @return
+     */
+    public boolean isCourseCreatedByTeacher(String idCourse, String tId, String cpId){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckCourseCreatedByTeacher(idCourse,tId,cpId);
+        System.out.println("sql check course created by teacher : " +  sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @param tId
+     * @param cpId
+     * @return
+     */
+    public boolean isCourseAlreadyCopiedByTeacher(String idCourse, String tId, String cpId){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSQLCheckCourseAlreadyCopied(idCourse,tId,cpId);
+        System.out.println("sql check course already copied by teacher  : " +  sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
 }

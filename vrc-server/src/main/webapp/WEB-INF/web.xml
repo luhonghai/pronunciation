@@ -671,6 +671,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>PublishCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.PublishCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublishCourseServlet</servlet-name>
+        <url-pattern>/PublishCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
     </servlet>

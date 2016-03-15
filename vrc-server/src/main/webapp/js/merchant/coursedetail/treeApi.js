@@ -66,20 +66,6 @@ function initTree(){
 
 
 function ClickOnTree(){
-    /*theTree.on('acitree', function(event, api, item, eventName, options) {
-        if (eventName == 'selected'){
-            var itemData = api.itemData(item);
-            currentParent = api.parent(item);
-            var popupId = itemData._popupId;
-            api.blur(item,{
-                success : function(item){
-                    item.removeClass('aciTreeSelected');
-                    item.removeClass('aciTreeFocus');
-                }
-            });
-            openPopup(itemData);
-        }
-    });*/
 
     $(document).on("click",".aciTreeItem",function(){
         treeAPI = theTree.aciTree('api');
@@ -132,6 +118,7 @@ function drag2drop(){
  * reload the tree
  */
 function reloadTree(){
+    enablePublishBtn();
     treeAPI = theTree.aciTree('api');
     treeAPI.unload(currentParent, {
         success: function(item) {
@@ -139,6 +126,7 @@ function reloadTree(){
             treeAPI.ajaxLoad(currentParent, {
                 success: function(item) {
                     this.open(item);
+
                 }
             });
         }
@@ -187,5 +175,5 @@ $(function() {
     ClickOnTree();
     drag2drop();
     initTree();
-
+    enablePublishBtn();
 });

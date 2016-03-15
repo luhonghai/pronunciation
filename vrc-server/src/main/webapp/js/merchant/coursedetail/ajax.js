@@ -4,6 +4,7 @@
 var servletAdd = "/TreeAddNodeServlet";
 var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
+var servletPublish = "/PublishCourseServlet";
 /**
  * connect to server when add level
  */
@@ -334,6 +335,50 @@ function addLesson(){
         error: function () {
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+function publishCourse(){
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "publish",
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+
+            }else{
+                //add false show the error
+            }
+        },
+        error: function () {
+
+        }
+    });
+}
+
+function enablePublishBtn(){
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "checkButton",
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                $("#publish").removeAttr("disabled");
+            }else{
+                $("#publish").attr("disabled","disabled");
+            }
+        },
+        error: function () {
+            $("#publish").attr("disabled","disabled");
         }
     });
 }

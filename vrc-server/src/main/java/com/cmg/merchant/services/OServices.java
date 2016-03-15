@@ -1,11 +1,13 @@
 package com.cmg.merchant.services;
 
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
+import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.objective.ODAO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -107,6 +109,17 @@ public class OServices {
         return SUCCESS;
     }
 
+    public ArrayList<Objective> getAllByLevelId(String idLevel){
+        ODAO dao = new ODAO();
+        try {
+            ArrayList<Objective> list = (ArrayList)dao.getAllByIdLevel(idLevel);
+            return list;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
 
     /**
      *
@@ -136,5 +149,29 @@ public class OServices {
             return true;
         }
         return false;
+    }
+
+    /**
+     *
+     * @param idLevelMapping
+     * @param idObjNeedDuplicated
+     * @return
+     */
+    public String copyObj(String idLevelMapping, String idObjNeedDuplicated){
+        ODAO dao = new ODAO();
+        try {
+            Objective obj = dao.getById(idObjNeedDuplicated);
+            if(obj!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                obj.setId(newId);
+                dao.create(obj);
+                LevelServices lvServices = new LevelServices();
+                lvServices.addMappingObjToLv(idLevelMapping,newId);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
     }
 }

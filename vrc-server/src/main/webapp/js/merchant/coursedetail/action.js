@@ -144,6 +144,12 @@ function btnSaveLesson(){
     });
 }
 
+function btnPublish(){
+    $(document).on("click","#publish",function(){
+        publishCourse();
+    });
+}
+
 
 
 function showHelpIconTop(){
@@ -159,4 +165,5 @@ $(document).ready(function(){
     btnSaveTest();
     btnDeleteTest();
     showHelpIconTop();
+    btnPublish();
 });

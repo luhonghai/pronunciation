@@ -1,6 +1,7 @@
 package com.cmg.merchant.dao.level;
 
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -139,4 +140,55 @@ public class LvDAO extends DataAccess<Level> {
         return check;
     }
 
+    /**
+     *
+     * @param idLv
+     * @return
+     */
+    public boolean checkQuestionTestInLevel(String idLv){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckQuestionTestInLevel(idLv);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param idLv
+     * @return
+     */
+    public boolean checkQuestionObjInLevel(String idLv){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckQuestionObjInLevel(idLv);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
 }

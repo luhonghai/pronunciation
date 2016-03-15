@@ -45,6 +45,9 @@ public class CourseMappingTeacher implements Mirrorable{
     @Persistent
     private boolean isDeleted;
 
+    @Persistent
+    private boolean enablePublish; //user for check enable publish button.
+
     public CourseMappingTeacher(){}
 
     public CourseMappingTeacher(String tID, String cpID, String cID,

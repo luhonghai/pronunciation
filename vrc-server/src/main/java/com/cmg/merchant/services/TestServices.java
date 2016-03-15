@@ -82,7 +82,7 @@ public class TestServices {
      public String updateTest(String idTest, Double percentPass){
        TDAO tdao = new TDAO();
          try {
-            boolean check =  tdao.updateTest(idTest,percentPass);
+            boolean check =  tdao.updateTest(idTest, percentPass);
             if(!check){
                 return ERROR + " : an error has been occurred in server!";
             }
@@ -230,4 +230,47 @@ public class TestServices {
 
         return message;
     }
+
+
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
+    public Test getTestByLevelId(String idLevel){
+        TDAO dao = new TDAO();
+        try {
+            Test t = dao.getByIdLevel(idLevel);
+            return t;
+        }catch (Exception e){
+        }
+        return null;
+
+    }
+
+    /**
+     *
+     * @param idLevelMapping
+     * @param idTestNeedDuplicated
+     * @return
+     */
+    public String copyTest(String idLevelMapping, String idTestNeedDuplicated){
+        TDAO testDAO = new TDAO();
+        try {
+            Test test = testDAO.getById(idTestNeedDuplicated);
+            if(test!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                test.setId(newId);
+                testDAO.create(test);
+                addTESTMappingLEVEL(idLevelMapping,newId);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
+
+
+
 }
