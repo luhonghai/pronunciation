@@ -241,7 +241,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addLesson" name="addform">
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objName">name:</label>
+                        <label class="control-label col-md-4 lbl_addForm" style="text-align: left" for="objName">name:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="lessonName" name="lessonName"
@@ -249,7 +249,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objDesc">description:</label>
+                        <label class="control-label col-md-4 lbl_addForm"  style="text-align: left" for="objDesc">description:</label>
 
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="lessonDesc" name="description"
@@ -258,7 +258,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objDesc">type:</label>
+                        <label class="control-label col-md-4 lbl_addForm"  style="text-align: left" for="objDesc">type:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="lessonType" name="type"
@@ -267,10 +267,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" for="objDesc">lesson details:</label>
-                        <img src="" class="col-md-1">
-
-
+                        <label class="control-label col-md-2 lbl_addForm"  style="text-align: left" for="objDesc">lesson details:</label>
+                        <img src="/images/popup/p_menu_lesson.png" class="control col-md-2" style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
                         <div class="col-md-8">
                             <textarea rows="3" class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>

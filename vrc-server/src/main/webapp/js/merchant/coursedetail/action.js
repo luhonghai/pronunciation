@@ -56,6 +56,19 @@ function openPopup(itemData){
         var level = treeAPI.parent(currentParent);
         var levelItemData = treeAPI.itemData(level);
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
+    }else if(itemData._actionClick == action_edit_lesson){
+        clearForm();
+        currentPopup.find("#titlePopupLesson").html("edit lesson");
+        getNameLesson().val(itemData.label);
+        getDescriptionLesson().val(itemData._description);
+        getTypeLesson().val(itemData._type);
+        getDetailLesson().val(itemData._details);
+        currentPopup.find("#btnDeleteLesson").show();
+        var objParent = treeAPI.itemData(currentParent);
+        getNameLesson().attr("objID",objParent.id);
+        var level = treeAPI.parent(currentParent);
+        var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }
     currentPopup.modal('show');
 }
@@ -133,7 +146,7 @@ function btnDeleteTest(){
  * click on save lesson button
  */
 function btnSaveLesson(){
-    $(document).on("click","#btnSaveLevel",function(){
+    $(document).on("click","#btnSaveLesson",function(){
         if(validateFormLesson()){
             if(currentPopup.find(".action").val() == action_add_lesson){
                 addLesson();
@@ -141,6 +154,12 @@ function btnSaveLesson(){
                 editLesson();
             }
         }
+    });
+}
+
+function btnDeleteLesson(){
+    $(document).on("click","#btnDeleteLesson",function(){
+        deleteLesson();
     });
 }
 
@@ -152,6 +171,7 @@ function showHelpIconTop(){
 
 $(document).ready(function(){
     btnSaveLesson();
+    btnDeleteLesson();
     btnSaveLevel();
     btnDeleteLevel();
     btnSaveObj();

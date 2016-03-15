@@ -32,6 +32,10 @@ public class LessonCollection implements Mirrorable {
     @Persistent
     private int version;
 
+    @Persistent
+    private String type;
+
+
     @NotPersistent
     private boolean idChecked = false;
 
@@ -123,5 +127,13 @@ public class LessonCollection implements Mirrorable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

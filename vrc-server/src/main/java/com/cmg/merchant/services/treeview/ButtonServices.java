@@ -78,8 +78,14 @@ public class ButtonServices {
 
     public TreeNode createBtnAddQuestion(){
         TreeNode node = getDefaultBtn();
+        node.setId(Constant.ID_ADD_QUESTION_BTN);
+        node.setLabel(Constant.LABEL_ADD_QUESTION);
+        node.setIcon(Constant.IC_QUESTION);
+        node.set_popupId(Constant.POPUP_QUESTION);
+        node.set_actionClick(Constant.ACTION_ADD_QUESTION);
         return node;
     }
+
 
 
 

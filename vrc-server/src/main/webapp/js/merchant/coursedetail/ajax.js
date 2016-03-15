@@ -315,8 +315,10 @@ function addLesson(){
         data : {
             action: action_add_lesson,
             idObj : getNameLesson().attr("objID"),
-            name: "",
-            description:""
+            name: getNameLesson().val(),
+            description:getDescriptionLesson().val(),
+            type:getTypeLesson().val(),
+            details:getDetailLesson().val()
         },
         dataType : "text",
         success : function(data){
@@ -325,6 +327,67 @@ function addLesson(){
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have add Objective success!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+function editLesson(){
+    $.ajax({
+        url : servletEdit,
+        type : "POST",
+        data : {
+            action: action_edit_lesson,
+            idObj : getNameLesson().attr("objID"),
+            idLesson : currentPopup.find(".idHidden").val(),
+            name: getNameLesson().val(),
+            description:getDescriptionLesson().val(),
+            type:getTypeLesson().val(),
+            details:getDetailLesson().val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have add Objective success!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+function deleteLesson(){
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_lesson,
+            idObj : getNameLesson().attr("objID"),
+            idLesson : currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have delete Objective success!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);

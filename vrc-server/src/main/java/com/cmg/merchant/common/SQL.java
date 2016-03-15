@@ -52,9 +52,14 @@ public class SQL {
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
-    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,o.index FROM LESSONCOLLECTION l " +
+    private String SQL_LESSON_MAPPING_OBJECTIVE="Select l.id,l.name,l.description,l.nameUnique,l.type,o.index FROM LESSONCOLLECTION l " +
             "inner join OBJECTIVEMAPPING o on l.id=o.idLessonCollection " +
-            "WHERE o.id='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
+            "WHERE o.idObjective='paramMappingId' and l.isDeleted=false and o.isDeleted=false order by o.index";
+
+    private String SQL_QUESTION_MAPPING_LESSON="Select question.id,question.name FROM QUESTION question " +
+            "inner join LESSONMAPPINGQUESTION mapping on question.id=mapping.idQuestion " +
+            "WHERE mapping.idLesson='paramMappingId' and l.isDeleted=false and o.isDeleted=false";
+
 
 
     /**
@@ -141,6 +146,12 @@ public class SQL {
     public String getSqlLessonMappingObjective(String idObjective){
         String sql=SQL_LESSON_MAPPING_OBJECTIVE;
         sql=sql.replaceAll("paramMappingId",idObjective);
+        return sql;
+    }
+
+    public String getSqlQuestionMappingLesson(String idLesson){
+        String sql=SQL_QUESTION_MAPPING_LESSON;
+        sql=sql.replaceAll("paramMappingId",idLesson);
         return sql;
     }
 }

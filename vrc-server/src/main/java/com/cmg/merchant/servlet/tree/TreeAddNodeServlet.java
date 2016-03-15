@@ -2,6 +2,7 @@ package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.services.CourseServices;
+import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.LevelServices;
 import com.cmg.merchant.services.TestServices;
 import com.cmg.vrc.servlet.BaseServlet;
@@ -45,6 +46,15 @@ public class TreeAddNodeServlet extends BaseServlet {
             Double percent = Double.parseDouble((String)StringUtil.isNull(request.getParameter("percent"), "0"));
             TestServices tServices = new TestServices();
             String txt = tServices.addTest(idLevel,percent);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_LESSON)){
+            String idObjective = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
+            String lessonName = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String lessonDescription = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            String lessonType = (String) StringUtil.isNull(request.getParameter("type"), "").toString();
+            String lessonDetail = (String) StringUtil.isNull(request.getParameter("details"), "").toString();
+            LessonServices lessonServices = new LessonServices();
+            String txt = lessonServices.addLessonToObj(idObjective, lessonName,lessonDescription,lessonType,lessonDetail);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_LESSON)){
 

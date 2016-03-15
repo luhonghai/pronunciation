@@ -1,6 +1,7 @@
 package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.services.LessonServices;
 import com.cmg.merchant.services.LevelServices;
 import com.cmg.merchant.services.OServices;
 import com.cmg.merchant.services.TestServices;
@@ -48,6 +49,16 @@ public class TreeEditNodeServlet extends BaseServlet {
             String txt = tServices.updateTest(idTest,percent);
             response.getWriter().println(txt);
 
+        }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_LESSON)){
+            String idObjective = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
+            String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
+            String lessonName = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String lessonDescription = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            String lessonType = (String) StringUtil.isNull(request.getParameter("type"), "").toString();
+            String lessonDetail = (String) StringUtil.isNull(request.getParameter("details"), "").toString();
+            LessonServices lessonServices = new LessonServices();
+            String txt = lessonServices.updateLesson(idObjective,idLesson, lessonName,lessonDescription,lessonType,lessonDetail);
+            response.getWriter().println(txt);
         }
     }
 
