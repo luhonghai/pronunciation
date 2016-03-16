@@ -381,8 +381,8 @@
 
 <div id="popupQuestion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content modal-question-word">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <label id="arrowQuestion" class="modal-title"
@@ -432,18 +432,22 @@
 
 
 <div id="addWordModal" class="modal fade" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog  modal-sm">
-        <div class="modal-content">
+    <div class="modal-dialog">
+        <div class="modal-content modal-question-word">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-
+                        <label id="arrowWord" class="modal-title"></label>
                         <h2 align="center">add word</h2>
                         <h4 id="validateWordMsg" class="modal-title validateMsg"
                             style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
-                        <form name="add" class="form-horizontal" id="addform">
+                        <form name="add" class="form-horizontal" id="addWords">
                             <div class="form-group">
+                                <div class="row">
+                                    <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.
+                                    </label>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-xs-3  col-sm-2">
@@ -458,12 +462,12 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-xs-4 col-sm-3">
+                                    <div class="col-xs-3 col-sm-2">
                                         <div class="row"><label class="control-label phoneme-lable"></label></div>
                                         <div class="row"><label class="control-label ipa-lable"></label></div>
                                         <div class="row"><label class="control-label weight-lable"></label></div>
                                     </div>
-                                    <div class="col-xs-8 col-sm-9 group-phoneme-weight">
+                                    <div class="col-xs-9 col-sm-10 group-phoneme-weight">
                                         <div class="row" id="listPhonmes"></div>
                                         <div class="row" id="listIpa"></div>
                                         <div class="row" id="listWeight"></div>

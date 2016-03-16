@@ -436,14 +436,14 @@ function loadPhonemes(){
                     });
                     $("#yesadd").attr("disabled", false);
                 }else{
-                    getLoadPhoneme.attr("disabled",false);
+                    getLoadPhoneme().attr("disabled",false);
                     getListPhonemes().html("");
                     getListWeight().html("");
                     getPhonemeLable().html("");
                     getWeightLable().html("");
                     $("#yesadd").attr("disabled", true);
                     getAddWord().focus();
-                    swal("Error!",message.split(":")[1], "error");
+                    getWordValidateMessage().html("<i>Sorry this word is not in our dictionary, please try a different word</i>");
                 }
             },
             error: function () {

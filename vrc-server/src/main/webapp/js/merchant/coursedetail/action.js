@@ -188,6 +188,8 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
+        var row=$("#arrowQuestion").text();
+        $("#arrowWord").text(row);
         $("#addWordModal").modal('show');
     });
 }
@@ -195,8 +197,9 @@ function showAddWord(){
 function loadPhoneme() {
     $("#loadPhonemes").click(function () {
         getLoadPhoneme().attr("disabled", true);
-        validateWord();
-        loadPhonemes();
+        if(validateWord()){
+            loadPhonemes();
+        }
     })
 }
 function btnPublish(){
@@ -205,6 +208,25 @@ function btnPublish(){
     });
 
 }
+function saveWord(){
+    $(document).on("click","#btnSaveWord",function() {
+        var output = [];
+        $(listPhonemeName).find('input').each(function(e){
+            var value = $(this).val();
+            var index = $(this).attr("index");
+            var weight = $(listWeightName + index).val();
+            output.push({
+                index : parseInt(index),
+                phoneme : value,
+                weight : parseFloat(weight)
+            });
+        });
+        return output;
+
+    });
+
+}
+
 
 function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
