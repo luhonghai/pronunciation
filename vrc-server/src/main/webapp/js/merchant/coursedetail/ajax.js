@@ -462,3 +462,26 @@ function loadPhonemes(){
         });
     });
 }
+
+
+function enablePublishBtn(){
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "checkButton",
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                getPublishBtn().removeAttr("disabled");
+            }else{
+                getPublishBtn().attr("disabled","disabled");
+            }
+        },
+        error: function () {
+
+        }
+    });
+}

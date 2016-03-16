@@ -1,6 +1,10 @@
 /**
  * Created by lantb on 2016-02-23.
  */
+
+function getPublishBtn(){
+    return $("#publish");
+}
 /**
  * clear all data in form
  */

@@ -335,7 +335,9 @@
                         <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
                     </div>
                     <div class="form-group">
-                        <button id="btnAddWord" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i> </button>
+                        <button id="btnAddWord" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;">
+                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i>
+                        </button>
                         <div id="listWord">
 
                         </div>
@@ -366,7 +368,7 @@
     <!-- End of Modal dialog -->
 </div>
 
-<div id="add" class="modal fade">
+<div id="addWord" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -375,12 +377,11 @@
 
                         <h1 align="center">add word</h1>
                         <form name="add" class="form-horizontal" id="addform">
-
                             <div class="form-group">
 
                                 <div class="row">
                                     <div class="col-xs-4  col-sm-3">
-                                        <div class="row"><label class="control-label ">Word:</label></div>
+                                        <div class="row"><label class="control-label">Word:</label></div>
                                     </div>
                                     <div class="col-xs-5  col-sm-6">
                                         <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
