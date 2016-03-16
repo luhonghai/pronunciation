@@ -25,7 +25,7 @@
     background-color: transparent;
 }
 
-#titlePopup,#titlePopupObj,#titlePopupTest,#titlePopupLesson, #titlePopupQuestion {
+#titlePopup,#titlePopupObj,#titlePopupTest {
     padding-top : 10px;
     font-weight : 200;
     font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -60,6 +60,21 @@
     font-size : 16px;
     text-align: center;
 }
+
+#popupLesson #titlePopupLesson{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
+#popupQuestion #titlePopupQuestion{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
 #popupLevel .validateMsg{
     font-weight : 200;
     font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -73,6 +88,22 @@
     font-size : 14px;
     text-align:left;
 }
+
+#addLesson label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+#addQuestion label{
+    color: #A6A6A6;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
 
 
 #popupObjective #arrowObj{

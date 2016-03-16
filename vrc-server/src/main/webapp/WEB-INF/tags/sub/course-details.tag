@@ -259,7 +259,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addLesson" name="addform">
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm" style="text-align: left" for="objName">name:</label>
+                        <label class="control-label col-md-4 lbl_addForm">name:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="lessonName" name="lessonName"
@@ -267,7 +267,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm"  style="text-align: left" for="objDesc">description:</label>
+                        <label class="control-label col-md-4 lbl_addForm">description:</label>
 
                         <div class="col-md-8">
                             <textarea rows="2" class="form-control" id="lessonDesc" name="description"
@@ -276,7 +276,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-4 lbl_addForm"  style="text-align: left" for="objDesc">type:</label>
+                        <label class="control-label col-md-4 lbl_addForm">type:</label>
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" id="lessonType" name="type"
@@ -285,7 +285,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2 lbl_addForm"  style="text-align: left" for="objDesc">lesson details:</label>
+                        <label class="control-label col-md-2 lbl_addForm">lesson details:</label>
                         <img src="/images/popup/p_menu_lesson.png" class="control col-md-2" style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
                         <div class="col-md-8">
                             <textarea rows="3" class="form-control" id="lessonDetail" name="details"
@@ -332,8 +332,7 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
-                        <label class="control-label" style="text-align: left" for="objName">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.
-                        </label>
+                        <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
                     </div>
                     <div class="form-group">
                         <button id="btnAddWord" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i> </button>

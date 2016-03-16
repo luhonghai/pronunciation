@@ -423,29 +423,29 @@ function loadPhonemes(){
                 if(message.indexOf("success") != -1){
                     $("#addWord").attr("idWord", data.id);
                     //$("#loadPhonemes").attr("disabled",true);
-                    $(".phoneme-lable").html("Arpabet:").css("padding-top","10px");;
-                    $(".weight-lable").html("Weight:").css("padding-top","15px");;
-                    $(".ipa-lable").html("Ipa:").css("padding-top","10px");;
-                    $("#listPhonmes").html("");
-                    $("#listWeight").html("");
-                    $("#listIpa").html("");
+                    $(".phoneme-lable").html("Arpabet:").css("padding-top","10px");
+                    $(".weight-lable").html("Weight:").css("padding-top","15px");
+                    $(".ipa-lable").html("Ipa:").css("padding-top","10px");
+                    getListPhonemes().html("");
+                    getListWeight().html("");
+                    getListIPA().html("");
                     //$("#addWord").attr("readonly","readonly");
                     $("#addWord").attr("disabled",true);
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
-                        $("#listPhonmes").append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
-                        $("#listIpa").append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
-                        $("#listWeight").append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
-                        $("#listPhonmes").css({"width":(idx+1)*35});
-                        $("#listWeight").css({"width":(idx+1)*35});
-                        $("#listIpa").css({"width":(idx+1)*35});
+                        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
+                        getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
+                        getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
+                        getListPhonemes().css({"width":(idx+1)*35});
+                        getListWeight().css({"width":(idx+1)*35});
+                        getListIPA().css({"width":(idx+1)*35});
                     });
                     $("#yesadd").attr("disabled", false);
                 }else{
                     $("#loadPhonemes").attr("disabled",false);
-                    $("#listPhonmes").html("");
-                    $("#listWeight").html("");
+                    getListPhonemes().html("");
+                    getListWeight().html("");
                     $(".phoneme-lable").html("");
                     $(".weight-lable").html("");
                     $("#yesadd").attr("disabled", true);
