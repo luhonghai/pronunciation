@@ -191,3 +191,7 @@
     width: 30px;
     text-align: center;
 }
+
+#help-popup .modal-content{
+    width : inherit;
+}
