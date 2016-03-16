@@ -199,6 +199,16 @@ function showAddWord(){
         var row=$("#arrowQuestion").text();
         $("#arrowWord").text(row);
         $("#addWordModal").modal('show');
+        $("#addWord").val("");
+        $("#listPhonmes").html("");
+        $("#listWeight").html("");
+        $("#listIpa").html("");
+        $(".phoneme-lable").html("");
+        $(".weight-lable").html("");
+        $(".ipa-lable").html("");
+        $("#yesadd").attr("disabled", true);
+        $("#loadPhonemes").attr("disabled",false)
+        $("#addWord").attr("disabled",false);
     });
 }
 
@@ -218,6 +228,13 @@ function btnPublish(){
 }
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
+        var nameWord=$("#addWord").val();
+        var idWord=$("#addWord").attr("idWord");
+        getListWord().append(' <div style="margin-top: 5px;" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
+
+        $("#addWordModal").modal('hide');
+        var listPhonemeName=getListPhonemes();
+        var listWeightName=getWeight();
         var output = [];
         $(listPhonemeName).find('input').each(function(e){
             var value = $(this).val();
@@ -229,6 +246,7 @@ function saveWord(){
                 weight : parseFloat(weight)
             });
         });
+        output.clear();
         return output;
 
     });
@@ -275,6 +293,7 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();

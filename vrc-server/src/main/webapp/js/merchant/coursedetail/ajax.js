@@ -482,6 +482,7 @@ function loadPhonemes(){
                 var message = data.message;
                 if(message.indexOf("success") != -1){
                     getAddWord().attr("idWord", data.id);
+                    getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
                     getPhonemeLable().html("Arpabet:").css("padding-top","10px");
                     getWeightLable().html("Weight:").css("padding-top","15px");
@@ -502,6 +503,8 @@ function loadPhonemes(){
                         getListIPA().css({"width":(idx+1)*35});
                     });
                     $("#yesadd").attr("disabled", false);
+                    $("#wordModal1").show();
+                    $("#wordModal2").show();
                 }else{
                     getLoadPhoneme().attr("disabled",false);
                     getListPhonemes().html("");

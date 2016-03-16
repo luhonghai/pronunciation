@@ -113,6 +113,14 @@ function getListWeight(){
     var listWeight=$("#listWeight");
     return listWeight;
 }
+function getWeight(){
+    var weight=$("#weight");
+    return weight;
+}
+function getListWord(){
+    var listWord=$("#listWord");
+    return listWord;
+}
 
 function getAddWord(){
     var addWord=$("#addWord");
