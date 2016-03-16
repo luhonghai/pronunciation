@@ -249,7 +249,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrowLesson" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
+                       style="text-align: left; padding-left: 15px;"><%=nameOfCourse%>
                 </label>
                 <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
@@ -342,7 +342,7 @@
 
                     </div>
                     <div class="form-group">
-                        <div class="col-md-5">
+                        <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <img id="helpAddQuestion" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
@@ -352,7 +352,7 @@
                             <img id="btnDeleteQuestion" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" style="padding-right: 0px;">
                             <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
