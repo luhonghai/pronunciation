@@ -8,6 +8,12 @@ function openPopup(itemData){
     currentPopup.find(".validateMsg").hide();
     currentPopup.find(".action").val(itemData._actionClick);
     currentPopup.find(".idHidden").val(itemData.id);
+    if (itemData._actionClick == action_edit_course){
+        currentPopup.find("#titlePopupCourse").html("course management");
+        getCourseName().val(itemData.label);
+        getCourseDescription().val(itemData._title);
+        currentPopup.find("#btnDeleteLevel").show();
+    }else
     if (itemData._actionClick == action_add_level){
         clearForm();
         currentPopup.find("#titlePopup").html("add level");

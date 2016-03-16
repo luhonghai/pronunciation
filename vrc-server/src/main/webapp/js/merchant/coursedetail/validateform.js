@@ -1,6 +1,30 @@
 /**
  * Created by lantb on 2016-02-23.
  */
+
+
+
+function validateFormCourse(){
+    var name = getCourseName().val();
+    if(name == '' || typeof name === "undefined"){
+        getCourseName().focus();
+        getCourseValidateMessage().html("Please enter the name!");
+        getCourseValidateMessage().show();
+        return false;
+    }
+    var description = getCourseDescription().val();
+    if(description == '' || typeof description === "undefined"){
+        getLevelDescription().focus();
+        getCourseDescription().html("Please enter the description!");
+        getCourseDescription().show();
+        return false;
+    }
+    getCourseValidateMessage().hide();
+    return true;
+}
+
+
+
 /**
  *
  * @returns {boolean}

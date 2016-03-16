@@ -75,6 +75,11 @@ public class Constant {
     public static String LABEL_ADD_QUESTION = "add question";
 
 
+    //poup level
+    public static String POPUP_COURSE = "popupCourse";
+    public static String ACTION_EDIT_COURSE = "editCourse";
+    public static String ACTION_DELETE_COURSE = "deleteCourse";
+
 
     //poup level
     public static String POPUP_LEVEL = "popupLevel";
