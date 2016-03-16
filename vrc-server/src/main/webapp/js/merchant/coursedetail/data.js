@@ -1,7 +1,9 @@
 /**
  * Created by lantb on 2016-02-23.
  */
-
+function getPopUpHelp(){
+    return $("#help-popup");
+}
 function getPublishBtn(){
     return $("#publish");
 }

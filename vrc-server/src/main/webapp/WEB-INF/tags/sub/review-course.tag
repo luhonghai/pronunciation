@@ -186,7 +186,7 @@
                         <label class="control-label col-md-4 lbl_addForm">name:</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="lessonName" name="lessonName"
+                            <input type="text" disabled="disabled" class="form-control" id="lessonName" name="lessonName"
                                    placeholder="Lesson name">
                         </div>
                     </div>
@@ -194,7 +194,7 @@
                         <label class="control-label col-md-4 lbl_addForm">description:</label>
 
                         <div class="col-md-8">
-                            <textarea rows="2" class="form-control" id="lessonDesc" name="description"
+                            <textarea rows="2" disabled="disabled" class="form-control" id="lessonDesc" name="description"
                                       placeholder="Lesson description"></textarea>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                         <label class="control-label col-md-4 lbl_addForm">type:</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="lessonType" name="type"
+                            <input type="text" disabled="disabled" class="form-control" id="lessonType" name="type"
                                    placeholder="type">
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                         <label class="control-label col-md-2 lbl_addForm">lesson details:</label>
                         <img src="/images/popup/p_menu_lesson.png" class="control col-md-2" style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
                         <div class="col-md-8">
-                            <textarea rows="3" class="form-control" id="lessonDetail" name="details"
+                            <textarea disabled="disabled" rows="3" class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
                         </div>
                     </div>

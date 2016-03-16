@@ -114,7 +114,7 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                            <img id="helpAddLevel" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddLevel" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteLevel" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
@@ -171,7 +171,7 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpObj" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddObj" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                            <%-- <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -220,7 +220,7 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpTest" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -296,7 +296,7 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddLesson" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddLesson" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -347,7 +347,7 @@
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddQuestion" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddQuestion" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -439,7 +439,23 @@
     <!-- End of Modal dialog -->
 </div>
 
+<div id="help-popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;color:#957F7F">
+    <div class="modal-dialog" style="width:500px">
+        <div class="modal-content">
+            <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h2 class="modal-title" style="font-weight: 700;">add course</h2>
+            </div>
+            <div class="modal-body">
 
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
 
 
 

@@ -222,7 +222,47 @@ function saveWord(){
 }
 
 
+function clickTopHelp(){
+    $(document).on("click","#help-icons", function(){
+        getPopUpHelp().find(".modal-title").html("course administration");
+        getPopUpHelp().find(".modal-body").empty();
+        getPopUpHelp().find(".modal-body").html("coming soon");
+        getPopUpHelp().modal('show');
+    });
+}
+
+function clickHelpAdd(){
+    $(document).on("click",".helpInfor", function(){
+        var id = $(this).attr("id");
+        if(id == "helpAddLevel"){
+            getPopUpHelp().find(".modal-title").html("level management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddLevel());
+        }else if(id == "helpAddObj"){
+            getPopUpHelp().find(".modal-title").html("objective management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddObjective());
+        }else if(id == "helpAddTest"){
+            getPopUpHelp().find(".modal-title").html("test management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddTest());
+        }else if(id == "helpAddLesson"){
+            getPopUpHelp().find(".modal-title").html("lesson management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddLesson());
+        }else if(id == "helpAddQuestion"){
+            getPopUpHelp().find(".modal-title").html("question management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddQuestion());
+        }
+        getPopUpHelp().modal('show');
+    });
+}
+
+
 $(document).ready(function(){
+    clickTopHelp();
+    clickHelpAdd();
     loadPhoneme();
     showAddWord();
     btnSaveLesson();
