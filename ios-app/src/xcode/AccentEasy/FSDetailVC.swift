@@ -198,7 +198,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         })
     }
     
-    func pressPlayExample(sender: IPAPopupVC) {
+    func pressPlayExample(sender: IPAPopupVC?) {
         print("press PlayExample", terminator: "\n")
         //play ipa
             let linkFile:String = arrIPAMapArpabet[indexCellChoice].mp3URL
@@ -242,7 +242,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         isPlayInIPAPopup = false
     }
     
-    func pressShowChart(sender: IPAPopupVC) {
+    func pressShowChart(sender: IPAPopupVC?) {
         print("press ShowChart", terminator: "\n")
         self.dismissPopupViewController(.Fade)
     }

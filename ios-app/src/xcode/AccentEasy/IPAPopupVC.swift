@@ -9,8 +9,8 @@
 import UIKit
 
 protocol IPAPopupViewControllerDelegate {
-    func pressPlayExample(sender: IPAPopupVC)
-    func pressShowChart(sender: IPAPopupVC)
+    func pressPlayExample(sender: IPAPopupVC?)
+    func pressShowChart(sender: IPAPopupVC?)
 }
 
 class IPAPopupVC: UIViewController {
