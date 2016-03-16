@@ -64,6 +64,17 @@ function validateFormTest(){
     return true;
 }
 
+function validateWord(){
+    var word = getAddWord().val();
+    if (word == null || typeof word == "undefined" || word.length == 0){
+        getLoadPhoneme().attr("disabled",false);
+       getAddWord().focus();
+        getLessonValidateMessage().html("Word not null!");
+        getLessonValidateMessage().show();
+        return;
+    }
+}
+
 function validateFormLesson(){
     var name = getNameLesson().val();
     if(name == '' || typeof name === 'undefined'){

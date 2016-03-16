@@ -93,6 +93,30 @@ function getListWeight(){
     return listWeight;
 }
 
+function getAddWord(){
+    var addWord=$("#addWord");
+    return addWord;
+}
+
+function getPhonemeLable(){
+    var phonemeLable=$(".phoneme-lable");
+    return phonemeLable;
+}
+
+function getIPAlable(){
+    var ipaLable=$(".ipa-lable");
+    return ipaLable;
+}
+function getWeightLable(){
+    var weightLable=$(".weight-lable");
+    return weightLable;
+}
+
+function getLoadPhoneme(){
+    var loadPhoneme=$("#loadPhonemes");
+    return loadPhoneme;
+}
+
 function initHelpAddLevel(){
     var $html = $("<div>");
     $html.html("<p>1. Enter the name of the level that you wish to create.</p>");

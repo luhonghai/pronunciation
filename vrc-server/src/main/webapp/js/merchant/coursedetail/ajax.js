@@ -404,14 +404,7 @@ function deleteLesson(){
 }
 function loadPhonemes(){
     $("#loadPhonemes").click(function(){
-        $("#loadPhonemes").attr("disabled",true);
-        var word = $("#addWord").val();
-        if (word == null || typeof word == "undefined" || word.length == 0){
-            $("#loadPhonemes").attr("disabled",false);
-            $("#addWord").focus();
-            swal("Warning!", "Word not null!", "warning");
-            return;
-        }
+        getLoadPhoneme().attr("disabled",true);
         $.ajax({
             url: "ManagementWordOfQuestionServlet",
             type: "POST",
@@ -423,16 +416,16 @@ function loadPhonemes(){
             success: function (data) {
                 var message = data.message;
                 if(message.indexOf("success") != -1){
-                    $("#addWord").attr("idWord", data.id);
+                    getAddWord().attr("idWord", data.id);
                     //$("#loadPhonemes").attr("disabled",true);
-                    $(".phoneme-lable").html("Arpabet:").css("padding-top","10px");
-                    $(".weight-lable").html("Weight:").css("padding-top","15px");
-                    $(".ipa-lable").html("Ipa:").css("padding-top","10px");
+                    getPhonemeLable().html("Arpabet:").css("padding-top","10px");
+                    getWeightLable().html("Weight:").css("padding-top","15px");
+                    getIPAlable().html("Ipa:").css("padding-top","10px");
                     getListPhonemes().html("");
                     getListWeight().html("");
                     getListIPA().html("");
                     //$("#addWord").attr("readonly","readonly");
-                    $("#addWord").attr("disabled",true);
+                    getAddWord().attr("disabled",true);
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
@@ -445,13 +438,13 @@ function loadPhonemes(){
                     });
                     $("#yesadd").attr("disabled", false);
                 }else{
-                    $("#loadPhonemes").attr("disabled",false);
+                    getLoadPhoneme.attr("disabled",false);
                     getListPhonemes().html("");
                     getListWeight().html("");
-                    $(".phoneme-lable").html("");
-                    $(".weight-lable").html("");
+                    getPhonemeLable().html("");
+                    getWeightLable().html("");
                     $("#yesadd").attr("disabled", true);
-                    $("#addWord").focus();
+                    getAddWord().focus();
                     swal("Error!",message.split(":")[1], "error");
                 }
             },
