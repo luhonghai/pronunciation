@@ -461,6 +461,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="row">
                                     <div class="col-xs-3 col-sm-2">
                                         <div class="row"><label class="control-label phoneme-lable"></label></div>
@@ -472,6 +473,15 @@
                                         <div class="row" id="listIpa"></div>
                                         <div class="row" id="listWeight"></div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <label class="control-label" id="wordModal1" style="display: none">If you would like to allocate an increased percentage of the score to a particular phoneme then please give that phoneme a higher “weight.”
+                                    </label>
+                                    <label class="control-label" id="wordModal2" style="display: none">E.g.  v = 1,
+                                        ɛ = 1,
+                                        s = 1,
+                                        t = 3 , this will allocate 50% of the score to this last phoneme /t/.
+                                    </label>
                                 </div>
 
                             </div>

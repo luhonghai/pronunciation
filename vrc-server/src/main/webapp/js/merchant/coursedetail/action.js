@@ -220,6 +220,11 @@ function btnPublish(){
 }
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
+        var nameWord=$("#addWord").val();
+        var idWord=$("#addWord").attr("idWord");
+        getListWord().append(' <div style="margin-top: 5px;" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
+
+        $("#addWordModal").modal('hide');
         var listPhonemeName=getListPhonemes();
         var listWeightName=getWeight();
         var output = [];
@@ -233,6 +238,7 @@ function saveWord(){
                 weight : parseFloat(weight)
             });
         });
+        output.clear();
         return output;
 
     });
@@ -279,6 +285,7 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();
