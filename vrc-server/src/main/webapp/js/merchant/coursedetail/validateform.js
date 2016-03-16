@@ -71,8 +71,9 @@ function validateWord(){
         getAddWord().focus();
         getWordValidateMessage().html("Word not null!");
         getWordValidateMessage().show();
-        return;
+        return false;
     }
+    return true;
 }
 
 function validateFormLesson(){

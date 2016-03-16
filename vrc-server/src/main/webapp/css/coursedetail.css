@@ -46,6 +46,10 @@
     width : 400px;
     border-radius: 20px;
 }
+.modal-question-word{
+     width : 600px !important;
+}
+
 
 #popupLevel #arrow{
     font-weight : 200;
@@ -103,7 +107,13 @@
     font-size : 14px;
     text-align:left;
 }
-
+#addWords label{
+    color: #A6A6A6;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
 
 
 #popupObjective #arrowObj{
