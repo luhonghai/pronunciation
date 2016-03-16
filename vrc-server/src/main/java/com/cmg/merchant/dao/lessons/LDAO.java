@@ -2,6 +2,7 @@ package com.cmg.merchant.dao.lessons;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
+import com.cmg.lesson.data.jdo.test.TestMapping;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -161,6 +162,49 @@ public class LDAO extends DataAccess<LessonCollection> {
         return list;
     }
 
+    /**
+     *
+     * @param testId
+     * @return
+     * @throws Exception
+     */
+    public LessonCollection getAllByIdTest(String testId) throws Exception{
+        StringBuffer clause = new StringBuffer();
+        TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
+        TypeMetadata metaTestMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TestMapping.class.getCanonicalName());
+        String firstQuery = "select lesson.id, lesson.name , lesson.description  from  " + metaLessonCollection.getTable()
+                + " lesson inner join " + metaTestMapping.getTable()
+                + " mapping on mapping.idLessonCollection=lesson.id where ";
+        clause.append(firstQuery);
+        clause.append(" mapping.idTest= '"+testId+"' and lesson.isDeleted=false and mapping.isDeleted=false");
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    LessonCollection lessonCollection = new LessonCollection();
+                    Object[] array = (Object[]) obj;
+                    lessonCollection.setId(array[0].toString());
+                    if(array[1]!=null){
+                        lessonCollection.setName(array[1].toString());
+                    }
+                    if(array[2]!=null){
+                        lessonCollection.setDescription(array[2].toString());
+                    }
+                    return lessonCollection;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return null;
+    }
 
 
 

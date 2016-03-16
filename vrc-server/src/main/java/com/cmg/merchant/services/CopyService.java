@@ -1,5 +1,6 @@
 package com.cmg.merchant.services;
 
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
@@ -17,6 +18,7 @@ public class CopyService {
     LevelServices lvServices = new LevelServices();
     OServices objServices = new OServices();
     TestServices testServices = new TestServices();
+    LessonServices lessonServices = new LessonServices();
     public String ERROR = "error";
     public String SUCCESS = "success";
     SessionUtil util = new SessionUtil();
@@ -47,26 +49,60 @@ public class CopyService {
 
     /**
      *
-     * @param levelIdNew
-     * @param levelIdOld
+     * @param levelIdMapping
+     * @param levelIdGetData
      */
-    public void copyAllObjToLevel(String levelIdNew, String levelIdOld){
-        ArrayList<Objective> listObj = objServices.getAllByLevelId(levelIdOld);
+    public void copyAllObjToLevel(String levelIdMapping, String levelIdGetData){
+        ArrayList<Objective> listObj = objServices.getAllByLevelId(levelIdGetData);
         if(listObj!=null && listObj.size() > 0)
         for(Objective obj : listObj){
-            String newIdObj = objServices.copyObj(levelIdNew,obj.getId());
+            String newIdObj = objServices.copyObj(levelIdMapping,obj.getId());
+            copyAllLessonsToObj(newIdObj,obj.getId());
         }
     }
 
     /**
      *
-     * @param levelIdNew
-     * @param levelIdOld
+     * @param levelIdMapping
+     * @param levelIdGetData
      */
-    public void copyTestToLevel(String levelIdNew, String levelIdOld){
-        Test t = testServices.getTestByLevelId(levelIdOld);
-        String newIdTest = testServices.copyTest(levelIdNew, t.getId());
+    public void copyTestToLevel(String levelIdMapping, String levelIdGetData){
+        Test t = testServices.getTestByLevelId(levelIdGetData);
+        String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
+        copyAllLessonsToTest(newIdTest,t.getId());
     }
 
 
+    /**
+     *
+     * @param objIdMapping
+     * @param objIdGetData
+     */
+    public void copyAllLessonsToObj(String objIdMapping, String objIdGetData){
+        ArrayList<LessonCollection> listLessons = lessonServices.getAllByObjId(objIdGetData);
+        if(listLessons!=null && listLessons.size() > 0){
+            for(LessonCollection lesson : listLessons){
+                String newLessonId = lessonServices.copyLessonInObj(objIdMapping,lesson.getId());
+                copyAllQuestionToLessons(newLessonId,lesson.getId());
+            }
+        }
+    }
+
+
+    public void copyAllLessonsToTest(String testIdMapping, String testIdGetData){
+        LessonCollection lesson = lessonServices.getByTestId(testIdGetData);
+        if(lesson!=null){
+            String newLessonId = lessonServices.copyLessonInTest(testIdMapping,lesson.getId());
+            copyAllQuestionToLessons(newLessonId,lesson.getId());
+        }
+    }
+
+    /**
+     *
+     * @param lessonIdMapping
+     * @param lessonIdGetData
+     */
+    public void copyAllQuestionToLessons(String lessonIdMapping, String lessonIdGetData){
+
+    }
 }

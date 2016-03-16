@@ -216,22 +216,7 @@
                                       placeholder="Lesson details"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-5">
-                            <input type="hidden" class="action">
-                            <input type="hidden" class="idHidden">
-                            <img id="helpAddLesson" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                        </div>
-                        <div class="col-md-2">
-                            <img id="btnDeleteLesson" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
-                        </div>
-                        <div class="col-md-5">
-                            <img style="float: right" id="btnSaveLesson" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
-                        </div>
-                    </div>
+
                 </form>
             </div>
             <!-- End of Modal body -->

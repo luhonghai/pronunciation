@@ -10,6 +10,7 @@ import com.cmg.merchant.dao.objective.OMLDAO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -202,4 +203,83 @@ public class LessonServices {
         }
         return false;
     }
+
+    /**
+     *
+     * @param objId
+     * @return
+     */
+    public ArrayList<LessonCollection> getAllByObjId(String objId){
+        LDAO dao = new LDAO();
+        try {
+            ArrayList<LessonCollection> list = (ArrayList<LessonCollection>) dao.getAllByIdObj(objId);
+            return list;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param testId
+     * @return
+     */
+    public LessonCollection getByTestId(String testId){
+        LDAO dao = new LDAO();
+        try {
+            LessonCollection lesson  =  dao.getAllByIdTest(testId);
+            return lesson;
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+    /**
+     *
+     * @param idObjMapping
+     * @return
+     */
+    public String copyLessonInObj(String idObjMapping, String idLessonNeedDuplicated){
+        LDAO ldao = new LDAO();
+        try {
+            LessonCollection lesson = ldao.getById(idLessonNeedDuplicated);
+            if(lesson!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                lesson.setId(newId);
+                ldao.create(lesson);
+                addMappingLessonToObj(idObjMapping,newId);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
+
+
+    /**
+     *
+     * @param idTestMapping
+     * @param idLessonNeedDuplicated
+     * @return
+     */
+    public String copyLessonInTest(String idTestMapping, String idLessonNeedDuplicated){
+        LDAO ldao = new LDAO();
+        try {
+            LessonCollection lesson = ldao.getById(idLessonNeedDuplicated);
+            if(lesson!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                lesson.setId(newId);
+                ldao.create(lesson);
+                TestServices testServices = new TestServices();
+                testServices.addTESTMappingLESSON(idTestMapping,newId);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
+
 }
