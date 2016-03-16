@@ -37,6 +37,7 @@ class IPAInfoPopup: UIViewController {
         view.backgroundColor = ColorHelper.APP_LIGHT_BLUE
         
         var pImage = UIImage(named: "ic_close_dialog.png")!
+        //pImage = pImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         pImage = ImageHelper.imageWithImage(pImage, scaledToSize: CGSize(width: 25, height: 25))
         btnClose.layer.cornerRadius = btnClose.frame.size.width/2
         btnClose.setImage(pImage, forState: UIControlState.Normal)
@@ -46,6 +47,7 @@ class IPAInfoPopup: UIViewController {
         lblTitle.text = "\(selectedIpa.ipa)"
         lblSubTitle.text = "<\(selectedIpa.arpabet)> \(selectedIpa.words)"
         txtDescription.text = selectedIpa.tip
+        txtDescription.textColor = ColorHelper.APP_PURPLE
         imgTip.clipsToBounds = true
         imgTip.tintColor = ColorHelper.APP_PURPLE
         if selectedIpa!.imgTongue != nil && !selectedIpa!.imgTongue.isEmpty {

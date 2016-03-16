@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="7VA-g0-Jci">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -2606,10 +2606,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="VlK-rN-iWT"/>
-        <segue reference="Ceg-og-m1t"/>
-        <segue reference="0GI-4W-Bce"/>
-        <segue reference="WR5-An-sLd"/>
+        <segue reference="y7T-RE-Gak"/>
         <segue reference="w7l-a7-zju"/>
         <segue reference="t7Q-vO-CVy"/>
+        <segue reference="0GI-4W-Bce"/>
+        <segue reference="WR5-An-sLd"/>
     </inferredMetricsTieBreakers>
 </document>

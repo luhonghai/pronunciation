@@ -161,4 +161,8 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     public func getIPAMapArpabetByType(type: String) throws -> Array<IPAMapArpabet> {
         return try query(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.TYPE == type).order(LiteColumn.INDEX .asc))
     }
+    
+    public func getAllCountries() throws -> Array<AECountry> {
+        return try findAll()
+    }
 }

@@ -1502,6 +1502,8 @@
 			isa = PBXGroup;
 			children = (
 				9B4849DC1C98FF65002F193F /* IPAInformation */,
+				C172A5841C97FD4900BBBEC4 /* LessonController */,
+				C15EDBEB1C97B271006E7BA3 /* LanguageSelectionController */,
 				C13C28F31C800C98000CC11D /* FreeStyleController */,
 				90F33B441C7EC2CA00E28BC4 /* TipController */,
 				9B9BE7181C632BA500C84823 /* HistoryController */,
