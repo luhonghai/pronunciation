@@ -167,6 +167,7 @@ function btnSaveLesson(){
     });
 }
 
+
 function btnDeleteLesson(){
     $(document).on("click","#btnDeleteLesson",function(){
         deleteLesson();
@@ -196,4 +197,5 @@ $(document).ready(function(){
     btnSaveTest();
     btnDeleteTest();
     showHelpIconTop();
+    btnPublish();
 });

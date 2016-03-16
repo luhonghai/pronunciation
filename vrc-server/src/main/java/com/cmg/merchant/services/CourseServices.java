@@ -4,11 +4,19 @@ import com.cmg.lesson.dao.course.CourseDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.course.CMLDAO;
+import com.cmg.merchant.dao.lessons.LMODAO;
+import com.cmg.merchant.dao.level.LvDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.objective.ODAO;
+import com.cmg.merchant.dao.test.TDAO;
+import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.merchant.util.SessionUtil;
@@ -50,7 +58,6 @@ public class CourseServices {
      * @param idCourse
      * @param nameLv
      * @param descriptionLv
-     * @param isDemo
      * @return
      */
     public String addLevelToCourse(String idCourse, String nameLv, String descriptionLv) {
@@ -200,5 +207,91 @@ public class CourseServices {
         return name;
     }
 
+
+    /**
+     *
+     * @param idCourseNeedDuplicated
+     * @return
+     */
+    public String copyCourse(String idCourseNeedDuplicated, HttpServletRequest request){
+        CDAO cDao = new CDAO();
+        CMTDAO cmtDao = new CMTDAO();
+        SessionUtil util = new SessionUtil();
+        try {
+            Course c = cDao.getById(idCourseNeedDuplicated);
+            CourseMappingTeacher cmtNeedDuplicated = cmtDao.getByIdCourse(idCourseNeedDuplicated);
+            if(c!=null && cmtNeedDuplicated !=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                String newName = "Copy of " + c.getName();
+                Course newCourse = new Course(newId, newName, c.getDescription(), false,
+                        getMaxVersion(), new Date(System.currentTimeMillis()));
+                boolean check = cDao.create(newCourse);
+                if (check) {
+                    CourseMappingTeacher cmt = new CourseMappingTeacher();
+                    cmt.setCpID(util.getCpId(request));
+                    cmt.settID(util.getTid(request));
+                    cmt.setcID(newId);
+                    cmt.setSr(Constant.SHARE_PRIVATE);
+                    cmt.setStatus(Constant.STATUS_NOT_PUBLISH);
+                    cmt.setState(Constant.STATE_DUPLICATED);
+                    cmt.setDateCreated(new Date(System.currentTimeMillis()));
+                    cmt.setIsDeleted(false);
+                    cmt.setCpIdClone(cmtNeedDuplicated.getCpID());
+                    cmt.setcIdClone(cmtNeedDuplicated.getcID());
+                    check = cmtDao.create(cmt);
+                    if (!check) {
+                        return ERROR + ": An error has been occurred in server";
+                    }
+                } else {
+                    return  ERROR + ": An error has been occurred in server";
+                }
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String enablePublishButton(String idCourse){
+        LvDAO dao = new LvDAO();
+        try {
+            ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
+            for(Level lv : listLv){
+                boolean existedInTest = dao.checkQuestionTestInLevel(lv.getId());
+                boolean existedInObj = dao.checkQuestionObjInLevel(lv.getId());
+                if(!existedInObj || !existedInTest ){
+                    return ERROR;
+                }
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return SUCCESS;
+    }
+
+    /**
+     *
+     * @param idLv
+     * @return
+     */
+    public boolean checkQuestionExistedInTest(String idLv){
+        TDAO tDao = new TDAO();
+        try {
+            Test t = tDao.getByIdLevel(idLv);
+            if(t == null){
+                return false;
+            }
+
+        }catch (Exception e){
+
+        }
+        return false;
+    }
 }
 

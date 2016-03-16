@@ -4,6 +4,7 @@
 var servletAdd = "/TreeAddNodeServlet";
 var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
+var servletPublish = "/PublishCourseServlet";
 /**
  * connect to server when add level
  */
@@ -339,6 +340,7 @@ function addLesson(){
         }
     });
 }
+
 
 function editLesson(){
     $.ajax({

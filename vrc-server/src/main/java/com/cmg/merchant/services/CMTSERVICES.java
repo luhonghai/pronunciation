@@ -6,6 +6,7 @@ import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,29 @@ import java.util.Comparator;
  * this services use for get all course base on the mapping between course and teacher
  */
 public class CMTSERVICES {
+
+    public String ERROR = "error";
+    public String SUCCESS = "success";
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String publishCourse(String idCourse){
+        CMTDAO dao = new CMTDAO();
+        try {
+            CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+            dao.updateStatus(cmt.getId(),Constant.STATUS_PUBLISH);
+            return SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
+
+
+
     /**
      *
      * @param cpId
@@ -104,6 +128,13 @@ public class CMTSERVICES {
         return list;
     }
 
+    /**
+     *
+     * @param name
+     * @param cpId
+     * @param tId
+     * @return
+     */
     public ArrayList<CourseDTO> searchCourseHeader(String name, String cpId, String tId){
         CMTDAO dao = new CMTDAO();
         ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
@@ -137,6 +168,16 @@ public class CMTSERVICES {
         return list;
     }
 
+    /**
+     *
+     * @param cpName
+     * @param cName
+     * @param dateFrom
+     * @param dateTo
+     * @param cpId
+     * @param tId
+     * @return
+     */
     public ArrayList<CourseDTO> searchCourseDetail(String cpName,String cName,String dateFrom, String dateTo ,String cpId, String tId){
         CMTDAO dao = new CMTDAO();
         ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
@@ -175,4 +216,7 @@ public class CMTSERVICES {
         }
         return list;
     }
+
+
+
 }

@@ -65,7 +65,7 @@ public class LVMTDAO extends DataAccess<CourseMappingDetail> {
 
     /**
      *
-     * @param idCourse
+     *
      * @param idLevel
      * @param isTest
      * @return
