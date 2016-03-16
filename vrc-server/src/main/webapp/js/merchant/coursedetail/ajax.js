@@ -465,9 +465,32 @@ function enablePublishBtn(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                getPublishBtn().removeAttr("disabled");
+                //getPublishBtn().removeAttr("disabled");
             }else{
-                getPublishBtn().attr("disabled","disabled");
+                //getPublishBtn().attr("disabled","disabled");
+            }
+        },
+        error: function () {
+
+        }
+    });
+}
+
+
+function publishCourse(){
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "publish",
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                window.location.href = "/main-courses.jsp";
+            }else{
+
             }
         },
         error: function () {

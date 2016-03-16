@@ -29,6 +29,19 @@ function openPopup(itemData){
         getPercentPass().attr("idLevel",level.id);
         currentPopup.find("#btnDeleteTest").show();
         currentPopup.find("#arrowTest").html(nameOfCourse+">" + level.label + ">" + itemData.label);
+    }else if(itemData._actionClick == action_edit_lesson){
+        clearForm();
+        currentPopup.find("#titlePopupLesson").html("edit lesson");
+        getNameLesson().val(itemData.label);
+        getDescriptionLesson().val(itemData._description);
+        getTypeLesson().val(itemData._type);
+        getDetailLesson().val(itemData._details);
+        currentPopup.find("#btnDeleteLesson").show();
+        var objParent = treeAPI.itemData(currentParent);
+        getNameLesson().attr("objID",objParent.id);
+        var level = treeAPI.parent(currentParent);
+        var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }
     currentPopup.modal('show');
 }

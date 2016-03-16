@@ -186,12 +186,18 @@ function showAddWord(){
     });
 }
 
-function loadPhoneme(){
-    $("#loadPhonemes").click(function() {
+function loadPhoneme() {
+    $("#loadPhonemes").click(function () {
         getLoadPhoneme().attr("disabled", true);
         validateWord();
         loadPhonemes();
     })
+}
+function btnPublish(){
+    $(document).on("click","#publish",function() {
+        publishCourse();
+    });
+
 }
 
 $(document).ready(function(){
@@ -207,4 +213,5 @@ $(document).ready(function(){
     btnDeleteTest();
     showHelpIconTop();
     enablePublishBtn();
+    btnPublish();
 });
