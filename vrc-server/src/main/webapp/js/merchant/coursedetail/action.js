@@ -90,6 +90,14 @@ function openPopup(itemData){
 }
 
 
+function btnSaveCourse(){
+    $(document).on("click","#btnSaveCourse",function(){
+        if(validateFormCourse()){
+            editLevel();
+        }
+    });
+}
+
 /**
  * click on save Level button
  */

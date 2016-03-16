@@ -8,6 +8,73 @@ var servletPublish = "/PublishCourseServlet";
 /**
  * connect to server when add level
  */
+
+/**
+ * connect to server when edit level
+ */
+function editCourse(){
+    $.ajax({
+        url : servletEdit,
+        type : "POST",
+        data : {
+            action: action_edit_course,
+            idCourse : idCourse,
+            name: getCourseName().val(),
+            description: getCourseDescription().val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have update course success!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+/**
+ * connect to server when delete level
+ */
+function deleteCourse(){
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_course,
+            idCourse : idCourse
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have delete Level success!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+
+
 function addLevel(){
     $.ajax({
         url : servletAdd,

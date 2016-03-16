@@ -1,11 +1,14 @@
 package com.cmg.merchant.dao.course;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.metadata.TypeMetadata;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -88,6 +91,77 @@ public class CDAO extends DataAccess<Course> {
     }
 
 
+    /**
+     *
+     * @param idCourse
+     * @param name
+     * @param description
+     * @return
+     */
+    public boolean updateCourse(String idCourse, String name, String description){
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=? , description=?  WHERE id=?");
+        try {
+            q.execute(name,description,idCourse);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
 
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public void deleteCourseStep1(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteCourse1(idCourse);
+        System.out.println("sql delete course 1:  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public void deleteCourseStep2(String idCourse){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteCourse2(idCourse);
+        System.out.println("sql delete course 2 :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
 
 }

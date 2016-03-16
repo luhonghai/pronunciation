@@ -207,6 +207,42 @@ public class CourseServices {
         return name;
     }
 
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String deleteCourse(String idCourse){
+        CDAO cDao = new CDAO();
+        try {
+            cDao.deleteCourseStep1(idCourse);
+            cDao.deleteCourseStep2(idCourse);
+            return SUCCESS;
+        } catch (Exception e) {
+            logger.error("can not get name of course : " + e);
+        }
+        return ERROR;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @param name
+     * @param description
+     * @return
+     */
+    public String updateCourse(String idCourse, String name, String description){
+        CDAO cDao = new CDAO();
+        try {
+            boolean check = cDao.updateCourse(idCourse,name,description);
+            if(check){
+                return SUCCESS;
+            }
+        } catch (Exception e) {
+            logger.error("can not get name of course : " + e);
+        }
+        return ERROR;
+    }
 
     /**
      *
