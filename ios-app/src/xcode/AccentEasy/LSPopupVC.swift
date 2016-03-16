@@ -157,17 +157,17 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //print(indexPath.row)
-        let userProfile:UserProfile = AccountManager.currentUser()
-        userProfile.selectedCountry.idString = arrCountryData[indexPath.row].idString
-        AccountManager.updateProfile(userProfile)
         //let indexPath = tableView.indexPathForSelectedRow!
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
         //print(currentCell.textLabel!.text)
         
         //save language selection
+        let userProfile:UserProfile = AccountManager.currentUser()
+        userProfile.selectedCountry = arrCountryData[indexPath.row]
+        AccountManager.updateProfile(userProfile)
+        delegate?.closePopup(self)
         
     }
-    
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
         delegate?.closePopup(self)
