@@ -8,7 +8,7 @@
 
 import Foundation
 
-let IS_DEBUG = false
+let IS_DEBUG = true
 
 let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, please try again"
 

@@ -41,7 +41,7 @@ public class UserProfile: Mappable {
     public var isLogin:Bool = false
     public var lastSelectedMenuItem:String!
     public var licenseCode:String!
-    //public var selectedCountry:Country!
+    public var selectedCountry:AECountry!
     public var token:String!
     public var additionalToken:String!
     public var isActivatedLicence:Bool!
@@ -142,6 +142,7 @@ public class UserProfile: Mappable {
         isLogin    <= map["isLogin"]
         lastSelectedMenuItem    <= map["lastSelectedMenuItem"]
         licenseCode    <= map["licenseCode"]
+        selectedCountry    <= map["selectedCountry"]
         token    <= map["token"]
         additionalToken    <= map["additionalToken"]
         isActivatedLicence    <= map["isActivatedLicence"]

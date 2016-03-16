@@ -18,6 +18,7 @@ public class LiteTable {
     public static let PHONEME_SCORE = Table("PhonemeScore")
     public static let IPA_MAP_ARPABET = Table("IPAMapArpabet")
     public static let WORD_COLLECTION = Table("WordCollection")
+    public static let COUNTRY = Table("Country")
     
     public static let CREATE_TABLE_QUERIES = [
         LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
@@ -45,6 +46,7 @@ public class LiteTable {
 
 public class LiteColumn {
     public static let ID = Expression<Int64>("ID")
+    public static let IDSTRING = Expression<String?>("ID")
     public static let WORD = Expression<String?>("WORD")
     public static let SCORE = Expression<Int?>("SCORE")
     public static let DATA_ID = Expression<String?>("DATAID")
@@ -66,6 +68,8 @@ public class LiteColumn {
     public static let WORDS = Expression<String?>("WORDS")
     public static let IMG_TONGUE = Expression<String?>("IMGTONGUE")
     public static let MP3_URL_SHORT = Expression<String?>("MP3URLSHORT")
+    public static let IS_DEFAULT = Expression<Bool?>("ISDEFAULT")
+    public static let IMAGE_URL = Expression<String?>("IMAGEURL")
 }
 
 public class LiteEntity {

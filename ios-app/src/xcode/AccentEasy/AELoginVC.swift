@@ -112,10 +112,9 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
             
             return
         }
-        
-        let userProfile = UserProfile()
-        userProfile.username = txtEmail.text!
-        userProfile.password = txtPassword.text!
+        let userProfile = AccountManager.currentUser(username)
+        userProfile.username = username
+        userProfile.password = password
         userProfile.loginType = UserProfile.TYPE_EASYACCENT
         
         currentUser = userProfile

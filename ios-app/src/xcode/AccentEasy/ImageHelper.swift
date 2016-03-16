@@ -16,4 +16,9 @@ class ImageHelper {
         UIGraphicsEndImageContext()
         return newImage
     }
+    
+    class func imageWithImage(image image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
+        let newSize = CGSize(width: w, height: h)
+        return imageWithImage(image, scaledToSize: newSize)
+    }
 }

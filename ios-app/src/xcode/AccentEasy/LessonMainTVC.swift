@@ -1,35 +1,40 @@
 //
-//  OurTableViewController.swift
-//  SwiftSidebarMenu
+//  LessonMainTVC.swift
+//  AccentEasy
 //
-//  Created by CMGVN on 1/7/16.
+//  Created by CMGVN on 3/15/16.
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
 
-class OurTableViewController: UITableViewController {
+class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = "revealToggle:"
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        if self.revealViewController() != nil {
+            menuButton.target = self.revealViewController()
+            menuButton.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        
+        
+        let userProfile:UserProfile = AccountManager.currentUser()
+        if userProfile.selectedCountry == nil {
+            self.displayViewController(.Fade)
+        }
+        
     }
 
-    /*
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -37,7 +42,7 @@ class OurTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    /*override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
@@ -101,5 +106,21 @@ class OurTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func displayViewController(animationType: SLpopupViewAnimationType) {
+        
+        let lSPopupVC:LSPopupVC = LSPopupVC(nibName:"LSPopupVC", bundle: nil)
+        
+        lSPopupVC.delegate = self
+        
+        self.presentpopupViewController(lSPopupVC, animationType: animationType, completion: { () -> Void in
+            
+        })
+    }
+    
+    func closePopup(sender: LSPopupVC) {
+        self.dismissPopupViewController(.Fade)
+    }
+
 
 }

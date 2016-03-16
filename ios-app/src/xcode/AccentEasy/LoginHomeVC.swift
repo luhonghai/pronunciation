@@ -105,7 +105,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
                 appDelegate.window?.rootViewController = mainPageNav*/
                 //add data for JSONStringUserProfile
-                let userProfile:UserProfile = UserProfile()
+                let userProfile:UserProfile = AccountManager.currentUser(email)
                 userProfile.name = name
                 userProfile.username = email
                 userProfile.profileImage = urlImage
@@ -220,14 +220,16 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
                     //add data for JSONStringUserProfile
-                    let userProfile:UserProfile = UserProfile()
-                    userProfile.name = result.valueForKey("name") as! String
-                    let username = result.valueForKey("email")
+                     var username = result.valueForKey("email")
+                    
                     if username != nil {
-                        userProfile.username = username as! String
+                        //userProfile.username = username as! String
                     } else {
-                        userProfile.username = "\(userId)@facebook.com"
+                        username = "\(userId)@facebook.com"
                     }
+                    let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
+                    userProfile.username = username as! String
+                    userProfile.name = result.valueForKey("name") as! String
                     let dob = result.valueForKey("birthday");
                     if dob != nil {
                         userProfile.dob = dob as! String

@@ -31,22 +31,13 @@ class IPAPopupVC: UIViewController {
         // Do any additional setup after loading the view.
         
         var pImage = UIImage(named: "ic_play.png")!
-        pImage = scaleTo(image: pImage, w: 40, h: 40)
+        pImage = ImageHelper.imageWithImage(image: pImage, w: 40, h: 40)
         btnPlayExample.setImage(pImage, forState: UIControlState.Normal)
         
         var sImage = UIImage(named: "ic_graph.png")!
-        sImage = scaleTo(image: sImage, w: 30, h: 30)
+        sImage = ImageHelper.imageWithImage(image: sImage, w: 30, h: 30)
         btnShowChart.setImage(sImage, forState: UIControlState.Normal)
 
-    }
-    
-    private func scaleTo(image image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
-        let newSize = CGSize(width: w, height: h)
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        image.drawInRect(CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
-        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
     }
 
     override func didReceiveMemoryWarning() {
