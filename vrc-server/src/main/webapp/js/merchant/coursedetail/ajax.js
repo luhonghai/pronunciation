@@ -403,15 +403,13 @@ function deleteLesson(){
     });
 }
 function loadPhonemes(){
-    $("#loadPhonemes").click(function(){
-        getLoadPhoneme().attr("disabled",true);
         $.ajax({
             url: "ManagementWordOfQuestionServlet",
             type: "POST",
             dataType: "json",
             data: {
                 listPhonemes: "listPhonemes",
-                word: word
+                word: getAddWord().val()
             },
             success: function (data) {
                 var message = data.message;
@@ -453,7 +451,6 @@ function loadPhonemes(){
             }
 
         });
-    });
 }
 
 

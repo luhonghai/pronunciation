@@ -182,17 +182,26 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
-        $("#addWord").modal('show');
+        $("#addWordModal").modal('show');
     });
 }
 
+function loadPhoneme() {
+    $("#loadPhonemes").click(function () {
+        getLoadPhoneme().attr("disabled", true);
+        validateWord();
+        loadPhonemes();
+    })
+}
 function btnPublish(){
     $(document).on("click","#publish",function() {
         publishCourse();
     });
+
 }
 
 $(document).ready(function(){
+    loadPhoneme();
     showAddWord();
     btnSaveLesson();
     btnDeleteLesson();
