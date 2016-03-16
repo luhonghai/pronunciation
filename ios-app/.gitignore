@@ -29,3 +29,5 @@ target/**
 Podfile.lock
 Pods
 **/Pods
+*.ipa
+*.dSYM.zip
