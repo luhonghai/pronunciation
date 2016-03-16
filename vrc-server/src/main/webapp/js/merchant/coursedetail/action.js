@@ -186,6 +186,12 @@ function showAddWord(){
     });
 }
 
+function btnPublish(){
+    $(document).on("click","#publish",function() {
+        publishCourse();
+    });
+}
+
 $(document).ready(function(){
     showAddWord();
     btnSaveLesson();
@@ -198,4 +204,5 @@ $(document).ready(function(){
     btnDeleteTest();
     showHelpIconTop();
     enablePublishBtn();
+    btnPublish();
 });

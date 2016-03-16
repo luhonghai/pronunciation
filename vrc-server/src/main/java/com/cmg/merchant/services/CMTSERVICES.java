@@ -105,9 +105,9 @@ public class CMTSERVICES {
      */
     public ArrayList<CourseDTO> getCoursesForMainPage(final String cpId, String tId){
         ArrayList<CourseDTO> list = new ArrayList<>();
-        list.addAll(shareAllList(cpId, tId, Constant.STATUS_NOT_PUBLISH, Constant.SHARE_ALL));
-        list.addAll(shareInCompany(cpId, tId, Constant.STATUS_NOT_PUBLISH, Constant.SHARE_IN_COMPANY));
-        list.addAll(createByTeacher(cpId, tId, Constant.STATUS_NOT_PUBLISH));
+        list.addAll(shareAllList(cpId, tId, Constant.STATUS_PUBLISH, Constant.SHARE_ALL));
+        list.addAll(shareInCompany(cpId, tId, Constant.STATUS_PUBLISH, Constant.SHARE_IN_COMPANY));
+        list.addAll(createByTeacher(cpId, tId, Constant.STATUS_PUBLISH));
         if(list.size() > 0 ){
             Collections.sort(list,
                     new Comparator<CourseDTO>() {
@@ -123,6 +123,7 @@ public class CMTSERVICES {
                     dto.setBackgroundColor(Color.COURSE_CREATE_BY_OTHER_COMPANY);
                 }
                 dto.setTextColor(Color.TEXT_COLOR);
+                dto.setPageLink("/review-course.jsp?idCourse=" +dto.getIdCourse());
             }
         }
         return list;

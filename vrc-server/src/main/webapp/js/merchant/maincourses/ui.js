@@ -20,6 +20,7 @@ function buildCourse(dto){
     $link.css("border-radius", "5px");
     $link.css("border-color","transparent");
     $link.attr("title",dto.descriptionCourse);
+    $link.attr("href",dto.pageLink);
     $link.append($lblCourse);
     $link.append($lblInfor);
 
