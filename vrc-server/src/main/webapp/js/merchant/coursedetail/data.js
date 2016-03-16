@@ -64,6 +64,11 @@ function getTestValidateMessage(){
 function getLessonValidateMessage(){
     return $("#validateLessonMsg");
 }
+
+function getWordValidateMessage(){
+    return $("#validateWordMsg");
+}
+
 function getNameLesson(){
     var lessonName=$('#lessonName');
     return lessonName;

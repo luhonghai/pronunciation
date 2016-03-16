@@ -247,7 +247,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <label id="arrowLesson" class="modal-title"
                        style="text-align: left; padding-left: 15px;"><%=nameOfCourse%>
                 </label>
@@ -323,7 +323,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <label id="arrowQuestion" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
@@ -335,9 +335,9 @@
                         <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
                     </div>
                     <div class="form-group">
-                        <button id="btnAddWord" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;">
+                        <a id="btnAddWord" style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
                             <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i>
-                        </button>
+                        </a>
                         <div id="listWord">
 
                         </div>
@@ -368,25 +368,30 @@
     <!-- End of Modal dialog -->
 </div>
 
-<div id="addWord" class="modal fade">
-    <div class="modal-dialog">
+
+
+<div id="addWordModal" class="modal fade" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog  modal-sm">
         <div class="modal-content">
             <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
 
-                        <h1 align="center">add word</h1>
+                        <h2 align="center">add word</h2>
+                        <h4 id="validateWordMsg" class="modal-title validateMsg"
+                            style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
                         <form name="add" class="form-horizontal" id="addform">
                             <div class="form-group">
 
                                 <div class="row">
-                                    <div class="col-xs-4  col-sm-3">
+                                    <div class="col-xs-3  col-sm-2">
                                         <div class="row"><label class="control-label">Word:</label></div>
                                     </div>
                                     <div class="col-xs-5  col-sm-6">
                                         <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
                                     </div>
-                                    <div class="col-xs-3  col-sm-2">
+                                    <div class="col-xs-4  col-sm-4">
                                         <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" style="background-color: lightgreen;" value="yes" >Load Phonemes</button></div>
                                     </div>
                                 </div>
@@ -406,9 +411,16 @@
 
                             </div>
                             <div class="form-group">
-                                <div class="row add-word-group">
-                                    <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Submit</button>
-                                    <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+                                <div class="col-md-6" style="padding-left: 0px;">
+                                    <input type="hidden" class="action">
+                                    <input type="hidden" class="idHidden">
+                                    <img id="helpAddWord" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                                    <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                                </div>
+
+                                <div class="col-md-6" style="padding-right: 0px;">
+                                    <img style="float: right" id="btnSaveWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                                    <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                                 </div>
                             </div>
 
@@ -416,11 +428,14 @@
                     </div>
                 </div>
             </div>
-
-
+            <!-- End of Modal body -->
         </div>
+        <!-- End of Modal content -->
     </div>
+    <!-- End of Modal dialog -->
 </div>
+
+
 
 
 

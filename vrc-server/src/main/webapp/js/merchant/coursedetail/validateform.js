@@ -68,9 +68,9 @@ function validateWord(){
     var word = getAddWord().val();
     if (word == null || typeof word == "undefined" || word.length == 0){
         getLoadPhoneme().attr("disabled",false);
-       getAddWord().focus();
-        getLessonValidateMessage().html("Word not null!");
-        getLessonValidateMessage().show();
+        getAddWord().focus();
+        getWordValidateMessage().html("Word not null!");
+        getWordValidateMessage().show();
         return;
     }
 }
