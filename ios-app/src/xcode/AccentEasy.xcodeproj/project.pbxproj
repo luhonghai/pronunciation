@@ -25,6 +25,10 @@
 		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
 		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
+		9B4849E91C98FFBD002F193F /* IPAChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849E81C98FFBD002F193F /* IPAChartController.swift */; };
+		9B4849EB1C990055002F193F /* IPAChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849EA1C990055002F193F /* IPAChartCell.swift */; };
+		9B4849EE1C991BE7002F193F /* IPAInfoPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */; };
+		9B4849EF1C991BE7002F193F /* IPAInfoPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B4849ED1C991BE7002F193F /* IPAInfoPopup.xib */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
 		9B5F334A1C77129A00E85629 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C21C77129A00E85629 /* BarChartView.swift */; };
@@ -462,6 +466,10 @@
 		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
 		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
+		9B4849E81C98FFBD002F193F /* IPAChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAChartController.swift; path = IPAInformation/IPAChartController.swift; sourceTree = "<group>"; };
+		9B4849EA1C990055002F193F /* IPAChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAChartCell.swift; path = IPAInformation/IPAChartCell.swift; sourceTree = "<group>"; };
+		9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAInfoPopup.swift; path = IPAInformation/IPAInfoPopup.swift; sourceTree = "<group>"; };
+		9B4849ED1C991BE7002F193F /* IPAInfoPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IPAInfoPopup.xib; path = IPAInformation/IPAInfoPopup.xib; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
 		9B5F32C21C77129A00E85629 /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
@@ -879,6 +887,17 @@
 				9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */,
 			);
 			name = Entity;
+			sourceTree = "<group>";
+		};
+		9B4849DC1C98FF65002F193F /* IPAInformation */ = {
+			isa = PBXGroup;
+			children = (
+				9B4849E81C98FFBD002F193F /* IPAChartController.swift */,
+				9B4849EA1C990055002F193F /* IPAChartCell.swift */,
+				9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */,
+				9B4849ED1C991BE7002F193F /* IPAInfoPopup.xib */,
+			);
+			name = IPAInformation;
 			sourceTree = "<group>";
 		};
 		9B5F32A81C77128100E85629 /* Charts */ = {
@@ -1482,6 +1501,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				9B4849DC1C98FF65002F193F /* IPAInformation */,
 				C172A5841C97FD4900BBBEC4 /* LessonController */,
 				C15EDBEB1C97B271006E7BA3 /* LanguageSelectionController */,
 				C13C28F31C800C98000CC11D /* FreeStyleController */,
@@ -1988,6 +2008,7 @@
 				C16CD2B11C44B1EC00537461 /* p_btn_login_accenteasy.png in Resources */,
 				C16CD2DC1C44B1EC00537461 /* white_panel_background.9.png in Resources */,
 				C16CD2F51C44B1EC00537461 /* background_popover.9.png in Resources */,
+				9B4849EF1C991BE7002F193F /* IPAInfoPopup.xib in Resources */,
 				C16CD2C51C44B1EC00537461 /* p_next.png in Resources */,
 				C16CD2E51C44B1EC00537461 /* ic_graph.png in Resources */,
 				C16CD2B21C44B1EC00537461 /* p_btn_login_facebook.png in Resources */,
@@ -2092,6 +2113,7 @@
 				9BA3AB2E1C4F839800C6631D /* BaseDatabaseAdapter.swift in Sources */,
 				9B5F33531C77129A00E85629 /* PieRadarChartViewBase.swift in Sources */,
 				9B5F34291C771E6000E85629 /* Response.swift in Sources */,
+				9B4849EE1C991BE7002F193F /* IPAInfoPopup.swift in Sources */,
 				9B5F33B31C77129A00E85629 /* ChartYAxisRendererRadarChart.swift in Sources */,
 				9B5F33561C77129A00E85629 /* ChartAxisBase.swift in Sources */,
 				9B5F33BC1C77129A00E85629 /* ChartColorTemplates.swift in Sources */,
@@ -2132,6 +2154,7 @@
 				C15EDBFD1C97B68A006E7BA3 /* LSPopupTVC.swift in Sources */,
 				9B5F33A21C77129A00E85629 /* CandleChartDataProvider.swift in Sources */,
 				9B5F33751C77129A00E85629 /* BubbleChartData.swift in Sources */,
+				9B4849E91C98FFBD002F193F /* IPAChartController.swift in Sources */,
 				9B5F33971C77129A00E85629 /* ChartFillFormatter.swift in Sources */,
 				9B5F33E31C771B5A00E85629 /* Operators.swift in Sources */,
 				9B9BE6F31C62F8F400C84823 /* GraphPageViewController.swift in Sources */,
@@ -2293,6 +2316,7 @@
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
 				9B5F341A1C771D6800E85629 /* Setter.swift in Sources */,
 				9B5F33841C77129A00E85629 /* PieChartDataSet.swift in Sources */,
+				9B4849EB1C990055002F193F /* IPAChartCell.swift in Sources */,
 				90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
