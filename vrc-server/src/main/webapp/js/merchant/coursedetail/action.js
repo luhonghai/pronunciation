@@ -71,14 +71,14 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_add_question){
         clearForm();
-        currentPopup.find("#titlePopupLesson").html("add question");
+        currentPopup.find("#titlePopupQuestion").html("add question");
         currentPopup.find("#btnDeleteQuestion").hide();
         var lesson = treeAPI.itemData(currentParent);
         var obj = treeAPI.parent(currentParent);
         var objItemData = treeAPI.itemData(obj);
-        var level = treeAPI.parent(currentParent);
+        var level = treeAPI.parent(obj);
         var levelItemData = treeAPI.itemData(level);
-        currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + ">"+ lesson.label);
+        currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }
     currentPopup.modal('show');
 }
@@ -182,7 +182,7 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
-        $("#add").modal('show');
+        $("#addWord").modal('show');
     });
 }
 
@@ -197,5 +197,5 @@ $(document).ready(function(){
     btnSaveTest();
     btnDeleteTest();
     showHelpIconTop();
-    btnPublish();
+    enablePublishBtn();
 });

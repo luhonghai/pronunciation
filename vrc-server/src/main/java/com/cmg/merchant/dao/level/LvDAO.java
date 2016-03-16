@@ -149,6 +149,7 @@ public class LvDAO extends DataAccess<Level> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlUtil sqlUtil = new SqlUtil();
         String sql = sqlUtil.getSqlCheckQuestionTestInLevel(idLv);
+        System.out.println("sql search question of test in level " + sql);
         Query q = pm.newQuery("javax.jdo.query.SQL",sql);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -175,6 +176,7 @@ public class LvDAO extends DataAccess<Level> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlUtil sqlUtil = new SqlUtil();
         String sql = sqlUtil.getSqlCheckQuestionObjInLevel(idLv);
+        System.out.println("sql search question of obj in level " + sql);
         Query q = pm.newQuery("javax.jdo.query.SQL",sql);
         try {
             List<Object> tmp = (List<Object>) q.execute();
