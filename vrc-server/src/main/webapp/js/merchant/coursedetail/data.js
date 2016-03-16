@@ -22,6 +22,20 @@ function clearForm(){
     currentPopup.find("#btndelete").hide();
 }
 
+function getCourseName(){
+    return $("#courseName");
+}
+
+function getCourseDescription(){
+    return $("#courseDescription");
+}
+
+function getCourseValidateMessage(){
+    var validateMsg = $("#validateMsgCourse");
+    return validateMsg;
+}
+
+
 function getLevelName(){
     var name = $('#lvName');
     return name;
