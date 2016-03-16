@@ -99,6 +99,10 @@ function getListWeight(){
     var listWeight=$("#listWeight");
     return listWeight;
 }
+function getWeight(){
+    var weight=$("#weight");
+    return weight;
+}
 
 function getAddWord(){
     var addWord=$("#addWord");

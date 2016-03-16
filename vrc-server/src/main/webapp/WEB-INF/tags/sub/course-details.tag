@@ -377,7 +377,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
-                        <label id="arrowWord" class="modal-title"></label>
+                        <label id="arrowWord" class="modal-title" style="margin-left: -15px;"></label>
                         <h2 align="center">add word</h2>
                         <h4 id="validateWordMsg" class="modal-title validateMsg"
                             style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
@@ -390,7 +390,7 @@
 
                                 <div class="row">
                                     <div class="col-xs-3  col-sm-2">
-                                        <div class="row"><label class="control-label">Word:</label></div>
+                                        <div class="row"><p>Word:</p></div>
                                     </div>
                                     <div class="col-xs-5  col-sm-6">
                                         <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>

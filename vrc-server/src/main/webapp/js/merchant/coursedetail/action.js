@@ -185,6 +185,16 @@ function showAddWord(){
         var row=$("#arrowQuestion").text();
         $("#arrowWord").text(row);
         $("#addWordModal").modal('show');
+        $("#addWord").val("");
+        $("#listPhonmes").html("");
+        $("#listWeight").html("");
+        $("#listIpa").html("");
+        $(".phoneme-lable").html("");
+        $(".weight-lable").html("");
+        $(".ipa-lable").html("");
+        $("#yesadd").attr("disabled", true);
+        $("#loadPhonemes").attr("disabled",false)
+        $("#addWord").attr("disabled",false);
     });
 }
 
@@ -204,6 +214,8 @@ function btnPublish(){
 }
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
+        var listPhonemeName=getListPhonemes();
+        var listWeightName=getWeight();
         var output = [];
         $(listPhonemeName).find('input').each(function(e){
             var value = $(this).val();
