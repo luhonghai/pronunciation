@@ -3,10 +3,7 @@ package com.cmg.merchant.servlet.tree;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
-import com.cmg.merchant.services.CourseServices;
-import com.cmg.merchant.services.LessonServices;
-import com.cmg.merchant.services.LevelServices;
-import com.cmg.merchant.services.TestServices;
+import com.cmg.merchant.services.*;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
@@ -64,13 +61,9 @@ public class TreeAddNodeServlet extends BaseServlet {
             Gson gson=new Gson();
             String listWord = request.getParameter("listWord");
             ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
-            List<WeightPhonemesDTO> list=listWords.getListWord();
-            String idLesson=listWords.getIdLesson();
-            if(list!=null){
-                for(int i=0;i<list.size();i++){
-
-                }
-            }
+            QuestionServices questionServices=new QuestionServices();
+            String txt = questionServices.addQuestionToLesson(listWords);
+            response.getWriter().println(txt);
         }
     }
 
