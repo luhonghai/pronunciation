@@ -14,6 +14,7 @@
     var idCourse = "<%=idCourse%>";
     var nameOfCourse = "<%=nameOfCourse%>";
     var loadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
+    var action_edit_course = "<%=Constant.ACTION_EDIT_COURSE%>";
     var action_edit_level = "<%=Constant.ACTION_EDIT_LEVEL%>";
     var action_edit_obj = "<%=Constant.ACTION_EDIT_OBJ%>";
     var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
@@ -58,6 +59,50 @@
         </div>
     </div>
 </div>
+
+
+<div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <label id="arrowCourse" class="modal-title"
+                       style="text-align: left;"><%=nameOfCourse%>
+                </label>
+                <h2 id='titlePopupCourse' class="modal-title">course management</h2>
+                <h4 id="validateMsgCourse" class="modal-title validateMsg"
+                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
+                    name</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addCourse" name="addform">
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="courseName">name:</label>
+
+                        <div class="col-md-8">
+                            <input type="text" disabled="disabled" class="form-control" id="courseName" name="name"
+                                   placeholder="Course Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 lbl_addForm" for="courseDescription">description:</label>
+
+                        <div class="col-md-8">
+                            <textarea disabled="disabled" rows="2" class="form-control" id="courseDescription" name="description"
+                                      placeholder="Course description"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+
+
 <div id="popupLevel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
