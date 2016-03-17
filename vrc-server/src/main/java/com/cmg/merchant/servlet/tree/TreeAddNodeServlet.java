@@ -1,6 +1,7 @@
 package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
 import com.cmg.merchant.services.CourseServices;
 import com.cmg.merchant.services.LessonServices;
@@ -25,26 +26,7 @@ import java.util.List;
 public class TreeAddNodeServlet extends BaseServlet {
     private static final Logger logger = Logger.getLogger(TreeAddNodeServlet.class
             .getName());
-   class ListWord{
-       private List<WeightPhonemesDTO> listWord;
-       private String idLesson;
 
-       public List<WeightPhonemesDTO> getListWord() {
-           return listWord;
-       }
-
-       public void setListWord(List<WeightPhonemesDTO> listWord) {
-           this.listWord = listWord;
-       }
-
-       public String getIdLesson() {
-           return idLesson;
-       }
-
-       public void setIdLesson(String idLesson) {
-           this.idLesson = idLesson;
-       }
-   }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
@@ -81,7 +63,7 @@ public class TreeAddNodeServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_QUESTION)){
             Gson gson=new Gson();
             String listWord = request.getParameter("listWord");
-            ListWord listWords=gson.fromJson(listWord, ListWord.class);
+            ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
             List<WeightPhonemesDTO> list=listWords.getListWord();
             String idLesson=listWords.getIdLesson();
             if(list!=null){

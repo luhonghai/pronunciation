@@ -31,9 +31,6 @@ public class QuestionServices {
 
     public String addQuestionToLesson(String idObj, String name, String description,String type,String detail){
         String idLesson = UUIDGenerator.generateUUID().toString();
-        if(isExistedLessonInObj(idObj, name, null)){
-            return ERROR + ": name already existed in objective!";
-        }
         String message = addQuestionToDB(idLesson, name, description, type, detail);
         if(message.equalsIgnoreCase(ERROR)){
             return ERROR + ": an error has been occurred in server!";
@@ -43,20 +40,10 @@ public class QuestionServices {
     }
 
     public String addQuestionToDB(String id, String name, String description,String type,String detail){
-        LDAO dao = new LDAO();
-        String message;
+
+        String message=null;
         try {
-            LessonCollection lesson = new LessonCollection();
-            lesson.setId(id);
-            lesson.setName(name);
-            lesson.setNameUnique(detail);
-            lesson.setType(type);
-            lesson.setDescription(description);
-            lesson.setVersion(getMaxVersion());
-            lesson.setDateCreated(new Date(System.currentTimeMillis()));
-            lesson.setIsDeleted(false);
-            dao.create(lesson);
-            message = id;
+
         }catch(Exception e){
             message = ERROR;
             logger.error("Can not add Objective : " + name + " because : " + e.getMessage());
@@ -67,44 +54,13 @@ public class QuestionServices {
 
 
     public String addMappingQuestionToLesson(String idObj, String idLesson ){
-        OMLDAO dao = new OMLDAO();
+
         try {
-            ObjectiveMapping objectiveMapping = new ObjectiveMapping();
-            objectiveMapping.setId(UUIDGenerator.generateUUID().toString());
-            objectiveMapping.setIdObjective(idObj);
-            objectiveMapping.setIdLessonCollection(idLesson);
-            objectiveMapping.setIndex(getIndexForLesson(idObj));
-            objectiveMapping.setIsDeleted(false);
-            boolean check = dao.create(objectiveMapping);
-            if(!check){
-                return ERROR + ": an error has been occurred in server!";
-            }
+
         }catch (Exception e){e.printStackTrace();
             return ERROR + ": an error has been occurred in server!";
         }
         return SUCCESS;
-    }
-    public boolean isExistedLessonInObj(String idLesson, String name, String idObj){
-        LDAO dao = new LDAO();
-        try {
-            List<LessonCollection> list = dao.getAllByIdObj(idObj);
-            if(idLesson!=null){
-                for(LessonCollection lesson : list){
-                    if(lesson.getName().equalsIgnoreCase(name) && !lesson.getId().equals(idLesson)){
-                        return true;
-                    }
-                }
-            }else{
-                for(LessonCollection lesson : list){
-                    if(lesson.getName().equalsIgnoreCase(name)){
-                        return true;
-                    }
-                }
-            }
-        }catch (Exception e){
-            return true;
-        }
-        return false;
     }
 }
 
