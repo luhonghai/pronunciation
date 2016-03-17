@@ -2548,11 +2548,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="WR5-An-sLd"/>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="y7T-RE-Gak"/>
         <segue reference="8jd-vc-94q"/>
         <segue reference="b3j-3D-4fV"/>
+        <segue reference="y7T-RE-Gak"/>
         <segue reference="0GI-4W-Bce"/>
+        <segue reference="eFf-YZ-v5D"/>
+        <segue reference="N37-bx-7d9"/>
     </inferredMetricsTieBreakers>
 </document>

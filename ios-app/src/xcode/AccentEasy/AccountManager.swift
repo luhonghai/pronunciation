@@ -177,12 +177,17 @@ class AccountManager {
     }
     
     class func activate(code: String, userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        print("run in active code")
         userProfile.deviceInfo = DeviceManager.deviceInfo()
+        print("run in active code2")
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in
+                print("error")
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
+        
+        print("device info \(JSONHelper.toJson(userProfile.deviceInfo))")
         
         client.post("/activate").type("form").send(["acc":code,"version_code" : DeviceManager.appVersion(),"user":userProfile.username,"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in

@@ -72,15 +72,18 @@ class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
     func confirmCodeAE() {
         showLoadding()
         let codeConfirm:String = txtcode.text!
+        print(codeConfirm)
         AccountManager.activate(codeConfirm, userProfile: currentUser) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
                 if success {
+                    print("success response")
                     SweetAlert().showAlert("validation successful!", subTitle: message, style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
                         if isOk == true {
                             self.performSegueWithIdentifier("ConfirmRegisterGoToLogin", sender: self)
                         }
                     }
                 } else {
+                    print("error response")
                     self.hidenLoadding()
                     AccountManager.showError("could not activate", message: message)
                 }

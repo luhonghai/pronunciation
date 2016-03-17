@@ -181,7 +181,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
                     self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                 } else {
                     self.hidenLoadding()
-                    AccountManager.showError("could not register")
+                    AccountManager.showError("could not register", message: message)
                 }
             })
         }
