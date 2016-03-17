@@ -480,6 +480,37 @@ function deleteLesson(){
         }
     });
 }
+
+function addQuestion(listWord){
+    $.ajax({
+        url : servletAdd,
+        type : "POST",
+        data : {
+            action: action_add_question,
+            listWord: JSON.stringify(listWord)
+
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have add Lesson success fully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+
 function loadPhonemes(){
         $.ajax({
             url: "ManagementWordOfQuestionServlet",

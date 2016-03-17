@@ -232,6 +232,7 @@ function btnPublish(){
     });
 
 }
+var save=[];
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var nameWord=$("#addWord").val();
@@ -239,6 +240,7 @@ function saveWord(){
         getListWord().append(' <div style="margin-top: 5px;" id="'+idWord+'" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
         var listPhonemeName=getListPhonemes();
         var output = [];
+
         $(listPhonemeName).find('input').each(function(e){
             var value = $(this).val();
             var index = $(this).attr("index");
@@ -250,11 +252,21 @@ function saveWord(){
             });
         });
         $("#addWordModal").modal('hide');
-        output.clear();
-        return output;
-
+        //output.clear();
+        save.push({
+            id:idWord,
+            word:nameWord,
+            values:output
+        })
+       console.log(save);
     });
 
+}
+
+function btnAddQuestion(){
+    $(document).on("click","#btnSaveQuestion",function() {
+
+    });
 }
 
 

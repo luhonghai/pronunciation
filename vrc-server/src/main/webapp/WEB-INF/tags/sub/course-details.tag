@@ -325,7 +325,6 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm">type:</label>
-
                         <div class="col-md-8">
                             <select id="lessonType" style="padding: 2px;">
                                 <option value="accuracy">accuracy</option>

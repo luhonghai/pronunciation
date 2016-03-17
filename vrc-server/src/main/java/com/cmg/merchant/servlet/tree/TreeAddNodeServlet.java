@@ -56,7 +56,7 @@ public class TreeAddNodeServlet extends BaseServlet {
             LessonServices lessonServices = new LessonServices();
             String txt = lessonServices.addLessonToObj(idObjective, lessonName,lessonDescription,lessonType,lessonDetail);
             response.getWriter().println(txt);
-        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_LESSON)){
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_QUESTION)){
 
         }
     }

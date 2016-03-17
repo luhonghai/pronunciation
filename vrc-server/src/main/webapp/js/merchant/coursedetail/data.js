@@ -243,3 +243,45 @@ function initHelpAddWordForTest(){
 
     return $html;
 }
+
+
+function initHelpAllCourse(){
+    var $html = $("<div>");
+    $html.html("<p>A selection of courses that have been created and are available for you to use are listed on this page.</p>");
+    $html.append("<p>The courses in the list may have been created by you or by someone else that has chosen to share them, either from within or from outside your organisation.</p>");
+    $html.append("<p>The courses are colour codes as follows:</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #17375E'></label> created by you or someone in your organisation</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #558ED5'></label> created by someone in a different organisation</p>");
+    $html.append("<p>The name of the organisation that originally created the course is displayed together with the date that it was published.</p>");
+    $html.append("<p>You can find courses from the company name, course title or by the created date using the search function and drop down filter at the top of the page.</p>");
+    $html.append("<p>If you hover over the course title button you will be able to view a short description if it was added by the originator. </p>");
+    $html.append("<p>If you double click on a course title button, you can view the content and decide if you would like to add it to your own list of courses.</p>");
+    $html.append("<p>If you choose to do this, you will create a duplicate copy and you will be able to edit the content to suit your own requirements.</p>");
+    return $html;
+}
+
+
+function initHelpPreview(){
+    var $html = $("<div>");
+    $html.html("<p>1. You can check any of the content by hovering over and selecting  the appropriate buttons in the tree.</p>");
+    $html.append("<p>2. You can see what the course would look like on a phone by <img src=""> selecting ‘preview’.</p>");
+    $html.append("<p>3. If you would like to duplicate the course, select ‘copy’.</p>");
+    $html.append("<p>This will add the course to your list of ‘my courses’. You can edit the content and you will need to publish it to make it available to add to your classes.</p>");
+    return $html;
+}
+
+
+function initHelpMyCourse(){
+    var $html = $("<div>");
+    $html.html("<p>Any courses that you have copied or created yourself are listed on this page.</p>");
+    $html.append("<p>Courses must be published in order to make them available to add to your classes.</p>");
+    $html.append("<p>The courses are colour codes as follows</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #17375E'></label> created by you or copied and edited</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #558ED5'></label> copied without editing</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #7330A5'></label> duplicate of a course you already have in your list" +
+    "(You will not be able to publish an exact copy of a course" +
+    "that you already have in ‘my courses’ .You need to edit something and publish it to make it available to add to your classes).</p>");
+    $html.append("<p><img src="">This icon indicates that a course has not been published yet.</p>");
+
+    return $html;
+}
