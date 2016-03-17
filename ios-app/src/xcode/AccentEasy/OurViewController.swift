@@ -15,6 +15,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     var userProfileSaveInApp:NSUserDefaults!
     
+    let arrayRandomWord = ["necessarily", "rural", "squirrel", "future","british", "colonel", "penguin", "sixth","anemone", "choir", "refrigerator", "eighth","jewellery", "bath", "drawer", "demure","finance", "router", "university", "credit"]
+    
     let kCellIdentifier = "cellIdentifier"
     //var loginParameter:NSUserDefaults!
     var JSONStringUserProfile:String!
@@ -145,8 +147,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //load word default
         lessonDBAdapter = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
-
+        
+        
+        let randomIndex = Int(arc4random_uniform(UInt32(arrayRandomWord.count)))
+        print("word random")
+        print(arrayRandomWord[randomIndex])
         GlobalData.getInstance().selectedWord = ""
+        
+        selectedWord = WordCollection()
+        selectedWord.word = arrayRandomWord[randomIndex]
         
     }
     
