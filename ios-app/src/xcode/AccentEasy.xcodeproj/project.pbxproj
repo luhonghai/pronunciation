@@ -209,6 +209,8 @@
 		C1304D1F1C9808C800CE72C5 /* LessonMainTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */; };
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
 		C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */; };
+		C1304D411C9972C600CE72C5 /* LessonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */; };
+		C1304D421C9972C600CE72C5 /* LessonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */; };
 		C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D561C58B75C0036A5E9 /* Login.swift */; };
 		C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */; };
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
@@ -661,6 +663,8 @@
 		C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainTVC.swift; sourceTree = "<group>"; };
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
 		C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupCell.xib; sourceTree = "<group>"; };
+		C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTableViewCell.swift; sourceTree = "<group>"; };
+		C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonTableViewCell.xib; sourceTree = "<group>"; };
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
@@ -1701,6 +1705,8 @@
 			isa = PBXGroup;
 			children = (
 				C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */,
+				C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */,
+				C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -1955,6 +1961,7 @@
 				C16CD2E81C44B1EC00537461 /* ic_next.png in Resources */,
 				C16CD2F11C44B1EC00537461 /* ic_up.png in Resources */,
 				C16CD2FC1C44B1EC00537461 /* help_content_5.png in Resources */,
+				C1304D421C9972C600CE72C5 /* LessonTableViewCell.xib in Resources */,
 				C16CD2D91C44B1EC00537461 /* tab_graph.xml in Resources */,
 				C16CD2C41C44B1EC00537461 /* p_menu_setting.png in Resources */,
 				C16CD2AD1C44B1EC00537461 /* ic_menu_accenteasy.png in Resources */,
@@ -2231,6 +2238,7 @@
 				9B5F33A01C77129A00E85629 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
 				C13D48521C8954F800D630A4 /* FreeStyleVC.swift in Sources */,
+				C1304D411C9972C600CE72C5 /* LessonTableViewCell.swift in Sources */,
 				9B5F33B81C77129A00E85629 /* LineScatterCandleRadarChartRenderer.swift in Sources */,
 				C13E44C21C6093C300EB6075 /* SphinxResult.swift in Sources */,
 				9B5F33721C77129A00E85629 /* BarChartDataSet.swift in Sources */,

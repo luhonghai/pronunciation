@@ -33,6 +33,10 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
             self.displayViewController(.Fade)
         }
         
+        
+        //cell
+        let cellNib = UINib(nibName: "LSPopupCell", bundle: nil)
+        self.tableView.registerNib(cellNib, forCellReuseIdentifier: "cell")
     }
 
     override func didReceiveMemoryWarning() {
