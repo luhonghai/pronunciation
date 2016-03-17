@@ -230,22 +230,20 @@ function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
-        getListWord().append(' <div style="margin-top: 5px;" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
-
-        $("#addWordModal").modal('hide');
+        getListWord().append(' <div style="margin-top: 5px;" id="'+idWord+'" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
         var listPhonemeName=getListPhonemes();
-        var listWeightName=getWeight();
         var output = [];
         $(listPhonemeName).find('input').each(function(e){
             var value = $(this).val();
             var index = $(this).attr("index");
-            var weight = $(listWeightName + index).val();
+            var weight = $("#weight" + index).val();
             output.push({
                 index : parseInt(index),
                 phoneme : value,
                 weight : parseFloat(weight)
             });
         });
+        $("#addWordModal").modal('hide');
         output.clear();
         return output;
 
