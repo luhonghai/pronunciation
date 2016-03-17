@@ -32,8 +32,8 @@ function editCourse(){
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
-                currentPopup.find(".validateMsg").show();
-            }
+                currentPopup.find(".validateMsg").show()
+            };
         },
         error: function () {
             currentPopup.find(".validateMsg").html("Could not connect to server!");
