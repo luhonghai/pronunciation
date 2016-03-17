@@ -260,7 +260,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 lbl_addForm" for="percent">pass %:</label>
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="percent" name="percent"
+                            <input type="text" onkeypress="return isNumberKey(event,this)"  class="form-control" id="percent" name="percent"
                                    placeholder="Percent pass">
                         </div>
                     </div>
@@ -268,7 +268,7 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTest" class="helpInfor"  src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
