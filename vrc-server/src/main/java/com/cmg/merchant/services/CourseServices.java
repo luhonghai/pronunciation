@@ -138,7 +138,7 @@ public class CourseServices {
         CMTDAO dao = new CMTDAO();
         ArrayList<String> listSuggestion = new ArrayList<>();
         try {
-            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_NOT_PUBLISH,course);
+            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_NOT_PUBLISH, course);
             if (courses != null && courses.size() > 0) {
                 for (CourseDTO c : courses) {
                     listSuggestion.add(c.getNameCourse());
@@ -214,10 +214,13 @@ public class CourseServices {
      */
     public String deleteCourse(String idCourse){
         CDAO cDao = new CDAO();
+        CMTDAO mapDao = new CMTDAO();
         try {
-            cDao.deleteCourseStep1(idCourse);
-            cDao.deleteCourseStep2(idCourse);
-            return SUCCESS;
+            if(mapDao.removeMappingCourse(idCourse)){
+                cDao.deleteCourseStep1(idCourse);
+                cDao.deleteCourseStep2(idCourse);
+                return SUCCESS;
+            }
         } catch (Exception e) {
             logger.error("can not get name of course : " + e);
         }
@@ -234,7 +237,7 @@ public class CourseServices {
     public String updateCourse(String idCourse, String name, String description){
         CDAO cDao = new CDAO();
         try {
-            boolean check = cDao.updateCourse(idCourse,name,description);
+            boolean check = cDao.updateCourse(idCourse, name, description);
             if(check){
                 return SUCCESS;
             }
@@ -311,23 +314,6 @@ public class CourseServices {
         return SUCCESS;
     }
 
-    /**
-     *
-     * @param idLv
-     * @return
-     */
-    public boolean checkQuestionExistedInTest(String idLv){
-        TDAO tDao = new TDAO();
-        try {
-            Test t = tDao.getByIdLevel(idLv);
-            if(t == null){
-                return false;
-            }
 
-        }catch (Exception e){
-
-        }
-        return false;
-    }
 }
 
