@@ -104,7 +104,7 @@ function validateFormLesson(){
     var name = getNameLesson().val();
     if(name == '' || typeof name === 'undefined'){
         getNameLesson().focus();
-        getLessonValidateMessage().html("Please enter a name");
+        getLessonValidateMessage().html("Please enter name");
         getLessonValidateMessage().show();
         return false;
     }
@@ -112,7 +112,7 @@ function validateFormLesson(){
     var description = getDescriptionLesson().val();
     if(description == '' || typeof description === 'undefined'){
         getDescriptionLesson().focus();
-        getLessonValidateMessage().html("Please enter a description");
+        getLessonValidateMessage().html("Please enter description");
         getLessonValidateMessage().show();
         return false;
     }
@@ -120,14 +120,14 @@ function validateFormLesson(){
     var type = getTypeLesson().val();
     if(type == '' || typeof type === 'undefined'){
         getTypeLesson().focus();
-        getLessonValidateMessage().html("Please enter a type");
+        getLessonValidateMessage().html("Please enter type");
         getLessonValidateMessage().show();
         return false;
     }
     var detail = getDetailLesson().val();
     if(detail == '' || typeof detail === 'undefined'){
         getDetailLesson().focus();
-        getLessonValidateMessage().html("Please enter a details lesson");
+        getLessonValidateMessage().html("Please enter details lesson");
         getLessonValidateMessage().show();
         return false;
     }
