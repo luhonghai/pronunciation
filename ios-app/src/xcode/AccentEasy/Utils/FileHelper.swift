@@ -79,4 +79,13 @@ class FileHelper {
             
         }
     }
+    
+    class func readFileBundle(name: String!, type: String!) -> String {
+        do {
+            return try readFile(NSBundle.mainBundle().pathForResource(name, ofType: type)!)
+        } catch {
+            
+        }
+        return ""
+    }
 }

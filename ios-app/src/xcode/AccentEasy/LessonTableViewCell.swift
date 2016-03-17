@@ -10,9 +10,15 @@ import UIKit
 
 class LessonTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var lblTitle: UILabel!
+    
+    @IBOutlet weak var lblScore: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        lblScore.layer.cornerRadius = lblScore.frame.width / 2
+        self.layer.cornerRadius = 5
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

@@ -19,6 +19,11 @@ public class LiteTable {
     public static let IPA_MAP_ARPABET = Table("IPAMapArpabet")
     public static let WORD_COLLECTION = Table("WordCollection")
     public static let COUNTRY = Table("Country")
+    public static let LESSON_COLLECTION = Table("LessonCollection")
+    public static let OBJECTIVE = Table("Objective")
+    public static let LEVEL = Table("Level")
+    public static let QUESTION = Table("Question")
+    public static let TEST  = Table("LessonTest")
     
     public static let CREATE_TABLE_QUERIES = [
         LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
@@ -71,6 +76,10 @@ public class LiteColumn {
     public static let IS_DEFAULT = Expression<Bool?>("ISDEFAULT")
     public static let IMAGE_URL = Expression<String?>("IMAGEURL")
     public static let INDEXING_TYPE = Expression<Int?>("INDEXINGTYPE")
+    public static let IS_DEMO = Expression<Bool?>("ISDEMO")
+    public static let IS_DEFAULT_ACTIVATED = Expression<Bool?>("ISDEFAULTACTIVATED")
+    public static let TITLE = Expression<String?>("TITLE")
+    public static let PERCENT_PASS = Expression<Double?>("PERCENTPASS")
 }
 
 public class LiteEntity {

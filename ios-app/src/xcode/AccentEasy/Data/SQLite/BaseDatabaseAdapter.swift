@@ -30,8 +30,16 @@ public class BaseDatabaseAdapter {
     }
     
     public func query<T: LiteEntity>(table: Table) throws -> Array<T> {
+        return try query(db!.prepare(table))
+    }
+    
+    public func query<T: LiteEntity>(statement: Statement) throws -> Array<T> {
+        return try query(statement)
+    }
+    
+    public func query<T: LiteEntity>(rows: AnySequence<Row>) throws -> Array<T> {
         var list = Array<T>()
-        for row in try db!.prepare(table) {
+        for row in rows {
             let obj = T()
             obj.parse(row)
             list.append(obj)
@@ -63,6 +71,19 @@ public class BaseDatabaseAdapter {
         }
         return nil
     }
+    
+    public func find<T: LiteEntity>(statement: Statement) throws -> T! {
+        return try find(statement)
+    }
+    
+    public func find<T: LiteEntity>(rows: AnySequence<Row>) throws -> T! {
+        let list:Array<T> = try query(rows)
+        if !list.isEmpty {
+            return list[0]
+        }
+        return nil
+    }
+
     
     public func findById<T: LiteEntity>(id: Int64) throws -> T {
         return try find((T(id: id).table()?.filter(LiteColumn.ID == id))!)

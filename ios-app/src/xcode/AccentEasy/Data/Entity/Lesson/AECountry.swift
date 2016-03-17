@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class AECountry: LiteEntity, Mappable{
-    var idString: String!
+public class AECountry: AELiteEntity, Mappable{
+
     var name: String!
     var description: String!
     var isDefault: Bool!

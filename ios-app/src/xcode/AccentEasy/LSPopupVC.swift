@@ -60,6 +60,10 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
         
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        // Update default selected country
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

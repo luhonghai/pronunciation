@@ -116,7 +116,6 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
         let lSPopupVC:LSPopupVC = LSPopupVC(nibName:"LSPopupVC", bundle: nil)
         
         lSPopupVC.delegate = self
-        
         self.presentpopupViewController(lSPopupVC, animationType: animationType, completion: { () -> Void in
             
         })
