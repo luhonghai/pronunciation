@@ -245,43 +245,38 @@ function initHelpAddWordForTest(){
 }
 
 
-function initHelpAllCourse(){
+function initHelpCourseADM(){
     var $html = $("<div>");
-    $html.html("<p>A selection of courses that have been created and are available for you to use are listed on this page.</p>");
-    $html.append("<p>The courses in the list may have been created by you or by someone else that has chosen to share them, either from within or from outside your organisation.</p>");
-    $html.append("<p>The courses are colour codes as follows:</p>");
-    $html.append("<p><label style='width: 30px;height: 30px;background-color: #17375E'></label> created by you or someone in your organisation</p>");
-    $html.append("<p><label style='width: 30px;height: 30px;background-color: #558ED5'></label> created by someone in a different organisation</p>");
-    $html.append("<p>The name of the organisation that originally created the course is displayed together with the date that it was published.</p>");
-    $html.append("<p>You can find courses from the company name, course title or by the created date using the search function and drop down filter at the top of the page.</p>");
-    $html.append("<p>If you hover over the course title button you will be able to view a short description if it was added by the originator. </p>");
-    $html.append("<p>If you double click on a course title button, you can view the content and decide if you would like to add it to your own list of courses.</p>");
-    $html.append("<p>If you choose to do this, you will create a duplicate copy and you will be able to edit the content to suit your own requirements.</p>");
-    return $html;
-}
+    $html.html("<p><strong>course content display</strong></p>");
+    $html.append("<p>Course content is displayed in a ‘tree’ type directory structure with the following content:</p>");
+    $html.append("<p><img src='/images/treeview/course_icon.gif'>1. course - course name, description and sharing options.</p>");
+    $html.append("<p><img src='/images/treeview/level_icon.gif'>2. levels – you can add one or more ordered levels to your course. Students will need to pass a test in one level before they can progress to the next one.</p>");
+    $html.append("<p><img src='/images/treeview/objective_icon.gif'>3. objectives – you can add one or more objectives for each level.</p>");
+    $html.append("<p><img src='/images/treeview/lesson_icon.gif'>4. lessons – you can add one or more lessons for each objective.</p>");
+    $html.append("<p><img src=''>5. questions – you can add one or more questions for each lesson.</p>");
+    $html.append("<p><img src='/images/treeview/test_icon.gif'>6. test – you can add one test for each level. </p>");
+    $html.append("<p><img src='/images/treeview/test_question48x48.gif'>7. test questions- you can add one or more questions for each test. </p>");
+    $html.append("<p>You can drag and drop content to move it within the defined structure. E.g. you can move a lesson from one objective to another, but you cannot place it directly below a level. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</p>");
+    $html.append("<p>Select the arrows to the left of the buttons to view more or less of the structure as required. </p>");
+    $html.append("<p><strong>adding and editing course content</strong></p>");
 
+    $html.append("<p>Select a ‘file’ button in the tree to: </p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #558ED5'></label> view details, edit or delete</p>");
+    $html.append("<p><label style='width: 30px;height: 30px;background-color: #F7964A'></label> add new details</p>");
+    $html.append("<p><strong>Copy/paste</strong></p>");
+    $html.append("<p>You can right mouse click on an item to copy and paste to an appropriate directory file.</p>");
+    $html.append("<p>E.g. Copy a lesson and paste to the same or a different objective, but you cannot add a lesson to a level.</p>");
+    $html.append("<p>All content will be duplicated, so if a lesson has questions added, they will also be copied.</p>");
 
-function initHelpPreview(){
-    var $html = $("<div>");
-    $html.html("<p>1. You can check any of the content by hovering over and selecting  the appropriate buttons in the tree.</p>");
-    $html.append("<p>2. You can see what the course would look like on a phone by <img src=""> selecting ‘preview’.</p>");
-    $html.append("<p>3. If you would like to duplicate the course, select ‘copy’.</p>");
-    $html.append("<p>This will add the course to your list of ‘my courses’. You can edit the content and you will need to publish it to make it available to add to your classes.</p>");
-    return $html;
-}
+    $html.append("<p>You will not be able to publish the data you have copied until you have made and saved at least one edit.</p>");
+    $html.append("<p><strong>preview</strong></p>");
+    $html.append("<p><img src='/images/treeview/preview_button.gif' style='width:50px; height: 50px;'></p>");
+    $html.append("<p>Select the ‘preview’ button to view the content as it would appear on the student’s phone. Select the relevant buttons on the ‘phone’ to follow through the structure.</p>");
+    $html.append("<p><strong>publish</strong></p>");
+    $html.append("<p><img src='/images/treeview/publish_button.gif'></p>");
+    $html.append("<p>Select the ‘publish’ button to make the course available to add to your classes and to share with other users (if it is not private).</p>");
+    $html.append("<p>Note: You will not be able to publish your course until you have added at least one lesson with at least one question.</p>");
 
-
-function initHelpMyCourse(){
-    var $html = $("<div>");
-    $html.html("<p>Any courses that you have copied or created yourself are listed on this page.</p>");
-    $html.append("<p>Courses must be published in order to make them available to add to your classes.</p>");
-    $html.append("<p>The courses are colour codes as follows</p>");
-    $html.append("<p><label style='width: 30px;height: 30px;background-color: #17375E'></label> created by you or copied and edited</p>");
-    $html.append("<p><label style='width: 30px;height: 30px;background-color: #558ED5'></label> copied without editing</p>");
-    $html.append("<p><label style='width: 30px;height: 30px;background-color: #7330A5'></label> duplicate of a course you already have in your list" +
-    "(You will not be able to publish an exact copy of a course" +
-    "that you already have in ‘my courses’ .You need to edit something and publish it to make it available to add to your classes).</p>");
-    $html.append("<p><img src="">This icon indicates that a course has not been published yet.</p>");
 
     return $html;
 }
