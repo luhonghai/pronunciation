@@ -455,7 +455,7 @@ function deleteLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "You have delete lesson successfully", "success");
+                swal("", "You have deleted lesson successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -475,7 +475,8 @@ function addQuestion(listWord){
         type : "POST",
         data : {
             action: action_add_question,
-            listWord: JSON.stringify(listWord)
+            listWord: JSON.stringify(listWord),
+            idLesson: currentPopup.find(".idHidden").val()
 
         },
         dataType : "text",
