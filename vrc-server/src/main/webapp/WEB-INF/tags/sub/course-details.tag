@@ -10,20 +10,6 @@
     String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), "66b3510d-8964-47a0-8c33-72dc14f8dded");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
 %>
-<style>
-    #listPhonmes input{
-        margin: 5px 5px 5px 0;
-    }
-
-    #listIpa input{
-        margin: 5px 5px 5px 0;
-    }
-
-    #listWeight input{
-        margin: 0px 5px 5px 0;
-    }
-
-</style>
 
 <script>
     var idCourse = "<%=idCourse%>";

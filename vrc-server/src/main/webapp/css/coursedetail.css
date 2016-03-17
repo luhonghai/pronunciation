@@ -49,7 +49,17 @@
 .modal-question-word{
      width : 600px !important;
 }
+#listPhonmes input{
+    margin: 5px 5px 5px 0;
+}
 
+#listIpa input{
+    margin: 5px 5px 5px 0;
+}
+
+#listWeight input{
+    margin: 0px 5px 5px 0;
+}
 
 #popupCourse #arrowCourse{
     font-weight : 200;
