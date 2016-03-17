@@ -164,11 +164,13 @@ public class LevelServices {
      * @return
      */
     public String deleteLevel(String idCourse, String idLevel){
-        if(removeMappingLevelFromCourse(idCourse, idLevel)){
-            LvDAO dao = new LvDAO();
-            if(dao.updateDeleted(idLevel)){
-                return SUCCESS;
-            }
+        LvDAO dao = new LvDAO();
+        try {
+            removeMappingLevelFromCourse(idCourse, idLevel);
+            dao.deleteStep1(idLevel);
+            dao.deleteStep2(idLevel);
+        }catch (Exception e){
+            e.printStackTrace();
         }
         return ERROR + ": an error has been occurred in server!";
 

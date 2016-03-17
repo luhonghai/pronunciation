@@ -142,6 +142,52 @@ public class LvDAO extends DataAccess<Level> {
 
     /**
      *
+     * @param idLevel
+     * @return
+     */
+    public void deleteStep1(String idLevel){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteLevel1(idLevel);
+        System.out.println("sql delete level 1:  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public void deleteStep2(String idLevel){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteLevel2(idLevel);
+        System.out.println("sql delete level 2 :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+            q.execute();
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+    }
+
+    /**
+     *
      * @param idLv
      * @return
      */

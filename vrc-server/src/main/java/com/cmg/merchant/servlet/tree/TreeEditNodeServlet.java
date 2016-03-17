@@ -1,10 +1,7 @@
 package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
-import com.cmg.merchant.services.LessonServices;
-import com.cmg.merchant.services.LevelServices;
-import com.cmg.merchant.services.OServices;
-import com.cmg.merchant.services.TestServices;
+import com.cmg.merchant.services.*;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import org.apache.log4j.Logger;
@@ -26,13 +23,21 @@ public class TreeEditNodeServlet extends BaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
+        if(action.equalsIgnoreCase(Constant.ACTION_EDIT_COURSE)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
+            String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
+            CourseServices services = new CourseServices();
+            String txt = services.updateCourse(idCourse,name,description);
+            response.getWriter().println(txt);
+        }else
         if(action.equalsIgnoreCase(Constant.ACTION_EDIT_LEVEL)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvServices = new LevelServices();
-            String txt = lvServices.updateLevel(idCourse,idLevel,name,description);
+            String txt = lvServices.updateLevel(idCourse, idLevel, name, description);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_OBJ)){
             String idObj = (String) StringUtil.isNull(request.getParameter("idObj"), "").toString();
@@ -40,13 +45,13 @@ public class TreeEditNodeServlet extends BaseServlet {
             String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
             String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             OServices oServices = new OServices();
-            String txt = oServices.updateObj(idLevel,idObj,name,description);
+            String txt = oServices.updateObj(idLevel, idObj, name, description);
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_TEST)){
             String idTest = (String) StringUtil.isNull(request.getParameter("idTest"), "").toString();
             Double percent = Double.parseDouble((String)StringUtil.isNull(request.getParameter("percent"), "0"));
             TestServices tServices = new TestServices();
-            String txt = tServices.updateTest(idTest,percent);
+            String txt = tServices.updateTest(idTest, percent);
             response.getWriter().println(txt);
 
         }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_LESSON)){
