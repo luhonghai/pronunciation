@@ -2742,11 +2742,15 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="t7Q-vO-CVy"/>
+        <segue reference="ZNM-TN-klg"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="Ceg-og-m1t"/>
         <segue reference="cQm-kD-9I0"/>
         <segue reference="WR5-An-sLd"/>
         <segue reference="UNY-bE-rXo"/>
         <segue reference="b3j-3D-4fV"/>
+        <segue reference="cQm-kD-9I0"/>
     </inferredMetricsTieBreakers>
 </document>
