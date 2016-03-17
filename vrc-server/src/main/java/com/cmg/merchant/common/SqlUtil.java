@@ -36,7 +36,7 @@ public class SqlUtil {
             "      les.isDeleted = FALSE AND lmq.isDeleted = FALSE AND q.isDeleted = FALSE";
 
 
-    private String SQL_DELETE_COURSE_STEP_1 = "update COURSE as c inner join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
+    private String SQL_DELETE_COURSE_STEP_1 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
             "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id\n" +
             "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
             "  LEFT JOIN OBJECTIVE as obj on cmd.idChild = obj.id\n" +
@@ -47,7 +47,7 @@ public class SqlUtil {
             "set c.isDeleted=true, cml.isDeleted=true, lv.isDeleted=true,cmd.isDeleted=true,\n" +
             "  obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true where c.id = 'paramCourseId'";
 
-    private String SQL_DELETE_COURSE_STEP_2 = "update COURSE as c inner join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
+    private String SQL_DELETE_COURSE_STEP_2 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
             "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id\n" +
             "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
             "  LEFT JOIN TEST as t on cmd.idChild = t.id\n" +

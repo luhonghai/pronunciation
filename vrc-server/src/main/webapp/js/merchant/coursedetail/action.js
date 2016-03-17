@@ -93,8 +93,14 @@ function openPopup(itemData){
 function btnSaveCourse(){
     $(document).on("click","#btnSaveCourse",function(){
         if(validateFormCourse()){
-            editLevel();
+            editCourse();
         }
+    });
+}
+
+function btnDeleteCourse(){
+    $(document).on("click","#btnDeleteCourse",function(){
+         deleteCourse();
     });
 }
 
@@ -292,12 +298,16 @@ function clickHelpAdd(){
 }
 
 
+
+
 $(document).ready(function(){
     saveWord();
     clickTopHelp();
     clickHelpAdd();
     loadPhoneme();
     showAddWord();
+    btnSaveCourse();
+    btnDeleteCourse();
     btnSaveLesson();
     btnDeleteLesson();
     btnSaveLevel();

@@ -155,6 +155,31 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
 
     /**
      *
+     * @param idCourse
+     * @return true if update success
+     * @throws Exception
+     */
+    public boolean removeMappingCourse(String idCourse) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted=?  WHERE cid=?");
+        try {
+            q.execute(true,idCourse);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+
+    /**
+     *
      * @param id
      * @return true if update success
      * @throws Exception

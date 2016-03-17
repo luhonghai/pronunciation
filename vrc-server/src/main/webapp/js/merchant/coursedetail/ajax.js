@@ -26,6 +26,8 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                currentParent = null;
+                firstLoad = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have update course success!", "success");
@@ -57,9 +59,9 @@ function deleteCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have delete Level success!", "success");
+                swal("Success!", "You have delete course success!", "success");
+                window.location.href = "/main-courses.jsp";
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);

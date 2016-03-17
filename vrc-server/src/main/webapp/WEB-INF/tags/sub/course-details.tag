@@ -9,6 +9,7 @@
     String company = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPNAME), "CMG");
     String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), "66b3510d-8964-47a0-8c33-72dc14f8dded");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
+    request.getSession().removeAttribute(SessionUtil.ATT_COURSE_ID);
 %>
 
 <script>
