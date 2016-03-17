@@ -185,9 +185,9 @@ public class LessonServices {
         LDAO dao = new LDAO();
         try {
             List<LessonCollection> list = dao.getAllByIdObj(idObj);
-            if(idObj!=null){
+            if(idLesson!=null){
                 for(LessonCollection lesson : list){
-                    if(lesson.getName().equalsIgnoreCase(name) && lesson.getId().equals(idLesson)){
+                    if(lesson.getName().equalsIgnoreCase(name) && !lesson.getId().equals(idLesson)){
                         return true;
                     }
                 }

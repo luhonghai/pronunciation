@@ -134,7 +134,7 @@ public class OServices {
             List<Objective> list = dao.getAllByIdLevel(idLevel);
             if(idObj!=null){
                 for(Objective obj : list){
-                    if(obj.getName().equalsIgnoreCase(nameObj) && obj.getId().equals(idObj)){
+                    if(obj.getName().equalsIgnoreCase(nameObj) && !obj.getId().equals(idObj)){
                         return true;
                     }
                 }

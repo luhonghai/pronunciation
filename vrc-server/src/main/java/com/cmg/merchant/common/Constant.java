@@ -49,7 +49,7 @@ public class Constant {
     public static String IC_LEVEL = "level";
     public static String IC_OBJ = "obj";
     public static String IC_TEST = "test";
-    public static String IC_LESSON = "lesson";
+    public static String IC_LESSON = "lessons";
     public static String IC_QUESTION = "question";
     public static String IC_BTN_ADD_LEVEL = "icBtnAddLevel";
     public static String IC_BTN_ADD_OBJ = "icBtnAddObj";

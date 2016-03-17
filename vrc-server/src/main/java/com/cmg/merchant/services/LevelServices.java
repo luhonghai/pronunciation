@@ -122,7 +122,7 @@ public class LevelServices {
             ArrayList<Level> listAll = (ArrayList<Level>) dao.listIn(idCourse);
             if(idLevel!=null){
                 for(Level lv : listAll){
-                    if(lv.getName().equalsIgnoreCase(name) && lv.getId().equals(idLevel)){
+                    if(lv.getName().equalsIgnoreCase(name) && !lv.getId().equals(idLevel)){
                         return true;
                     }
                 }
