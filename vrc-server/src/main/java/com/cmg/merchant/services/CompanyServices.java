@@ -24,7 +24,7 @@ public class CompanyServices {
         CMTDAO dao = new CMTDAO();
         ArrayList<String> listSuggestion = new ArrayList<>();
         try {
-            List<CourseDTO> cpList = dao.suggestCompany(Constant.STATUS_NOT_PUBLISH, company);
+            List<CourseDTO> cpList = dao.suggestCompany(Constant.STATUS_PUBLISH, company);
             if(cpList!=null && cpList.size() > 0){
                 for(CourseDTO c : cpList){
                     listSuggestion.add(c.getCompanyName());

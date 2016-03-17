@@ -1,6 +1,10 @@
 package com.cmg.merchant.services;
 
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
+import com.cmg.merchant.dao.lessons.LDAO;
+import com.cmg.merchant.dao.objective.OMLDAO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 
@@ -73,7 +77,7 @@ public class QuestionServices {
             objectiveMapping.setId(UUIDGenerator.generateUUID().toString());
             objectiveMapping.setIdObjective(idObj);
             objectiveMapping.setIdLessonCollection(idLesson);
-            objectiveMapping.setIndex(getIndexForLesson(idObj));
+            //objectiveMapping.setIndex(getIndexForLesson(idObj));
             objectiveMapping.setIsDeleted(false);
             boolean check = dao.create(objectiveMapping);
             if(!check){
