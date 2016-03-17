@@ -6,20 +6,8 @@ var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 /**
- * connect to server when add level
+ * connect to server when edit course
  */
-
-/**
- * connect to server when edit level
- */
-function isNumberKey(evt,e){
-    var charCode = (evt.which) ? evt.which : event.keyCode;
-    if (charCode != 46 && charCode > 31
-        && (charCode < 48 || charCode > 57)){
-        return false;
-    }
-    return true;
-}
 
 function editCourse(){
     $.ajax({
@@ -39,7 +27,7 @@ function editCourse(){
                 firstLoad = true;
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have update course success!", "success");
+                swal("", "You have updated course successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -69,7 +57,7 @@ function deleteCourse(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 currentPopup.modal('hide');
-                swal("Success!", "You have delete course success!", "success");
+                swal("", "You have deleted course successfully", "success");
                 window.location.href = "/main-courses.jsp";
             }else{
                 //add false show the error
@@ -102,7 +90,7 @@ function addLevel(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add Level success!", "success");
+                swal("", "You have added Level successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -110,7 +98,7 @@ function addLevel(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -136,7 +124,7 @@ function editLevel(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have update Level success!", "success");
+                swal("", "You have updated Level successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -144,7 +132,7 @@ function editLevel(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -170,7 +158,7 @@ function deleteLevel(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have delete Level success!", "success");
+                swal("", "You have deleted Level successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -178,7 +166,7 @@ function deleteLevel(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -205,7 +193,7 @@ function addObj(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add Objective success!", "success");
+                swal("", "You have added objective successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -213,7 +201,7 @@ function addObj(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -239,7 +227,7 @@ function editObj(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have update Objective success!", "success");
+                swal("", "You have updated objective successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -247,7 +235,7 @@ function editObj(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -271,7 +259,7 @@ function deleteObj(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have delete Objective success!", "success");
+                swal("", "You have deleted objective successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -279,7 +267,7 @@ function deleteObj(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -304,7 +292,7 @@ function addTest(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add Test success!", "success");
+                swal("", "You have added test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -312,7 +300,7 @@ function addTest(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -337,7 +325,7 @@ function editTest(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have update Test success!", "success");
+                swal("", "You have updated test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -345,7 +333,7 @@ function editTest(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -369,7 +357,7 @@ function deleteTest(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have delete Test success!", "success");
+                swal("", "You have deleted test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -377,7 +365,7 @@ function deleteTest(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -405,7 +393,11 @@ function addLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
+<<<<<<< HEAD
+                swal("", "You have added lesson successfully!", "success");
+=======
                 swal("Success!", "You have add Lesson success fully!", "success");
+>>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -439,7 +431,11 @@ function editLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
+<<<<<<< HEAD
+                swal("", "You have updated lesson successfully", "success");
+=======
                 swal("Success!", "You have edit Lesson success fully!", "success");
+>>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -447,7 +443,7 @@ function editLesson(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -467,7 +463,11 @@ function deleteLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
+<<<<<<< HEAD
+                swal("", "You have delete lesson successfully", "success");
+=======
                 swal("Success!", "You have delete Lesson success fully!", "success");
+>>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -475,7 +475,7 @@ function deleteLesson(){
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
     });
@@ -559,7 +559,7 @@ function loadPhonemes(){
                 }
             },
             error: function () {
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "Could not connect to server", "error");
             }
 
         });
