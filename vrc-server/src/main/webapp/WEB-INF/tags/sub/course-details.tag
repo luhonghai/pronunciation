@@ -476,12 +476,12 @@
                                 <div class="col-md-6" style="padding-left: 0px;">
                                     <input type="hidden" class="action">
                                     <input type="hidden" class="idHidden">
-                                    <img id="helpAddWord" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                                    <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                                     <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                                 </div>
 
                                 <div class="col-md-6" style="padding-right: 0px;">
-                                    <img style="float: right" id="btnSaveWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                                    <img style="float: right;padding-right: 0px;" id="btnSaveWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                                     <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                                 </div>
                             </div>
