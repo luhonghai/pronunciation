@@ -82,7 +82,7 @@
                     name</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="addLevel" name="addform">
+                <form class="form-horizontal" id="addCourse" name="addform">
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm" for="courseName">name:</label>
 
@@ -327,8 +327,12 @@
                         <label class="control-label col-md-4 lbl_addForm">type:</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" id="lessonType" name="type"
-                                   placeholder="type">
+                            <select id="lessonType" style="padding: 2px;">
+                                <option value="accuracy">accuracy</option>
+                                <option value="pace">pace</option>
+                                <option value="power">power</option>
+                                <option value="pitch">pitch</option>
+                            </select>
                         </div>
                     </div>
 

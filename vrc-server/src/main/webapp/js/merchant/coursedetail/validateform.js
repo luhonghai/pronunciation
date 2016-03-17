@@ -143,14 +143,18 @@ function validateFormLesson(){
     var type = getTypeLesson().val();
     if(type == '' || typeof type === 'undefined'){
         getTypeLesson().focus();
-        getLessonValidateMessage().html("Please enter a type");
+        getLessonValidateMessage().html("Please enter type");
         getLessonValidateMessage().show();
         return false;
     }
     var detail = getDetailLesson().val();
     if(detail == '' || typeof detail === 'undefined'){
         getDetailLesson().focus();
+<<<<<<< HEAD
         getLessonValidateMessage().html("Please enter lesson details");
+=======
+        getLessonValidateMessage().html("Please enter details lesson");
+>>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
         getLessonValidateMessage().show();
         return false;
     }
