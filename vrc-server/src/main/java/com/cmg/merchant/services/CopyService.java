@@ -33,10 +33,21 @@ public class CopyService {
         if(newIdCourse.contains(ERROR)){
             return ERROR;
         }
-        ArrayList<Level> listLevel = lvServices.getAllByCourseId(idCourse);
+        copyAllLevelToCourse(newIdCourse,idCourse);
+        return SUCCESS;
+    }
+
+
+    /**
+     *
+     * @param idCourseMapping
+     * @param idCourseGetData
+     */
+    public void copyAllLevelToCourse(String idCourseMapping, String idCourseGetData){
+        ArrayList<Level> listLevel = lvServices.getAllByCourseId(idCourseGetData);
         if(listLevel!= null &&listLevel.size() > 0){
             for(Level lv : listLevel){
-                String newIdLevel = lvServices.copyLevel(newIdCourse, lv.getId());
+                String newIdLevel = lvServices.copyLevel(idCourseMapping, lv.getId());
                 if(newIdLevel.contains(ERROR)){
                     continue;
                 }
@@ -44,9 +55,7 @@ public class CopyService {
                 copyTestToLevel(newIdLevel, lv.getId());
             }
         }
-        return SUCCESS;
     }
-
     /**
      *
      * @param levelIdMapping

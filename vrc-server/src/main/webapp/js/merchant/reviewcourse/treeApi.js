@@ -34,7 +34,7 @@ function initTree(){
         },
         itemHook: function(parent, item, itemData, level){
             item.attr("id",itemData['id']);
-            item.attr("title", itemData['_title']);
+            item.find(".aciTreeItem").attr("title", itemData['_title']);
             item.find('.aciTreeItem').css('background-color', itemData['_backgroundColor']);
             item.find('.aciTreeItem').css('padding', '5px');
             item.find('.aciTreeItem').css('border-radius', '5px');

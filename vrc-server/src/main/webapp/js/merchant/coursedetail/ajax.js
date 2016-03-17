@@ -393,11 +393,7 @@ function addLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-<<<<<<< HEAD
                 swal("", "You have added lesson successfully!", "success");
-=======
-                swal("Success!", "You have add Lesson success fully!", "success");
->>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -431,11 +427,7 @@ function editLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-<<<<<<< HEAD
                 swal("", "You have updated lesson successfully", "success");
-=======
-                swal("Success!", "You have edit Lesson success fully!", "success");
->>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -463,11 +455,7 @@ function deleteLesson(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-<<<<<<< HEAD
                 swal("", "You have delete lesson successfully", "success");
-=======
-                swal("Success!", "You have delete Lesson success fully!", "success");
->>>>>>> c219f077df82845161d819489a57cd7e2787ee9b
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);

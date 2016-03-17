@@ -264,7 +264,7 @@ function initHelpAllCourse(){
 function initHelpPreview(){
     var $html = $("<div>");
     $html.html("<p>1. You can check any of the content by hovering over and selecting  the appropriate buttons in the tree.</p>");
-    $html.append("<p>2. You can see what the course would look like on a phone by <img src=""> selecting ‘preview’.</p>");
+    $html.append("<p>2. You can see what the course would look like on a phone by <img src=''> selecting ‘preview’.</p>");
     $html.append("<p>3. If you would like to duplicate the course, select ‘copy’.</p>");
     $html.append("<p>This will add the course to your list of ‘my courses’. You can edit the content and you will need to publish it to make it available to add to your classes.</p>");
     return $html;
@@ -281,7 +281,7 @@ function initHelpMyCourse(){
     $html.append("<p><label style='width: 30px;height: 30px;background-color: #7330A5'></label> duplicate of a course you already have in your list" +
     "(You will not be able to publish an exact copy of a course" +
     "that you already have in ‘my courses’ .You need to edit something and publish it to make it available to add to your classes).</p>");
-    $html.append("<p><img src="">This icon indicates that a course has not been published yet.</p>");
+    $html.append("<p><img src=''>This icon indicates that a course has not been published yet.</p>");
 
     return $html;
 }
