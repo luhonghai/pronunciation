@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class WeightPhonemesDTO {
 
-    private String idQuestion;
+    private String nameWord;
 
     private String idWord;
 
@@ -23,14 +23,6 @@ public class WeightPhonemesDTO {
         this.data = data;
     }
 
-    public String getIdQuestion() {
-        return idQuestion;
-    }
-
-    public void setIdQuestion(String idQuestion) {
-        this.idQuestion = idQuestion;
-    }
-
     public String getIdWord() {
         return idWord;
     }
@@ -39,5 +31,11 @@ public class WeightPhonemesDTO {
         this.idWord = idWord;
     }
 
+    public String getNameWord() {
+        return nameWord;
+    }
 
+    public void setNameWord(String nameWord) {
+        this.nameWord = nameWord;
+    }
 }
