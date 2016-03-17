@@ -16,7 +16,7 @@ class FileHelper {
         //return "http://reg.accenteasy.com"
         //return "http://192.168.1.196:8080"
         //hoang pc
-        //return "http://192.168.1.15:8080"
+        //return "http://192.168.1.19:8080"
         //return "http://localhost:8080"
     }
     

@@ -13,8 +13,10 @@ class LaunchImageVC: UIViewController {
     var timer:NSTimer!
     var number:Int!
     var nextScreen:Int!
-    var willClose = false
-    var willCheckLogin = true
+    var willClose:Bool = false
+    var willCheckLogin:Bool = true
+    var currentDate:NSDate = NSDate()
+    var startSecond:Double!
     
     var currentUser: UserProfile!
     
@@ -41,6 +43,9 @@ class LaunchImageVC: UIViewController {
                 weakSelf!.willClose = true
             }
         }
+        
+        //get minute
+        startSecond = currentDate.timeIntervalSince1970
     }
     
     override func didReceiveMemoryWarning() {
@@ -56,6 +61,13 @@ class LaunchImageVC: UIViewController {
         if number == 4{
             number=1
         }
+
+        currentDate = NSDate()
+        
+        if currentDate.timeIntervalSince1970 - startSecond < 4 {
+            return
+        }
+
         nextScreen = nextScreen + 1
         if self.willClose {
             if currentUser.isLogin {

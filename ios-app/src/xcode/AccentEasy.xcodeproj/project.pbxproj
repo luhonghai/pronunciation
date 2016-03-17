@@ -338,6 +338,7 @@
 		C16CD3021C44B1EC00537461 /* icon_popover_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A31C44B1EC00537461 /* icon_popover_arrow_left.png */; };
 		C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */; };
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
+		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
@@ -787,6 +788,7 @@
 		C16CD2A31C44B1EC00537461 /* icon_popover_arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_left.png; sourceTree = "<group>"; };
 		C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_right.png; sourceTree = "<group>"; };
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
+		C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
 		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
@@ -1314,6 +1316,7 @@
 				C13E44C31C609DDE00EB6075 /* ResultParser.swift */,
 				9053C2861C902598009BA3DF /* AccountManager.swift */,
 				90F2D45E1C92A741009F2A41 /* DeviceManager.swift */,
+				C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2241,6 +2244,7 @@
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
 				9B5F341A1C771D6800E85629 /* Setter.swift in Sources */,
 				9B5F33841C77129A00E85629 /* PieChartDataSet.swift in Sources */,
+				C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */,
 				90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
