@@ -37,8 +37,7 @@ class IPAInfoPopup: UIViewController {
         view.backgroundColor = ColorHelper.APP_LIGHT_BLUE
         
         var pImage = UIImage(named: "ic_close_dialog.png")!
-        //pImage = pImage.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        pImage = ImageHelper.imageWithImage(pImage, scaledToSize: CGSize(width: 25, height: 25))
+        pImage = ImageHelper.imageWithImage(pImage, scaledToSize: CGSize(width: 25, height: 25)).imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         btnClose.layer.cornerRadius = btnClose.frame.size.width/2
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
@@ -49,11 +48,21 @@ class IPAInfoPopup: UIViewController {
         txtDescription.text = selectedIpa.tip
         txtDescription.textColor = ColorHelper.APP_PURPLE
         imgTip.clipsToBounds = true
-        imgTip.tintColor = ColorHelper.APP_PURPLE
+//        imgTip.tintColor = ColorHelper.APP_PURPLE
         if selectedIpa!.imgTongue != nil && !selectedIpa!.imgTongue.isEmpty {
+            weak var weakSelf = self
             let url = NSURL(string: selectedIpa!.imgTongue)
-            imgTip.load(url)
+            imgTip.load(url, placeholderImage: UIImage(named: "p_tip_blue.png")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), completion: { (status) -> Void in
+                if let image = weakSelf!.imgTip.image {
+                    weakSelf!.imgTip.image = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
+                    weakSelf!.imgTip.tintColor = ColorHelper.APP_PURPLE
+                }
+            })
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+       
     }
 
     override func didReceiveMemoryWarning() {

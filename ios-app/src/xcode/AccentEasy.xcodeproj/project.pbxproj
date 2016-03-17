@@ -25,6 +25,9 @@
 		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
 		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
+		9B4009671C9965BC0011EEF8 /* IPAMainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4009661C9965BC0011EEF8 /* IPAMainPageController.swift */; };
+		9B4009741C9965DE0011EEF8 /* IPARPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4009731C9965DE0011EEF8 /* IPARPController.swift */; };
+		9B4009841C9974900011EEF8 /* SloppySwiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4009831C9974900011EEF8 /* SloppySwiper.framework */; };
 		9B4849E91C98FFBD002F193F /* IPAChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849E81C98FFBD002F193F /* IPAChartController.swift */; };
 		9B4849EB1C990055002F193F /* IPAChartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849EA1C990055002F193F /* IPAChartCell.swift */; };
 		9B4849EE1C991BE7002F193F /* IPAInfoPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */; };
@@ -377,6 +380,13 @@
 			remoteGlobalIDString = BE8E6DB873A2B30D563C0B550C00F7BA;
 			remoteInfo = RDVTabBarController;
 		};
+		9B4009821C9974900011EEF8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DBBA9EA7547722712656ABDE866D4444;
+			remoteInfo = SloppySwiper;
+		};
 		9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -466,6 +476,8 @@
 		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
 		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
+		9B4009661C9965BC0011EEF8 /* IPAMainPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMainPageController.swift; path = IPAInformation/IPAMainPageController.swift; sourceTree = "<group>"; };
+		9B4009731C9965DE0011EEF8 /* IPARPController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPARPController.swift; path = IPAInformation/IPARPController.swift; sourceTree = "<group>"; };
 		9B4849E81C98FFBD002F193F /* IPAChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAChartController.swift; path = IPAInformation/IPAChartController.swift; sourceTree = "<group>"; };
 		9B4849EA1C990055002F193F /* IPAChartCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAChartCell.swift; path = IPAInformation/IPAChartCell.swift; sourceTree = "<group>"; };
 		9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAInfoPopup.swift; path = IPAInformation/IPAInfoPopup.swift; sourceTree = "<group>"; };
@@ -821,6 +833,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B4009841C9974900011EEF8 /* SloppySwiper.framework in Frameworks */,
 				9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */,
 				9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */,
 				9B5F33F01C771D5300E85629 /* libsqlite3.tbd in Frameworks */,
@@ -896,6 +909,8 @@
 				9B4849EA1C990055002F193F /* IPAChartCell.swift */,
 				9B4849EC1C991BE7002F193F /* IPAInfoPopup.swift */,
 				9B4849ED1C991BE7002F193F /* IPAInfoPopup.xib */,
+				9B4009661C9965BC0011EEF8 /* IPAMainPageController.swift */,
+				9B4009731C9965DE0011EEF8 /* IPARPController.swift */,
 			);
 			name = IPAInformation;
 			sourceTree = "<group>";
@@ -1289,6 +1304,7 @@
 				9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
 				9053FE101C87E92E0059A423 /* RDVTabBarController.framework */,
+				9B4009831C9974900011EEF8 /* SloppySwiper.framework */,
 				9BC5E1011C50803C003CF8E9 /* SSZipArchive.framework */,
 				C13E44B61C6051ED00EB6075 /* TPCircularBuffer.framework */,
 			);
@@ -1838,6 +1854,13 @@
 			remoteRef = 9053FE0F1C87E92E0059A423 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9B4009831C9974900011EEF8 /* SloppySwiper.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SloppySwiper.framework;
+			remoteRef = 9B4009821C9974900011EEF8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2223,6 +2246,7 @@
 				9B5F34101C771D6800E85629 /* Foundation.swift in Sources */,
 				C141C8321C3E21FA001D1F9C /* SWRevealViewController.m in Sources */,
 				C13E44C41C609DDE00EB6075 /* ResultParser.swift in Sources */,
+				9B4009671C9965BC0011EEF8 /* IPAMainPageController.swift in Sources */,
 				9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */,
 				9B5F338E1C77129A00E85629 /* ILineChartDataSet.swift in Sources */,
 				9B5F33B51C77129A00E85629 /* HorizontalBarChartRenderer.swift in Sources */,
@@ -2285,6 +2309,7 @@
 				9B5F34121C771D6800E85629 /* AggregateFunctions.swift in Sources */,
 				9B5F334E1C77129A00E85629 /* ChartViewBase.swift in Sources */,
 				9B5F340C1C771D6800E85629 /* Statement.swift in Sources */,
+				9B4009741C9965DE0011EEF8 /* IPARPController.swift in Sources */,
 				9B5F33B61C77129A00E85629 /* LineChartRenderer.swift in Sources */,
 				9B5F33BB1C77129A00E85629 /* ScatterChartRenderer.swift in Sources */,
 				C13E44BE1C60615B00EB6075 /* Multimedia.swift in Sources */,

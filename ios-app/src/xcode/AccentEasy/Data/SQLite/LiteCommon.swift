@@ -70,6 +70,7 @@ public class LiteColumn {
     public static let MP3_URL_SHORT = Expression<String?>("MP3URLSHORT")
     public static let IS_DEFAULT = Expression<Bool?>("ISDEFAULT")
     public static let IMAGE_URL = Expression<String?>("IMAGEURL")
+    public static let INDEXING_TYPE = Expression<Int?>("INDEXINGTYPE")
 }
 
 public class LiteEntity {

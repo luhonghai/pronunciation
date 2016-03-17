@@ -55,7 +55,6 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0H-3b-Tif">
                     <rect key="frame" x="267" y="8" width="25" height="25"/>
-                    <color key="tintColor" red="0.4392156862745098" green="0.18823529411764706" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
                     <connections>
                         <action selector="clickClose:" destination="-1" eventType="touchUpInside" id="hSm-dv-Ktf"/>
                     </connections>

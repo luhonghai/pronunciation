@@ -6,8 +6,10 @@
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 import EZAudio
+import SloppySwiper
 
-class IPAChartController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate {
+class IPAChartController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate, EZAudioPlayerDelegate, IPAPopupViewControllerDelegate,
+ UIGestureRecognizerDelegate {
     
     @IBOutlet weak var collectionIPA: UICollectionView!
     
@@ -17,23 +19,35 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     
     let reuseIdentifier = "ipaChartCell"
     
-    var selectedType = "vowel"
+    var selectedType = IPAMapArpabet.VOWEL
     
     var player: EZAudioPlayer!
     
     var selectedIpa: IPAMapArpabet!
     
+    var swiper: SloppySwiper!
+    
     @IBOutlet weak var lblTitle: UILabel!
     
+    @IBAction func clickBack(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     override func viewDidLoad() {
-        
+        swiper = SloppySwiper(navigationController: self.navigationController)
+        self.navigationController?.delegate = swiper
+        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         dbAdapter = WordCollectionDbApdater()
         do {
             ipaList = try dbAdapter.getIPAMapArpabetByType(selectedType)
         } catch {
             
         }
-        lblTitle.text = "\(selectedType)s"
+        if selectedType == IPAMapArpabet.VOWEL {
+            lblTitle.text = "vowels"
+        } else {
+            lblTitle.text = "con|son¦ants"
+        }
         print("Number of IPA found \(ipaList.count)")
         collectionIPA.delegate = self
         collectionIPA.dataSource = self
@@ -140,4 +154,5 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     func pressShowChart(sender: IPAPopupVC?) {
         self.dismissPopupViewController(SLpopupViewAnimationType.Fade)
     }
+    
 }

@@ -7,3 +7,70 @@
 //
 
 import Foundation
+
+public class WordCollection: LiteEntity, Mappable {
+    var word: String!
+    var arpabet: String!
+    var definition: String!
+    var mp3Path: String!
+    var pronunciation: String!
+    
+    required public init(){
+        super.init()
+    }
+    func getArpabetList() -> Array<String> {
+        var list:Array<String> = []
+        if arpabet == nil || arpabet.isEmpty {
+            return list
+        }
+        let wordArray = arpabet.componentsSeparatedByString(" ")
+        for word in wordArray {
+            list.append(word.stringByTrimmingCharactersInSet(
+                NSCharacterSet.whitespaceAndNewlineCharacterSet()
+                ))
+        }
+        return list;
+    }
+    
+    required public init?(_ map: Map) {
+        super.init()
+    }
+    
+    public required init(id: Int64) {
+        super.init(id: id)
+    }
+    
+    public override func parse(row: Row) {
+        self.word = row[LiteColumn.WORD]
+        self.arpabet = row[LiteColumn.ARPABET]
+        self.definition = row[LiteColumn.DEFINITION]
+        self.mp3Path = row[LiteColumn.MP3_PATH]
+        self.pronunciation = row[LiteColumn.PRONUNCIATION]
+    }
+    
+    
+    
+    public override func table() -> Table? {
+        return LiteTable.WORD_COLLECTION
+    }
+    
+    // Mappable
+    public func mapping(map: Map) {
+        word    <= map["word"]
+        arpabet   <= map["arpabet"]
+        definition      <= map["definition"]
+        mp3Path       <= map["mp3Path"]
+        pronunciation  <= map["pronunciation"]
+    }
+    
+    public override func setters() -> [Setter]? {
+        return [
+            LiteColumn.WORD <- self.word,
+            LiteColumn.ARPABET <- self.arpabet,
+            LiteColumn.DEFINITION <- self.definition,
+            LiteColumn.MP3_PATH <- self.mp3Path,
+            LiteColumn.PRONUNCIATION <- self.pronunciation
+        ]
+    }
+    
+}

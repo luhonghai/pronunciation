@@ -8,6 +8,7 @@
 
 import UIKit
 import EZAudio
+import SloppySwiper
 
 class MyCollectionViewCell: UICollectionViewCell {
     
@@ -51,6 +52,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let swiper = SloppySwiper(navigationController: self.navigationController)
+        self.navigationController?.delegate = swiper
         cViewIPAList.delegate = self
         cViewIPAList.dataSource = self
         //init audio plaer
