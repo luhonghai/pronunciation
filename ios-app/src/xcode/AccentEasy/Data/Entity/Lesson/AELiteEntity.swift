@@ -10,4 +10,9 @@ import Foundation
 
 public class AELiteEntity : LiteEntity {
     var idString: String!
+    
+    func getBoolValue(value: String?) -> Bool {
+       // print("bool value \(value)")
+        return value != nil && value! != "\\0"
+    }
 }

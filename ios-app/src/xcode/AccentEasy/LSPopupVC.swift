@@ -17,6 +17,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var arrShow = ["hoang","nguyen","minh","hoang","nguyen","minh","hoang","nguyen","minh"]
     var delegate:LSPopupVCDelegate?
     var arrCountryData = [AECountry]()
+    var adapter : WordCollectionDbApdater!
     
     @IBOutlet weak var LSTableView: UITableView!
     @IBOutlet weak var btnClose: UIButton!
@@ -24,7 +25,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        adapter = WordCollectionDbApdater()
         // Do any additional setup after loading the view.
         LSTableView.dataSource = self
         LSTableView.delegate = self
@@ -46,7 +47,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         btnClose.tintColor = ColorHelper.APP_PURPLE
         
         //load data for language selection
-        let adapter = WordCollectionDbApdater()
+        
         do {
             arrCountryData = try adapter.getAllCountries()
             print(arrCountryData)
@@ -61,8 +62,25 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         
     }
     
+    func validateCountry() {
+        if let user:UserProfile = AccountManager.currentUser() {
+            if user.selectedCountry == nil {
+                do {
+                    user.selectedCountry = try adapter.getDefaultCountry()
+                    
+                } catch {
+                    
+                }
+                AccountManager.updateProfile(user)
+            }
+        }
+        NSNotificationCenter.defaultCenter().postNotificationName("loadLevel", object: nil)
+    }
+    
     override func viewDidDisappear(animated: Bool) {
         // Update default selected country
+        print("check country")
+        validateCountry()
     }
 
     override func didReceiveMemoryWarning() {
@@ -170,7 +188,6 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         userProfile.selectedCountry = arrCountryData[indexPath.row]
         AccountManager.updateProfile(userProfile)
         delegate?.closePopup(self)
-        
     }
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {

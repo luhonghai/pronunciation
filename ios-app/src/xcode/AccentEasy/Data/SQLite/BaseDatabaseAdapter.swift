@@ -33,8 +33,20 @@ public class BaseDatabaseAdapter {
         return try query(db!.prepare(table))
     }
     
+    public func query<T: LiteEntity>(sql: String, values: Binding?...) throws -> Array<T> {
+        let stmt = try db!.prepare(sql)
+        return try query(stmt.bind(values))
+    }
+    
     public func query<T: LiteEntity>(statement: Statement) throws -> Array<T> {
-        return try query(statement)
+       // return try query(statement)
+        var list = Array<T>()
+        for row in statement {
+            let obj = T()
+            obj.parse(row)
+            list.append(obj)
+        }
+        return list
     }
     
     public func query<T: LiteEntity>(rows: AnySequence<Row>) throws -> Array<T> {

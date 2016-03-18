@@ -42,8 +42,12 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
         return try findAll()
     }
     
+    public func getDefaultCountry() throws -> AECountry {
+        return try find(LiteTable.COUNTRY.filter(LiteColumn.IS_DEFAULT == ""))
+    }
+    
     public func getLevelByCountry(countryId: String!) throws -> Array<AELevel> {
-        return try query((db?.prepare(FileHelper.readFileBundle("select_all_level_by_country", type: "sql")).bind(countryId))!)
+        return try query(FileHelper.readFileBundle("select_all_level_by_country", type: "sql"), values: countryId)
     }
     
     public func getObjective(countryId: String!, levelId: String!) throws -> Array<AEObjective>  {

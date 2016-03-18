@@ -73,11 +73,11 @@ public class LiteColumn {
     public static let WORDS = Expression<String?>("WORDS")
     public static let IMG_TONGUE = Expression<String?>("IMGTONGUE")
     public static let MP3_URL_SHORT = Expression<String?>("MP3URLSHORT")
-    public static let IS_DEFAULT = Expression<Bool?>("ISDEFAULT")
+    public static let IS_DEFAULT = Expression<String?>("ISDEFAULT")
     public static let IMAGE_URL = Expression<String?>("IMAGEURL")
     public static let INDEXING_TYPE = Expression<Int?>("INDEXINGTYPE")
-    public static let IS_DEMO = Expression<Bool?>("ISDEMO")
-    public static let IS_DEFAULT_ACTIVATED = Expression<Bool?>("ISDEFAULTACTIVATED")
+    public static let IS_DEMO = Expression<String?>("ISDEMO")
+    public static let IS_DEFAULT_ACTIVATED = Expression<String?>("ISDEFAULTACTIVATED")
     public static let TITLE = Expression<String?>("TITLE")
     public static let PERCENT_PASS = Expression<Double?>("PERCENTPASS")
 }
@@ -94,6 +94,10 @@ public class LiteEntity {
     }
     
     public func parse(row: Row) {
+        fatalError(__FUNCTION__ + " Must be overridden");
+    }
+    
+    public func parse(row: Array<Optional<Binding>>) {
         fatalError(__FUNCTION__ + " Must be overridden");
     }
     

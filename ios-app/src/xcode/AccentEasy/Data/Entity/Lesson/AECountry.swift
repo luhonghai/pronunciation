@@ -8,11 +8,11 @@
 
 import Foundation
 
-public class AECountry: AELiteEntity, Mappable{
+public class AECountry: AELiteEntity, Mappable {
 
     var name: String!
     var description: String!
-    var isDefault: Bool!
+    var isDefault: String?
     var imageURL: String!
     
     override public func parse(row: Row) {
@@ -29,8 +29,10 @@ public class AECountry: AELiteEntity, Mappable{
             LiteColumn.NAME <- self.name,
             LiteColumn.DESCRIPTION <- self.description,
             LiteColumn.IS_DEFAULT <- self.isDefault,
-            LiteColumn.IMAGE_URL <- self.imageURL        ]
+            LiteColumn.IMAGE_URL <- self.imageURL
+        ]
     }
+    
     
     public override func table() -> Table? {
         return LiteTable.COUNTRY

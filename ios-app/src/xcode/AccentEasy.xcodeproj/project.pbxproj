@@ -49,6 +49,7 @@
 		9B5526401C9A6911000AB7E8 /* select_next_objective_on_current_level.sql in Resources */ = {isa = PBXBuildFile; fileRef = 9B5526351C9A6911000AB7E8 /* select_next_objective_on_current_level.sql */; };
 		9B5526411C9A6911000AB7E8 /* select_prev_level_of_level.sql in Resources */ = {isa = PBXBuildFile; fileRef = 9B5526361C9A6911000AB7E8 /* select_prev_level_of_level.sql */; };
 		9B5526431C9A709E000AB7E8 /* AETest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5526421C9A709E000AB7E8 /* AETest.swift */; };
+		9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */; };
 		9B5F33481C77129A00E85629 /* ChartAnimationEasing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */; };
 		9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C01C77129A00E85629 /* ChartAnimator.swift */; };
 		9B5F334A1C77129A00E85629 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F32C21C77129A00E85629 /* BarChartView.swift */; };
@@ -193,6 +194,7 @@
 		9B5F34281C771E6000E85629 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34221C771E6000E85629 /* Request.swift */; };
 		9B5F34291C771E6000E85629 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34231C771E6000E85629 /* Response.swift */; };
 		9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F342D1C77223800E85629 /* SQLite-Bridging.m */; };
+		9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D1201C9BABD600297470 /* LessonCollectionController.swift */; };
 		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
@@ -229,7 +231,6 @@
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
 		C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */; };
 		C1304D411C9972C600CE72C5 /* LessonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */; };
-		C1304D421C9972C600CE72C5 /* LessonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */; };
 		C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D561C58B75C0036A5E9 /* Login.swift */; };
 		C13A5D5A1C58C7EA0036A5E9 /* MenuTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */; };
 		C13A5D5F1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */; };
@@ -517,6 +518,7 @@
 		9B5526351C9A6911000AB7E8 /* select_next_objective_on_current_level.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = select_next_objective_on_current_level.sql; sourceTree = "<group>"; };
 		9B5526361C9A6911000AB7E8 /* select_prev_level_of_level.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = select_prev_level_of_level.sql; sourceTree = "<group>"; };
 		9B5526421C9A709E000AB7E8 /* AETest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AETest.swift; path = Data/Entity/Lesson/AETest.swift; sourceTree = "<group>"; };
+		9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveController.swift; sourceTree = "<group>"; };
 		9B5F32BF1C77129A00E85629 /* ChartAnimationEasing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimationEasing.swift; sourceTree = "<group>"; };
 		9B5F32C01C77129A00E85629 /* ChartAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartAnimator.swift; sourceTree = "<group>"; };
 		9B5F32C21C77129A00E85629 /* BarChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 		9B5F342B1C77223800E85629 /* fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fts3_tokenizer.h; sourceTree = "<group>"; };
 		9B5F342C1C77223800E85629 /* SQLite-Bridging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridging.h"; sourceTree = "<group>"; };
 		9B5F342D1C77223800E85629 /* SQLite-Bridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SQLite-Bridging.m"; sourceTree = "<group>"; };
+		9B72D1201C9BABD600297470 /* LessonCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonCollectionController.swift; sourceTree = "<group>"; };
 		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
@@ -708,7 +711,6 @@
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
 		C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupCell.xib; sourceTree = "<group>"; };
 		C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTableViewCell.swift; sourceTree = "<group>"; };
-		C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonTableViewCell.xib; sourceTree = "<group>"; };
 		C13A5D561C58B75C0036A5E9 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		C13A5D591C58C7EA0036A5E9 /* MenuTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTVC.swift; sourceTree = "<group>"; };
 		C13A5D5C1C58CBD80036A5E9 /* 5233-CityGuideImage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "5233-CityGuideImage.jpg"; sourceTree = "<group>"; };
@@ -1779,7 +1781,8 @@
 			children = (
 				C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */,
 				C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */,
-				C1304D401C9972C600CE72C5 /* LessonTableViewCell.xib */,
+				9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */,
+				9B72D1201C9BABD600297470 /* LessonCollectionController.swift */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2048,7 +2051,6 @@
 				C16CD2E81C44B1EC00537461 /* ic_next.png in Resources */,
 				C16CD2F11C44B1EC00537461 /* ic_up.png in Resources */,
 				C16CD2FC1C44B1EC00537461 /* help_content_5.png in Resources */,
-				C1304D421C9972C600CE72C5 /* LessonTableViewCell.xib in Resources */,
 				C16CD2D91C44B1EC00537461 /* tab_graph.xml in Resources */,
 				C16CD2C41C44B1EC00537461 /* p_menu_setting.png in Resources */,
 				C16CD2AD1C44B1EC00537461 /* ic_menu_accenteasy.png in Resources */,
@@ -2267,9 +2269,11 @@
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				9B5F339B1C77129A00E85629 /* ChartHighlighter.swift in Sources */,
 				9B5F335B1C77129A00E85629 /* ChartXAxis.swift in Sources */,
+				9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */,
 				C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */,
 				9B5F341C1C771DB300E85629 /* SQLiteOperators.swift in Sources */,
 				C13B656F1C86D9C200318336 /* IPAPopupVC.swift in Sources */,
+				9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */,
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
 				9B5F33A91C77129A00E85629 /* ChartAxisRendererBase.swift in Sources */,

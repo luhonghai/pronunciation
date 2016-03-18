@@ -21,6 +21,12 @@ public class AETest : AELiteEntity {
         self.percentPass = row[LiteColumn.PERCENT_PASS]
     }
     
+    public override func parse(row: Array<Optional<Binding>>) {
+        self.idString = row[0] as! String
+        self.name = row[1] as! String
+        self.percentPass = row[2] as! Double
+    }
+    
     override public func setters() -> [Setter]? {
         return [
             LiteColumn.IDSTRING <- self.idString,
