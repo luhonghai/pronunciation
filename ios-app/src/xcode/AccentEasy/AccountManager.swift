@@ -189,6 +189,14 @@ class AccountManager {
         
         print("device info \(JSONHelper.toJson(userProfile.deviceInfo))")
         
+        print("------------")
+        print(code)
+        print(DeviceManager.appVersion())
+        print(userProfile.username)
+        print(DeviceManager.languagePrefix())
+        print(DeviceManager.imei())
+        print("------------")
+        
         client.post("/activate").type("form").send(["acc":code,"version_code" : DeviceManager.appVersion(),"user":userProfile.username,"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
                 print("activate register code response: \(res.text)")
@@ -215,7 +223,7 @@ class AccountManager {
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
         
-        client.post("/activate").type("form").send(["version_code" : DeviceManager.appVersion(),"user":userProfile.username,"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
+        client.post("/activate").type("form").send(["version_code" : DeviceManager.appVersion(),"profile": JSONHelper.toJson(userProfile),"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
                 print("resend code response: \(res.text)")
                 if(res.error) { // status of 2xx

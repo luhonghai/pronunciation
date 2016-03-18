@@ -42,7 +42,6 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     //var items = ["1", "2", "3", "4", "5"]
     var arrIPAMapArpabet = [IPAMapArpabet]()
     var indexCellChoice:Int!
-    var isPlayInIPAPopup:Bool = false
     
     //var global
     let redColor = "#ff3333"
@@ -181,15 +180,16 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     //select cell
+    let ipaPopupVC:IPAPopupVC = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
     func displayViewController(animationType: SLpopupViewAnimationType) {
         let cellColor:UIColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore))
-        let ipaPopupVC:IPAPopupVC = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
         ipaPopupVC.view.backgroundColor = cellColor
         ipaPopupVC.view.layer.cornerRadius = 5
         ipaPopupVC.lblScore.text = convertScoreToString(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore)
         ipaPopupVC.lblIPA.text = arrIPAMapArpabet[indexCellChoice].ipa
         ipaPopupVC.btnPlayExample.tintColor = cellColor
         ipaPopupVC.btnShowChart.tintColor = cellColor
+        ipaPopupVC.isShow = true
         
         ipaPopupVC.delegate = self
         
@@ -209,7 +209,6 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
                     self.playSound(NSURL(fileURLWithPath: path))
                 })
             }
-        isPlayInIPAPopup = true
     }
     
     
@@ -236,10 +235,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     
     func audioPlayer(audioPlayer: EZAudioPlayer!, reachedEndOfAudioFile audioFile: EZAudioFile!) {
-        if isPlayInIPAPopup {
+        if (ipaPopupVC.isShow) {
             self.dismissPopupViewController(.Fade)
         }
-        isPlayInIPAPopup = false
+        self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
+        showColorOfScoreResult(userVoiceModelResult.score)
     }
     
     func pressShowChart(sender: IPAPopupVC) {
@@ -259,7 +259,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
             print("stop playing")
             self.player.pause()
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
-            self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
+            //self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
+            showColorOfScoreResult(userVoiceModelResult.score)
             //if (self.scoreResult >= 0.0) {
                 //showColorOfScoreResult(scoreResult)
                 //self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)

@@ -178,6 +178,7 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
         AccountManager.register(userProfile) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
                 if success {
+                    AccountManager.updateProfile(userProfile)
                     self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
                 } else {
                     self.hidenLoadding()

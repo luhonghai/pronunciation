@@ -16,6 +16,7 @@ protocol IPAPopupViewControllerDelegate {
 class IPAPopupVC: UIViewController {
 
     var delegate:IPAPopupViewControllerDelegate?
+    var isShow:Bool = false
     
     @IBOutlet weak var lblScore: UILabel!
     @IBOutlet weak var lblIPA: UILabel!
@@ -38,6 +39,10 @@ class IPAPopupVC: UIViewController {
         sImage = scaleTo(image: sImage, w: 30, h: 30)
         btnShowChart.setImage(sImage, forState: UIControlState.Normal)
 
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        isShow = false
     }
     
     private func scaleTo(image image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
