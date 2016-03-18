@@ -67,13 +67,23 @@ public class QuestionServices {
         String message=null;
         List<WeightPhonemesDTO> list=listWords.getListWord();
         String idQuestion = UUIDGenerator.generateUUID().toString();
-        addQuestionToDB(idQuestion);
-        addMappingQuestionToLesson(idQuestion,idLesson);
+
+        if(addQuestionToDB(idQuestion).indexOf(ERROR) != -1){
+            return ERROR;
+        }
+        if(addMappingQuestionToLesson(idQuestion,idLesson).indexOf(ERROR)!= -1){
+            return ERROR;
+        }
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
-                addWordToQuestionDB(woq);
-                addMapping(list.get(i), idQuestion);
+
+               if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
+                   return ERROR;
+               }
+                if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
+                    return ERROR;
+                }
             }
         }
         message=SUCCESS;
@@ -85,6 +95,8 @@ public class QuestionServices {
         String message=null;
         try {
             Question question=new Question();
+            question.setName("Question");
+            question.setDescription("Question");
             question.setId(idQuestion);
             question.setIsDeleted(false);
             question.setVersion(getMaxVersionQuestion());
@@ -115,7 +127,7 @@ public class QuestionServices {
         return SUCCESS;
     }
 
-    public String addMapping(WeightPhonemesDTO dto,String IdQuestion){
+    public String addMappingWeightForPhonemes(WeightPhonemesDTO dto,String IdQuestion){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
         String message=null;
         try {
@@ -139,7 +151,7 @@ public class QuestionServices {
             }else{
                 message = ERROR;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("can not add mapping list weight for phoneme : " + e.getMessage());
         }
         return message;
@@ -150,7 +162,7 @@ public class QuestionServices {
         try {
             dao.updateDeletedBy(idQuestion,idWord);
             check = true;
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.debug("can not update delete in database because : " + e.getMessage());
         }
         return check;

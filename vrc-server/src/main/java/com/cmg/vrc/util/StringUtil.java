@@ -8,6 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -98,5 +99,16 @@ public class StringUtil {
         } finally {
             IOUtils.closeQuietly(is);
         }
+    }
+
+    public static String convertListToString(List<String> list, String separator){
+        if(list!= null && list.size() > 0){
+            String converter = "";
+            for(String word : list){
+                converter = converter + word + separator;
+            }
+            return converter.substring(0,converter.length()-1);
+        }
+        return  "";
     }
 }

@@ -12,8 +12,8 @@ import com.cmg.merchant.dao.test.TMLDAO;
 import com.cmg.merchant.dao.word.WDAO;
 import com.cmg.merchant.data.dto.TreeNode;
 import com.cmg.merchant.services.treeview.ButtonServices;
+import com.cmg.vrc.util.StringUtil;
 import edu.cmu.sphinx.linguist.dictionary.Word;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.util.TextUtils;
 
 import java.util.ArrayList;
@@ -209,17 +209,20 @@ public class TreeUtil {
             nodes.add(btnService.createBtnAddQuestion());
         }
         if(list!=null){
+            int index = 1;
             for(Question question : list){
                 TreeNode node = getDefaultInstance(showBtnAction);
                 node.setId(question.getId());
-                node.setLabel(question.getName());
-                node.set_description(listWordOnQuestion(question.getId()));
+                node.setLabel(question.getName() + index);
+                node.set_title(listWordOnQuestion(question.getId()));
                 node.setIcon(Constant.IC_QUESTION);
                 node.set_targetLoad(Constant.TARGET_LOAD_QUESTION);
                 node.set_popupId(Constant.POPUP_QUESTION);
                 node.set_actionClick(Constant.ACTION_EDIT_QUESTION);
                 node.setOpen(false);
+                node.setInode(false);
                 nodes.add(node);
+                index++;
             }
         }else{
             TreeNode node = getDefaultInstance(showBtnAction);
@@ -231,7 +234,7 @@ public class TreeUtil {
     public String listWordOnQuestion(String idQuestion){
         String listWord="";
         List<String> lists=wdao.getWordByIdQuestion(idQuestion);
-        listWord= StringUtils.join(lists,',');
+        listWord= StringUtil.convertListToString(lists, ",");
         return listWord;
     }
 

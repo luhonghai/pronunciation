@@ -32,15 +32,25 @@ public class WDAO extends DataAccess<WordCollection> {
         TypeMetadata metaWordCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
         TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
         Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE mapping.idQuestion='" + idQuestion + "'");
+        List<String> temp = new ArrayList<>();
         try {
-            List<String> list=(List<String>) q.execute();
-            return list;
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0) {
+                for (Object obj : tmp) {
+                    Object array = (Object) obj;
+                    if (array != null) {
+                        temp.add(array.toString());
+                    }
+                }
+            }
+
         } catch (Exception e) {
             throw e;
         } finally {
             q.closeAll();
             pm.close();
         }
+        return temp;
     }
 
 }
