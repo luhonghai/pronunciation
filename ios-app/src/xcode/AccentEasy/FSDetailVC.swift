@@ -177,8 +177,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
-        print("You selected cell #\(indexPath.item)!")
-        
+        Logger.log("You selected cell #\(indexPath.item)!")
         indexCellChoice = indexPath.item
         self.displayViewController(.Fade)
     }
