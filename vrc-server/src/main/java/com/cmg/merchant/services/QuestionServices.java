@@ -11,6 +11,7 @@ import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.merchant.dao.lessons.LMQDAO;
 import com.cmg.merchant.dao.questions.QDAO;
+import com.cmg.merchant.dao.word.WMQDAO;
 import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
 import com.cmg.vrc.util.UUIDGenerator;
@@ -72,15 +73,11 @@ public class QuestionServices {
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
-                boolean s=addMapping(list.get(i),idQuestion);
+                addWordToQuestionDB(woq);
+                addMapping(list.get(i), idQuestion);
             }
         }
-
-        //String message = addQuestionToDB(idLesson);
-//        if(message.equalsIgnoreCase(ERROR)){
-//            return ERROR + ": an error has been occurred in server!";
-//        }
-//        message = addMappingQuestionToLesson(idObj, idLesson);
+        message=SUCCESS;
         return message;
     }
 
@@ -94,7 +91,7 @@ public class QuestionServices {
             question.setVersion(getMaxVersionQuestion());
             question.setTimeCreated(new Date(System.currentTimeMillis()));
             qdao.create(question);
-            message = idQuestion;
+            message=SUCCESS;
         }catch(Exception e){
             message = ERROR;
         }
@@ -112,6 +109,7 @@ public class QuestionServices {
             lessonMappingQuestion.setIdQuestion(idQuestion);
             lessonMappingQuestion.setVersion(getMaxVersion());
             lmqdao.create(lessonMappingQuestion);
+
         }catch (Exception e){e.printStackTrace();
             return ERROR + ": an error has been occurred in server!";
         }
@@ -157,6 +155,25 @@ public class QuestionServices {
             logger.debug("can not update delete in database because : " + e.getMessage());
         }
         return check;
+    }
+
+    public String addWordToQuestionDB(WordOfQuestion obj){
+        WMQDAO woqDAO = new WMQDAO();
+        boolean check = false;
+        String message = "";
+        try {
+            check = woqDAO.checkExistedWord(obj.getIdQuestion(), obj.getIdWordCollection());
+            if(check){
+                message = ERROR + " : this word was already added to question!";
+            }else {
+                woqDAO.create(obj);
+                message = SUCCESS;
+            }
+        }catch (Exception e){
+            message = ERROR + " : " + e.getMessage();
+            logger.error("can not add word to question in db because : " + e.getMessage());
+        }
+        return message;
     }
 
 }
