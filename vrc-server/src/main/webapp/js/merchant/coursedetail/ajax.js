@@ -485,7 +485,7 @@ function addQuestion(listWord){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add Lesson success fully!", "success");
+                swal("Success!", "You have add Lesson successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);

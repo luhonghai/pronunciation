@@ -326,11 +326,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm">type:</label>
                         <div class="col-md-8">
-                            <select id="lessonType" style="padding: 2px;">
+                            <select id="lessonType" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
-                                <option value="pace">pace</option>
-                                <option value="power">power</option>
-                                <option value="pitch">pitch</option>
+                                <option value="pace" disabled="disabled">pace</option>
+                                <option value="power" disabled="disabled">power</option>
+                                <option value="pitch" disabled="disabled">pitch</option>
                             </select>
                         </div>
                     </div>
