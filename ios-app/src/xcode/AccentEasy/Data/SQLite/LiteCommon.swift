@@ -18,6 +18,12 @@ public class LiteTable {
     public static let PHONEME_SCORE = Table("PhonemeScore")
     public static let IPA_MAP_ARPABET = Table("IPAMapArpabet")
     public static let WORD_COLLECTION = Table("WordCollection")
+    public static let COUNTRY = Table("Country")
+    public static let LESSON_COLLECTION = Table("LessonCollection")
+    public static let OBJECTIVE = Table("Objective")
+    public static let LEVEL = Table("Level")
+    public static let QUESTION = Table("Question")
+    public static let TEST  = Table("LessonTest")
     
     public static let CREATE_TABLE_QUERIES = [
         LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
@@ -45,6 +51,7 @@ public class LiteTable {
 
 public class LiteColumn {
     public static let ID = Expression<Int64>("ID")
+    public static let IDSTRING = Expression<String?>("ID")
     public static let WORD = Expression<String?>("WORD")
     public static let SCORE = Expression<Int?>("SCORE")
     public static let DATA_ID = Expression<String?>("DATAID")
@@ -66,6 +73,13 @@ public class LiteColumn {
     public static let WORDS = Expression<String?>("WORDS")
     public static let IMG_TONGUE = Expression<String?>("IMGTONGUE")
     public static let MP3_URL_SHORT = Expression<String?>("MP3URLSHORT")
+    public static let IS_DEFAULT = Expression<String?>("ISDEFAULT")
+    public static let IMAGE_URL = Expression<String?>("IMAGEURL")
+    public static let INDEXING_TYPE = Expression<Int?>("INDEXINGTYPE")
+    public static let IS_DEMO = Expression<String?>("ISDEMO")
+    public static let IS_DEFAULT_ACTIVATED = Expression<String?>("ISDEFAULTACTIVATED")
+    public static let TITLE = Expression<String?>("TITLE")
+    public static let PERCENT_PASS = Expression<Double?>("PERCENTPASS")
 }
 
 public class LiteEntity {
@@ -80,6 +94,10 @@ public class LiteEntity {
     }
     
     public func parse(row: Row) {
+        fatalError(__FUNCTION__ + " Must be overridden");
+    }
+    
+    public func parse(row: Array<Optional<Binding>>) {
         fatalError(__FUNCTION__ + " Must be overridden");
     }
     

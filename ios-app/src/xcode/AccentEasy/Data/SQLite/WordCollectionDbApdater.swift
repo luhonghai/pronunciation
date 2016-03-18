@@ -8,130 +8,6 @@
 
 import Foundation
 
-public class WordCollection: LiteEntity, Mappable {
-    var word: String!
-    var arpabet: String!
-    var definition: String!
-    var mp3Path: String!
-    var pronunciation: String!
-    
-    required public init(){
-        super.init()
-    }
-    func getArpabetList() -> Array<String> {
-        var list:Array<String> = []
-        if arpabet == nil || arpabet.isEmpty {
-            return list
-        }
-        let wordArray = arpabet.componentsSeparatedByString(" ")
-        for word in wordArray {
-            list.append(word.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet()
-                ))
-        }
-        return list;
-    }
-    
-    required public init?(_ map: Map) {
-        super.init()
-    }
-
-    public required init(id: Int64) {
-        super.init(id: id)
-    }
-    
-    public override func parse(row: Row) {
-        self.word = row[LiteColumn.WORD]
-        self.arpabet = row[LiteColumn.ARPABET]
-        self.definition = row[LiteColumn.DEFINITION]
-        self.mp3Path = row[LiteColumn.MP3_PATH]
-        self.pronunciation = row[LiteColumn.PRONUNCIATION]
-    }
-    
-    
-        
-    public override func table() -> Table? {
-        return LiteTable.WORD_COLLECTION
-    }
-    
-    // Mappable
-    public func mapping(map: Map) {
-        word    <= map["word"]
-        arpabet   <= map["arpabet"]
-        definition      <= map["definition"]
-        mp3Path       <= map["mp3Path"]
-        pronunciation  <= map["pronunciation"]
-    }
-        
-    public override func setters() -> [Setter]? {
-        return [
-            LiteColumn.WORD <- self.word,
-            LiteColumn.ARPABET <- self.arpabet,
-            LiteColumn.DEFINITION <- self.definition,
-            LiteColumn.MP3_PATH <- self.mp3Path,
-            LiteColumn.PRONUNCIATION <- self.pronunciation
-        ]
-    }
-
-}
-
-public class IPAMapArpabet: LiteEntity {
-    var arpabet:String!
-    var color:String!
-    var description:String!
-    var ipa:String!
-    var type:String!
-    var mp3URL:String!
-    var tip:String!
-    var words:String!
-    var mp3URLShort:String!
-    var imgTongue:String!
-    
-    func getWordList() -> Array<String> {
-        var list:Array<String> = []
-        let wordArray = words.componentsSeparatedByString(",")
-        for word in wordArray {
-            list.append(word.stringByTrimmingCharactersInSet(
-                NSCharacterSet.whitespaceAndNewlineCharacterSet()
-                ))
-        }
-        return list;
-    }
-    
-    public override func parse(row: Row) {
-        self.arpabet = row[LiteColumn.ARPABET]
-        self.color = row[LiteColumn.COLOR]
-        self.description = row[LiteColumn.DESCRIPTION]
-        self.ipa = row[LiteColumn.IPA]
-        self.type = row[LiteColumn.TYPE]
-        self.mp3URL = row[LiteColumn.MP3_URL]
-        self.tip = row[LiteColumn.TIP]
-        self.words = row[LiteColumn.WORDS]
-        self.mp3URLShort = row[LiteColumn.MP3_URL_SHORT]
-        self.imgTongue = row[LiteColumn.IMG_TONGUE]
-    }
-    
-    public override func setters() -> [Setter]? {
-        return [
-            LiteColumn.ARPABET <- self.arpabet,
-            LiteColumn.COLOR <- self.color,
-            LiteColumn.DESCRIPTION <- self.description,
-            LiteColumn.IPA <- self.ipa,
-            LiteColumn.TYPE <- self.type,
-            LiteColumn.MP3_URL <- self.mp3URL,
-            LiteColumn.TIP <- self.tip,
-            LiteColumn.WORDS <- self.words,
-            LiteColumn.MP3_URL_SHORT <- self.mp3URLShort,
-            LiteColumn.IMG_TONGUE <- self.imgTongue
-        ]
-
-    }
-    
-    public override func table() -> Table? {
-        return LiteTable.IPA_MAP_ARPABET
-    }
-}
-
 public class WordCollectionDbApdater: BaseDatabaseAdapter {
     
     init() {
@@ -157,4 +33,63 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     public func getIPAMapArpabet(arpabet: String) throws -> IPAMapArpabet {
         return try find(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.ARPABET == arpabet))
     }
+    
+    public func getIPAMapArpabetByType(type: String) throws -> Array<IPAMapArpabet> {
+        return try query(LiteTable.IPA_MAP_ARPABET.filter(LiteColumn.TYPE == type).order(LiteColumn.INDEXING_TYPE .asc))
+    }
+    
+    public func getAllCountries() throws -> Array<AECountry> {
+        return try findAll()
+    }
+    
+    public func getDefaultCountry() throws -> AECountry {
+        return try find(LiteTable.COUNTRY.filter(LiteColumn.IS_DEFAULT == ""))
+    }
+    
+    public func getLevelByCountry(countryId: String!) throws -> Array<AELevel> {
+        return try query(FileHelper.readFileBundle("select_all_level_by_country", type: "sql"), values: countryId)
+    }
+    
+    public func getObjective(countryId: String!, levelId: String!) throws -> Array<AEObjective>  {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_objective_by_level", type: "sql")).bind(countryId, levelId))!)
+    }
+    
+    public func getQuestionByLessionCollection(lcId: String!) throws -> Array<AEQuestion> {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_question_by_lesson_collection", type: "sql")).bind(lcId))!)
+    }
+    
+    public func getTest(countryId: String!, levelId: String!) throws -> Array<AETest> {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_test_by_level", type: "sql")).bind(countryId, levelId))!)
+    }
+    
+    public func getLessonCollectionByObjective(countryId: String!, levelId: String!, objectiveId: String!) throws -> Array<AELessonCollection> {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_lesson_collection_by_objective", type: "sql")).bind(countryId, levelId, objectiveId))!)
+    }
+    
+    public func getLessonCollectionByTest(countryId: String!, levelId: String!, testId: String!) throws -> Array<AELessonCollection> {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_lesson_collection_by_test", type: "sql")).bind(countryId, levelId, testId))!)
+    }
+    
+    public func getWordsOfQuestion(questionId: String!) throws -> Array<WordCollection> {
+        return try query((db?.prepare(FileHelper.readFileBundle("select_all_words_by_question", type: "sql")).bind(questionId))!)
+    }
+    
+    public func getPrevLevelOfLevel(countryId : String!, levelId: String!) throws -> AELevel {
+        return try find((db?.prepare(FileHelper.readFileBundle("select_prev_level_of_level", type: "sql")).bind(countryId, countryId, levelId))!)
+    }
+    
+    public func getNextObjectiveOnCurrentLevel(countryId : String!, levelId: String!, objectiveId: String!) throws -> AEObjective {
+        return try find((db?.prepare(FileHelper.readFileBundle("select_next_objective_on_current_level", type: "sql")).bind(countryId, levelId, countryId, levelId, objectiveId))!)
+    }
+    
+    public func getFirstLessonOfObjective(countryId : String!, levelId: String!, objectiveId: String!) throws -> AELessonCollection {
+        return try find((db?.prepare(FileHelper.readFileBundle("select_all_lesson_collection_by_objective", type: "sql")).bind(countryId, levelId, objectiveId))!)
+    }
+    
+    public func getNextLessonOnCurrentObjective(countryId : String!, levelId: String!, objectiveId: String!, lessonId: String!) throws -> AELessonCollection {
+        return try find((db?.prepare(FileHelper.readFileBundle("select_next_lesson_on_current_objective", type: "sql")).bind(countryId, levelId, objectiveId,
+            countryId, levelId, objectiveId,
+            lessonId))!)
+    }
+    
 }

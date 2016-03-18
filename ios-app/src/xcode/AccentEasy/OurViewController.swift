@@ -133,16 +133,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //login parameter
         //loginParameter = NSUserDefaults()
         userProfileSaveInApp = NSUserDefaults()
-        if Login.IS_DEBUG {
-            userProfile = Login.getTestUserProfile()
-        } else {
-            let keyForUserProfile:String = userProfileSaveInApp.objectForKey(Login.KeyUserProfile) as! String
-            JSONStringUserProfile = userProfileSaveInApp.objectForKey(keyForUserProfile) as! String
-            print("login successfull")
-            print(JSONStringUserProfile)
-            userProfile = Mapper<UserProfile>().map(JSONStringUserProfile)!
-            //lblUsername.text = userProfile.username
-        }
+        userProfile = AccountManager.currentUser()
         
         //load word default
         lessonDBAdapter = WordCollectionDbApdater()

@@ -19,6 +19,7 @@ target 'AccentEasy' do
 	#pod 'Charts'
     pod 'RDVTabBarController'
     pod 'ImageLoader'
+    pod 'SloppySwiper'
 end
 
 target 'AccentEasyTests' do

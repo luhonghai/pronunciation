@@ -9,8 +9,8 @@
 import UIKit
 
 protocol IPAPopupViewControllerDelegate {
-    func pressPlayExample(sender: IPAPopupVC)
-    func pressShowChart(sender: IPAPopupVC)
+    func pressPlayExample(sender: IPAPopupVC?)
+    func pressShowChart(sender: IPAPopupVC?)
 }
 
 class IPAPopupVC: UIViewController {
@@ -32,11 +32,11 @@ class IPAPopupVC: UIViewController {
         // Do any additional setup after loading the view.
         
         var pImage = UIImage(named: "ic_play.png")!
-        pImage = scaleTo(image: pImage, w: 40, h: 40)
+        pImage = ImageHelper.imageWithImage(image: pImage, w: 40, h: 40)
         btnPlayExample.setImage(pImage, forState: UIControlState.Normal)
         
         var sImage = UIImage(named: "ic_graph.png")!
-        sImage = scaleTo(image: sImage, w: 30, h: 30)
+        sImage = ImageHelper.imageWithImage(image: sImage, w: 30, h: 30)
         btnShowChart.setImage(sImage, forState: UIControlState.Normal)
 
     }

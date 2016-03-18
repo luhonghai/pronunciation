@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OurItem3ViewController: UIViewController {
+class OurItem3ViewController: UIViewController, LSPopupVCDelegate{
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
@@ -21,6 +21,8 @@ class OurItem3ViewController: UIViewController {
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,5 +40,25 @@ class OurItem3ViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @IBAction func showLS(sender: AnyObject) {
+        self.displayViewController(.Fade)
+    }
+    
+    func displayViewController(animationType: SLpopupViewAnimationType) {
+
+        let lSPopupVC:LSPopupVC = LSPopupVC(nibName:"LSPopupVC", bundle: nil)
+        
+        lSPopupVC.delegate = self
+        
+        self.presentpopupViewController(lSPopupVC, animationType: animationType, completion: { () -> Void in
+            
+        })
+    }
+    
+    func closePopup(sender: LSPopupVC) {
+        self.dismissPopupViewController(.Fade)
+    }
+
 
 }

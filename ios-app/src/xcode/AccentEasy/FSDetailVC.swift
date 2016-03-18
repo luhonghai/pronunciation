@@ -8,6 +8,7 @@
 
 import UIKit
 import EZAudio
+import SloppySwiper
 
 class MyCollectionViewCell: UICollectionViewCell {
     
@@ -50,6 +51,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let swiper = SloppySwiper(navigationController: self.navigationController)
+        self.navigationController?.delegate = swiper
         cViewIPAList.delegate = self
         cViewIPAList.dataSource = self
         //init audio plaer
@@ -198,7 +201,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         })
     }
     
-    func pressPlayExample(sender: IPAPopupVC) {
+    func pressPlayExample(sender: IPAPopupVC?) {
         print("press PlayExample", terminator: "\n")
         //play ipa
             let linkFile:String = arrIPAMapArpabet[indexCellChoice].mp3URL
@@ -242,7 +245,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         showColorOfScoreResult(userVoiceModelResult.score)
     }
     
-    func pressShowChart(sender: IPAPopupVC) {
+    func pressShowChart(sender: IPAPopupVC?) {
         print("press ShowChart", terminator: "\n")
         self.dismissPopupViewController(.Fade)
     }

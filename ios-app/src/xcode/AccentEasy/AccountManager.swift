@@ -69,10 +69,13 @@ class AccountManager {
         userDefaults.setObject(profile.username, forKey: Login.KeyUserProfile)
     }
     
-    class func currentUser() -> UserProfile {
+    class func currentUser(username: String = "") -> UserProfile {
         print ("run in currentUser")
         let userDefaults = NSUserDefaults()
-        let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
+        var keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
+        if !username.isEmpty {
+            keyForUserProfile = username
+        }
         if (keyForUserProfile != nil) {
             let rawString = userDefaults.objectForKey(keyForUserProfile! as! String)
             if rawString != nil && !(rawString as! String).isEmpty {
@@ -83,11 +86,9 @@ class AccountManager {
     }
     
     class func logout() {
-        let userDefaults = NSUserDefaults()
-        let keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
-        if keyForUserProfile != nil {
-            userDefaults.setObject(nil, forKey: keyForUserProfile as! String)
-        }
+        let p = currentUser()
+        p.isLogin = false
+        updateProfile(p)
     }
     
     

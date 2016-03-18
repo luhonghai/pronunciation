@@ -1,26 +1,19 @@
 //
-//  OurTableViewController.swift
-//  SwiftSidebarMenu
+//  LSPopupTVC.swift
+//  AccentEasy
 //
-//  Created by CMGVN on 1/7/16.
+//  Created by CMGVN on 3/15/16.
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
 
-class OurTableViewController: UITableViewController {
-
-    @IBOutlet weak var menuButton: UIBarButtonItem!
+class LSPopupTVC: UITableViewController {
+    
+    var arrShow = ["hoang","nguyen","minh","hoang","nguyen","minh","hoang","nguyen","minh"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if self.revealViewController() != nil {
-            menuButton.target = self.revealViewController()
-            menuButton.action = "revealToggle:"
-            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
-
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -29,7 +22,6 @@ class OurTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
-    /*
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -39,23 +31,27 @@ class OurTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
-    }*/
-
-    /*
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
-        return cell
+        return arrShow.count
     }
-    */
+
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let identifier = "cellIdentifier"
+        var cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier)
+        if cell == nil{
+            cell = UITableViewCell(style: .Default, reuseIdentifier: identifier)
+        }
+        cell?.textLabel?.text = arrShow[indexPath.row]
+        return cell
+
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -101,5 +97,5 @@ class OurTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
 }
