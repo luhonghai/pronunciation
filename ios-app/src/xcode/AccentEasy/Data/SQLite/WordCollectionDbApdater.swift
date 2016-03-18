@@ -43,7 +43,7 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     }
     
     public func getDefaultCountry() throws -> AECountry {
-        return try find(LiteTable.COUNTRY.filter(LiteColumn.IS_DEFAULT == ""))
+        return try find(LiteTable.COUNTRY.filter(LiteColumn.IS_DEFAULT != "\\0"))
     }
     
     public func getLevelByCountry(countryId: String!) throws -> Array<AELevel> {
