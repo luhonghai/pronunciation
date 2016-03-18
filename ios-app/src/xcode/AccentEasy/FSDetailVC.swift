@@ -286,14 +286,15 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
-        let linkFile:String = wordSelected.mp3Path
-        if !linkFile.isEmpty {
-            print("link mp3: " + linkFile)
-            //playSound(LinkFile)
-            HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
-                self.playSound(NSURL(fileURLWithPath: path))
-            })
-        }
+        if let linkFile = wordSelected.mp3Path {
+            if !linkFile.isEmpty {
+                print("link mp3: " + linkFile)
+                //playSound(LinkFile)
+                HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
+                    self.playSound(NSURL(fileURLWithPath: path))
+                })
+            }
+        }  
     }
     
     func playSound(fileUrl: NSURL) {

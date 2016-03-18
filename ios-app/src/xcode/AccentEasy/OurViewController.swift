@@ -605,7 +605,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
-        if !linkFile.isEmpty {
+        if linkFile != nil && !linkFile.isEmpty {
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
                 print("link mp3: " + self.linkFile)
                 //playSound(LinkFile)

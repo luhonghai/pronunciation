@@ -370,8 +370,8 @@
 		C16CD3021C44B1EC00537461 /* icon_popover_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A31C44B1EC00537461 /* icon_popover_arrow_left.png */; };
 		C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A41C44B1EC00537461 /* icon_popover_arrow_right.png */; };
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
-		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
 		C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172A5821C97F70200BBBEC4 /* AECountry.swift */; };
+		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
