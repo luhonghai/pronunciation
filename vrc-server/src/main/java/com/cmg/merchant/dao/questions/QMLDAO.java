@@ -24,11 +24,11 @@ public class QMLDAO extends DataAccess<Question> {
      * @return latest version
      * @throws Exception
      */
-    public ArrayList<Question> getLessonMappingObjective(String idLesson){
+    public ArrayList<Question> getQuestionByIdLesson(String idLesson){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sqlUtil = new SQL();
         String sql = sqlUtil.getSqlQuestionMappingLesson(idLesson);
-        System.out.println("sql question mapping lesson  : " +  sql);
+        System.out.println("sql get all question by idLesson  : " +  sql);
         ArrayList<Question> list = new ArrayList<Question>();
         Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {

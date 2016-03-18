@@ -202,6 +202,10 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
+        var idLesson= treeAPI.itemData(currentParent).id;
+        $("#wordModal1").hide();
+        $("#wordModal2").hide();
+        $("#idLesson").val(idLesson);
         var row=$("#arrowQuestion").text();
         $("#arrowWord").text(row);
         $("#addWordModal").modal('show');
@@ -213,7 +217,7 @@ function showAddWord(){
         $(".weight-lable").html("");
         $(".ipa-lable").html("");
         $("#yesadd").attr("disabled", true);
-        $("#loadPhonemes").attr("disabled",false)
+        $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
     });
 }
@@ -232,7 +236,8 @@ function btnPublish(){
     });
 
 }
-var save=[];
+var listWord=[];
+var myObject = new Object();
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var nameWord=$("#addWord").val();
@@ -253,19 +258,19 @@ function saveWord(){
         });
         $("#addWordModal").modal('hide');
         //output.clear();
-        save.push({
-            id:idWord,
-            word:nameWord,
-            values:output
-        })
-       console.log(save);
+        listWord.push({
+            idWord:idWord,
+            nameWord:nameWord,
+            data:output
+        });
+       console.log(listWord);
     });
 
 }
 
 function btnAddQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
-
+        addQuestions(listWord);
     });
 }
 
@@ -278,6 +283,12 @@ function clickTopHelp(){
         getPopUpHelp().modal('show');
     });
 }
+function closePopupQuestion(){
+    $('#popupQuestion').on('hidden.bs.modal', function () {
+        $("#listWord").empty();
+    });
+}
+
 
 function clickHelpAdd(){
     $(document).on("click",".helpInfor", function(){
@@ -311,6 +322,8 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    closePopupQuestion();
+    btnAddQuestion();
     saveWord();
     clickTopHelp();
     clickHelpAdd();

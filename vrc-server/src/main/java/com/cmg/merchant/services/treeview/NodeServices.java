@@ -53,7 +53,7 @@ public class NodeServices {
 
     public ArrayList<TreeNode> loadLesson (String idLesson, boolean showBtnAction){
         ArrayList<TreeNode> list = new ArrayList<>();
-        ArrayList<TreeNode> listObj = util.switchQuestionToNode(qmldao.getLessonMappingObjective(idLesson),showBtnAction);
+        ArrayList<TreeNode> listObj = util.switchQuestionToNode(qmldao.getQuestionByIdLesson(idLesson),showBtnAction);
         list = listObj;
         return list;
     }

@@ -10,7 +10,6 @@ import java.util.List;
 public class ListWordAddQuestion {
 
     private List<WeightPhonemesDTO> listWord;
-    private String idLesson;
 
     public List<WeightPhonemesDTO> getListWord() {
         return listWord;
@@ -20,11 +19,4 @@ public class ListWordAddQuestion {
         this.listWord = listWord;
     }
 
-    public String getIdLesson() {
-        return idLesson;
-    }
-
-    public void setIdLesson(String idLesson) {
-        this.idLesson = idLesson;
-    }
 }

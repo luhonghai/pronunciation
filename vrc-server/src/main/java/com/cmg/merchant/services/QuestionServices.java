@@ -63,10 +63,9 @@ public class QuestionServices {
         return version + 1;
     }
 
-    public String addQuestionToLesson(ListWordAddQuestion listWords){
+    public String addQuestionToLesson(ListWordAddQuestion listWords,String idLesson){
         String message=null;
         List<WeightPhonemesDTO> list=listWords.getListWord();
-        String idLesson=listWords.getIdLesson();
         String idQuestion = UUIDGenerator.generateUUID().toString();
         addQuestionToDB(idQuestion);
         addMappingQuestionToLesson(idQuestion,idLesson);
@@ -116,9 +115,9 @@ public class QuestionServices {
         return SUCCESS;
     }
 
-    public boolean addMapping(WeightPhonemesDTO dto,String IdQuestion){
+    public String addMapping(WeightPhonemesDTO dto,String IdQuestion){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
-        boolean message=false;
+        String message=null;
         try {
             if(dto.getData()!=null && dto.getData().size() > 0){
                 updateDeleted(IdQuestion,dto.getIdWord());
@@ -136,9 +135,9 @@ public class QuestionServices {
                     list.add(wfp);
                 }
                 dao.create(list);
-                message = true;
+                message = SUCCESS;
             }else{
-                message = true;
+                message = ERROR;
             }
         }catch (Exception e){
             logger.error("can not add mapping list weight for phoneme : " + e.getMessage());

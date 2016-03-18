@@ -60,9 +60,10 @@ public class TreeAddNodeServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_QUESTION)){
             Gson gson=new Gson();
             String listWord = request.getParameter("listWord");
+            String idLesson = request.getParameter("idLesson");
             ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
             QuestionServices questionServices=new QuestionServices();
-            String txt = questionServices.addQuestionToLesson(listWords);
+            String txt = questionServices.addQuestionToLesson(listWords,idLesson);
             response.getWriter().println(txt);
         }
     }

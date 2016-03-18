@@ -27,6 +27,7 @@ function editCourse(){
                 firstLoad = true;
                 reloadTree();
                 currentPopup.modal('hide');
+                $("#listWord").empty();
                 swal("", "You have updated course successfully", "success");
             }else{
                 //add false show the error
@@ -469,15 +470,15 @@ function deleteLesson(){
     });
 }
 
-function addQuestion(listWord){
+function addQuestions(listWord){
+    myObject.listWord = listWord;
     $.ajax({
         url : servletAdd,
         type : "POST",
         data : {
             action: action_add_question,
-            listWord: JSON.stringify(listWord),
-            idLesson: currentPopup.find(".idHidden").val()
-
+            listWord: JSON.stringify(myObject),
+            idLesson: $("#idLesson").val()
         },
         dataType : "text",
         success : function(data){

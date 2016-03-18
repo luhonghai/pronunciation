@@ -429,6 +429,7 @@
                 <div class="row">
                     <div class="col-xs-10 col-xs-offset-1">
                         <label id="arrowWord" class="modal-title" style="margin-left: -15px;"></label>
+                        <input type="hidden" id="idLesson">
                         <h2 align="center">add word</h2>
                         <h4 id="validateWordMsg" class="modal-title validateMsg"
                             style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
