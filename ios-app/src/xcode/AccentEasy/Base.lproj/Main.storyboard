@@ -1357,7 +1357,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="zMG-7f-urH" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="7NW-5G-k37"/>
+                                            <segue destination="MzC-Mu-Ouo" kind="custom" customClass="SWRevealViewControllerSeguePushController" id="hN1-fz-cx2"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="oHq-7h-imF">
@@ -3003,7 +3003,10 @@
     <inferredMetricsTieBreakers>
         <segue reference="eFf-YZ-v5D"/>
         <segue reference="VlK-rN-iWT"/>
+        <segue reference="UNY-bE-rXo"/>
         <segue reference="Ceg-og-m1t"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="WR5-An-sLd"/>
         <segue reference="cQm-kD-9I0"/>
         <segue reference="8jd-vc-94q"/>
         <segue reference="b3j-3D-4fV"/>
