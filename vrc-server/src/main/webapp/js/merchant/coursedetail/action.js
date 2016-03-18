@@ -77,7 +77,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_add_question){
         clearForm();
-        currentPopup.find("#titlePopupQuestion").html("add question");
+        currentPopup.find("#titlePopupQuestion").html("question management");
         currentPopup.find("#btnDeleteQuestion").hide();
         var lesson = treeAPI.itemData(currentParent);
         var obj = treeAPI.parent(currentParent);
@@ -85,9 +85,30 @@ function openPopup(itemData){
         var level = treeAPI.parent(obj);
         var levelItemData = treeAPI.itemData(level);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+    }else if(itemData._actionClick == action_edit_question){
+        clearForm();
+        currentPopup.find("#titlePopupQuestion").html("question management");
+        var lesson = treeAPI.itemData(currentParent);
+        var obj = treeAPI.parent(currentParent);
+        var objItemData = treeAPI.itemData(obj);
+        var level = treeAPI.parent(obj);
+        var levelItemData = treeAPI.itemData(level);
+        getQuestionListWordEdit().attr("idLesson",lesson.id);
+        getQuestionListWordEdit().attr("listWord",lesson._title);
+        currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }
     currentPopup.modal('show');
 }
+function readListMail(txt) {
+    if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
+    var data =  txt.split(',');
+    var output = [];
+    for (var i = 0; i < data.length; i++) {
+        output.push(data[i]);
+    }
+    return output;
+}
+
 
 
 function btnSaveCourse(){

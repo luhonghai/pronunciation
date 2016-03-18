@@ -50,7 +50,6 @@ public class TreeLoadServlet extends BaseServlet {
             ArrayList<TreeNode> list = nService.loadLesson(idTarget,showBtnAction);
             String json = gson.toJson(list);
             response.getWriter().println(json);
-
         }
     }
 
