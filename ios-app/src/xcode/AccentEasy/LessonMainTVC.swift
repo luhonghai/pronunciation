@@ -56,7 +56,7 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
         if let country = userProfile.selectedCountry {
             do {
                 levels = try dbAdapter.getLevelByCountry(country.idString)
-                print("Number of level \(levels.count)")
+                Logger.log("Number of level \(levels.count)")
                 self.tableView.reloadData()
                 
             } catch {
@@ -76,7 +76,7 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Number of level \(levels.count)")
+        Logger.log("Number of level \(levels.count)")
         return levels.count
     }
     
@@ -133,7 +133,7 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
 
     func tapItem(sender: UITapGestureRecognizer) {
         let row: Int = sender.view!.tag
-        print("Select row id \(row)")
+        Logger.log("Select row id \(row)")
         let level = levels[row]
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
         nextController.selectedLevel = level

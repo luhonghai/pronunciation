@@ -75,7 +75,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
         withError error: NSError!) {
             if (error == nil) {
-                print("run in google sign in")
+                Logger.log("run in google sign in")
                 // Perform any operations on signed in user here.
                 let userId:String = user.userID                  // For client-side use only!
                 let idToken:String = user.authentication.idToken // Safe to send to the server
@@ -83,9 +83,9 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 let email:String = user.profile.email
                 //let birthday = user.profile.
                 let urlImage:String = user.profile.imageURLWithDimension(320).absoluteString
-                //print("avatar")
-                //print(urlAvate)
-                //print(userId)
+                //Logger.log("avatar")
+                //Logger.log(urlAvate)
+                //Logger.log(userId)
                 
                 // [START_EXCLUDE]
                 NSNotificationCenter.defaultCenter().postNotificationName(
@@ -119,7 +119,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 self.showLoadding()
                 
             } else {
-                print("\(error.localizedDescription)")
+                Logger.log("\(error.localizedDescription)")
                 // [START_EXCLUDE silent]
                 NSNotificationCenter.defaultCenter().postNotificationName(
                     "ToggleAuthUINotification", object: nil, userInfo: nil)
@@ -137,7 +137,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     // pressed the Sign In button
     func signInWillDispatch(signIn: GIDSignIn!, error: NSError!) {
         //myActivityIndicator.stopAnimating()
-        print("google signInWillDispatch")
+        Logger.log("google signInWillDispatch")
         
         
     }
@@ -147,20 +147,20 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     func signIn(signIn: GIDSignIn!,
         presentViewController viewController: UIViewController!) {
             self.presentViewController(viewController, animated: true, completion: nil)
-            print("sign in presented")
+            Logger.log("sign in presented")
     }
     
     // Dismiss the "Sign in with Google" view
     func signIn(signIn: GIDSignIn!,
         dismissViewController viewController: UIViewController!) {
             self.dismissViewControllerAnimated(true, completion: nil)
-            print("sign in dismissed")
+            Logger.log("sign in dismissed")
     }
     
     @IBAction func btnLoginFBTapped(sender: AnyObject) {
         DeviceManager.doIfConnectedToNetwork { () -> Void in
             self.fbLoginInitiate()
-            print("click login fb")
+            Logger.log("click login fb")
         }
     }
     
@@ -169,22 +169,22 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], handler: {(result:FBSDKLoginManagerLoginResult!, error:NSError!) -> Void in
             if (error != nil) {
                 // Process error
-                print(error)
+                Logger.log(error)
                 self.removeFbData()
                 self.showError()
             } else if result.isCancelled {
                 // User Cancellation
                 self.removeFbData()
-                print("click cancel")
+                Logger.log("click cancel")
             } else {
-                print("success initiate")
+                Logger.log("success initiate")
                 //Success
                 if result.grantedPermissions.contains("email") && result.grantedPermissions.contains("public_profile") {
                     //Do work
                     self.fetchFacebookProfile()
                 } else {
                     //Handle error
-                    print("grantedPermissions error")
+                    Logger.log("grantedPermissions error")
                 }
             }
         })
@@ -205,10 +205,10 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 
                 if ((error) != nil) {
                     //Handle error
-                    print(error)
+                    Logger.log(error)
                     self.showError()
                 } else {
-                    print(result)
+                    Logger.log(result)
                     
                     //Handle Profile Photo URL String
                     //let userId:String =  result["id"] as! String
@@ -216,7 +216,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     let profilePictureUrl:String = "https://graph.facebook.com/\(userId)/picture?type=square"
                     //https://graph.facebook.com/1093146987371181/picture?type=square&width=320&height=320
                     //enum{small, normal, album, large, square}
-                    print(profilePictureUrl)
+                    Logger.log(profilePictureUrl)
                     let accessToken = FBSDKAccessToken.currentAccessToken().tokenString
                     let fbUser = ["accessToken": accessToken, "user": result]
                     //add data for JSONStringUserProfile
@@ -295,7 +295,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
     
     
     @IBAction func btnLoginACTouchUp(sender: AnyObject) {
-        print("run in here")
+        Logger.log("run in here")
         
         //let aELoginVC = self.storyboard?.instantiateViewControllerWithIdentifier("AELoginVC") as! AELoginVC
         //let aELoginVC = AELoginVC(nibName: "AELoginVC", bundle:nil)

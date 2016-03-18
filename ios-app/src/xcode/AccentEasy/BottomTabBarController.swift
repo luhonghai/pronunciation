@@ -55,4 +55,9 @@ class BottomTabBarController: RDVTabBarController {
             index++
         }
     }
+    
+    func selectIndex(index: Int!) {
+        tabBar.selectedItem = tabBar.items[index] as? RDVTabBarItem
+    }
+    
 }

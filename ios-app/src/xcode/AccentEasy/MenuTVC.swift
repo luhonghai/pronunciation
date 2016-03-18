@@ -135,34 +135,34 @@ class MenuTVC: UITableViewController {
         //get select rown in table view
         //let selectedIndex = self.tableView.indexPathForCell(sender as! UITableViewCell)
         //var chon = selectedIndex?.row
-        //print(chon)
+        //Logger.log(chon)
     }*/
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //CODE TO BE RUN ON CELL TOUCH
-        //print(indexPath.row)
+        //Logger.log(indexPath.row)
         let rowMenu:Int = indexPath.row
         switch rowMenu{
             case 1:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 2:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 3:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 4:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 5:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 6:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 7:
-                print(rowMenu)
+                Logger.log(rowMenu)
             case 8:
-                print(rowMenu)
+                Logger.log(rowMenu)
                 SweetAlert().showAlert("logout account?", subTitle: "are you sure you want to logout this account?", style: AlertStyle.Warning, buttonTitle:"no", buttonColor:Multimedia.colorWithHexString("D0D0D0") , otherButtonTitle:  "logout", otherButtonColor: Multimedia.colorWithHexString("DD6B55")) { (isOtherButton) -> Void in
                     if isOtherButton == true {
-                        print("Cancel Button  Pressed")
+                        Logger.log("Cancel Button  Pressed")
                     }
                     else {
                         //logout  row
@@ -185,7 +185,7 @@ class MenuTVC: UITableViewController {
                 }
             
             default:
-                print("case default")
+                Logger.log("case default")
         }
         
     }

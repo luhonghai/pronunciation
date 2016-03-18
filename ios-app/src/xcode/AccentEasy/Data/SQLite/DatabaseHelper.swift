@@ -45,7 +45,7 @@ public class DatabaseHelper {
         if (FileHelper.isExists(versionPath)) {
             do {
                 dbVersion = try JSONHelper.fromJson(FileHelper.readFile(versionPath))
-                print("Previous version \(dbVersion.version)")
+                Logger.log("Previous version \(dbVersion.version)")
             } catch {
                 
             }
@@ -53,7 +53,7 @@ public class DatabaseHelper {
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in
-                print(e)
+                Logger.log(e)
                 completion(success: false)
             });
         var willLoad = false
@@ -61,14 +61,14 @@ public class DatabaseHelper {
             .end({(res:Response) -> Void in
                 if(res.error) { // status of 2xx
                     //handleResponseJson(res.body)
-                    //print(res.body)
-                    print(res.text)
+                    //Logger.log(res.body)
+                    Logger.log(res.text)
                     completion(success: false)
                 }
                 else {
                     //handleErrorJson(res.body)
-                    print("success CheckVersion")
-                    print(res.text)
+                    Logger.log("success CheckVersion")
+                    Logger.log(res.text)
                     let dbVersionRes: DatabaseVersion = JSONHelper.fromJson(res.text!)
                     if dbVersionRes.status {
                         willLoad = true
@@ -77,28 +77,28 @@ public class DatabaseHelper {
                     let lessonDbFilePath = FileHelper.getFilePath(LiteDatabase.LESSON)
                     if willLoad {
                         FileHelper.deleteFile(tmpZip)
-                        print("Try to load database zip from url \(dbVersion.data) to \(tmpZip)")
+                        Logger.log("Try to load database zip from url \(dbVersion.data) to \(tmpZip)")
                         HttpDownloader.loadFileAsync(NSURL(string: dbVersion.data)!, skipCache: true, destPath: tmpZip) { (path, error) -> Void in
                             do {
                                 if (FileHelper.isExists(tmpZip)) {
                                     FileHelper.deleteFile(lessonDbFilePath)
-                                    print("Try to unzip dabase version")
+                                    Logger.log("Try to unzip dabase version")
                                     SSZipArchive.unzipFileAtPath(tmpZip, toDestination: dataPath)
                                     if fileManager.fileExistsAtPath(lessonDbFilePath) {
-                                        print("Lesson database found. Try to save database version info")
+                                        Logger.log("Lesson database found. Try to save database version info")
                                         try FileHelper.writeFile(versionPath, content: JSONHelper.toJson(dbVersion))
                                     } else {
-                                        print("No lesson database found at path \(lessonDbFilePath)")
+                                        Logger.log("No lesson database found at path \(lessonDbFilePath)")
                                     }
                                 } else {
-                                    print("No zip file found at path \(tmpZip)")
+                                    Logger.log("No zip file found at path \(tmpZip)")
                                 }
                             } catch {
                                 
                             }
                         }
                     } else {
-                        print("Use current version. Skip update database")
+                        Logger.log("Use current version. Skip update database")
                     }
                     completion(success: fileManager.fileExistsAtPath(lessonDbFilePath))
                 }

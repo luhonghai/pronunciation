@@ -378,7 +378,7 @@ public final class Connection {
     /// - Parameter callback: This block is invoked when a statement is executed
     ///   with the compiled SQL as its argument.
     ///
-    ///       db.trace { SQL in print(SQL) }
+    ///       db.trace { SQL in Logger.log(SQL) }
     public func trace(callback: (String -> Void)?) {
         guard let callback = callback else {
             sqlite3_trace(handle, nil, nil)

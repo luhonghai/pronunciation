@@ -82,17 +82,17 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         arrIPAMapArpabet = [IPAMapArpabet]()
         btnPlayDemo.setTitle(wordSelected.word, forState: UIControlState.Normal)
         for index in 0...userVoiceModelResult.result.phonemeScores.count-1 {
-            //print(userVoiceModelResult.result.phonemeScores[index].name)
+            //Logger.log(userVoiceModelResult.result.phonemeScores[index].name)
             do{
-                print("index:\(index) iphaberName:\(userVoiceModelResult.result.phonemeScores[index].name)")
+                Logger.log("index:\(index) iphaberName:\(userVoiceModelResult.result.phonemeScores[index].name)")
                 arrIPAMapArpabet.append(try adapter.getIPAMapArpabet(userVoiceModelResult.result.phonemeScores[index].name))
-                //print(iPAMapArpabet.ipa)
+                //Logger.log(iPAMapArpabet.ipa)
             }catch{
-                print("load word default error")
+                Logger.log("load word default error")
             }
             
         }
-        //print(arrIPAMapArpabet.count)
+        //Logger.log(arrIPAMapArpabet.count)
         
         //change view color
         showColorOfScoreResult(userVoiceModelResult.score)
@@ -177,7 +177,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
-        print("You selected cell #\(indexPath.item)!")
+        Logger.log("You selected cell #\(indexPath.item)!")
         indexCellChoice = indexPath.item
         self.displayViewController(.Fade)
     }
@@ -202,11 +202,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func pressPlayExample(sender: IPAPopupVC?) {
-        print("press PlayExample", terminator: "\n")
+        Logger.log("press PlayExample")
         //play ipa
             let linkFile:String = arrIPAMapArpabet[indexCellChoice].mp3URL
             if !linkFile.isEmpty {
-                print("link mp3: " + linkFile)
+                Logger.log("link mp3: " + linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
@@ -246,7 +246,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func pressShowChart(sender: IPAPopupVC?) {
-        print("press ShowChart", terminator: "\n")
+        Logger.log("press ShowChart")
         self.dismissPopupViewController(.Fade)
     }
     
@@ -259,7 +259,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     @IBAction func btnPlayTouchUp(sender: AnyObject) {
         if self.player.isPlaying {
-            print("stop playing")
+            Logger.log("stop playing")
             self.player.pause()
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             //self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
@@ -270,10 +270,10 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
             //}
             
         } else {
-            print("play")
+            Logger.log("play")
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-            print(getTmpFilePath())
+            Logger.log(getTmpFilePath())
             playSound(getTmpFilePath())
         }
 
@@ -288,7 +288,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
         if let linkFile = wordSelected.mp3Path {
             if !linkFile.isEmpty {
-                print("link mp3: " + linkFile)
+                Logger.log("link mp3: " + linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileSync(NSURL(string: linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
@@ -298,7 +298,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func playSound(fileUrl: NSURL) {
-        print("run in play")
+        Logger.log("run in play")
         if self.player.isPlaying{
             self.player.pause()
         }
@@ -397,7 +397,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
                     - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
-               // print("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
+               // Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     view.center = CGPoint(x:view.center.x,

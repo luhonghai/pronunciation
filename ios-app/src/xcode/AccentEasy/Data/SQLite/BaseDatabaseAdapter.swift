@@ -18,7 +18,7 @@ public class BaseDatabaseAdapter {
         do {
             db = try Connection(dbFile)
         }catch let error as NSError {
-            print(error.localizedDescription);
+            Logger.log(error.localizedDescription);
         }
     }
     

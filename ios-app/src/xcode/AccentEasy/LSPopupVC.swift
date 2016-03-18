@@ -50,11 +50,11 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         
         do {
             arrCountryData = try adapter.getAllCountries()
-            print(arrCountryData)
+            Logger.log(arrCountryData)
         }catch (let e as NSError){
-            print(e)
+            Logger.log(e)
         }
-        //print(arrCountryData[0].idString)
+        //Logger.log(arrCountryData[0].idString)
         
         let cellNib = UINib(nibName: "LSPopupCell", bundle: nil)
         LSTableView.registerNib(cellNib, forCellReuseIdentifier: "cell")
@@ -79,7 +79,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
     override func viewDidDisappear(animated: Bool) {
         // Update default selected country
-        print("check country")
+        Logger.log("check country")
         validateCountry()
     }
 
@@ -178,10 +178,10 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
 
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //print(indexPath.row)
+        //Logger.log(indexPath.row)
         //let indexPath = tableView.indexPathForSelectedRow!
         //let currentCell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
-        //print(currentCell.textLabel!.text)
+        //Logger.log(currentCell.textLabel!.text)
         
         //save language selection
         let userProfile:UserProfile = AccountManager.currentUser()

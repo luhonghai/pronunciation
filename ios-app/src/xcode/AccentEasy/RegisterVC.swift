@@ -63,11 +63,11 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
     
     func textFieldDidBeginEditing(textField: UITextField) {
         animateViewMoving(true, moveValue: 100)
-        print("textFieldDidBeginEditing")
+        Logger.log("textFieldDidBeginEditing")
     }
     func textFieldDidEndEditing(textField: UITextField) {
         animateViewMoving(false, moveValue: 100)
-        print("textFieldDidEndEditing")
+        Logger.log("textFieldDidEndEditing")
     }
     
     func animateViewMoving (up:Bool, moveValue :CGFloat){

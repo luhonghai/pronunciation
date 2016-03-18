@@ -1391,7 +1391,7 @@ public class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChar
     {
         if _data === nil
         {
-            print("Can't select by touch. No data set.", terminator: "\n")
+            Logger.log("Can't select by touch. No data set.")
             return nil
         }
 

@@ -115,19 +115,19 @@ extension FreestyleSwipeVC: EZSwipeControllerDataSource {
     func disableSwipingForLeftButtonAtPageIndex(index: Int) -> Bool {
         switch index {
         case 0:
-            print("0 left")
+            Logger.log("0 left")
             return true
         case 1:
-            print("1 left")
+            Logger.log("1 left")
             return false
         case 2:
-            print("2 left")
+            Logger.log("2 left")
             return false
         case 3:
-            print("3 left")
+            Logger.log("3 left")
             return false
         case 4:
-            print("4 left")
+            Logger.log("4 left")
             return false
         default:
             return false
@@ -135,7 +135,7 @@ extension FreestyleSwipeVC: EZSwipeControllerDataSource {
     }
     
     func clickedLeftButtonFromPageIndex(index: Int) {
-        print("index left is: \(index)")
+        Logger.log("index left is: \(index)")
         
         var title = ""
         if index == 0 {
@@ -148,7 +148,7 @@ extension FreestyleSwipeVC: EZSwipeControllerDataSource {
         
         switch index {
         case 0:
-            print("0 left")
+            Logger.log("0 left")
             //menu
             if self.revealViewController() != nil {
                 //UINavigationBar
@@ -159,36 +159,36 @@ extension FreestyleSwipeVC: EZSwipeControllerDataSource {
             }
             
         case 1:
-            print("1 left")
+            Logger.log("1 left")
         case 2:
-            print("2 left")
+            Logger.log("2 left")
         case 3:
-            print("3 left")
+            Logger.log("3 left")
         case 4:
-            print("4 left")
+            Logger.log("4 left")
         default:
-            print("default left")
+            Logger.log("default left")
         }
         //if index == 1 {
-            //print("What!?! Squirtle is evolving!!")
+            //Logger.log("What!?! Squirtle is evolving!!")
        // }
     }
     
     func clickedRightButtonFromPageIndex(index: Int) {
-        print("index right is: \(index)")
+        Logger.log("index right is: \(index)")
         switch index {
         case 0:
-            print("0 right")
+            Logger.log("0 right")
         case 1:
-            print("1 right")
+            Logger.log("1 right")
         case 2:
-            print("2 right")
+            Logger.log("2 right")
         case 3:
-            print("3 right")
+            Logger.log("3 right")
         case 4:
-            print("4 right")
+            Logger.log("4 right")
         default:
-            print("default right")
+            Logger.log("default right")
         }
 
     }
@@ -205,7 +205,7 @@ private func scaleTo(image image: UIImage, w: CGFloat, h: CGFloat) -> UIImage {
 }
 
 func test(){
-    print("run in test function")
+    Logger.log("run in test function")
 }
 
 

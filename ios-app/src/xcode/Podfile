@@ -20,6 +20,7 @@ target 'AccentEasy' do
     pod 'RDVTabBarController'
     pod 'ImageLoader'
     pod 'SloppySwiper'
+    pod 'NSLogger'
 end
 
 target 'AccentEasyTests' do

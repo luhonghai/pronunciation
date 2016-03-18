@@ -102,8 +102,8 @@ class AccountManager {
         userProfile.deviceInfo = DeviceManager.deviceInfo()
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
-            .onError({e in print(e)
-                print("run in auth")
+            .onError({e in Logger.log(e)
+                Logger.log("run in auth")
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
         client.post("/AuthHandler").type("form").send(["profile":JSONHelper.toJson(userProfile), "check": String(isCheck),"imei": DeviceManager.imei()])
@@ -111,13 +111,13 @@ class AccountManager {
                 if(res.error) {
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 } else {
-                    print("auth response: \(res.text)")
+                    Logger.log("auth response: \(res.text)")
                     if let result: AuthResponse = JSONHelper.fromJson(res.text!) as AuthResponse {
                         if  result.data != nil {
                             userProfile.token = result.data.token
-                            print("login token \(userProfile.token)")
+                            Logger.log("login token \(userProfile.token)")
                         } else {
-                            print("\(result.message)")
+                            Logger.log("\(result.message)")
                         }
                         completion(userProfile: userProfile, success: result.status, message:  result.message)
                     } else {
@@ -139,12 +139,12 @@ class AccountManager {
         });
         client.post("/RegisterHandler").type("form").send(["version_code" : DeviceManager.appVersionCode(),"profile": JSONHelper.toJson(userProfile),"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
-                print(res)
+                Logger.log(res)
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
                 else {
-                    print("register response: \(res.text)")
+                    Logger.log("register response: \(res.text)")
                     let result: ProfileResponse = JSONHelper.fromJson(res.text!)
                     completion(userProfile: userProfile, success: result.status, message: result.message)
                 }
@@ -161,7 +161,7 @@ class AccountManager {
         
         client.post("/userprofile").type("form").send(["profile": JSONHelper.toJson(userProfile), "action":"get"])
             .end({(res:Response) -> Void in
-                print("fetch profile response: \(res.text)")
+                Logger.log("fetch profile response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
@@ -178,29 +178,29 @@ class AccountManager {
     }
     
     class func activate(code: String, userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
-        print("run in active code")
+        Logger.log("run in active code")
         userProfile.deviceInfo = DeviceManager.deviceInfo()
-        print("run in active code2")
+        Logger.log("run in active code2")
         let client = Client()
             .baseUrl(FileHelper.getAccentEasyBaseUrl())
             .onError({e in
-                print("error")
+                Logger.log("error")
                 completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
             });
         
-        print("device info \(JSONHelper.toJson(userProfile.deviceInfo))")
+        Logger.log("device info \(JSONHelper.toJson(userProfile.deviceInfo))")
         
-        print("------------")
-        print(code)
-        print(DeviceManager.appVersion())
-        print(userProfile.username)
-        print(DeviceManager.languagePrefix())
-        print(DeviceManager.imei())
-        print("------------")
+        Logger.log("------------")
+        Logger.log(code)
+        Logger.log(DeviceManager.appVersion())
+        Logger.log(userProfile.username)
+        Logger.log(DeviceManager.languagePrefix())
+        Logger.log(DeviceManager.imei())
+        Logger.log("------------")
         
         client.post("/activate").type("form").send(["acc":code,"version_code" : DeviceManager.appVersion(),"user":userProfile.username,"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
-                print("activate register code response: \(res.text)")
+                Logger.log("activate register code response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
@@ -226,7 +226,7 @@ class AccountManager {
         
         client.post("/activate").type("form").send(["version_code" : DeviceManager.appVersion(),"profile": JSONHelper.toJson(userProfile),"lang_prefix": DeviceManager.languagePrefix(),"imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
-                print("resend code response: \(res.text)")
+                Logger.log("resend code response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
@@ -252,7 +252,7 @@ class AccountManager {
         
         client.post("/ResetPasswordHandler").type("form").send(["acc":userProfile.username,"action":"request","imei": DeviceManager.imei()])
             .end({(res:Response) -> Void in
-                print("reset password response: \(res.text)")
+                Logger.log("reset password response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }

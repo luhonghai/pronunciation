@@ -276,7 +276,7 @@ public final class Mapper<N: Mappable> {
 			do {
 				parsedJSON = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments)
 			} catch let error {
-				print(error)
+				Logger.logError(error)
 				parsedJSON = nil
 			}
 			return parsedJSON
@@ -342,7 +342,7 @@ extension Mapper {
 				let options: NSJSONWritingOptions = prettyPrint ? .PrettyPrinted : []
                 JSONData = try NSJSONSerialization.dataWithJSONObject(JSONObject, options: options)
             } catch let error {
-                print(error)
+                Logger.logError(error)
                 JSONData = nil
             }
             

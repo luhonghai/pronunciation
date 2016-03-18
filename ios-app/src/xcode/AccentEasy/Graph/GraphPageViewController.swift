@@ -37,7 +37,7 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
         self.dataSource = nil
         do {
             let wc = try lessonDbAdapter.findByWord(word)
-            print("Load graph for word \(wc.word). Pronunciation: \(wc.getArpabetList())")
+            Logger.log("Load graph for word \(wc.word). Pronunciation: \(wc.getArpabetList())")
             self.word = word
             arpabets = wc.getArpabetList()
             self.dataSource = self

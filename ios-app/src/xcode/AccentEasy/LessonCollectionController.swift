@@ -55,7 +55,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Number of lesson \(lessionCollections.count)")
+        Logger.log("Number of lesson \(lessionCollections.count)")
         return lessionCollections.count
     }
     
@@ -89,7 +89,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     func tapItem(sender: UITapGestureRecognizer) {
         let row: Int = sender.view!.tag
-        print("Select row id \(row)")
+        Logger.log("Select row id \(row)")
         
     }
 }

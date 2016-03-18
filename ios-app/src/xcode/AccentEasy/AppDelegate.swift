@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         //window = UIWindow(frame: UIScreen.mainScreen().bounds)
         //window!.rootViewController = FreestyleSwipeVC()
         //window!.makeKeyAndVisible()
-        
+        //Logger.startService()
         return true
     }
     
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 let name = user.profile.name
                 let email = user.profile.email
                 
-                //print(user.profile.name)
+                //Logger.log(user.profile.name)
                 
                 // [START_EXCLUDE]
                 NSNotificationCenter.defaultCenter().postNotificationName(
@@ -103,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 
                 
             } else {
-                print("\(error.localizedDescription)")
+                Logger.log("\(error.localizedDescription)")
                 // [START_EXCLUDE silent]
                 NSNotificationCenter.defaultCenter().postNotificationName(
                     "ToggleAuthUINotification", object: nil, userInfo: nil)

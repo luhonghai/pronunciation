@@ -48,7 +48,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         } else {
             lblTitle.text = "con|son¦ants"
         }
-        print("Number of IPA found \(ipaList.count)")
+        Logger.log("Number of IPA found \(ipaList.count)")
         collectionIPA.delegate = self
         collectionIPA.dataSource = self
         
@@ -84,7 +84,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
-        print("You selected cell #\(indexPath.item)!")
+        Logger.log("You selected cell #\(indexPath.item)!")
         let ipa = ipaList[indexPath.item]
         playUrl(ipa.mp3URLShort)
     }
@@ -118,7 +118,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         let p = gestureRecognizer.locationInView(self.collectionIPA)
          weak var weakSelf = self
         if let indexPath = self.collectionIPA.indexPathForItemAtPoint(p) {
-            print("long press item \(indexPath.item)")
+            Logger.log("long press item \(indexPath.item)")
             selectedIpa = ipaList[indexPath.item]
 
             let popup:IPAInfoPopup = IPAInfoPopup(nibName:"IPAInfoPopup", bundle: nil)
@@ -140,7 +140,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     }
     
     func playSound(fileUrl: NSURL) {
-        print("run in play")
+        Logger.log("run in play")
         if self.player.isPlaying{
             self.player.pause()
         }

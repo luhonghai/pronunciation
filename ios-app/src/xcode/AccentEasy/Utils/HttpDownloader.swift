@@ -14,14 +14,14 @@ class HttpDownloader {
         let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
         let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
         if NSFileManager().fileExistsAtPath(destinationUrl.path!) && !skipCache {
-            print("file already exists [\(destinationUrl.path!)]")
+            Logger.log("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
         } else if let dataFromURL = NSData(contentsOfURL: url){
             if dataFromURL.writeToURL(destinationUrl, atomically: true) {
-                print("file saved [\(destinationUrl.path!)]")
+                Logger.log("file saved [\(destinationUrl.path!)]")
                 completion(path: destinationUrl.path!, error:nil)
             } else {
-                print("error saving file")
+                Logger.log("error saving file")
                 let error = NSError(domain:"Error saving file", code:1001, userInfo:nil)
                 completion(path: destinationUrl.path!, error:error)
             }
@@ -35,7 +35,7 @@ class HttpDownloader {
         let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
         let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
         if NSFileManager().fileExistsAtPath(destinationUrl.path!)  && !skipCache {
-            print("file already exists [\(destinationUrl.path!)]")
+            Logger.log("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
         } else {
             let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -45,13 +45,13 @@ class HttpDownloader {
             let task = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
                 if (error == nil) {
                     if let response = response as? NSHTTPURLResponse {
-                        print("response=\(response)")
+                        Logger.log("response=\(response)")
                         if response.statusCode == 200 {
                             if data!.writeToURL(destinationUrl, atomically: true) {
-                                print("file saved [\(destinationUrl.path!)]")
+                                Logger.log("file saved [\(destinationUrl.path!)]")
                                 completion(path: destinationUrl.path!, error:error)
                             } else {
-                                print("error saving file")
+                                Logger.log("error saving file")
                                 let error = NSError(domain:"Error saving file", code:1001, userInfo:nil)
                                 completion(path: destinationUrl.path!, error:error)
                             }
@@ -59,7 +59,7 @@ class HttpDownloader {
                     }
                 }
                 else {
-                    print("Failure: \(error!.localizedDescription)");
+                    Logger.log("Failure: \(error!.localizedDescription)");
                     completion(path: destinationUrl.path!, error:error)
                 }
             })

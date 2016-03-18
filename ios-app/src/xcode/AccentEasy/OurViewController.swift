@@ -15,7 +15,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     var userProfileSaveInApp:NSUserDefaults!
     
-    let arrayRandomWord = ["necessarily", "rural", "squirrel", "future","british", "colonel", "penguin", "sixth","anemone", "choir", "refrigerator", "eighth","jewellery", "bath", "drawer", "demure","finance", "router", "university", "credit"]
+    let arrayRandomWord = ["hello", "goodbye", "welcome", "please", "no", "yes", "left", "right", "refrigerator", "eighth", "jewellery", "bath", "drawer", "hungry", "finance", "router", "university", "credit", "pronunciation", "business", "colonel", "penguin", "sixth", "anemone", "choir", "candidate", "cacophony", "demure", "barbiturate", "electoral", "necessarily", "rural", "squirrel", "future", "hydrogen"]
     
     let kCellIdentifier = "cellIdentifier"
     //var loginParameter:NSUserDefaults!
@@ -139,15 +139,16 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         lessonDBAdapter = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
         
-        
-        let randomIndex = Int(arc4random_uniform(UInt32(arrayRandomWord.count)))
-        print("word random")
-        print(arrayRandomWord[randomIndex])
+        while selectedWord == nil {
+            let randomIndex = Int(arc4random_uniform(UInt32(arrayRandomWord.count)))
+            do {
+                selectedWord = try lessonDBAdapter.findByWord(arrayRandomWord[randomIndex])
+                Logger.log("select random word \(selectedWord.word) index \(randomIndex)")
+            } catch {
+                
+            }
+        }
         GlobalData.getInstance().selectedWord = ""
-        
-        selectedWord = WordCollection()
-        selectedWord.word = arrayRandomWord[randomIndex]
-        
     }
     
     func roundButton() {
@@ -201,7 +202,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         do{
             self.selectWord(try lessonDBAdapter.findByWord(word))
         }catch{
-            print("load word default error")
+            Logger.log("load word default error")
         }
     }
     
@@ -334,18 +335,18 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             //let resultCount:Int = arrSearchResultData.count - 1
             //if resultCount >= 0 {
             //for index in 0...resultCount{
-            //print(arrSearchResultData[index].word)
-            //print(arrSearchResultData[index].mp3Path)
+            //Logger.log(arrSearchResultData[index].word)
+            //Logger.log(arrSearchResultData[index].mp3Path)
             //appleProducts.append(arrSearchResultData[index].word)
             //}
             //}
             
         } catch (let e as NSError) {
-            print(e)
+            Logger.log(e)
         }
         
-        //print(appleProducts)
-        print(arrSearchResultData)
+        //Logger.log(appleProducts)
+        Logger.log(arrSearchResultData)
         //reload data for table view search
         resultsController.tableView.reloadData();
     }
@@ -411,7 +412,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     // MARK- UITableViewDelegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //load data for ViewControll when select word
-        print("Row \(indexPath.row) selected")
+        Logger.log("Row \(indexPath.row) selected")
         selectWord(arrSearchResultData[indexPath.row])
     }
     
@@ -426,7 +427,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //fix file test
         let databaseBundle = NSBundle.mainBundle()
         let dbZipPath = databaseBundle.pathForResource("fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw", ofType: "wav")
-        print(dbZipPath)
+        Logger.log(dbZipPath)
         
         
         weak var weakSelf = self
@@ -437,26 +438,27 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             let client = Client()
                 .baseUrl(FileHelper.getAccentEasyBaseUrl())
                 .onError({e in
-                    print(e)
+                    Logger.log(e)
                     weakSelf!.showErrorAnalyzing()
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
+            Logger.log("request token \(weakSelf!.userProfile.token)")
             client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
-                    print(res)
+                    Logger.log(res)
                     if(res.error) { // status of 2xx
                         //handleResponseJson(res.body)
-                        //print(res.body)
-                        print(res.text)
+                        //Logger.log(res.body)
+                        Logger.log(res.text)
                         dispatch_async(dispatch_get_main_queue(),{
                             weakSelf!.showErrorAnalyzing()
                         })
                     }
                     else {
                         //handleErrorJson(res.body)
-                        print("Analyze result \(res.text)")
+                        Logger.log("Analyze result \(res.text)")
                         let result = Mapper<VoidModelResult>().map(res.text)
                         let status:Bool = result!.status
                         let message:String = result!.message
@@ -502,8 +504,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 Login.showError("could not calculate score")
                             })
                         }
-                        //print(result?.message)
-                        //print(result?.status)
+                        //Logger.log(result?.message)
+                        //Logger.log(result?.status)
                     }
                 })
         }
@@ -524,7 +526,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             pScore.word = model.word
             pScore.dataId = model.id
             pScore.time = time
-            print("insert \(pScore.word) score \(pScore.score) uuid \(pScore.dataId)")
+            Logger.log("insert \(pScore.word) score \(pScore.score) uuid \(pScore.dataId)")
             try freestyleDBAdapter.insert(pScore)
             
             let result = model.result
@@ -536,7 +538,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         ps.username = userProfile.username
                         ps.time = time
                         ps.dataId = model.id
-                        print("insert \(ps.name) score \(ps.score)")
+                        Logger.log("insert \(ps.name) score \(ps.score)")
                         try freestyleDBAdapter.insert(ps)
                     }
                 }
@@ -550,7 +552,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         disableViewRecord()
         //
         if(isRecording){
-            print("not run record")
+            Logger.log("not run record")
             self.microphone.stopFetchingAudio()
             if (self.recorder != nil) {
                 self.recorder.closeAudioFile()
@@ -578,7 +580,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     @IBAction func btnPlayTouchUp(sender: AnyObject) {
         disableViewPlay()
         if self.player.isPlaying {
-            print("stop playing")
+            Logger.log("stop playing")
             self.player.pause()
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
@@ -607,7 +609,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     @IBAction func btnPlayDemoTouchUp(sender: AnyObject) {
         if linkFile != nil && !linkFile.isEmpty {
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
-                print("link mp3: " + self.linkFile)
+                Logger.log("link mp3: " + self.linkFile)
                 //playSound(LinkFile)
                 HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
@@ -628,7 +630,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func playSound(fileUrl: NSURL) {
-        print("run in play")
+        Logger.log("run in play")
         if self.player.isPlaying{
             self.player.pause()
         }
@@ -809,7 +811,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
-                //print("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
+                //Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     view.center = CGPoint(x:view.center.x,

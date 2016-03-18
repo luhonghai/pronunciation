@@ -29,7 +29,7 @@ class TestNewScreenViewController: UIViewController {
             
             SweetAlert().showAlert("validation successful!", subTitle: "your acount has already been activated. please login with your email address and password.", style: AlertStyle.Success, buttonTitle: "Ok") {(isOk) -> Void in
                 if isOk == true {
-                    print("ok")
+                    Logger.log("ok")
                 }
             }
             
@@ -50,7 +50,7 @@ class TestNewScreenViewController: UIViewController {
         /*SweetAlert().showAlert("Are you sure?", subTitle: "You file will permanently delete!", style: AlertStyle.Warning, buttonTitle:"Cancel", buttonColor:UIColor.blueColor() , otherButtonTitle:  "Yes, delete it!", otherButtonColor: UIColor.redColor()) { (isOtherButton) -> Void in
             if isOtherButton == true {
                 
-                print("Cancel Button  Pressed")
+                Logger.log("Cancel Button  Pressed")
             }
             else {
                 SweetAlert().showAlert("Deleted!", subTitle: "Your imaginary file has been deleted!", style: AlertStyle.Success)
