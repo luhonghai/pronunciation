@@ -54,5 +54,14 @@ class BottomTabBarController: RDVTabBarController {
                 withFinishedUnselectedImage: ImageHelper.imageWithImage(UIImage(named: unselectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2)))
             index++
         }
+        
+          NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
+    }
+    
+    func loadList(notification: NSNotification){
+        //load data here
+        let indexChart = notification.object as? String
+        //loadTable(word)
+        tabBar.selectedItem = tabBar.items[0] as! RDVTabBarItem
     }
 }

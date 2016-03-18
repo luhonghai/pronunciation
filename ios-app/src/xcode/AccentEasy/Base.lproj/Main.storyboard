@@ -1499,7 +1499,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIV-8V-aNQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2.5" y="859.5"/>
+            <point key="canvasLocation" x="-2.5" y="821.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ngh-ka-zLF">
@@ -2552,9 +2552,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrO-vU-Bw1" customClass="AnalyzingView" customModule="AccentEasy" customModuleProvider="target">
                                 <rect key="frame" x="21" y="110" width="241" height="241"/>
                                 <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qrO-vU-Bw1" secondAttribute="height" multiplier="1:1" id="mhF-Pb-gy4"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Q6N-HQ-Bpi" appends="YES" id="qwR-Dv-ffY"/>
+                                </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WkO-zF-5M8">
                                 <rect key="frame" x="-16" y="351" width="375" height="30"/>
@@ -2689,6 +2693,11 @@
                         <action selector="handlePan:" destination="cOY-Ek-PbP" id="p2t-lE-h6Q"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="Q6N-HQ-Bpi">
+                    <connections>
+                        <action selector="viewAnalyzingTapped:" destination="cOY-Ek-PbP" id="7oh-7u-2DK"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2309.5" y="-35.5"/>
         </scene>
@@ -3010,6 +3019,6 @@
         <segue reference="WR5-An-sLd"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="Ceg-og-m1t"/>
-        <segue reference="0GI-4W-Bce"/>
+        <segue reference="cQm-kD-9I0"/>
     </inferredMetricsTieBreakers>
 </document>

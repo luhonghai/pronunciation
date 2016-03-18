@@ -29,7 +29,21 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
         let startingViewControllers: NSArray = [firstController]
         self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:",name:"loadGraph", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
     }
+    
+    func loadList(notification: NSNotification){
+        //load data here
+        let indexChart = notification.object as! Int
+        //loadTable(word)
+        let firstController = getItemController(indexChart + 1)
+        if (firstController != nil) {
+            let startingViewControllers: NSArray = [firstController!]
+            self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+        }
+    }
+    
     
     func loadWord(notification: NSNotification){
         //load data here

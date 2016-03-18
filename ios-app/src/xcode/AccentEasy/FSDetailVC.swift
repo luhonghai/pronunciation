@@ -178,13 +178,17 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
         print("You selected cell #\(indexPath.item)!")
+        
         indexCellChoice = indexPath.item
         self.displayViewController(.Fade)
     }
     
     //select cell
     let ipaPopupVC:IPAPopupVC = IPAPopupVC(nibName:"IPAPopupVC", bundle: nil)
+    var timer:NSTimer!
+    
     func displayViewController(animationType: SLpopupViewAnimationType) {
+        
         let cellColor:UIColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexCellChoice].totalScore))
         ipaPopupVC.view.backgroundColor = cellColor
         ipaPopupVC.view.layer.cornerRadius = 5
@@ -196,9 +200,27 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         
         ipaPopupVC.delegate = self
         
+        clearTimer()
+        timer = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("closeIPAPopup"), userInfo: nil, repeats: true)
+        
         self.presentpopupViewController(ipaPopupVC, animationType: animationType, completion: { () -> Void in
             
         })
+    }
+    
+    func closeIPAPopup() {
+        clearTimer()
+        if (ipaPopupVC.isShow) {
+            self.dismissPopupViewController(.Fade)
+        }
+        print("run in timer")
+    }
+    
+    func clearTimer() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
     }
     
     func pressPlayExample(sender: IPAPopupVC?) {
@@ -238,9 +260,6 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     
     func audioPlayer(audioPlayer: EZAudioPlayer!, reachedEndOfAudioFile audioFile: EZAudioFile!) {
-        if (ipaPopupVC.isShow) {
-            self.dismissPopupViewController(.Fade)
-        }
         self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
         showColorOfScoreResult(userVoiceModelResult.score)
     }
@@ -248,6 +267,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     func pressShowChart(sender: IPAPopupVC?) {
         print("press ShowChart", terminator: "\n")
         self.dismissPopupViewController(.Fade)
+        NSNotificationCenter.defaultCenter().postNotificationName("showChart", object: indexCellChoice)
+        toggleSlider()
     }
     
     func convertScoreToString(score: Float) -> String {
@@ -351,6 +372,10 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
 
 
+    @IBAction func viewAnalyzingTapped(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     
     @IBAction func clickMenuButton(sender: AnyObject) {
         //self.performSegueWithIdentifier("DetailScreenGoToMain", sender: self)
