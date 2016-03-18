@@ -110,6 +110,9 @@
     font-size : 14px;
 }
 
+#reload{
+    cursor: pointer;
+}
 @media screen and (min-width: 768px) {
     #adv-search {
         width: 500px;

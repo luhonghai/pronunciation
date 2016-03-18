@@ -138,7 +138,7 @@ public class CourseServices {
         CMTDAO dao = new CMTDAO();
         ArrayList<String> listSuggestion = new ArrayList<>();
         try {
-            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_NOT_PUBLISH, course);
+            List<CourseDTO> courses = dao.suggestCourse(Constant.STATUS_PUBLISH, course);
             if (courses != null && courses.size() > 0) {
                 for (CourseDTO c : courses) {
                     listSuggestion.add(c.getNameCourse());

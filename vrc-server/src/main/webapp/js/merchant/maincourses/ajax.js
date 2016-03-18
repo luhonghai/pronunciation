@@ -61,13 +61,13 @@ function loadAllCourse(){
             }
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
                 getDivContainCourse().show();
             }
         });
@@ -103,17 +103,17 @@ function searchCourseHeader(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria. &nbsp</label><a id='reload'>Click here</a><label class='welcome'> &nbsp to load all the courses.</label>");
+                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.&nbsp</label><a id='reload'>Click here</a><label class='welcome'>&nbsp to load all the courses.</label>");
             }
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
                 getDivContainCourse().show();
             }
         });
@@ -151,19 +151,19 @@ function searchCourseDetail(){
                     buildCourse(this);
                 });
             }else{
-                getDivContainCourse().html("<label class='welcome'>There is no course!</label><a id='reload'>Click here</a><label class='welcome'> to reload the search</label>");
+                getDivContainCourse().html("<label class='welcome'>No records were found that match the specified search criteria.&nbsp</label><a id='reload'>Click here</a><label class='welcome'>&nbsp to load all the courses.</label>");
             }
             closeDropdown();
         },
         error: function () {
-            getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+            getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
             closeDropdown();
         }
     }).error(function(){
         progress.progressTimer('error', {
             errorText:'ERROR!',
             onFinish:function(){
-                getDivContainCourse().html("<label class='welcome'>Could not connect to server!</label>");
+                getDivContainCourse().html("<label class='welcome'>Could not connect to server</label>");
                 getDivContainCourse().show();
                 closeDropdown();
             }
