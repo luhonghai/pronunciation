@@ -56,7 +56,7 @@ private func parseJson(data:NSData, string: String) -> AnyObject?{
     do {
         return try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
     } catch {
-        print(error)
+        Logger.logError(error)
     }
     return nil;
 }
@@ -82,7 +82,7 @@ private func serializeJson(data:AnyObject) -> NSData? {
         do {
             return try NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
         } catch {
-            print(error)
+            Logger.logError(error)
         }
     }
     else if let dataString = data as? String{

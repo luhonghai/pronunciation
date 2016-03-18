@@ -58,7 +58,7 @@ class FreeStyleVC: UIViewController, UIScrollViewDelegate, SWRevealViewControlle
         let tagId = 4207868
         
         if revealController.frontViewPosition == FrontViewPosition.Right {
-            print("right")
+            Logger.log("right")
             let lock = self.view.viewWithTag(tagId)
             UIView.animateWithDuration(0.25, animations: {
                 lock?.alpha = 0
@@ -68,7 +68,7 @@ class FreeStyleVC: UIViewController, UIScrollViewDelegate, SWRevealViewControlle
             )
             lock?.removeFromSuperview()
         } else if revealController.frontViewPosition == FrontViewPosition.Left {
-            print("left")
+            Logger.log("left")
             let lock = UIView(frame: self.view.bounds)
             lock.autoresizingMask = [.FlexibleWidth, .FlexibleHeight ]
             lock.tag = tagId
@@ -99,7 +99,7 @@ class FreeStyleVC: UIViewController, UIScrollViewDelegate, SWRevealViewControlle
     }
     
     override func viewDidLayoutSubviews() {
-        print("hoang")
+        Logger.log("hoang")
     }
 
     override func didReceiveMemoryWarning() {
@@ -108,24 +108,24 @@ class FreeStyleVC: UIViewController, UIScrollViewDelegate, SWRevealViewControlle
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        //print("scroll")
+        //Logger.log("scroll")
     }
     
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        print("dsadasdsa")
+        Logger.log("dsadasdsa")
     }
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        print(scrollView.subviews.indexOf(scrollView))
+        Logger.log(scrollView.subviews.indexOf(scrollView))
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        //print("aaaa")
-        //print(decelerate)
+        //Logger.log("aaaa")
+        //Logger.log(decelerate)
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        //print("bbb")
+        //Logger.log("bbb")
     }
     
 

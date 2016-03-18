@@ -18,7 +18,7 @@ public class BaseDatabaseAdapter {
         do {
             db = try Connection(dbFile)
         }catch let error as NSError {
-            print(error.localizedDescription);
+            Logger.log(error.localizedDescription);
         }
     }
     
@@ -77,21 +77,26 @@ public class BaseDatabaseAdapter {
     }
     
     public func find<T: LiteEntity>(table: Table) throws -> T! {
-        let list:Array<T> = try query(table)
-        if !list.isEmpty {
-            return list[0]
+        let list:Array<T>? = try query(table)
+        if list != nil && !list!.isEmpty {
+            return list![0]
         }
         return nil
     }
     
     public func find<T: LiteEntity>(statement: Statement) throws -> T! {
-        return try find(statement)
+        for row in statement {
+            let obj = T()
+            obj.parse(row)
+            return obj
+        }
+        return nil
     }
     
     public func find<T: LiteEntity>(rows: AnySequence<Row>) throws -> T! {
-        let list:Array<T> = try query(rows)
-        if !list.isEmpty {
-            return list[0]
+        let list:Array<T>? = try query(rows)
+        if list != nil && !list!.isEmpty {
+            return list![0]
         }
         return nil
     }

@@ -190,7 +190,7 @@ public class ChartViewBase: UIView, ChartDataProvider, ChartAnimatorDelegate
         {
             if newValue == nil
             {
-                print("Charts: data argument is nil on setData()", terminator: "\n")
+                Logger.log("Charts: data argument is nil on setData()")
                 return
             }
             

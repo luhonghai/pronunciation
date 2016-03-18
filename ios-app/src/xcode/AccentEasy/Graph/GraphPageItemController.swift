@@ -119,12 +119,12 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
             var yVals = [ChartDataEntry]()
             var lastVal: Double = 0
             let skipIndex = count - data.count - 1
-            //print("data count \(data.count). Skip index: \(skipIndex)")
+            //Logger.log("data count \(data.count). Skip index: \(skipIndex)")
             for index in 0...count {
                 var val:Int = -1
                 if (index > skipIndex + 1) {
                     let i:Int = index - skipIndex - 2
-                    // print("index \(i)")
+                    // Logger.log("index \(i)")
                     val = data[i]
                 }
                 if index == count {

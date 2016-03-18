@@ -32,7 +32,7 @@ class FileHelper {
                     try fileManager.createDirectoryAtPath(folderPath, withIntermediateDirectories: false, attributes: nil)
                 }
             } catch let error as NSError {
-                print(error.localizedDescription);
+                Logger.log(error.localizedDescription);
             }
         }
         return folderPath;

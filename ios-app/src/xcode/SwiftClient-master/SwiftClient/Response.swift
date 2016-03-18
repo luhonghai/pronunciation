@@ -72,7 +72,7 @@ public class Response{
             break
         default:
             self.basicStatus = BasicResponseType.Unknown
-            print("Couldn't figure out the basic status code. (\(type))")
+            Logger.log("Couldn't figure out the basic status code. (\(type))")
             break
         }
         

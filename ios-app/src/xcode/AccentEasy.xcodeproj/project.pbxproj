@@ -195,6 +195,8 @@
 		9B5F34291C771E6000E85629 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34231C771E6000E85629 /* Response.swift */; };
 		9B5F342E1C77223800E85629 /* SQLite-Bridging.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F342D1C77223800E85629 /* SQLite-Bridging.m */; };
 		9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D1201C9BABD600297470 /* LessonCollectionController.swift */; };
+		9B72D1401C9C03EB00297470 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B72D13F1C9C03EB00297470 /* Logger.swift */; };
+		9B72D1511C9C093200297470 /* NSLogger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B72D1501C9C093200297470 /* NSLogger.framework */; };
 		9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */; };
 		9B8E9EBE1C44F1B60033EF45 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */; };
 		9B8E9EBF1C44F1B60033EF45 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */; };
@@ -413,6 +415,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
+		};
+		9B72D14F1C9C093200297470 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BA6B55F453BFFCD646E936794885EAAA;
+			remoteInfo = NSLogger;
 		};
 		9BC5E0F21C50803C003CF8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -669,6 +678,7 @@
 		9B5F342C1C77223800E85629 /* SQLite-Bridging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SQLite-Bridging.h"; sourceTree = "<group>"; };
 		9B5F342D1C77223800E85629 /* SQLite-Bridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SQLite-Bridging.m"; sourceTree = "<group>"; };
 		9B72D1201C9BABD600297470 /* LessonCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonCollectionController.swift; sourceTree = "<group>"; };
+		9B72D13F1C9C03EB00297470 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhonemeScore.swift; path = Data/Entity/PhonemeScore.swift; sourceTree = "<group>"; };
 		9B8E9EBC1C44F1B60033EF45 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		9B8E9EBD1C44F1B60033EF45 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
@@ -873,6 +883,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B72D1511C9C093200297470 /* NSLogger.framework in Frameworks */,
 				9B4009841C9974900011EEF8 /* SloppySwiper.framework in Frameworks */,
 				9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */,
 				9053FE111C87E92E0059A423 /* RDVTabBarController.framework in Frameworks */,
@@ -1362,6 +1373,7 @@
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
 				9BC5E0F91C50803C003CF8E9 /* FBSDKShareKit.framework */,
 				9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */,
+				9B72D1501C9C093200297470 /* NSLogger.framework */,
 				9BC5E0FD1C50803C003CF8E9 /* Pods_AccentEasy.framework */,
 				9053FE101C87E92E0059A423 /* RDVTabBarController.framework */,
 				9B4009831C9974900011EEF8 /* SloppySwiper.framework */,
@@ -1425,6 +1437,7 @@
 				9B9BE6F61C6305E900C84823 /* ColorHelper.swift */,
 				90F33B471C7EE52D00E28BC4 /* ImageHelper.swift */,
 				9053C2791C9004D6009BA3DF /* JSONHelper.swift */,
+				9B72D13F1C9C03EB00297470 /* Logger.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1937,6 +1950,13 @@
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9B72D1501C9C093200297470 /* NSLogger.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = NSLogger.framework;
+			remoteRef = 9B72D14F1C9C093200297470 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9BC5E0F31C50803C003CF8E9 /* Bolts.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2428,6 +2448,7 @@
 				9B5F33AD1C77129A00E85629 /* ChartXAxisRenderer.swift in Sources */,
 				9B5F338D1C77129A00E85629 /* IChartDataSet.swift in Sources */,
 				9B5F341A1C771D6800E85629 /* Setter.swift in Sources */,
+				9B72D1401C9C03EB00297470 /* Logger.swift in Sources */,
 				9B5F33841C77129A00E85629 /* PieChartDataSet.swift in Sources */,
 				C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */,
 				9B4849EB1C990055002F193F /* IPAChartCell.swift in Sources */,

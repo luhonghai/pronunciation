@@ -20,20 +20,20 @@ class IPAMainPageController: UIViewController {
     var swiper: SloppySwiper!
     
     @IBAction func clickRP(sender: AnyObject) {
-        print("clickRP")
+        Logger.log("clickRP")
         let ipaChart = self.storyboard?.instantiateViewControllerWithIdentifier("IPARPController") as! IPARPController
         self.navigationController?.pushViewController(ipaChart, animated: true)
 
     }
     
     @IBAction func clickVowel(sender: AnyObject) {
-        print("clickVowel")
+        Logger.log("clickVowel")
         let ipaChart = self.storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
         ipaChart.selectedType = IPAMapArpabet.VOWEL
         self.navigationController?.pushViewController(ipaChart, animated: true)
     }
     @IBAction func clickConsonant(sender: AnyObject) {
-        print("clickConsonant")
+        Logger.log("clickConsonant")
         let ipaChart = self.storyboard?.instantiateViewControllerWithIdentifier("IPAChartController") as! IPAChartController
         ipaChart.selectedType = IPAMapArpabet.CONSONANT
         self.navigationController?.pushViewController(ipaChart, animated: true)

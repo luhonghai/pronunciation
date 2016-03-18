@@ -36,7 +36,7 @@ class HistoryTableController: UITableViewController {
     }
     
     func loadTable(word: String?) {
-        print("load history of word \(word)")
+        Logger.log("load history of word \(word)")
         do {
             if !word!.isEmpty {
                 isDetail = true
@@ -64,9 +64,9 @@ class HistoryTableController: UITableViewController {
     
     func tapLabelTitle(sender: UITapGestureRecognizer) {
         let row: Int = sender.view!.tag
-        print("Select row id \(row)")
+        Logger.log("Select row id \(row)")
         let historyItem = historyList[row]
-        print("Select detail \(historyItem.word)")
+        Logger.log("Select detail \(historyItem.word)")
         if historyItem.dataId != nil {
             if isDetail {
                 NSNotificationCenter.defaultCenter().postNotificationName("selectDetail", object: historyItem.dataId)

@@ -53,7 +53,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Number of objective \(objectives.count)")
+        Logger.log("Number of objective \(objectives.count)")
         return objectives.count
     }
     
@@ -91,7 +91,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tapItem(sender: UITapGestureRecognizer) {
         let row: Int = sender.view!.tag
-        print("Select row id \(row)")
+        Logger.log("Select row id \(row)")
         let obj = objectives[row]
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonCollectionController") as! LessonCollectionController
         nextController.selectedLevel = selectedLevel

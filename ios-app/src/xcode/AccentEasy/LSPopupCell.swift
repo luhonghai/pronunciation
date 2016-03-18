@@ -20,7 +20,7 @@ class LSPopupCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        //print("selected cell")
+        //Logger.log("selected cell")
 
         // Configure the view for the selected state
     }

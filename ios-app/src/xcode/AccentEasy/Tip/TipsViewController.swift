@@ -47,7 +47,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     
     @IBAction func btnPlayOnTouch(sender: UIButton) {
         if selectedTip != nil && selectedTip.mp3URL != nil && !selectedTip.mp3URL.isEmpty {
-            print("link mp3: " + selectedTip.mp3URL)
+            Logger.log("link mp3: " + selectedTip.mp3URL)
             //playSound(LinkFile)
             HttpDownloader.loadFileSync(NSURL(string: selectedTip.mp3URL)!, completion: { (path, error) -> Void in
                 self.playSound(NSURL(fileURLWithPath: path))
@@ -110,7 +110,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     }
     
     func playSound(fileUrl: NSURL) {
-        print("run in play")
+        Logger.log("run in play")
         if self.player.isPlaying{
             self.player.pause()
         }
