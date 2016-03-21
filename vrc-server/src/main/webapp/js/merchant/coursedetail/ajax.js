@@ -8,6 +8,14 @@ var servletPublish = "/PublishCourseServlet";
 /**
  * connect to server when edit course
  */
+function isNumberKey(evt,e){
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode != 46 && charCode > 31
+        && (charCode < 48 || charCode > 57)){
+        return false;
+    }
+    return true;
+}
 
 function editCourse(){
     $.ajax({
@@ -486,7 +494,7 @@ function addQuestions(listWord){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add Lesson successfully!", "success");
+                swal("Success!", "You have add question successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -499,6 +507,117 @@ function addQuestions(listWord){
         }
     });
 }
+
+function editQuestions(listWord){
+    myObject.listWord = listWord;
+    $.ajax({
+        url : servletEdit,
+        type : "POST",
+        data : {
+            action: action_edit_question,
+            listWord: JSON.stringify(myObject),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have edit question successfully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+
+function deleteQuestion(){
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_question,
+            idLesson : getNameLesson().attr("idLesson"),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("", "You have deleted question successfully", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+function loadWeightForWordEdit(word){
+    $("#addWordModal").modal('show');
+    getAddWord().val(word);
+    $("#loadPhonemes").hide();
+
+    $.ajax({
+        url: "ManagementWordOfQuestionServlet",
+        type: "POST",
+        dataType: "json",
+        data: {
+            getPhonemeForWord: "getPhonemeForWord",
+            word: word,
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        success: function (data) {
+            var message = data.message;
+            if(message.indexOf("success") != -1){
+                getAddWord().attr("idWord", data.idWord);
+                getListPhonemes().html("");
+                getListIPA().html("");
+                getListWeight().html("");
+                getAddWord().attr("readonly","readonly");
+                $.each(data.listWeightPhoneme, function (idx, obj) {
+                    var phonemeName = obj.phoneme;
+                    var weightOfPhoneme = obj.weight;
+                    //alert(jsonItem);
+
+                    getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+                    getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
+                    getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
+                    getListPhonemes().css({"width":(idx+1)*35});
+                    getListWeight().css({"width":(idx+1)*35});
+                    getListIPA().css({"width":(idx+1)*35});
+                });
+                $("#wordModal1").show();
+                $("#wordModal2").show();
+                //$("#yesadd").show();
+            }else{
+                swal("Error!",message.split(":")[1], "error");
+                //$("#listPhonmes").html("");
+                //$("#listWeight").html("");
+                //$("#yesadd").hide();
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
 
 
 function loadPhonemes(){

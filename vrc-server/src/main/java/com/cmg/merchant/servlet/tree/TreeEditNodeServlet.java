@@ -1,9 +1,11 @@
 package com.cmg.merchant.servlet.tree;
 
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.services.*;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -63,6 +65,14 @@ public class TreeEditNodeServlet extends BaseServlet {
             String lessonDetail = (String) StringUtil.isNull(request.getParameter("details"), "").toString();
             LessonServices lessonServices = new LessonServices();
             String txt = lessonServices.updateLesson(idObjective,idLesson, lessonName,lessonDescription,lessonType,lessonDetail);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_QUESTION)){
+            Gson gson=new Gson();
+            String listWord =(String) StringUtil.isNull(request.getParameter("listWord"), "").toString();
+            String idQuestion=(String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
+            ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
+            QuestionServices questionServices=new QuestionServices();
+            String txt = questionServices.updateWordToQuestion(listWords,idQuestion);
             response.getWriter().println(txt);
         }
     }

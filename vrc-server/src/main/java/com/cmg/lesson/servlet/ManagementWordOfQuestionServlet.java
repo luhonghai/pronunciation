@@ -1,5 +1,6 @@
 package com.cmg.lesson.servlet;
 
+import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightPhonemesDTO;
 import com.cmg.lesson.data.dto.word.ListWord;
@@ -67,6 +68,16 @@ public class ManagementWordOfQuestionServlet extends BaseServlet {
                 String questionId = (String)StringUtil.isNull(request.getParameter("idQuestion"), "");
                 WeightForPhonemeService service =  new WeightForPhonemeService();
                 QuestionDTO dto = service.listAll(questionId,wordId);
+                String json = gson.toJson(dto);
+                response.getWriter().write(json);
+
+            } else if(request.getParameter("getPhonemeForWord")!=null){
+                WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+                String word = (String)StringUtil.isNull(request.getParameter("word"), "");
+                String wordId=wordCollectionDAO.getByWord(word).getId();
+                String questionId = (String)StringUtil.isNull(request.getParameter("idQuestion"), "");
+                WeightForPhonemeService service =  new WeightForPhonemeService();
+                QuestionDTO dto = service.listAlls(questionId, wordId);
                 String json = gson.toJson(dto);
                 response.getWriter().write(json);
 

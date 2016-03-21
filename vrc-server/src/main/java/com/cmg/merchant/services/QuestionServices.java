@@ -4,12 +4,14 @@ import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.word.WordCollection;
+import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.merchant.dao.lessons.LMQDAO;
 import com.cmg.merchant.dao.questions.QDAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
@@ -304,5 +306,101 @@ public class QuestionServices {
         }
 
     }
+
+    public String updateWordToQuestion(ListWordAddQuestion listWords,String idQuestion){
+        WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
+        String message=null;
+        List<WeightPhonemesDTO> list=listWords.getListWord();
+        try {
+            for(int i=0;i<list.size();i++) {
+                boolean check = woqDAO.checkExistedWord(idQuestion, list.get(i).getIdWord());
+                if (check) {
+                    if ( addMapping(list.get(i), idQuestion).indexOf(SUCCESS)!=-1) {
+                        return  SUCCESS;
+                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(SUCCESS)!=-1) {
+                        return SUCCESS;
+                    }else {
+                        return ERROR;
+                    }
+
+                } else {
+                    return ERROR;
+                }
+            }
+            message=SUCCESS;
+        }catch (Exception e){
+            logger.error("can not update Word to question because : " + e.getMessage());
+        }
+        return message;
+    }
+
+    public String addMapping(WeightPhonemesDTO dto,String idQuestion){
+        WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
+        String message=null;
+        try {
+            if(dto.getData()!=null && dto.getData().size() > 0){
+                updateDeleted(idQuestion,dto.getIdWord());
+                List<WeightForPhoneme> list = new ArrayList<WeightForPhoneme>();
+                int version = getMaxVersion();
+                for(WeightDTO w : dto.getData()){
+                    WeightForPhoneme wfp = new WeightForPhoneme();
+                    wfp.setIdQuestion(idQuestion);
+                    wfp.setIdWordCollection(dto.getIdWord());
+                    wfp.setPhoneme(w.getPhoneme());
+                    wfp.setIndex(w.getIndex());
+                    wfp.setWeight(w.getWeight());
+                    wfp.setVersion(version);
+                    wfp.setIsDeleted(false);
+                    list.add(wfp);
+                }
+                dao.create(list);
+                message = SUCCESS;
+            }else{
+                message = ERROR;
+            }
+        }catch (Exception e){
+            logger.error("can not add mapping list weight for phoneme : " + e.getMessage());
+        }
+        return message;
+    }
+    public String deleteWordOfQuestion(String idQuestion, String idWord){
+        WordOfQuestionDAO dao = new WordOfQuestionDAO();
+        String message=null;
+        try{
+            boolean isDelete=dao.deleteWordofQuestion(idQuestion, idWord);
+            if (isDelete){
+                message = SUCCESS;
+                updateDeleted(idQuestion, idWord);
+            }else{
+                message = ERROR + ":" + "an error has been occurred in server!";
+            }
+        }catch(Exception e){
+            message = ERROR + ": "+ e.getMessage();
+            logger.error("can not delete word of question, id word and question is: " + idWord + ", " + idQuestion + " because : " + e.getMessage());
+        }
+        return message;
+    }
+
+    public String deleteQuestion(String idLesson, String idQuestion ){
+        QDAO dao = new QDAO();
+
+
+        try {
+            boolean check = dao.removeMappingQuestionWithLesson(idLesson, idQuestion);
+            if(!check){
+                return ERROR + ": an error has been occurred in server!";
+            }
+             check = dao.deletedQuestion(idLesson);
+            if(!check){
+                return ERROR + ": an error has been occurred in server!";
+            }
+
+        }catch (Exception e){
+            return ERROR + ": an error has been occurred in server!";
+        }
+        return SUCCESS;
+    }
+
+
 }
 

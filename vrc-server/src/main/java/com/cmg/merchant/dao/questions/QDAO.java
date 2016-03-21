@@ -1,8 +1,11 @@
 package com.cmg.merchant.dao.questions;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
+import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.test.TestMapping;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -102,13 +105,20 @@ public class QDAO extends DataAccess<Question> {
         }
         return isUpdate;
     }
-    public boolean updateDeleted(String idObjective,String idLesson){
+
+    /**
+     *
+     * @param idLesson
+     * @param idQuestion
+     * @return
+     */
+    public boolean removeMappingQuestionWithLesson(String idLesson,String idQuestion){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted = true WHERE idObjective=? and idLessonCollection=?");
+        TypeMetadata metaLessonMappingQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonMappingQuestion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaLessonMappingQuestion.getTable() + " SET isDeleted = true WHERE idLesson=? and idQuestion=?");
         try {
-            q.execute(idObjective,idLesson);
+            q.execute(idLesson,idQuestion);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,34 +132,69 @@ public class QDAO extends DataAccess<Question> {
         return check;
     }
 
-    public List<Question> getAllByIdObj(String idObj) throws Exception{
+    public boolean updateDeletedWordOfQuestion(String idWord,String idQuestion){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaWordOfQuestion.getTable() + " SET isDeleted = true WHERE idWordCollection=? and idQuestion=?");
+        try {
+            q.execute(idWord,idQuestion);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+    public boolean updateDeletedWordOfQuestionForWeight(String idWord,String idQuestion){
+        boolean check = false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaWeightForPhoneme = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WeightForPhoneme.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaWeightForPhoneme.getTable() + " SET isDeleted = true WHERE idWordCollection=? and idQuestion=?");
+        try {
+            q.execute(idWord,idQuestion);
+            check=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+
+        return check;
+    }
+
+
+    public List<WordOfQuestion> getWordByIdQuestion(String idQuestion) throws Exception{
         StringBuffer clause = new StringBuffer();
-        TypeMetadata metaLessonCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        TypeMetadata metaObjectiveMapping = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
-        String firstQuery = "select lesson.id, lesson.name , lesson.description, mapping.index from  " + metaLessonCollection.getTable()
-                + " lesson inner join " + metaObjectiveMapping.getTable()
-                + " mapping on mapping.idLessonCollection=lesson.id where ";
-        clause.append(firstQuery);
-        clause.append(" mapping.idObjective= '"+idObj+"' and lesson.isDeleted=false and mapping.isDeleted=false");
-        clause.append(" ORDER BY mapping.index ASC");
+        TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
+        String firstQuery = "select id, idQuestion , idWordCollection from  " + metaWordOfQuestion.getTable()+ " where isDeleted=false and idQuestion='"+idQuestion+"' ";
         PersistenceManager pm = PersistenceManagerHelper.get();
         Query q = pm.newQuery("javax.jdo.query.SQL", clause.toString());
-        List<Question> list = new ArrayList<Question>();
+        List<WordOfQuestion> list = new ArrayList<WordOfQuestion>();
 
         try {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size() > 0){
                 for(Object obj : tmp){
-                    Question question = new Question();
+                    WordOfQuestion wordOfQuestion = new WordOfQuestion();
                     Object[] array = (Object[]) obj;
-                    question.setId(array[0].toString());
+                    wordOfQuestion.setId(array[0].toString());
                     if(array[1]!=null){
-                        question.setName(array[1].toString());
+                        wordOfQuestion.setIdQuestion(array[1].toString());
                     }
                     if(array[2]!=null){
-                        question.setDescription(array[2].toString());
+                        wordOfQuestion.setIdWordCollection(array[2].toString());
                     }
-                    list.add(question);
+                    list.add(wordOfQuestion);
                 }
             }
         } catch (Exception e) {
@@ -165,11 +210,10 @@ public class QDAO extends DataAccess<Question> {
 
     /**
      *
-     * @param testId
+     * @param id
      * @return
      * @throws Exception
      */
-
 
 
 }

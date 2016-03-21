@@ -3,6 +3,8 @@
  */
 var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
+var listWord=[];
+var myObject = new Object();
 function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
     currentPopup.find(".validateMsg").hide();
@@ -77,6 +79,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_add_question){
         clearForm();
+        listWord=[];
         currentPopup.find("#titlePopupQuestion").html("question management");
         currentPopup.find("#btnDeleteQuestion").hide();
         var lesson = treeAPI.itemData(currentParent);
@@ -87,23 +90,36 @@ function openPopup(itemData){
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }else if(itemData._actionClick == action_edit_question){
         clearForm();
+        listWord=[];
         currentPopup.find("#titlePopupQuestion").html("question management");
         var lesson = treeAPI.itemData(currentParent);
         var obj = treeAPI.parent(currentParent);
         var objItemData = treeAPI.itemData(obj);
         var level = treeAPI.parent(obj);
         var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#btnDeleteQuestion").show();
         getQuestionListWordEdit().attr("idLesson",lesson.id);
+        drawListWord(itemData._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }
     currentPopup.modal('show');
 }
 
 function drawListWord(listWord){
-    if(listWord!=null && listWord.length>0){
-        getListWord().append(' <div style="margin-top: 5px;" id="'+idWord+'" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
+    var list=readListMail(listWord);
+    if(list!=null && list.length>0){
+        for(var i=0;i<list.length;i++){
+            getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+list[i]+'</p></div>');
+        }
+
     }
 
+}
+function openEditWord(){
+    $(document).on("click","#word",function(){
+        var word=$(this).text();
+        loadWeightForWordEdit(word);
+    });
 }
 
 function readListMail(txt) {
@@ -237,21 +253,23 @@ function showAddWord(){
         var row=$("#arrowQuestion").text();
         $("#arrowWord").text(row);
         $("#addWordModal").modal('show');
-        $("#addWord").val("");
-        $("#listPhonmes").html("");
-        $("#listWeight").html("");
-        $("#listIpa").html("");
+        getAddWord().val("");
+        getListPhonemes().html("");
+        getListWeight().html("");
+        getListIPA().html("");
         $(".phoneme-lable").html("");
         $(".weight-lable").html("");
         $(".ipa-lable").html("");
         $("#yesadd").attr("disabled", true);
+        $("#loadPhonemes").show();
+        getAddWord().removeAttr('readonly');
         $("#loadPhonemes").attr("disabled",false);
         $("#addWord").attr("disabled",false);
     });
 }
 
 function loadPhoneme() {
-    $("#loadPhonemes").click(function () {
+    $(document).on("click","#loadPhonemes",function() {
         getLoadPhoneme().attr("disabled", true);
         if(validateWord()){
             loadPhonemes();
@@ -264,13 +282,13 @@ function btnPublish(){
     });
 
 }
-var listWord=[];
-var myObject = new Object();
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
-        getListWord().append(' <div style="margin-top: 5px;" id="'+idWord+'" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
+        if(currentPopup.find(".action").val() == action_add_question) {
+            getListWord().append(' <div style="margin-top: 5px;"><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;" title="remove word"  id=' + idWord + ' ></i> </div>');
+        }
         var listPhonemeName=getListPhonemes();
         var output = [];
 
@@ -291,17 +309,35 @@ function saveWord(){
             nameWord:nameWord,
             data:output
         });
-       console.log(listWord);
+        console.log(listWord);
     });
 
 }
 
-function btnAddQuestion(){
+function removeWord(){
+    $(document).on("click","#idWord",function() {
+        if(currentPopup.find(".action").val() == action_add_question) {
+           $(this).closest("div").remove();
+        }else if(currentPopup.find(".action").val() == action_edit_question) {
+            editQuestions(listWord);
+        }
+    });
+}
+
+function btnSaveQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
-        addQuestions(listWord);
+        if(currentPopup.find(".action").val() == action_add_question) {
+            addQuestions(listWord);
+        }else if(currentPopup.find(".action").val() == action_edit_question) {
+            editQuestions(listWord);
+        }
     });
 }
-
+function btnDeleteQuestion(){
+    $(document).on("click","#btnDeleteQuestion",function(){
+        deleteQuestion();
+    });
+}
 
 function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
@@ -350,8 +386,10 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    btnDeleteQuestion();
+    openEditWord();
     closePopupQuestion();
-    btnAddQuestion();
+    btnSaveQuestion();
     saveWord();
     clickTopHelp();
     clickHelpAdd();

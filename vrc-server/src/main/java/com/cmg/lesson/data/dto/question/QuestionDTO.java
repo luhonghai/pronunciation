@@ -13,6 +13,7 @@ public class QuestionDTO {
     public Double recordsTotal;
     public Double recordsFiltered;
     private String message;
+    private String idWord;
 
     private List<Question> data;
 
@@ -64,5 +65,13 @@ public class QuestionDTO {
 
     public void setListWeightPhoneme(List<WeightForPhoneme> listWeightPhoneme) {
         this.listWeightPhoneme = listWeightPhoneme;
+    }
+
+    public String getIdWord() {
+        return idWord;
+    }
+
+    public void setIdWord(String idWord) {
+        this.idWord = idWord;
     }
 }
