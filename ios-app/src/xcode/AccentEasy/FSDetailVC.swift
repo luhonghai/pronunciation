@@ -18,7 +18,7 @@ class MyCollectionViewCell: UICollectionViewCell {
     
 }
 
-class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate{
+class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate {
 
     var userProfileSaveInApp:NSUserDefaults!
 
@@ -51,8 +51,9 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let swiper = SloppySwiper(navigationController: self.navigationController)
-        self.navigationController?.delegate = swiper
+        activateAudioSession()
+//        let swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
         cViewIPAList.delegate = self
         cViewIPAList.dataSource = self
         //init audio plaer
@@ -61,6 +62,25 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
         btnPlay.hidden = false
         showDetail()
+    }
+    
+    func activateAudioSession() {
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback)
+        } catch {
+            
+        }
+        do {
+            try session.setActive(true)
+        } catch {
+            
+        }
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch {
+            
+        }
     }
     
     func roundButton() {
@@ -134,6 +154,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
                 self.toggleSlider()
             }
         }
+        activateAudioSession()
     }
 
     override func didReceiveMemoryWarning() {
@@ -321,6 +342,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func playSound(fileUrl: NSURL) {
         Logger.log("run in play")
+        activateAudioSession()
         if self.player.isPlaying{
             self.player.pause()
         }

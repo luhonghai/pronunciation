@@ -102,7 +102,7 @@ extension UIViewController {
         switch animationType {
         case .BottomTop, .BottomBottom,.TopTop,.TopBottom, .LeftLeft, .LeftRight,.RightLeft, .RightRight:
             dismissButton.tag = animationType.rawValue
-            Logger.log("slider1")
+          //  Logger.log("slider1")
             self.slideView(popupView, sourceView: sourceView, overlayView: overlayView, animationType: animationType)
             
         default:

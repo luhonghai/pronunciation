@@ -11,8 +11,10 @@ import Foundation
 class HttpDownloader {
     
     class func loadFileSync(url: NSURL, skipCache: Bool = false, destPath: String = "", completion:(path:String, error:NSError!) -> Void) {
-        let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
+        FileHelper.getFilePath("downloads", directory: true)
+        let destinationUrl = destPath.isEmpty
+            ? NSURL(fileURLWithPath: FileHelper.getFilePath("downloads/\(StringHelper.md5(string: url.absoluteString))"))
+            : NSURL(fileURLWithPath: destPath)
         if NSFileManager().fileExistsAtPath(destinationUrl.path!) && !skipCache {
             Logger.log("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
@@ -32,8 +34,10 @@ class HttpDownloader {
     }
     
     class func loadFileAsync(url: NSURL, skipCache: Bool = false, destPath: String = "", completion:(path:String, error:NSError!) -> Void) {
-        let documentsUrl =  NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        let destinationUrl = destPath.isEmpty ? documentsUrl!.URLByAppendingPathComponent(url.lastPathComponent!) : NSURL(fileURLWithPath: destPath)
+        FileHelper.getFilePath("downloads", directory: true)
+        let destinationUrl = destPath.isEmpty
+            ? NSURL(fileURLWithPath: FileHelper.getFilePath("downloads/\(StringHelper.md5(string: url.absoluteString))"))
+            : NSURL(fileURLWithPath: destPath)
         if NSFileManager().fileExistsAtPath(destinationUrl.path!)  && !skipCache {
             Logger.log("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)

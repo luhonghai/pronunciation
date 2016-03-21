@@ -81,6 +81,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.edgesForExtendedLayout = UIRectEdge.None;
@@ -149,6 +151,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         GlobalData.getInstance().selectedWord = ""
         btnRecord.hidden = true
         btnPlay.hidden = true
+        
     }
     
     func roundButton() {
@@ -165,10 +168,35 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func setupNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidChangePlayState:", name: EZAudioPlayerDidChangePlayStateNotification, object: self.player)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidReachEndOfFile:", name: EZAudioPlayerDidReachEndOfFileNotification, object: self.player)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleBecomeActive:", name: UIApplicationDidBecomeActiveNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadWord:", name: "loadWord", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playFile:", name: "playFile", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showDetail:", name: "showDetail", object: nil)
+    }
+    
+    func handleBecomeActive(notification: NSNotification)
+    {
+        Logger.log("Become active")
+        activateAudioSession()
+    }
+    
+    func activateAudioSession() {
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+        } catch {
+            
+        }
+        do {
+            try session.setActive(true)
+        } catch {
+            
+        }
+        do {
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch {
+            
+        }
     }
     
     func showDetail(notification: NSNotification) {
@@ -259,6 +287,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 self.toggleSlider()
             }
         }
+        activateAudioSession()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -282,8 +311,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     let resultsController = UITableViewController(style: .Plain)
     
     func initSearchResultController() {
+        arrSearchResultData = [WordCollection]()
         resultsController.tableView.dataSource = self
         resultsController.tableView.delegate = self
+        resultsController.tableView.reloadData()
+        resultsController.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
     }
     
     @IBAction func barbuttonSearchClick(sender: AnyObject) {
@@ -294,17 +326,59 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         }
     }
     
+    func searchDisplayControllerWillBeginSearch(controller: UISearchDisplayController) {
+        if #available(iOS 8.0, *) {
+        } else {
+            let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
+            var origin = resultsController.tableView.tableHeaderView?.frame
+            origin?.origin.y -= statusBarFrame.size.height
+            resultsController.tableView.tableHeaderView?.frame = origin!;
+        }
+    }
+    
+    func searchDisplayControllerWillEndSearch(controller: UISearchDisplayController) {
+        if #available(iOS 8.0, *) {
+
+        } else {
+            let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
+            var origin = resultsController.tableView.tableHeaderView?.frame
+            origin?.origin.y += statusBarFrame.size.height
+            resultsController.tableView.tableHeaderView?.frame = origin!;
+        }
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        if #available(iOS 8.0, *) {
+            
+        } else {
+            setActiveSearchViewOS7(false)
+        }
+    }
+    
     func initSearchViewControllerOS7() {
         initSearchResultController()
+        let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
         let searchBar = UISearchBar()
         searchBar.delegate = self
-        searchBar.sizeToFit()
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.becomeFirstResponder()
         resultsController.tableView.tableHeaderView = searchBar
+        searchBar.sizeToFit()
         resultSearchController = UISearchDisplayController(searchBar: searchBar, contentsController: resultsController)
         (resultSearchController as! UISearchDisplayController).searchResultsDataSource = self
         (resultSearchController as! UISearchDisplayController).searchResultsDelegate = self
         (resultSearchController as! UISearchDisplayController).searchResultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
-        self.presentViewController(resultsController, animated: true, completion: nil)
+        let height = self.view.frame.height
+        let width = self.view.frame.width
+        let minY = CGRectGetMinY(self.view.frame)
+      //  let origin = resultsController.view.frame
+        resultsController.tableView.frame = CGRectMake(0, minY + statusBarFrame.size.height, width,height - statusBarFrame.size.height)
+        resultsController.view.frame = self.view.frame
+        self.presentpopupViewController(resultsController, animationType: SLpopupViewAnimationType.TopBottom, completion: { () -> Void in
+            Logger.log("Show popup")
+            
+        })
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
@@ -336,25 +410,14 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //get database
         let adapter = WordCollectionDbApdater()
         do {
-            //appleProducts.removeAll(keepCapacity: false)
             arrSearchResultData = try adapter.search(searchText)
-            //let resultCount:Int = arrSearchResultData.count - 1
-            //if resultCount >= 0 {
-            //for index in 0...resultCount{
-            //Logger.log(arrSearchResultData[index].word)
-            //Logger.log(arrSearchResultData[index].mp3Path)
-            //appleProducts.append(arrSearchResultData[index].word)
-            //}
-            //}
-            
         } catch (let e as NSError) {
             Logger.log(e)
         }
-        
-        //Logger.log(appleProducts)
-        Logger.log(arrSearchResultData)
         //reload data for table view search
+        Logger.log("Start reload search result")
         resultsController.tableView.reloadData();
+        Logger.log("Complete reload search result")
     }
     
     func selectWord(wordCollection : WordCollection){
@@ -385,7 +448,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func setActiveSearchViewOS7(active: Bool) {
-        self.dismissViewControllerAnimated(true, completion: {})
+        //self.dismissViewControllerAnimated(true, completion: {})
+        self.dismissPopupViewController(SLpopupViewAnimationType.BottomTop)
         //(resultSearchController as! UISearchDisplayController).active = active
     }
     
@@ -398,19 +462,18 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     //MARK- UITableViewDataSource
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let identifier = kCellIdentifier
-        var cell: UITableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier)
-        if cell == nil{
-            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: identifier)
-        }
-        cell?.textLabel?.text = arrSearchResultData[indexPath.row].word
+        let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
+        let word = arrSearchResultData[indexPath.row]
+        cell.textLabel?.text = "\(word.word)"
         //cell.textLabel!.text = arrSearchResultData[indexPath.row].word
-        cell.detailTextLabel!.text = arrSearchResultData[indexPath.row].pronunciation
-        cell.detailTextLabel!.textColor = ColorHelper.APP_GRAY
+        cell.detailTextLabel?.text = "\(word.pronunciation)"
+        cell.detailTextLabel?.textColor = ColorHelper.APP_GRAY
+//        cell.detailTextLabel?.needsUpdateConstraints()
         return cell
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print (self.arrSearchResultData.count)
+        Logger.log("Search result count \(self.arrSearchResultData.count)")
         return self.arrSearchResultData.count
     }
     
@@ -423,7 +486,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     func showErrorAnalyzing() {
+        isRecording = false
         btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
+        ennableViewPlay()
         analyzingView.showScore(0)
         showColorOfScoreResult(0)
         Login.showError("could not calculate score")
@@ -507,7 +572,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         } else {
                             //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                             dispatch_async(dispatch_get_main_queue(),{
-                                Login.showError("could not calculate score")
+                                weakSelf!.showErrorAnalyzing()
                             })
                         }
                         //Logger.log(result?.message)
@@ -571,6 +636,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             return
         } else{
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
+                self.activateAudioSession()
                 self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
                 self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
                 self.isRecording = true
@@ -637,6 +703,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func playSound(fileUrl: NSURL) {
         Logger.log("run in play")
+        activateAudioSession()
         if self.player.isPlaying{
             self.player.pause()
         }

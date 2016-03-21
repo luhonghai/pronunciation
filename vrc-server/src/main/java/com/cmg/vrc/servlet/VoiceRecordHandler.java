@@ -130,7 +130,8 @@ public class VoiceRecordHandler extends HttpServlet {
             if (profile != null && profile.length() > 0 && word != null && word.length() > 0) {
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
-                LoginToken loginToken = loginTokenDAO.getByAccountAndDevice(user.getUsername(), user.getDeviceInfo().getEmei());
+                logger.info("user token: " + user.getToken());
+                LoginToken loginToken = loginTokenDAO.getByAccountAndToken(user.getUsername(), user.getToken());
                 if (loginToken != null) {
                     File target = new File(targetDir, user.getUsername());
                     if (!target.exists() && !target.isDirectory()) {

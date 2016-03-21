@@ -33,10 +33,14 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        activateAudioSession()
+    }
+    
     override func viewDidLoad() {
-        swiper = SloppySwiper(navigationController: self.navigationController)
-        self.navigationController?.delegate = swiper
-        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
+//        swiper = SloppySwiper(navigationController: self.navigationController)
+//        self.navigationController?.delegate = swiper
+//        self.navigationController?.interactivePopGestureRecognizer?.enabled = false
         dbAdapter = WordCollectionDbApdater()
         do {
             ipaList = try dbAdapter.getIPAMapArpabetByType(selectedType)
@@ -57,8 +61,19 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         lpgr.delaysTouchesBegan = true
         //lpgr.minimumPressDuration = 2.0
         collectionIPA.addGestureRecognizer(lpgr)
-        
+        activateAudioSession()
         player = EZAudioPlayer(delegate: self)
+    }
+    
+    func activateAudioSession() {
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(AVAudioSessionCategoryPlayback)
+            try session.setActive(true)
+            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        } catch {
+            
+        }
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -141,6 +156,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     
     func playSound(fileUrl: NSURL) {
         Logger.log("run in play")
+        activateAudioSession()
         if self.player.isPlaying{
             self.player.pause()
         }

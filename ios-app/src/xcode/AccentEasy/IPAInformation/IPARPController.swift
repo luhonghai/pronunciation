@@ -13,8 +13,8 @@ class IPARPController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let swiper = SloppySwiper(navigationController: self.navigationController)
-        self.navigationController?.delegate = swiper
+       // let swiper = SloppySwiper(navigationController: self.navigationController)
+       // self.navigationController?.delegate = swiper
         // Do any additional setup after loading the view.
     }
 
