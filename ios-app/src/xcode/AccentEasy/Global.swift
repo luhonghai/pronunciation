@@ -8,18 +8,21 @@
 
 import Foundation
 
-let IS_DEBUG = true
+
 
 let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, please try again"
 
-class GlobalData {
-    static var instance:GlobalData?
+public class GlobalData {
+    
+    public static let IS_DEBUG = false
+    
+    public static var instance:GlobalData?
     
     var selectedWord = ""
     
     var isShowLogin = false
     
-    static func getInstance() -> GlobalData {
+    public static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()
         }

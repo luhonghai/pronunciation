@@ -59,14 +59,15 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         player = EZAudioPlayer(delegate: self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectDetail:",name:"selectDetail", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
+        btnPlay.hidden = false
         showDetail()
-        
     }
     
     func roundButton() {
         //button style cricle
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
+        btnPlay.hidden = true
     }
     
     func showDetail() {
@@ -124,6 +125,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidAppear(animated: Bool) {
         roundButton()
+        viewAnalyzing.refreshLayout()
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
         GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: self.userVoiceModelResult.word)
@@ -322,6 +324,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         if self.player.isPlaying{
             self.player.pause()
         }
+        self.player.volume = 1
         self.player.playAudioFile(EZAudioFile(URL: fileUrl))
     }
     

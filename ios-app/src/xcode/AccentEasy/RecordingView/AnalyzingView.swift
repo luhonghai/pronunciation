@@ -84,6 +84,12 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.displayLink.stop()
     }
     
+    public func refreshLayout() {
+        scoreLayer.frame = self.bounds
+        let rect = getLoadingFrame(inRect: self.frame)
+        self.loadingLayer.frame = rect
+    }
+    
     func initPlot() {
         self.displayLink = EZAudioDisplayLink(delegate: self)
         self.displayLink.start()
@@ -132,8 +138,9 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.loadingLayer = CALayer()
         self.loadingLayer.backgroundColor = UIColor.clearColor().CGColor
         let rect = getLoadingFrame(inRect: self.frame)
-        self.loadingLayer.contents = ImageHelper.imageWithImage(UIImage(named: "p_hour_glass.png")!, scaledToSize: CGSize(width: CGRectGetWidth(rect), height: CGRectGetHeight(rect))).CGImage
         self.loadingLayer.frame = rect
+        self.loadingLayer.contents = ImageHelper.imageWithImage(UIImage(named: "p_hour_glass.png")!, scaledToSize: CGSize(width: CGRectGetWidth(rect), height: CGRectGetHeight(rect))).CGImage
+        
         
         self.layer.addSublayer(self.outerCircleLayer)
         self.layer.addSublayer(self.innerCircleLayer)

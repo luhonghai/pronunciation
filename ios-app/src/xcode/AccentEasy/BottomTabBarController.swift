@@ -60,9 +60,12 @@ class BottomTabBarController: RDVTabBarController {
     
     func loadList(notification: NSNotification){
         //load data here
-        let indexChart = notification.object as? String
+        //let indexChart = notification.object as? String
         //loadTable(word)
-        tabBar.selectedItem = tabBar.items[0] as! RDVTabBarItem
+        //tabBar.selectedItem = tabBar.items[0] as! RDVTabBarItem
+        self.selectedIndex = 0
+        //self.tabBarController?.selectedIndex = 0
+        //self.tabBarController?.selectedViewController = self.tabBarController!.viewControllers![0]
     }
     
 }

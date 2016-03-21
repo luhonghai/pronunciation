@@ -16,6 +16,7 @@ class HistoryTableController: UITableViewController {
     
     var isDetail = false
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         freestyleDBAdapter = FreeStyleDBAdapter()
@@ -104,7 +105,7 @@ class HistoryTableController: UITableViewController {
         cell.btnUp.hidden = isDetail
         if isDetail {
             let styler = NSDateFormatter()
-            styler.dateFormat = "dd/MM/yyyy"
+            styler.dateFormat = "HH:mm:ss dd/MM/yyyy"
             cell.lblTitle.text = styler.stringFromDate(NSDate(timeIntervalSince1970: history.time / 1000))
             cell.constantWidthPlay.constant = 0
             cell.constantWidthUp.constant = 0

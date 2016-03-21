@@ -144,6 +144,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         if self.player.isPlaying{
             self.player.pause()
         }
+        self.player.volume = 1
         self.player.playAudioFile(EZAudioFile(URL: fileUrl))
     }
     

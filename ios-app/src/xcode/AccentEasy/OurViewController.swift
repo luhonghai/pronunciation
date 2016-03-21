@@ -149,6 +149,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             }
         }
         GlobalData.getInstance().selectedWord = ""
+        btnRecord.hidden = true
+        btnPlay.hidden = true
     }
     
     func roundButton() {
@@ -157,13 +159,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnRecord.clipsToBounds = true
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
+        btnRecord.hidden = false
+        btnPlay.hidden = false
     }
     
-    
-    override func viewDidLayoutSubviews() {
-
-
-    }
     
     func setupNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidChangePlayState:", name: EZAudioPlayerDidChangePlayStateNotification, object: self.player)
@@ -246,6 +245,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //lblUsername.text = username
         //lblUsername.text = ""
         //}
+        analyzingView.refreshLayout()
         if currentMode == nil  {
             if selectedWord == nil {
                 self.chooseWord("hello")
@@ -254,13 +254,21 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             }
         }
         
-        roundButton()
+        
 
         delay(0.5) {
             if self.isShowSlider {
                 self.toggleSlider()
             }
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+       roundButton()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -443,7 +451,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
             Logger.log("request token \(weakSelf!.userProfile.token)")
-            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
+            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (GlobalData.IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
@@ -634,6 +642,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if self.player.isPlaying{
             self.player.pause()
         }
+        self.player.volume = 1
         self.player.playAudioFile(EZAudioFile(URL: fileUrl))
     }
     
