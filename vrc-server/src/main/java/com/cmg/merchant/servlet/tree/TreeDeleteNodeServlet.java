@@ -32,8 +32,6 @@ public class TreeDeleteNodeServlet extends BaseServlet {
         }else if(action.equalsIgnoreCase(Constant.ACTION_DELETE_LEVEL)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();
-            String name = (String) StringUtil.isNull(request.getParameter("name"), "").toString();
-            String description = (String) StringUtil.isNull(request.getParameter("description"), "").toString();
             LevelServices lvService = new LevelServices();
             String txt = lvService.deleteLevel(idCourse, idLevel);
             response.getWriter().println(txt);

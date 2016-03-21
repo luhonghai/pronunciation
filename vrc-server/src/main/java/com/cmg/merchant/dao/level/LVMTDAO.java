@@ -43,7 +43,7 @@ public class LVMTDAO extends DataAccess<CourseMappingDetail> {
      * @param
      * @return
      */
-    public boolean updateDeleted(String idTest,String idLevel){
+    public boolean removeMappingTestWithLevel(String idTest,String idLevel){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());

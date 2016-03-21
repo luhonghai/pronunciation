@@ -5,6 +5,7 @@ var servletAdd = "/TreeAddNodeServlet";
 var servletEdit = "/TreeEditNodeServlet";
 var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
+var servletCopy = "/CopyServlet";
 /**
  * connect to server when edit course
  */
@@ -716,6 +717,151 @@ function publishCourse(){
         },
         error: function () {
 
+        }
+    });
+}
+
+/**
+ *
+ * @param idCourse
+ * @param idLevel
+ */
+function copyLevel(idCourse, idLevel){
+    $.ajax({
+        url : servletCopy,
+        type : "POST",
+        data : {
+            action: "cpLevel",
+            idCourse : idCourse,
+            idLevel : idLevel
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+               reloadTree();
+               swal("","Copy level successfully","success");
+            }else{
+               swal("","Copy level fail","error");
+            }
+        },
+        error: function () {
+            swal("","Copy level fail","error");
+        }
+    });
+}
+
+/**
+ *
+ * @param idCourse
+ * @param idLevel
+ */
+function copyObj(idLevel, idObj){
+    $.ajax({
+        url : servletCopy,
+        type : "POST",
+        data : {
+            action: "cpObj",
+            idLevel : idLevel,
+            idObj : idObj
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                swal("","Copy objective successfully","success");
+            }else{
+                swal("","Copy objective fail","error");
+            }
+        },
+        error: function () {
+            swal("","Copy level fail","error");
+        }
+    });
+}
+
+/**
+ *
+ * @param idCourse
+ * @param idLevel
+ */
+function copyTest(idLevel, idTest){
+    $.ajax({
+        url : servletCopy,
+        type : "POST",
+        data : {
+            action: "cpTest",
+            idLevel : idLevel,
+            idTest : idTest
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                swal("","Copy test successfully","success");
+            }else{
+                swal("","Copy test fail","error");
+            }
+        },
+        error: function () {
+            swal("","Copy level fail","error");
+        }
+    });
+}
+
+/**
+ *
+ * @param idCourse
+ * @param idLevel
+ */
+function copyLesson(idObj, idLesson){
+    $.ajax({
+        url : servletCopy,
+        type : "POST",
+        data : {
+            action: "cpLesson",
+            idObj : idObj,
+            idLesson : idLesson
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                swal("","Copy lesson successfully","success");
+            }else{
+                swal("","Copy lesson fail","error");
+            }
+        },
+        error: function () {
+            swal("","Copy level fail","error");
+        }
+    });
+}
+
+/**
+ *
+ * @param idCourse
+ * @param idLevel
+ */
+function copyQuestion(idLesson, idQuestion){
+    $.ajax({
+        url : servletCopy,
+        type : "POST",
+        data : {
+            action: "cpQuestion",
+            idQuestion : idQuestion,
+            idLesson : idLesson
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                swal("","Copy question successfully","success");
+            }else{
+                swal("","Copy question fail","error");
+            }
+        },
+        error: function () {
+            swal("","Copy level fail","error");
         }
     });
 }

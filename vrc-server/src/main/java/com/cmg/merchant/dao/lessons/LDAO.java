@@ -3,6 +3,7 @@ package com.cmg.merchant.dao.lessons;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.lesson.data.jdo.test.TestMapping;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -65,8 +66,10 @@ public class LDAO extends DataAccess<LessonCollection> {
     public boolean deletedLesson(String id){
         boolean isDelete = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        SqlUtil util = new SqlUtil();
+        String sql = util.getSqlDeleteLesson(id);
+        System.out.println("sql delete lesson : " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             q.execute(true,id);
             isDelete=true;
@@ -101,7 +104,14 @@ public class LDAO extends DataAccess<LessonCollection> {
         }
         return isUpdate;
     }
-    public boolean updateDeleted(String idObjective,String idLesson){
+
+    /**
+     *
+     * @param idObjective
+     * @param idLesson
+     * @return
+     */
+    public boolean removeMappingLessonWithObj(String idObjective,String idLesson){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());

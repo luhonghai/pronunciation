@@ -93,16 +93,20 @@ public class OServices {
      */
     public String deleteObj(String idLevel, String idObj){
         ODAO dao = new ODAO();
+        LevelServices lvServices = new LevelServices();
         try {
-            boolean check = dao.deletedObjective(idObj);
-            if(!check){
+            boolean check = lvServices.removeMappingObjToLv(idLevel, idObj);
+            if(check){
+                check = dao.deletedObjective(idObj);
+                if(!check){
+                    return ERROR + ": an error has been occurred in server!";
+                }
+            }else{
                 return ERROR + ": an error has been occurred in server!";
             }
-            LevelServices lvServices = new LevelServices();
-            check = lvServices.removeMappingObjToLv(idLevel,idObj);
-            if(!check){
-                return ERROR + ": an error has been occurred in server!";
-            }
+
+
+
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server!";
         }
@@ -157,14 +161,24 @@ public class OServices {
      * @param idObjNeedDuplicated
      * @return
      */
-    public String copyObj(String idLevelMapping, String idObjNeedDuplicated){
+    public String copyObj(String idLevelMapping, String idObjNeedDuplicated, boolean newName){
         ODAO dao = new ODAO();
         try {
             Objective obj = dao.getById(idObjNeedDuplicated);
             if(obj!=null){
+                Objective tmp = new Objective();
                 String newId = UUIDGenerator.generateUUID().toString();
-                obj.setId(newId);
-                dao.create(obj);
+                tmp.setId(newId);
+                if(newName) {
+                    tmp.setName("copy of " + obj.getName());
+                }else{
+                    tmp.setName(obj.getName());
+                }
+                tmp.setDescription(obj.getDescription());
+                tmp.setIsDeleted(false);
+                tmp.setVersion(getMaxVersion());
+                tmp.setDateCreated(new Date(System.currentTimeMillis()));
+                dao.create(tmp);
                 LevelServices lvServices = new LevelServices();
                 lvServices.addMappingObjToLv(idLevelMapping,newId);
                 return newId;

@@ -169,6 +169,7 @@ public class LevelServices {
             removeMappingLevelFromCourse(idCourse, idLevel);
             dao.deleteStep1(idLevel);
             dao.deleteStep2(idLevel);
+            return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -280,15 +281,26 @@ public class LevelServices {
      * @param idLevelNeedDuplicated
      * @return
      */
-    public String copyLevel(String idCourseMapping,String idLevelNeedDuplicated){
+    public String copyLevel(String idCourseMapping,String idLevelNeedDuplicated, boolean newName){
         LvDAO dao = new LvDAO();
         CourseServices courseService = new CourseServices();
         try {
             Level lv = dao.getById(idLevelNeedDuplicated);
             if(lv!=null){
+                Level tmp = new Level();
                 String newId = UUIDGenerator.generateUUID().toString();
-                lv.setId(newId);
-                dao.create(lv);
+                tmp.setId(newId);
+                if(newName){
+                    tmp.setName("copy of " + lv.getName());
+                }else{
+                    tmp.setName(lv.getName());
+                }
+                tmp.setDateCreated(new Date(System.currentTimeMillis()));
+                tmp.setVersion(getMaxVersion());
+                tmp.setDescription(lv.getDescription());
+                tmp.setIsDemo(false);
+                tmp.setIsDefaultActivated(false);
+                dao.create(tmp);
                 courseService.addMappingLevel(idCourseMapping,newId);
                 return newId;
             }

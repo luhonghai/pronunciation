@@ -252,9 +252,15 @@ public class QuestionServices {
         try {
             Question q = qDao.getById(idQuestion);
             if(q!=null){
+                Question tmp = new Question();
                 String newId = UUIDGenerator.generateUUID().toString();
-                q.setId(newId);
-                qDao.create(q);
+                tmp.setId(newId);
+                tmp.setName(q.getName());
+                tmp.setDescription(q.getDescription());
+                tmp.setIsDeleted(false);
+                tmp.setVersion(getMaxVersion());
+                tmp.setTimeCreated(new Date(System.currentTimeMillis()));
+                qDao.create(tmp);
                 addMappingQuestionToLesson(newId,idLessonMapping);
                 return newId;
             }
@@ -296,9 +302,17 @@ public class QuestionServices {
             ArrayList<WeightForPhoneme> list = getWeightById(idQuestionGetData,idWord);
             if(list!=null && list.size() > 0){
                 for(WeightForPhoneme wfp : list){
-                    wfp.setId(UUIDGenerator.generateUUID().toString());
-                    wfp.setIdQuestion(idQuestionMapping);
-                    dao.create(wfp);
+                    WeightForPhoneme temp = new WeightForPhoneme();
+                    temp.setId(UUIDGenerator.generateUUID().toString());
+                    temp.setIdQuestion(wfp.getIdQuestion());
+                    temp.setIdWordCollection(wfp.getIdWordCollection());
+                    temp.setIpa(wfp.getIpa());
+                    temp.setPhoneme(wfp.getPhoneme());
+                    temp.setWeight(wfp.getWeight());
+                    temp.setIndex(wfp.getIndex());
+                    temp.setIsDeleted(false);
+                    temp.setVersion(getMaxVersion());
+                    dao.create(temp);
                 }
             }
         }catch (Exception e){

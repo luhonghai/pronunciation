@@ -1,6 +1,7 @@
 package com.cmg.merchant.dao.level;
 
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -40,6 +41,20 @@ public class LvDAO extends DataAccess<Level> {
             pm.close();
         }
         return version;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public Level getById(String id) throws Exception{
+        List<Level> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
     }
 
 
