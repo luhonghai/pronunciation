@@ -6,6 +6,7 @@ import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.common.SQL;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
+import edu.cmu.sphinx.linguist.dictionary.Word;
 import org.apache.commons.lang.StringUtils;
 
 import javax.jdo.PersistenceManager;
@@ -41,6 +42,43 @@ public class WDAO extends DataAccess<WordCollection> {
                     if (array != null) {
                         temp.add(array.toString());
                     }
+                }
+            }
+
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return temp;
+    }
+
+
+    /**
+     *  use for get latest version in table
+     * @return latest version
+     * @throws Exception
+     */
+    public List<WordCollection> getWordsByIdQuestion(String idQuestion){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaWordCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
+        TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.id,word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE mapping.idQuestion='" + idQuestion + "'");
+        List<WordCollection> temp = new ArrayList<>();
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0) {
+                for (Object obj : tmp) {
+                    WordCollection word = new WordCollection();
+                    Object[] array = (Object[]) obj;
+                    if (array[0] != null) {
+                        word.setId(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        word.setWord(array[1].toString());
+                    }
+                    temp.add(word);
                 }
             }
 

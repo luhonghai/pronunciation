@@ -9,8 +9,12 @@ import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.dao.lessons.LMQDAO;
 import com.cmg.merchant.dao.questions.QDAO;
+import com.cmg.merchant.dao.questions.QMLDAO;
+import com.cmg.merchant.dao.word.WDAO;
+import com.cmg.merchant.dao.word.WFPDAO;
 import com.cmg.merchant.dao.word.WMQDAO;
 import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
@@ -187,5 +191,118 @@ public class QuestionServices {
         return message;
     }
 
+    /**
+     *
+     * @param idLesson
+     * @return
+     */
+    public ArrayList<Question> getQuestionByIdLesson(String idLesson){
+        QMLDAO dao = new QMLDAO();
+        ArrayList<Question> list = new ArrayList<>();
+        try {
+            List<Question> temp = dao.getQuestionByIdLesson(idLesson);
+            if(temp!=null && temp.size() > 0){
+                for(Question q : temp){
+                    list.add(q);
+                }
+            }
+        }catch (Exception e){
+            logger.error("can not get all question by id lesson : " + e.getMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<WordCollection> getWordsByIdQuestion(String idQuestion){
+        WDAO dao = new WDAO();
+        ArrayList<WordCollection> list = new ArrayList<>();
+        try {
+            List<WordCollection> temp = dao.getWordsByIdQuestion(idQuestion);
+            if(temp!=null){
+                for(WordCollection word : temp){
+                    list.add(word);
+                }
+            }
+        }catch (Exception e){
+            logger.error("can not get all word by id question : " + e.getMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<WeightForPhoneme> getWeightById(String idQuestion, String idWord){
+        WFPDAO dao =  new WFPDAO();
+        try {
+            ArrayList<WeightForPhoneme> list = (ArrayList<WeightForPhoneme>) dao.listBy(idQuestion,idWord);
+            return list;
+        }catch (Exception e){
+            logger.error("can not get all word by id question : " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param idLessonMapping
+     * @param idQuestion
+     * @return
+     */
+    public String copyQuestion(String idLessonMapping, String idQuestion){
+        QDAO qDao = new QDAO();
+        try {
+            Question q = qDao.getById(idQuestion);
+            if(q!=null){
+                String newId = UUIDGenerator.generateUUID().toString();
+                q.setId(newId);
+                qDao.create(q);
+                addMappingQuestionToLesson(newId,idLessonMapping);
+                return newId;
+            }
+        }catch (Exception e){
+            return ERROR;
+        }
+        return ERROR;
+    }
+
+    /**
+     *
+     * @param idQuestionMapping
+     * @param idWord
+     * @return
+     */
+    public void copyWords(String idQuestionMapping, String idWord){
+        WordOfQuestionDAO woqDao = new WordOfQuestionDAO();
+        try {
+            WordOfQuestion woq = new WordOfQuestion();
+            woq.setIsDeleted(false);
+            woq.setIdQuestion(idQuestionMapping);
+            woq.setIdWordCollection(idWord);
+            woq.setVersion(getMaxVersionWordOfQuestion());
+            woqDao.create(woq);
+        }catch (Exception e){
+            logger.error("can not copy words");
+        }
+    }
+
+    /**
+     *
+     * @param idQuestionMapping
+     * @param idWord
+     * @param idQuestionGetData
+     */
+    public void copyWeight(String idQuestionMapping, String idWord, String idQuestionGetData){
+        WFPDAO dao = new WFPDAO();
+        try {
+            ArrayList<WeightForPhoneme> list = getWeightById(idQuestionGetData,idWord);
+            if(list!=null && list.size() > 0){
+                for(WeightForPhoneme wfp : list){
+                    wfp.setId(UUIDGenerator.generateUUID().toString());
+                    wfp.setIdQuestion(idQuestionMapping);
+                    dao.create(wfp);
+                }
+            }
+        }catch (Exception e){
+            logger.error("can not copy weight for phoneme");
+        }
+
+    }
 }
 
