@@ -3,6 +3,7 @@ package com.cmg.merchant.dao.test;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -79,8 +80,10 @@ public class TDAO extends DataAccess<Test> {
     public boolean deletedTest(String id) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Test.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted=?  WHERE id=?");
+        SqlUtil util = new SqlUtil();
+        String sql = util.getSqlDeleteTest(id);
+        System.out.println("sql delete test : " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             q.execute(true,id);
             isUpdate=true;

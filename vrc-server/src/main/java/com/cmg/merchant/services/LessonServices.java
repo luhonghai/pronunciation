@@ -159,14 +159,16 @@ public class LessonServices {
     public String deleteLesson(String idObj, String idLesson ){
         LDAO dao = new LDAO();
         try {
-            boolean check = dao.deletedLesson(idLesson);
+            boolean check = dao.removeMappingLessonWithObj(idObj, idLesson);
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
-            check = dao.updateDeleted(idObj, idLesson);
+
+            check = dao.deletedLesson(idLesson);
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
+
         }catch (Exception e){
             return ERROR + ": an error has been occurred in server!";
         }
@@ -240,14 +242,27 @@ public class LessonServices {
      * @param idObjMapping
      * @return
      */
-    public String copyLessonInObj(String idObjMapping, String idLessonNeedDuplicated){
+    public String copyLessonInObj(String idObjMapping, String idLessonNeedDuplicated, boolean newName){
         LDAO ldao = new LDAO();
         try {
             LessonCollection lesson = ldao.getById(idLessonNeedDuplicated);
             if(lesson!=null){
+                LessonCollection tmp = new LessonCollection();
                 String newId = UUIDGenerator.generateUUID().toString();
-                lesson.setId(newId);
-                ldao.create(lesson);
+                tmp.setId(newId);
+                if(newName){
+                    tmp.setName("copy of " + lesson.getName());
+                }else{
+                    tmp.setName(lesson.getName());
+                }
+                tmp.setDescription(lesson.getDescription());
+                tmp.setNameUnique(lesson.getNameUnique());
+                tmp.setTitle(lesson.getTitle());
+                tmp.setType(lesson.getType());
+                tmp.setIsDeleted(false);
+                tmp.setVersion(getMaxVersion());
+                tmp.setDateCreated(new Date(System.currentTimeMillis()));
+                ldao.create(tmp);
                 addMappingLessonToObj(idObjMapping,newId);
                 return newId;
             }
@@ -269,9 +284,17 @@ public class LessonServices {
         try {
             LessonCollection lesson = ldao.getById(idLessonNeedDuplicated);
             if(lesson!=null){
+                LessonCollection tmp = new LessonCollection();
                 String newId = UUIDGenerator.generateUUID().toString();
-                lesson.setId(newId);
-                ldao.create(lesson);
+                tmp.setId(newId);
+                tmp.setNameUnique("");
+                tmp.setTitle("");
+                tmp.setName("");
+                tmp.setDescription("");
+                tmp.setVersion(getMaxVersion());
+                tmp.setDateCreated(new Date(System.currentTimeMillis()));
+                tmp.setIsDeleted(false);
+                ldao.create(tmp);
                 TestServices testServices = new TestServices();
                 testServices.addTESTMappingLESSON(idTestMapping,newId);
                 return newId;

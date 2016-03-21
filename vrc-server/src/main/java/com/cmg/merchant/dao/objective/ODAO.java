@@ -2,6 +2,8 @@ package com.cmg.merchant.dao.objective;
 
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.question.Question;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -19,7 +21,19 @@ public class ODAO extends DataAccess<Objective> {
     public ODAO() {
         super(Objective.class);
     }
-
+    /**
+     *
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public Objective getById(String id) throws Exception{
+        List<Objective> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
+        if(list!=null && list.size() > 0){
+            return list.get(0);
+        }
+        return null;
+    }
     /**
      *  use for get latest version in table
      * @return latest version
@@ -124,8 +138,10 @@ public class ODAO extends DataAccess<Objective> {
     public boolean deletedObjective(String id){
         boolean isDelete = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Objective.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET isDeleted= ? WHERE id=?");
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlDeleteObj(id);
+        System.out.println("sql delete objective : " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             q.execute(true,id);
             isDelete=true;

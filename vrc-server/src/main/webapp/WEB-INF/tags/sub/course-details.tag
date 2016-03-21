@@ -13,6 +13,11 @@
 %>
 
 <script>
+    var targetLoadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
+    var targetLoadLevel = "<%=Constant.TARGET_LOAD_LEVEL%>";
+    var targetLoadObj = "<%=Constant.TARGET_LOAD_OBJECTIVE%>";
+    var targetLoadTest = "<%=Constant.TARGET_LOAD_TEST%>";
+    var targetLoadLesson = "<%=Constant.TARGET_LOAD_LESSONS%>";
     var idCourse = "<%=idCourse%>";
     var nameOfCourse = "<%=nameOfCourse%>";
     var loadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";

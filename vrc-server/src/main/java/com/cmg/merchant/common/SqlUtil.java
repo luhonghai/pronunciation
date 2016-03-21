@@ -37,49 +37,141 @@ public class SqlUtil {
 
 
     private String SQL_DELETE_COURSE_STEP_1 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
-            "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id\n" +
-            "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
-            "  LEFT JOIN OBJECTIVE as obj on cmd.idChild = obj.id\n" +
-            "  LEFT JOIN OBJECTIVEMAPPING as om on om.idObjective = obj.id\n" +
-            "  LEFT JOIN LESSONCOLLECTION as ls on ls.id = om.idLessonCollection\n" +
-            "  LEFT JOIN LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id\n" +
-            "  LEFT JOIN QUESTION as q on q.id = lmq.idQuestion\n" +
-            "set c.isDeleted=true, cml.isDeleted=true, lv.isDeleted=true,cmd.isDeleted=true,\n" +
-            "  obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true where c.id = 'paramCourseId'";
+            "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id " +
+            "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "  LEFT JOIN OBJECTIVE as obj on cmd.idChild = obj.id " +
+            "  LEFT JOIN OBJECTIVEMAPPING as om on om.idObjective = obj.id " +
+            "  LEFT JOIN LESSONCOLLECTION as ls on ls.id = om.idLessonCollection " +
+            "  LEFT JOIN LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "  LEFT JOIN QUESTION as q on q.id = lmq.idQuestion " +
+            "  LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "  LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set c.isDeleted=true, cml.isDeleted=true, lv.isDeleted=true,cmd.isDeleted=true, " +
+            "  obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where c.id = 'paramCourseId'";
 
     private String SQL_DELETE_COURSE_STEP_2 = "update COURSE as c left join COURSEMAPPINGLEVEL as cml on c.id = cml.idCourse\n" +
-            "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id\n" +
-            "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
-            "  LEFT JOIN TEST as t on cmd.idChild = t.id\n" +
-            "  LEFT JOIN TESTMAPPING as tm on tm.idTest = t.id\n" +
-            "  LEFT JOIN LESSONCOLLECTION as ls on ls.id = tm.idLessonCollection\n" +
-            "  LEFT JOIN LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id\n" +
-            "  LEFT JOIN QUESTION as q on q.id = lmq.idQuestion\n" +
-            "set c.isDeleted=true, cml.isDeleted=true, lv.isDeleted=true,cmd.isDeleted=true,\n" +
-            "  t.isDeleted=true,tm.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true where c.id = 'paramCourseId'";
+            "  LEFT JOIN LEVEL as lv on cml.idLevel = lv.id " +
+            "  LEFT JOIN COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "  LEFT JOIN TEST as t on cmd.idChild = t.id " +
+            "  LEFT JOIN TESTMAPPING as tm on tm.idTest = t.id " +
+            "  LEFT JOIN LESSONCOLLECTION as ls on ls.id = tm.idLessonCollection " +
+            "  LEFT JOIN LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "  LEFT JOIN QUESTION as q on q.id = lmq.idQuestion " +
+            "  LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "  LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set c.isDeleted=true, cml.isDeleted=true, lv.isDeleted=true,cmd.isDeleted=true, " +
+            "  t.isDeleted=true,tm.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where c.id = 'paramCourseId'";
 
 
     private String SQL_DELETE_LEVEL_STEP_1 = "update LEVEL as lv " +
-            "left join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
-            "left join OBJECTIVE as obj on cmd.idChild = obj.id\n" +
-            "left join OBJECTIVEMAPPING as om on om.idObjective = obj.id\n" +
-            "left join LESSONCOLLECTION as ls on ls.id = om.idLessonCollection\n" +
-            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id\n" +
-            "left join QUESTION as q on q.id = lmq.idQuestion \n" +
-            "set lv.isDeleted=true,cmd.isDeleted=true,\n" +
-            "obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true where lv.id = 'paramLevelId'";
+            "left join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "left join OBJECTIVE as obj on cmd.idChild = obj.id " +
+            "left join OBJECTIVEMAPPING as om on om.idObjective = obj.id " +
+            "left join LESSONCOLLECTION as ls on ls.id = om.idLessonCollection " +
+            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "left join QUESTION as q on q.id = lmq.idQuestion " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set lv.isDeleted=true,cmd.isDeleted=true," +
+            "obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where lv.id = 'paramLevelId'";
 
 
     private String SQL_DELETE_LEVEL_STEP_2 = "update LEVEL as lv " +
-            "left join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel\n" +
-            "left join TEST as t on cmd.idChild = t.id\n" +
-            "left join TESTMAPPING as tm on tm.idObjective = t.id\n" +
-            "left join LESSONCOLLECTION as ls on ls.id = tm.idLessonCollection\n" +
-            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id\n" +
-            "left join QUESTION as q on q.id = lmq.idQuestion \n" +
-            "set lv.isDeleted=true,cmd.isDeleted=true,\n" +
-            "t.isDeleted=true,tm.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true where lv.id = 'paramLevelId'";
+            "left join COURSEMAPPINGDETAIL as cmd on lv.id = cmd.idLevel " +
+            "left join TEST as t on cmd.idChild = t.id " +
+            "left join TESTMAPPING as tm on tm.idTest = t.id " +
+            "left join LESSONCOLLECTION as ls on ls.id = tm.idLessonCollection " +
+            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "left join QUESTION as q on q.id = lmq.idQuestion " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set lv.isDeleted=true,cmd.isDeleted=true, " +
+            "t.isDeleted=true,tm.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where lv.id = 'paramLevelId'";
 
+    private String SQL_DELETE_OBJ = "UPDATE OBJECTIVE as obj " +
+            "left join OBJECTIVEMAPPING as om on om.idObjective = obj.id " +
+            "left join LESSONCOLLECTION as ls on ls.id = om.idLessonCollection " +
+            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "left join QUESTION as q on q.id = lmq.idQuestion " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set  " +
+            "obj.isDeleted=true,om.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true," +
+            "q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where obj.id = 'paramObjId'";
+
+    private String SQL_DELETE_TEST =  "Update TEST as t " +
+            "left join TESTMAPPING as tm on tm.idTest = t.id " +
+            "left join LESSONCOLLECTION as ls on ls.id = tm.idLessonCollection " +
+            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "left join QUESTION as q on q.id = lmq.idQuestion " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set  " +
+            "t.isDeleted=true,tm.isDeleted=true,ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where t.id = 'paramTestId'";
+
+
+    private String SQL_DELETE_LESSON =  "Update LESSONCOLLECTION as ls  " +
+            "left join LESSONMAPPINGQUESTION as lmq on lmq.idLesson = ls.id " +
+            "left join QUESTION as q on q.id = lmq.idQuestion " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set  " +
+            "ls.isDeleted=true,lmq.isDeleted=true,q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true " +
+            "where ls.id = 'paramLessonId'";
+
+    private String SQL_DELETE_QUESTION =  "Update QUESTION as q " +
+            "LEFT JOIN WORDOFQUESTION as woq on woq.idQuestion = q.id " +
+            "LEFT JOIN WEIGHTFORPHONEME as wfp on wfp.idQuestion = q.id " +
+            "set  " +
+            "q.isDeleted=true,woq.isDeleted=true,wfp.isDeleted=true where q.id = 'paramQuestionId'";
+
+
+
+
+
+    /**
+     *
+     * @param idTest
+     */
+    public String getSqlDeleteTest(String idTest){
+        String sql = SQL_DELETE_OBJ;
+        sql = sql.replaceAll("paramTestId",idTest);
+        return sql;
+    }
+
+    /**
+     *
+     * @param idObj
+     * @return
+     */
+    public String getSqlDeleteObj(String idObj){
+        String sql = SQL_DELETE_OBJ;
+        sql = sql.replaceAll("paramObjId",idObj);
+        return sql;
+    }
+
+
+    /**
+     *
+     * @param idLesson
+     * @return
+     */
+    public String getSqlDeleteLesson(String idLesson){
+        String sql = SQL_DELETE_LESSON;
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        return sql;
+    }
+
+    /**
+     *
+     * @param idQuestion
+     * @return
+     */
+    public String getSqlDeleteQuestion(String idQuestion){
+        String sql = SQL_DELETE_QUESTION;
+        sql = sql.replaceAll("paramQuestionId",idQuestion);
+        return sql;
+    }
 
 
     /**

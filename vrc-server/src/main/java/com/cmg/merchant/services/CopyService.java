@@ -49,14 +49,29 @@ public class CopyService {
         ArrayList<Level> listLevel = lvServices.getAllByCourseId(idCourseGetData);
         if(listLevel!= null &&listLevel.size() > 0){
             for(Level lv : listLevel){
-                String newIdLevel = lvServices.copyLevel(idCourseMapping, lv.getId());
+                String newIdLevel = lvServices.copyLevel(idCourseMapping, lv.getId(),false);
                 if(newIdLevel.contains(ERROR)){
                     continue;
                 }
                 copyAllObjToLevel(newIdLevel,lv.getId());
-                copyTestToLevel(newIdLevel, lv.getId());
+                copyAllTestToLevel(newIdLevel, lv.getId());
             }
         }
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @param idLevel
+     */
+    public String copyLevelToCourse(String idCourse, String idLevel){
+        String newIdLevel = lvServices.copyLevel(idCourse, idLevel, true);
+        if(newIdLevel.contains(ERROR)){
+            return ERROR;
+        }
+        copyAllObjToLevel(newIdLevel, idLevel);
+        copyAllTestToLevel(newIdLevel, idLevel);
+        return SUCCESS;
     }
     /**
      *
@@ -67,9 +82,21 @@ public class CopyService {
         ArrayList<Objective> listObj = objServices.getAllByLevelId(levelIdGetData);
         if(listObj!=null && listObj.size() > 0)
         for(Objective obj : listObj){
-            String newIdObj = objServices.copyObj(levelIdMapping,obj.getId());
+            String newIdObj = objServices.copyObj(levelIdMapping,obj.getId(),false);
             copyAllLessonsToObj(newIdObj,obj.getId());
         }
+    }
+
+    /**
+     *
+     * @param idLevel
+     * @param idObj
+     * @return
+     */
+    public String copyObjToLevel(String idLevel, String idObj){
+        String newIdObj = objServices.copyObj(idLevel, idObj, true);
+        copyAllLessonsToObj(newIdObj,idObj);
+        return SUCCESS;
     }
 
     /**
@@ -77,12 +104,23 @@ public class CopyService {
      * @param levelIdMapping
      * @param levelIdGetData
      */
-    public void copyTestToLevel(String levelIdMapping, String levelIdGetData){
+    public void copyAllTestToLevel(String levelIdMapping, String levelIdGetData){
         Test t = testServices.getTestByLevelId(levelIdGetData);
         String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
         copyLessonsToTest(newIdTest, t.getId());
     }
 
+    /**
+     *
+     * @param idLevel
+     * @param idTest
+     * @return
+     */
+    public String copyTestToLevel(String idLevel, String idTest){
+        String newIdTest = testServices.copyTest(idLevel, idTest);
+        copyLessonsToTest(newIdTest, idTest);
+        return SUCCESS;
+    }
 
     /**
      *
@@ -93,10 +131,22 @@ public class CopyService {
         ArrayList<LessonCollection> listLessons = lessonServices.getAllByObjId(objIdGetData);
         if(listLessons!=null && listLessons.size() > 0){
             for(LessonCollection lesson : listLessons){
-                String newLessonId = lessonServices.copyLessonInObj(objIdMapping,lesson.getId());
+                String newLessonId = lessonServices.copyLessonInObj(objIdMapping,lesson.getId(),false);
                 copyAllQuestionToLessons(newLessonId,lesson.getId());
             }
         }
+    }
+
+    /**
+     *
+     * @param idObj
+     * @param idLesson
+     * @return
+     */
+    public String CopyLessonToObj(String idObj, String idLesson){
+        String newLessonId = lessonServices.copyLessonInObj(idObj, idLesson, true);
+        copyAllQuestionToLessons(newLessonId,idLesson);
+        return SUCCESS;
     }
 
 
@@ -121,6 +171,18 @@ public class CopyService {
                  copyAllWordsToQuestion(newIdQuestion,q.getId());
              }
          }
+    }
+
+    /**
+     *
+     * @param idLesson
+     * @param idQuestion
+     * @return
+     */
+    public String copyQuestionToLessons(String idLesson, String idQuestion){
+        String newIdQuestion = questionServices.copyQuestion(idLesson,idQuestion);
+        copyAllWordsToQuestion(newIdQuestion,idQuestion);
+        return SUCCESS;
     }
 
     /**

@@ -3,7 +3,6 @@ package com.cmg.merchant.servlet.tree;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.data.dto.TreeNode;
 import com.cmg.merchant.services.treeview.NodeServices;
-import com.cmg.merchant.servlet.ReviewServlet;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
  */
 @WebServlet(name = "TreeLoadServlet")
 public class TreeLoadServlet extends BaseServlet {
-    private static final Logger logger = Logger.getLogger(ReviewServlet.class
+    private static final Logger logger = Logger.getLogger(TreeLoadServlet.class
             .getName());
     private static NodeServices nService = new NodeServices();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

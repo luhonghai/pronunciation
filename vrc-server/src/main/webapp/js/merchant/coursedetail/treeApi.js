@@ -149,18 +149,61 @@ function copyAndPaste(){
                 name: 'Copy',
                 callback: function() {
                     nodeCopied = item;
+                    currentParent = api.parent(item);
                 }
             };
             menu['paste'] = {
                 name: 'Paste',
                 callback: function() {
-                    var data = api.itemData(nodeCopied);
-                    var lblcopied = data['label'];
-                    lblcopied = 'copy of ' + lblcopied;
-                    data['label'] = lblcopied;
-                    api.append(item,{
-                        itemData : [data]
-                    })
+                    var dataTarget = api.itemData(item);
+                    var dataCurrentParent = api.itemData(currentParent);
+                    if(dataTarget['_targetLoad'] == dataCurrentParent['_targetLoad']){
+                        var dataCopied = api.itemData(nodeCopied);
+                        if(dataTarget['_targetLoad'] == targetLoadCourse){
+                            var idCourse = dataTarget['id'];
+                            var idLevel = dataCopied['id'];
+                            copyLevel(idCourse,idLevel);
+                        }else if(dataTarget['_targetLoad'] == targetLoadLevel){
+                            var idLevel = dataTarget['id'];
+                            var type = dataCopied['icon'];
+                            if(type == "test"){
+                                var idTest = dataCopied['id'];
+                                currentParent = item;
+                                copyTest(idLevel,idTest);
+                            }else if(type == "obj"){
+                                var idObj = dataCopied['id'];
+                                currentParent = item;
+                                copyObj(idLevel,idObj);
+                            }
+                        }else if(dataTarget['_targetLoad'] == targetLoadObj){
+                            var idObj = dataTarget['id'];
+                            var idLesson = dataCopied['id'];
+                            currentParent = item;
+                            copyLesson(idObj,idLesson);
+                        }else if(dataTarget['_targetLoad'] == targetLoadLesson){
+                            var idLesson = dataTarget['id'];
+                            var idQuestion = dataCopied['id'];
+                            currentParent = item;
+                            copyQuestion (idLesson,idQuestion);
+                        }else if(dataTarget['_targetLoad'] == targetLoadTest){
+                            var idLesson = dataCurrentParent['_idLessonForTest'];
+                            var idQuestion = dataCopied['id'];
+                            currentParent = item;
+                            copyQuestion (idLesson,idQuestion);
+                        }
+                    }else{
+                        /*if(dataCurrentParent['_targetLoad'] == targetLoadTest
+                            && dataTarget['_targetLoad'] == targetLoadLesson){
+                            currentParent = item;
+                            var idLesson = dataCurrentParent['_idLessonForTest'];
+                            var idQuestion = dataCopied['id'];
+                            copyQuestion (idLesson,idQuestion);
+                        }*/
+                        alert('you could not paste the copied data to this node');
+                    }
+                    nodeCopied = null;
+                }, disabled : function(key, opt) {
+                    if(nodeCopied == null) return true;
                 }
             };
             return {
@@ -171,7 +214,7 @@ function copyAndPaste(){
     });
 }
 $(function() {
-    //copyAndPaste();
+    copyAndPaste();
     ClickOnTree();
     drag2drop();
     initTree();

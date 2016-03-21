@@ -45,21 +45,10 @@ public class TestServices {
      * @return
      */
     public String deleteTest(String idTest, String idLevel){
-        TMLDAO tmlDAO = new TMLDAO();
         LVMTDAO lvmtDAO = new LVMTDAO();
         TDAO tDAO = new TDAO();
-        LDAO lDAO = new LDAO();
         try {
-            String idLessons = tmlDAO.getByIdTest(idTest).getIdLessonCollection();
-            boolean check = lDAO.deletedLesson(idLessons);
-            if(!check){
-                return ERROR + ": an error has been occurred in server!";
-            }
-            check = tmlDAO.updateDeleted(idTest);
-            if(!check){
-                return ERROR + ": an error has been occurred in server!";
-            }
-            check = lvmtDAO.updateDeleted(idTest,idLevel);
+            boolean check = lvmtDAO.removeMappingTestWithLevel(idTest, idLevel);
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
@@ -259,9 +248,15 @@ public class TestServices {
         try {
             Test test = testDAO.getById(idTestNeedDuplicated);
             if(test!=null){
+                Test tmp = new Test();
                 String newId = UUIDGenerator.generateUUID().toString();
-                test.setId(newId);
-                testDAO.create(test);
+                tmp.setId(newId);
+                tmp.setPercentPass(test.getPercentPass());
+                tmp.setDateCreated(new Date(System.currentTimeMillis()));
+                tmp.setIsDeleted(false);
+                tmp.setName("Test");
+                tmp.setDescription(""+test.getPercentPass());
+                testDAO.create(tmp);
                 addTESTMappingLEVEL(idLevelMapping,newId);
                 return newId;
             }
