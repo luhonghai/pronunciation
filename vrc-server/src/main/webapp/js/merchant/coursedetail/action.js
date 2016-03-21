@@ -94,11 +94,18 @@ function openPopup(itemData){
         var level = treeAPI.parent(obj);
         var levelItemData = treeAPI.itemData(level);
         getQuestionListWordEdit().attr("idLesson",lesson.id);
-        getQuestionListWordEdit().attr("listWord",lesson._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }
     currentPopup.modal('show');
 }
+
+function drawListWord(listWord){
+    if(listWord!=null && listWord.length>0){
+        getListWord().append(' <div style="margin-top: 5px;" id="'+idWord+'" ><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+nameWord+'</p></div>');
+    }
+
+}
+
 function readListMail(txt) {
     if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
     var data =  txt.split(',');
