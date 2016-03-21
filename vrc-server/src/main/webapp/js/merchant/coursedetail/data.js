@@ -89,6 +89,10 @@ function getNameLesson(){
     var lessonName=$('#lessonName');
     return lessonName;
 }
+function getQuestionListWordEdit(){
+    var listWord=$('#listWord');
+    return listWord;
+}
 function getDescriptionLesson(){
     var lessonDescription=$('#lessonDesc');
     return lessonDescription;
