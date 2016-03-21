@@ -636,6 +636,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             return
         } else{
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
+                self.currentMode = nil
                 self.activateAudioSession()
                 self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
                 self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
@@ -653,6 +654,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         disableViewPlay()
         if self.player.isPlaying {
             Logger.log("stop playing")
+            self.ennableViewPlay()
             self.player.pause()
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
