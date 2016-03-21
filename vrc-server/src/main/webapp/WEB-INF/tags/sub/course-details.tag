@@ -379,7 +379,6 @@
                 <label id="arrowQuestion" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
-                <input type="hidden" id="listWord">
                 <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
             </div>
             <div class="modal-body">
