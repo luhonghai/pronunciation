@@ -3,8 +3,9 @@ package com.cmg.merchant.services;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
-import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.merchant.util.SessionUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ public class CopyService {
     OServices objServices = new OServices();
     TestServices testServices = new TestServices();
     LessonServices lessonServices = new LessonServices();
+    QuestionServices questionServices = new QuestionServices();
     public String ERROR = "error";
     public String SUCCESS = "success";
     SessionUtil util = new SessionUtil();
@@ -78,7 +80,7 @@ public class CopyService {
     public void copyTestToLevel(String levelIdMapping, String levelIdGetData){
         Test t = testServices.getTestByLevelId(levelIdGetData);
         String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
-        copyAllLessonsToTest(newIdTest,t.getId());
+        copyLessonsToTest(newIdTest, t.getId());
     }
 
 
@@ -98,7 +100,7 @@ public class CopyService {
     }
 
 
-    public void copyAllLessonsToTest(String testIdMapping, String testIdGetData){
+    public void copyLessonsToTest(String testIdMapping, String testIdGetData){
         LessonCollection lesson = lessonServices.getByTestId(testIdGetData);
         if(lesson!=null){
             String newLessonId = lessonServices.copyLessonInTest(testIdMapping,lesson.getId());
@@ -112,6 +114,27 @@ public class CopyService {
      * @param lessonIdGetData
      */
     public void copyAllQuestionToLessons(String lessonIdMapping, String lessonIdGetData){
+         ArrayList<Question> list = questionServices.getQuestionByIdLesson(lessonIdGetData);
+         if(list!=null && list.size()>0){
+             for(Question q : list){
+                 String newIdQuestion = questionServices.copyQuestion(lessonIdMapping,q.getId());
+                 copyAllWordsToQuestion(newIdQuestion,q.getId());
+             }
+         }
+    }
 
+    /**
+     *
+     * @param questionIdMapping
+     * @param questionIdGetData
+     */
+    public void copyAllWordsToQuestion(String questionIdMapping, String questionIdGetData){
+        ArrayList<WordCollection> list = questionServices.getWordsByIdQuestion(questionIdGetData);
+        if(list!=null && list.size() > 0){
+            for(WordCollection word : list){
+                questionServices.copyWords(questionIdMapping,word.getId());
+                questionServices.copyWeight(questionIdMapping,word.getId(),questionIdGetData);
+            }
+        }
     }
 }
