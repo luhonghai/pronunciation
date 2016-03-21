@@ -12,7 +12,7 @@ import NSLogger
 public class Logger {
     
     class func log(message: AnyObject!) {
-        LogMessageRaw(message as! String)
+        //LogMessageRaw(message as! String)
 //        NSLog(message as! String)
         //
     }

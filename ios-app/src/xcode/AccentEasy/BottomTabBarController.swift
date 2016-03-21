@@ -27,7 +27,7 @@ class BottomTabBarController: RDVTabBarController {
         ]
         let tabBar = self.tabBar
         tabBar.backgroundColor = UIColor.whiteColor()
-        let tabBarHeight: CGFloat = 32
+        let tabBarHeight: CGFloat = 50
         tabBar.frame = CGRectMake(0, -300, CGRectGetWidth(tabBar.frame), tabBarHeight)
         var index = 0
         for item in tabBar.items as! [RDVTabBarItem] {
