@@ -121,8 +121,6 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // Do any additional setup after loading the view.
         
         
-        
-        
         //menu
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
