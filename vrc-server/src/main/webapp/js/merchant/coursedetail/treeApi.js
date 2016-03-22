@@ -24,7 +24,13 @@ function initTree(){
                 //for load other node in course
                 var target = itemData._targetLoad;
                 var id = itemData.id;
-                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
+                if(target == targetLoadTest){
+                    id = itemData._idLessonForTest;
+                    settings.url = settings.url + "?target=" + targetLoadLesson + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
+                }else{
+                    settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
+                }
+
             }else{
                 //load course
                 settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction;

@@ -37,7 +37,7 @@ public class NodeServices {
     public ArrayList<TreeNode> loadLevel(String idLevel, boolean showBtnAction){
         ArrayList<TreeNode> list = new ArrayList<>();
         //load all obj
-        ArrayList<TreeNode> listObj = util.switchObjToNode(dataServices.getObjDB(idLevel),showBtnAction);
+        ArrayList<TreeNode> listObj = util.switchObjToNode(dataServices.getObjDB(idLevel), showBtnAction);
         list = listObj;
         list.add(util.switchTestToNode(dataServices.getTestDB(idLevel),showBtnAction));
         return list;
@@ -60,7 +60,10 @@ public class NodeServices {
 
 
     public ArrayList<TreeNode> loadTest(String idTest, boolean showBtnAction){
-        return null;
+        ArrayList<TreeNode> list = new ArrayList<>();
+        ArrayList<TreeNode> listObj = util.switchQuestionToNode(qmldao.getQuestionByIdLesson(idTest),showBtnAction);
+        list = listObj;
+        return list;
     }
 
 
