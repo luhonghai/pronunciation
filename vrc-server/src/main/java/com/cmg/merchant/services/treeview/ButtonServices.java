@@ -80,12 +80,22 @@ public class ButtonServices {
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_QUESTION_BTN);
         node.setLabel(Constant.LABEL_ADD_QUESTION);
-        node.setIcon(Constant.IC_QUESTION);
+        node.setIcon(Constant.IC_QUESTION_TEST);
         node.set_popupId(Constant.POPUP_QUESTION);
         node.set_actionClick(Constant.ACTION_ADD_QUESTION);
         return node;
     }
 
+
+    public TreeNode createBtnAddQuestionTest(){
+        TreeNode node = getDefaultBtn();
+        node.setId(Constant.ID_ADD_QUESTION_TEST_BTN);
+        node.setLabel(Constant.LABEL_ADD_QUESTION_TEST);
+        node.setIcon(Constant.IC_QUESTION_TEST);
+        node.set_popupId(Constant.POPUP_QUESTION_TEST);
+        node.set_actionClick(Constant.ACTION_ADD_QUESTION_TEST);
+        return node;
+    }
 
 
 

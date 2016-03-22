@@ -129,6 +129,14 @@ public class SqlUtil {
 
 
 
+    private String SQL_GET_ALL_QUESTION_IN_TEST = "select q.id, q.name,q.description,q.type from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq\n" +
+            "on q.id = lmq.idQuestion inner join LESSONCOLLECTION as l on lmq.idLesson = l.id " +
+            "inner join TESTMAPPING as tm on tm.idLESSONCOLLECTION = lmq.id " +
+            "inner join TEST as t on t.id = tm.idTest " +
+            "where t.id='paramTestId' and t.isDeleted=false and tm.isDeleted=false and lmq.isDeleted=false " +
+            "and l.isDeleted=false and q.isDeleted=false ";
+
+
     /**
      *
      * @param idTest
@@ -239,7 +247,7 @@ public class SqlUtil {
      *
      * @param idCourse
      * @param tId
-     * @param cpID
+     * @param idCourse
      * @return
      */
     public String getSQLCheckCourseAlreadyCopied(String idCourse, String tId, String cpId){
@@ -270,6 +278,12 @@ public class SqlUtil {
     public String getSqlCheckQuestionObjInLevel(String idLevel){
         String sql = SQL_CHECK_QUESTION_OBJ_IN_LEVEL;
         sql = sql.replaceAll("paramLvId",idLevel);
+        return sql;
+    }
+
+    public String getSqlQuestionInTest(String idTest){
+        String sql = SQL_GET_ALL_QUESTION_IN_TEST;
+        sql = sql.replaceAll("paramTestId",idTest);
         return sql;
     }
 }

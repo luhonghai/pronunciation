@@ -51,6 +51,7 @@ public class Constant {
     public static String IC_TEST = "test";
     public static String IC_LESSON = "lessons";
     public static String IC_QUESTION = "question";
+    public static String IC_QUESTION_TEST = "questiontest";
     public static String IC_BTN_ADD_LEVEL = "icBtnAddLevel";
     public static String IC_BTN_ADD_OBJ = "icBtnAddObj";
     public static String IC_BTN_ADD_TEST = "icBtnAddTest";
@@ -66,6 +67,7 @@ public class Constant {
     public static String ID_ADD_TEST_BTN = "addtest";
     public static String ID_ADD_LESSON_BTN = "addlesson";
     public static String ID_ADD_QUESTION_BTN = "addquestion";
+    public static String ID_ADD_QUESTION_TEST_BTN = "addquestiontest";
 
     //label of button in the tree
     public static String LABEL_ADD_LEVEL = "add level";
@@ -73,7 +75,7 @@ public class Constant {
     public static String LABEL_ADD_TEST = "add test";
     public static String LABEL_ADD_LESSON = "add lesson";
     public static String LABEL_ADD_QUESTION = "add question";
-
+    public static String LABEL_ADD_QUESTION_TEST = "add test question";
 
     //poup level
     public static String POPUP_COURSE = "popupCourse";
@@ -117,4 +119,9 @@ public class Constant {
     public static String ACTION_DELETE_WORD = "deleteWord";
 
 
+    //popup question test
+    public static String POPUP_QUESTION_TEST = "popupQuestionTest";
+    public static String ACTION_ADD_QUESTION_TEST = "addQuestionTest";
+    public static String ACTION_EDIT_QUESTION_TEST = "editQuestionTest";
+    public static String ACTION_DELETE_QUESTION_TEST = "deleteQuestionTest";
 }

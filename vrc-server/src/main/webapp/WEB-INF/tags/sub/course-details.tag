@@ -432,7 +432,7 @@
 
 
 
-<div id="popupTestWord" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div id="popupQuestionTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
         <%--<div class="modal-content modal-question-word">--%>
@@ -482,15 +482,12 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
                             <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
                 </form>

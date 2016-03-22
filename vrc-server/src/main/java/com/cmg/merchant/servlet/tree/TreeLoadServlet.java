@@ -44,12 +44,11 @@ public class TreeLoadServlet extends BaseServlet {
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_TEST)){
-            ArrayList<TreeNode> list = nService.loadLesson(idTarget,showBtnAction);
+            ArrayList<TreeNode> list = nService.loadTest(idTarget,showBtnAction);
             String json = gson.toJson(list);
             response.getWriter().println(json);
-
         }else if(target.equalsIgnoreCase(Constant.TARGET_LOAD_LESSONS)){
-            ArrayList<TreeNode> list = nService.loadLesson(idTarget,showBtnAction);
+            ArrayList<TreeNode> list = nService.loadLesson(idTarget, showBtnAction);
             String json = gson.toJson(list);
             response.getWriter().println(json);
         }
