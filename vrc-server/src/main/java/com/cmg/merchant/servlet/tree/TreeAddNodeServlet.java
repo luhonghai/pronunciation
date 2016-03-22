@@ -59,11 +59,21 @@ public class TreeAddNodeServlet extends BaseServlet {
             response.getWriter().println(txt);
         }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_QUESTION)){
             Gson gson=new Gson();
-            String listWord = request.getParameter("listWord");
-            String idLesson = request.getParameter("idLesson");
+            String listWord = (String) StringUtil.isNull(request.getParameter("listWord"),"");
+            String idLesson =(String) StringUtil.isNull( request.getParameter("idLesson"),"");
             ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
             QuestionServices questionServices=new QuestionServices();
             String txt = questionServices.addQuestionToLesson(listWords,idLesson);
+            response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_ADD_QUESTION_TEST)){
+            Gson gson=new Gson();
+            String listWord = (String) StringUtil.isNull(request.getParameter("listWord"),"");
+            String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"),"");
+            String typeOfQuestion = (String) StringUtil.isNull(request.getParameter("type"),"");
+            String description = (String) StringUtil.isNull(request.getParameter("description"),"");
+            ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
+            QuestionServices questionServices = new QuestionServices();
+            String txt = questionServices.addQuestionToTest(listWords, idLesson, typeOfQuestion,description);
             response.getWriter().println(txt);
         }
     }

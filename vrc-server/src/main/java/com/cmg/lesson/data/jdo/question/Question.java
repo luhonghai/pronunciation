@@ -26,10 +26,21 @@ public class Question implements Mirrorable {
     private String description;
 
     @Persistent
+    private String type;
+
+    @Persistent
     private boolean isDeleted;
 
     @Persistent
     private int version;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Date getTimeCreated() {
         return timeCreated;

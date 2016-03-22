@@ -49,6 +49,11 @@ public class QuestionServices {
         }
         return version +1;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getMaxVersionQuestion(){
         int version = 0;
         QuestionDAO dao = new QuestionDAO();
@@ -59,6 +64,11 @@ public class QuestionServices {
         }
         return version +1;
     }
+
+    /**
+     *
+     * @return
+     */
     public int getMaxVersionWordOfQuestion(){
         int version=0;
         WordOfQuestionDAO dao = new WordOfQuestionDAO();
@@ -70,12 +80,18 @@ public class QuestionServices {
         return version + 1;
     }
 
+    /**
+     *
+     * @param listWords
+     * @param idLesson
+     * @return
+     */
     public String addQuestionToLesson(ListWordAddQuestion listWords,String idLesson){
         String message=null;
         List<WeightPhonemesDTO> list=listWords.getListWord();
         String idQuestion = UUIDGenerator.generateUUID().toString();
 
-        if(addQuestionToDB(idQuestion).indexOf(ERROR) != -1){
+        if(addQuestionToDB(idQuestion,null, null).indexOf(ERROR) != -1){
             return ERROR;
         }
         if(addMappingQuestionToLesson(idQuestion,idLesson).indexOf(ERROR)!= -1){
@@ -84,7 +100,6 @@ public class QuestionServices {
         if(list!=null){
             for(int i=0;i<list.size();i++){
                 WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
-
                if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
                    return ERROR;
                }
@@ -97,13 +112,60 @@ public class QuestionServices {
         return message;
     }
 
-    public String addQuestionToDB(String idQuestion){
+    /**
+     *
+     * @param listWords
+     * @param idLesson
+     * @param type
+     * @param description
+     * @return
+     */
+    public String addQuestionToTest(ListWordAddQuestion listWords,String idLesson, String type, String description){
+        String message=null;
+        List<WeightPhonemesDTO> list=listWords.getListWord();
+        String idQuestion = UUIDGenerator.generateUUID().toString();
+
+        if(addQuestionToDB(idQuestion,type,description).indexOf(ERROR) != -1){
+            return ERROR;
+        }
+        if(addMappingQuestionToLesson(idQuestion,idLesson).indexOf(ERROR)!= -1){
+            return ERROR;
+        }
+        if(list!=null){
+            for(int i=0;i<list.size();i++){
+                WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
+                if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
+                    return ERROR;
+                }
+                if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
+                    return ERROR;
+                }
+            }
+        }
+        message=SUCCESS;
+        return message;
+    }
+
+    /**
+     *
+     * @param idQuestion
+     * @param type
+     * @param description
+     * @return
+     */
+    public String addQuestionToDB(String idQuestion,String type, String description){
         QDAO qdao=new QDAO();
         String message=null;
         try {
             Question question=new Question();
-            question.setName("Question");
-            question.setDescription("Question");
+            if(type != null && description!=null){
+                question.setName("Question");
+                question.setDescription(description);
+                question.setType(type);
+            }else{
+                question.setName("Question");
+                question.setDescription("Question");
+            }
             question.setId(idQuestion);
             question.setIsDeleted(false);
             question.setVersion(getMaxVersionQuestion());
@@ -117,7 +179,12 @@ public class QuestionServices {
         return message;
     }
 
-
+    /**
+     *
+     * @param idQuestion
+     * @param idLesson
+     * @return
+     */
     public String addMappingQuestionToLesson(String idQuestion, String idLesson ){
         LMQDAO lmqdao=new LMQDAO();
         try {
@@ -134,6 +201,12 @@ public class QuestionServices {
         return SUCCESS;
     }
 
+    /**
+     *
+     * @param dto
+     * @param IdQuestion
+     * @return
+     */
     public String addMappingWeightForPhonemes(WeightPhonemesDTO dto,String IdQuestion){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
         String message=null;
@@ -163,6 +236,13 @@ public class QuestionServices {
         }
         return message;
     }
+
+    /**
+     *
+     * @param idQuestion
+     * @param idWord
+     * @return
+     */
     public boolean updateDeleted(String idQuestion, String idWord){
         boolean check = false;
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
@@ -175,6 +255,11 @@ public class QuestionServices {
         return check;
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
     public String addWordToQuestionDB(WordOfQuestion obj){
         WMQDAO woqDAO = new WMQDAO();
         boolean check = false;
@@ -215,6 +300,11 @@ public class QuestionServices {
         return list;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @return
+     */
     public ArrayList<WordCollection> getWordsByIdQuestion(String idQuestion){
         WDAO dao = new WDAO();
         ArrayList<WordCollection> list = new ArrayList<>();
@@ -231,6 +321,12 @@ public class QuestionServices {
         return list;
     }
 
+    /**
+     *
+     * @param idQuestion
+     * @param idWord
+     * @return
+     */
     public ArrayList<WeightForPhoneme> getWeightById(String idQuestion, String idWord){
         WFPDAO dao =  new WFPDAO();
         try {
@@ -322,6 +418,12 @@ public class QuestionServices {
 
     }
 
+    /**
+     *
+     * @param listWords
+     * @param idQuestion
+     * @return
+     */
     public String updateWordToQuestion(ListWordAddQuestion listWords,String idQuestion){
         WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
         String message=null;
@@ -356,6 +458,13 @@ public class QuestionServices {
         return message;
     }
 
+
+    /**
+     *
+     * @param dto
+     * @param idQuestion
+     * @return
+     */
     public String addMapping(WeightPhonemesDTO dto,String idQuestion){
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
         String message=null;
@@ -385,6 +494,13 @@ public class QuestionServices {
         }
         return message;
     }
+
+    /**
+     *
+     * @param idQuestion
+     * @param idWord
+     * @return
+     */
     public String deleteWordOfQuestion(String idQuestion, String idWord){
         WordOfQuestionDAO dao = new WordOfQuestionDAO();
         String message=null;
@@ -403,10 +519,14 @@ public class QuestionServices {
         return message;
     }
 
+    /**
+     *
+     * @param idLesson
+     * @param idQuestion
+     * @return
+     */
     public String deleteQuestion(String idLesson, String idQuestion ){
         QDAO dao = new QDAO();
-
-
         try {
             boolean check = dao.removeMappingQuestionWithLesson(idLesson, idQuestion);
             if(!check){
@@ -422,6 +542,13 @@ public class QuestionServices {
         }
         return SUCCESS;
     }
+
+    /**
+     *
+     * @param word
+     * @param idQuestion
+     * @return
+     */
     public String deleteWordMappingQuestion(String word, String idQuestion ){
         QDAO dao = new QDAO();
         WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();

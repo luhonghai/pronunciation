@@ -2,7 +2,9 @@ package com.cmg.merchant.dao.test;
 
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.test.Test;
+import com.cmg.merchant.common.SQL;
 import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -48,7 +50,7 @@ public class TDAO extends DataAccess<Test> {
     /**
      *
      * @param id
-     * @param name
+     * @param percentPass
      * @return true is update successfull
      * @throws Exception
      */
@@ -160,4 +162,49 @@ public class TDAO extends DataAccess<Test> {
         }
         return null;
     }
+
+    /**
+     *
+     * @param idTest
+     * @return
+     */
+    public ArrayList<Question> getQuestionInTest(String idTest){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil=new SqlUtil();
+        String sql = sqlUtil.getSqlQuestionInTest(idTest);
+        System.out.println("sql get all question in test  : " +  sql);
+        ArrayList<Question> list = new ArrayList<Question>();
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size() > 0){
+                for(Object obj : tmp){
+                    Question dto = new Question();
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        dto.setId(array[0].toString());
+                    }
+                    if(array[1]!=null){
+                        dto.setName(array[1].toString());
+                    }
+                    if(array[2] != null) {
+                        dto.setDescription(array[2].toString());
+                    }
+                    if(array[3] != null) {
+                        dto.setType(array[3].toString());
+                    }
+                    list.add(dto);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
+
 }

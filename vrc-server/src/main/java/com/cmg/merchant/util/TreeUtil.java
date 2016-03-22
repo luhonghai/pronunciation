@@ -231,6 +231,50 @@ public class TreeUtil {
         }
         return nodes;
     }
+
+    /**
+     *
+     * @param list
+     * @param showBtnAction
+     * @return
+     */
+    public ArrayList<TreeNode> switchQuestionTestToNode(ArrayList<Question> list, boolean showBtnAction){
+        ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+        if(showBtnAction){
+            nodes.add(btnService.createBtnAddQuestionTest());
+        }
+        if(list!=null){
+            int index = 1;
+            for(Question question : list){
+                TreeNode node = getDefaultInstance(showBtnAction);
+                node.setId(question.getId());
+                node.setLabel(question.getName() + index);
+                node.set_type(question.getType());
+                node.set_description(question.getDescription());
+                node.set_title(listWordOnQuestion(question.getId()));
+                node.setIcon(Constant.IC_QUESTION_TEST);
+                node.set_targetLoad(Constant.TARGET_LOAD_QUESTION);
+                node.set_popupId(Constant.POPUP_QUESTION_TEST);
+                node.set_actionClick(Constant.ACTION_EDIT_QUESTION_TEST);
+                node.setOpen(false);
+                node.setInode(false);
+                nodes.add(node);
+                index++;
+            }
+        }else{
+            TreeNode node = getDefaultInstance(showBtnAction);
+            node.set_message(ERROR);
+            nodes.add(node);
+        }
+        return nodes;
+    }
+
+
+    /**
+     *
+     * @param idQuestion
+     * @return
+     */
     public String listWordOnQuestion(String idQuestion){
         String listWord="";
         List<String> lists=wdao.getWordByIdQuestion(idQuestion);

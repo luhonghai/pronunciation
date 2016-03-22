@@ -3,6 +3,7 @@ package com.cmg.merchant.services.treeview;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.merchant.dao.lessons.LMODAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
+import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.data.dto.TreeNode;
 import com.cmg.merchant.util.TreeUtil;
 
@@ -16,6 +17,7 @@ public class NodeServices {
     DataServices dataServices = new DataServices();
     LMODAO lmodao=new LMODAO();
     QMLDAO qmldao=new QMLDAO();
+    TDAO tdao = new TDAO();
     public ArrayList<TreeNode> loadRoot(String idCourse, boolean firstLoad, boolean showBtnAction) {
         ArrayList<TreeNode> list = new ArrayList<>();
         if(firstLoad){
@@ -61,8 +63,8 @@ public class NodeServices {
 
     public ArrayList<TreeNode> loadTest(String idTest, boolean showBtnAction){
         ArrayList<TreeNode> list = new ArrayList<>();
-        ArrayList<TreeNode> listObj = util.switchQuestionToNode(qmldao.getQuestionByIdLesson(idTest),showBtnAction);
-        list = listObj;
+        ArrayList<TreeNode> listQuestion = util.switchQuestionTestToNode(tdao.getQuestionInTest(idTest), showBtnAction);
+        list = listQuestion;
         return list;
     }
 
