@@ -339,7 +339,7 @@ function removeWord(){
                         return false;
                     }
                 });
-            }else if(removeWord(word)){
+            }else if(removeWords(word)){
                 $(this).closest("div").remove();
             }
         }

@@ -568,7 +568,7 @@ function deleteQuestion(){
     });
 }
 
-function removeWord(word){
+function removeWords(word){
 
     $.ajax({
         url : servletDelete,
