@@ -239,6 +239,13 @@
     width : inherit;
 }
 
+#addWordModal label.control-label{
+    font-weight: bold;
+    color : black;
+}
+#addWordModal .group-phoneme-weight div.row{
+    margin-left: 0px;
+}
 
 .sweet-alert {
     font-weight : 200 !important;
@@ -263,3 +270,5 @@
 .sweet-alert button{
     background-color: green;
 }
+
+

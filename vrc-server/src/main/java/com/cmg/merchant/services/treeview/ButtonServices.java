@@ -66,6 +66,10 @@ public class ButtonServices {
         return node;
     }
 
+    /**
+     *
+     * @return
+     */
     public TreeNode createBtnAddLesson(){
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_LESSON_BTN);
@@ -76,17 +80,24 @@ public class ButtonServices {
         return node;
     }
 
+    /**
+     *
+     * @return
+     */
     public TreeNode createBtnAddQuestion(){
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_QUESTION_BTN);
         node.setLabel(Constant.LABEL_ADD_QUESTION);
-        node.setIcon(Constant.IC_QUESTION_TEST);
+        node.setIcon(Constant.IC_QUESTION);
         node.set_popupId(Constant.POPUP_QUESTION);
         node.set_actionClick(Constant.ACTION_ADD_QUESTION);
         return node;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public TreeNode createBtnAddQuestionTest(){
         TreeNode node = getDefaultBtn();
         node.setId(Constant.ID_ADD_QUESTION_TEST_BTN);

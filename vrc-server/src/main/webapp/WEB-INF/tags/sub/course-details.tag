@@ -552,14 +552,14 @@
             <div class="modal-body">
                 <form name="add" class="form-horizontal" id="addWords">
                     <div class="form-group">
-                        <label class="control-label">Please add the words that you want to be used for this
+                        <label >Please add the words that you want to be used for this
                             question. If you add more than one word they will be randomised to give variety to the
                             student.
                         </label>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-3  col-sm-2">
-                           <label>Word:</label>
+                        <div class="col-xs-3  col-sm-2" style="padding:0px">
+                           <label class="control-label">Word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
                             <input type="text" id="addWord" name="addWord" class=" form-control">
@@ -571,27 +571,43 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-xs-3 col-sm-2">
-                            <div class="row"><label class="control-label phoneme-lable"></label></div>
-                            <div class="row"><label class="control-label ipa-lable"></label></div>
-                            <div class="row"><label class="control-label weight-lable"></label></div>
+                        <div class="col-xs-3 col-sm-2" style="padding:0px">
+                            <label class="control-label phoneme-lable"></label>
                         </div>
-                        <div class="col-xs-9 col-sm-10 group-phoneme-weight">
+                        <div class="col-xs-5  col-sm-6 group-phoneme-weight">
                             <div class="row" id="listPhonmes"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3 col-sm-2" style="padding:0px">
+                            <label class="control-label ipa-lable"></label>
+                        </div>
+                        <div class="col-xs-5  col-sm-6 group-phoneme-weight">
                             <div class="row" id="listIpa"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3 col-sm-2" style="padding:0px">
+                            <label class="control-label weight-lable"></label>
+                        </div>
+                        <div class="col-xs-5  col-sm-6 group-phoneme-weight">
                             <div class="row" id="listWeight"></div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label" id="wordModal1" style="display: none">If you would like to
-                            allocate an increased percentage of the score to a particular phoneme then please give
-                            that phoneme a higher “weight.”
-                        </label>
-                        <label class="control-label" id="wordModal2" style="display: none">E.g. v = 1,
-                            ɛ = 1,
-                            s = 1,
-                            t = 3 , this will allocate 50% of the score to this last phoneme /t/.
-                        </label>
+                        <div class="col-xs-12 col-sm-12" style="padding:0px">
+                            <label id="wordModal1" style="display: none">If you would like to
+                                allocate an increased percentage of the score to a particular phoneme then please give
+                                that phoneme a higher “weight.”
+                            </label>
+                        </div>
+                        <div class="col-xs-12 col-sm-12" style="padding:0px" >
+                            <label id="wordModal2" style="display: none">E.g. v = 1,
+                                ɛ = 1,
+                                s = 1,
+                                t = 3 , this will allocate 50% of the score to this last phoneme /t/.
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-6" style="padding-left: 0px;">
@@ -599,12 +615,12 @@
                             <input type="hidden" class="idHidden">
                             <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
                                  width="36px" height="36px"/>
-                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+
                         </div>
                         <div class="col-md-6" style="padding-right: 0px;">
                             <img style="float: right;padding-right: 0px;" id="btnSaveWord"
                                  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
-                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
+
                         </div>
                     </div>
                 </form>
