@@ -101,6 +101,15 @@ function openPopup(itemData){
         getQuestionListWordEdit().attr("idLesson",lesson.id);
         drawListWord(itemData._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+    }else if(itemData._actionClick == action_add_test){
+        clearForm();
+        currentPopup.find("#titlePopupTestWord").html("add test question");
+        currentPopup.find("#btnDeleteTest").hide();
+        var objParent = treeAPI.itemData(currentParent);
+        getNameLesson().attr("objID",objParent.id);
+        var level = treeAPI.parent(currentParent);
+        var levelItemData = treeAPI.itemData(level);
+        currentPopup.find("#arrowTestWord").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }
     currentPopup.modal('show');
 }
