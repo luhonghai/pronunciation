@@ -36,7 +36,7 @@ public class CopyService {
             return ERROR;
         }
         copyAllLevelToCourse(newIdCourse,idCourse);
-        return SUCCESS;
+        return SUCCESS + ":" + newIdCourse;
     }
 
 

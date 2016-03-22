@@ -4,6 +4,22 @@
 /**
  * clear all data in form
  */
+function getDivContainTree(){
+    return $("#tree");
+}
+
+function getProcessBar(){
+    return $("#process-bar");
+}
+
+function getCourseName(){
+    return $("#courseName");
+}
+
+function getCourseDescription(){
+    return $("#courseDescription");
+}
+
 function clearForm(){
     currentPopup.find("input[type=text]").each(function(){
         //Do stuff here

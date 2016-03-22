@@ -176,7 +176,7 @@ public class OServices {
                 }
                 tmp.setDescription(obj.getDescription());
                 tmp.setIsDeleted(false);
-                tmp.setVersion(getMaxVersion());
+                tmp.setVersion(obj.getVersion());
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
                 dao.create(tmp);
                 LevelServices lvServices = new LevelServices();

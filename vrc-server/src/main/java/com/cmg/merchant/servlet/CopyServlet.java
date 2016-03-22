@@ -28,7 +28,9 @@ public class CopyServlet extends BaseServlet {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         String action = (String) StringUtil.isNull(request.getParameter("action"), "").toString();
         if(action.equalsIgnoreCase(ACTION_COPY_COURSE)){
-
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            String text = service.copyAllDataCourse(idCourse,request);
+            response.getWriter().print(text);
         }else if(action.equalsIgnoreCase(ACTION_COPY_LEVEL)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String idLevel = (String) StringUtil.isNull(request.getParameter("idLevel"), "").toString();

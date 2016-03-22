@@ -33,6 +33,7 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                nameOfCourse = getCourseName().val();
                 currentParent = null;
                 firstLoad = true;
                 reloadTree();

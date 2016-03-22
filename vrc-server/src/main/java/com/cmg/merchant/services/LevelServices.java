@@ -296,7 +296,7 @@ public class LevelServices {
                     tmp.setName(lv.getName());
                 }
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
-                tmp.setVersion(getMaxVersion());
+                tmp.setVersion(lv.getVersion());
                 tmp.setDescription(lv.getDescription());
                 tmp.setIsDemo(false);
                 tmp.setIsDefaultActivated(false);

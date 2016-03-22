@@ -7,7 +7,7 @@
 <%
     CourseServices cServices = new CourseServices();
     String company = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPNAME), "CMG");
-    String idCourse = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_COURSE_ID), "66b3510d-8964-47a0-8c33-72dc14f8dded");
+    String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "66b3510d-8964-47a0-8c33-72dc14f8dded");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
     request.getSession().removeAttribute(SessionUtil.ATT_COURSE_ID);
 %>
@@ -539,9 +539,9 @@
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.selectable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.sortable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/data.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/validateform.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/action.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/treeApi.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ajax.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/action.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/treeApi.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
