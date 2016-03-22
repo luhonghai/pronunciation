@@ -481,13 +481,13 @@
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTestWord" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteTestWord" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                         </div>
                     </div>
                 </form>
@@ -510,6 +510,7 @@
                     <div class="col-xs-10 col-xs-offset-1">
                         <label id="arrowWord" class="modal-title" style="margin-left: -15px;"></label>
                         <input type="hidden" id="idLesson">
+                        <input type="hidden" id="AddOrEditWord">
                         <h2 align="center">add word</h2>
                         <h4 id="validateWordMsg" class="modal-title validateMsg"
                             style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>

@@ -256,6 +256,7 @@ function showHelpIconTop(){
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
         var idLesson= treeAPI.itemData(currentParent).id;
+        $("#AddOrEditWord").val("add");
         $("#wordModal1").hide();
         $("#wordModal2").hide();
         $("#idLesson").val(idLesson);
@@ -293,9 +294,13 @@ function btnPublish(){
 }
 function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
+        var addOrEdit=$("#AddOrEditWord").val();
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
-        getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
+        if(addOrEdit=="add"){
+            getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
+        }
+
         var listPhonemeName=getListPhonemes();
         var output = [];
 
@@ -344,10 +349,10 @@ function removeWord(){
                 $.each(listWord, function(i){
                     if(listWord[i].nameWord === word) {
                         listWord.splice(i,1);
-                        $(this).closest("div").remove();
                         return false;
                     }
                 });
+                $(this).closest("div").remove();
             }else if(removeWords(word)){
                 $(this).closest("div").remove();
             }
