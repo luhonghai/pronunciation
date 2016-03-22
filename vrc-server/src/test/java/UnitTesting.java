@@ -27,6 +27,7 @@ import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.services.CMTSERVICES;
+import com.cmg.merchant.services.QuestionServices;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.util.AWSHelper;
@@ -72,13 +73,16 @@ public class UnitTesting {
 
             /*LVMODAO dao = new LVMODAO();
             System.out.println(dao.getMaxIndex("66b3510d-8964-47a0-8c33-72dc14f8dded"));*/
-            CMTSERVICES services = new CMTSERVICES();
+          /*  CMTSERVICES services = new CMTSERVICES();
             ArrayList<CourseDTO> list = services.getCoursesForMainPage("02354aca-32e3-430f-bf88-b4dd472085be","790b2928-2617-41c3-9a10-f3f56f03c874");
             if(list!=null){
                 for(CourseDTO dto  : list){
                     System.out.println(dto.getNameCourse()+"-"+dto.getCompanyName() + "-" + dto.getState());
                 }
-            }
+            }*/
+
+            QuestionServices sr = new QuestionServices();
+            sr.addQuestionToDB("abc","type","type");
 
         } catch (Exception e) {
             e.printStackTrace();

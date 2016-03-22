@@ -131,7 +131,7 @@ public class SqlUtil {
 
     private String SQL_GET_ALL_QUESTION_IN_TEST = "select q.id, q.name,q.description,q.type from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq\n" +
             "on q.id = lmq.idQuestion inner join LESSONCOLLECTION as l on lmq.idLesson = l.id " +
-            "inner join TESTMAPPING as tm on tm.idLesson = lmq.id " +
+            "inner join TESTMAPPING as tm on tm.idLESSONCOLLECTION = lmq.id " +
             "inner join TEST as t on t.id = tm.idTest " +
             "where t.id='paramTestId' and t.isDeleted=false and tm.isDeleted=false and lmq.isDeleted=false " +
             "and l.isDeleted=false and q.isDeleted=false ";

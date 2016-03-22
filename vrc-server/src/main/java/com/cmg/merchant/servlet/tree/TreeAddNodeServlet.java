@@ -73,7 +73,7 @@ public class TreeAddNodeServlet extends BaseServlet {
             String description = (String) StringUtil.isNull(request.getParameter("description"),"");
             ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
             QuestionServices questionServices = new QuestionServices();
-            String txt = questionServices.addQuestionToTest(listWords, idLesson, typeOfQuestion,description);
+            String txt = questionServices.addQuestionToTest(listWords, idLesson, typeOfQuestion, description);
             response.getWriter().println(txt);
         }
     }
