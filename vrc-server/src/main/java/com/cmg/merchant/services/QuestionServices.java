@@ -259,7 +259,7 @@ public class QuestionServices {
                 tmp.setName(q.getName());
                 tmp.setDescription(q.getDescription());
                 tmp.setIsDeleted(false);
-                tmp.setVersion(getMaxVersion());
+                tmp.setVersion(q.getVersion());
                 tmp.setTimeCreated(new Date(System.currentTimeMillis()));
                 qDao.create(tmp);
                 addMappingQuestionToLesson(newId,idLessonMapping);
@@ -312,7 +312,7 @@ public class QuestionServices {
                     temp.setWeight(wfp.getWeight());
                     temp.setIndex(wfp.getIndex());
                     temp.setIsDeleted(false);
-                    temp.setVersion(getMaxVersion());
+                    temp.setVersion(wfp.getVersion());
                     dao.create(temp);
                 }
             }

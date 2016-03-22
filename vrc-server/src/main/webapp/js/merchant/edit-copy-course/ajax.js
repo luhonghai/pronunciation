@@ -33,6 +33,7 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                nameOfCourse = getCourseName().val();
                 currentParent = null;
                 firstLoad = true;
                 reloadTree();
@@ -569,40 +570,11 @@ function deleteQuestion(){
     });
 }
 
-function removeWords(word){
-
-    $.ajax({
-        url : servletDelete,
-        type : "POST",
-        data : {
-            action: action_delete_word,
-            word:word,
-            idQuestion: currentPopup.find(".idHidden").val()
-        },
-        dataType : "text",
-        success : function(data){
-            if (data.indexOf("success") !=-1) {
-               return true;
-            }else{
-                currentPopup.find(".validateMsg").html(data);
-                currentPopup.find(".validateMsg").show();
-                return false;
-            }
-        },
-        error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server");
-            currentPopup.find(".validateMsg").show();
-            return false;
-        }
-    });
-
-}
-
-
 function loadWeightForWordEdit(word){
     $("#addWordModal").modal('show');
     getAddWord().val(word);
     $("#loadPhonemes").hide();
+
     $.ajax({
         url: "ManagementWordOfQuestionServlet",
         type: "POST",
@@ -615,9 +587,31 @@ function loadWeightForWordEdit(word){
         success: function (data) {
             var message = data.message;
             if(message.indexOf("success") != -1){
-                drawWord(data);
+                getAddWord().attr("idWord", data.idWord);
+                getListPhonemes().html("");
+                getListIPA().html("");
+                getListWeight().html("");
+                getAddWord().attr("readonly","readonly");
+                $.each(data.listWeightPhoneme, function (idx, obj) {
+                    var phonemeName = obj.phoneme;
+                    var weightOfPhoneme = obj.weight;
+                    //alert(jsonItem);
+
+                    getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+                    getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
+                    getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
+                    getListPhonemes().css({"width":(idx+1)*35});
+                    getListWeight().css({"width":(idx+1)*35});
+                    getListIPA().css({"width":(idx+1)*35});
+                });
+                $("#wordModal1").show();
+                $("#wordModal2").show();
+                //$("#yesadd").show();
             }else{
                 swal("Error!",message.split(":")[1], "error");
+                //$("#listPhonmes").html("");
+                //$("#listWeight").html("");
+                //$("#yesadd").hide();
             }
         },
         error: function () {
@@ -655,7 +649,7 @@ function loadPhonemes(){
                     $.each(data.phonemes, function (idx, obj) {
                         var phonmeName = obj.phoneme;
                         //alert(jsonItem);
-                        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonmeName+'"  type="text">');
+                        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
                         getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
                         getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
                         getListPhonemes().css({"width":(idx+1)*35});

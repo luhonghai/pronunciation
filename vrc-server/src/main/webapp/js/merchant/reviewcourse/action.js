@@ -51,6 +51,12 @@ function openPopup(itemData){
 function showHelpIconTop(){
     $("#help-icons").show();
 }
+
+function clickCopyCourse(){
+    $(document).on("click","#copyCourse",function(){
+        copyCourse();
+    });
+}
 function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
         getPopUpHelp().find(".modal-body").empty();
@@ -58,7 +64,9 @@ function clickTopHelp(){
         getPopUpHelp().modal('show');
     });
 }
+
 $(document).ready(function(){
     showHelpIconTop();
     clickTopHelp();
+    clickCopyCourse();
 });

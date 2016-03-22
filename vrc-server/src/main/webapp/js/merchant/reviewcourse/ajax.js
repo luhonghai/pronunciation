@@ -1,34 +1,52 @@
 /**
  * Created by lantb on 2016-02-24.
  */
-var servletDuplicated = "/TreeAddNodeServlet";
+var CopyServlet = "/CopyServlet";
 /**
- * connect to server when add level
+ * connect to server when copy course
  */
-function addLevel(){
+function copyCourse(){
+    getDivContainTree().hide();
+    getProcessBar().show();
+    progress = getProcessBar().progressTimer({
+        timeLimit: 300,
+        onFinish: function () {
+            getProcessBar().hide();
+            getDivContainTree().show();
+            progress.progressTimer('destroy');
+        }
+    });
     $.ajax({
-        url : servletDuplicated,
+        url : CopyServlet,
         type : "POST",
         data : {
-            action: action_add_level,
+            action: "cpCourse",
             idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                //reload the tree
-                reloadTree();
-                currentPopup.modal('hide');
-                swal("Success!", "You have add Level success!", "success");
+                //redirect to edit copy course page
+                var newIdCourse = data.split(":")[1];
+                window.location.href = "/edit-copy-course.jsp?idCourse="+newIdCourse;
             }else{
                 //add false show the error
-                currentPopup.find(".validateMsg").html(data);
-                currentPopup.find(".validateMsg").show();
+                swal("","copy course fail","error");
             }
         },
         error: function () {
-            currentPopup.find(".validateMsg").html("Could not connect to server!");
-            currentPopup.find(".validateMsg").show();
+            swal("","copy course fail","error");
         }
+    }).error(function(){
+        progress.progressTimer('error', {
+            errorText:'ERROR!',
+            onFinish:function(){
+                getDivContainTree().show();
+                progress.progressTimer('destroy');
+                swal("","copy course fail","error");
+            }
+        });
+    }).done(function(){
+        progress.progressTimer('complete');
     });
 }

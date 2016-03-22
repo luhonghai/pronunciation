@@ -8,6 +8,8 @@ var showBtnAction = true;
 var servlet = "/TreeLoadServlet";
 var currentParent;
 var nodeCopied;
+var isEditedTitle = false;
+var isEditedContent = false;
 /**
  *  init the tree view.
  */
@@ -24,13 +26,7 @@ function initTree(){
                 //for load other node in course
                 var target = itemData._targetLoad;
                 var id = itemData.id;
-                if(target == targetLoadTest){
-                    id = itemData._idLessonForTest;
-                    settings.url = settings.url + "?target=" + targetLoadLesson + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
-                }else{
-                    settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
-                }
-
+                settings.url = settings.url + "?target=" + target + "&idTarget=" + id + "&showBtnAction=" + showBtnAction;
             }else{
                 //load course
                 settings.url = settings.url + "?target=" + loadCourse + "&idTarget=" + idCourse +"&firstLoad=" + firstLoad + "&showBtnAction="+showBtnAction;
@@ -53,6 +49,11 @@ function initTree(){
                 this.setLabel(item, {
                     label:  itemData.label + '<i style="vertical-align: middle;padding-left: 5px" class="fa fa-plus"/>'
                 });
+            }else{
+                item.find(".aciTreeItem").append('<span class="aciTreeText"><img style="vertical-align: middle;padding-left: 5px;width: 30px;height: 20px;" src="/images/treeview/pencil_purple.gif"></span>');
+            }
+            if (itemData['id'] == idCourse && !isEditedTitle){
+                item.find('.aciTreeItem').css('background-color', "#7030A0");
             }
 
         }

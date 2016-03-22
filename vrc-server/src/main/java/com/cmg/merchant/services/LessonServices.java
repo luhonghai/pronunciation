@@ -260,7 +260,7 @@ public class LessonServices {
                 tmp.setTitle(lesson.getTitle());
                 tmp.setType(lesson.getType());
                 tmp.setIsDeleted(false);
-                tmp.setVersion(getMaxVersion());
+                tmp.setVersion(lesson.getVersion());
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
                 ldao.create(tmp);
                 addMappingLessonToObj(idObjMapping,newId);
@@ -291,7 +291,7 @@ public class LessonServices {
                 tmp.setTitle("");
                 tmp.setName("");
                 tmp.setDescription("");
-                tmp.setVersion(getMaxVersion());
+                tmp.setVersion(lesson.getVersion());
                 tmp.setDateCreated(new Date(System.currentTimeMillis()));
                 tmp.setIsDeleted(false);
                 ldao.create(tmp);

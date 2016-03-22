@@ -43,6 +43,7 @@
             <div id="tree" class="aciTree">
 
             </div>
+            <div id="process-bar" class="center-block" style="padding-top: 20px;width:400px"></div>
         </div>
     </div>
     <div class="row">
@@ -55,7 +56,7 @@
             <img style="float:right" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
         </div>
         <div class="col-lg-1">
-            <img style="float:right" src="/images/treeview/duplicated_button.gif" width="50px" height="50px"/>
+            <img id="copyCourse" style="float:right;cursor: pointer;" src="/images/treeview/duplicated_button.gif" width="50px" height="50px"/>
         </div>
     </div>
 </div>

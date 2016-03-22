@@ -97,7 +97,6 @@ function reloadTree(){
 }
 
 $(function() {
-    //copyAndPaste();
     ClickOnTree();
     initTree();
 
