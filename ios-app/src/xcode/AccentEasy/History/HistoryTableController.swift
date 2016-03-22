@@ -36,6 +36,10 @@ class HistoryTableController: UITableViewController {
         loadTable(word)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        self.tableView.setNeedsDisplay()
+    }
+    
     func loadTable(word: String?) {
         Logger.log("load history of word \(word)")
         do {
@@ -79,7 +83,8 @@ class HistoryTableController: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("HistoryTableCell", forIndexPath: indexPath) as! HistoryTableCell
-        cell.applyCircleButton()
+        
+//        cell.translatesAutoresizingMaskIntoConstraints = true
         cell.isDetail = isDetail
         let history = historyList[indexPath.row]
         var color:UIColor = UIColor.clearColor()
@@ -114,6 +119,7 @@ class HistoryTableController: UITableViewController {
             cell.constantWidthPlay.constant = 36
             cell.constantWidthUp.constant = 36
         }
+        cell.applyCircleButton()
         cell.lblScore.text = "\(history.score)%"
         return cell
     }

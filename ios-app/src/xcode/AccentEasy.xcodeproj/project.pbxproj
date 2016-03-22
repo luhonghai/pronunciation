@@ -750,7 +750,7 @@
 		C1410BA41C4762E200E781B4 /* ResetPassVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPassVC.swift; sourceTree = "<group>"; };
 		C1410BA61C47821E00E781B4 /* RegisterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		C1410BA81C47842C00E781B4 /* LaunchImageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchImageVC.swift; sourceTree = "<group>"; };
-		C141C7FD1C3E203C001D1F9C /* AccentEasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccentEasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C141C7FD1C3E203C001D1F9C /* accenteasy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = accenteasy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C141C8001C3E203C001D1F9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C141C8021C3E203C001D1F9C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C141C8051C3E203C001D1F9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1537,7 +1537,7 @@
 		C141C7FE1C3E203C001D1F9C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C141C7FD1C3E203C001D1F9C /* AccentEasy.app */,
+				C141C7FD1C3E203C001D1F9C /* accenteasy.app */,
 				C141C8111C3E203C001D1F9C /* AccentEasy.xctest */,
 				C141C81C1C3E203C001D1F9C /* AccentEasy.xctest */,
 			);
@@ -1827,7 +1827,7 @@
 			);
 			name = AccentEasy;
 			productName = SwiftSidebarMenu;
-			productReference = C141C7FD1C3E203C001D1F9C /* AccentEasy.app */;
+			productReference = C141C7FD1C3E203C001D1F9C /* accenteasy.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C141C8101C3E203C001D1F9C /* AccentEasyTests */ = {
@@ -2616,7 +2616,7 @@
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
-				PRODUCT_NAME = AccentEasy;
+				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2647,7 +2647,7 @@
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
-				PRODUCT_NAME = AccentEasy;
+				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
 			};

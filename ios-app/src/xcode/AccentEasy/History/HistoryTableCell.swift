@@ -28,7 +28,6 @@ public class HistoryTableCell: UITableViewCell {
         NSNotificationCenter.defaultCenter().postNotificationName("loadWord", object: pc.word)
     }
     
-    
     @IBAction func btnPlayTouchUpInside(sender: AnyObject) {
         NSNotificationCenter.defaultCenter().postNotificationName("playFile", object: FileHelper.getFilePath("audio/\(pc.dataId).wav"))
     }
@@ -38,5 +37,10 @@ public class HistoryTableCell: UITableViewCell {
         btnPlay.clipsToBounds = true
         btnUp.layer.cornerRadius = btnUp.frame.size.width/2
         btnUp.clipsToBounds = true
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        applyCircleButton()
     }
 }

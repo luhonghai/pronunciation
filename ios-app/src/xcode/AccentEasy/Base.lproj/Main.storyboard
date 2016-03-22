@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -1107,6 +1107,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1BB-Vj-47V">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="OpN-bY-v19" appends="YES" id="cFR-X6-Clw"/>
+                                </connections>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-oI-D7b">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
@@ -1152,13 +1160,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UoF-8d-E5V" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="9/10" id="34m-u3-BrW"/>
+                            <constraint firstItem="1BB-Vj-47V" firstAttribute="centerY" secondItem="bei-6K-Z8H" secondAttribute="centerY" id="3m0-bU-01e"/>
                             <constraint firstItem="zKt-Tf-EpY" firstAttribute="top" secondItem="D8p-Qg-ant" secondAttribute="bottom" constant="-11" id="55R-aV-Rm3"/>
                             <constraint firstItem="3qu-UU-4wJ" firstAttribute="height" secondItem="bei-6K-Z8H" secondAttribute="height" multiplier="2/10" id="8ys-4s-uid"/>
+                            <constraint firstItem="1BB-Vj-47V" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="BfY-kq-ucE"/>
                             <constraint firstItem="EJd-wl-tZv" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="CAg-oY-GbK"/>
                             <constraint firstItem="D8p-Qg-ant" firstAttribute="leading" secondItem="bei-6K-Z8H" secondAttribute="leadingMargin" constant="-6" id="Cek-TW-xPv"/>
                             <constraint firstItem="3qu-UU-4wJ" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="0.9" id="IHP-Ou-XWK"/>
                             <constraint firstItem="aMh-oI-D7b" firstAttribute="height" secondItem="bei-6K-Z8H" secondAttribute="height" multiplier="8.5/10" id="Jae-ab-xap"/>
                             <constraint firstItem="D8p-Qg-ant" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="1/7" id="Qja-Ii-QSo"/>
+                            <constraint firstItem="1BB-Vj-47V" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" id="ROs-eD-0jQ"/>
                             <constraint firstItem="aMh-oI-D7b" firstAttribute="bottom" secondItem="7yM-yO-gMG" secondAttribute="top" id="SN1-Y3-Yxm"/>
                             <constraint firstItem="zKt-Tf-EpY" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="4/7" id="SwM-rf-hvx"/>
                             <constraint firstItem="zKt-Tf-EpY" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="ZDX-Z1-1ew"/>
@@ -1166,6 +1177,7 @@
                             <constraint firstItem="aMh-oI-D7b" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" id="b1B-zX-2LB"/>
                             <constraint firstItem="EJd-wl-tZv" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="0.9" id="b1a-Fa-P3z"/>
                             <constraint firstAttribute="trailingMargin" secondItem="qX9-5z-tD9" secondAttribute="trailing" constant="-7" id="eLG-6F-jZJ"/>
+                            <constraint firstItem="1BB-Vj-47V" firstAttribute="height" secondItem="bei-6K-Z8H" secondAttribute="height" id="fTG-LK-IGl"/>
                             <constraint firstItem="EJd-wl-tZv" firstAttribute="top" secondItem="UoF-8d-E5V" secondAttribute="bottom" constant="-4" id="hq3-Ae-NQB"/>
                             <constraint firstItem="UoF-8d-E5V" firstAttribute="top" secondItem="zKt-Tf-EpY" secondAttribute="bottom" constant="2" id="kol-PO-F63"/>
                             <constraint firstItem="UoF-8d-E5V" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="otA-c2-8aa"/>
@@ -1194,6 +1206,7 @@
                         <outlet property="btnSlider" destination="I3y-X1-Dwx" id="FLJ-hn-3p3"/>
                         <outlet property="lblIPA" destination="EJd-wl-tZv" id="Bs0-do-2AZ"/>
                         <outlet property="menuButton" destination="MSm-IG-hsA" id="oe4-lT-9Nb"/>
+                        <outlet property="sliderBackground" destination="1BB-Vj-47V" id="P5n-3D-1aT"/>
                         <outlet property="sliderContainer" destination="aMh-oI-D7b" id="jGj-WZ-dYQ"/>
                         <outlet property="sliderContent" destination="Cw6-Vf-e5b" id="JrL-2k-Aoj"/>
                         <outlet property="tvDescription" destination="3qu-UU-4wJ" id="sGh-gQ-Awa"/>
@@ -1212,6 +1225,11 @@
                         <action selector="handleSlide:" destination="ma6-zi-wIz" id="vqU-6Y-L1b"/>
                     </connections>
                 </panGestureRecognizer>
+                <tapGestureRecognizer id="OpN-bY-v19">
+                    <connections>
+                        <action selector="tapSliderBackground:" destination="ma6-zi-wIz" id="Y5B-jY-1pt"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1168.5" y="-35.5"/>
         </scene>
@@ -2595,6 +2613,14 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AAM-PE-uta">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="fbv-mO-Y8T" appends="YES" id="jPa-md-R4a"/>
+                                </connections>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Li1-Q4-1W2">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
@@ -2643,18 +2669,22 @@
                             <constraint firstItem="1m6-7Y-5wG" firstAttribute="trailing" secondItem="DFR-2S-dea" secondAttribute="trailingMargin" id="3yF-nU-0Cp"/>
                             <constraint firstItem="1m6-7Y-5wG" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" multiplier="1/7" id="465-Wy-dcG"/>
                             <constraint firstItem="qrO-vU-Bw1" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" multiplier="4.5/7" id="4LD-YS-KiB"/>
+                            <constraint firstItem="AAM-PE-uta" firstAttribute="centerY" secondItem="DFR-2S-dea" secondAttribute="centerY" id="50L-y8-Yed"/>
                             <constraint firstItem="Li1-Q4-1W2" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" id="5h7-ZU-KFQ"/>
                             <constraint firstItem="Li1-Q4-1W2" firstAttribute="centerX" secondItem="DFR-2S-dea" secondAttribute="centerX" id="6yk-6g-TeZ"/>
                             <constraint firstItem="1m6-7Y-5wG" firstAttribute="top" secondItem="tMg-gW-50P" secondAttribute="bottom" constant="46" id="8Px-Jh-xbD"/>
                             <constraint firstItem="WkO-zF-5M8" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" multiplier="0.9" id="DN3-7Z-0NM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dLQ-9D-22F" secondAttribute="trailing" id="F1Y-67-HHe"/>
+                            <constraint firstItem="AAM-PE-uta" firstAttribute="height" secondItem="DFR-2S-dea" secondAttribute="height" id="Qtk-wv-qVR"/>
                             <constraint firstItem="dLQ-9D-22F" firstAttribute="top" secondItem="WkO-zF-5M8" secondAttribute="bottom" constant="15" id="Rcy-hG-oQg"/>
                             <constraint firstItem="Li1-Q4-1W2" firstAttribute="height" secondItem="DFR-2S-dea" secondAttribute="height" multiplier="8.5/10" id="URB-If-KQe"/>
                             <constraint firstItem="qrO-vU-Bw1" firstAttribute="leading" secondItem="DFR-2S-dea" secondAttribute="leadingMargin" constant="5" id="XD0-Ul-Erp"/>
                             <constraint firstItem="qrO-vU-Bw1" firstAttribute="top" secondItem="tMg-gW-50P" secondAttribute="bottom" constant="46" id="fvQ-bz-GFo"/>
                             <constraint firstItem="dLQ-9D-22F" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" multiplier="0.9" id="jxL-sg-uIo"/>
                             <constraint firstItem="Li1-Q4-1W2" firstAttribute="bottom" secondItem="ZUd-oO-CMM" secondAttribute="top" id="pJI-Xs-bBk"/>
+                            <constraint firstItem="AAM-PE-uta" firstAttribute="centerX" secondItem="DFR-2S-dea" secondAttribute="centerX" id="qi6-MC-HMW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="WkO-zF-5M8" secondAttribute="trailing" constant="-4" id="uvk-db-e8a"/>
+                            <constraint firstItem="AAM-PE-uta" firstAttribute="width" secondItem="DFR-2S-dea" secondAttribute="width" id="wog-M1-kd7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mfX-0Y-VdD">
@@ -2672,6 +2702,7 @@
                         <outlet property="btnSlider" destination="Oih-mk-Oe1" id="gdm-cl-MVQ"/>
                         <outlet property="cViewIPAList" destination="dLQ-9D-22F" id="3eI-ui-unV"/>
                         <outlet property="menuButton" destination="Wql-b8-8yq" id="C6d-5M-MAn"/>
+                        <outlet property="sliderBackground" destination="AAM-PE-uta" id="5fL-MY-wFL"/>
                         <outlet property="sliderContainer" destination="Li1-Q4-1W2" id="xLJ-P0-3nH"/>
                         <outlet property="sliderContent" destination="0fc-EU-rZS" id="1mG-pp-mmD"/>
                         <outlet property="viewAnalyzing" destination="qrO-vU-Bw1" id="P3l-Bu-5en"/>
@@ -2687,6 +2718,11 @@
                 <tapGestureRecognizer id="Q6N-HQ-Bpi">
                     <connections>
                         <action selector="viewAnalyzingTapped:" destination="cOY-Ek-PbP" id="7oh-7u-2DK"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="fbv-mO-Y8T">
+                    <connections>
+                        <action selector="tapSliderBackground:" destination="cOY-Ek-PbP" id="5ke-Ar-NXn"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -3005,11 +3041,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8jd-vc-94q"/>
-        <segue reference="t7Q-vO-CVy"/>
-        <segue reference="y7T-RE-Gak"/>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="0GI-4W-Bce"/>
         <segue reference="WR5-An-sLd"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="0GI-4W-Bce"/>
+        <segue reference="t7Q-vO-CVy"/>
+        <segue reference="8jd-vc-94q"/>
     </inferredMetricsTieBreakers>
 </document>
