@@ -677,7 +677,9 @@ function loadPhonemes(){
         });
 }
 
-
+/**
+ *
+ */
 function enablePublishBtn(){
     $.ajax({
         url : servletPublish,

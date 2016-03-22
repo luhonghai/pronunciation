@@ -71,10 +71,12 @@
     </div>
     <div class="row">
         <div class="col-lg-11">
-            <img id="help" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
+            <img id="help" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px"
+                 height="50px"/>
         </div>
         <div class="col-lg-1">
-            <img id="publish" class="btn" style="float:right;padding:0px;cursor: pointer" src="/images/treeview/publish_button.gif" width="50px" height="50px"/>
+            <img id="publish" class="btn" style="float:right;padding:0px;cursor: pointer"
+                 src="/images/treeview/publish_button.gif" width="50px" height="50px"/>
         </div>
     </div>
 </div>
@@ -89,6 +91,7 @@
                 <label id="arrowCourse" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 id='titlePopupCourse' class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
@@ -117,14 +120,16 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                            <img id="helpAddCourse" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddCourse" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteCourse" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                             <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img id="btnSaveCourse" style="float: right" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnSaveCourse" style="float: right" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -145,8 +150,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrow" class="modal-title"
-                    style="text-align: left;"><%=nameOfCourse%>
+                       style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 id='titlePopup' class="modal-title">Add Level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
@@ -175,14 +181,16 @@
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
                             <%--<input type="button" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                            <img id="helpAddLevel" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddLevel" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteLevel" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
-                           <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
+                            <%-- <input type="button" id="btnDeleteLevel" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img id="btnSaveLevel" style="float: right" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnSaveLevel" style="float: right" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnSaveLevel" style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -203,8 +211,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <label id="arrowObj" class="modal-title"
-                    style="text-align: left;"><%=nameOfCourse%>
+                       style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
@@ -232,15 +241,17 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddObj" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
-                           <%-- <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                            <img id="helpAddObj" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
+                            <%-- <input type="button" id="btnHelpObj" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteObj" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnDeleteObj" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img id="btnSaveObj" style="float: right"  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnSaveObj" style="float: right" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnSaveObj"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -263,6 +274,7 @@
                 <label id="arrowTest" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your level
@@ -272,8 +284,10 @@
                 <form class="form-horizontal" id="addTest" name="addform">
                     <div class="form-group">
                         <label class="control-label col-md-3 lbl_addForm" for="percent">pass %:</label>
+
                         <div class="col-md-8">
-                            <input type="text" onkeypress="return isNumberKey(event,this)"  class="form-control" id="percent" name="percent"
+                            <input type="text" onkeypress="return isNumberKey(event,this)" class="form-control"
+                                   id="percent" name="percent"
                                    placeholder="Percent pass">
                         </div>
                     </div>
@@ -281,7 +295,8 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTest" class="helpInfor"  src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -289,7 +304,8 @@
                             <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -308,10 +324,12 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <label id="arrowLesson" class="modal-title"
                        style="text-align: left; padding-left: 15px;"><%=nameOfCourse%>
                 </label>
+
                 <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your lesson
@@ -338,6 +356,7 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-4 lbl_addForm">type:</label>
+
                         <div class="col-md-8">
                             <select id="lessonType" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
@@ -350,7 +369,9 @@
 
                     <div class="form-group">
                         <label class="control-label col-md-2 lbl_addForm">lesson details:</label>
-                        <img src="/images/popup/p_menu_lesson.png" class="control col-md-2" style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
+                        <img src="/images/popup/p_menu_lesson.png" class="control col-md-2"
+                             style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
+
                         <div class="col-md-8">
                             <textarea rows="3" class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
@@ -360,7 +381,8 @@
                         <div class="col-md-5">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddLesson" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddLesson" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -368,7 +390,8 @@
                             <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5">
-                            <img style="float: right" id="btnSaveLesson" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveLesson" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -386,23 +409,29 @@
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
         <%--<div class="modal-content modal-question-word">--%>
-            <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <label id="arrowQuestion" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
-                        <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
+                        <label class="control-label">Please add the words that you want to be used for this question. If
+                            you add more than one word they will be randomised to give variety to the student.</label>
                     </div>
                     <div class="form-group">
-                        <a id="btnAddWord" style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
-                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i>
+                        <a id="btnAddWord"
+                           style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
+                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add
+                            word <i class="fa fa-plus"></i>
                         </a>
+
                         <div id="listWord">
 
                         </div>
@@ -412,7 +441,8 @@
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddQuestion" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddQuestion" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
                         <div class="col-md-2">
@@ -420,7 +450,8 @@
                             <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif"
+                                 width="36px" height="36px"/>
                             <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
@@ -434,17 +465,18 @@
 </div>
 
 
-
 <div id="popupQuestionTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
         <%--<div class="modal-content modal-question-word">--%>
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <label id="arrowTestWord" class="modal-title"
                        style="text-align: left;"><%=nameOfCourse%>
                 </label>
+
                 <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
             </div>
             <div class="modal-body">
@@ -453,6 +485,7 @@
                     <div class="form-group">
                         <div class="form-group">
                             <label class="control-label col-md-4 lbl_addForm" for="courseName">explanation:</label>
+
                             <div class="col-md-8">
                                 <input type="text" class="form-control" id="explanation" name="name">
                             </div>
@@ -470,11 +503,16 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
+                            <label class="control-label">Please add the words that you want to be used for this
+                                question. If you add more than one word they will be randomised to give variety to the
+                                student.</label>
                         </div>
-                        <a id="btnAddWordTest" style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
-                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i>
+                        <a id="btnAddWordTest"
+                           style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
+                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add
+                            word <i class="fa fa-plus"></i>
                         </a>
+
                         <div id="listWordTest">
 
                         </div>
@@ -484,13 +522,15 @@
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                         </div>
                         <div class="col-md-2">
                             <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
                         </div>
                     </div>
                 </form>
@@ -503,79 +543,78 @@
 </div>
 
 
-
 <div id="addWordModal" class="modal fade" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content modal-question-word">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div class="row">
-                    <div class="col-xs-10 col-xs-offset-1">
-                        <label id="arrowWord" class="modal-title" style="margin-left: -15px;"></label>
-                        <input type="hidden" id="idLesson">
-                        <h2 align="center">add word</h2>
-                        <h4 id="validateWordMsg" class="modal-title validateMsg"
-                            style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
-                        <form name="add" class="form-horizontal" id="addWords">
-                            <div class="form-group">
-                                <div class="row">
-                                    <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.
-                                    </label>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xs-3  col-sm-2">
-                                        <div class="row"><p>Word:</p></div>
-                                    </div>
-                                    <div class="col-xs-5  col-sm-6">
-                                        <div class="row"><input  type="text" id="addWord" name="addWord" class=" form-control"></div>
-                                    </div>
-                                    <div class="col-xs-4  col-sm-4">
-                                        <div class="row"><button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default" style="background-color: lightgreen;" value="yes" >Load Phonemes</button></div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-xs-3 col-sm-2">
-                                        <div class="row"><label class="control-label phoneme-lable"></label></div>
-                                        <div class="row"><label class="control-label ipa-lable"></label></div>
-                                        <div class="row"><label class="control-label weight-lable"></label></div>
-                                    </div>
-                                    <div class="col-xs-9 col-sm-10 group-phoneme-weight">
-                                        <div class="row" id="listPhonmes"></div>
-                                        <div class="row" id="listIpa"></div>
-                                        <div class="row" id="listWeight"></div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label class="control-label" id="wordModal1" style="display: none">If you would like to allocate an increased percentage of the score to a particular phoneme then please give that phoneme a higher “weight.”
-                                    </label>
-                                    <label class="control-label" id="wordModal2" style="display: none">E.g.  v = 1,
-                                        ɛ = 1,
-                                        s = 1,
-                                        t = 3 , this will allocate 50% of the score to this last phoneme /t/.
-                                    </label>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-6" style="padding-left: 0px;">
-                                    <input type="hidden" class="action">
-                                    <input type="hidden" class="idHidden">
-                                    <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
-                                    <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
-                                </div>
-
-                                <div class="col-md-6" style="padding-right: 0px;">
-                                    <img style="float: right;padding-right: 0px;" id="btnSaveWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
-                                    <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
-                                </div>
-                            </div>
-
-                        </form>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <label id="arrowWord" class="modal-title"></label>
+                <input type="hidden" id="idLesson">
+                <h2 align="center">add word</h2>
+                <h4 id="validateWordMsg" class="modal-title validateMsg"
+                    style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
+            </div>
+            <div class="modal-body">
+                <form name="add" class="form-horizontal" id="addWords">
+                    <div class="form-group">
+                        <label class="control-label">Please add the words that you want to be used for this
+                            question. If you add more than one word they will be randomised to give variety to the
+                            student.
+                        </label>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <div class="col-xs-3  col-sm-2">
+                           <label>Word:</label>
+                        </div>
+                        <div class="col-xs-5  col-sm-6">
+                            <input type="text" id="addWord" name="addWord" class=" form-control">
+                        </div>
+                        <div class="col-xs-4  col-sm-4">
+                                <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
+                                        style="background-color: lightgreen;" value="yes">Load Phonemes
+                                </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3 col-sm-2">
+                            <div class="row"><label class="control-label phoneme-lable"></label></div>
+                            <div class="row"><label class="control-label ipa-lable"></label></div>
+                            <div class="row"><label class="control-label weight-lable"></label></div>
+                        </div>
+                        <div class="col-xs-9 col-sm-10 group-phoneme-weight">
+                            <div class="row" id="listPhonmes"></div>
+                            <div class="row" id="listIpa"></div>
+                            <div class="row" id="listWeight"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" id="wordModal1" style="display: none">If you would like to
+                            allocate an increased percentage of the score to a particular phoneme then please give
+                            that phoneme a higher “weight.”
+                        </label>
+                        <label class="control-label" id="wordModal2" style="display: none">E.g. v = 1,
+                            ɛ = 1,
+                            s = 1,
+                            t = 3 , this will allocate 50% of the score to this last phoneme /t/.
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6" style="padding-left: 0px;">
+                            <input type="hidden" class="action">
+                            <input type="hidden" class="idHidden">
+                            <img id="helpAddWord" style="padding-left: 0px;" src="/images/popup/help_50_50.png"
+                                 width="36px" height="36px"/>
+                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                        </div>
+
+                        <div class="col-md-6" style="padding-right: 0px;">
+                            <img style="float: right;padding-right: 0px;" id="btnSaveWord"
+                                 src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
+                        </div>
+                    </div>
+                </form>
             </div>
             <!-- End of Modal body -->
         </div>
@@ -601,7 +640,6 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
-
 
 
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciPlugin.min.js"></script>

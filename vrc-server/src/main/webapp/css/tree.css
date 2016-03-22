@@ -117,7 +117,14 @@ label {
     background-size: 24px 24px !important;
 }
 
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.question {
+.aciTree .aciTreeIcon.questiontest {
+    background-image: url("../images/treeview/test_question48x48.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.questiontest {
     /* comment next line to keep the same icon on hover */
 
 }

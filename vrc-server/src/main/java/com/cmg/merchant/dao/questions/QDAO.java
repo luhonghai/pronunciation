@@ -136,13 +136,19 @@ public class QDAO extends DataAccess<Question> {
         return check;
     }
 
+    /**
+     *
+     * @param idWord
+     * @param idQuestion
+     * @return
+     */
     public boolean updateDeletedWordOfQuestion(String idWord,String idQuestion){
         boolean check = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaWordOfQuestion.getTable() + " SET isDeleted = true WHERE idWordCollection=? and idQuestion=?");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaWordOfQuestion.getTable() + " SET isDeleted=? WHERE idWordCollection=? and idQuestion=?");
         try {
-            q.execute(idWord,idQuestion);
+            q.execute(true,idWord,idQuestion);
             check=true;
         } catch (Exception e) {
             e.printStackTrace();
