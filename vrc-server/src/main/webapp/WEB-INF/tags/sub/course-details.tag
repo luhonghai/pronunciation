@@ -465,7 +465,6 @@
 <div id="popupQuestionTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
-        <%--<div class="modal-content modal-question-word">--%>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -491,7 +490,7 @@
                             <label class="control-label col-md-4 lbl_addForm" for="courseDescription">type:</label>
 
                             <div class="col-md-8">
-                                <select id="testType" style="padding: 2px; width: 150px;;">
+                                <select id="testType" class="form-control" style="padding: 2px; width: 150px;;">
                                     <option value="accuracy">accuracy</option>
                                     <option value="pace" disabled="disabled">pace</option>
                                     <option value="power" disabled="disabled">power</option>
@@ -500,7 +499,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label">Please add the words that you want to be used for this
+                            <label class="control-label" style="color: #A6A6A6;padding: 0px 15px;">Please add the words that you want to be used for this
                                 question. If you add more than one word they will be randomised to give variety to the
                                 student.</label>
                         </div>
