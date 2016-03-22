@@ -38,6 +38,9 @@
     var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
     var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
+    var action_add_test = "<%=Constant.ACTION_ADD_TEST%>";
+    var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
+    var action_delete_test = "<%=Constant.ACTION_DELETE_TEST%>";
     var action_delete_word = "<%=Constant.ACTION_DELETE_WORD%>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
@@ -418,6 +421,78 @@
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
                             <img style="float: right" id="btnSaveQuestion" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+
+
+
+<div id="popupTestWord" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <%--<div class="modal-content modal-question-word">--%>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <label id="arrowTestWord" class="modal-title"
+                       style="text-align: left;"><%=nameOfCourse%>
+                </label>
+                <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="addTestWord" name="addform">
+
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="control-label col-md-4 lbl_addForm" for="courseName">explanation:</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="explanation" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4 lbl_addForm" for="courseDescription">type:</label>
+
+                            <div class="col-md-8">
+                                <select id="testType" style="padding: 2px; width: 150px;;">
+                                    <option value="accuracy">accuracy</option>
+                                    <option value="pace" disabled="disabled">pace</option>
+                                    <option value="power" disabled="disabled">power</option>
+                                    <option value="pitch" disabled="disabled">pitch</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Please add the words that you want to be used for this question. If you add more than one word they will be randomised to give variety to the student.</label>
+                        </div>
+                        <a id="btnAddWordTest" style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
+                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add word <i class="fa fa-plus"></i>
+                        </a>
+                        <div id="listWordTest">
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-5" style="padding-left: 0px;">
+                            <input type="hidden" class="action">
+                            <input type="hidden" class="idHidden">
+                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
+                        </div>
+                        <div class="col-md-2">
+                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                            <%--<input type="button" id="btnDeleteTest" style="float:left;cursor:pointer;display:none;" class="deleteBtnPopUp">--%>
+                        </div>
+                        <div class="col-md-5" style="padding-right: 0px;">
+                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                             <%--<input type="button" id="btnSaveTest"  style="float:right;cursor:pointer" class="saveBtnPopUp">--%>
                         </div>
                     </div>
