@@ -22,6 +22,8 @@ class ResetPassVC: UIViewController, UITextFieldDelegate {
 
         // Do any additional setup after loading the view.
         txtEmail.delegate = self
+        
+        DeviceManager.setNavigationBarTransparent(self)
     }
 
     override func didReceiveMemoryWarning() {

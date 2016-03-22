@@ -31,6 +31,7 @@ class AELoginVC: UIViewController, UITextFieldDelegate {
         //Looks for single or multiple taps.
         //let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
        // view.addGestureRecognizer(tap)
+        DeviceManager.setNavigationBarTransparent(self)
         
     }
     

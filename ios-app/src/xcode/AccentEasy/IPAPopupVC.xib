@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAPopupVC" customModule="AccentEasy" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAPopupVC" customModule="accenteasy" customModuleProvider="target">
             <connections>
                 <outlet property="btnPlayExample" destination="oCQ-Sa-ZPi" id="HpU-ox-sV2"/>
                 <outlet property="btnShowChart" destination="xp4-3W-u7c" id="AxW-aI-MnP"/>
@@ -35,7 +35,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="IPA" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZAc-4H-V4H">
-                    <rect key="frame" x="8" y="56" width="204" height="91"/>
+                    <rect key="frame" x="8" y="40" width="204" height="122"/>
                     <fontDescription key="fontDescription" type="system" pointSize="100"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>

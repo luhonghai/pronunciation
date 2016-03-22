@@ -34,6 +34,8 @@ class RegisterVC: UIViewController, UITextFieldDelegate{
         
         txtEmail.autocorrectionType = UITextAutocorrectionType.No
         //self.performSegueWithIdentifier("GoToComfirmCode", sender: self)
+        
+        DeviceManager.setNavigationBarTransparent(self)
     }
 
     override func didReceiveMemoryWarning() {

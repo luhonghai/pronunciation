@@ -21,6 +21,13 @@ class DeviceManager {
         }
     }
     
+    class func setNavigationBarTransparent(vc: UIViewController) {
+        vc.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        vc.navigationController?.navigationBar.shadowImage = UIImage()
+        vc.navigationController?.navigationBar.translucent = true
+        vc.navigationController?.view.backgroundColor = UIColor.clearColor()
+    }
+    
     class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
         zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
