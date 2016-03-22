@@ -1,6 +1,6 @@
 package com.cmg.merchant.data.dto;
 
-import com.cmg.lesson.data.dto.question.WeightDTO;
+import com.cmg.merchant.data.dto.WeightDTO;
 
 import java.util.List;
 
@@ -13,15 +13,7 @@ public class WeightPhonemesDTO {
 
     private String idWord;
 
-    private List<WeightDTO> data;
-
-    public List<WeightDTO> getData() {
-        return data;
-    }
-
-    public void setData(List<WeightDTO> data) {
-        this.data = data;
-    }
+    private List<WeightDTO> listWeightPhoneme;
 
     public String getIdWord() {
         return idWord;
@@ -37,5 +29,13 @@ public class WeightPhonemesDTO {
 
     public void setNameWord(String nameWord) {
         this.nameWord = nameWord;
+    }
+
+    public List<WeightDTO> getListWeightPhoneme() {
+        return listWeightPhoneme;
+    }
+
+    public void setListWeightPhoneme(List<WeightDTO> listWeightPhoneme) {
+        this.listWeightPhoneme = listWeightPhoneme;
     }
 }

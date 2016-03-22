@@ -541,4 +541,5 @@
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/treeApi.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ajax.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ui.js"></script>
 

@@ -14,7 +14,7 @@ function drawWord(data){
         var weightOfPhoneme = obj.weight;
         //alert(jsonItem);
 
-        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
+        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonemeName+'"  type="text">');
         getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
         getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
         getListPhonemes().css({"width":(idx+1)*35});
