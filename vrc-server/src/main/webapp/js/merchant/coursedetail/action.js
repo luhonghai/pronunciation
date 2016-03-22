@@ -353,8 +353,8 @@ function removeWord(){
                     }
                 });
                 $(this).closest("div").remove();
-            }else if(removeWords(word)){
-                $(this).closest("div").remove();
+            }else{
+                removeWords(word);
             }
         }
     });
