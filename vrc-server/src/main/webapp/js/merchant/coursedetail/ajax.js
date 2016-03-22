@@ -568,6 +568,36 @@ function deleteQuestion(){
     });
 }
 
+function removeWord(word){
+
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_word,
+            word:word,
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+               return true;
+            }else{
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+                return false;
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server");
+            currentPopup.find(".validateMsg").show();
+            return false;
+        }
+    });
+
+}
+
+
 function loadWeightForWordEdit(word){
     $("#addWordModal").modal('show');
     getAddWord().val(word);

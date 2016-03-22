@@ -4,6 +4,7 @@ import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
 import com.cmg.lesson.data.dto.question.WeightDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
@@ -404,7 +405,7 @@ public class QuestionServices {
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
-             check = dao.deletedQuestion(idLesson);
+             check = dao.deletedQuestion(idQuestion);
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
@@ -414,6 +415,22 @@ public class QuestionServices {
         }
         return SUCCESS;
     }
+    public String deleteWordMappingQuestion(String word, String idQuestion ){
+        QDAO dao = new QDAO();
+        WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+        try {
+            WordCollection wordCollection=wordCollectionDAO.getByWord(word);
+            boolean check = dao.updateDeletedWordOfQuestion(wordCollection.getId(), idQuestion);
+            if(!check){
+                return ERROR + ": an error has been occurred in server!";
+            }
+
+        }catch (Exception e){
+            return ERROR + ": an error has been occurred in server!";
+        }
+        return SUCCESS;
+    }
+
 
 
 }

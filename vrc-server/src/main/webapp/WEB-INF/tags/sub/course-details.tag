@@ -38,6 +38,7 @@
     var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
     var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
+    var action_delete_word = "<%=Constant.ACTION_DELETE_WORD%>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
       media="all">
