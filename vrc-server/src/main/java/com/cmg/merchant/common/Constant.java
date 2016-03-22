@@ -112,5 +112,8 @@ public class Constant {
     public static String ACTION_EDIT_TEST = "editTest";
     public static String ACTION_DELETE_TEST = "deleteTest";
 
+    //word
+    public static String ACTION_DELETE_WORD = "deleteWord";
+
 
 }

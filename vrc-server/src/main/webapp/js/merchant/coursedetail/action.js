@@ -109,18 +109,18 @@ function drawListWord(listWord){
     var list=readListMail(listWord);
     if(list!=null && list.length>0){
         for(var i=0;i<list.length;i++){
-            getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px;">'+list[i]+'</p></div>');
+            getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
         }
 
     }
 
 }
-function openEditWord(){
-    $(document).on("click","#word",function(){
-        var word=$(this).text();
-        loadWeightForWordEdit(word);
-    });
-}
+//function openEditWord(){
+//    $(document).on("click","#word",function(){
+//        var word=$(this).text();
+//        loadWeightForWordEdit(word);
+//    });
+//}
 
 function readListMail(txt) {
     if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
@@ -286,19 +286,19 @@ function saveWord(){
     $(document).on("click","#btnSaveWord",function() {
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
-        if(currentPopup.find(".action").val() == action_add_question) {
-            getListWord().append(' <div style="margin-top: 5px;"><p style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;" title="remove word"  id=' + idWord + ' ></i> </div>');
-        }
+        getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
         var listPhonemeName=getListPhonemes();
         var output = [];
 
         $(listPhonemeName).find('input').each(function(e){
             var value = $(this).val();
+            var ipa= $(this).attr("ipa");
             var index = $(this).attr("index");
             var weight = $("#weight" + index).val();
             output.push({
                 index : parseInt(index),
                 phoneme : value,
+                ipa:ipa,
                 weight : parseFloat(weight)
             });
         });
@@ -307,7 +307,7 @@ function saveWord(){
         listWord.push({
             idWord:idWord,
             nameWord:nameWord,
-            data:output
+            listWeightPhoneme:output
         });
         console.log(listWord);
     });
@@ -317,9 +317,64 @@ function saveWord(){
 function removeWord(){
     $(document).on("click","#idWord",function() {
         if(currentPopup.find(".action").val() == action_add_question) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        listWord.splice(i,1);
+                        console.log(listWord);
+                        return false;
+                    }
+                });
+            }
+
            $(this).closest("div").remove();
         }else if(currentPopup.find(".action").val() == action_edit_question) {
-            editQuestions(listWord);
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        listWord.splice(i,1);
+                        $(this).closest("div").remove();
+                        return false;
+                    }
+                });
+            }else if(removeWords(word)){
+                $(this).closest("div").remove();
+            }
+        }
+    });
+}
+
+function openEditWords(){
+    $(document).on("click","#word",function() {
+        getListPhonemes().html("");
+        getListWeight().html("");
+        getListIPA().html("");
+        if(currentPopup.find(".action").val() == action_add_question) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                       var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }
+        }else if(currentPopup.find(".action").val() == action_edit_question) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }else {
+                loadWeightForWordEdit(word);
+            }
         }
     });
 }
@@ -386,8 +441,10 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    openEditWords();
+    removeWord();
     btnDeleteQuestion();
-    openEditWord();
+    //openEditWord();
     closePopupQuestion();
     btnSaveQuestion();
     saveWord();

@@ -38,6 +38,7 @@
     var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
     var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
+    var action_delete_word = "<%=Constant.ACTION_DELETE_WORD%>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
       media="all">
@@ -545,3 +546,5 @@
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/treeApi.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ui.js"></script>
+

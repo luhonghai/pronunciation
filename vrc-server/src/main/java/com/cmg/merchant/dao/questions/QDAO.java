@@ -7,6 +7,7 @@ import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
 import com.cmg.lesson.data.jdo.question.WordOfQuestion;
 import com.cmg.lesson.data.jdo.test.TestMapping;
+import com.cmg.merchant.common.SqlUtil;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -53,6 +54,7 @@ public class QDAO extends DataAccess<Question> {
      * @return
      * @throws Exception
      */
+
     public Question getById(String id) throws Exception{
         List<Question> list = list("WHERE id == :1 && isDeleted == :2 ", id, false);
         if(list!=null && list.size() > 0){
@@ -69,8 +71,10 @@ public class QDAO extends DataAccess<Question> {
     public boolean deletedQuestion(String id){
         boolean isDelete = false;
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Question.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaQuestion.getTable() + " SET isDeleted= ? WHERE id=?");
+        SqlUtil util = new SqlUtil();
+        String sql = util.getSqlDeleteQuestion(id);
+        System.out.println("sql delete question : " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             q.execute(true,id);
             isDelete=true;

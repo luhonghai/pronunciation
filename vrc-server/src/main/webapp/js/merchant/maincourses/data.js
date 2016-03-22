@@ -116,3 +116,22 @@ function initHelpAddCourse(){
         "but if other users have saved it in ‘my courses’, you will not be able to stop them from using it. </p>");
     return $html;
 }
+
+function initHelpMyCourse(){
+    var $html = $("<div>");
+    $html.html("<p>Any courses that you have copied or created yourself are listed on this page.</p>");
+    $html.append("<p>Courses must be published in order to make them available to add to your classes.</p>");
+    $html.append("<p>The courses are colour codes as follows:</p>");
+    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #17375E'></div>" +
+    "<div style='padding-left:30px;'>created by you or copied and edited</div></p>");
+    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
+    "<div style='padding-left:30px;'>copied without editing</div></p>");
+    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #7330A5'></div>" +
+    "<div style='padding-left:30px;'>duplicate of a course you already have in your list " +
+    "(You will not be able to publish an exact copy of a course " +
+    "that you already have in ‘my courses’ .You need to edit" +
+    "something and publish it to make it available to add to your classes).</div></p>");
+    $html.html("<p><img src='/images/treeview/unpublished_button.gif'>This icon indicates that a course has not been published yet.</p>");
+    $html.html("<p>Information about the originating company, share options and date of the last action (created, edited or duplicated) is displayed on the course title button.</p>");
+    return $html;
+}

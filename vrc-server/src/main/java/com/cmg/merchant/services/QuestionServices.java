@@ -4,8 +4,8 @@ import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.lesson.dao.question.WeightForPhonemeDAO;
 import com.cmg.lesson.dao.question.WordOfQuestionDAO;
+import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.dto.question.QuestionDTO;
-import com.cmg.lesson.data.dto.question.WeightDTO;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.lesson.data.jdo.question.WeightForPhoneme;
@@ -22,6 +22,7 @@ import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
+import com.cmg.merchant.data.dto.WeightDTO;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -137,11 +138,11 @@ public class QuestionServices {
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
         String message=null;
         try {
-            if(dto.getData()!=null && dto.getData().size() > 0){
+            if(dto.getListWeightPhoneme()!=null && dto.getListWeightPhoneme().size() > 0){
                 updateDeleted(IdQuestion,dto.getIdWord());
                 List<WeightForPhoneme> list = new ArrayList<WeightForPhoneme>();
                 int version = getMaxVersion();
-                for(WeightDTO w : dto.getData()){
+                for(WeightDTO w : dto.getListWeightPhoneme()){
                     WeightForPhoneme wfp = new WeightForPhoneme();
                     wfp.setIdQuestion(IdQuestion);
                     wfp.setIdWordCollection(dto.getIdWord());
@@ -338,7 +339,14 @@ public class QuestionServices {
                     }
 
                 } else {
-                    return ERROR;
+                    WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
+
+                    if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
+                        return ERROR;
+                    }
+                    if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
+                        return ERROR;
+                    }
                 }
             }
             message=SUCCESS;
@@ -352,11 +360,11 @@ public class QuestionServices {
         WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
         String message=null;
         try {
-            if(dto.getData()!=null && dto.getData().size() > 0){
+            if(dto.getListWeightPhoneme()!=null && dto.getListWeightPhoneme().size() > 0){
                 updateDeleted(idQuestion,dto.getIdWord());
                 List<WeightForPhoneme> list = new ArrayList<WeightForPhoneme>();
                 int version = getMaxVersion();
-                for(WeightDTO w : dto.getData()){
+                for(WeightDTO w : dto.getListWeightPhoneme()){
                     WeightForPhoneme wfp = new WeightForPhoneme();
                     wfp.setIdQuestion(idQuestion);
                     wfp.setIdWordCollection(dto.getIdWord());
@@ -404,7 +412,7 @@ public class QuestionServices {
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
-             check = dao.deletedQuestion(idLesson);
+             check = dao.deletedQuestion(idQuestion);
             if(!check){
                 return ERROR + ": an error has been occurred in server!";
             }
@@ -414,6 +422,22 @@ public class QuestionServices {
         }
         return SUCCESS;
     }
+    public String deleteWordMappingQuestion(String word, String idQuestion ){
+        QDAO dao = new QDAO();
+        WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+        try {
+            WordCollection wordCollection=wordCollectionDAO.getByWord(word);
+            boolean check = dao.updateDeletedWordOfQuestion(wordCollection.getId(), idQuestion);
+            if(!check){
+                return ERROR + ": an error has been occurred in server!";
+            }
+
+        }catch (Exception e){
+            return ERROR + ": an error has been occurred in server!";
+        }
+        return SUCCESS;
+    }
+
 
 
 }
