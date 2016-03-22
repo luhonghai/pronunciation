@@ -38,9 +38,6 @@
     var action_add_question = "<%=Constant.ACTION_ADD_QUESTION%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
     var action_delete_question = "<%=Constant.ACTION_DELETE_QUESTION%>";
-    var action_add_test = "<%=Constant.ACTION_ADD_TEST%>";
-    var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
-    var action_delete_test = "<%=Constant.ACTION_DELETE_TEST%>";
     var action_delete_word = "<%=Constant.ACTION_DELETE_WORD%>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/bower_components/aciTree/css/aciTree.css"
@@ -522,15 +519,13 @@
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTest" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
-                                 height="36px"/>
+                            <img id="helpAddTestWord" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteTest" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteTestWord" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTest" src="/images/popup/Save_50x50.gif" width="36px"
-                                 height="36px"/>
+                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
                         </div>
                     </div>
                 </form>
@@ -607,7 +602,6 @@
                                  width="36px" height="36px"/>
                             <%--<input type="button" id="btnHelpTest" style="float:left;cursor: pointer" class="helpBtnPopUp">--%>
                         </div>
-
                         <div class="col-md-6" style="padding-right: 0px;">
                             <img style="float: right;padding-right: 0px;" id="btnSaveWord"
                                  src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>

@@ -582,17 +582,15 @@ function removeWords(word){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-               return true;
+                $("#listWord").find("div:contains('"+word+"')").remove();
             }else{
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
-                return false;
             }
         },
         error: function () {
             currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
-            return false;
         }
     });
 

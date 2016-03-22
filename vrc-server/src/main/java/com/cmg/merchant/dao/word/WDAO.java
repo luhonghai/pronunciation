@@ -32,7 +32,7 @@ public class WDAO extends DataAccess<WordCollection> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaWordCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
         TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE mapping.idQuestion='" + idQuestion + "'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE word.isDeleted=false and mapping.isDeleted=false and  mapping.idQuestion='" + idQuestion + "'");
         List<String> temp = new ArrayList<>();
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -64,7 +64,7 @@ public class WDAO extends DataAccess<WordCollection> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaWordCollection = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordCollection.class.getCanonicalName());
         TypeMetadata metaWordOfQuestion = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(WordOfQuestion.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.id,word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE mapping.idQuestion='" + idQuestion + "'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT word.id,word.word FROM " + metaWordCollection.getTable() + " word inner join " + metaWordOfQuestion.getTable() + " mapping on word.id=mapping.idWordCollection WHERE word.isDeleted=false and mapping.isDeleted=false and mapping.idQuestion='" + idQuestion + "'");
         List<WordCollection> temp = new ArrayList<>();
         try {
             List<Object> tmp = (List<Object>) q.execute();
