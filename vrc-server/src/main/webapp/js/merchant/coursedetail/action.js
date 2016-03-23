@@ -103,7 +103,7 @@ function openPopup(itemData){
         getQuestionListWordEdit().attr("idLesson",lesson.id);
         drawListWord(itemData._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
-    }else if(itemData._actionClick == action_add_test){
+    }else if(itemData._actionClick == action_add_question_test){
         clearForm();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
@@ -278,6 +278,27 @@ function showAddWord(){
     });
 }
 
+function showAddWordForTest(){
+    $(document).on("click","#btnAddWordTest",function() {
+        $("#AddOrEditWord").val("addWordTest");
+        $("#wordModal1").hide();
+        $("#wordModal2").hide();
+        $("#addWordModal").modal('show');
+        getAddWord().val("");
+        getListPhonemes().html("");
+        getListWeight().html("");
+        getListIPA().html("");
+        getPhonemeLable().html("");
+        getWeightLable().html("");
+        getIPAlable().html("");
+        $("#yesadd").attr("disabled", true);
+        $("#loadPhonemes").show();
+        getAddWord().removeAttr('readonly');
+        $("#loadPhonemes").attr("disabled",false);
+        $("#addWord").attr("disabled",false);
+    });
+}
+
 function loadPhoneme() {
     $(document).on("click","#loadPhonemes",function() {
         getLoadPhoneme().attr("disabled", true);
@@ -299,6 +320,8 @@ function saveWord(){
         var idWord=$("#addWord").attr("idWord");
         if(addOrEdit=="add"){
             getListWord().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
+        }else if(addOrEdit=="addWordTest"){
+            getListWordForTest().append(' <div style="margin-top: 5px;"><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 5px 10px; vertical-align: middle;">' + nameWord + '</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i> </div>');
         }
 
         var listPhonemeName=getListPhonemes();
@@ -402,9 +425,24 @@ function btnSaveQuestion(){
         }
     });
 }
+
+function btnSaveQuestionForTest(){
+    $(document).on("click","#btnSaveTestWord",function() {
+        if(currentPopup.find(".action").val() == action_add_question_test) {
+            addQuestionsForTest(listWord);
+        }else if(currentPopup.find(".action").val() == action_edit_question_test) {
+            editQuestionsForTest(listWord);
+        }
+    });
+}
 function btnDeleteQuestion(){
     $(document).on("click","#btnDeleteQuestion",function(){
         deleteQuestion();
+    });
+}
+function btnDeleteQuestionForTest(){
+    $(document).on("click","#btnDeleteTestWord",function(){
+        deleteQuestionForTest();
     });
 }
 
@@ -455,6 +493,9 @@ function clickHelpAdd(){
 
 
 $(document).ready(function(){
+    btnDeleteQuestionForTest();
+    btnSaveQuestionForTest();
+    showAddWordForTest();
     openEditWords();
     removeWord();
     btnDeleteQuestion();

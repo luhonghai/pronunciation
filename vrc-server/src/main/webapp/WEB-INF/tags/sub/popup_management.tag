@@ -378,7 +378,6 @@
         <form class="form-horizontal" id="addTestWord" name="addform">
           <div class="form-group">
             <label class="control-label col-md-3 lbl_addForm" for="explanation">explanation:</label>
-
             <div class="col-md-9">
               <input type="text" class="form-control" id="explanation" name="name" style="width:100%">
             </div>
@@ -450,7 +449,7 @@
                 aria-hidden="true">x</span></button>
         <div id="contain-arrow"><label id="arrowWord" class="modal-title"></label></div>
         <input type="hidden" id="idLesson">
-
+        <input type="hidden" id="AddOrEditWord">
         <h2 align="center">add word</h2>
         <h4 id="validateWordMsg" class="modal-title validateMsg"
             style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
