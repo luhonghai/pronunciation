@@ -677,7 +677,11 @@ function removeWords(word){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                $("#listWord").find("div:contains('"+word+"')").remove();
+                if(currentPopup.find(".action").val() == action_edit_question){
+                    getListWord().find("div:contains('"+word+"')").remove();
+                }else if(currentPopup.find(".action").val() == action_edit_question_test){
+                    getListWordForTest().find("div:contains('"+word+"')").remove();
+                }
             }else{
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
