@@ -25,6 +25,12 @@
     .contain-button{
         display : none !important;
     }
+    .fa-minus-circle{
+        display : none !important;
+    }
+    #btnAddWord{
+        display : none !important;
+    }
 </style>
 <link rel="stylesheet" type="text/css"
       href="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/css/jquery.progresstimer.min.css"

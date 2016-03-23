@@ -503,7 +503,7 @@
             <div class="col-xs-12 col-sm-12" style="padding:0px">
               <label id="wordModal1" style="display: none">If you would like to
                 allocate an increased percentage of the score to a particular phoneme then please give
-                that phoneme a higher “weight.”
+                that phoneme a higher "weight."
               </label>
             </div>
             <div class="col-xs-12 col-sm-12" style="padding:0px">

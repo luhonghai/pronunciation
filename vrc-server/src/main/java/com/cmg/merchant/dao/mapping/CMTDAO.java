@@ -78,6 +78,31 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
     /**
      *
      * @param id
+     * @param status
+     * @return true if update success
+     * @throws Exception
+     */
+    public boolean updateStatusAndState(String id, String status, String state) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET status=?,state=?  WHERE id=?");
+        try {
+            q.execute(status,state,id);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
+    /**
+     *
+     * @param id
      * @param state
      * @return true if update success
      * @throws Exception

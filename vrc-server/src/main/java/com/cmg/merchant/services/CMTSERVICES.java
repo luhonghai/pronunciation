@@ -39,6 +39,22 @@ public class CMTSERVICES {
     }
 
 
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String publishCourseCopy(String idCourse, String state){
+        CMTDAO dao = new CMTDAO();
+        try {
+            CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+            dao.updateStatusAndState(cmt.getId(),Constant.STATUS_PUBLISH,state);
+            return SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ERROR;
+    }
 
     /**
      *

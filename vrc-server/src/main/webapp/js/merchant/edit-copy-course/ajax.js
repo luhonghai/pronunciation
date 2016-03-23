@@ -7,6 +7,7 @@ var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
 var progress;
+var state;
 /**
  * connect to server when edit course
  */
@@ -33,7 +34,9 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                nameOfCourse = getCourseName().val();
+                if(nameOfCourse != getCourseName().val()){
+                    isEditedTitle = true;
+                }
                 currentParent = null;
                 firstLoad = true;
                 reloadTree();
@@ -100,6 +103,7 @@ function addLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added Level successfully", "success");
@@ -134,6 +138,7 @@ function editLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated Level successfully", "success");
@@ -168,6 +173,7 @@ function deleteLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted Level successfully", "success");
@@ -203,6 +209,7 @@ function addObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added objective successfully", "success");
@@ -237,6 +244,7 @@ function editObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated objective successfully", "success");
@@ -269,6 +277,7 @@ function deleteObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted objective successfully", "success");
@@ -302,6 +311,7 @@ function addTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added test successfully", "success");
@@ -335,6 +345,7 @@ function editTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated test successfully", "success");
@@ -367,6 +378,7 @@ function deleteTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted test successfully", "success");
@@ -403,6 +415,7 @@ function addLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added lesson successfully!", "success");
@@ -437,6 +450,7 @@ function editLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated lesson successfully", "success");
@@ -465,6 +479,7 @@ function deleteLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted lesson successfully", "success");
@@ -495,6 +510,7 @@ function addQuestions(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have add question successfully!", "success");
@@ -524,6 +540,7 @@ function editQuestions(listWord){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have edit question successfully!", "success");
@@ -554,6 +571,7 @@ function deleteQuestion(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
+                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted question successfully", "success");
@@ -570,11 +588,134 @@ function deleteQuestion(){
     });
 }
 
+
+
+function addQuestionsForTest(listWord){
+    myObject.listWord = listWord;
+    $.ajax({
+        url : servletAdd,
+        type : "POST",
+        data : {
+            action: action_add_question_test,
+            listWord: JSON.stringify(myObject),
+            idLesson: $("#idLesson").val(),
+            type:$("#testType").val(),
+            description:$("#explanation").val()
+
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                isEditedContent = true;
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have add question successfully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+function editQuestionsForTest(listWord){
+    myObject.listWord = listWord;
+    $.ajax({
+        url : servletEdit,
+        type : "POST",
+        data : {
+            action: action_edit_question,
+            listWord: JSON.stringify(myObject),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                isEditedContent = true;
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have edit question successfully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+
+function deleteQuestionForTest(){
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_question_test,
+            idLesson : getNameLesson().attr("idLesson"),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                isEditedContent = true;
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("", "You have deleted question successfully", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+function removeWords(word){
+
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_word,
+            word:word,
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                $("#listWord").find("div:contains('"+word+"')").remove();
+            }else{
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+
+}
+
+
 function loadWeightForWordEdit(word){
     $("#addWordModal").modal('show');
     getAddWord().val(word);
     $("#loadPhonemes").hide();
-
     $.ajax({
         url: "ManagementWordOfQuestionServlet",
         type: "POST",
@@ -587,31 +728,9 @@ function loadWeightForWordEdit(word){
         success: function (data) {
             var message = data.message;
             if(message.indexOf("success") != -1){
-                getAddWord().attr("idWord", data.idWord);
-                getListPhonemes().html("");
-                getListIPA().html("");
-                getListWeight().html("");
-                getAddWord().attr("readonly","readonly");
-                $.each(data.listWeightPhoneme, function (idx, obj) {
-                    var phonemeName = obj.phoneme;
-                    var weightOfPhoneme = obj.weight;
-                    //alert(jsonItem);
-
-                    getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonemeName+'"  type="text">');
-                    getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
-                    getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
-                    getListPhonemes().css({"width":(idx+1)*35});
-                    getListWeight().css({"width":(idx+1)*35});
-                    getListIPA().css({"width":(idx+1)*35});
-                });
-                $("#wordModal1").show();
-                $("#wordModal2").show();
-                //$("#yesadd").show();
+                drawWord(data);
             }else{
                 swal("Error!",message.split(":")[1], "error");
-                //$("#listPhonmes").html("");
-                //$("#listWeight").html("");
-                //$("#yesadd").hide();
             }
         },
         error: function () {
@@ -638,24 +757,15 @@ function loadPhonemes(){
                     getAddWord().attr("idWord", data.id);
                     getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
-                    getPhonemeLable().html("Arpabet:").css("padding-top","10px");
-                    getWeightLable().html("Weight:").css("padding-top","15px");
-                    getIPAlable().html("Ipa:").css("padding-top","10px");
+                    getPhonemeLable().html("Arpabet:");
+                    getWeightLable().html("Weight:");
+                    getIPAlable().html("Ipa:");
                     getListPhonemes().html("");
                     getListWeight().html("");
                     getListIPA().html("");
                     //$("#addWord").attr("readonly","readonly");
                     getAddWord().attr("disabled",true);
-                    $.each(data.phonemes, function (idx, obj) {
-                        var phonmeName = obj.phoneme;
-                        //alert(jsonItem);
-                        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" value="'+phonmeName+'"  type="text">');
-                        getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
-                        getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" type="text">');
-                        getListPhonemes().css({"width":(idx+1)*35});
-                        getListWeight().css({"width":(idx+1)*35});
-                        getListIPA().css({"width":(idx+1)*35});
-                    });
+                    drawPhonemeOfWord(data);
                     $("#yesadd").attr("disabled", false);
                     $("#wordModal1").show();
                     $("#wordModal2").show();
@@ -691,9 +801,9 @@ function enablePublishBtn(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                //getPublishBtn().removeAttr("disabled");
+                getPublishBtn().removeAttr("disabled");
             }else{
-                //getPublishBtn().attr("disabled","disabled");
+                getPublishBtn().attr("disabled","disabled");
             }
         },
         error: function () {
@@ -702,14 +812,17 @@ function enablePublishBtn(){
     });
 }
 
-
+/**
+ *
+ */
 function publishCourse(){
     $.ajax({
         url : servletPublish,
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse
+            idCourse : idCourse,
+            state : state
         },
         dataType : "text",
         success : function(data){
