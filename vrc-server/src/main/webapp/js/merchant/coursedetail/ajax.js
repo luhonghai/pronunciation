@@ -546,7 +546,7 @@ function deleteQuestion(){
         type : "POST",
         data : {
             action: action_delete_question,
-            idLesson : getNameLesson().attr("idLesson"),
+            idLesson : getQuestionListWordEdit().attr("idLesson"),
             idQuestion: currentPopup.find(".idHidden").val()
         },
         dataType : "text",
