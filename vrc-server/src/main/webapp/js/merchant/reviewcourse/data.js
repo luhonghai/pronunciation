@@ -31,6 +31,10 @@ function clearForm(){
         $(this).val('');
         $(this).attr('disabled','disabled');
     });
+
+    currentPopup.find("select").each(function(){
+        $(this).attr('disabled','disabled');
+    });
     currentPopup.find("#btndelete").hide();
 }
 

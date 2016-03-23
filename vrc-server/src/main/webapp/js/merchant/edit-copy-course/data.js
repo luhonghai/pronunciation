@@ -139,14 +139,21 @@ function getListWord(){
     return listWord;
 }
 
-function getListWordForTest(){
-    var listWordTest=$("#listWordTest");
-    return listWordTest;
-}
-
 function getAddWord(){
     var addWord=$("#addWord");
     return addWord;
+}
+function getTypeTest(){
+    var typeTest=$("#testType");
+    return typeTest;
+}
+function getExplanationTest(){
+    var explanationTest=$("#explanation");
+    return explanationTest;
+}
+function getListWordTest(){
+    var listWordTest=$("#listWordTest");
+    return listWordTest;
 }
 
 function getPhonemeLable(){

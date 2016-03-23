@@ -1,7 +1,6 @@
 /**
  * Created by lantb on 2016-02-22.
  */
-var servletAdd = "/TreeAddNodeServlet";
 var currentPopup;
 function openPopup(itemData){
     currentPopup = $('#'+ itemData._popupId);
@@ -69,6 +68,7 @@ function openPopup(itemData){
 function drawListWord(listWord){
     var list=readListMail(listWord);
     if(list!=null && list.length>0){
+        getQuestionListWordEdit().empty();
         for(var i=0;i<list.length;i++){
             getQuestionListWordEdit().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
         }
@@ -102,8 +102,32 @@ function clickTopHelp(){
     });
 }
 
+function openEditWords(){
+    $(document).on("click","#word",function() {
+        getListPhonemes().html("");
+        getListWeight().html("");
+        getListIPA().html("");
+        if(currentPopup.find(".action").val() == action_edit_question) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }else {
+                loadWeightForWordEdit(word);
+            }
+        }
+    });
+}
+
+
 $(document).ready(function(){
     showHelpIconTop();
     clickTopHelp();
     clickCopyCourse();
+    openEditWords();
 });

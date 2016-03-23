@@ -13,16 +13,13 @@ function drawWord(data){
         var phonemeName = obj.phoneme;
         var weightOfPhoneme = obj.weight;
         //alert(jsonItem);
-        getListPhonemes().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonemeName+'"  type="text">');
-        getListIPA().append('<input disabled="disabled" readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
-        getListWeight().append('<input  onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
+        getListPhonemes().append('<input readonly="readonly" index="'+obj.index+'" ipa="'+obj.ipa+'" value="'+phonemeName+'"  type="text">');
+        getListIPA().append('<input readonly="readonly" index="'+obj.index+'" value="'+obj.ipa+'"  type="text">');
+        getListWeight().append('<input onkeypress="return isNumberKey(event,this)" id="weight'+obj.index+'" class="phoneme-weight" value="'+weightOfPhoneme+'" type="text">');
         getListPhonemes().css({"width":(idx+1)*35});
         getListWeight().css({"width":(idx+1)*35});
         getListIPA().css({"width":(idx+1)*35});
     });
-    getPhonemeLable().html("Arpabet:");
-    getWeightLable().html("Weight:");
-    getIPAlable().html("Ipa:");
     $("#wordModal1").show();
     $("#wordModal2").show();
 }

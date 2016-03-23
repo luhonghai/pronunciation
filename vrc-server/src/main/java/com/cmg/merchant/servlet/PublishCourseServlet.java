@@ -18,6 +18,7 @@ import java.io.IOException;
 @WebServlet(name = "PublishCourseServlet")
 public class PublishCourseServlet extends HttpServlet {
     public String ACTION_PUBLISH_COURSE = "publish";
+    public String ACTION_PUBLISH_COURSE_COPY = "publishCourseCp";
     public String ACTION_ENABLE_BUTTON = "checkButton";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
@@ -27,6 +28,9 @@ public class PublishCourseServlet extends HttpServlet {
             CMTSERVICES services = new CMTSERVICES();
             String text = services.publishCourse(idCourse);
             response.getWriter().println(text);
+        }else if(action.equalsIgnoreCase(ACTION_PUBLISH_COURSE_COPY)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            String state = (String) StringUtil.isNull(request.getParameter("state"), "").toString();
         }else if(action.equalsIgnoreCase(ACTION_ENABLE_BUTTON)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             CourseServices services = new CourseServices();
