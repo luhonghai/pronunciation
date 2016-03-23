@@ -97,6 +97,13 @@ function getLessonValidateMessage(){
 function getWordValidateMessage(){
     return $("#validateWordMsg");
 }
+function getQuestionValidateMessage(){
+    return $("#validateQuestionMsg");
+}
+function getQuestionForTestValidateMessage(){
+    return $("#validateQuestionForTestMsg");
+}
+
 
 function getNameLesson(){
     var lessonName=$('#lessonName');

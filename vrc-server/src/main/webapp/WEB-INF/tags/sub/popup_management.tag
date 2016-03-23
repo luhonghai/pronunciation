@@ -319,6 +319,8 @@
         </label></div>
 
         <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
+        <h4 id="validateQuestionMsg" class="modal-title validateMsg"
+            style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="addQuestion" name="addform">
@@ -373,6 +375,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                 aria-hidden="true">x</span></button>
         <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
+        <h4 id="validateQuestionForTestMsg" class="modal-title validateMsg"
+            style="text-align: center;font-weight: 200;color:red;display:none;"></h4>
       </div>
       <div class="modal-body">
         <form class="form-horizontal" id="addTestWord" name="addform">

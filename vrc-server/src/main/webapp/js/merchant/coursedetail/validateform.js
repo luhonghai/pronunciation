@@ -123,6 +123,25 @@ function validateWord(){
     return true;
 }
 
+function validateSaveQuestion(listWord){
+    var word = getAddWord().val();
+    if (listWord == null || listWord.length == 0){
+        getQuestionValidateMessage().html("Miss add word");
+        getQuestionValidateMessage().show();
+        return false;
+    }
+    return true;
+}
+
+function validateSaveQuestionForTest(listWord){
+    var word = getAddWord().val();
+    if (listWord == null || listWord.length == 0){
+        getQuestionForTestValidateMessage().html("Miss add word");
+        getQuestionForTestValidateMessage().show();
+        return false;
+    }
+    return true;
+}
 function validateFormLesson(){
     var name = getNameLesson().val();
     if(name == '' || typeof name === 'undefined'){
