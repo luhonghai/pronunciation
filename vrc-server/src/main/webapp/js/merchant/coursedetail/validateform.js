@@ -126,7 +126,7 @@ function validateWord(){
 function validateSaveQuestion(listWord){
     var word = getAddWord().val();
     if (listWord == null || listWord.length == 0){
-        getQuestionValidateMessage().html("Miss add word");
+        getQuestionValidateMessage().html("please add word");
         getQuestionValidateMessage().show();
         return false;
     }
@@ -136,7 +136,7 @@ function validateSaveQuestion(listWord){
 function validateSaveQuestionForTest(listWord){
     var word = getAddWord().val();
     if (listWord == null || listWord.length == 0){
-        getQuestionForTestValidateMessage().html("Miss add word");
+        getQuestionForTestValidateMessage().html("please add word");
         getQuestionForTestValidateMessage().show();
         return false;
     }
