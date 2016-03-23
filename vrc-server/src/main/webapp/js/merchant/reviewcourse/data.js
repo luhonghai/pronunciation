@@ -24,10 +24,12 @@ function clearForm(){
     currentPopup.find("input[type=text]").each(function(){
         //Do stuff here
         $(this).val('');
+        $(this).attr('disabled','disabled');
     });
     currentPopup.find("textarea").each(function(){
         //Do stuff here
         $(this).val('');
+        $(this).attr('disabled','disabled');
     });
     currentPopup.find("#btndelete").hide();
 }
@@ -91,6 +93,69 @@ function getDetailLesson(){
 }
 function getPopUpHelp(){
     return $("#help-popup");
+}
+
+
+function getQuestionListWordEdit(){
+    var listWord=$('#listWord');
+    return listWord;
+}
+
+function getListPhonemes(){
+    var listPhonemes=$("#listPhonmes");
+    return listPhonemes;
+}
+function getListIPA(){
+    var listIPA=$("#listIpa");
+    return listIPA;
+}
+function getListWeight(){
+    var listWeight=$("#listWeight");
+    return listWeight;
+}
+function getWeight(){
+    var weight=$("#weight");
+    return weight;
+}
+function getListWord(){
+    var listWord=$("#listWord");
+    return listWord;
+}
+
+function getAddWord(){
+    var addWord=$("#addWord");
+    return addWord;
+}
+function getTypeTest(){
+    var typeTest=$("#testType");
+    return typeTest;
+}
+function getExplanationTest(){
+    var explanationTest=$("#explanation");
+    return explanationTest;
+}
+function getListWordTest(){
+    var listWordTest=$("#listWordTest");
+    return listWordTest;
+}
+
+function getPhonemeLable(){
+    var phonemeLable=$(".phoneme-lable");
+    return phonemeLable;
+}
+
+function getIPAlable(){
+    var ipaLable=$(".ipa-lable");
+    return ipaLable;
+}
+function getWeightLable(){
+    var weightLable=$(".weight-lable");
+    return weightLable;
+}
+
+function getLoadPhoneme(){
+    var loadPhoneme=$("#loadPhonemes");
+    return loadPhoneme;
 }
 
 function initHelpTopData(){
