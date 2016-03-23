@@ -483,7 +483,6 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 lbl_addForm" for="courseDescription">type:</label>
-
                         <div class="col-md-8">
                             <select id="testType" style="padding: 2px; width: 150px;;">
                                 <option value="accuracy">accuracy</option>
