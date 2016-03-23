@@ -137,7 +137,7 @@ function getListWeight(){
     var listWeight=$("#listWeight");
     return listWeight;
 }
-function getTypeTest(){
+function getListWordForTest(){
     var listWordTest=$("#listWordTests");
     return listWordTest;
 }

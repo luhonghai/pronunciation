@@ -162,6 +162,19 @@ function getLoadPhoneme(){
     return loadPhoneme;
 }
 
+function getListWordForTest(){
+    var listWordTest=$("#listWordTests");
+    return listWordTest;
+}
+
+function getTypeTest(){
+    var listWordTest=$("#listWordTests");
+    return listWordTest;
+}
+function getExplanationTest(){
+    var explanationTest=$("#explanation");
+    return explanationTest;
+}
 function initHelpTopData(){
     var $html = $("<div>");
     $html.html("<p>1. You can check any of the content by hovering over and selecting " +
