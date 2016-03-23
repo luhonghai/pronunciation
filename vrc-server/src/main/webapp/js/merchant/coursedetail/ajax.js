@@ -569,6 +569,99 @@ function deleteQuestion(){
     });
 }
 
+
+
+function addQuestionsForTest(listWord){
+    myObject.listWord = listWord;
+    $.ajax({
+        url : servletAdd,
+        type : "POST",
+        data : {
+            action: action_add_question_test,
+            listWord: JSON.stringify(myObject),
+            idLesson: $("#idLesson").val(),
+            type:$("#testType").val(),
+            description:$("#explanation").val()
+
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have add question successfully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+function editQuestionsForTest(listWord){
+    myObject.listWord = listWord;
+    $.ajax({
+        url : servletEdit,
+        type : "POST",
+        data : {
+            action: action_edit_question,
+            listWord: JSON.stringify(myObject),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("Success!", "You have edit question successfully!", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server!");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
+
+
+function deleteQuestionForTest(){
+    $.ajax({
+        url : servletDelete,
+        type : "POST",
+        data : {
+            action: action_delete_question_test,
+            idLesson : getNameLesson().attr("idLesson"),
+            idQuestion: currentPopup.find(".idHidden").val()
+        },
+        dataType : "text",
+        success : function(data){
+            if (data.indexOf("success") !=-1) {
+                //reload the tree
+                reloadTree();
+                currentPopup.modal('hide');
+                swal("", "You have deleted question successfully", "success");
+            }else{
+                //add false show the error
+                currentPopup.find(".validateMsg").html(data);
+                currentPopup.find(".validateMsg").show();
+            }
+        },
+        error: function () {
+            currentPopup.find(".validateMsg").html("Could not connect to server");
+            currentPopup.find(".validateMsg").show();
+        }
+    });
+}
 function removeWords(word){
 
     $.ajax({

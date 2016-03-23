@@ -139,6 +139,11 @@ function getListWord(){
     return listWord;
 }
 
+function getListWordForTest(){
+    var listWordTest=$("#listWordTest");
+    return listWordTest;
+}
+
 function getAddWord(){
     var addWord=$("#addWord");
     return addWord;
