@@ -381,30 +381,32 @@ function saveWord(){
         var addOrEdit=$("#AddOrEditWord").val();
         var nameWord=$("#addWord").val();
         var idWord=$("#addWord").attr("idWord");
-        appendWord(addOrEdit,nameWord);
-        var listPhonemeName=getListPhonemes();
-        var output = [];
+        if(validateWord()) {
+            appendWord(addOrEdit, nameWord);
+            var listPhonemeName = getListPhonemes();
+            var output = [];
 
-        $(listPhonemeName).find('input').each(function(e){
-            var value = $(this).val();
-            var ipa= $(this).attr("ipa");
-            var index = $(this).attr("index");
-            var weight = $("#weight" + index).val();
-            output.push({
-                index : parseInt(index),
-                phoneme : value,
-                ipa:ipa,
-                weight : parseFloat(weight)
+            $(listPhonemeName).find('input').each(function (e) {
+                var value = $(this).val();
+                var ipa = $(this).attr("ipa");
+                var index = $(this).attr("index");
+                var weight = $("#weight" + index).val();
+                output.push({
+                    index: parseInt(index),
+                    phoneme: value,
+                    ipa: ipa,
+                    weight: parseFloat(weight)
+                });
             });
-        });
-        $("#addWordModal").modal('hide');
-        //output.clear();
-        listWord.push({
-            idWord:idWord,
-            nameWord:nameWord,
-            listWeightPhoneme:output
-        });
-        console.log(listWord);
+            $("#addWordModal").modal('hide');
+            //output.clear();
+            listWord.push({
+                idWord: idWord,
+                nameWord: nameWord,
+                listWeightPhoneme: output
+            });
+            console.log(listWord);
+        }
     });
 
 }
@@ -527,7 +529,10 @@ function openEditWords(){
 function btnSaveQuestion(){
     $(document).on("click","#btnSaveQuestion",function() {
         if(currentPopup.find(".action").val() == action_add_question) {
-            addQuestions(listWord);
+            if(validateSaveQuestion(listWord)){
+                addQuestions(listWord);
+            }
+
         }else if(currentPopup.find(".action").val() == action_edit_question) {
             editQuestions(listWord);
         }
@@ -537,7 +542,10 @@ function btnSaveQuestion(){
 function btnSaveQuestionForTest(){
     $(document).on("click","#btnSaveTestWord",function() {
         if(currentPopup.find(".action").val() == action_add_question_test) {
-            addQuestionsForTest(listWord);
+            if(validateSaveQuestionForTest(listWord)){
+                addQuestionsForTest(listWord);
+            }
+
         }else if(currentPopup.find(".action").val() == action_edit_question_test) {
             editQuestionsForTest(listWord);
         }
