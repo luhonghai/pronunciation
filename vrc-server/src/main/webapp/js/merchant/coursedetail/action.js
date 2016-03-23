@@ -110,6 +110,9 @@ function openPopup(itemData){
         getListWordForTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
+        var level = treeAPI.itemData(currentParent);
+        var row=nameOfCourse +" > "+level.label;
+        getExplanationTest().attr("row",row);
     }else if(itemData._actionClick == action_edit_question_test){
         listWord=[];
         clearForm();
@@ -121,6 +124,11 @@ function openPopup(itemData){
         currentPopup.find("#btnDeleteTestWord").show();
         currentPopup.find("#titlePopupTestWord").html("edit test question");
         getExplanationTest().attr("idLesson",lesson._idLessonForTest);
+        var test = treeAPI.itemData(currentParent);
+        var level = treeAPI.parent(currentParent);
+        var levelItem = treeAPI.itemData(level);
+        var row=nameOfCourse +" > "+levelItem.label+ " > "+test.label;
+        getExplanationTest().attr("row",row);
     }
 
     currentPopup.modal('show');
@@ -297,6 +305,7 @@ function showAddWord(){
 
 function showAddWordForTest(){
     $(document).on("click","#btnAddWordTest",function() {
+        $("#arrowWord").text(getExplanationTest().attr("row"));
         var idLesson= treeAPI.itemData(currentParent)._idLessonForTest;
         $("#AddOrEditWord").val("addWordTest");
         $("#idLesson").val(idLesson);
