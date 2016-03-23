@@ -85,9 +85,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <label id="arrowCourse" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrowCourse" class="modal-title"
+                                               style="text-align: left;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 id='titlePopupCourse' class="modal-title">course management</h2>
                 <h4 id="validateMsgCourse" class="modal-title validateMsg"
@@ -146,9 +146,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <label id="arrow" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrow" class="modal-title"
+                                               style="text-align: left;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 id='titlePopup' class="modal-title">Add Level</h2>
                 <h4 id="validateLvMsg" class="modal-title validateMsg"
@@ -207,9 +207,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <label id="arrowObj" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrowObj" class="modal-title"
+                                               style="text-align: left;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 id='titlePopupObj' class="modal-title">Add Objective</h2>
                 <h4 id="validateObjMsg" class="modal-title validateMsg"
@@ -268,9 +268,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <label id="arrowTest" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrowTest" class="modal-title"
+                                               style="text-align: left;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 id='titlePopupTest' class="modal-title">Add Test</h2>
                 <h4 id="validateTestMsg" class="modal-title validateMsg"
@@ -323,9 +323,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <label id="arrowLesson" class="modal-title"
-                       style="text-align: left; padding-left: 15px;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrowLesson" class="modal-title"
+                                               style="text-align: left; padding-left: 15px;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 id='titlePopupLesson' class="modal-title">add lesson</h2>
                 <h4 id="validateLessonMsg" class="modal-title validateMsg"
@@ -410,9 +410,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <label id="arrowQuestion" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
+                <div class="contain-arrow"><label id="arrowQuestion" class="modal-title"
+                                               style="text-align: left;"><%=nameOfCourse%>
+                </label></div>
 
                 <h2 align="center" id='titlePopupQuestion' class="modal-title">question management</h2>
             </div>
@@ -420,7 +420,8 @@
                 <form class="form-horizontal" id="addQuestion" name="addform">
                     <div class="form-group">
                         <label class="control-label">Please add the words that you want to be used for this question. If
-                            you add more than one word they will be randomised to give variety to the student.</label>
+                            you add more than one word they will be randomised to give variety to the student.Double
+                            click on a word to edit or delete</label>
                     </div>
                     <div class="form-group">
                         <a id="btnAddWord"
@@ -465,67 +466,69 @@
 <div id="popupQuestionTest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
-        <%--<div class="modal-content modal-question-word">--%>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <label id="arrowTestWord" class="modal-title"
-                       style="text-align: left;"><%=nameOfCourse%>
-                </label>
-
                 <h2 align="center" id='titlePopupTestWord' class="modal-title">add test question</h2>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="addTestWord" name="addform">
-
                     <div class="form-group">
-                        <div class="form-group">
-                            <label class="control-label col-md-4 lbl_addForm" for="courseName">explanation:</label>
+                        <label class="control-label col-md-3 lbl_addForm" for="explanation">explanation:</label>
 
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="explanation" name="name">
-                            </div>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="explanation" name="name" style="width:100%">
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-4 lbl_addForm" for="courseDescription">type:</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 lbl_addForm" for="courseDescription">type:</label>
 
-                            <div class="col-md-8">
-                                <select id="testType" style="padding: 2px; width: 150px;;">
-                                    <option value="accuracy">accuracy</option>
-                                    <option value="pace" disabled="disabled">pace</option>
-                                    <option value="power" disabled="disabled">power</option>
-                                    <option value="pitch" disabled="disabled">pitch</option>
-                                </select>
-                            </div>
+                        <div class="col-md-8">
+                            <select id="testType" style="padding: 2px; width: 150px;;">
+                                <option value="accuracy">accuracy</option>
+                                <option value="pace" disabled="disabled">pace</option>
+                                <option value="power" disabled="disabled">power</option>
+                                <option value="pitch" disabled="disabled">pitch</option>
+                            </select>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label">Please add the words that you want to be used for this
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="text-description control-label">Please add the words that you want to be used for this
                                 question. If you add more than one word they will be randomised to give variety to the
                                 student.</label>
                         </div>
-                        <a id="btnAddWordTest"
-                           style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
-                            <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add
-                            word <i class="fa fa-plus"></i>
-                        </a>
-
-                        <div id="listWordTest">
-
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <a id="btnAddWordTest"
+                               style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
+                                <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;">
+                                add test word <i class="fa fa-plus"></i>
+                            </a>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div id="listWordTest">
 
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-5" style="padding-left: 0px;">
                             <input type="hidden" class="action">
                             <input type="hidden" class="idHidden">
-                            <img id="helpAddTestWord" class="helpInfor" src="/images/popup/help_50_50.png" width="36px" height="36px"/>
+                            <img id="helpAddTestWord" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
                         </div>
                         <div class="col-md-2">
-                            <img id="btnDeleteTestWord" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                            <img id="btnDeleteTestWord" style="display:none" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
                         </div>
                         <div class="col-md-5" style="padding-right: 0px;">
-                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            <img style="float: right" id="btnSaveTestWord" src="/images/popup/Save_50x50.gif"
+                                 width="36px" height="36px"/>
                         </div>
                     </div>
                 </form>
@@ -544,8 +547,9 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <label id="arrowWord" class="modal-title"></label>
+                <div id="contain-arrow"><label id="arrowWord" class="modal-title"></label></div>
                 <input type="hidden" id="idLesson">
+
                 <h2 align="center">add word</h2>
                 <h4 id="validateWordMsg" class="modal-title validateMsg"
                     style="text-align: center;font-weight: 200;color:red;display:none;">Enter your word</h4>
@@ -553,22 +557,22 @@
             <div class="modal-body">
                 <form name="add" class="form-horizontal" id="addWords">
                     <div class="form-group">
-                        <label >Please add the words that you want to be used for this
+                        <label>Please add the words that you want to be used for this
                             question. If you add more than one word they will be randomised to give variety to the
                             student.
                         </label>
                     </div>
                     <div class="form-group">
                         <div class="col-xs-3  col-sm-2" style="padding:0px">
-                           <label class="control-label">Word:</label>
+                            <label class="control-label">Word:</label>
                         </div>
                         <div class="col-xs-5  col-sm-6">
                             <input type="text" id="addWord" name="addWord" class=" form-control">
                         </div>
                         <div class="col-xs-4  col-sm-4">
-                                <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
-                                        style="background-color: lightgreen;" value="yes">Load Phonemes
-                                </button>
+                            <button type="button" name="loadPhonemes" id="loadPhonemes" class="btn btn-default"
+                                    style="background-color: lightgreen;" value="yes">Load Phonemes
+                            </button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -602,10 +606,10 @@
                                 that phoneme a higher “weight.”
                             </label>
                         </div>
-                        <div class="col-xs-12 col-sm-12" style="padding:0px" >
-                            <label id="wordModal2" style="display: none">E.g. v = 1,
-                                ɛ = 1,
-                                s = 1,
+                        <div class="col-xs-12 col-sm-12" style="padding:0px">
+                            <label id="wordModal2" style="display: none">E.g. v = 1,<br>
+                                ɛ = 1,<br>
+                                s = 1,<br>
                                 t = 3 , this will allocate 50% of the score to this last phoneme /t/.
                             </label>
                         </div>
