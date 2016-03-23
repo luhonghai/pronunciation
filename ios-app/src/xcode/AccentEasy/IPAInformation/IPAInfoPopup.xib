@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAInfoPopup" customModule="AccentEasy" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IPAInfoPopup" customModule="accenteasy" customModuleProvider="target">
             <connections>
                 <outlet property="btnClose" destination="c0H-3b-Tif" id="pl3-Z1-ddG"/>
                 <outlet property="btnPlay" destination="kO8-Zm-ekU" id="TAC-8L-8RH"/>

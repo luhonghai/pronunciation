@@ -58,6 +58,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBOutlet weak var sliderContent: UIView!
     
+
+    
     @IBOutlet weak var btnSlider: UIButton!
     @IBAction func sliderClick(sender: AnyObject) {
         toggleSlider()
@@ -68,9 +70,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         UIView.animateWithDuration(0.3) { () -> Void in
             if (weakSelf!.isShowSlider) {
                 weakSelf!.lblIPA.hidden = false
+                weakSelf!.sliderBackground.alpha = 0
                 weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
                     - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             } else {
+                weakSelf!.sliderBackground.alpha = weakSelf!.maxAlpha
                 weakSelf!.lblIPA.hidden = true
                 weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
@@ -151,8 +155,10 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         GlobalData.getInstance().selectedWord = ""
         btnRecord.hidden = true
         btnPlay.hidden = true
-        
+        setNavigationBarTransparent()
     }
+    
+    
     
     func roundButton() {
         //button style cricle
@@ -288,6 +294,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             }
         }
         activateAudioSession()
+        GlobalData.getInstance().selectedWord = ""
+        NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -329,10 +337,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func searchDisplayControllerWillBeginSearch(controller: UISearchDisplayController) {
         if #available(iOS 8.0, *) {
         } else {
-            let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
-            var origin = resultsController.tableView.tableHeaderView?.frame
-            origin?.origin.y -= statusBarFrame.size.height
-            resultsController.tableView.tableHeaderView?.frame = origin!;
+            Logger.log("searchDisplayControllerWillBeginSearch")
         }
     }
     
@@ -340,10 +345,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if #available(iOS 8.0, *) {
 
         } else {
-            let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
-            var origin = resultsController.tableView.tableHeaderView?.frame
-            origin?.origin.y += statusBarFrame.size.height
-            resultsController.tableView.tableHeaderView?.frame = origin!;
+            Logger.log("searchDisplayControllerWillEndSearch")
+            setActiveSearchViewOS7(false)
         }
     }
     
@@ -351,7 +354,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         if #available(iOS 8.0, *) {
             
         } else {
-            setActiveSearchViewOS7(false)
+            
         }
     }
     
@@ -367,6 +370,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         searchBar.sizeToFit()
         resultSearchController = UISearchDisplayController(searchBar: searchBar, contentsController: resultsController)
         (resultSearchController as! UISearchDisplayController).searchResultsDataSource = self
+        (resultSearchController as! UISearchDisplayController).delegate = self
         (resultSearchController as! UISearchDisplayController).searchResultsDelegate = self
         (resultSearchController as! UISearchDisplayController).searchResultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
         let height = self.view.frame.height
@@ -889,10 +893,12 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     - halfHeight
                 //Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
+                weak var weakSelf = self
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     view.center = CGPoint(x:view.center.x,
-                        y: (self.isShowSlider ? minY : maxY))
-                    self.lblIPA.hidden = self.isShowSlider
+                        y: (weakSelf!.isShowSlider ? minY : maxY))
+                    weakSelf!.lblIPA.hidden = weakSelf!.isShowSlider
+                    weakSelf!.sliderBackground.alpha = weakSelf!.isShowSlider ? weakSelf!.maxAlpha : 0
                 })
             }
         } else {
@@ -907,10 +913,27 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                 if (destY <= maxY && destY >= minY) {
                     view.center = CGPoint(x:view.center.x,
                         y:destY)
+                    self.sliderBackground.alpha = self.maxAlpha
+                        * ((destY - maxY) / (minY - maxY))
                 }
             }
             sender.setTranslation(CGPointZero, inView: self.view)
         }
     }
     
+    @IBAction func tapSliderBackground(sender: AnyObject) {
+        if self.sliderBackground.alpha >= self.maxAlpha - 0.1 {
+            self.toggleSlider()
+        }
+    }
+    
+    @IBOutlet weak var sliderBackground: UIView!
+    let maxAlpha:CGFloat = 0.7
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+    }
 }

@@ -60,7 +60,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         player = EZAudioPlayer(delegate: self)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "selectDetail:",name:"selectDetail", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
-        btnPlay.hidden = false
+        btnPlay.hidden = true
         showDetail()
     }
     
@@ -87,7 +87,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         //button style cricle
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
-        btnPlay.hidden = true
+        btnPlay.hidden = false
     }
     
     func showDetail() {
@@ -143,8 +143,12 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
          NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidLayoutSubviews() {
         roundButton()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
         viewAnalyzing.refreshLayout()
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: self.userVoiceModelResult.word)
         GlobalData.getInstance().selectedWord = self.userVoiceModelResult.word
@@ -407,7 +411,6 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         GlobalData.getInstance().selectedWord = ""
         
         self.navigationController?.popViewControllerAnimated(true)
-        NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
     }
     
     
@@ -425,9 +428,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         weak var weakSelf = self
         UIView.animateWithDuration(0.3) { () -> Void in
             if (weakSelf!.isShowSlider) {
+                weakSelf!.sliderBackground.alpha = 0
                 weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
                     - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             } else {
+                weakSelf!.sliderBackground.alpha = weakSelf!.maxAlpha
                 weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             }
@@ -448,9 +453,11 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
                     - halfHeight
                // Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
+                weak var weakSelf = self
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     view.center = CGPoint(x:view.center.x,
-                        y: (self.isShowSlider ? minY : maxY))
+                        y: (weakSelf!.isShowSlider ? minY : maxY))
+                    weakSelf!.sliderBackground.alpha = weakSelf!.isShowSlider ? weakSelf!.maxAlpha : 0
                 })
             }
         } else {
@@ -465,9 +472,27 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
                 if (destY <= maxY && destY >= minY) {
                     view.center = CGPoint(x:view.center.x,
                         y:destY)
+                    self.sliderBackground.alpha = self.maxAlpha
+                        * ((destY - maxY) / (minY - maxY))
                 }
             }
             sender.setTranslation(CGPointZero, inView: self.view)
         }
+    }
+    
+    @IBAction func tapSliderBackground(sender: AnyObject) {
+        if self.sliderBackground.alpha >= self.maxAlpha - 0.1 {
+            self.toggleSlider()
+        }
+    }
+    
+    @IBOutlet weak var sliderBackground: UIView!
+    let maxAlpha:CGFloat = 0.7
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
 }

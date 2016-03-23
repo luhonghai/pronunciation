@@ -25,6 +25,8 @@ class RegisterConfirmVC: UIViewController, UITextFieldDelegate {
         
         txtcode.delegate = self
         txtcode.placeholder = currentUser.username
+        
+        DeviceManager.setNavigationBarTransparent(self)
     }
 
     override func didReceiveMemoryWarning() {
