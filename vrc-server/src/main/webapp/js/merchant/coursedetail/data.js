@@ -275,7 +275,7 @@ function initHelpAddWordForTest(){
     $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
     $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
     $html.append("<p>2. Enter a numeric weight value in the text boxes below each phoneme according to the percentage of the score that you wish to assign.</p>");
-    $html.append("<p>3. Select ‘save’.</p>");
+    $html.append("<p>3. Select 'save'.</p>");
     $html.append("<p>You will not be able to save the details until you have entered a weight for each of the phonemes.</p>");
     $html.append("<p>The word will be added to the list for the current question and you will be able to add another word if you choose to do so.</p>");
     $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");
@@ -311,10 +311,10 @@ function initHelpCourseADM(){
     $html.append("<p>You will not be able to publish the data you have copied until you have made and saved at least one edit.</p>");
     $html.append("<p><strong>preview</strong></p>");
     $html.append("<p><img src='/images/treeview/preview_button.gif' style='width:50px; height: 50px;'></p>");
-    $html.append("<p>Select the ‘preview’ button to view the content as it would appear on the student’s phone. Select the relevant buttons on the ‘phone’ to follow through the structure.</p>");
+    $html.append("<p>Select the 'preview' button to view the content as it would appear on the student’s phone. Select the relevant buttons on the ‘phone’ to follow through the structure.</p>");
     $html.append("<p><strong>publish</strong></p>");
     $html.append("<p><img src='/images/treeview/publish_button.gif'></p>");
-    $html.append("<p>Select the ‘publish’ button to make the course available to add to your classes and to share with other users (if it is not private).</p>");
+    $html.append("<p>Select the 'publish' button to make the course available to add to your classes and to share with other users (if it is not private).</p>");
     $html.append("<p>Note: You will not be able to publish your course until you have added at least one lesson with at least one question.</p>");
 
     return $html;
