@@ -2615,7 +2615,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.com.cmg.accenteasy;
 				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
@@ -2646,7 +2646,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.com.cmg.accenteasy;
 				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
