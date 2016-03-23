@@ -12,11 +12,13 @@ function openPopup(itemData){
         currentPopup.find("#titlePopupCourse").html("course management");
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
+        currentPopup.find("#arrowCourse").html(nameOfCourse);
     }else
     if(itemData._actionClick == action_edit_level){
         currentPopup.find("#titlePopup").html("level management");
         getLevelName().val(itemData.label);
         getLevelDescription().val(itemData._title);
+        currentPopup.find("#arrow").html(nameOfCourse + " > " + itemData.label);
     }else if(itemData._actionClick == action_edit_obj){
         currentPopup.find("#titlePopupObj").html("objective management");
         getObjName().val(itemData.label);

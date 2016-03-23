@@ -15,6 +15,7 @@ function openPopup(itemData){
         getCourseName().val(itemData.label);
         getCourseDescription().val(itemData._title);
         currentPopup.find("#btnDeleteLevel").show();
+        currentPopup.find("#arrowCourse").html(nameOfCourse);
     }else
     if (itemData._actionClick == action_add_level){
         clearForm();
@@ -25,6 +26,7 @@ function openPopup(itemData){
         getLevelName().val(itemData.label);
         getLevelDescription().val(itemData._title);
         currentPopup.find("#btnDeleteLevel").show();
+        currentPopup.find("#arrow").html(nameOfCourse + " > " + itemData.label);
     }else if(itemData._actionClick == action_add_obj){
         clearForm();
         var level = treeAPI.itemData(currentParent);

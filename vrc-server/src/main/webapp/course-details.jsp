@@ -4,5 +4,5 @@
 <t:main pageTitle="Wholesale delivery system" index="0">
   <%--<x:admin pageTitle="admin"></x:admin>--%>
   <x:course-details pageTitle="admin"></x:course-details>
-
+  <x:popup_management></x:popup_management>
 </t:main>
