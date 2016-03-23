@@ -262,7 +262,7 @@
             <label class="control-label col-md-4 lbl_addForm">type:</label>
 
             <div class="col-md-8">
-              <select id="lessonType" style="padding: 2px; width: 150px;;">
+              <select id="lessonType" class="form-control" style="padding: 2px; width: 150px;;">
                 <option value="accuracy">accuracy</option>
                 <option value="pace" disabled="disabled">pace</option>
                 <option value="power" disabled="disabled">power</option>
@@ -386,7 +386,7 @@
           <div class="form-group">
             <label class="control-label col-md-3 lbl_addForm" for="courseDescription">type:</label>
             <div class="col-md-8">
-              <select id="testType" style="padding: 2px; width: 150px;;">
+              <select id="testType" class="form-control" style="padding: 2px; width: 150px;;">
                 <option value="accuracy">accuracy</option>
                 <option value="pace" disabled="disabled">pace</option>
                 <option value="power" disabled="disabled">power</option>
