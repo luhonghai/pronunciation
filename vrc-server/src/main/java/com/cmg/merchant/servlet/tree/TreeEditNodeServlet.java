@@ -74,6 +74,16 @@ public class TreeEditNodeServlet extends BaseServlet {
             QuestionServices questionServices=new QuestionServices();
             String txt = questionServices.updateWordToQuestion(listWords,idQuestion);
             response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_EDIT_QUESTION)){
+            Gson gson=new Gson();
+            String listWord =(String) StringUtil.isNull(request.getParameter("listWord"), "").toString();
+            String idQuestion=(String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
+            String typeOfQuestion = (String) StringUtil.isNull(request.getParameter("type"), "");
+            String description = (String) StringUtil.isNull(request.getParameter("description"), "");
+            ListWordAddQuestion listWords=gson.fromJson(listWord, ListWordAddQuestion.class);
+            QuestionServices questionServices=new QuestionServices();
+            String txt = questionServices.updateWordToQuestionForTest(listWords,idQuestion,typeOfQuestion,description);
+            response.getWriter().println(txt);
         }
     }
 

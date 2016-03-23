@@ -130,6 +130,10 @@ function getListWeight(){
     var listWeight=$("#listWeight");
     return listWeight;
 }
+function getListWordForTest(){
+    var listWordTest=$("#listWordTests");
+    return listWordTest;
+}
 function getWeight(){
     var weight=$("#weight");
     return weight;

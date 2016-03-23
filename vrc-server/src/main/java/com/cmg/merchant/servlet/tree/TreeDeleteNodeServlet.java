@@ -65,6 +65,12 @@ public class TreeDeleteNodeServlet extends BaseServlet {
             QuestionServices questionServices = new QuestionServices();
             String txt = questionServices.deleteWordMappingQuestion(word, idQuestion);
             response.getWriter().println(txt);
+        }else if(action.equalsIgnoreCase(Constant.ACTION_DELETE_QUESTION_TEST)){
+            String idLesson = (String) StringUtil.isNull(request.getParameter("idLesson"), "").toString();
+            String idQuestion = (String) StringUtil.isNull(request.getParameter("idQuestion"), "").toString();
+            QuestionServices questionServices = new QuestionServices();
+            String txt = questionServices.deleteQuestion(idLesson, idQuestion);
+            response.getWriter().println(txt);
         }
     }
 

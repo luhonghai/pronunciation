@@ -546,7 +546,7 @@ function deleteQuestion(){
         type : "POST",
         data : {
             action: action_delete_question,
-            idLesson : getNameLesson().attr("idLesson"),
+            idLesson : getQuestionListWordEdit().attr("idLesson"),
             idQuestion: currentPopup.find(".idHidden").val()
         },
         dataType : "text",
@@ -590,7 +590,7 @@ function addQuestionsForTest(listWord){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add question successfully!", "success");
+                swal("Success!", "You have add question for test successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -612,14 +612,16 @@ function editQuestionsForTest(listWord){
         data : {
             action: action_edit_question,
             listWord: JSON.stringify(myObject),
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            type:$("#testType").val(),
+            description:$("#explanation").val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have edit question successfully!", "success");
+                swal("Success!", "You have edit question for test successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -640,7 +642,7 @@ function deleteQuestionForTest(){
         type : "POST",
         data : {
             action: action_delete_question_test,
-            idLesson : getNameLesson().attr("idLesson"),
+            idLesson : getExplanationTest().attr("idLesson"),
             idQuestion: currentPopup.find(".idHidden").val()
         },
         dataType : "text",
@@ -649,7 +651,7 @@ function deleteQuestionForTest(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "You have deleted question successfully", "success");
+                swal("", "You have deleted question for test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);

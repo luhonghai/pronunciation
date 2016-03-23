@@ -82,6 +82,7 @@ function openPopup(itemData){
     }else if(itemData._actionClick == action_add_question){
         clearForm();
         listWord=[];
+        getListWord().empty();
         currentPopup.find("#titlePopupQuestion").html("question management");
         currentPopup.find("#btnDeleteQuestion").hide();
         var lesson = treeAPI.itemData(currentParent);
@@ -104,13 +105,23 @@ function openPopup(itemData){
         drawListWord(itemData._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
     }else if(itemData._actionClick == action_add_question_test){
+        listWord=[];
         clearForm();
+        getListWordForTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
-        var level = treeAPI.itemData(currentParent);
-        getNameLesson().attr("levelID",level.id);
-        currentPopup.find("#arrowTestWord").html(nameOfCourse + " > "+ level.label);
+    }else if(itemData._actionClick == action_edit_question_test){
+        listWord=[];
+        clearForm();
+        var lesson = treeAPI.itemData(currentParent);
+        getListWordForTest().empty();
+        drawListWord(itemData._title);
+        getTypeTest().val(itemData._type);
+        getExplanationTest().val(itemData.set_description)
+        currentPopup.find("#titlePopupTestWord").html("edit test question");
+        getExplanationTest().attr("idLesson",lesson._idLessonForTest);
     }
+
     currentPopup.modal('show');
 }
 
@@ -118,7 +129,12 @@ function drawListWord(listWord){
     var list=readListMail(listWord);
     if(list!=null && list.length>0){
         for(var i=0;i<list.length;i++){
-            getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            if(currentPopup.find(".action").val() == action_edit_question){
+                getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            }else if(currentPopup.find(".action").val() == action_edit_question_test){
+                getListWordForTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            }
+
         }
 
     }
@@ -255,34 +271,19 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
-        var idLesson= treeAPI.itemData(currentParent).id;
-        $("#AddOrEditWord").val("add");
+        var idLesson;
+        if(currentPopup.find(".action").val() == action_add_question){
+            idLesson= treeAPI.itemData(currentParent).id;
+            $("#AddOrEditWord").val("add");
+            var row= $("#arrowQuestion").text();
+            $("#arrowWord").text(row);
+        }else if(currentPopup.find(".action").val() == action_add_question_test){
+            idLesson= treeAPI.itemData(currentParent)._idLessonForTest;
+            $("#AddOrEditWord").val("addWordTest");
+        }
         $("#wordModal1").hide();
         $("#wordModal2").hide();
         $("#idLesson").val(idLesson);
-        var row= $("#arrowQuestion").text();
-        $("#arrowWord").text(row);
-        $("#addWordModal").modal('show');
-        getAddWord().val("");
-        getListPhonemes().html("");
-        getListWeight().html("");
-        getListIPA().html("");
-        getPhonemeLable().html("");
-        getWeightLable().html("");
-        getIPAlable().html("");
-        $("#yesadd").attr("disabled", true);
-        $("#loadPhonemes").show();
-        getAddWord().removeAttr('readonly');
-        $("#loadPhonemes").attr("disabled",false);
-        $("#addWord").attr("disabled",false);
-    });
-}
-
-function showAddWordForTest(){
-    $(document).on("click","#btnAddWordTest",function() {
-        $("#AddOrEditWord").val("addWordTest");
-        $("#wordModal1").hide();
-        $("#wordModal2").hide();
         $("#addWordModal").modal('show');
         getAddWord().val("");
         getListPhonemes().html("");
@@ -366,6 +367,32 @@ function removeWord(){
             }
 
            $(this).closest("div").remove();
+        }else if(currentPopup.find(".action").val() == action_add_question_test) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        listWord.splice(i,1);
+                        console.log(listWord);
+                        return false;
+                    }
+                });
+            }
+
+            $(this).closest("div").remove();
+        }else if(currentPopup.find(".action").val() == action_edit_question_test) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        listWord.splice(i,1);
+                        return false;
+                    }
+                });
+                $(this).closest("div").remove();
+            }else{
+                removeWords(word);
+            }
         }else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
@@ -399,7 +426,31 @@ function openEditWords(){
                     }
                 });
             }
-        }else if(currentPopup.find(".action").val() == action_edit_question) {
+        }else if(currentPopup.find(".action").val() == action_add_question_test) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }
+        }else if(currentPopup.find(".action").val() == action_edit_question_test) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }else {
+                loadWeightForWordEdit(word);
+            }
+        } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
                 $.each(listWord, function(i){
@@ -495,7 +546,6 @@ function clickHelpAdd(){
 $(document).ready(function(){
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
-    showAddWordForTest();
     openEditWords();
     removeWord();
     btnDeleteQuestion();

@@ -432,14 +432,11 @@ public class QuestionServices {
             for(int i=0;i<list.size();i++) {
                 boolean check = woqDAO.checkExistedWord(idQuestion, list.get(i).getIdWord());
                 if (check) {
-                    if ( addMapping(list.get(i), idQuestion).indexOf(SUCCESS)!=-1) {
-                        return  SUCCESS;
-                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(SUCCESS)!=-1) {
-                        return SUCCESS;
-                    }else {
+                    if ( addMapping(list.get(i), idQuestion).indexOf(ERROR)!=-1) {
+                        return  ERROR;
+                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(ERROR)!=-1) {
                         return ERROR;
                     }
-
                 } else {
                     WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
 
@@ -564,7 +561,42 @@ public class QuestionServices {
         }
         return SUCCESS;
     }
+    public String updateWordToQuestionForTest(ListWordAddQuestion listWords,String idQuestion, String type, String description){
+        WordOfQuestionDAO woqDAO = new WordOfQuestionDAO();
+        QuestionDAO questionDAO=new QuestionDAO();
+        String message=null;
+        List<WeightPhonemesDTO> list=listWords.getListWord();
+        try {
+            Question question=questionDAO.getById(idQuestion);
+            question.setDescription(description);
+            question.setType(type);
+            questionDAO.put(question);
+            for(int i=0;i<list.size();i++) {
+                boolean check = woqDAO.checkExistedWord(idQuestion, list.get(i).getIdWord());
+                if (check) {
+                    if ( addMapping(list.get(i), idQuestion).indexOf(ERROR)!=-1) {
+                        return  ERROR;
+                    } else if(deleteWordOfQuestion(idQuestion, list.get(i).getIdWord()).indexOf(ERROR)!=-1) {
+                        return ERROR;
+                    }
 
+                } else {
+                    WordOfQuestion woq = new WordOfQuestion(idQuestion,list.get(i).getIdWord(),getMaxVersionWordOfQuestion(),false);
+
+                    if( addWordToQuestionDB(woq).indexOf(ERROR)!=-1){
+                        return ERROR;
+                    }
+                    if(addMappingWeightForPhonemes(list.get(i), idQuestion).indexOf(ERROR)!=-1){
+                        return ERROR;
+                    }
+                }
+            }
+            message=SUCCESS;
+        }catch (Exception e){
+            logger.error("can not update Word to question because : " + e.getMessage());
+        }
+        return message;
+    }
 
 
 }
