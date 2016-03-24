@@ -107,7 +107,7 @@ function openPopup(itemData){
     }else if(itemData._actionClick == action_add_question_test){
         listWord=[];
         clearForm();
-        getListWordForTest().empty();
+        getListWordTest().empty();
         currentPopup.find("#titlePopupTestWord").html("add test question");
         currentPopup.find("#btnDeleteTestWord").hide();
         var level = treeAPI.itemData(currentParent);
@@ -117,7 +117,7 @@ function openPopup(itemData){
         listWord=[];
         clearForm();
         var lesson = treeAPI.itemData(currentParent);
-        getListWordForTest().empty();
+        getListWordTest().empty();
         drawListWord(itemData._title);
         getTypeTest().val(itemData._type);
         getExplanationTest().val(itemData._description)
@@ -141,7 +141,7 @@ function drawListWord(listWord){
             if(currentPopup.find(".action").val() == action_edit_question){
                 getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
             }else if(currentPopup.find(".action").val() == action_edit_question_test){
-                getListWordForTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+                getListWordTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
             }
 
         }
@@ -149,12 +149,7 @@ function drawListWord(listWord){
     }
 
 }
-//function openEditWord(){
-//    $(document).on("click","#word",function(){
-//        var word=$(this).text();
-//        loadWeightForWordEdit(word);
-//    });
-//}
+
 
 function readListMail(txt) {
     if (txt == null || typeof txt == 'undefined' || txt.length == 0) return null;
