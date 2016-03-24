@@ -738,6 +738,7 @@ function loadPhonemes(){
             success: function (data) {
                 var message = data.message;
                 if(message.indexOf("success") != -1){
+                    getWordValidateMessage().hide();
                     getAddWord().attr("idWord", data.id);
                     getAddWord().attr("nameWord", data.word);
                     //$("#loadPhonemes").attr("disabled",true);
