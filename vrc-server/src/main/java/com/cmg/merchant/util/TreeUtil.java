@@ -162,6 +162,8 @@ public class TreeUtil {
         }else{
             if(showBtnAction){
                 nodes.add(btnService.createBtnAddTest());
+            }else{
+                nodes.add(null);
             }
         }
         return nodes.get(0);

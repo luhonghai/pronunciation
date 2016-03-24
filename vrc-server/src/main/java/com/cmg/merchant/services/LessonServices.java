@@ -110,7 +110,7 @@ public class LessonServices {
         try {
             index = dao.getMaxIndex(idObj);
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
             logger.error(e);
         }
         return index +1;

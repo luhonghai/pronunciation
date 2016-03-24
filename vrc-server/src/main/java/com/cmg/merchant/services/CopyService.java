@@ -95,7 +95,7 @@ public class CopyService {
      */
     public String copyObjToLevel(String idLevel, String idObj){
         String newIdObj = objServices.copyObj(idLevel, idObj, true);
-        copyAllLessonsToObj(newIdObj,idObj);
+        copyAllLessonsToObj(newIdObj, idObj);
         return SUCCESS;
     }
 
@@ -106,8 +106,11 @@ public class CopyService {
      */
     public void copyAllTestToLevel(String levelIdMapping, String levelIdGetData){
         Test t = testServices.getTestByLevelId(levelIdGetData);
-        String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
-        copyLessonsToTest(newIdTest, t.getId());
+        if(t!=null){
+            String newIdTest = testServices.copyTest(levelIdMapping, t.getId());
+            copyLessonsToTest(newIdTest, t.getId());
+        }
+
     }
 
     /**

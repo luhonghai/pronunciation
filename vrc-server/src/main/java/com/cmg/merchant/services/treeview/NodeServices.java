@@ -41,7 +41,10 @@ public class NodeServices {
         //load all obj
         ArrayList<TreeNode> listObj = util.switchObjToNode(dataServices.getObjDB(idLevel), showBtnAction);
         list = listObj;
-        list.add(util.switchTestToNode(dataServices.getTestDB(idLevel),showBtnAction));
+        TreeNode test = util.switchTestToNode(dataServices.getTestDB(idLevel),showBtnAction);
+        if(test!=null){
+            list.add(test);
+        }
         return list;
     }
 

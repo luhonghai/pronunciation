@@ -103,8 +103,6 @@ function getQuestionValidateMessage(){
 function getQuestionForTestValidateMessage(){
     return $("#validateQuestionForTestMsg");
 }
-
-
 function getNameLesson(){
     var lessonName=$('#lessonName');
     return lessonName;
@@ -137,7 +135,7 @@ function getListWeight(){
     var listWeight=$("#listWeight");
     return listWeight;
 }
-function getListWordForTest(){
+function getTypeTest(){
     var listWordTest=$("#listWordTests");
     return listWordTest;
 }
@@ -162,8 +160,12 @@ function getExplanationTest(){
     var explanationTest=$("#explanation");
     return explanationTest;
 }
+function getListWordForTest(){
+    var listWordTest=$("#listWordTests");
+    return listWordTest;
+}
 function getListWordTest(){
-    var listWordTest=$("#listWordTest");
+    var listWordTest=$("#listWordTests");
     return listWordTest;
 }
 
