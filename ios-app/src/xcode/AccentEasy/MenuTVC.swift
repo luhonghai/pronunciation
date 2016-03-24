@@ -51,7 +51,7 @@ class MenuTVC: UITableViewController {
             let url = NSURL(string: userProfile.profileImage + "&width=320&height=320")
 //            let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
 //            imgUserAvata.image = UIImage(data: data!)
-            imgUserAvata.load(url)
+            imgUserAvata.load(url!)
         }
         
         

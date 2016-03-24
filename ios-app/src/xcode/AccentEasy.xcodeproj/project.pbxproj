@@ -382,13 +382,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4242BDA364D39707141DAC4CEF6AFFB0;
-			remoteInfo = Diskcached;
-		};
 		9053C2751C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -1369,7 +1362,6 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
-				9053C2741C8EE2D2009BA3DF /* Diskcached.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
@@ -1918,13 +1910,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9053C2741C8EE2D2009BA3DF /* Diskcached.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Diskcached.framework;
-			remoteRef = 9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2609,7 +2594,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AccentEasy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2640,7 +2625,7 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AccentEasy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -256,7 +256,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YmL-aS-vzg" userLabel="topView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YmL-aS-vzg" userLabel="topView">
                                 <rect key="frame" x="-1" y="64" width="376" height="167"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="3aZ-8x-q5o">
@@ -731,7 +731,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YiK-Ch-Cum" userLabel="topView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YiK-Ch-Cum" userLabel="topView">
                                 <rect key="frame" x="-1" y="64" width="376" height="250"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="accenteasy_icon_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="gtQ-E6-FUh">
@@ -3041,11 +3041,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZoM-vd-D1g"/>
-        <segue reference="ftO-AH-P5Z"/>
-        <segue reference="hKc-VP-pia"/>
         <segue reference="Ceg-og-m1t"/>
         <segue reference="0GI-4W-Bce"/>
-        <segue reference="eFf-YZ-v5D"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="hKc-VP-pia"/>
+        <segue reference="ZoM-vd-D1g"/>
+        <segue reference="WR5-An-sLd"/>
     </inferredMetricsTieBreakers>
 </document>
