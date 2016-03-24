@@ -50,6 +50,7 @@ function openPopup(itemData){
         currentPopup.find("#arrowLesson").html(nameOfCourse + " > " + levelItemData.label +" > "+ objParent.label);
     }else if(itemData._actionClick == action_edit_question){
         clearForm();
+        getListWord().empty();
         listWord=[];
         currentPopup.find("#titlePopupQuestion").html("question management");
         var lesson = treeAPI.itemData(currentParent);
@@ -84,9 +85,13 @@ function openPopup(itemData){
 function drawListWord(listWord){
     var list=readListMail(listWord);
     if(list!=null && list.length>0){
-        getQuestionListWordEdit().empty();
         for(var i=0;i<list.length;i++){
-            getQuestionListWordEdit().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            if(currentPopup.find(".action").val() == action_edit_question){
+                getListWord().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            }else if(currentPopup.find(".action").val() == action_edit_question_test){
+                getListWordForTest().append(' <div style="margin-top: 5px;" ><p id="word" style="display: inline;background-color: rgb(85, 142, 213);color: white; border-radius: 3px; padding: 2px 10px; vertical-align: middle;">'+list[i]+'</p><i class="fa fa-minus-circle fa-2x" style="color: red;padding-left: 10px;vertical-align: middle;" title="remove word"  id="idWord" ></i></div>');
+            }
+
         }
 
     }
@@ -123,7 +128,20 @@ function openEditWords(){
         getListPhonemes().html("");
         getListWeight().html("");
         getListIPA().html("");
-        if(currentPopup.find(".action").val() == action_edit_question) {
+        if(currentPopup.find(".action").val() == action_edit_question_test) {
+            var word= $(this).closest("div").find('p').text();
+            if(listWord !=null && listWord.length>0){
+                $.each(listWord, function(i){
+                    if(listWord[i].nameWord === word) {
+                        var data=listWord[i];
+                        $("#addWordModal").modal('show');
+                        drawWord(data);
+                    }
+                });
+            }else {
+                loadWeightForWordEdit(word);
+            }
+        } else if(currentPopup.find(".action").val() == action_edit_question) {
             var word= $(this).closest("div").find('p').text();
             if(listWord !=null && listWord.length>0){
                 $.each(listWord, function(i){

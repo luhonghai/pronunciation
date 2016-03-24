@@ -90,9 +90,9 @@ public class LDAO extends DataAccess<LessonCollection> {
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(LessonCollection.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name='"+name+"', description='"+description+"', nameUnique='"+detail+"', type='"+type+"' WHERE id='"+id+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET name=?, description=?, nameUnique=?, type='"+type+"' WHERE id='"+id+"'");
         try {
-            q.execute();
+            q.execute(name,description,detail);
             isUpdate=true;
         } catch (Exception e) {
             e.printStackTrace();

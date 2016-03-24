@@ -331,7 +331,7 @@
           <div class="form-group">
             <a id="btnAddWord"
                style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
-              <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> add
+              <img src="/images/treeview/add_word48x48.gif" style="width: 24px;height: 24px;"> add
               word <i class="fa fa-plus"></i>
             </a>
 
@@ -407,7 +407,7 @@
             <div class="col-md-12">
               <a id="btnAddWordTest"
                  style="background-color: orange;color: white;border-radius: 3px; padding: 5px 5px; text-decoration: none;">
-                <img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;">
+                <img src="/images/treeview/add_word48x48.gif" style="width: 24px;height: 24px;">
                 add test word <i class="fa fa-plus"></i>
               </a>
             </div>

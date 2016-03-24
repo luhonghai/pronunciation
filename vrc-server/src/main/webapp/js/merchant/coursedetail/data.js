@@ -165,7 +165,7 @@ function getListWordForTest(){
     return listWordTest;
 }
 function getListWordTest(){
-    var listWordTest=$("#listWordTest");
+    var listWordTest=$("#listWordTests");
     return listWordTest;
 }
 

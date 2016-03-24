@@ -20,7 +20,16 @@ public class CourseDTO {
     String backgroundColor;
     String textColor;
     String sr;
+    String cpCloneId;
+    String cpCloneName;
 
+    public String getCpCloneId() {
+        return cpCloneId;
+    }
+
+    public void setCpCloneId(String cpCloneId) {
+        this.cpCloneId = cpCloneId;
+    }
 
     public String getSr() {
         return sr;

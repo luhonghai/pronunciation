@@ -7,6 +7,7 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.vrc.data.dao.impl.ClientCodeDAO;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class CMTSERVICES {
         CMTDAO dao = new CMTDAO();
         try {
             CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
-            dao.updateStatusAndState(cmt.getId(),Constant.STATUS_PUBLISH,state);
+            dao.updateStatusAndState(cmt.getId(), Constant.STATUS_PUBLISH, state);
             return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();
@@ -144,6 +145,42 @@ public class CMTSERVICES {
         }
         return list;
     }
+
+    /**
+     *
+     * @param cpId
+     * @param tId
+     * @return
+     */
+    public ArrayList<CourseDTO> getCoursesForMyCourses(final String cpId, String tId){
+        ArrayList<CourseDTO> list = new ArrayList<>();
+        try {
+            CMTDAO dao = new CMTDAO();
+            ClientCodeDAO cpDao = new ClientCodeDAO();
+            list = dao.getCoursesInMyCourses(cpId,tId);
+            if(list.size() > 0 ){
+                for(CourseDTO dto : list){
+                    if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                        String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
+                        dto.setCompanyName(cpCloneName);
+                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/course-detail.jsp?idCourse=" + dto.getIdCourse());
+                    }else{
+                        dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/course-detail.jsp?idCourse=" + dto.getIdCourse());
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return list;
+    }
+
+
 
     /**
      *

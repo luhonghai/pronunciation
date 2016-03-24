@@ -116,7 +116,7 @@ function validateWord(){
     if (word == null || typeof word == "undefined" || word.length == 0){
         getLoadPhoneme().attr("disabled",false);
         getAddWord().focus();
-        getWordValidateMessage().html("Word not null");
+        getWordValidateMessage().html("please enter a word");
         getWordValidateMessage().show();
         return false;
     }

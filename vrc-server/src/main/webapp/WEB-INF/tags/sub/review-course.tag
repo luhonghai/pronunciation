@@ -20,6 +20,7 @@
     var action_edit_test = "<%=Constant.ACTION_EDIT_TEST%>";
     var action_edit_lesson = "<%=Constant.ACTION_EDIT_LESSON%>";
     var action_edit_question = "<%=Constant.ACTION_EDIT_QUESTION%>";
+    var action_edit_question_test = "<%=Constant.ACTION_EDIT_QUESTION_TEST%>";
 </script>
 <style>
     .contain-button{
@@ -29,6 +30,9 @@
         display : none !important;
     }
     #btnAddWord{
+        display : none !important;
+    }
+    #btnAddWordTest{
         display : none !important;
     }
 </style>

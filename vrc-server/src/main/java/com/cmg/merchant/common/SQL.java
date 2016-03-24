@@ -5,6 +5,14 @@ package com.cmg.merchant.common;
  */
 public class SQL {
 
+    private String SQL_GET_COURSE_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
+            "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false " +
+            "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId'";
+
+
     private String SQL_GET_COURSE_SHARE_IN_COMPANY = "Select c.id,c.name, c.description, cp.companyName, " +
             "m.state, m.dateCreated,cp.id from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
@@ -61,6 +69,19 @@ public class SQL {
             "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false";
 
 
+    /**
+     *
+     *
+     * @param tId
+     * @param cpId
+     * @return
+     */
+    public String getSqlDisplayCourseInMyCourse( String tId, String cpId){
+        String sql = SQL_GET_COURSE_IN_MY_COURSE;
+        sql = sql.replaceAll("paramTeacherId", tId);
+        sql = sql.replaceAll("paramCompanyId", cpId);
+        return sql;
+    }
 
     /**
      *

@@ -403,7 +403,7 @@ public class QuestionServices {
                 for(WeightForPhoneme wfp : list){
                     WeightForPhoneme temp = new WeightForPhoneme();
                     temp.setId(UUIDGenerator.generateUUID().toString());
-                    temp.setIdQuestion(wfp.getIdQuestion());
+                    temp.setIdQuestion(idQuestionMapping);
                     temp.setIdWordCollection(wfp.getIdWordCollection());
                     temp.setIpa(wfp.getIpa());
                     temp.setPhoneme(wfp.getPhoneme());
