@@ -3,8 +3,22 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
+   .modal-header{
+     border-bottom: transparent;
+     padding-bottom: 0px;
+   }
+  .modal-body-help{
+    padding-bottom: 10px !important;
+  }
+  .modal-content{
+    width : 400px;
+    border-radius: 20px;
+  }
   .title{
-    font-size: 16px;
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
   }
   .textNormal{
     font-size: 14px;
@@ -44,17 +58,15 @@
 
 <div id="helpClass" class="modal fade">
   <div class="modal-dialog modal-sm">
-    <div class="modal-content">
+    <div class="modal-content modal-body-help">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-            <h1 align="center" class="title">classes</h1>
+            <h2 class="title">classes</h2>
             <form name="add" class="form-horizontal" style="margin-bottom: 10px;">
               <p class="textNormal">Select ‘my classes’ to  create, edit and delete classes.</p>
               <p class="textNormal">After naming your class and allocating courses, you can assign the relevant students and the lessons will be sent to their phones.</p>
             </form>
-          </div>
         </div>
       </div>
 
