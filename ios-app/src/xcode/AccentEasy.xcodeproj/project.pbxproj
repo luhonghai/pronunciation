@@ -268,7 +268,7 @@
 		C141C8161C3E203C001D1F9C /* AccentEasyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8151C3E203C001D1F9C /* AccentEasyTests.swift */; };
 		C141C8211C3E203C001D1F9C /* AccentEasyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8201C3E203C001D1F9C /* AccentEasyUITests.swift */; };
 		C141C8321C3E21FA001D1F9C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */; };
-		C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* OurViewController.swift */; };
+		C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* FSMainVC.swift */; };
 		C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */; };
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
@@ -766,7 +766,7 @@
 		C141C82F1C3E21FA001D1F9C /* AccentEasy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccentEasy-Bridging-Header.h"; sourceTree = "<group>"; };
 		C141C8301C3E21FA001D1F9C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		C141C8331C3E27F1001D1F9C /* OurViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurViewController.swift; sourceTree = "<group>"; };
+		C141C8331C3E27F1001D1F9C /* FSMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSMainVC.swift; sourceTree = "<group>"; };
 		C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurItem3ViewController.swift; sourceTree = "<group>"; };
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
@@ -1467,6 +1467,7 @@
 			isa = PBXGroup;
 			children = (
 				C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */,
+				C141C8331C3E27F1001D1F9C /* FSMainVC.swift */,
 				C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */,
 				C13B656D1C86D9C200318336 /* IPAPopupVC.swift */,
 				C13B656E1C86D9C200318336 /* IPAPopupVC.xib */,
@@ -1606,7 +1607,6 @@
 				C1410BAA1C47845200E781B4 /* LaunchController */,
 				C14D980A1C4603F0001DA517 /* LoginController */,
 				C141C8021C3E203C001D1F9C /* ViewController.swift */,
-				C141C8331C3E27F1001D1F9C /* OurViewController.swift */,
 				C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */,
 				C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */,
 				9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */,
@@ -2358,7 +2358,7 @@
 				9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */,
 				9B5F338E1C77129A00E85629 /* ILineChartDataSet.swift in Sources */,
 				9B5F33B51C77129A00E85629 /* HorizontalBarChartRenderer.swift in Sources */,
-				C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */,
+				C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */,
 				9B5F33511C77129A00E85629 /* LineChartView.swift in Sources */,
 				9B5F33A01C77129A00E85629 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  OurViewController.swift
+//  FSMainVC.swift
 //  SwiftSidebarMenu
 //
 //  Created by CMGVN on 1/7/16.
@@ -11,7 +11,7 @@ import AVFoundation
 import EZAudio
 import Darwin
 
-class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
