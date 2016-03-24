@@ -3047,11 +3047,15 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="0GI-4W-Bce"/>
         <segue reference="VlK-rN-iWT"/>
         <segue reference="y7T-RE-Gak"/>
         <segue reference="hKc-VP-pia"/>
         <segue reference="t7Q-vO-CVy"/>
         <segue reference="cQm-kD-9I0"/>
         <segue reference="eFf-YZ-v5D"/>
+        <segue reference="ZoM-vd-D1g"/>
+        <segue reference="WR5-An-sLd"/>
     </inferredMetricsTieBreakers>
 </document>
