@@ -280,6 +280,7 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
+        $("#validateWordMsg").hide();
         var idLesson= treeAPI.itemData(currentParent).id;
         $("#AddOrEditWord").val("add");
         $("#wordModal1").hide();
@@ -305,6 +306,7 @@ function showAddWord(){
 
 function showAddWordForTest(){
     $(document).on("click","#btnAddWordTest",function() {
+        $("#validateWordMsg").hide();
         $("#arrowWord").text(getExplanationTest().attr("row"));
         var idLesson= treeAPI.itemData(currentParent)._idLessonForTest;
         $("#AddOrEditWord").val("addWordTest");
