@@ -275,7 +275,7 @@ function showHelpIconTop(){
 
 function showAddWord(){
     $(document).on("click","#btnAddWord",function() {
-        $("#validateWordMsg").hide();
+        getWordValidateMessage().hide();
         var idLesson= treeAPI.itemData(currentParent).id;
         $("#AddOrEditWord").val("add");
         $("#wordModal1").hide();

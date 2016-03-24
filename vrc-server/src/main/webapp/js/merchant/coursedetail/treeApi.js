@@ -192,11 +192,14 @@ function copyAndPaste(){
                             copyQuestion (idLesson,idQuestion);
                         }
                     }else{
-                        alert('you could not paste the copied data to this node');
+                        swal("",'could not paste the data copied to this node',"error");
                     }
 
                 }, disabled : function(key, opt) {
                     if(nodeCopied == null) return true;
+                    var dataCurrentParent = api.itemData(currentParent)
+                    var temp = dataCurrentParent['_targetLoad'];
+                    if(temp == null || typeof temp == 'undefined'){return true;}
                 }
             };
             return {
