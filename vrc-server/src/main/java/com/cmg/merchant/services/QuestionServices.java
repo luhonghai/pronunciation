@@ -20,6 +20,7 @@ import com.cmg.merchant.dao.word.WFPDAO;
 import com.cmg.merchant.dao.word.WMQDAO;
 import com.cmg.merchant.data.dto.ListWordAddQuestion;
 import com.cmg.merchant.data.dto.WeightPhonemesDTO;
+import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import org.apache.log4j.Logger;
 import com.cmg.merchant.data.dto.WeightDTO;
@@ -354,6 +355,7 @@ public class QuestionServices {
                 tmp.setId(newId);
                 tmp.setName(q.getName());
                 tmp.setDescription(q.getDescription());
+                tmp.setType((String)StringUtil.isNull(q.getType(),""));
                 tmp.setIsDeleted(false);
                 tmp.setVersion(q.getVersion());
                 tmp.setTimeCreated(new Date(System.currentTimeMillis()));

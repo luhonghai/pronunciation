@@ -160,6 +160,10 @@ function getExplanationTest(){
     var explanationTest=$("#explanation");
     return explanationTest;
 }
+function getListWordForTest(){
+    var listWordTest=$("#listWordTests");
+    return listWordTest;
+}
 function getListWordTest(){
     var listWordTest=$("#listWordTest");
     return listWordTest;
