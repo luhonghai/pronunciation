@@ -87,8 +87,7 @@
             </div>
         </div>
 
-
-        <span type="button" id="loadInfo" title="click here to run the report" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>
+        <img id="loadInfo" src="/images/popup/Save_50x50.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px;"/>
 
     </div>
     <div class="row" id="scoreavg" style="margin-bottom: -10px; margin-top: 20px">

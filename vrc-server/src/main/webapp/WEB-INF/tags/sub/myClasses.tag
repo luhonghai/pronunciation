@@ -3,6 +3,24 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
+    .modal-header{
+        border-bottom: transparent;
+        padding-bottom: 0px;
+    }
+    .modal-body{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .modal-body-help{
+        padding-bottom: 10px !important;
+    }
+    .modal-lager{
+        width : 600px !important;
+    }
+    .modal-content{
+        width : 400px;
+        border-radius: 20px;
+    }
     .title{
         font-weight : 600;
         font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -52,7 +70,7 @@
 
 <div id="helpMyClassModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content modal-lager">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="row">
@@ -77,158 +95,156 @@
     </div>
 </div>
 
-
-<div id="add" class="modal fade">
-    <div class="modal-dialog">
+<div id="add" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="row">
-                    <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-                        <h1 align="center" class="title">Add Class</h1>
-                        <form name="add" class="form-horizontal"
-                              style="margin-top: 25px" id="addform">
-
-                            <div class="form-group">
-                                <p id="addClassNameExits" class="addClassNameExits" style="color:red;margin-left:50px;display: none;">Class name exits</p>
-                                <label class="col-xs-4  col-sm-3 control-label">name:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <input  type="text" id="addClassName" name="addClassName" class=" form-control" style="padding-left: 0px;">
-                                    <p id="nameadds" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">definition:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <input type="text" id="addDefinition" name="addDefinition" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">add/remove courses:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <select style="display:none;" multiple class="form-control" id="addCourses">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">add/remove students:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <select style="display:none;" multiple class="form-control" id="addStudents">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group contain-button">
-                                <div class="col-md-5">
-                                    <img id="helpAddClass" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
-                                         height="36px"/>
-                                </div>
-                                <div class="col-md-2">
-                                </div>
-                                <div class="col-md-5">
-                                    <img style="float: right" id="yesadd" src="/images/popup/Save_50x50.gif" width="36px"
-                                         height="36px"/>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
+                <h2 align="center" class="title">Add Class</h2>
             </div>
+            <div class="modal-body">
+                <form name="add" class="form-horizontal"
+                      style="margin-top: 25px" id="addform">
 
+                    <div class="form-group">
+                        <p id="addClassNameExits" class="addClassNameExits" style="color:red;margin-left:50px;display: none;">Class name exits</p>
+                        <label class="col-xs-4  col-sm-3 control-label">name:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <input  type="text" id="addClassName" name="addClassName" placeholder="class name" class=" form-control" style="padding-left: 0px;">
+                            <p id="nameadds" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">definition:</label>
+                        <div class="col-xs-8  col-sm-9">
+                             <textarea rows="2" class="form-control" id="addDefinition" name="addDefinition" placeholder="class description" style="padding-left: 0px;"></textarea>
+                            <%--<input type="text" id="addDefinition" name="addDefinition" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">--%>
+                        </div>
 
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">add/remove courses:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <select style="display:none;" multiple class="form-control" id="addCourses">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">add/remove students:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <select style="display:none;" multiple class="form-control" id="addStudents">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group contain-button">
+                        <div class="col-md-5">
+                            <img id="helpAddClass" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-5">
+                            <img style="float: right" id="yesadd" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- End of Modal body -->
         </div>
+        <!-- End of Modal content -->
     </div>
+    <!-- End of Modal dialog -->
 </div>
 
-
-<div id="edits" class="modal fade">
-    <div class="modal-dialog">
+<div id="edits" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="row">
-                    <div class="col-xs-12 col-md-10 col-md-offset-1">
-                        <input type="hidden" id="classname">
-                        <h1 align="center" class="title">Edit Class</h1>
-                        <form name="Edit" class="form-horizontal"
-                              style="margin-top: 25px" id="editform">
-                            <input type="hidden" id="idedit" name="idedit">
-
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">Class Name:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <input  type="text" id="editClassName" name="editClassName" class=" form-control" style="padding-left: 0px;" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">Definition:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <input type="text" id="editDefinition" name="editDefinition" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">add/remove courses:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <select style="display:none;" multiple class="form-control" id="editCourses">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-4  col-sm-3 control-label">add/remove students:</label>
-                                <div class="col-xs-8  col-sm-9">
-                                    <select style="display:none;" multiple class="form-control" id="editStudents">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group contain-button">
-                                <div class="col-md-5">
-                                    <img id="helpEditClass" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
-                                         height="36px"/>
-                                </div>
-                                <div class="col-md-2">
-                                    <img id="delete" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
-                                </div>
-                                <div class="col-md-5">
-                                    <img style="float: right" id="yesedit" src="/images/popup/Save_50x50.gif" width="36px"
-                                         height="36px"/>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                </div>
+                <h2 align="center" class="title">class management</h2>
             </div>
+            <div class="modal-body">
+                <form name="Edit" class="form-horizontal"
+                      style="margin-top: 25px" id="editform">
+                    <input type="hidden" id="idedit" name="idedit">
+
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">name:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <input  type="text" id="editClassName" name="editClassName" placeholder="class name" class=" form-control" style="padding-left: 0px;" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">definition:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <textarea rows="2" class="form-control" id="editDefinition" name="editDefinition" placeholder="class description" style="padding-left: 0px;"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">add/remove courses:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <select style="display:none;" multiple class="form-control" id="editCourses">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4  col-sm-3 control-label">add/remove students:</label>
+                        <div class="col-xs-8  col-sm-9">
+                            <select style="display:none;" multiple class="form-control" id="editStudents">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group contain-button">
+                        <div class="col-md-5">
+                            <img id="helpEditClass" class="helpInfor" src="/images/popup/help_50_50.png" width="36px"
+                                 height="36px"/>
+                        </div>
+                        <div class="col-md-2">
+                            <img id="delete" src="/images/popup/trash_50x50.gif" width="36px" height="36px"/>
+                        </div>
+                        <div class="col-md-5">
+                            <img style="float: right" id="yesedit" src="/images/popup/Save_50x50.gif" width="36px"
+                                 height="36px"/>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- End of Modal body -->
         </div>
+        <!-- End of Modal content -->
     </div>
+    <!-- End of Modal dialog -->
 </div>
+
 
 
 <div id="helpAddClassModal" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content modal-lager">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <div class="row">
@@ -257,7 +273,7 @@
 
 
 <div id="confirmDelete" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -267,35 +283,7 @@
                         <h1 align="center" class="title">Confirm deletion</h1>
                         <p align="center" id="classNameDelete" class="textNormal"></p>
                         <form name="add" class="form-horizontal"
-                              style="margin-top: 25px">
-
-                            <p class="textNormal">If you delete this class, the associated students will no longer have access to the courses assigned.</p>
-                            <p class="textNormal">Do you wish to continue?</p>
-                            <div class="row">
-                                <p id="cancel" style="float:left;cursor: pointer;"><u>cancel</u></p>
-                                <img style="float: right" id="deleteItems" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-<div id="confirmDelete" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <div class="row">
-                    <div class="col-xs-12 col-md-10 col-md-offset-1">
-                        <input type="hidden" id="iddelete">
-                        <h1 align="center" class="title">Confirm deletion</h1>
-                        <p align="center" id="classNameDelete" class="textNormal"></p>
-                        <form name="add" class="form-horizontal"
-                              style="margin-top: 25px">
+                              style="margin-bottom: 10px;">
 
                             <p class="textNormal">If you delete this class, the associated students will no longer have access to the courses assigned.</p>
                             <p class="textNormal">Do you wish to continue?</p>
@@ -313,7 +301,7 @@
     </div>
 </div>
 <div id="classExits" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -321,7 +309,7 @@
                     <div class="col-xs-12 col-md-10 col-md-offset-1">
                         <h1 align="center" class="title" style="color: red">invalid class name</h1>
                         <form name="add" class="form-horizontal"
-                              style="margin-top: 25px">
+                              style="margin-bottom: 10px;">
 
                             <p class="textNormal">You already have a class with this name:</p>
                             <p class="textNormal" style="color: red">Private students</p>
@@ -336,7 +324,7 @@
     </div>
 </div>
 
-<script src="<%=request.getContextPath() %>/js/class.js"></script>
+<script src="<%=request.getContextPath() %>/js/myClass.js"></script>
 
 
 

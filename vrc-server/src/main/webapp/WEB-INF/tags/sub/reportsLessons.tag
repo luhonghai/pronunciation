@@ -5,7 +5,7 @@
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
 <div id="page-wrapper">
      <div class="row" style="color:lightgrey; margin-left: 0px;">
-         <h3 style="float: left;"><%=company%></h3><p style="margin-top: 25px;">>reports>lessons</p>
+         <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;"> > reports > lessons</p>
      </div>
     <div>
         <p style="float:left; margin-top: 10px";>student:</p>
@@ -16,7 +16,11 @@
             <option>4</option>
             <option>5</option>
         </select>
-        <span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>
+        <img id="loadInfo" src="/images/popup/Save_50x50.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px;"/>
+        <%--<span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>--%>
+
+    </div>
+    <div id="graphs">
 
     </div>
 </div>
