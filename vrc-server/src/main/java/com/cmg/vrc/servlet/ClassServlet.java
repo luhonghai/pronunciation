@@ -191,10 +191,11 @@ public class ClassServlet extends HttpServlet {
                 ClassJDO classJDO=new ClassJDO();
                 classJDO=classDAO.getById(idClass);
                 if(classJDO!=null) {
-                    classJDO.setIsDeleted(true);
-                    classDAO.put(classJDO);
-                    classDAO.updateStudentMappingClassDelete(idClass);
-                    classDAO.updateCourseMappingClassDelete(idClass);
+//                    classJDO.setIsDeleted(true);
+//                    classDAO.put(classJDO);
+//                    classDAO.updateStudentMappingClassDelete(idClass);
+//                    classDAO.updateCourseMappingClassDelete(idClass);
+                    classDAO.updateClassDelete(idClass);
                     response.getWriter().write("success");
                 }else {
                     response.getWriter().write("error");

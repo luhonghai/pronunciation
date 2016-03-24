@@ -13,11 +13,10 @@ function listMyClasses(){
                 var listMyClass=data.listclass;
                 for(var i=0;i<listMyClass.length;i++){
                     var definition=listMyClass[i].definition;
-                    $button = $('<button type="button"  style="display: block; margin-top: 5px;" id="info" class="btn btn-info btn-sm" title="'+definition+'"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px"> '+listMyClass[i].className+'</button>');
+                    $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#17375E;color:#ffffff;" title="'+definition+'"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px;"> '+listMyClass[i].className+'</p></div>');
                     $button.attr("id-column", listMyClass[i].id);
                     $button.attr("className", listMyClass[i].className);
                     $button.attr("definition", listMyClass[i].definition);
-                    $button.css({"background-color": "#003366","color":"#ffffff"});
                     $("#listMyClass").append($button).html();
                 }
             }
@@ -171,6 +170,7 @@ function deleteClass(){
                 },
                 success: function (data) {
                     if (data == "success") {
+                        listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
                         swal("Success!", "Delete class success", "success");
