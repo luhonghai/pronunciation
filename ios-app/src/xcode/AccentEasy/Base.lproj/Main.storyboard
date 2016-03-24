@@ -2002,7 +2002,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Jj-UP-Sw3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-730" y="-5180"/>
+            <point key="canvasLocation" x="-739" y="-5177"/>
         </scene>
         <!--Tips View Controller-->
         <scene sceneID="Ohi-tT-s4Y">

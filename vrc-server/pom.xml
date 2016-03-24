@@ -134,7 +134,7 @@
 				</configuration>
 				<executions>
 					<execution>
-						<phase>install</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>upload-source-bundle</goal>
 							<goal>create-application-version</goal>

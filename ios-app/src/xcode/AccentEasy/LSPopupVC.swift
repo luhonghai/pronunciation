@@ -131,7 +131,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         
         //var cellImg : UIImageView = UIImageView(frame: CGRectMake(0, 0, 30, 30))
         //cellImg.load(url)
-        cell.cellFlag?.load(url)
+        cell.cellFlag?.load(url!)
        //cell.cellFlag?.translatesAutoresizingMaskIntoConstraints = false
         //cell.cellFlag.autoresizingMask = UIViewAutoresizing.None
         //cell.cellFlag.clipsToBounds = true
