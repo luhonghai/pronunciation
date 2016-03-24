@@ -335,7 +335,7 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
         TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
         TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where mapping.tID='"+teacherID+"'";
+        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where mapping.tID='"+teacherID+"' and course.isDeleted=false and mapping.isDeleted=false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {

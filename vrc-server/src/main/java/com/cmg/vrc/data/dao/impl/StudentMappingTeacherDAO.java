@@ -338,7 +338,7 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         PersistenceManager pm = PersistenceManagerHelper.get();
         TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
         StringBuffer first=new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept'";
+        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' and isDeleted=false";
         first.append(firstQuery);
         first.append(" ORDER BY studentName ASC");
         Query q = pm.newQuery("javax.jdo.query.SQL", first.toString());

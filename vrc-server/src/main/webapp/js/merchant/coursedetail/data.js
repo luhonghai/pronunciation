@@ -103,8 +103,6 @@ function getQuestionValidateMessage(){
 function getQuestionForTestValidateMessage(){
     return $("#validateQuestionForTestMsg");
 }
-
-
 function getNameLesson(){
     var lessonName=$('#lessonName');
     return lessonName;
