@@ -7,7 +7,6 @@ var servletDelete = "/TreeDeleteNodeServlet";
 var servletPublish = "/PublishCourseServlet";
 var servletCopy = "/CopyServlet";
 var progress;
-var state;
 /**
  * connect to server when edit course
  */
@@ -34,9 +33,6 @@ function editCourse(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                if(nameOfCourse != getCourseName().val()){
-                    isEditedTitle = true;
-                }
                 currentParent = null;
                 firstLoad = true;
                 reloadTree();
@@ -103,7 +99,6 @@ function addLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added Level successfully", "success");
@@ -138,7 +133,6 @@ function editLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated Level successfully", "success");
@@ -173,7 +167,6 @@ function deleteLevel(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted Level successfully", "success");
@@ -209,7 +202,6 @@ function addObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added objective successfully", "success");
@@ -244,7 +236,6 @@ function editObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated objective successfully", "success");
@@ -277,7 +268,6 @@ function deleteObj(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted objective successfully", "success");
@@ -311,7 +301,6 @@ function addTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added test successfully", "success");
@@ -345,7 +334,6 @@ function editTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated test successfully", "success");
@@ -378,7 +366,6 @@ function deleteTest(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted test successfully", "success");
@@ -415,7 +402,6 @@ function addLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added lesson successfully!", "success");
@@ -450,7 +436,6 @@ function editLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated lesson successfully", "success");
@@ -479,7 +464,6 @@ function deleteLesson(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted lesson successfully", "success");
@@ -510,7 +494,6 @@ function addQuestions(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have add question successfully!", "success");
@@ -540,7 +523,6 @@ function editQuestions(listWord){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have edit question successfully!", "success");
@@ -564,14 +546,13 @@ function deleteQuestion(){
         type : "POST",
         data : {
             action: action_delete_question,
-            idLesson : getNameLesson().attr("idLesson"),
+            idLesson : getQuestionListWordEdit().attr("idLesson"),
             idQuestion: currentPopup.find(".idHidden").val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have deleted question successfully", "success");
@@ -607,10 +588,9 @@ function addQuestionsForTest(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have add question successfully!", "success");
+                swal("Success!", "You have add question for test successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -632,15 +612,16 @@ function editQuestionsForTest(listWord){
         data : {
             action: action_edit_question,
             listWord: JSON.stringify(myObject),
-            idQuestion: currentPopup.find(".idHidden").val()
+            idQuestion: currentPopup.find(".idHidden").val(),
+            type:$("#testType").val(),
+            description:$("#explanation").val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("Success!", "You have edit question successfully!", "success");
+                swal("Success!", "You have edit question for test successfully!", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -661,17 +642,16 @@ function deleteQuestionForTest(){
         type : "POST",
         data : {
             action: action_delete_question_test,
-            idLesson : getNameLesson().attr("idLesson"),
+            idLesson : getExplanationTest().attr("idLesson"),
             idQuestion: currentPopup.find(".idHidden").val()
         },
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
-                isEditedContent = true;
                 reloadTree();
                 currentPopup.modal('hide');
-                swal("", "You have deleted question successfully", "success");
+                swal("", "You have deleted question for test successfully", "success");
             }else{
                 //add false show the error
                 currentPopup.find(".validateMsg").html(data);
@@ -697,7 +677,11 @@ function removeWords(word){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                $("#listWord").find("div:contains('"+word+"')").remove();
+                if(currentPopup.find(".action").val() == action_edit_question){
+                    getListWord().find("div:contains('"+word+"')").remove();
+                }else if(currentPopup.find(".action").val() == action_edit_question_test){
+                    getListWordForTest().find("div:contains('"+word+"')").remove();
+                }
             }else{
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
@@ -787,9 +771,7 @@ function loadPhonemes(){
         });
 }
 
-/**
- *
- */
+
 function enablePublishBtn(){
     $.ajax({
         url : servletPublish,
@@ -801,9 +783,9 @@ function enablePublishBtn(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                getPublishBtn().removeAttr("disabled");
+                //getPublishBtn().removeAttr("disabled");
             }else{
-                getPublishBtn().attr("disabled","disabled");
+                //getPublishBtn().attr("disabled","disabled");
             }
         },
         error: function () {
@@ -812,9 +794,7 @@ function enablePublishBtn(){
     });
 }
 
-/**
- *
- */
+
 function publishCourse(){
     $.ajax({
         url : servletPublish,

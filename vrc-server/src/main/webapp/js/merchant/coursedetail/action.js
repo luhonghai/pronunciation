@@ -127,7 +127,7 @@ function openPopup(itemData){
         var test = treeAPI.itemData(currentParent);
         var level = treeAPI.parent(currentParent);
         var levelItem = treeAPI.itemData(level);
-        var row=nameOfCourse +" > "+levelItem.label+ " > "+test.label;
+        var row= nameOfCourse +" > "+levelItem.label+ " > "+test.label;
         getExplanationTest().attr("row",row);
     }
 

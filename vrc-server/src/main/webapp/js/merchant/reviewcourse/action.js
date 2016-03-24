@@ -61,6 +61,22 @@ function openPopup(itemData){
         getQuestionListWordEdit().attr("idLesson",lesson.id);
         drawListWord(itemData._title);
         currentPopup.find("#arrowQuestion").html(nameOfCourse + " > " + levelItemData.label +" > " + objItemData.label + " > "+ lesson.label);
+    }else if(itemData._actionClick == action_edit_question_test){
+        listWord=[];
+        clearForm();
+        var lesson = treeAPI.itemData(currentParent);
+        getListWordForTest().empty();
+        drawListWord(itemData._title);
+        getTypeTest().val(itemData._type);
+        getExplanationTest().val(itemData._description)
+        currentPopup.find("#btnDeleteTestWord").show();
+        currentPopup.find("#titlePopupTestWord").html("edit test question");
+        getExplanationTest().attr("idLesson",lesson._idLessonForTest);
+        var test = treeAPI.itemData(currentParent);
+        var level = treeAPI.parent(currentParent);
+        var levelItem = treeAPI.itemData(level);
+        var row= nameOfCourse +" > " + levelItem.label+ " > "+test.label;
+        getExplanationTest().attr("row",row);
     }
     currentPopup.modal('show');
 }
