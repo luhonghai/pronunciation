@@ -284,7 +284,57 @@
         </div>
     </div>
 </div>
+<div id="confirmDelete" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+                        <input type="hidden" id="iddelete">
+                        <h1 align="center" class="title">Confirm deletion</h1>
+                        <p align="center" id="classNameDelete" class="textNormal"></p>
+                        <form name="add" class="form-horizontal"
+                              style="margin-top: 25px">
 
+                            <p class="textNormal">If you delete this class, the associated students will no longer have access to the courses assigned.</p>
+                            <p class="textNormal">Do you wish to continue?</p>
+                            <div class="row">
+                                <p id="cancel" style="float:left;cursor: pointer;"><u>cancel</u></p>
+                                <img style="float: right" id="deleteItems" src="/images/popup/Save_50x50.gif" width="36px" height="36px"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div id="classExits" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <div class="row">
+                    <div class="col-xs-12 col-md-10 col-md-offset-1">
+                        <h1 align="center" class="title" style="color: red">invalid class name</h1>
+                        <form name="add" class="form-horizontal"
+                              style="margin-top: 25px">
+
+                            <p class="textNormal">You already have a class with this name:</p>
+                            <p class="textNormal" style="color: red">Private students</p>
+                            <p class="textNormal">Please check and rename if you wish to continue.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
 
 <script src="<%=request.getContextPath() %>/js/class.js"></script>
 

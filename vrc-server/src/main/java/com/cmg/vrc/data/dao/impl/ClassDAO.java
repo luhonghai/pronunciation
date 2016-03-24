@@ -184,7 +184,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         TypeMetadata metaCourseMappingClass = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingClass.class.getCanonicalName());
         //Query q = pm.newQuery("javax.jdo.query.SQL", "SELECT id, studentName, teacherName FROM " + metaStudentMappingTeacher.getTable() + " WHERE studentName not IN (select studentName FROM " + metaStudentMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and teacherName='" + teacherName + "' and isDeleted = false and status='accept'");
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where course.id not IN (select idCourse FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"'";
+        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where course.id not IN (select idCourse FROM " + metaCourseMappingClass.getTable() + " WHERE idClass='" + idClass + "' and isDeleted = false) and mapping.tID='"+teacherID+"' and course.isDeleted = false and mapping.isDeleted = false";
         query.append(firstQuery);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
         try {

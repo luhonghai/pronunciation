@@ -47,7 +47,7 @@ function openAdd(){
                     if(data.courses!=null && data.courses.length>0){
                         var items=data.courses;
                         $(items).each(function(){
-                            $("#addCourses").append('<option title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                            $("#addCourses").append('<option title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
                     $('#addCourses').multiselect('destroy');
@@ -111,7 +111,7 @@ function addClass(){
                         listMyClasses();
                         swal("Success!", "Add class success.", "success");
                     }else{
-                        swal("Warning!", "class exist.", "warning");
+                        $("#classExits").modal('show');
                     }
                 },
                 error: function () {
@@ -214,10 +214,10 @@ function openEdit(){
                         var item=data.coursesOnClass;
                         var items=data.courses;
                         $(item).each(function(){
-                            $("#editCourses").append('<option selected=selected title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                            $("#editCourses").append('<option selected=selected title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
                         });
                         $(items).each(function(){
-                            $("#editCourses").append('<option title="'+this.description+'" value="' + this.name + '">' + this.name + '</option>');
+                            $("#editCourses").append('<option title="'+this.description+'" value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
                     $('#editCourses').multiselect('destroy');
