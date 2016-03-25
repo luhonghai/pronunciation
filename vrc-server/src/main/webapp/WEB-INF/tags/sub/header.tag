@@ -152,7 +152,7 @@
 									<a href="main-courses.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
 								</li>
 								<li>
-									<a href="class.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
+									<a href="my-courses.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
 								</li>
 							</ul>
 						</li>

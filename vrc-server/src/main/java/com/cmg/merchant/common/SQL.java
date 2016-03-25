@@ -11,8 +11,23 @@ public class SQL {
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false " +
             "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId'";
+    
+    private String SQL_GET_COURSE_SEARCH_HEADER_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
+            "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false " +
+            "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId' and LCASE(C.NAME) like '%paramCname%'";
 
-    private String SQL_GET_COURSE_MAPPING_TEACHER = "Select c.id,c.name, c.description " +
+    private String SQL_SEARCH_COURSE_DETAIL_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
+            "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
+            "and LCASE(cp.companyName) like '%paramCompanyName%' and m.tId='paramTeacherId' and m.cpID ='paramCompanyId' " +
+            "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
+
+    private String SQL_GET_COURSE_MAPPING_TEACHER = "Select c.id,c.name, c.description, " +
             "from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
@@ -75,6 +90,40 @@ public class SQL {
     private String SQL_QUESTION_MAPPING_LESSON="Select question.id,question.name,question.description FROM QUESTION question " +
             "inner join LESSONMAPPINGQUESTION mapping on question.id=mapping.idQuestion " +
             "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false";
+
+
+    /**
+     *
+     * @param tId
+     * @param cpId
+     * @param cName
+     * @return
+     */
+    public String getSqlDisplayCourseSearchHeaderInMyCourse(String tId, String cpId, String cName){
+        String sql = SQL_GET_COURSE_SEARCH_HEADER_IN_MY_COURSE;
+        sql = sql.replaceAll("paramTeacherId", tId);
+        sql = sql.replaceAll("paramCompanyId", cpId);
+        sql = sql.replaceAll("paramCname", cName);
+        return sql;
+    }
+
+    /**
+     *
+     * @param tId
+     * @param cpId
+     * @return
+     */
+    public String getSqlDisplayCourseSearchDetailInMyCourse(String tId, String cpId,
+                                                            String companyName ,String courseName, String dateFrom, String dateTo){
+        String sql = SQL_SEARCH_COURSE_DETAIL_IN_MY_COURSE;
+        sql = sql.replaceAll("paramCourseName", courseName);
+        sql = sql.replaceAll("paramCompanyName", companyName);
+        sql = sql.replaceAll("paramTeacherId", tId);
+        sql = sql.replaceAll("paramCompanyId", cpId);
+        sql = sql.replaceAll("paramDateFrom", dateFrom);
+        sql = sql.replaceAll("paramDateTo", dateTo);
+        return sql;
+    }
 
 
     /**
