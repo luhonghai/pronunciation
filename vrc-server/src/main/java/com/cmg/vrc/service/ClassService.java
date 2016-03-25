@@ -127,14 +127,14 @@ public class ClassService {
         }
         return message;
     }
-    public String openEditClass(String teacherName,String idClass,String teacherID){
+    public String openEditClass(String teacherName,String idClass,String teacherID,String idCompany){
         String list=null;
         try {
             listOpenEdit.message = "success";
             listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass, teacherName);
             listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
-            listOpenEdit.courses = classDAO.getMyCourses(idClass, teacherID);
-            listOpenEdit.coursesOnClass=classDAO.getMyCoursesOnClass(idClass, teacherID);
+            listOpenEdit.courses = classDAO.getMyCourses(idClass, teacherID,idCompany);
+            listOpenEdit.coursesOnClass=classDAO.getMyCoursesOnClass(idClass, teacherID,Constant.STATUS_PUBLISH);
             list = gson.toJson(listOpenEdit);
         }catch (Exception e){
             listOpenEdit.message = "error";

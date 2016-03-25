@@ -50,7 +50,7 @@ public class ClassServlet extends HttpServlet {
             response.getWriter().write("success");
         }else if(action.equalsIgnoreCase("openEdit")){
             String idClass=request.getParameter("id");
-            String list = classService.openEditClass(teacherName,idClass,util.getTid(request));
+            String list = classService.openEditClass(teacherName,idClass,util.getTid(request),util.getCpId(request));
             response.getWriter().write(list);
 
         }else if(action.equalsIgnoreCase("editClass")){
