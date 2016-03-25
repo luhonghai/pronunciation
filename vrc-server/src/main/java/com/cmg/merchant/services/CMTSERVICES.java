@@ -31,7 +31,7 @@ public class CMTSERVICES {
         CMTDAO dao = new CMTDAO();
         try {
             CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
-            dao.updateStatus(cmt.getId(),Constant.STATUS_PUBLISH);
+            dao.updateStatus(cmt.getId(), Constant.STATUS_PUBLISH);
             return SUCCESS;
         }catch (Exception e){
             e.printStackTrace();
@@ -152,12 +152,12 @@ public class CMTSERVICES {
      * @param tId
      * @return
      */
-    public ArrayList<CourseDTO> getCoursesForMyCourses(final String cpId, String tId){
+    public ArrayList<CourseDTO> getCoursesForMyCourses(String cpId, String tId){
         ArrayList<CourseDTO> list = new ArrayList<>();
         try {
             CMTDAO dao = new CMTDAO();
             ClientCodeDAO cpDao = new ClientCodeDAO();
-            list = dao.getCoursesInMyCourses(cpId,tId);
+            list = dao.getCoursesInMyCourses(cpId, tId);
             if(list.size() > 0 ){
                 for(CourseDTO dto : list){
                     if(dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
@@ -180,6 +180,83 @@ public class CMTSERVICES {
         return list;
     }
 
+    /**
+     *
+     * @param cpId
+     * @param tId
+     * @return
+     */
+    public ArrayList<CourseDTO> searchHeaderMyCourse(String cpId, String tId, String cName){
+        ArrayList<CourseDTO> list = new ArrayList<>();
+        try {
+            CMTDAO dao = new CMTDAO();
+            ClientCodeDAO cpDao = new ClientCodeDAO();
+            list = dao.searchHeaderMyCourse(cpId, tId, cName);
+            if(list.size() > 0 ) {
+                for (CourseDTO dto : list) {
+                    if (dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)) {
+                        String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
+                        dto.setCompanyName(cpCloneName);
+                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                    } else {
+                        dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                    }
+                }
+            }
+        }catch (Exception e){
+
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param cpName
+     * @param cName
+     * @param dateFrom
+     * @param dateTo
+     * @param cpId
+     * @param tId
+     * @return
+     */
+    public ArrayList<CourseDTO> searchCourseDetailMyCourse(String cpName,String cName,String dateFrom, String dateTo ,String cpId, String tId){
+        CMTDAO dao = new CMTDAO();
+        ClientCodeDAO cpDao = new ClientCodeDAO();
+        ArrayList<CourseDTO> list = new ArrayList<>();
+        if(dateFrom == ""){
+            dateFrom = "1999-01-01";
+        }
+        if(dateTo == ""){
+            dateTo = "2100-01-01";
+        }
+        try {
+            list = dao.searchDetailMyCourse(cpId, tId, cName, cpName, dateFrom, dateTo);
+            if(list!=null && list.size()>0){
+                for (CourseDTO dto : list) {
+                    if (dto.getState().equalsIgnoreCase(Constant.STATE_EDITED) ||
+                            dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)) {
+                        String cpCloneName = cpDao.getById(dto.getCpCloneId()).getCompanyName();
+                        dto.setCompanyName(cpCloneName);
+                        dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
+                    } else {
+                        dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
+                        dto.setTextColor(Color.TEXT_COLOR);
+                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                    }
+                }
+            }
+        }catch (Exception e){
+        }
+
+        return list;
+    }
 
 
     /**
@@ -192,7 +269,7 @@ public class CMTSERVICES {
     public ArrayList<CourseDTO> searchCourseHeader(String name, String cpId, String tId){
         CMTDAO dao = new CMTDAO();
         ArrayList<CourseDTO> list = new ArrayList<CourseDTO>();
-        ArrayList<CourseDTO> dbList = dao.searchCourseHeader(Constant.STATUS_NOT_PUBLISH, name);
+        ArrayList<CourseDTO> dbList = dao.searchCourseHeader(Constant.STATUS_PUBLISH, name);
         if(dbList.size() > 0){
             for(CourseDTO dto : dbList){
                 if(dto.getSr().equalsIgnoreCase(Constant.SHARE_ALL)){
@@ -222,6 +299,8 @@ public class CMTSERVICES {
         return list;
     }
 
+
+
     /**
      *
      * @param cpName
@@ -241,7 +320,7 @@ public class CMTSERVICES {
         if(dateTo == ""){
             dateTo = "2100-01-01";
         }
-        ArrayList<CourseDTO> dbList = dao.searchCourseDetail(Constant.STATUS_NOT_PUBLISH, cpName,cName,dateFrom,dateTo);
+        ArrayList<CourseDTO> dbList = dao.searchCourseDetail(Constant.STATUS_PUBLISH, cpName,cName,dateFrom,dateTo);
         if(dbList.size() > 0){
             for(CourseDTO dto : dbList){
                 if(dto.getSr().equalsIgnoreCase(Constant.SHARE_ALL)){
