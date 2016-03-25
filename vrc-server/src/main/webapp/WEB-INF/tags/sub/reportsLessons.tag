@@ -2,12 +2,20 @@
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<style>
+    #page-wrapper div{
+        padding-left: 0px;
+    }
+    #graphs div{
+        padding-right: 0px;
+    }
+</style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
 <div id="page-wrapper">
-     <div class="row" style="color:lightgrey; margin-left: 0px;">
+     <div class="row" style="color:lightgrey;">
          <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;"> > reports > lessons</p>
      </div>
-    <div>
+    <div class="row">
         <p style="float:left; margin-top: 10px";>student:</p>
         <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
             <option>1</option>
@@ -17,24 +25,29 @@
             <option>5</option>
         </select>
         <img id="loadInfo" src="/images/popup/Save_50x50.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px;"/>
-        <%--<span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>--%>
-
     </div>
-    <div id="graphs" class="row">
+    <div class="row" style="text-align: right; display: none;">
+            <div style="background-color: #558ED5;width: 15px;height: 30px;float: left"></div>
+            <p style="float:left ">class average</p>
+            <div style="background-color: #17375E;width: 15px;height: 30px;float: left"></div>
+            <p>student score</p>
+    </div>
+    <div id="graphs" class="row" style="margin-top: 15px;">
             <div id="info" class="col-sm-3">
                 <p><strong>course:</strong></p>
-                <%--<label id="course"></label>--%>
-                <%--<p><strong>level:</strong></p>--%>
-                <%--<label id="level"></label>--%>
-                <%--<p><strong>objective:</strong></p>--%>
-                <%--<label id="objective"></label>--%>
-                <%--<p><strong>lesson:</strong></p>--%>
-                <%--<label id="lesson"></label>--%>
-                <%--<p><strong>completion date:</strong></p>--%>
-                <%--<label id="date"></label>--%>
+                <label id="course"></label>
+                <p><strong>level:</strong></p>
+                <label id="level"></label>
+                <p><strong>objective:</strong></p>
+                <label id="objective"></label>
+                <p><strong>lesson:</strong></p>
+                <label id="lesson"></label>
+                <p><strong>completion date:</strong></p>
+                <label id="date"></label>
             </div>
             <div id="score" class="col-sm-1">
-                <p><strong>course:</strong></p>
+                <div style="margin:10px 0px;background-color: #17375E;width: 60px;height: 60px; border-radius:45px; text-align:center;line-height:60px;color:white;font-size:20px;font-weight : 600;">100</div>
+                <div style="margin-left:5px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;">100</div>
             </div>
             <div id="drawPhonemes" class="col-sm-4">
                 <p><strong>course:</strong></p>

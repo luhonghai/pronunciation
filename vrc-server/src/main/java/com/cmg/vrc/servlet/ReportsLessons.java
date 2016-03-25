@@ -24,21 +24,6 @@ public class ReportsLessons extends HttpServlet {
         private String message;
         private List<StudentMappingTeacher> listStudent;
     }
-    class Info{
-        private String courseName;
-        private String levelName;
-        private String objectiveName;
-        private String lessonName;
-        private String completionDate;
-        private int studentScore;
-        private int classAvgScore;
-        Map<String,Integer> phonemesStudent = new HashMap<String,Integer>();
-        Map<String,Integer> phonemesClass = new HashMap<String,Integer>();
-        Map<String,Integer> wordStudent = new HashMap<String,Integer>();
-        Map<String,Integer> wordClass = new HashMap<String,Integer>();
-
-    }
-
 
 
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
@@ -46,8 +31,6 @@ public class ReportsLessons extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
         ListStudent listStudent = new ListStudent();
-        Info info=new Info();
-        List<Info> infos=new ArrayList<Info>();
         Gson gson=new Gson();
         String action=request.getParameter("action");
         String teacherName=request.getSession().getAttribute("username").toString();

@@ -58,5 +58,6 @@ function loadInfo(){
 $(document).ready(function(){
     $('#help-icons').show();
     listStudents();
+    loadInfo();
 });
 
