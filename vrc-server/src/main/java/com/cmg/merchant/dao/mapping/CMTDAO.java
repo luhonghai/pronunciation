@@ -336,14 +336,11 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
      * @param teacherID
      * @return
      */
-    public List<Course> getMyCourses(String teacherID){
+    public List<Course> getMyCourses(String teacherID, String companyId, String status){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaCourse = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Course.class.getCanonicalName());
-        TypeMetadata metaCourseMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingTeacher.class.getCanonicalName());
-        StringBuffer query = new StringBuffer();
-        String firstQuery = "select course.id, course.name,course.description from  " + metaCourse.getTable() + " course inner join " + metaCourseMappingTeacher.getTable()+ " mapping on course.id=mapping.cID where mapping.tID='"+teacherID+"' and course.isDeleted=false and mapping.isDeleted=false";
-        query.append(firstQuery);
-        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        SQL util = new SQL();
+        String sql = util.getSqlDisplayCourseMappingClass(teacherID,companyId,status);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
             List<Course> courses = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();
@@ -420,8 +417,14 @@ public class CMTDAO extends DataAccess<CourseMappingTeacher> {
                     if(array[6]!=null){
                         dto.setIdCompany(array[6].toString());
                     }
-                    if(array[6]!=null){
+                    if(array[7]!=null){
                         dto.setCpCloneId(array[7].toString());
+                    }
+                    if(array[8]!=null){
+                        dto.setSr(array[8].toString());
+                    }
+                    if(array[9]!=null){
+                        dto.setStatus(array[9].toString());
                     }
 
                     list.add(dto);

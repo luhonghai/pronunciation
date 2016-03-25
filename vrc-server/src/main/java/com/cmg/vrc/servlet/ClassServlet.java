@@ -1,8 +1,10 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.mapping.CMTDAO;
 import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.StringUtil;
@@ -40,7 +42,7 @@ public class ClassServlet extends HttpServlet {
         private List<Course> coursesOnClass;
     }
 
-    private static final Logger logger = Logger.getLogger(FeedbackHandler.class
+    private static final Logger logger = Logger.getLogger(ClassServlet.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ClassDAO classDAO=new ClassDAO();
@@ -70,7 +72,8 @@ public class ClassServlet extends HttpServlet {
             try {
                 listOpenAdd.message = "success";
                 listOpenAdd.studentMappingTeachers = studentMappingTeacherDAO.getListStudentForClass(teacherName);
-                listOpenAdd.courses = cmtdao.getMyCourses(teacherID);
+                SessionUtil util = new SessionUtil();
+                listOpenAdd.courses = cmtdao.getMyCourses(util.getTid(request),util.getCpId(request), Constant.STATUS_PUBLISH);
                 String list = gson.toJson(listOpenAdd);
                 response.getWriter().write(list);
             }catch (Exception e){

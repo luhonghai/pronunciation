@@ -192,11 +192,11 @@
 </div>
 <script src="<%=request.getContextPath() %>/js/merchant/suggestion/typeahead.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/suggestion/suggestion.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/maincourses/action.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/maincourses/ui.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/maincourses/data.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/maincourses/validateform.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/maincourses/ajax.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/mycourses/action.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/mycourses/ui.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/mycourses/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/mycourses/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/mycourses/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
 <!-- /#wrapper -->
 

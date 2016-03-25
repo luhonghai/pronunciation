@@ -6,11 +6,19 @@ package com.cmg.merchant.common;
 public class SQL {
 
     private String SQL_GET_COURSE_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
-            "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone from COURSE as c " +
+            "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false " +
             "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId'";
+
+    private String SQL_GET_COURSE_MAPPING_TEACHER = "Select c.id,c.name, c.description, " +
+            "from COURSE as c " +
+            "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
+            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "where c.isDeleted=false and m.isDeleted=false " +
+            "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId' and m.status='paramStatus'";
+
 
 
     private String SQL_GET_COURSE_SHARE_IN_COMPANY = "Select c.id,c.name, c.description, cp.companyName, " +
@@ -68,6 +76,21 @@ public class SQL {
             "inner join LESSONMAPPINGQUESTION mapping on question.id=mapping.idQuestion " +
             "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false";
 
+
+    /**
+     *
+     * @param tId
+     * @param cpId
+     * @param status
+     * @return
+     */
+    public String getSqlDisplayCourseMappingClass(String tId, String cpId, String status){
+        String sql = SQL_GET_COURSE_MAPPING_TEACHER;
+        sql = sql.replaceAll("paramTeacherId", tId);
+        sql = sql.replaceAll("paramCompanyId", cpId);
+        sql = sql.replaceAll("paramStatus", status);
+        return sql;
+    }
 
     /**
      *

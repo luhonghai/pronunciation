@@ -680,6 +680,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>MyCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.MyCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyCourseServlet</servlet-name>
+        <url-pattern>/MyCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
     </servlet>

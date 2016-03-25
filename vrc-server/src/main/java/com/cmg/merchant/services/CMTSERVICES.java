@@ -166,11 +166,11 @@ public class CMTSERVICES {
                         dto.setCompanyName(cpCloneName);
                         dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
                         dto.setTextColor(Color.TEXT_COLOR);
-                        dto.setPageLink("/course-detail.jsp?idCourse=" + dto.getIdCourse());
+                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }else{
                         dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
                         dto.setTextColor(Color.TEXT_COLOR);
-                        dto.setPageLink("/course-detail.jsp?idCourse=" + dto.getIdCourse());
+                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
             }
