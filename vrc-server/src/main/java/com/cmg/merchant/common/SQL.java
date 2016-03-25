@@ -12,7 +12,7 @@ public class SQL {
             "where c.isDeleted=false and m.isDeleted=false " +
             "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId'";
 
-    private String SQL_GET_COURSE_MAPPING_TEACHER = "Select c.id,c.name, c.description, " +
+    private String SQL_GET_COURSE_MAPPING_TEACHER = "Select c.id,c.name, c.description " +
             "from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
