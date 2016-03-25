@@ -10,7 +10,7 @@ function buildCourse(dto){
 
     var $lblInfor = $("<label>");
     $lblInfor.addClass("lbl_cinfor");
-    if(dto.state == "" || dto.state == ""){
+    if(dto.state == "duplicated" || dto.state == "edited"){
         $lblInfor.html(dto.state + " by " + dto.companyName + " " + dto.dateCreated.split(" ")[0]);
     }else{
         $lblInfor.html(dto.sr + " "  + dto.dateCreated.split(" ")[0]);
@@ -25,8 +25,17 @@ function buildCourse(dto){
     $link.css("border-color","transparent");
     $link.attr("title",dto.descriptionCourse);
     $link.attr("href",dto.pageLink);
+
     $link.append($lblCourse);
     $link.append($lblInfor);
+    if(dto.status!= "publish" ){
+        var imgUnPb = $('<img>');
+        imgUnPb.attr('src', '/images/treeview/unpublished_button.gif');
+        imgUnPb.attr('width', '24px');
+        imgUnPb.attr('height', '24px');
+        imgUnPb.css('margin-left', '10px');
+        $link.append(imgUnPb);
+    }
 
     var $div = $("<div>");
     $div.addClass("col-lg-12 pull-left");

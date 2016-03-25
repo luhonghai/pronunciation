@@ -21,7 +21,6 @@ public class CourseDTO {
     String textColor;
     String sr;
     String cpCloneId;
-    String cpCloneName;
 
     public String getCpCloneId() {
         return cpCloneId;
