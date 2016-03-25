@@ -170,15 +170,18 @@ function deleteClass(){
                 },
                 success: function (data) {
                     if (data == "success") {
+                        $("#listMyClass").empty();
                         listMyClasses();
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
                         swal("Success!", "Delete class success", "success");
-                    }else{
+                    }else if (data == "not exist"){
                         $("#confirmDelete").modal('hide');
                         $("#edits").modal('hide');
                         swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
                         location.reload();
+                    }else {
+                        swal("Error!", "Could not connect to server", "error");
                     }
                 },
                 error: function () {
@@ -281,10 +284,12 @@ function editClass(){
                     listMyClasses();
                     $("#edits").modal('hide');
                     swal("Success!", "Update class success", "success");
-                }else{
+                }else if (data == "not exist"){
                     $("#deletes").modal('hide');
                     swal({title: "Warning!", text: "This class has been already deleted!",   type: "warning",timer:"5000" });
                     location.reload();
+                }else{
+                    swal("Error!", "Could not connect to server", "error");
                 }
             },
             error: function () {

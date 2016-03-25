@@ -11,7 +11,7 @@ public class SQL {
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false " +
             "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId'";
-
+    
     private String SQL_GET_COURSE_SEARCH_HEADER_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
             "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
