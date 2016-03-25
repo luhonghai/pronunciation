@@ -133,7 +133,7 @@ public class ClassService {
             listOpenEdit.message = "success";
             listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass, teacherName);
             listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
-            listOpenEdit.courses = classDAO.getMyCourses(idClass, teacherID,idCompany);
+            listOpenEdit.courses = classDAO.getMyCourses(idClass, teacherID,idCompany,Constant.STATUS_PUBLISH );
             listOpenEdit.coursesOnClass=classDAO.getMyCoursesOnClass(idClass, teacherID,Constant.STATUS_PUBLISH);
             list = gson.toJson(listOpenEdit);
         }catch (Exception e){
