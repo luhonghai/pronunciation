@@ -20,8 +20,28 @@
         <%--<span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>--%>
 
     </div>
-    <div id="graphs">
-
+    <div id="graphs" class="row">
+            <div id="info" class="col-sm-3">
+                <p><strong>course:</strong></p>
+                <%--<label id="course"></label>--%>
+                <%--<p><strong>level:</strong></p>--%>
+                <%--<label id="level"></label>--%>
+                <%--<p><strong>objective:</strong></p>--%>
+                <%--<label id="objective"></label>--%>
+                <%--<p><strong>lesson:</strong></p>--%>
+                <%--<label id="lesson"></label>--%>
+                <%--<p><strong>completion date:</strong></p>--%>
+                <%--<label id="date"></label>--%>
+            </div>
+            <div id="score" class="col-sm-1">
+                <p><strong>course:</strong></p>
+            </div>
+            <div id="drawPhonemes" class="col-sm-4">
+                <p><strong>course:</strong></p>
+            </div>
+            <div id="drawWord" class="col-sm-4">
+                <p><strong>course:</strong></p>
+            </div>
     </div>
 </div>
 <!-- /#wrapper -->
