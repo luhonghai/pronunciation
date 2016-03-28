@@ -1,5 +1,6 @@
 package com.cmg.vrc.sphinx;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SphinxResult {
@@ -18,6 +19,8 @@ public class SphinxResult {
 
         private int count;
 
+        private List<PhonemeExtra> extras = new ArrayList<>();
+
         public String getName() {
             return name;
         }
@@ -33,6 +36,37 @@ public class SphinxResult {
         public void setCount(int count) {
             this.count = count;
         }
+
+        public List<PhonemeExtra> getExtras() {
+            return extras;
+        }
+
+        public void setExtras(List<PhonemeExtra> extras) {
+            this.extras = extras;
+        }
+    }
+
+    public static class PhonemeExtra {
+
+        private float maxAmp;
+
+        private long collectTime;
+
+        public float getMaxAmp() {
+            return maxAmp;
+        }
+
+        public void setMaxAmp(float maxAmp) {
+            this.maxAmp = maxAmp;
+        }
+
+        public long getCollectTime() {
+            return collectTime;
+        }
+
+        public void setCollectTime(long collectTime) {
+            this.collectTime = collectTime;
+        }
     }
 
     public static class PhonemeScoreUnit {
@@ -46,6 +80,7 @@ public class SphinxResult {
         private int type;
         private String name;
         private int count;
+        private List<PhonemeExtra> extras = new ArrayList<>();
 
         public int getIndex() {
             return index;
@@ -77,6 +112,14 @@ public class SphinxResult {
 
         public void setCount(int count) {
             this.count = count;
+        }
+
+        public List<PhonemeExtra> getExtras() {
+            return extras;
+        }
+
+        public void setExtras(List<PhonemeExtra> extras) {
+            this.extras = extras;
         }
     }
 

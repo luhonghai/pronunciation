@@ -1,5 +1,6 @@
 package com.cmg.vrc.sphinx;
 
+import be.tarsos.dsp.util.fft.FFT;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.google.gson.Gson;
@@ -8,6 +9,7 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.StreamSpeechRecognizer;
 import edu.cmu.sphinx.decoder.search.Token;
+import edu.cmu.sphinx.frontend.FloatData;
 import edu.cmu.sphinx.linguist.HMMSearchState;
 import edu.cmu.sphinx.linguist.SearchState;
 import edu.cmu.sphinx.linguist.acoustic.HMMState;
@@ -15,6 +17,7 @@ import edu.cmu.sphinx.linguist.g2p.G2PConverter;
 import edu.cmu.sphinx.linguist.g2p.Path;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
@@ -47,6 +50,10 @@ public class PhonemesDetector {
     private String grammarName;
 
     private boolean allowAdditionalData;
+
+    private float sampleRate = 16000;
+
+    private int bufferSize = 1024 * 4;
 
     public PhonemesDetector(File target, String word) {
         this.target = target;
@@ -267,18 +274,38 @@ public class PhonemesDetector {
                                     HMMState hmmState = hmmSearchState.getHMMState();
                                     String baseUnit = hmmState.getHMM().getBaseUnit().getName();
                                     if (baseUnit != null && baseUnit.length() > 0 && !baseUnit.toLowerCase().contains("sil")) {
+                                        FloatData data = (FloatData) token.getData();
+                                        FFT fft = new FFT(bufferSize);
+                                        float[] amplitudes = new float[bufferSize/2];
+                                        float[] audioFloatBuffer = data.getValues();
+                                        float[] transformbuffer = new float[bufferSize*2];
+                                        System.arraycopy(audioFloatBuffer, 0, transformbuffer, 0, audioFloatBuffer.length);
+                                        fft.forwardTransform(transformbuffer);
+                                        fft.modulus(transformbuffer, amplitudes);
+                                        Float maxAmp = Collections.max(Arrays.asList(ArrayUtils.toObject(amplitudes)));
+                                        Float minAmp = Collections.min(Arrays.asList(ArrayUtils.toObject(amplitudes)));
+                                        System.out.println("Found phone " + baseUnit
+                                                + ". Time frame: " + data.getCollectTime() + "ms"
+                                                + ". Max amp: " + maxAmp
+                                                + ". Min amp: " + minAmp);
+                                        SphinxResult.PhonemeExtra phonemeExtra = new SphinxResult.PhonemeExtra();
+                                        phonemeExtra.setMaxAmp(maxAmp);
+                                        phonemeExtra.setCollectTime(data.getCollectTime());
                                         rawBestPhonemes.add(baseUnit.toUpperCase());
                                         if (phoneme == null) {
                                             phoneme = new SphinxResult.Phoneme();
                                             phoneme.setName(baseUnit);
                                             phoneme.setCount(1);
+                                            phoneme.getExtras().add(phonemeExtra);
                                         } else if (phoneme.getName().equalsIgnoreCase(baseUnit)) {
                                             phoneme.setCount(phoneme.getCount() + 1);
+                                            phoneme.getExtras().add(phonemeExtra);
                                         } else {
                                             bestTokenPhonemes.add(phoneme);
                                             phoneme = new SphinxResult.Phoneme();
                                             phoneme.setName(baseUnit);
                                             phoneme.setCount(1);
+                                            phoneme.getExtras().add(phonemeExtra);
                                         }
                                     }
                                 }
@@ -416,6 +443,7 @@ public class PhonemesDetector {
                 int selectedPhonemeType = getValidatePhonemeType(selectedPhoneme, phoneme.getName());
                 scoreUnit.setCount(phoneme.getCount());
                 scoreUnit.setName(phoneme.getName());
+                scoreUnit.setExtras(phoneme.getExtras());
                 scoreUnit.setType(selectedPhonemeType);
             } else {
                 scoreUnit.setCount(0);
@@ -534,7 +562,8 @@ public class PhonemesDetector {
        // testData.put("/Users/cmg/Desktop/voice_example/finance_3d329c5d-38ab-4cbf-9ac2-f22f4684aa00_raw.wav", "finance");
       // testData.put("/Users/cmg/Desktop/voice_example/rabbit_5866cf48-12a4-48dd-87ee-5a5a432e792a_raw.wav", "rabbit");
       //  testData.put("/Users/cmg/Desktop/voice_example/welcome_b709aadc-6445-4702-8879-73294aa66c17_raw.wav", "welcome");
-        testData.put("C:\\Users\\CMGT400\\Desktop\\LoadAudioRecorder.wav", "hello");
+        //testData.put("/Users/luhonghai/Desktop/audio/pronunciation.wav", "pronunciation");
+        testData.put("/Users/luhonghai/Desktop/audio/speaker2_1.wav", "trivial");
         Iterator<String> keys = testData.keySet().iterator();
         while (keys.hasNext()) {
             long start = System.currentTimeMillis();

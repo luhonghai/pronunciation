@@ -80,9 +80,9 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             }
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+            
         }
-        
+        weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
     }
     
     

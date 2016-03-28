@@ -51,6 +51,15 @@
         <url-pattern>/VoiceAnalyzeHandler</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PhonemeDetectorServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.PhonemeDetectorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhonemeDetectorServlet</servlet-name>
+        <url-pattern>/PhonemeDetector</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <servlet-name>RegisterHandler</servlet-name>

@@ -446,7 +446,24 @@ function hideeditmessage(){
         $("#nameeditsemail").hide();
 
     });
-
+    var data = new FormData();
+    data.append("profile", JSON.stringify({
+        username: "luhonghai@gmail.com",
+        token: "76b81728-9a63-4422-84a8-9516597f3d0b"
+    }));
+    data.append("word", "pronunciation");
+    data.append("audio", $('#file')[0].files[0]);
+    $.ajax({
+        type: "POST",
+        url: "http://reg.accenteasy.com/VoiceRecordHandler",
+        data: data,
+        contentType: false,
+        processData: false,
+        cache: false,
+        success: function (data) {
+           console.log(data)
+        }
+    });
 }
 
 $(document).ready(function(){
