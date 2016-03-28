@@ -29,7 +29,7 @@ class FreestyleSwipeVC: EZSwipeController {
 extension FreestyleSwipeVC: EZSwipeControllerDataSource {
     
     func viewControllerData() -> [UIViewController] {
-        let redVC = self.storyboard?.instantiateViewControllerWithIdentifier("OurViewController")
+        let redVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSMainVC")
         //redVC.view.backgroundColor = UIColor.redColor()
         //let char = UIImageView(x: 50, y: 100, imageName: "char", scaleToWidth: 300)
         //redVC.view.addSubview(char)
