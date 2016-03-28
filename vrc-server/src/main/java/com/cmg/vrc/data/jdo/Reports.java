@@ -6,11 +6,54 @@ import java.util.List;
  * Created by CMGT400 on 9/29/2015.
  */
 public class Reports {
-    private String courseName;
-    private String levelName;
-    private String objectiveName;
-    private String lessonName;
-    private String completionDate;
+    class Info{
+        private String courseName;
+        private String levelName;
+        private String objectiveName;
+        private String lessonName;
+        private String completionDate;
+        public String getCourseName() {
+            return courseName;
+        }
+
+        public void setCourseName(String courseName) {
+            this.courseName = courseName;
+        }
+
+        public String getLevelName() {
+            return levelName;
+        }
+
+        public void setLevelName(String levelName) {
+            this.levelName = levelName;
+        }
+
+        public String getObjectiveName() {
+            return objectiveName;
+        }
+
+        public void setObjectiveName(String objectiveName) {
+            this.objectiveName = objectiveName;
+        }
+
+        public String getLessonName() {
+            return lessonName;
+        }
+
+        public void setLessonName(String lessonName) {
+            this.lessonName = lessonName;
+        }
+
+        public String getCompletionDate() {
+            return completionDate;
+        }
+
+        public void setCompletionDate(String completionDate) {
+            this.completionDate = completionDate;
+        }
+
+    }
+
     private int studentScoreLesson;
     private int classAvgScoreLesson;
     private List<Float> phonemesStudentScore;
@@ -20,45 +63,6 @@ public class Reports {
     private List<String> phonemes;
     private List<String> word;
 
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public String getLevelName() {
-        return levelName;
-    }
-
-    public void setLevelName(String levelName) {
-        this.levelName = levelName;
-    }
-
-    public String getObjectiveName() {
-        return objectiveName;
-    }
-
-    public void setObjectiveName(String objectiveName) {
-        this.objectiveName = objectiveName;
-    }
-
-    public String getLessonName() {
-        return lessonName;
-    }
-
-    public void setLessonName(String lessonName) {
-        this.lessonName = lessonName;
-    }
-
-    public String getCompletionDate() {
-        return completionDate;
-    }
-
-    public void setCompletionDate(String completionDate) {
-        this.completionDate = completionDate;
-    }
 
     public int getStudentScoreLesson() {
         return studentScoreLesson;
