@@ -92,6 +92,12 @@ public class SQL {
             "WHERE mapping.idLesson='paramMappingId' and question.isDeleted=false and mapping.isDeleted=false";
 
 
+    private String SQL_COURSE_FOR_STUDENT="Select c.id,c.name FROM COURSE as c " +
+            "inner join COURSEMAPPINGCLASS as cmc on c.id=cmc.idCourse " +
+            "inner join STUDENTMAPPINGCLASS as smc on cmc.idClass=smc.idClass"+
+            "inner join CLASSMAPPINGTEACHER as cmt on cmc.idClass=cmt.idClass"+
+            "WHERE smc.studentName='paramStudentName' and cmt.teacherName='paramTeacherName' and c.isDeleted=false and cmc.isDeleted=false and smc.isDeleted=false and cmt.isDeleted=false";
+
     /**
      *
      * @param tId
@@ -245,6 +251,12 @@ public class SQL {
     public String getSqlQuestionMappingLesson(String idLesson){
         String sql=SQL_QUESTION_MAPPING_LESSON;
         sql=sql.replaceAll("paramMappingId",idLesson);
+        return sql;
+    }
+    public String getSqlCourseForStudent(String teacher, String student){
+        String sql = SQL_COURSE_FOR_STUDENT;
+        sql = sql.replaceAll("paramTeacherName", teacher);
+        sql = sql.replaceAll("paramStudentName", student);
         return sql;
     }
 }

@@ -2,6 +2,7 @@ package com.cmg.lesson.dao.course;
 
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.lesson.data.jdo.level.Level;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
@@ -277,6 +278,7 @@ public class CourseDAO extends DataAccess<Course> {
         }
         return isUpdate;
     }
+
 
 }
 

@@ -26,7 +26,7 @@
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
 <div id="page-wrapper">
      <div class="row" style="color:lightgrey; margin-left: 0px;">
-         <h4 style="float: left;"><%=company%></h4><p style="margin-top: 25px;">>reports</p>
+         <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;">>reports</p>
      </div>
     <div>
         <p>Select a report type from the side menu to view scores for a student and compare with other students in their classes.</p>
