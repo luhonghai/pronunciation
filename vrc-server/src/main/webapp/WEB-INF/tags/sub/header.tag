@@ -163,7 +163,7 @@
 									<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
 								</li>
 								<li>
-									<a href="reports-lessons.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
+									<a href="reports-lesson.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
 								</li>
 								<li>
 									<a href="reports-phonemes.jsp"><i class="fa fa-envelope-o"></i>  phonemes </a>

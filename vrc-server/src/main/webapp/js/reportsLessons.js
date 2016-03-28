@@ -1,39 +1,10 @@
-
-function listStudents(){
+var idCourse;
+var idLevel;
+var idObj;
+function listCourse(){
+    var student=$("#studentName").val();
         $.ajax({
             url: "ReportsLessons",
-            type: "POST",
-            dataType: "json",
-            data: {
-                action: "listStudent"
-            },
-            success: function (data) {
-                if(data.message=="success"){
-                    $("#listUsers").empty();
-                    if(data.listStudent!=null && data.listStudent.length>0){
-                        var items=data.listStudent;
-                        $(items).each(function(){
-                            $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
-                        });
-                    }
-                    $('#listUsers').multiselect('destroy');
-                    $('#listUsers').multiselect({ enableFiltering: true, buttonWidth: '200px'});
-                    $('#listUsers').multiselect('refresh');
-                }else{
-                    swal("Error!", data.message.split(":")[1], "error");
-                }
-            },
-            error: function () {
-                swal("Error!", "Could not connect to server", "error");
-            }
-
-        });
-}
-function listCourse(){
-    $(document).on("change","#listUsers",function() {
-        var student=$("#listUsers").val();
-        $.ajax({
-            url: "CourseOrLevelOrObjective",
             type: "POST",
             dataType: "json",
             data: {
@@ -46,12 +17,29 @@ function listCourse(){
                     if (data.listCourse != null && data.listCourse.length > 0) {
                         var items = data.listCourse;
                         $(items).each(function () {
-                            $("#listCourse").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                            $("#listCourse").append('<option value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
+                    idCourse=data.listCourse[0].id;
                     $('#listCourse').multiselect('destroy');
                     $('#listCourse').multiselect({enableFiltering: true, buttonWidth: '200px'});
                     $('#listCourse').multiselect('refresh');
+                    listLevels(data.listCourse[0].id);
+                    $("#listUsers").empty();
+                    if(data.listStudent!=null && data.listStudent.length>0) {
+                        var items = data.listStudent;
+                        $(items).each(function () {
+                            if (this.studentName == student) {
+                                $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                            } else {
+                                $("#listUsers").append('<option value="' + this.studentName + '" disabled="disabled">' + this.studentName + '</option>');
+                            }
+
+                        });
+                    }
+                    $('#listUsers').multiselect('destroy');
+                    $('#listUsers').multiselect({ enableFiltering: true, buttonWidth: '200px'});
+                    $('#listUsers').multiselect('refresh');
                 } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -61,30 +49,104 @@ function listCourse(){
             }
 
         });
-    });
 }
 
-function listLevel(){
-    $(document).on("change","#listCourse",function() {
+function listLevels(idCourse){
         $.ajax({
-            url: "CourseOrLevelOrObjective",
+            url: "ReportsLessons",
             type: "POST",
             dataType: "json",
             data: {
-                action: "listLevel"
+                action: "listLevel",
+                idCourse:idCourse
             },
             success: function (data) {
                 if (data.message == "success") {
-                    $("#listUsers").empty();
-                    if (data.listStudent != null && data.listStudent.length > 0) {
-                        var items = data.listStudent;
+                    $("#listLevel").empty();
+                    if (data.listLevel != null && data.listLevel.length > 0) {
+                        var items = data.listLevel;
                         $(items).each(function () {
-                            $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                            $("#listLevel").append('<option value="' + this.id + '">' + this.name + '</option>');
+                        });
+                        $("#divLevel").show();
+                    }
+                    listObjectives(data.listLevel[0].id);
+                    $('#listLevel').multiselect('destroy');
+                    $('#listLevel').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                    $('#listLevel').multiselect('refresh');
+                    idLevel=data.listLevel[0].id;
+
+
+                } else {
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+}
+
+function listObjectives(idLevel){
+    $.ajax({
+        url: "ReportsLessons",
+        type: "POST",
+        dataType: "json",
+        data: {
+            action: "listObjective",
+            idLevel:idLevel
+        },
+        success: function (data) {
+            if (data.message == "success") {
+                $("#listObjective").empty();
+                if (data.listObj != null && data.listObj.length > 0) {
+                    var items = data.listObj;
+                    $(items).each(function () {
+                        $("#listObjective").append('<option value="' + this.id + '">' + this.name + '</option>');
+                    });
+                    $("#divObjective").show();
+                }
+                idObj= data.listObj[0].id;
+                $('#listObjective').multiselect('destroy');
+                $('#listObjective').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                $('#listObjective').multiselect('refresh');
+            } else {
+                swal("Error!", data.message.split(":")[1], "error");
+            }
+        },
+        error: function () {
+            swal("Error!", "Could not connect to server", "error");
+        }
+
+    });
+}
+
+
+function listLevel(){
+    $(document).on("change","#listCourse",function() {
+        var idCourse=$("#listCourse").val();
+        $.ajax({
+            url: "ReportsLessons",
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "listLevel",
+                idCourse:idCourse
+            },
+            success: function (data) {
+                if (data.message == "success") {
+                    $("#divObjective").hide();
+                    $("#listLevel").empty();
+                    if (data.listLevel != null && data.listLevel.length > 0) {
+                        var items = data.listLevel;
+                        $(items).each(function () {
+                            $("#listLevel").append('<option value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
-                    $('#listUsers').multiselect('destroy');
-                    $('#listUsers').multiselect({enableFiltering: true, buttonWidth: '200px'});
-                    $('#listUsers').multiselect('refresh');
+                    $('#listLevel').multiselect('destroy');
+                    $('#listLevel').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                    $('#listLevel').multiselect('refresh');
                 } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -98,25 +160,28 @@ function listLevel(){
 }
 function listObjective(){
     $(document).on("change","#listLevel",function() {
+        var idLevel=$("#listLevel").val();
         $.ajax({
-            url: "CourseOrLevelOrObjective",
+            url: "ReportsLessons",
             type: "POST",
             dataType: "json",
             data: {
-                action: "listObjective"
+                action: "listObjective",
+                idLevel:idLevel
             },
             success: function (data) {
                 if (data.message == "success") {
-                    $("#listUsers").empty();
-                    if (data.listStudent != null && data.listStudent.length > 0) {
-                        var items = data.listStudent;
+                    $("#divObjective").show();
+                    $("#listObjective").empty();
+                    if (data.listObj != null && data.listObj.length > 0) {
+                        var items = data.listObj;
                         $(items).each(function () {
-                            $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
+                            $("#listObjective").append('<option value="' + this.id + '">' + this.name + '</option>');
                         });
                     }
-                    $('#listUsers').multiselect('destroy');
-                    $('#listUsers').multiselect({enableFiltering: true, buttonWidth: '200px'});
-                    $('#listUsers').multiselect('refresh');
+                    $('#listObjective').multiselect('destroy');
+                    $('#listObjective').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                    $('#listObjective').multiselect('refresh');
                 } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -128,21 +193,33 @@ function listObjective(){
         });
     });
 }
+
 function loadInfo(){
-    $(document).on("click","#loadInfo",function(){
-        var studentName=$('#listUsers option:selected').val();
+    $(document).on("click","#loadInfo",function() {
+        var idCourse=$("#listCourse").val();
+        var idLevel=$("#listLevel").val();
+        var idObj=$("#listObjective").val();
+        var student=$("#").val();
         $.ajax({
             url: "ReportsLessons",
             type: "POST",
             dataType: "json",
             data: {
                 action: "loadInfo",
-                studentName:studentName
+                idCourse:idCourse,
+                idLevel:idLevel,
+                idObj:idObj,
+                student:student
             },
             success: function (data) {
-                if(data.message=="success"){
-
-                }else{
+                if (data.message == "success") {
+                    if (data.listLevel != null && data.listLevel.length > 0) {
+                        var items = data.listLevel;
+                        $(items).each(function () {
+                            $("#listLevel").append('<option value="' + this.id + '">' + this.name + '</option>');
+                        });
+                    }
+                } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
             },
@@ -151,15 +228,14 @@ function loadInfo(){
             }
 
         });
-    })
+    });
 }
 
 $(document).ready(function(){
     $('#help-icons').show();
-    listStudents();
-    listCourse();
+    loadInfo();
+    listCourse()
     listLevel();
     listObjective();
-    loadInfo();
 });
 

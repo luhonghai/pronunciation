@@ -94,9 +94,16 @@ public class SQL {
 
     private String SQL_COURSE_FOR_STUDENT="Select c.id,c.name FROM COURSE as c " +
             "inner join COURSEMAPPINGCLASS as cmc on c.id=cmc.idCourse " +
-            "inner join STUDENTMAPPINGCLASS as smc on cmc.idClass=smc.idClass"+
-            "inner join CLASSMAPPINGTEACHER as cmt on cmc.idClass=cmt.idClass"+
+            "inner join STUDENTMAPPINGCLASS as smc on cmc.idClass=smc.idClass "+
+            "inner join CLASSMAPPINGTEACHER as cmt on cmc.idClass=cmt.idClass "+
             "WHERE smc.studentName='paramStudentName' and cmt.teacherName='paramTeacherName' and c.isDeleted=false and cmc.isDeleted=false and smc.isDeleted=false and cmt.isDeleted=false";
+    private String SQL_LEVEL_FROM_COURSE="Select l.id,l.name FROM LEVEL as l " +
+            "inner join COURSEMAPPINGLEVEL as cml on l.id=cml.idLevel " +
+            "WHERE cml.idCourse='paramIdCourse' and l.isDeleted=false and cml.isDeleted=false";
+    private String SQL_OBJ_FROM_LEVEL="Select obj.id,obj.name FROM OBJECTIVE as obj " +
+            "inner join COURSEMAPPINGDETAIL as cmd on obj.id=cmd.idChild " +
+            "WHERE cmd.idLevel='paramIdLevel' and obj.isDeleted=false and cmd.isDeleted=false";
+
 
     /**
      *
@@ -257,6 +264,16 @@ public class SQL {
         String sql = SQL_COURSE_FOR_STUDENT;
         sql = sql.replaceAll("paramTeacherName", teacher);
         sql = sql.replaceAll("paramStudentName", student);
+        return sql;
+    }
+    public String getSqlLevelFromCourse(String idCourse){
+        String sql = SQL_LEVEL_FROM_COURSE;
+        sql = sql.replaceAll("paramIdCourse", idCourse);
+        return sql;
+    }
+    public String getSqlOBJFromLevel(String idLevel){
+        String sql = SQL_OBJ_FROM_LEVEL;
+        sql = sql.replaceAll("paramIdLevel", idLevel);
         return sql;
     }
 }

@@ -350,28 +350,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         }
     }
 
-    public List<Reports> listInfo(String teacherName){
-        PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and isView=false and mappingBy='student' and isDeleted=false";
-        query.append(firstQuery);
-        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-        try {
-            List<Reports> reportses = new ArrayList<>();
-            List<Object> objects = (List<Object>) q.execute();
-            for (Object object : objects) {
-                Object[] data = (Object[]) object;
-
-            }
-            return reportses;
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            q.closeAll();
-            pm.close();
-        }
-    }
 
 
 }
