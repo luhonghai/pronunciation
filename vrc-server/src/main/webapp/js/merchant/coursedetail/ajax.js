@@ -816,7 +816,9 @@ function enablePublishBtn(){
     });
 }
 
-
+/**
+ *
+ */
 function publishCourse(){
     $.ajax({
         url : servletPublish,
@@ -828,13 +830,13 @@ function publishCourse(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                window.history.back();
+                window.location.href = "/my-courses.jsp";
             }else{
-
+                swal("","Could not connect to server","error");
             }
         },
         error: function () {
-
+            swal("","Could not connect to server","error");
         }
     });
 }
