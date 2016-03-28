@@ -8,7 +8,7 @@ var showBtnAction = true;
 var servlet = "/TreeLoadServlet";
 var currentParent;
 var nodeCopied;
-var dragDrop;
+var dragDrop = null;
 /**
  *  init the tree view.
  */
@@ -87,7 +87,10 @@ function drag2drop(){
         console.log('event :' + eventName);
         switch (eventName) {
             case 'sorted' :
-                DragDrop(dragDrop.action,dragDrop.parentId,dragDrop.childId,dragDrop.indexDrop,dragDrop.move);
+                if(dragDrop!=null){
+                    DragDrop(dragDrop.action,dragDrop.parentId,dragDrop.childId,dragDrop.indexDrop,dragDrop.move);
+                    dragDrop = null;
+                }
                 return true;
             case 'checkdrop':
                 if (options.isContainer) {
@@ -128,14 +131,11 @@ function drag2drop(){
                         if(indexDrag > indexDrop){
                             move = "up"
                         }
-                        console.log("move : " + move);
-                        console.log("-----------");
                         dragDrop.action = action;
                         dragDrop.parentId = parentId;
                         dragDrop.childId = childId;
                         dragDrop.indexDrop = indexDrop;
                         dragDrop.move = move;
-                        //DragDrop(action,parentId,childId,indexDrop,move);
                         return true;
                     }
                 }
