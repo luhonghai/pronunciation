@@ -68,15 +68,18 @@ function deleteCourse(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 currentPopup.modal('hide');
+                confirmDeletePopup().modal('hide');
                 swal("", "You have deleted course successfully", "success");
-                window.location.href = "/main-courses.jsp";
+                window.history.back();
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
+            confirmDeletePopup().modal('hide');
             currentPopup.find(".validateMsg").html("Could not connect to server!");
             currentPopup.find(".validateMsg").show();
         }
@@ -168,15 +171,18 @@ function deleteLevel(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swal("", "You have deleted Level successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
         },
         error: function () {
+            confirmDeletePopup().modal('hide');
             currentPopup.find(".validateMsg").html("Could not connect to server");
             currentPopup.find(".validateMsg").show();
         }
@@ -269,10 +275,12 @@ function deleteObj(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swal("", "You have deleted objective successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
@@ -368,9 +376,11 @@ function deleteTest(){
                 //reload the tree
                 reloadTree();
                 currentPopup.modal('hide');
+                confirmDeletePopup().modal('hide');
                 swal("", "You have deleted test successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
@@ -465,10 +475,12 @@ function deleteLesson(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swal("", "You have deleted lesson successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
@@ -554,10 +566,12 @@ function deleteQuestion(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swal("", "You have deleted question successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
@@ -650,10 +664,12 @@ function deleteQuestionForTest(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 reloadTree();
+                confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
                 swal("", "You have deleted question for test successfully", "success");
             }else{
                 //add false show the error
+                confirmDeletePopup().modal('hide');
                 currentPopup.find(".validateMsg").html(data);
                 currentPopup.find(".validateMsg").show();
             }
@@ -785,9 +801,9 @@ function enablePublishBtn(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                //getPublishBtn().removeAttr("disabled");
+                getPublishBtn().removeAttr("disabled");
             }else{
-                //getPublishBtn().attr("disabled","disabled");
+                getPublishBtn().attr("disabled","disabled");
             }
         },
         error: function () {
@@ -808,7 +824,7 @@ function publishCourse(){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
-                window.location.href = "/main-courses.jsp";
+                window.history.back();
             }else{
 
             }

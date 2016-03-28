@@ -234,6 +234,21 @@
     padding-left : 0px;
 }
 
+#confirm-delete label{
+    color : black;
+}
+
+.contain-button img{
+    cursor: pointer;
+}
+#confirm-delete #lbl_deleted{
+    font-weight : 700;
+}
+
+#help-popup .delete-header{
+    font-weight : 700;
+}
+
 #popupQuestionTest div.form-group div{
     padding-left : 0px;
 }

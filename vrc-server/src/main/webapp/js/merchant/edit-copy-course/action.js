@@ -173,7 +173,10 @@ function btnSaveCourse(){
 
 function btnDeleteCourse(){
     $(document).on("click","#btnDeleteCourse",function(){
-         deleteCourse();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-course");
+        var courseName = getCourseName().val();
+        getLabelDeleted().html(courseName);
     });
 }
 
@@ -197,7 +200,10 @@ function btnSaveLevel(){
  */
 function btnDeleteLevel(){
     $(document).on("click","#btnDeleteLevel",function(){
-        deleteLevel();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-level");
+        var levelName = getLevelName().val();
+        getLabelDeleted().html(levelName);
     });
 }
 
@@ -218,7 +224,10 @@ function btnSaveObj(){
 
 function btnDeleteObj(){
     $(document).on("click","#btnDeleteObj",function(){
-        deleteObj();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-obj");
+        var objName = getObjName().val();
+        getLabelDeleted().html(objName);
     });
 }
 
@@ -240,7 +249,9 @@ function btnSaveTest(){
 
 function btnDeleteTest(){
     $(document).on("click","#btnDeleteTest",function(){
-        deleteTest();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-test");
+        getLabelDeleted().html("test");
     });
 }
 
@@ -263,7 +274,10 @@ function btnSaveLesson(){
 
 function btnDeleteLesson(){
     $(document).on("click","#btnDeleteLesson",function(){
-        deleteLesson();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-lesson");
+        var lessonName = getNameLesson().val();
+        getLabelDeleted().html(lessonName);
     });
 }
 
@@ -555,12 +569,16 @@ function btnSaveQuestionForTest(){
 }
 function btnDeleteQuestion(){
     $(document).on("click","#btnDeleteQuestion",function(){
-        deleteQuestion();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-question");
+        getLabelDeleted().html("question");
     });
 }
 function btnDeleteQuestionForTest(){
     $(document).on("click","#btnDeleteTestWord",function(){
-        deleteQuestionForTest();
+        confirmDeletePopup().modal('show');
+        btnConfirmDelete().attr('action',"delete-question-test");
+        getLabelDeleted().html("question");
     });
 }
 
@@ -568,7 +586,7 @@ function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
         getPopUpHelp().find(".modal-title").html("course administration");
         getPopUpHelp().find(".modal-body").empty();
-        getPopUpHelp().find(".modal-body").html("coming soon");
+        getPopUpHelp().find(".modal-body").html(initHelpCourseADM());
         getPopUpHelp().modal('show');
     });
 }
@@ -582,6 +600,11 @@ function closePopupQuestion(){
 function clickHelpAdd(){
     $(document).on("click",".helpInfor", function(){
         var id = $(this).attr("id");
+        if(id == "helpAddCourse"){
+            getPopUpHelp().find(".modal-title").html("course management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddCourse());
+        }else
         if(id == "helpAddLevel"){
             getPopUpHelp().find(".modal-title").html("level management");
             getPopUpHelp().find(".modal-body").empty();
@@ -602,13 +625,37 @@ function clickHelpAdd(){
             getPopUpHelp().find(".modal-title").html("question management");
             getPopUpHelp().find(".modal-body").empty();
             getPopUpHelp().find(".modal-body").html(initHelpAddQuestion());
+        }else if(id=="helpDeleteBtn"){
+            getPopUpHelp().find(".modal-title").html("deleting files");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpDelete());
         }
         getPopUpHelp().modal('show');
     });
 }
 
 
+function confirmDelete(){
+    $(document).on("click","#ConfirmDeletebtn",function(){
+        var action = $(this).attr('action');
+        if(action == "delete-course"){
+            deleteCourse();
+        }else if(action == "delete-level"){
+            deleteLevel();
+        }else if(action == "delete-obj"){
+            deleteObj();
+        }else if(action == "delete-test"){
+            deleteTest();
+        }else if(action == "delete-lesson"){
+            deleteLesson();
+        }else if(action == "delete-question"){
+            deleteQuestion();
+        }else if(action == "delete-question-test"){
+            deleteQuestionForTest();
+        }
+    });
 
+}
 
 $(document).ready(function(){
     btnDeleteQuestionForTest();
@@ -638,4 +685,5 @@ $(document).ready(function(){
     showHelpIconTop();
     enablePublishBtn();
     btnPublish();
+    confirmDelete();
 });
