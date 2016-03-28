@@ -715,6 +715,15 @@
         <url-pattern>/ReportsPhonemes</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DragDropServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.DragDropServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DragDropServlet</servlet-name>
+        <url-pattern>/DragDropServlet</url-pattern>
+    </servlet-mapping>
+
 
 
 

@@ -85,7 +85,16 @@ public class LDAO extends DataAccess<LessonCollection> {
         return isDelete;
     }
 
-
+    /**
+     *
+     * @param id
+     * @param name
+     * @param description
+     * @param type
+     * @param detail
+     * @return
+     * @throws Exception
+     */
     public boolean updateLesson(String id,String name, String description,String type,String detail) throws Exception{
         boolean isUpdate=false;
         PersistenceManager pm = PersistenceManagerHelper.get();

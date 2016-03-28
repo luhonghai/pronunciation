@@ -41,6 +41,7 @@ function editCourse(){
                 firstLoad = true;
                 reloadTree();
                 currentPopup.modal('hide');
+                changeHeaderCourseName(getCourseName().val());
                 $("#listWord").empty();
                 swal("", "You have updated course successfully", "success");
             }else{
@@ -1122,5 +1123,34 @@ function copyQuestion(idLesson, idQuestion){
         });
     }).done(function(){
         progress.progressTimer('complete');
+    });
+}
+
+/**
+ *
+ * @param action
+ * @param parentId
+ * @param childId
+ * @param index
+ * @constructor
+ */
+function DragDrop(action,parentId,childId,index,move){
+    $.ajax({
+        url : servletDrapDrop,
+        type : "POST",
+        data : {
+            action: action,
+            parentId : parentId,
+            childId : childId,
+            index : index,
+            move : move
+        },
+        dataType : "text",
+        success : function(data){
+
+        },
+        error: function () {
+
+        }
     });
 }

@@ -387,3 +387,15 @@ function initHelpDelete(){
     $html.append("<p>If you delete a course, all associated, levels, objectives, lessons, tests and questions will be removed. The course will also be removed from your ‘my courses’ page and from ‘all courses’. If you shared the course, other users will still be able to use it if they added it to their own ‘my courses’ list before you deleted it. </p>");
     return $html;
 }
+
+
+function getHeader(){
+    return $('#header-company');
+}
+
+function changeHeaderCourseName(cName){
+    var html = getHeader().html();
+    var change = html.split('>')[0] + " > " + html.split('>')[1] + " > " + cName;
+    getHeader().html(html);
+
+}

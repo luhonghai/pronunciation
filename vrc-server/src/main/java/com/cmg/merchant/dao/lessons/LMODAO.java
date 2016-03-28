@@ -1,6 +1,7 @@
 package com.cmg.merchant.dao.lessons;
 
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
+import com.cmg.lesson.data.jdo.objectives.ObjectiveMapping;
 import com.cmg.merchant.common.SQL;
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.util.PersistenceManagerHelper;
@@ -67,5 +68,32 @@ public class LMODAO extends DataAccess<LessonCollection> {
             pm.close();
         }
         return list;
+    }
+
+    /**
+     *
+     * @param idObj
+     * @param idLesson
+     * @param index
+     * @return
+     * @throws Exception
+     */
+    public boolean updateIndex(String idObj, String idLesson, int index) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ObjectiveMapping.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET OBJECTIVEMAPPING.index=?  WHERE idObjective=? && idLessonCollection=?");
+        try {
+            q.execute(index,idObj,idLesson);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
     }
 }

@@ -2,6 +2,7 @@ package com.cmg.lesson.data.jdo.level;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -39,6 +40,17 @@ public class Level implements Mirrorable {
 
     @Persistent
     private String color;
+
+    @NotPersistent
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public String getColor() {
         return color;

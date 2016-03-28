@@ -88,6 +88,9 @@ public class ODAO extends DataAccess<Objective> {
                     if(array[2]!=null){
                         objective.setDescription(array[2].toString());
                     }
+                    if(array[3]!=null){
+                        objective.setIndex(Integer.parseInt(array[3].toString()));
+                    }
                     listObjective.add(objective);
                 }
             }
@@ -103,7 +106,31 @@ public class ODAO extends DataAccess<Objective> {
     }
 
 
-
+    /**
+     *
+     * @param idObj
+     * @param idLevel
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateIndex(String idLevel, String idObj, int index) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingDetail.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET CourseMappingDetail.index=?  WHERE idLevel=? && idChild=?");
+        try {
+            q.execute(index,idLevel,idObj);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
+    }
     /**
      *
      * @param id
