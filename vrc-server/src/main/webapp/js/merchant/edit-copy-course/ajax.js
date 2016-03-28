@@ -41,6 +41,7 @@ function editCourse(){
                 firstLoad = true;
                 reloadTree();
                 currentPopup.modal('hide');
+                changeHeaderCourseName(getCourseName().val());
                 $("#listWord").empty();
                 swal("", "You have updated course successfully", "success");
             }else{

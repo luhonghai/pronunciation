@@ -8,6 +8,7 @@ var showBtnAction = true;
 var servlet = "/TreeLoadServlet";
 var currentParent;
 var nodeCopied;
+var dragDrop;
 /**
  *  init the tree view.
  */
@@ -83,34 +84,61 @@ function ClickOnTree(){
  */
 function drag2drop(){
     theTree.on('acitree', function(event, api, item, eventName, options) {
+        console.log('event :' + eventName);
         switch (eventName) {
+            case 'sorted' :
+                DragDrop(dragDrop.action,dragDrop.parentId,dragDrop.childId,dragDrop.indexDrop,dragDrop.move);
+                return true;
             case 'checkdrop':
                 if (options.isContainer) {
-                    // mark the drop target as invalid
                     return false;
                 } else {
                     // check to have the same parent
-                    var target = api.itemFrom(options.hover);
-                    var targetData = api.itemData(target);
-                    var itemData = api.itemData(item);
-                    if(targetData._isButton){
+                    dragDrop = new Object();
+                    var drop = api.itemFrom(options.hover);
+                    var dropData = api.itemData(drop);
+                    var dragData = api.itemData(item);
+                    if(dropData._isButton){
                         return false;
                     }
-                    if(itemData._isButton){
+                    if(dragData._isButton){
                         return false;
                     }
                     if (options.before === null) {
                         // container creation is disabled
                         return false;
                     }
-
-                    if (!api.sameParent(item, target)) {
-                        // mark the drop target as invalid
+                    if(dragData._targetLoad == targetLoadTest){
+                        //do not move the test node
                         return false;
                     }
-
+                    if (!api.sameParent(item, drop)) {
+                        // mark the drop target as invalid
+                        return false;
+                    }else{
+                        var parent = api.parent(item);
+                        var parentId = api.itemData(parent).id;
+                        var action = dragData._targetLoad;
+                        var childId = dragData.id;
+                        var indexDrop = api.getIndex(drop);
+                        console.log(indexDrop);
+                        var indexDrag = api.getIndex(item);
+                        console.log(indexDrag);
+                        var move = "down";
+                        if(indexDrag > indexDrop){
+                            move = "up"
+                        }
+                        console.log("move : " + move);
+                        console.log("-----------");
+                        dragDrop.action = action;
+                        dragDrop.parentId = parentId;
+                        dragDrop.childId = childId;
+                        dragDrop.indexDrop = indexDrop;
+                        dragDrop.move = move;
+                        //DragDrop(action,parentId,childId,indexDrop,move);
+                        return true;
+                    }
                 }
-                break;
         }
     });
 }

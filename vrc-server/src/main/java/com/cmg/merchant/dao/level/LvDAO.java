@@ -1,5 +1,6 @@
 package com.cmg.merchant.dao.level;
 
+import com.cmg.lesson.data.jdo.course.CourseMappingLevel;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.question.Question;
 import com.cmg.merchant.common.SqlUtil;
@@ -68,7 +69,7 @@ public class LvDAO extends DataAccess<Level> {
         PersistenceManager pm = PersistenceManagerHelper.get();
         String join = " as lv inner join COURSEMAPPINGLEVEL as map on map.IDLEVEL = lv.id where map.IDCOURSE = ? and map.ISDELETED=false and lv.ISDELETED=false order by map.`INDEX`";
         TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(Level.class.getCanonicalName());
-        Query q = pm.newQuery("javax.jdo.query.SQL", "Select lv.id,lv.name,lv.description,lv.isDemo,lv.color from " + metaRecorderSentence.getTable() + join);
+        Query q = pm.newQuery("javax.jdo.query.SQL", "Select lv.id,lv.name,lv.description,lv.isDemo,lv.color,map.`INDEX` from " + metaRecorderSentence.getTable() + join);
         try {
             List<Object> tmp = (List<Object>) q.execute(idCourse);
             if(tmp!=null && tmp.size() > 0){
@@ -88,6 +89,9 @@ public class LvDAO extends DataAccess<Level> {
                     if(array[4]!=null){
                         lv.setColor(array[4].toString());
                     }
+                    if(array[5]!=null){
+                        lv.setIndex(Integer.parseInt(array[5].toString()));
+                    }
                     listLv.add(lv);
                 }
             }
@@ -100,6 +104,33 @@ public class LvDAO extends DataAccess<Level> {
             pm.close();
         }
         return listLv;
+    }
+
+
+    /**
+     *
+     * @param idCourse
+     * @param idLevel
+     * @return true is update
+     * @throws Exception
+     */
+    public boolean updateIndex(String idCourse,String idLevel, int index) throws Exception{
+        boolean isUpdate=false;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaRecorderSentence = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(CourseMappingLevel.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE " + metaRecorderSentence.getTable() + " SET COURSEMAPPINGLEVEL.index=?  WHERE idCourse=? && idLevel=?");
+        try {
+            q.execute(index,idCourse,idLevel);
+            isUpdate=true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return isUpdate;
     }
 
 
@@ -180,7 +211,7 @@ public class LvDAO extends DataAccess<Level> {
 
     /**
      *
-     * @param idCourse
+     * @param idLevel
      * @return
      */
     public void deleteStep2(String idLevel){
