@@ -33,13 +33,15 @@ public class DragDropServlet extends BaseServlet {
             String idLevel =  (String) StringUtil.isNull(request.getParameter("parentId"),"");
             String idObj = (String) StringUtil.isNull(request.getParameter("childId"),"");
             int index = Integer.parseInt((String)StringUtil.isNull(request.getParameter("index"),"1"));
-            services.dragDropObj(idLevel, idObj, index);
+            String move = (String) StringUtil.isNull(request.getParameter("move"),"");
+            services.dragDropObj(idLevel, idObj, index,move);
             response.getWriter().println("success");
         }else if(action.equalsIgnoreCase(Constant.TARGET_LOAD_LESSONS)){
             String idObj =  (String) StringUtil.isNull(request.getParameter("parentId"),"");
             String idLesson = (String) StringUtil.isNull(request.getParameter("childId"),"");
             int index = Integer.parseInt((String)StringUtil.isNull(request.getParameter("index"),"1"));
-            services.dragDropLesson(idObj, idLesson, index);
+            String move = (String) StringUtil.isNull(request.getParameter("move"),"");
+            services.dragDropLesson(idObj, idLesson, index,move);
             response.getWriter().println("success");
         }
     }

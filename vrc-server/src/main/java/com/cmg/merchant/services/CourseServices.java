@@ -301,13 +301,18 @@ public class CourseServices {
         LvDAO dao = new LvDAO();
         try {
             ArrayList<Level> listLv = (ArrayList<Level>) dao.listIn(idCourse);
-            for(Level lv : listLv){
-                boolean existedInTest = dao.checkQuestionTestInLevel(lv.getId());
-                boolean existedInObj = dao.checkQuestionObjInLevel(lv.getId());
-                if(!existedInObj || !existedInTest ){
-                    return ERROR;
+            if(listLv!=null && listLv.size()>0){
+                for(Level lv : listLv){
+                    boolean existedInTest = dao.checkQuestionTestInLevel(lv.getId());
+                    boolean existedInObj = dao.checkQuestionObjInLevel(lv.getId());
+                    if(!existedInObj || !existedInTest ){
+                        return ERROR;
+                    }
                 }
+            }else{
+                return ERROR;
             }
+
         }catch (Exception e){
             return ERROR;
         }

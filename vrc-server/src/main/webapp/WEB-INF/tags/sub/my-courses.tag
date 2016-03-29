@@ -195,7 +195,8 @@
 <script src="<%=request.getContextPath() %>/js/merchant/mycourses/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/mycourses/ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/mycourses/data.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/mycourses/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/data/popupdata.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/validate/validateform.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/mycourses/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
 <!-- /#wrapper -->

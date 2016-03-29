@@ -94,9 +94,12 @@
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.sortable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/data.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/data/popupdata.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/validate/validateform.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/treeApi.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/treeUtil/util.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/edit-copy-course/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/copy/ajax.js"></script>

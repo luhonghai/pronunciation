@@ -175,16 +175,3 @@ function getExplanationTest(){
     var explanationTest=$("#explanation");
     return explanationTest;
 }
-function initHelpTopData(){
-    var $html = $("<div>");
-    $html.html("<p>1. You can check any of the content by hovering over and selecting " +
-        "the appropriate buttons in the tree. </p>");
-    $html.append("<p>2. You can see what the course would look like on a phone by selecting ‘preview’. " +
-        "<img style='float:right' src='/images/treeview/preview_button.gif' width='30px' height='30px'> </p>");
-    $html.append("<p>3. If you would like to duplicate the course, select ‘copy’." +
-        "This will add the course to your list of ‘my courses’. " +
-        "You can edit the content and you will need to " +
-        "publish it to make it available to add to your classes." +
-        "<img style='float:right' src='/images/treeview/duplicated_button.gif' width='30px' height='30px'> </p>");
-    return $html;
-}

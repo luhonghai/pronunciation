@@ -87,8 +87,10 @@
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.sortable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/data/popupdata.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/treeApi.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/treeUtil/util.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/reviewcourse/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>

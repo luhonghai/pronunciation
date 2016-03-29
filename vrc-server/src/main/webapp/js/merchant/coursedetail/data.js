@@ -27,10 +27,12 @@ function clearForm(){
     currentPopup.find("input[type=text]").each(function(){
         //Do stuff here
         $(this).val('');
+        $(this).attr('autocomplete','off');
     });
     currentPopup.find("textarea").each(function(){
         //Do stuff here
         $(this).val('');
+        $(this).attr('autocomplete','off');
     });
     currentPopup.find("#btndelete").hide();
 }
@@ -344,7 +346,7 @@ function initHelpAddWord(){
     $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
     $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
     $html.append("<p>2. Enter a numeric weight value in the text boxes below each phoneme according to the percentage of the score that you wish to assign.</p>");
-    $html.append("<p>3. Select ‘save’. </p>");
+    $html.append("<p>3. Select 'save'. </p>");
     $html.append("<p>You will not be able to save the details until you have entered a weight for each of the phonemes.</p>");
     $html.append("<p>The word will be added to the list for the current question and you will be able to add another word if you choose to do so.</p>");
     $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");
