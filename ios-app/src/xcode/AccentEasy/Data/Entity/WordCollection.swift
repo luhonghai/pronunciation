@@ -48,6 +48,13 @@ public class WordCollection: LiteEntity, Mappable {
         self.pronunciation = row[LiteColumn.PRONUNCIATION]
     }
     
+    public override func parse(row: Array<Optional<Binding>>) {
+        self.word = row[1] as? String
+        self.arpabet = row[2] as? String
+        self.definition = row[3] as? String
+        self.mp3Path = row[4] as? String
+        self.pronunciation = row[5] as? String
+    }
     
     
     public override func table() -> Table? {

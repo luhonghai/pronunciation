@@ -14,7 +14,7 @@ let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, 
 
 public class GlobalData {
     
-    public static let IS_DEBUG = false
+    public static let IS_DEBUG = true
     
     public static var instance:GlobalData?
     

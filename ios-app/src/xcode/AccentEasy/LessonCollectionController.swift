@@ -91,5 +91,12 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         let row: Int = sender.view!.tag
         Logger.log("Select row id \(row)")
         
+        let obj = lessionCollections[row]
+        let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonMainVC") as! LessonMainVC
+        //nextController.selectedLevel = selectedLevel
+        //nextController.selectedCountry = selectedCountry
+        nextController.selectedLessonCollection = obj
+        self.navigationController?.pushViewController(nextController, animated: true)
+        
     }
 }
