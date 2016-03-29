@@ -33,7 +33,7 @@
                                             <constraint firstAttribute="width" secondItem="skq-xv-gjk" secondAttribute="height" multiplier="75:13" id="jlT-uu-zvd"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="accent trainning" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wdl-U1-6Vb">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="accent training" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wdl-U1-6Vb">
                                         <rect key="frame" x="95" y="104" width="187" height="97"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="wdl-U1-6Vb" secondAttribute="height" multiplier="187:97" id="fEm-XL-ekW"/>
@@ -122,7 +122,7 @@
                                             <constraint firstAttribute="width" secondItem="zEX-Op-7v9" secondAttribute="height" multiplier="75:13" id="1go-15-BZ9"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="accent trainning" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hl7-8C-QWS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="accent training" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hl7-8C-QWS">
                                         <rect key="frame" x="95" y="104" width="187" height="97"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Hl7-8C-QWS" secondAttribute="height" multiplier="187:97" id="KkW-QI-ng4"/>
@@ -3041,11 +3041,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="w7l-a7-zju"/>
+        <segue reference="b3j-3D-4fV"/>
+        <segue reference="Udu-EY-icj"/>
+        <segue reference="WR5-An-sLd"/>
         <segue reference="Ceg-og-m1t"/>
         <segue reference="0GI-4W-Bce"/>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="hKc-VP-pia"/>
-        <segue reference="ZoM-vd-D1g"/>
-        <segue reference="WR5-An-sLd"/>
     </inferredMetricsTieBreakers>
 </document>
