@@ -72,7 +72,7 @@
     </div>
     <div class="row">
         <div class="col-lg-11">
-            <img id="help" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px"
+            <img id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px"
                  height="50px"/>
         </div>
         <div class="col-lg-1">

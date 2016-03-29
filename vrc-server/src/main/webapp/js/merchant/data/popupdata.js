@@ -76,13 +76,13 @@ function initHelpAddCourse(){
         "the course you create will be available for use by other companies. " +
         "You can change the sharing settings by selecting ‘my company’ (to share with other teachers " +
         "in your institution or company) or ‘private’ (not shared with anyone else).</p>");
-    $html.append("<p>4. Select ‘save’. A button will be added to the course administration page and the description " +
+    $html.append("<p>4. Select 'save'. A button will be added to the course administration page and the description " +
         "that you enter will be displayed when you mouse over it. </p>");
     $html.append("<p>When you click on the button, " +
         "you will be able to edit or delete the course. " +
         "You will be able to edit the ‘share’ settings. " +
         "However,if you have shared the course previously, it will be removed from the main courses page, " +
-        "but if other users have saved it in ‘my courses’, you will not be able to stop them from using it. </p>");
+        "but if other users have saved it in 'my courses', you will not be able to stop them from using it. </p>");
     return $html;
 }
 
@@ -121,7 +121,7 @@ function initHelpAddWordForQuestion(){
     $html.html("<p>1. Enter a word and load the associated phonemes.</p>");
     $html.append("<p>The phonemes will be displayed in Arpabet and IPA format.</p>");
     $html.append("<p>2. Enter a numeric weight value in the text boxes below each phoneme according to the percentage of the score that you wish to assign.</p>");
-    $html.append("<p>3. Select ‘save’.</p>");
+    $html.append("<p>3. Select 'save'.</p>");
     $html.append("<p>You will not be able to save the details until you have entered a weight for each of the phonemes.</p>");
     $html.append("<p>The word will be added to the list for the current question and you will be able to add another word if you choose to do so.</p>");
     $html.append("<p>If the word you are trying to add is not available in the accenteasy dictionary an error message will be displayed.</p>");

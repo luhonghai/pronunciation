@@ -655,8 +655,13 @@ function confirmDelete(){
 
 }
 
-
+function previewCourse(){
+    $(document).on("click","#preview",function(){
+        $('#preview-popup').modal('show');
+    });
+}
 $(document).ready(function(){
+    previewCourse();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
     showAddWordForTest();

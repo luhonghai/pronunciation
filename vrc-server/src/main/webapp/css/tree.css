@@ -124,9 +124,81 @@ label {
     background-size: 24px 24px !important;
 }
 
-.aciTree .aciTreeLine.aciTreeHover .aciTreeIcon.questiontest {
-    /* comment next line to keep the same icon on hover */
+
+#preview-popup #contain-data{
+    width : 100%;
+    height : 100%;
+    min-height : 350px;
+    border : 5px solid black;
+    border-radius: 10px;
 
 }
 
+#preview-popup .screen-detail{
+    padding-top : 10px;
+}
 
+#preview-popup #screen-level div.header{
+    text-align: center;
+}
+
+#preview-popup #screen-objective div.header{
+    padding-right : 10px;
+    padding-left : 10px;
+}
+
+#screen-objective div.body-screen{
+    margin-top:10px;
+    min-height:250px;
+    max-height:250px;
+}
+
+#preview-popup div.body-screen{
+    padding : 10px;
+    min-height:300px;
+    max-height :350px;
+    overflow-y:auto;
+    width : 100%;
+}
+
+#preview-popup div.screen-detail div.footer-screen{
+    padding : 10px
+}
+
+#preview-popup div.screen-detail div.body-screen div.container-selection{
+    padding-bottom : 10px;
+    padding-top:10px;
+    border-radius : 5px;
+}
+
+a.selection{
+    padding : 5px 5px 0px 5px;
+    border-color : transparent;
+    width : 100%;
+    background-color: #DDF7F6;
+
+}
+
+label.name{
+    color : #465968;
+    float : left;
+    cursor: pointer;
+    font-weight: 600 !important;
+}
+
+div.circle{
+    float : right;
+    border: 1px solid transparent;
+    width:20px;
+    height:20px;
+    border-radius : 15px;
+    background-color: #AEBBBA;
+}
+div.big-circle{
+    width:60px;
+    height:60px;
+    border:1px solid transparent;
+    border-radius:30px;
+    background-color: #AEBBBA;
+    margin-top: 10px;
+}
