@@ -1,56 +1,36 @@
 package com.cmg.vrc.servlet;
 
-import com.cmg.vrc.data.jdo.UserVoiceModel;
 import com.cmg.vrc.processor.CustomFFMPEGLocator;
 import com.cmg.vrc.properties.Configuration;
-import com.cmg.vrc.sphinx.DictionaryHelper;
-import com.cmg.vrc.sphinx.PhonemesDetector;
-import com.cmg.vrc.sphinx.SphinxResult;
 import com.cmg.vrc.util.UUIDGenerator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 /**
- * Created by luhonghai on 3/28/16.
+ * Created by luhonghai on 3/29/16.
  */
-
-
-public class PhonemeDetectorServlet extends BaseServlet {
-
-    class TestResponseData extends ResponseData<SphinxResult> {
-        Map<String, List<String>> neighbourPhones;
-        Map<String, String> beepPhonemes = DictionaryHelper.BEEP_TO_CMU_PHONEMES;
-    }
+public class AudioGeneratorHandler extends BaseServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        String audioUrl = req.getParameter("url");
-        String word = req.getParameter("word");
-        logger.info("Analyze word " + word + " from URL: " + audioUrl);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        OutputStream out = response.getOutputStream();
+        response.setHeader("Pragma", "private");
+        response.setHeader("Cache-Control", "private, must-revalidate");
+        response.setHeader("Accept-Ranges", "bytes");
+        String url=request.getParameter("url");
         File tmpFile = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".raw.wav");
         File tmpFileWav = new File(FileUtils.getTempDirectory(), UUIDGenerator.generateUUID() + ".tmp.wav");
-        TestResponseData responseData = new TestResponseData();
-        responseData.setMessage("");
-        responseData.setStatus(false);
         try {
-            FileUtils.copyURLToFile(new URL(audioUrl), tmpFile);
-
+            FileUtils.copyURLToFile(new URL(url), tmpFile);
             AudioAttributes audio = new AudioAttributes();
-            //  audio.setBitRate(128000);
             audio.setChannels(1);
             audio.setSamplingRate(16000);
             EncodingAttributes attrs = new EncodingAttributes();
@@ -64,14 +44,22 @@ public class PhonemeDetectorServlet extends BaseServlet {
             } catch (Exception e) {
                 // ingore
             }
-            PhonemesDetector phonemesDetector = new PhonemesDetector(tmpFileWav, word);
-            phonemesDetector.setAllowAdditionalData(true);
-            responseData.setData(phonemesDetector.analyze());
-            responseData.neighbourPhones = phonemesDetector.getNeighbourPhones();
-            responseData.setStatus(true);
-            responseData.setMessage("success");
+            response.setContentType("audio/wav");
+            InputStream in = new FileInputStream(tmpFileWav);
+            try {
+                response.setContentLength(in.available());
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, length);
+                }
+                out.flush();
+                out.close();
+            } finally {
+                IOUtils.closeQuietly(in);
+            }
         } catch (Exception e) {
-            responseData.setMessage(e.getMessage());
+            //
         } finally {
             if (tmpFile.exists()) {
                 try {
@@ -84,7 +72,5 @@ public class PhonemeDetectorServlet extends BaseServlet {
                 } catch (Exception e) {}
             }
         }
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        resp.getWriter().write(gson.toJson(responseData));
     }
 }

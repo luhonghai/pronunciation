@@ -53,8 +53,6 @@ public class PhonemesDetector {
 
     private float sampleRate = 16000;
 
-    private int bufferSize = 1024 * 4;
-
     public PhonemesDetector(File target, String word) {
         this.target = target;
         this.word = word;
@@ -275,22 +273,41 @@ public class PhonemesDetector {
                                     String baseUnit = hmmState.getHMM().getBaseUnit().getName();
                                     if (baseUnit != null && baseUnit.length() > 0 && !baseUnit.toLowerCase().contains("sil")) {
                                         FloatData data = (FloatData) token.getData();
+                                        int bufferSize = data.getValues().length;
+                                        logger.info("buffer size: " + bufferSize);
                                         FFT fft = new FFT(bufferSize);
                                         float[] amplitudes = new float[bufferSize/2];
                                         float[] audioFloatBuffer = data.getValues();
                                         float[] transformbuffer = new float[bufferSize*2];
+                                        float[] transformbuffer2 = new float[bufferSize*2];
+
+                                        float[] magnitude = new float[bufferSize/2];
+                                        float[] phases = new float[bufferSize/2];
+
                                         System.arraycopy(audioFloatBuffer, 0, transformbuffer, 0, audioFloatBuffer.length);
+                                        System.arraycopy(audioFloatBuffer, 0, transformbuffer2, 0, audioFloatBuffer.length);
                                         fft.forwardTransform(transformbuffer);
                                         fft.modulus(transformbuffer, amplitudes);
+
+                                        FFT fft2 = new FFT(bufferSize);
+                                        fft2.forwardTransform(transformbuffer2);
+                                        fft2.powerAndPhaseFromFFT(transformbuffer2, magnitude, phases);
+                                        //TODO: get frequency from fft http://stackoverflow.com/questions/7674877/how-to-get-frequency-from-fft-result
                                         Float maxAmp = Collections.max(Arrays.asList(ArrayUtils.toObject(amplitudes)));
                                         Float minAmp = Collections.min(Arrays.asList(ArrayUtils.toObject(amplitudes)));
-                                        System.out.println("Found phone " + baseUnit
+                                        Float maxMagnitude = Collections.max(Arrays.asList(ArrayUtils.toObject(magnitude)));
+                                        double freq = fft.binToHz(Math.round(maxMagnitude), sampleRate) / 1000;
+                                        logger.info("Found phone " + baseUnit
                                                 + ". Time frame: " + data.getCollectTime() + "ms"
                                                 + ". Max amp: " + maxAmp
-                                                + ". Min amp: " + minAmp);
+                                                + ". Min amp: " + minAmp
+                                                + ". Max magnitude: " + maxMagnitude
+                                                + ". Frequency: " + freq);
                                         SphinxResult.PhonemeExtra phonemeExtra = new SphinxResult.PhonemeExtra();
                                         phonemeExtra.setMaxAmp(maxAmp);
                                         phonemeExtra.setCollectTime(data.getCollectTime());
+                                        phonemeExtra.setMaxMagnitude(maxMagnitude);
+                                        phonemeExtra.setFrequency(freq);
                                         rawBestPhonemes.add(baseUnit.toUpperCase());
                                         if (phoneme == null) {
                                             phoneme = new SphinxResult.Phoneme();
@@ -577,7 +594,7 @@ public class PhonemesDetector {
             try {
                 rs = detector.analyze();
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                System.out.println(gson.toJson(rs));
+              //  System.out.println(gson.toJson(rs));
             } catch (IOException e) {
                 e.printStackTrace();
             }

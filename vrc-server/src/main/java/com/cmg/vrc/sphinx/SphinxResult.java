@@ -52,6 +52,10 @@ public class SphinxResult {
 
         private long collectTime;
 
+        private float maxMagnitude;
+
+        private double frequency;
+
         public float getMaxAmp() {
             return maxAmp;
         }
@@ -66,6 +70,22 @@ public class SphinxResult {
 
         public void setCollectTime(long collectTime) {
             this.collectTime = collectTime;
+        }
+
+        public float getMaxMagnitude() {
+            return maxMagnitude;
+        }
+
+        public void setMaxMagnitude(float maxMagnitude) {
+            this.maxMagnitude = maxMagnitude;
+        }
+
+        public double getFrequency() {
+            return frequency;
+        }
+
+        public void setFrequency(double frequency) {
+            this.frequency = frequency;
         }
     }
 
