@@ -19,6 +19,7 @@ import java.io.IOException;
 public class PublishCourseServlet extends HttpServlet {
     public String ACTION_PUBLISH_COURSE = "publish";
     public String ACTION_PUBLISH_COURSE_COPY = "publishCourseCp";
+    public String ACTION_UPDATE_STATE_COPY = "updateState";
     public String ACTION_ENABLE_BUTTON = "checkButton";
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setHeader("Content-Type", "text/plain; charset=UTF-8");
@@ -31,6 +32,15 @@ public class PublishCourseServlet extends HttpServlet {
         }else if(action.equalsIgnoreCase(ACTION_PUBLISH_COURSE_COPY)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             String state = (String) StringUtil.isNull(request.getParameter("state"), "").toString();
+            CMTSERVICES services = new CMTSERVICES();
+            String text = services.publishCourseCopy(idCourse, state);
+            response.getWriter().println(text);
+        }else if(action.equalsIgnoreCase(ACTION_UPDATE_STATE_COPY)){
+            String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
+            String state = (String) StringUtil.isNull(request.getParameter("state"), "").toString();
+            CMTSERVICES services = new CMTSERVICES();
+            String text = services.UpdateStateCourseCopy(idCourse, state);
+            response.getWriter().println(text);
         }else if(action.equalsIgnoreCase(ACTION_ENABLE_BUTTON)){
             String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "").toString();
             CourseServices services = new CourseServices();

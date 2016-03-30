@@ -102,3 +102,4 @@
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ui.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/copy/ajax.js"></script>
 
+

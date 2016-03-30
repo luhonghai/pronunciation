@@ -36,6 +36,7 @@ function editCourse(){
                 //reload the tree
                 if(nameOfCourse != getCourseName().val){
                     isEditedTitle = true;
+                    UpdateStateCourse();
                 }
                 currentParent = null;
                 firstLoad = true;
@@ -106,6 +107,7 @@ function addLevel(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added Level successfully", "success");
@@ -141,6 +143,7 @@ function editLevel(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated Level successfully", "success");
@@ -176,6 +179,7 @@ function deleteLevel(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
@@ -215,6 +219,7 @@ function addObj(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added objective successfully", "success");
@@ -250,6 +255,7 @@ function editObj(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated objective successfully", "success");
@@ -283,6 +289,7 @@ function deleteObj(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
@@ -319,6 +326,7 @@ function addTest(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added test successfully", "success");
@@ -353,6 +361,7 @@ function editTest(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated test successfully", "success");
@@ -386,6 +395,7 @@ function deleteTest(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
@@ -424,6 +434,7 @@ function addLesson(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have added lesson successfully!", "success");
@@ -459,6 +470,7 @@ function editLesson(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("", "You have updated lesson successfully", "success");
@@ -488,6 +500,7 @@ function deleteLesson(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
@@ -522,6 +535,7 @@ function addQuestions(listWord){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have add question successfully!", "success");
@@ -552,6 +566,7 @@ function editQuestions(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have edit question successfully!", "success");
@@ -582,6 +597,7 @@ function deleteQuestion(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 isEditedContent = true;
+                UpdateStateCourse();
                 //reload the tree
                 reloadTree();
                 confirmDeletePopup().modal('hide');
@@ -622,6 +638,7 @@ function addQuestionsForTest(listWord){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have add question for test successfully!", "success");
@@ -654,6 +671,7 @@ function editQuestionsForTest(listWord){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 currentPopup.modal('hide');
                 swal("Success!", "You have edit question for test successfully!", "success");
@@ -685,6 +703,7 @@ function deleteQuestionForTest(){
             if (data.indexOf("success") !=-1) {
                 //reload the tree
                 isEditedContent = true;
+                UpdateStateCourse();
                 reloadTree();
                 confirmDeletePopup().modal('hide');
                 currentPopup.modal('hide');
@@ -832,7 +851,38 @@ function enablePublishBtn(){
         }
     });
 }
+/**
+ *
+ */
+function UpdateStateCourse(){
+    if(typeof isEditedContent == "undefined"){
+        return false;
+    }
+    if(typeof isEditedTitle == "undefined"){
+        return false;
+    }
+    if(isEditedContent){
+        state = "edited";
+    }else if(isEditedTitle && !isEditedContent){
+        state = "duplicated";
+    }
+    $.ajax({
+        url : servletPublish,
+        type : "POST",
+        data : {
+            action: "updateState",
+            idCourse : idCourse,
+            state : state
+        },
+        dataType : "text",
+        success : function(data){
 
+        },
+        error: function () {
+            swal("","Could not connect to server","error");
+        }
+    });
+}
 /**
  *
  */

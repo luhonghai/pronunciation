@@ -15,6 +15,7 @@ import com.cmg.lesson.services.question.WeightForPhonemeService;
 import com.cmg.merchant.dao.lessons.LMQDAO;
 import com.cmg.merchant.dao.questions.QDAO;
 import com.cmg.merchant.dao.questions.QMLDAO;
+import com.cmg.merchant.dao.test.TDAO;
 import com.cmg.merchant.dao.word.WDAO;
 import com.cmg.merchant.dao.word.WFPDAO;
 import com.cmg.merchant.dao.word.WMQDAO;
@@ -297,6 +298,50 @@ public class QuestionServices {
             }
         }catch (Exception e){
             logger.error("can not get all question by id lesson : " + e.getMessage());
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param idLesson
+     * @return
+     */
+    public ArrayList<Question> getQuestionByIdLessonPreview(String idLesson){
+        QMLDAO dao = new QMLDAO();
+        ArrayList<Question> list = new ArrayList<>();
+        try {
+            List<Question> temp = dao.getQuestionByIdLesson(idLesson);
+            if(temp!=null && temp.size() > 0){
+                for(Question q : temp){
+                    q.setWords(getWordsByIdQuestion(q.getId()));
+                    list.add(q);
+                }
+            }
+        }catch (Exception e){
+            logger.error("can not get all question by id lesson : " + e.getMessage());
+        }
+        return list;
+    }
+
+    /**
+     *
+     * @param idTest
+     * @return
+     */
+    public ArrayList<Question> getQuestionByTest(String idTest){
+        TDAO dao = new TDAO();
+        ArrayList<Question> list = new ArrayList<Question>();
+        try {
+            List<Question> temp = dao.getQuestionInTest(idTest);
+            if(temp!=null && temp.size() > 0){
+                for(Question q : temp){
+                    q.setWords(getWordsByIdQuestion(q.getId()));
+                    list.add(q);
+                }
+            }
+        }catch (Exception e){
+            logger.error("can not get all question by id test : " + e.getMessage());
         }
         return list;
     }

@@ -689,6 +689,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>PreviewServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.PreviewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PreviewServlet</servlet-name>
+        <url-pattern>/PreviewServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.AcousticModelDataHandler</servlet-class>
     </servlet>

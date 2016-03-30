@@ -29,6 +29,10 @@ function copyLevel(idCourse, idLevel){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                if(typeof isEditedContent != "undefined"){
+                    isEditedContent = true;
+                    UpdateStateCourse();
+                }
                reloadTree();
                swal("","Copy level successfully","success");
             }else{
@@ -82,6 +86,10 @@ function copyObj(idLevel, idObj){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                if(typeof isEditedContent != "undefined"){
+                    isEditedContent = true;
+                    UpdateStateCourse();
+                }
                 reloadTree();
                 swal("","Copy objective successfully","success");
             }else{
@@ -135,6 +143,10 @@ function copyTest(idLevel, idTest){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                if(typeof isEditedContent != "undefined"){
+                    isEditedContent = true;
+                    UpdateStateCourse();
+                }
                 reloadTree();
                 swal("","Copy test successfully","success");
             }else{
@@ -187,6 +199,10 @@ function copyLesson(idObj, idLesson){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                if(typeof isEditedContent != "undefined"){
+                    isEditedContent = true;
+                    UpdateStateCourse();
+                }
                 reloadTree();
                 swal("","Copy lesson successfully","success");
             }else{
@@ -240,6 +256,10 @@ function copyQuestion(idLesson, idQuestion){
         dataType : "text",
         success : function(data){
             if (data.indexOf("success") !=-1) {
+                if(typeof isEditedContent != "undefined"){
+                    isEditedContent = true;
+                    UpdateStateCourse();
+                }
                 reloadTree();
                 swal("","Copy question successfully","success");
             }else{

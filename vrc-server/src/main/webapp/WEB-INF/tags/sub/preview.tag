@@ -29,16 +29,17 @@
                                 </div>
                                 <div class='screen-detail' id="screen-objective" style="display:none">
                                     <div class="header">
-                                        <img src="/images/treeview/unpublished_button.gif"
+                                        <img back="screen-level" class="slide-back" src="/images/treeview/unpublished_button.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <label style="float:right">Level 1</label>
+                                        <div style="float:right;width:150px">
+                                            <label>Level 1</label>
+                                        </div>
                                     </div>
                                     <div class="big-circle center-block"></div>
                                     <div class="body-screen">
                                         <div class='container-selection'>
                                             <a class="btn selection">
                                                 <label class="name">My Objectives</label>
-
                                                 <div class="circle"></div>
                                             </a>
                                         </div>
@@ -52,11 +53,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class='screen-detail' id="screen-lesson" style="display:block">
+                                <div class='screen-detail' id="screen-lesson" style="display:none">
                                     <div class="header">
-                                        <img src="/images/treeview/unpublished_button.gif"
+                                        <img back="screen-objective" class="slide-back" src="/images/treeview/unpublished_button.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="float:right"><marquee>Level 1 - My Objective</marquee></div>
+                                        <div style="float:right;width:150px">
+                                            <marquee>Level 1 - My Objective</marquee>
+                                        </div>
                                     </div>
                                     <div class="body-screen">
                                         <div class='container-selection'>
@@ -72,6 +75,40 @@
                                                 <label class="name">objectives</label>
                                                 <div class="circle circle-question">?</div>
                                             </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='screen-detail' id="screen-question" style="display:none">
+                                    <div class="header">
+                                        <img back="screen-lesson" class="slide-back" src="/images/treeview/unpublished_button.gif"
+                                             style="float:left;width:20px;height:20px;">
+                                    </div>
+                                    <div class="body-screen">
+                                        <div class="col-sm-6 contain-head-circle">
+                                            <div class="circle circle-left"></div>
+                                        </div>
+                                        <div class="col-sm-6 contain-head-circle">
+                                            <div class="circle circle-right"></div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="big-circle center-block"></div>
+                                        </div>
+                                        <div class="col-sm-12 contain-word">
+                                            <label>SAT</label>
+                                        </div>
+                                        <div class="col-sm-10 description-question">
+                                            <label>Practise words with /t/ at
+                                                the end e.g. f-e-e-t</label>
+                                        </div>
+                                        <div class="col-sm-2 contain-circle-right-label">
+                                            <div class="circle circle-right-label"></div>
+                                        </div>
+                                        <div class="contain-question">
+                                            <div class="circle circle-question">Q1</div>
+                                            <div class="circle circle-question">Q2</div>
+                                            <div class="circle circle-question">Q3</div>
+                                            <div class="circle circle-question">Q4</div>
+                                            <div class="circle circle-question">Q5</div>
                                         </div>
                                     </div>
                                 </div>
@@ -100,5 +137,7 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
-
+<script src="<%=request.getContextPath() %>/js/merchant/preview/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/preview/ui.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/preview/data.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/preview/action.js"></script>
