@@ -6,98 +6,78 @@ import java.util.List;
  * Created by CMGT400 on 9/29/2015.
  */
 public class Reports {
-    class Info{
-        private String lessonName;
-        private String completionDate;
-        public String getLessonName() {
-            return lessonName;
+        private int studentScoreLesson;
+        private int classAvgScoreLesson;
+        private List<Float> wordStudentScore;
+        private List<Float> wordClassScore;
+        private List<String> word;
+        private List<Float> phonemesStudentScore;
+        private List<Float> phonemesClassScore;
+        private List<String> phonemes;
+
+        public int getStudentScoreLesson() {
+            return studentScoreLesson;
         }
 
-        public void setLessonName(String lessonName) {
-            this.lessonName = lessonName;
+        public void setStudentScoreLesson(int studentScoreLesson) {
+            this.studentScoreLesson = studentScoreLesson;
         }
 
-        public String getCompletionDate() {
-            return completionDate;
+        public int getClassAvgScoreLesson(){
+            return classAvgScoreLesson;
         }
 
-        public void setCompletionDate(String completionDate) {
-            this.completionDate = completionDate;
+        public void setClassAvgScoreLesson(int classAvgScoreLesson) {
+            this.classAvgScoreLesson = classAvgScoreLesson;
         }
 
-    }
 
-    private int studentScoreLesson;
-    private int classAvgScoreLesson;
-    private List<Float> phonemesStudentScore;
-    private List<Float> phonemesClassScore;
-    private List<Float> wordStudentScore;
-    private List<Float> wordClassScore;
-    private List<String> phonemes;
-    private List<String> word;
+        public List<Float> getWordStudentScore() {
+            return wordStudentScore;
+        }
+
+        public void setWordStudentScore(List<Float> wordStudentScore) {
+            this.wordStudentScore = wordStudentScore;
+        }
+
+        public List<Float> getWordClassScore() {
+            return wordClassScore;
+        }
+
+        public void setWordClassScore(List<Float> wordClassScore) {
+            this.wordClassScore = wordClassScore;
+        }
+        public List<String> getWord() {
+            return word;
+        }
+
+        public void setWord(List<String> word) {
+            this.word = word;
+        }
 
 
-    public int getStudentScoreLesson() {
-        return studentScoreLesson;
-    }
+        public List<Float> getPhonemesStudentScore() {
+            return phonemesStudentScore;
+        }
 
-    public void setStudentScoreLesson(int studentScoreLesson) {
-        this.studentScoreLesson = studentScoreLesson;
-    }
+        public void setPhonemesStudentScore(List<Float> phonemesStudentScore) {
+            this.phonemesStudentScore = phonemesStudentScore;
+        }
 
-    public int getClassAvgScoreLesson(){
-        return classAvgScoreLesson;
-    }
+        public List<Float> getPhonemesClassScore() {
+            return phonemesClassScore;
+        }
 
-    public void setClassAvgScoreLesson(int classAvgScoreLesson) {
-        this.classAvgScoreLesson = classAvgScoreLesson;
-    }
+        public void setPhonemesClassScore(List<Float> phonemesClassScore) {
+            this.phonemesClassScore = phonemesClassScore;
+        }
 
-    public List<Float> getPhonemesStudentScore() {
-        return phonemesStudentScore;
-    }
+        public List<String> getPhonemes() {
+            return phonemes;
+        }
 
-    public void setPhonemesStudentScore(List<Float> phonemesStudentScore) {
-        this.phonemesStudentScore = phonemesStudentScore;
-    }
+        public void setPhonemes(List<String> phonemes) {
+            this.phonemes = phonemes;
+        }
 
-    public List<Float> getPhonemesClassScore() {
-        return phonemesClassScore;
-    }
-
-    public void setPhonemesClassScore(List<Float> phonemesClassScore) {
-        this.phonemesClassScore = phonemesClassScore;
-    }
-
-    public List<Float> getWordStudentScore() {
-        return wordStudentScore;
-    }
-
-    public void setWordStudentScore(List<Float> wordStudentScore) {
-        this.wordStudentScore = wordStudentScore;
-    }
-
-    public List<Float> getWordClassScore() {
-        return wordClassScore;
-    }
-
-    public void setWordClassScore(List<Float> wordClassScore) {
-        this.wordClassScore = wordClassScore;
-    }
-
-    public List<String> getPhonemes() {
-        return phonemes;
-    }
-
-    public void setPhonemes(List<String> phonemes) {
-        this.phonemes = phonemes;
-    }
-
-    public List<String> getWord() {
-        return word;
-    }
-
-    public void setWord(List<String> word) {
-        this.word = word;
-    }
 }

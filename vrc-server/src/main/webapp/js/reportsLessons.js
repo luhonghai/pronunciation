@@ -139,6 +139,7 @@ function listLevel(){
                 if (data.message == "success") {
                     $("#divObjective").hide();
                     $("#listLevel").empty();
+                    $("#draw").empty();
                     if (data.listLevel != null && data.listLevel.length > 0) {
                         var items = data.listLevel;
                         $(items).each(function () {
@@ -197,29 +198,56 @@ function listObjective(){
 
 function loadInfo(){
     $(document).on("click","#loadInfo",function() {
-        var idCourse=$("#listCourse").val();
-        var idLevel=$("#listLevel").val();
+        var Course=$("#listCourse option:selected").text();
+        var Level=$("#listLevel option:selected").text();
+        var Obj=$("#listObjective option:selected").text();
         var idObj=$("#listObjective").val();
-        var student=$("#").val();
         $.ajax({
             url: "ReportsLessons",
             type: "POST",
             dataType: "json",
             data: {
                 action: "loadInfo",
-                idCourse:idCourse,
-                idLevel:idLevel,
-                idObj:idObj,
-                student:student
+                idObj:idObj
             },
             success: function (data) {
                 if (data.message == "success") {
-                    if (data.listLevel != null && data.listLevel.length > 0) {
-                        var items = data.listLevel;
+                    if (data.listLesson != null && data.listLesson.length > 0) {
+                        var items = data.listLesson;
                         $(items).each(function () {
-                            $("#listLevel").append('<option value="' + this.id + '">' + this.name + '</option>');
+                            var idLesson=this.id;
+                            var name=this.name;
+                            var date=this.dateCreated
+                            $("#draw").append(draw(Course,Level,Obj,name,date));
+                            drawChart(idLesson);
                         });
                     }
+                } else {
+                    swal("Error!", data.message.split(":")[1], "error");
+                }
+            },
+            error: function () {
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+    });
+}
+
+function drawChart(idLesson){
+    $(document).on("click","#loadInfo",function() {
+        var student=$("#listUsers").val();
+        $.ajax({
+            url: "ReportsLessons",
+            type: "POST",
+            dataType: "json",
+            data: {
+                action: "drawChart",
+                idLesson:idLesson
+            },
+            success: function (data) {
+                if (data.message == "success") {
+                    init();
                 } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
