@@ -77,11 +77,12 @@ function drawLessonPreview(lesson){
 }
 
 function drawQuestionPreview(question, index){
+    index = index + 1;
     var $html = $("<div>");
     $html.addClass("circle circle-question");
     $html.attr('id',question.id);
     $html.attr('words',parseList(question.words));
-    $html.html("Q" + index++);
+    $html.html("Q" + index);
     getContainQuestion().append($html);
 }
 

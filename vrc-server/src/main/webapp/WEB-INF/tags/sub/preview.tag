@@ -31,7 +31,9 @@
                                     <div class="header">
                                         <img back="screen-level" class="slide-back" src="/images/treeview/unpublished_button.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <label style="float:right">Level 1</label>
+                                        <div style="float:right;width:150px">
+                                            <label>Level 1</label>
+                                        </div>
                                     </div>
                                     <div class="big-circle center-block"></div>
                                     <div class="body-screen">
@@ -55,7 +57,9 @@
                                     <div class="header">
                                         <img back="screen-objective" class="slide-back" src="/images/treeview/unpublished_button.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="float:right"><marquee>Level 1 - My Objective</marquee></div>
+                                        <div style="float:right;width:150px">
+                                            <marquee>Level 1 - My Objective</marquee>
+                                        </div>
                                     </div>
                                     <div class="body-screen">
                                         <div class='container-selection'>
