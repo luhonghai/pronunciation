@@ -624,6 +624,10 @@ function clickHelpAdd(){
             getPopUpHelp().find(".modal-title").html("deleting files");
             getPopUpHelp().find(".modal-body").empty();
             getPopUpHelp().find(".modal-body").html(initHelpDelete());
+        }else if(id=="helpAddWord"){
+            getPopUpHelp().find(".modal-title").html("test word management");
+            getPopUpHelp().find(".modal-body").empty();
+            getPopUpHelp().find(".modal-body").html(initHelpAddWord());
         }
         getPopUpHelp().modal('show');
     });
@@ -651,8 +655,13 @@ function confirmDelete(){
 
 }
 
-
+function previewCourse(){
+    $(document).on("click","#preview",function(){
+        $('#preview-popup').modal('show');
+    });
+}
 $(document).ready(function(){
+    previewCourse();
     btnDeleteQuestionForTest();
     btnSaveQuestionForTest();
     showAddWordForTest();

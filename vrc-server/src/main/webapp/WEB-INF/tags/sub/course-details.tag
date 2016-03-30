@@ -72,7 +72,7 @@
     </div>
     <div class="row">
         <div class="col-lg-11">
-            <img id="help" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px"
+            <img id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px"
                  height="50px"/>
         </div>
         <div class="col-lg-1">
@@ -92,10 +92,13 @@
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.aciTree.sortable.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/aciTree/js/jquery.contextMenu.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/data.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/coursedetail/validateform.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/data/popupdata.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/validate/validateform.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/action.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/treeApi.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/treeUtil/util.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ajax.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/js/jquery.progresstimer.min.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/coursedetail/ui.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/copy/ajax.js"></script>
 

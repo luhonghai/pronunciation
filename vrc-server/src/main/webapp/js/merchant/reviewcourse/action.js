@@ -118,7 +118,7 @@ function clickCopyCourse(){
 function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
         getPopUpHelp().find(".modal-body").empty();
-        getPopUpHelp().find(".modal-body").html(initHelpTopData());
+        getPopUpHelp().find(".modal-body").html(initHelpTopDataReviewCourse());
         getPopUpHelp().modal('show');
     });
 }

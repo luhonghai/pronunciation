@@ -7,7 +7,6 @@ var firstLoad = true;
 var showBtnAction = false;
 var servlet = "/TreeLoadServlet";
 var currentParent;
-var nodeCopied;
 /**
  *  init the tree view.
  */
@@ -63,41 +62,18 @@ function initTree(){
     theTree.addClass("aciTreeBig");
 }
 
-
-
-function ClickOnTree(){
-    $(document).on("click",".aciTreeItem",function(){
-        treeAPI = theTree.aciTree('api');
-        var item = $(this).closest("li");
-        var itemData = treeAPI.itemData(item);
-        currentParent = treeAPI.parent(item);
-        var popupId = itemData._popupId;
-        openPopup(itemData);
-    });
-
-
-}
 /**
- * reload the tree
+ * drag&drop
  */
-function reloadTree(){
-    treeAPI = theTree.aciTree('api');
-    treeAPI.unload(currentParent, {
-        success: function(item) {
-            this.close(item);
-            treeAPI.ajaxLoad(currentParent, {
-                success: function(item) {
-                    this.open(item);
-                }
-            });
+function DisableDrag2drop(){
+    theTree.on('acitree', function(event, api, item, eventName, options) {
+        switch (eventName) {
+            case 'checkdrop': return false;
         }
     });
-
-
 }
-
 $(function() {
+    DisableDrag2drop();
     ClickOnTree();
     initTree();
-
 });

@@ -55,7 +55,8 @@ function showTopHelp(){
 function clickTopHelp(){
     $(document).on("click","#help-icons", function(){
         getPopUpHelp().find(".modal-body").empty();
-        getPopUpHelp().find(".modal-body").html(initHelpTopData());
+        getPopUpHelp().find(".modal-title").html("my courses");
+        getPopUpHelp().find(".modal-body").html(initHelpTopDataMyCourse());
         getPopUpHelp().modal('show');
     });
 }
