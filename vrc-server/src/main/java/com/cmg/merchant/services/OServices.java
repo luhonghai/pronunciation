@@ -113,6 +113,11 @@ public class OServices {
         return SUCCESS;
     }
 
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
     public ArrayList<Objective> getAllByLevelId(String idLevel){
         ODAO dao = new ODAO();
         try {

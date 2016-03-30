@@ -14,6 +14,9 @@
 #preview-popup #screen-level div.header{
     text-align: center;
 }
+#screen-level .body-screen{
+    min-height : 350px;
+}
 
 #preview-popup #screen-objective div.header{
     padding : 0px 5px 0px 5px;
@@ -27,16 +30,20 @@
     max-height:250px;
 }
 
+#screen-lesson div.body-screen{
+    margin-top:10px;
+    min-height:300px;
+}
+
 #preview-popup div.body-screen{
     padding : 5px;
-    min-height:300px;
     max-height :350px;
     overflow-y:auto;
     width : 100%;
 }
 
 #preview-popup div.screen-detail div.footer-screen{
-    padding : 10px
+    padding : 5px;
 }
 
 #preview-popup div.screen-detail div.body-screen div.container-selection{
@@ -92,4 +99,80 @@ div.big-circle{
 .circle-question{
     color : white;
     background-color: #009900 !important;
+}
+
+#screen-question .body-screen{
+    min-height : 350px;
+}
+#screen-question .contain-head-circle{
+    padding-top  :20px;
+}
+
+#screen-question .circle-left{
+    float : none;
+    background-color: #BFBFBF;
+    display : inline-block;
+    width : 30px !important;
+    height :30px !important;
+}
+
+#screen-question .circle-right{
+    float : right;
+    background-color: #C3D69B;
+    display : inline-block;
+    width : 30px !important;
+    height :30px !important;
+}
+
+#screen-question .big-circle{
+    margin-top: 0px;
+    background-color: #D99694;
+    width : 80px;
+    height:80px;
+    border-radius: 40px;
+}
+
+#screen-question .contain-word{
+    text-align: center;
+    padding-top:10px;
+}
+
+#screen-question .contain-word label{
+    color : #A7933C;
+    font-weight : 700;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+#screen-question .description-question{
+    padding-top : 10px;
+}
+#screen-question .description-question label{
+    color : #A7933C;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+#screen-question .contain-circle-right-label{
+    padding-top : 5px;
+
+}
+#screen-question .circle-right-label{
+    background-color: #FFB66D;
+    width : 30px;
+    height :30px;
+}
+
+#screen-question .contain-question{
+    padding-top : 80px;
+    width : 100%;
+    overflow-x: auto;
+}
+
+#screen-question .circle-question{
+    background-color: #A162D0 !important;
+    margin-left : 5px;
+    width : 30px;
+    height:30px;
+    padding : 5px;
+    float:left;
 }

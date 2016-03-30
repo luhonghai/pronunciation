@@ -1,11 +1,14 @@
 package com.cmg.lesson.data.jdo.level;
 
+import com.cmg.lesson.data.jdo.objectives.Objective;
+import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.vrc.data.Mirrorable;
 
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -43,6 +46,28 @@ public class Level implements Mirrorable {
 
     @NotPersistent
     private int index;
+
+    @NotPersistent
+    private ArrayList<Objective> list;
+
+    @NotPersistent
+    private Test test;
+
+    public ArrayList<Objective> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<Objective> list) {
+        this.list = list;
+    }
+
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
 
     public int getIndex() {
         return index;

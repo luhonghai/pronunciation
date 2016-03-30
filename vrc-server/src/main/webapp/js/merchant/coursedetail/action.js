@@ -668,7 +668,6 @@ $(document).ready(function(){
     openEditWords();
     removeWord();
     btnDeleteQuestion();
-    //openEditWord();
     closePopupQuestion();
     btnSaveQuestion();
     saveWord();
