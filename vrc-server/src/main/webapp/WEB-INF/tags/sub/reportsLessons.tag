@@ -3,12 +3,30 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
-    /*#page-wrapper div{*/
-        /*padding-left: 0px;*/
-    /*}*/
-    /*#graphs div{*/
-        /*padding-right: 0px;*/
-    /*}*/
+    #canvas{
+    background: #ffffff;
+    box-shadow:5px 5px 5px #ccc;
+    border:5px solid #eee;
+    margin-bottom:10px;}
+    #tip {
+    position: absolute;
+    display: none;
+    background-color:red;
+    border-radius: 4px;
+    top:0;
+    left:0;}
+    #canvasWord{
+        background: #ffffff;
+        box-shadow:5px 5px 5px #ccc;
+        border:5px solid #eee;
+        margin-bottom:10px;}
+    #tipWord {
+        position: absolute;
+        display: none;
+        background-color:red;
+        border-radius: 4px;
+        top:0;
+        left:0;}
 </style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();
     String student=request.getParameter("name");%>
@@ -95,9 +113,13 @@
                 <div style="margin-top:25px;margin-left:5px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;">100</div>
             </div>
             <div id="drawPhonemes" class="col-sm-4">
+                <canvas id="canvas" height="250" width="300"></canvas>
+                <div id="tip">Tooltips!</div>
                 <p><strong>course:</strong></p>
             </div>
             <div id="drawWord" class="col-sm-4">
+                <canvas id="canvasWord" height="250" width="300"></canvas>
+                <div id="tipWord">Tooltips!</div>
                 <p><strong>course:</strong></p>
             </div>
     </div>

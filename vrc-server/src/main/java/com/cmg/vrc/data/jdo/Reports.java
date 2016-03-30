@@ -7,35 +7,8 @@ import java.util.List;
  */
 public class Reports {
     class Info{
-        private String courseName;
-        private String levelName;
-        private String objectiveName;
         private String lessonName;
         private String completionDate;
-        public String getCourseName() {
-            return courseName;
-        }
-
-        public void setCourseName(String courseName) {
-            this.courseName = courseName;
-        }
-
-        public String getLevelName() {
-            return levelName;
-        }
-
-        public void setLevelName(String levelName) {
-            this.levelName = levelName;
-        }
-
-        public String getObjectiveName() {
-            return objectiveName;
-        }
-
-        public void setObjectiveName(String objectiveName) {
-            this.objectiveName = objectiveName;
-        }
-
         public String getLessonName() {
             return lessonName;
         }
