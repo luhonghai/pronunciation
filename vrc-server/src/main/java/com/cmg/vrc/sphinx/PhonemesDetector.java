@@ -580,29 +580,33 @@ public class PhonemesDetector {
       // testData.put("/Users/cmg/Desktop/voice_example/rabbit_5866cf48-12a4-48dd-87ee-5a5a432e792a_raw.wav", "rabbit");
       //  testData.put("/Users/cmg/Desktop/voice_example/welcome_b709aadc-6445-4702-8879-73294aa66c17_raw.wav", "welcome");
         //testData.put("/Users/luhonghai/Desktop/audio/pronunciation.wav", "pronunciation");
-        testData.put("/Users/luhonghai/Desktop/audio/speaker2_1.wav", "trivial");
-        Iterator<String> keys = testData.keySet().iterator();
-        while (keys.hasNext()) {
-            long start = System.currentTimeMillis();
-            System.out.println("===========================================");
-            String filePath = keys.next();
-            String word = testData.get(filePath);
-            PhonemesDetector detector = new PhonemesDetector(new File(
-                    filePath)
-                    , word.toLowerCase());
-            SphinxResult rs = null;
-            try {
-                rs = detector.analyze();
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-              //  System.out.println(gson.toJson(rs));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("### Analyze word " + word + ". File path: " + filePath
-               + ". Execution time: " + (System.currentTimeMillis() - start) + "ms"
-                + ". Score: " + ((rs == null) ? -1 : rs.getScore()));
+//        testData.put("/Users/luhonghai/Desktop/audio/speaker2_1.wav", "trivial");
+//        Iterator<String> keys = testData.keySet().iterator();
+//        while (keys.hasNext()) {
+//            long start = System.currentTimeMillis();
+//            System.out.println("===========================================");
+//            String filePath = keys.next();
+//            String word = testData.get(filePath);
+//            PhonemesDetector detector = new PhonemesDetector(new File(
+//                    filePath)
+//                    , word.toLowerCase());
+//            SphinxResult rs = null;
+//            try {
+//                rs = detector.analyze();
+//                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//              //  System.out.println(gson.toJson(rs));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println("### Analyze word " + word + ". File path: " + filePath
+//               + ". Execution time: " + (System.currentTimeMillis() - start) + "ms"
+//                + ". Score: " + ((rs == null) ? -1 : rs.getScore()));
+//        }
+        int value = 0;
+        for (int i = 0; i < 100; i++) {
+            boolean t = (i & 3) == 2;
+            System.out.println(i + " " + t);
         }
-
     }
 
     public boolean isAllowAdditionalData() {
