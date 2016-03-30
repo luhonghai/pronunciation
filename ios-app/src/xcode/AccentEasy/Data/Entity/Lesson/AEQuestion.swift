@@ -11,8 +11,10 @@ import Foundation
 public class AEQuestion : AELiteEntity {
     var name: String!
     var description: String!
-    var recorded: Bool!
-    var enabled: Bool!
+    var recorded: Bool = false
+    var enabled: Bool = false
+    var listWord = [WordCollection]()
+    var listScore = [Float]()
     
     override public func parse(row: Row) {
         self.idString = row[LiteColumn.IDSTRING]
@@ -23,7 +25,7 @@ public class AEQuestion : AELiteEntity {
     public override func parse(row: Array<Optional<Binding>>) {
         self.idString = row[0] as! String
         self.name = row[1] as! String
-        self.description = row[2] as! String
+        self.description = row[2] as? String
     }
     
     override public func setters() -> [Setter]? {

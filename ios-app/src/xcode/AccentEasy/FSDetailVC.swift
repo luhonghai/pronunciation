@@ -193,7 +193,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         cell.lblIPA.text = self.arrIPAMapArpabet[indexPath.item].ipa
         cell.lblIPA.textColor = UIColor.whiteColor()
-        cell.lblIPA.backgroundColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexPath.item].totalScore))
+        cell.lblIPA.backgroundColor =
+            Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexPath.item].totalScore))
         cell.layer.cornerRadius = 5
         cell.backgroundColor = Multimedia.colorWithHexString("#579e11") // make cell more visible in our example project
         

@@ -375,6 +375,8 @@
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
 		C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172A5821C97F70200BBBEC4 /* AECountry.swift */; };
 		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
+		C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */; };
+		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
@@ -866,6 +868,8 @@
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
 		C172A5821C97F70200BBBEC4 /* AECountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECountry.swift; path = Data/Entity/Lesson/AECountry.swift; sourceTree = "<group>"; };
 		C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDefaultFunciton.swift; sourceTree = "<group>"; };
+		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
 		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
@@ -1433,6 +1437,7 @@
 				9053C2791C9004D6009BA3DF /* JSONHelper.swift */,
 				9B72D13F1C9C03EB00297470 /* Logger.swift */,
 				9B17BBBB1C9FB537000761FC /* StringHelper.swift */,
+				C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1794,6 +1799,7 @@
 				C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */,
 				9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */,
 				9B72D1201C9BABD600297470 /* LessonCollectionController.swift */,
+				C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2317,6 +2323,7 @@
 				9B5F335D1C77129A00E85629 /* ChartBaseDataSet.swift in Sources */,
 				9B5F33581C77129A00E85629 /* ChartLegend.swift in Sources */,
 				9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */,
+				C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */,
 				9B5F33591C77129A00E85629 /* ChartLimitLine.swift in Sources */,
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,
@@ -2383,6 +2390,7 @@
 				9B5F33551C77129A00E85629 /* ScatterChartView.swift in Sources */,
 				C13B65721C86DC6700318336 /* UIVViewController-SLPopup.swift in Sources */,
 				9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */,
+				C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */,
 				9B5F337C1C77129A00E85629 /* ChartDataEntry.swift in Sources */,
 				9B5F335C1C77129A00E85629 /* ChartYAxis.swift in Sources */,
 				9B5F338C1C77129A00E85629 /* ICandleChartDataSet.swift in Sources */,
