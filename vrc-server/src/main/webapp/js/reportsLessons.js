@@ -19,12 +19,13 @@ function listCourse(){
                         $(items).each(function () {
                             $("#listCourse").append('<option value="' + this.id + '">' + this.name + '</option>');
                         });
+                        idCourse=data.listCourse[0].id;
+                        listLevels(data.listCourse[0].id);
                     }
-                    idCourse=data.listCourse[0].id;
+
                     $('#listCourse').multiselect('destroy');
                     $('#listCourse').multiselect({enableFiltering: true, buttonWidth: '200px'});
                     $('#listCourse').multiselect('refresh');
-                    listLevels(data.listCourse[0].id);
                     $("#listUsers").empty();
                     if(data.listStudent!=null && data.listStudent.length>0) {
                         var items = data.listStudent;
@@ -69,14 +70,13 @@ function listLevels(idCourse){
                             $("#listLevel").append('<option value="' + this.id + '">' + this.name + '</option>');
                         });
                         $("#divLevel").show();
+                        idLevel=data.listLevel[0].id;
+                        listObjectives(data.listLevel[0].id);
                     }
-                    listObjectives(data.listLevel[0].id);
+
                     $('#listLevel').multiselect('destroy');
                     $('#listLevel').multiselect({enableFiltering: true, buttonWidth: '200px'});
                     $('#listLevel').multiselect('refresh');
-                    idLevel=data.listLevel[0].id;
-
-
                 } else {
                     swal("Error!", data.message.split(":")[1], "error");
                 }
@@ -106,8 +106,9 @@ function listObjectives(idLevel){
                         $("#listObjective").append('<option value="' + this.id + '">' + this.name + '</option>');
                     });
                     $("#divObjective").show();
+                    idObj= data.listObj[0].id;
                 }
-                idObj= data.listObj[0].id;
+
                 $('#listObjective').multiselect('destroy');
                 $('#listObjective').multiselect({enableFiltering: true, buttonWidth: '200px'});
                 $('#listObjective').multiselect('refresh');
