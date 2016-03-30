@@ -166,7 +166,7 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             if weakSelf!.selectedTip!.imgTongue != nil && !weakSelf!.selectedTip!.imgTongue.isEmpty {
                 let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
-                weakSelf!.imgTip.load(url)
+                weakSelf!.imgTip.load(url!)
             }
         }
     }

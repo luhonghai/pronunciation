@@ -23,4 +23,11 @@ public class CustomFFMPEGLocator extends FFMPEGLocator {
     protected String getFFMPEGExecutablePath() {
         return path;
     }
+
+    public static class MacFFMPEGLocator extends CustomFFMPEGLocator {
+
+        public MacFFMPEGLocator() {
+            super(DEFAULT_MAX_OS_X_PATH);
+        }
+    }
 }

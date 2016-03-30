@@ -51,6 +51,15 @@
         <url-pattern>/VoiceAnalyzeHandler</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>PhonemeDetectorServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.PhonemeDetectorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PhonemeDetectorServlet</servlet-name>
+        <url-pattern>/PhonemeDetector</url-pattern>
+    </servlet-mapping>
+
 
     <servlet>
         <servlet-name>RegisterHandler</servlet-name>
@@ -129,6 +138,15 @@
     <servlet-mapping>
         <servlet-name>LoadAudioRecorder</servlet-name>
         <url-pattern>/LoadAudioRecorder</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AudioGeneratorHandler</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AudioGeneratorHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AudioGeneratorHandler</servlet-name>
+        <url-pattern>/audio</url-pattern>
     </servlet-mapping>
 
     <servlet>

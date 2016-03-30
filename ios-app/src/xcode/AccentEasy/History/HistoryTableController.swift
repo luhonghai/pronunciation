@@ -119,6 +119,7 @@ class HistoryTableController: UITableViewController {
             cell.constantWidthPlay.constant = 36
             cell.constantWidthUp.constant = 36
         }
+        cell.translatesAutoresizingMaskIntoConstraints = true
         cell.applyCircleButton()
         cell.lblScore.text = "\(history.score)%"
         return cell

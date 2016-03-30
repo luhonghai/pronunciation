@@ -33,9 +33,9 @@ public class HistoryTableCell: UITableViewCell {
     }
     
     public func applyCircleButton() {
-        btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
+        btnPlay.layer.cornerRadius = 18
         btnPlay.clipsToBounds = true
-        btnUp.layer.cornerRadius = btnUp.frame.size.width/2
+        btnUp.layer.cornerRadius = 18
         btnUp.clipsToBounds = true
     }
     

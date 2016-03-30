@@ -1,5 +1,5 @@
 //
-//  OurViewController.swift
+//  LessonMainVC.swift
 //  SwiftSidebarMenu
 //
 //  Created by CMGVN on 1/7/16.
@@ -11,7 +11,12 @@ import AVFoundation
 import EZAudio
 import Darwin
 
-class OurViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+class QuestionCVCell: UICollectionViewCell {
+    @IBOutlet weak var lblQuestion: UILabel!
+    
+}
+
+class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -34,12 +39,13 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     var currentMode: UserVoiceModel!
     
-    @IBOutlet weak var menuButton: UIBarButtonItem!
+    //@IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var btnRecord: UIButton!
     @IBOutlet weak var btnPlay: UIButton!
     @IBOutlet weak var btnPlayDemo: UIButton!
     @IBOutlet weak var lblIPA: UILabel!
     @IBOutlet weak var tvDescription: UITextView!
+    @IBOutlet weak var btnLessonTip: UIButton!
     
     @IBOutlet weak var analyzingView: AnalyzingView!
     
@@ -58,7 +64,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBOutlet weak var sliderContent: UIView!
     
-
+    
     
     @IBOutlet weak var btnSlider: UIButton!
     @IBAction func sliderClick(sender: AnyObject) {
@@ -80,7 +86,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             }
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+            //weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
         
     }
@@ -94,6 +100,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
         // if you don't do this!
         //
+       
+        
         let session: AVAudioSession = AVAudioSession.sharedInstance()
         do {
             try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -128,11 +136,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         
         //menu
-        if self.revealViewController() != nil {
+        /*if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
-        }
+        }*/
         
         //login parameter
         //loginParameter = NSUserDefaults()
@@ -156,6 +164,11 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnRecord.hidden = true
         btnPlay.hidden = true
         setNavigationBarTransparent()
+        
+        //
+        //self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+ 
+        questionCVInit()
     }
     
     
@@ -166,6 +179,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         btnRecord.clipsToBounds = true
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
+        btnLessonTip.layer.cornerRadius = btnLessonTip.frame.size.width/2
+        btnLessonTip.clipsToBounds = true
         btnRecord.hidden = false
         btnPlay.hidden = false
     }
@@ -287,7 +302,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         }
         
         
-
+        
         delay(0.5) {
             if self.isShowSlider {
                 self.toggleSlider()
@@ -303,7 +318,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     override func viewDidLayoutSubviews() {
-       roundButton()
+        roundButton()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -343,7 +358,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func searchDisplayControllerWillEndSearch(controller: UISearchDisplayController) {
         if #available(iOS 8.0, *) {
-
+            
         } else {
             Logger.log("searchDisplayControllerWillEndSearch")
             setActiveSearchViewOS7(false)
@@ -376,7 +391,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         let height = self.view.frame.height
         let width = self.view.frame.width
         let minY = CGRectGetMinY(self.view.frame)
-      //  let origin = resultsController.view.frame
+        //  let origin = resultsController.view.frame
         resultsController.tableView.frame = CGRectMake(0, minY + statusBarFrame.size.height, width,height - statusBarFrame.size.height)
         resultsController.view.frame = self.view.frame
         self.presentpopupViewController(resultsController, animationType: SLpopupViewAnimationType.TopBottom, completion: { () -> Void in
@@ -441,7 +456,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
-
+        
         if resultSearchController != nil {
             if #available(iOS 8.0, *) {
                 setActiveSearchView(false)
@@ -472,7 +487,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         //cell.textLabel!.text = arrSearchResultData[indexPath.row].word
         cell.detailTextLabel?.text = "\(word.pronunciation)"
         cell.detailTextLabel?.textColor = ColorHelper.APP_GRAY
-//        cell.detailTextLabel?.needsUpdateConstraints()
+        //        cell.detailTextLabel?.needsUpdateConstraints()
         return cell
     }
     
@@ -497,7 +512,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         showColorOfScoreResult(0)
         Login.showError("could not calculate score")
     }
-
+    
     func analyzeVoice() {
         //fix file test
         let databaseBundle = NSBundle.mainBundle()
@@ -551,8 +566,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                             }
                             FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
                             NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
-                             NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                             NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
+                            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
@@ -565,6 +580,21 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                                 weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
                                 //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
                                 weakSelf!.isRecording = false
+                        
+                                
+                                
+                                //let cell = self.cvQuestionList.cellForItemAtIndexPath(self.cellChoice) as! QuestionCVCell
+                                //cell.lblQuestion.text = String(Int(weakSelf!.scoreResult))
+                                //cell.lblQuestion.backgroundColor = UIColor.redColor()
+                                self.arrQuestionOfLesson[self.indexCurrentQuestion].recorded = true
+                                self.arrQuestionOfLesson[self.indexCurrentQuestion].listScore.append(weakSelf!.scoreResult)
+                                
+                                
+                                
+                                if self.indexCurrentQuestion+1 < self.arrQuestionOfLesson.count {
+                                    self.arrQuestionOfLesson[self.indexCurrentQuestion+1].enabled = true
+                                }
+                                self.cvQuestionList.reloadData()
                                 
                                 //move detail screen
                                 delay (1) {
@@ -793,26 +823,171 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
     }
     
     /*
-    override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-    }*/
+     override func didReceiveMemoryWarning() {
+     super.didReceiveMemoryWarning()
+     // Dispose of any resources that can be recreated.
+     }*/
     
     
     /*
-    // MARK: - Navigation
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    @IBAction func clickBack(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
-    */
+    
+    
+    /*colection view setup
+     *************************************************************/
+    
+    @IBOutlet weak var cvQuestionList: UICollectionView!
+    var arrQuestionOfLesson = [AEQuestion]()
+    //var arrWordOfQuestion = [WordCollection]()
+    //var arrWordSelected = [String]()
+    //var arrEnable = [Int]()
+    var selectedLessonCollection = AELessonCollection()
+    let reuseIdentifier = "cell"
+    
+    // also enter this string as the cell identifier in the storyboard
+    
+    func questionCVInit(){
+        arrQuestionOfLesson = try! lessonDBAdapter.getQuestionByLessionCollection(selectedLessonCollection.idString)
+        for index in 0...arrQuestionOfLesson.count-1 {
+            arrQuestionOfLesson[index].listWord = try! lessonDBAdapter.getWordsOfQuestion(arrQuestionOfLesson[index].idString)
+        }
+        arrQuestionOfLesson[0].enabled = true
+        Logger.log("arrQuestionOfLesson")
+        Logger.log(arrQuestionOfLesson)
+        
+        cvQuestionList.delegate = self
+        cvQuestionList.dataSource = self
+    }
+    
+    // tell the collection view how many cells to make
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.arrQuestionOfLesson.count
+    }
+    
+    // make a cell for each cell index path
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        // get a reference to our storyboard cell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! QuestionCVCell
+        cell.lblQuestion.layer.cornerRadius = cell.lblQuestion.frame.size.height/2
+        cell.lblQuestion.clipsToBounds = true
+        //cell.lblQuestion.backgroundColor = ColorHelper.APP_GRAY
+        
+        // Use the outlet in our custom class to get a reference to the UILabel in the cell
+        /*print(arrQuestionOfLesson[indexPath.item].name)
+        cell.lblQuestion.text = "Q\(indexPath.item+1)"
+        if (indexPath.item == 0 )    {
+            arrEnable.append(indexPath.item)
+            cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
+        }*/
+        let question = arrQuestionOfLesson[indexPath.item]
+        
+        if !question.recorded && question.enabled {
+            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
+        } else if question.recorded && question.enabled {
+            let averageScore:Int = Int(question.listScore.average)
+            cell.lblQuestion.text = String(averageScore)
+            cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
+        } else {
+            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            cell.lblQuestion.backgroundColor = ColorHelper.APP_GRAY
+        }
+        
+        //cell.userInteractionEnabled = false
+        //cell.lblIPA.text = self.arrIPAMapArpabet[indexPath.item].ipa
+        //cell.lblIPA.textColor = UIColor.whiteColor()
+        //cell.lblQuestion.backgroundColor = Multimedia.colorWithHexString(getIPAColorByScore(userVoiceModelResult.result.phonemeScores[indexPath.item].totalScore))
+        //cell.layer.cornerRadius = 5
+        //cell.backgroundColor = Multimedia.colorWithHexString("#579e11") // make cell more visible in our example project
+
+        
+        return cell
+    }
+    
+    func questionCVChangeColor(score:Int) -> UIColor{
+        if score < 45 {
+            //color < 45 red
+            return ColorHelper.APP_RED
+        } else if score >= 45 && score < 80 {
+            // 45 <= color < 80 orange
+            return ColorHelper.APP_ORANGE
+        } else {
+            //color >= 80 green
+            return ColorHelper.APP_GREEN
+        }
+
+    }
+    
+    // MARK: - UICollectionViewDelegate protocol
+    
+    var indexCurrentQuestion:Int!
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // handle tap events
+        Logger.log("You selected cell #\(indexPath.item)!")
+        
+        let question = arrQuestionOfLesson[indexPath.item]
+        indexCurrentQuestion = indexPath.item
+        if question.enabled {
+            var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+            while question.listWord[randomIndex].word == selectedWord.word {
+                randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+            }
+            selectedWord = question.listWord[randomIndex]
+            self.chooseWord(selectedWord.word)
+            Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
+        }
+        
+        
+        
+        
+        
+        
+        /*if(arrEnable.contains(indexPath.item)){
+            //indexCellChoice = indexPath.item
+            //self.displayViewController(.Fade)
+            print (arrQuestionOfLesson[indexPath.item].idString)
+            arrWordOfQuestion = try! lessonDBAdapter.getWordsOfQuestion(arrQuestionOfLesson[indexPath.item].idString)
+            for index in 0...arrWordOfQuestion.count-1 {
+                print(arrWordOfQuestion[index].word)
+            }
+            
+            var randomIndex = Int(arc4random_uniform(UInt32(arrWordOfQuestion.count)))
+            while arrWordOfQuestion[randomIndex].word == selectedWord.word {
+                randomIndex = Int(arc4random_uniform(UInt32(arrWordOfQuestion.count)))
+            }
+            selectedWord = arrWordOfQuestion[randomIndex]
+            arrWordSelected.append(selectedWord.word)
+            self.chooseWord(selectedWord.word)
+            Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
+            
+            if (!arrEnable.contains(indexPath.item + 1)){
+                arrEnable.append(indexPath.item + 1)
+                print(arrEnable)
+            }
+        }
+        cellChoice = indexPath*/
+
+    }
+
+    
     
     
     /**
-    Recorder delegate
-    */
+     Recorder delegate
+     */
     func microphone(microphone: EZMicrophone!, changedPlayingState isPlaying: Bool) {
         // self.microphoneStateLabel.text = isPlaying ? "Microphone On" : "Microphone Off"
         // self.microphoneSwitch.on = isPlaying
@@ -912,7 +1087,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                     - halfHeight
                 if (destY <= maxY && destY >= minY) {
                     view.center = CGPoint(x:view.center.x,
-                        y:destY)
+                                          y:destY)
                     self.sliderBackground.alpha = self.maxAlpha
                         * ((destY - maxY) / (minY - maxY))
                 }

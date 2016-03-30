@@ -268,7 +268,7 @@
 		C141C8161C3E203C001D1F9C /* AccentEasyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8151C3E203C001D1F9C /* AccentEasyTests.swift */; };
 		C141C8211C3E203C001D1F9C /* AccentEasyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8201C3E203C001D1F9C /* AccentEasyUITests.swift */; };
 		C141C8321C3E21FA001D1F9C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */; };
-		C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* OurViewController.swift */; };
+		C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* FSMainVC.swift */; };
 		C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */; };
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
@@ -375,6 +375,8 @@
 		C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */; };
 		C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172A5821C97F70200BBBEC4 /* AECountry.swift */; };
 		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
+		C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */; };
+		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
@@ -382,13 +384,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4242BDA364D39707141DAC4CEF6AFFB0;
-			remoteInfo = Diskcached;
-		};
 		9053C2751C8EE2D2009BA3DF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -766,7 +761,7 @@
 		C141C82F1C3E21FA001D1F9C /* AccentEasy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccentEasy-Bridging-Header.h"; sourceTree = "<group>"; };
 		C141C8301C3E21FA001D1F9C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
-		C141C8331C3E27F1001D1F9C /* OurViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurViewController.swift; sourceTree = "<group>"; };
+		C141C8331C3E27F1001D1F9C /* FSMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSMainVC.swift; sourceTree = "<group>"; };
 		C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurItem3ViewController.swift; sourceTree = "<group>"; };
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
@@ -873,6 +868,8 @@
 		C16CD2A51C44B1EC00537461 /* icon_popover_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_popover_arrow_up.png; sourceTree = "<group>"; };
 		C172A5821C97F70200BBBEC4 /* AECountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECountry.swift; path = Data/Entity/Lesson/AECountry.swift; sourceTree = "<group>"; };
 		C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
+		C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDefaultFunciton.swift; sourceTree = "<group>"; };
+		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
 		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
@@ -1369,7 +1366,6 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
-				9053C2741C8EE2D2009BA3DF /* Diskcached.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
@@ -1441,6 +1437,7 @@
 				9053C2791C9004D6009BA3DF /* JSONHelper.swift */,
 				9B72D13F1C9C03EB00297470 /* Logger.swift */,
 				9B17BBBB1C9FB537000761FC /* StringHelper.swift */,
+				C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1467,6 +1464,7 @@
 			isa = PBXGroup;
 			children = (
 				C13C29001C800EC0000CC11D /* FreestyleSwipeVC.swift */,
+				C141C8331C3E27F1001D1F9C /* FSMainVC.swift */,
 				C1056C1E1C84052F00F75CCC /* FSDetailVC.swift */,
 				C13B656D1C86D9C200318336 /* IPAPopupVC.swift */,
 				C13B656E1C86D9C200318336 /* IPAPopupVC.xib */,
@@ -1606,7 +1604,6 @@
 				C1410BAA1C47845200E781B4 /* LaunchController */,
 				C14D980A1C4603F0001DA517 /* LoginController */,
 				C141C8021C3E203C001D1F9C /* ViewController.swift */,
-				C141C8331C3E27F1001D1F9C /* OurViewController.swift */,
 				C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */,
 				C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */,
 				9B9BE6F01C62F70200C84823 /* GraphHistoryDemoController.swift */,
@@ -1802,6 +1799,7 @@
 				C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */,
 				9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */,
 				9B72D1201C9BABD600297470 /* LessonCollectionController.swift */,
+				C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -1918,13 +1916,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		9053C2741C8EE2D2009BA3DF /* Diskcached.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Diskcached.framework;
-			remoteRef = 9053C2731C8EE2D2009BA3DF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9053C2761C8EE2D2009BA3DF /* ImageLoader.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2332,6 +2323,7 @@
 				9B5F335D1C77129A00E85629 /* ChartBaseDataSet.swift in Sources */,
 				9B5F33581C77129A00E85629 /* ChartLegend.swift in Sources */,
 				9B80976B1C86E73A00A3C87C /* PhonemeScore.swift in Sources */,
+				C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */,
 				9B5F33591C77129A00E85629 /* ChartLimitLine.swift in Sources */,
 				9B5F33E41C771B5A00E85629 /* ToJSON.swift in Sources */,
 				9B5F33891C77129A00E85629 /* IBarChartDataSet.swift in Sources */,
@@ -2358,7 +2350,7 @@
 				9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */,
 				9B5F338E1C77129A00E85629 /* ILineChartDataSet.swift in Sources */,
 				9B5F33B51C77129A00E85629 /* HorizontalBarChartRenderer.swift in Sources */,
-				C141C8341C3E27F1001D1F9C /* OurViewController.swift in Sources */,
+				C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */,
 				9B5F33511C77129A00E85629 /* LineChartView.swift in Sources */,
 				9B5F33A01C77129A00E85629 /* BarLineScatterCandleBubbleChartDataProvider.swift in Sources */,
 				C1410BA91C47842C00E781B4 /* LaunchImageVC.swift in Sources */,
@@ -2398,6 +2390,7 @@
 				9B5F33551C77129A00E85629 /* ScatterChartView.swift in Sources */,
 				C13B65721C86DC6700318336 /* UIVViewController-SLPopup.swift in Sources */,
 				9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */,
+				C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */,
 				9B5F337C1C77129A00E85629 /* ChartDataEntry.swift in Sources */,
 				9B5F335C1C77129A00E85629 /* ChartYAxis.swift in Sources */,
 				9B5F338C1C77129A00E85629 /* ICandleChartDataSet.swift in Sources */,
@@ -2609,13 +2602,13 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AccentEasy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.com.cmg.accenteasy;
 				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
@@ -2640,13 +2633,13 @@
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = AccentEasy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/GoogleAnalyticsServicesiOS_3.15",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.AccentEasy;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cmg.com.cmg.accenteasy;
 				PRODUCT_NAME = accenteasy;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccentEasy/AccentEasy-Bridging-Header.h";
