@@ -51,10 +51,14 @@ public class ReportsLessons extends HttpServlet {
             String result=service.listOBJ(idLevel);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("loadInfo")){
-            String studentName=request.getParameter("student");
-            String idCourse=request.getParameter("idCourse");
-            String idLevel=request.getParameter("idLevel");
             String idOBJ=request.getParameter("idObj");
+            String result=service.listLesson(idOBJ);
+            response.getWriter().write(result);
+        }else if(action.equalsIgnoreCase("drawChart")){
+            String idLesson=request.getParameter("idLesson");
+            String student=request.getParameter("student");
+            String result=service.draw(idLesson,student);
+            response.getWriter().write(result);
         }
 
 

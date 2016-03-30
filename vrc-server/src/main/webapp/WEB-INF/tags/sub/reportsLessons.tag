@@ -6,7 +6,7 @@
     #canvas{
     background: #ffffff;
     box-shadow:5px 5px 5px #ccc;
-    border:5px solid #eee;
+    border:3px solid #eee;
     margin-bottom:10px;}
     #tip {
     position: absolute;
@@ -18,7 +18,7 @@
     #canvasWord{
         background: #ffffff;
         box-shadow:5px 5px 5px #ccc;
-        border:5px solid #eee;
+        border:3px solid #eee;
         margin-bottom:10px;}
     #tipWord {
         position: absolute;
@@ -35,7 +35,7 @@
      <div class="row" style="color:lightgrey;">
          <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;"> > reports > lessons</p>
      </div>
-    <div class="well">
+    <div class="row well">
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group" style="text-align: right;">
@@ -95,33 +95,35 @@
             <%--<div style="background-color: #17375E;width: 15px;height: 30px;float: left"></div>--%>
             <%--<p>student score</p>--%>
     <%--</div>--%>
-    <div id="graphs" class="row" style="margin-top: 15px;">
-            <div id="info" class="col-sm-3">
-                <p><strong>course:</strong></p>
-                <label id="course"></label>
-                <p><strong>level:</strong></p>
-                <label id="level"></label>
-                <p><strong>objective:</strong></p>
-                <label id="objective"></label>
-                <p><strong>lesson:</strong></p>
-                <label id="lesson"></label>
-                <p><strong>completion date:</strong></p>
-                <label id="date"></label>
-            </div>
-            <div id="score" class="col-sm-1">
-                <div style="margin:10px 0px;background-color: #17375E;width: 60px;height: 60px; border-radius:45px; text-align:center;line-height:60px;color:white;font-size:20px;font-weight : 600;">100</div>
-                <div style="margin-top:25px;margin-left:5px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;">100</div>
-            </div>
-            <div id="drawPhonemes" class="col-sm-4">
-                <canvas id="canvas" height="250" width="300"></canvas>
-                <div id="tip">Tooltips!</div>
-                <p><strong>course:</strong></p>
-            </div>
-            <div id="drawWord" class="col-sm-4">
-                <canvas id="canvasWord" height="250" width="300"></canvas>
-                <div id="tipWord">Tooltips!</div>
-                <p><strong>course:</strong></p>
-            </div>
+    <div id="draw">
+        <%--<div id="graphs" class="row" style="margin-top: 15px;">--%>
+                <%--<div id="info" class="col-sm-3">--%>
+                    <%--<p><strong>course:</strong></p>--%>
+                    <%--<label id="course"></label>--%>
+                    <%--<p><strong>level:</strong></p>--%>
+                    <%--<label id="level"></label>--%>
+                    <%--<p><strong>objective:</strong></p>--%>
+                    <%--<label id="objective"></label>--%>
+                    <%--<p><strong>lesson:</strong></p>--%>
+                    <%--<label id="lesson"></label>--%>
+                    <%--<p><strong>completion date:</strong></p>--%>
+                    <%--<label id="date"></label>--%>
+                <%--</div>--%>
+                <%--<div id="score" class="col-sm-1">--%>
+                    <%--<div id="scoreStudent" style="margin:10px 0px;background-color: #17375E;width: 60px;height: 60px; border-radius:45px; text-align:center;line-height:60px;color:white;font-size:20px;font-weight : 600;">100</div>--%>
+                    <%--<div id="scoreClass" style="margin-top:25px;margin-left:5px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;">100</div>--%>
+                <%--</div>--%>
+                <%--<div id="drawPhonemes" class="col-sm-4">--%>
+                    <%--<canvas id="canvas" height="250" width="300"></canvas>--%>
+                    <%--<div id="tip">Tooltips!</div>--%>
+                    <%--<p><strong>course:</strong></p>--%>
+                <%--</div>--%>
+                <%--<div id="drawWord" class="col-sm-4">--%>
+                    <%--<canvas id="canvasWord" height="250" width="300"></canvas>--%>
+                    <%--<div id="tipWord">Tooltips!</div>--%>
+                    <%--<p><strong>course:</strong></p>--%>
+                <%--</div>--%>
+        <%--</div>--%>
     </div>
 </div>
 <!-- /#wrapper -->
@@ -129,7 +131,7 @@
 
 
 <script src="<%=request.getContextPath() %>/js/reportsLessons.js"></script>
-
+<script src="<%=request.getContextPath() %>/js/draw-report.js"></script>
 
 
 

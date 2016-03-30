@@ -19,8 +19,8 @@ function init(itemName,itemValue,itemValue1) {
     sections = itemValue.length;
     Val_Max = 100;
     stepSize = 10;
-    var columnSize = 50;
-    var rowSize = 60;
+    var columnSize = 30;
+    var rowSize = 30;
     var margin = 10;
     var header = "Score %" ;
     var phoneme="phoneme";
@@ -45,7 +45,7 @@ function init(itemName,itemValue,itemValue1) {
     // column names
     context.font = "19 pt Arial;"
     context.fillText(header, 0,columnSize - margin*2);
-    context.fillText(phoneme, canvas.width-rowSize,canvas.height - margin);
+    context.fillText(phoneme, canvas.width-2*rowSize,canvas.height - margin);
     // draw lines in the background
     context.font = "16 pt Helvetica"
     var count =  0;
@@ -62,7 +62,7 @@ function init(itemName,itemValue,itemValue1) {
     context.textBaseline="bottom";
     for (i=0;i<5;i++) {
         computeHeight(itemValue[i]);
-        context.fillText(itemName[i], xScale * (i*0.2+0.7),canvas.height - margin);
+        context.fillText(itemName[i], xScale * (i*0.2+0.7),canvas.height);
     }
 
     context.translate(0,canvas.height - margin*3);
@@ -167,5 +167,35 @@ function handleMouseMove(e) {
 
 
 
+}
+function draw(Course,Level,Obj,name,date){
+    var $html=$("<div id='graphs' class='row' style='margin-top: 15px;border: 1px;background-color: gainsboro; border-radius: 5px;'> " +
+    "<div id='info' class='col-sm-3'> " +
+    "<p><strong>course:</strong></p> " +
+    "<label style='font-weight: 200;'>"+Course+"</label> " +
+    "<p><strong>level:</strong></p> " +
+    "<label style='font-weight: 200;'>"+Level+"</label> " +
+    "<p><strong>objective:</strong></p> " +
+    "<label style='font-weight: 200;'>"+Obj+"</label> " +
+    "<p><strong>lesson:</strong></p> " +
+    "<label style='font-weight: 200;'>"+name+"</label> " +
+    "<p><strong>completion date:</strong></p> " +
+    "<label style='font-weight: 200;'>"+date+"</label> " +
+    "</div> " +
+    "<div id='score' class='col-sm-1'> " +
+    "<div id='scoreStudent' style='margin:40px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
+    "<div id='scoreClass' style='margin-top:25px;margin-left:8px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
+    "</div> " +
+    "<div id='drawPhonemes' class='col-sm-4'> " +
+    "<canvas id='canvas' height='250' width='300'></canvas> " +
+    "<div id='tip'>Tooltips!</div> " +
+    "</div> " +
+    "<div id='drawWord' class='col-sm-4'> " +
+    "<canvas id='canvasWord' height='250' width='300'></canvas> " +
+    "<div id='tipWord'>Tooltips!</div> " +
+    "<div id='tipWord'>Tooltips!</div> " +
+    "</div> " +
+    "</div>");
+    return $html;
 }
 

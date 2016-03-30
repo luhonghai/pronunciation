@@ -4,10 +4,12 @@ import com.cmg.lesson.dao.course.CourseDAO;
 import com.cmg.lesson.dao.level.LevelDAO;
 import com.cmg.lesson.dao.objectives.ObjectiveDAO;
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
+import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.data.jdo.StudentMappingTeacher;
 import com.google.gson.Gson;
 
@@ -39,6 +41,14 @@ public class ReportLessonService {
     class ListObjective{
         private String message;
         private List<Objective> listObj;
+    }
+    class ListLesson{
+        private String message;
+        private List<LessonCollection> listLesson;
+    }
+    class Report{
+        private String message;
+        private Reports reports;
     }
     public String listStudent(String teacherName){
         ListStudent listStudent=new ListStudent();
@@ -97,5 +107,47 @@ public class ReportLessonService {
             list = gson.toJson(listObjective);
         }
         return list;
+    }
+    public String listLesson(String idObj){
+        ListLesson listLesson=new ListLesson();
+        String list=null;
+        try {
+            listLesson.message="success";
+            listLesson.listLesson=reportLessonDAO.getListLesson(idObj);
+            list = gson.toJson(listLesson);
+        } catch (Exception e) {
+            listLesson.message="error";
+            listLesson.listLesson=new ArrayList<>();
+            list = gson.toJson(listLesson);
+        }
+        return list;
+    }
+    public String draw(String idLesson,String student){
+        Report report=new Report();
+        String list=null;
+        try {
+            report.message="success";
+            report.reports=getReport(idLesson,student);
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+    public Reports getReport(String idLesson,String student){
+        Reports reports=new Reports();
+        try {
+            reports.setStudentScoreLesson(reportLessonDAO.getStudentScoreLesson(idLesson,student));
+            reports.setClassAvgScoreLesson(reportLessonDAO.getClassAvgScoreLesson(idLesson,student));
+            reports.setWord(reportLessonDAO.getListWordLesson(idLesson, student));
+            reports.setPhonemes(reportLessonDAO.getListPhonemeLesson(idLesson,student));
+            reports.setWordStudentScore(reportLessonDAO.getWordStudentScore(idLesson,student));
+            reports.setWordClassScore(reportLessonDAO.getWordClassScore(idLesson,student));
+            reports.setPhonemesClassScore(reportLessonDAO.getPhonemesClassScore(idLesson,student));
+            reports.setPhonemesStudentScore(reportLessonDAO.getPhonemesStudentScore(idLesson,student));
+        }catch (Exception e){
+            e.getStackTrace();
+        }
+
+        return reports;
     }
 }
