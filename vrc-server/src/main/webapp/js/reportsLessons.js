@@ -106,6 +106,7 @@ function listObjectives(idLevel){
                         $("#listObjective").append('<option value="' + this.id + '">' + this.name + '</option>');
                     });
                     $("#divObjective").show();
+                    $("#loadInfo").show();
                     idObj= data.listObj[0].id;
                 }
 
@@ -127,6 +128,7 @@ function listObjectives(idLevel){
 function listLevel(){
     $(document).on("change","#listCourse",function() {
         var idCourse=$("#listCourse").val();
+        $("#loadInfo").hide();
         $.ajax({
             url: "ReportsLessons",
             type: "POST",
