@@ -31,7 +31,7 @@ function slideBackPreview(){
 function clickCircleQuestion(){
     $(document).on('click','.circle-question',function(){
         var words = $(this).attr('words');
-
+        drawRandomWord(words);
     });
 }
 function previewCourse(){
