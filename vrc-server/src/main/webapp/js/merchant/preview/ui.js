@@ -98,14 +98,7 @@ function randomWords(words){
     var array = words.split("-");
     var rand = Math.floor(Math.random() * array.length);
     console.log("random : " + rand);
-    $.each(array, function(i, item){
-        var index = i;
-        if(index == rand){
-            console.log(item);
-            return item;
-        }
-    });
-    return array[0];
+    return array[rand];
 }
 
 function drawRandomWord(words){
