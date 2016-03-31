@@ -31,7 +31,7 @@
                                     <div class="header">
                                         <img back="screen-level" class="slide-back" src="/images/treeview/unpublished_button.gif"
                                              style="float:left;width:20px;height:20px;">
-                                        <div style="float:right;width:150px">
+                                        <div style="text-align: right;float:right;width:150px">
                                             <label>Level 1</label>
                                         </div>
                                     </div>
@@ -96,11 +96,11 @@
                                         <div class="col-sm-12 contain-word">
                                             <label>SAT</label>
                                         </div>
-                                        <div class="col-sm-10 description-question">
+                                        <div class="col-sm-12 description-question">
                                             <label>Practise words with /t/ at
                                                 the end e.g. f-e-e-t</label>
                                         </div>
-                                        <div class="col-sm-2 contain-circle-right-label">
+                                        <div class="col-sm-12 contain-circle-right-label">
                                             <div class="circle circle-right-label"></div>
                                         </div>
                                         <div class="contain-question">

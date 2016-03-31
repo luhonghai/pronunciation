@@ -28,13 +28,24 @@ function slideBackPreview(){
         showScreen($(this).attr('back'));
     });
 }
+function clickCircleQuestion(){
+    $(document).on('click','.circle-question',function(){
+        var words = $(this).attr('words');
 
-
+    });
+}
+function previewCourse(){
+    $(document).on("click","#preview",function(){
+        $('#preview-popup').modal('show');
+    });
+}
 
 $(document).ready(function(){
+    previewCourse();
     beforeShowPreview();
     loadPreviewLevel();
     loadPreviewObjective();
     loadPreviewLesson();
     slideBackPreview();
+    clickCircleQuestion();
 });
