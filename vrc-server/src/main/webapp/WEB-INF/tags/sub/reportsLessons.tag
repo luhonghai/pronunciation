@@ -84,7 +84,7 @@
                     </select>
                 </div>
                 <div class="form-group" style="text-align: right;">
-                    <img id="loadInfo" src="/images/popup/accepted_48x48.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;"/>
+                    <img id="loadInfo" src="/images/popup/accepted_48x48.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;display: none;"/>
                 </div>
             </div>
         </div>

@@ -106,16 +106,61 @@ public class SQL {
     private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED FROM LESSONCOLLECTION as lesson " +
             "inner join OBJECTIVEMAPPING as mapping on lesson.ID=mapping.IDLESSONCOLLECTION " +
             "WHERE mapping.IDOBJECTIVE='paramIdObj' and DATEDIFF(NOW(),lesson.DATECREATED)<90 and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
-    private String SQL_GET_SCORE_FOR_LESSON="SELECT AVG(score.SCORE) as student FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
+    private String SQL_GET_SCORE_FOR_LESSON="SELECT AVG(score.SCORE) FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
             "WHERE score.WORD IN " +
             "(SELECT word.WORD FROM WORDCOLLECTION as word " +
             "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
             "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
             "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
-            "WHERE lesson.ID='132dabc0-afe6-4a17-a389-273367c4d928' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
             "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
             "ORDER BY lesson.DATECREATED ASC) " +
-            "AND u.USERNAME='maikanguyen111@gmail.com' and score.ISDELETED=FALSE";
+            "AND u.USERNAME='paramStudentName' and score.TYPE='Q' and score.ISDELETED=FALSE";
+
+    private String SQL_GET_LIST_SCORE_STUDENT_WORD="SELECT score.SCORE FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
+            "WHERE score.WORD IN " +
+            "(SELECT word.WORD FROM WORDCOLLECTION as word " +
+            "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
+            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
+            "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
+            "ORDER BY lesson.DATECREATED ASC) " +
+            "AND u.USERNAME='paramStudentName' and score.TYPE='Q' and score.ISDELETED=FALSE";
+    private String SQL_GET_LIST_WORD_LESSON="SELECT score.WORD FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
+            "WHERE score.WORD IN " +
+            "(SELECT word.WORD FROM WORDCOLLECTION as word " +
+            "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
+            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
+            "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
+            "ORDER BY lesson.DATECREATED ASC) " +
+            "AND u.USERNAME='paramStudentName' and score.TYPE='Q' and score.ISDELETED=FALSE";
+
+    private String SQL_GET_LIST_PHONEME_LESSON="SELECT phoneme.PHONEME FROM PHONEMELESSONSCORE as phoneme INNER JOIN USERLESSONHISTORY as score on score.ID=phoneme.IDUSERLESSONHISTORY " +
+            "INNER JOIN USER as u on u.USERNAME=score.USERNAME " +
+            "WHERE score.WORD IN " +
+            "(SELECT word.WORD FROM WORDCOLLECTION as word " +
+            "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
+            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
+            "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
+            "ORDER BY lesson.DATECREATED ASC) " +
+            "AND u.USERNAME='paramStudentName' and score.TYPE='Q'  and score.ISDELETED=FALSE and phoneme.ISDELETED=FALSE";
+
+    private String SQL_GET_LIST_SCORE_PHONEME_STUDENT="SELECT phoneme.TOTALSCORE FROM PHONEMELESSONSCORE as phoneme INNER JOIN USERLESSONHISTORY as score on score.ID=phoneme.IDUSERLESSONHISTORY " +
+            "INNER JOIN USER as u on u.USERNAME=score.USERNAME " +
+            "WHERE score.WORD IN " +
+            "(SELECT word.WORD FROM WORDCOLLECTION as word " +
+            "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
+            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
+            "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
+            "ORDER BY lesson.DATECREATED ASC) " +
+            "AND u.USERNAME='paramStudentName' and score.TYPE='Q'  and score.ISDELETED=FALSE and phoneme.ISDELETED=FALSE";
 
 
     /**
@@ -309,19 +354,19 @@ public class SQL {
         return sql;
     }
     public String getSqlListWordLesson(String idLesson,String student){
-        String sql = SQL_LESSON_FROM_OBJ;
+        String sql = SQL_GET_LIST_WORD_LESSON;
         sql = sql.replaceAll("paramIdLesson", idLesson);
         sql = sql.replaceAll("paramStudentName", student);
         return sql;
     }
     public String getSqlListPhonemeLesson(String idLesson,String student){
-        String sql = SQL_LESSON_FROM_OBJ;
+        String sql = SQL_GET_LIST_PHONEME_LESSON;
         sql = sql.replaceAll("paramIdLesson", idLesson);
         sql = sql.replaceAll("paramStudentName", student);
         return sql;
     }
     public String getSqlWordStudentScore(String idLesson,String student){
-        String sql = SQL_LESSON_FROM_OBJ;
+        String sql = SQL_GET_LIST_SCORE_STUDENT_WORD;
         sql = sql.replaceAll("paramIdLesson", idLesson);
         sql = sql.replaceAll("paramStudentName", student);
         return sql;
@@ -339,7 +384,7 @@ public class SQL {
         return sql;
     }
     public String getSqlPhonemesStudentScore(String idLesson,String student){
-        String sql = SQL_LESSON_FROM_OBJ;
+        String sql = SQL_GET_LIST_SCORE_PHONEME_STUDENT;
         sql = sql.replaceAll("paramIdLesson", idLesson);
         sql = sql.replaceAll("paramStudentName", student);
         return sql;
