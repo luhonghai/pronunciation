@@ -70,7 +70,7 @@ function init(itemName,itemValue,itemValue1) {
     context.textBaseline="bottom";
     for (i=0;i<sections;i++) {
         computeHeight(itemValue[i]);
-        context.fillText(itemName[i], xScale * (i*0.2+x),canvas.height);
+        context.fillText(itemName[i], xScale * (i*0.5+x),canvas.height);
     }
 
     // shadow for graph's bar lines with color and offset
