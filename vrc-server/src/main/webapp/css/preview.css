@@ -37,7 +37,6 @@
 
 #preview-popup div.body-screen{
     padding : 5px;
-    max-height :350px;
     overflow-y:auto;
     width : 100%;
 }
@@ -105,7 +104,7 @@ div.big-circle{
     min-height : 350px;
 }
 #screen-question .contain-head-circle{
-    padding-top  :20px;
+    padding-top  :10px;
 }
 
 #screen-question .circle-left{
@@ -144,7 +143,7 @@ div.big-circle{
     font-size : 14px;
 }
 #screen-question .description-question{
-    padding-top : 10px;
+    text-align: center;
 }
 #screen-question .description-question label{
     color : #A7933C;
@@ -153,7 +152,6 @@ div.big-circle{
     font-size : 14px;
 }
 #screen-question .contain-circle-right-label{
-    padding-top : 5px;
 
 }
 #screen-question .circle-right-label{
@@ -163,7 +161,7 @@ div.big-circle{
 }
 
 #screen-question .contain-question{
-    padding-top : 80px;
+    padding-top : 50px;
     width : 100%;
     overflow-x: auto;
 }

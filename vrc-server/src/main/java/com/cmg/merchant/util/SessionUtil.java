@@ -17,6 +17,7 @@ public class SessionUtil {
     public static String ATT_TID = "teacherId";
     public static String ATT_CPNAME = "companyName";
     public static String ATT_COURSE_ID = "idCourse";
+    public static String ATT_TEACHER_NAME = "username";
     private static String INVALID = "invalid";
 
 
@@ -40,6 +41,15 @@ public class SessionUtil {
         return check;
     }
 
+    /**
+     *
+     * @param request
+     * @return company name
+     */
+    public String getTeacherName(HttpServletRequest request){
+        String companyName = (String) StringUtil.isNull(request.getSession().getAttribute(ATT_TEACHER_NAME),"");
+        return companyName;
+    }
     /**
      *
      * @param request

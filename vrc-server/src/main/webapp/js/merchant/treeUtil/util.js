@@ -39,8 +39,13 @@ function drag2drop(){
                     if(dragData._isButton){
                         return false;
                     }
+
                     if (options.before === null) {
                         // container creation is disabled
+                        return false;
+                    }
+                    if(dropData._targetLoad == targetLoadTest){
+                        //do not move the test node
                         return false;
                     }
                     if(dragData._targetLoad == targetLoadTest){

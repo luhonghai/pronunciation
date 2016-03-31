@@ -13,6 +13,11 @@
 <script>
     var idCourse = "<%=idCourse%>";
     var nameOfCourse = "<%=nameOfCourse%>";
+    var targetLoadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
+    var targetLoadLevel = "<%=Constant.TARGET_LOAD_LEVEL%>";
+    var targetLoadObj = "<%=Constant.TARGET_LOAD_OBJECTIVE%>";
+    var targetLoadTest = "<%=Constant.TARGET_LOAD_TEST%>";
+    var targetLoadLesson = "<%=Constant.TARGET_LOAD_LESSONS%>";
     var loadCourse = "<%=Constant.TARGET_LOAD_COURSE%>";
     var action_edit_course = "<%=Constant.ACTION_EDIT_COURSE%>";
     var action_edit_level = "<%=Constant.ACTION_EDIT_LEVEL%>";
@@ -59,7 +64,7 @@
             <div id="tree" class="aciTree">
 
             </div>
-            <div id="process-bar" class="center-block" style="padding-top: 20px;width:400px"></div>
+          <%--  <div id="process-bar" class="center-block" style="padding-top: 20px;width:400px"></div>--%>
         </div>
     </div>
     <div class="row">
@@ -69,7 +74,7 @@
     </div>
     <div class="row">
         <div class="col-lg-11">
-            <img style="float:right" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
+            <img id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
         </div>
         <div class="col-lg-1">
             <img id="copyCourse" style="float:right;cursor: pointer;" src="/images/treeview/duplicated_button.gif" width="50px" height="50px"/>

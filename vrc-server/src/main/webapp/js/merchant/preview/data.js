@@ -68,8 +68,8 @@ function getBodyQuestion(){
 function getDescriptionQuestion(){
     return getBodyQuestion().find('.description-question');
 }
-function getContainWord(){
-    return  getBodyQuestion().find('.contain-word');
+function getContainQuestionWord(){
+    return getBodyQuestion().find('.contain-word');
 }
 
 function getContainQuestion(){

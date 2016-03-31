@@ -46,7 +46,8 @@ public class MyCourseServlet extends BaseServlet {
             }
         }else if (action.equalsIgnoreCase(ACTION_LIST_ALL) && util.checkSessionValid(request)){
             CMTSERVICES services = new CMTSERVICES();
-            ArrayList<CourseDTO> list = services.getCoursesForMyCourses(util.getCpId(request), util.getTid(request));
+            ArrayList<CourseDTO> list = services.getCoursesForMyCourses(util.getCpId(request),
+                    util.getTid(request), util.getTeacherName(request));
             String json = gson.toJson(list);
             response.getWriter().print(json);
         }else if(action.equalsIgnoreCase(ACTION_SEARCH_HEADER) && util.checkSessionValid(request)){

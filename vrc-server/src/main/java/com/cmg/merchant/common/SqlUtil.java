@@ -137,6 +137,24 @@ public class SqlUtil {
             "and l.isDeleted=false and q.isDeleted=false ";
 
 
+
+    private String SQL_CHECK_COURSE_ASSIGN_CLASS = "select c.id from COURSE as c inner join COURSEMAPPINGCLASS as cmc on c.id = cmc.idCourse\n" +
+            "inner join CLASSMAPPINGTEACHER as cmt on cmc.idClass = cmt.idClass " +
+            "where c.id='paramCid' and cmt.teacherName='paramTeacherName' and c.isDeleted=false and cmc.isDeleted=false and cmt.isDeleted=false";
+
+    /**
+     *
+     * @param idCourse
+     * @param teacherName
+     * @return
+     */
+    public String getSqlCheckCourseAssignClass (String idCourse, String teacherName){
+        String sql = SQL_CHECK_COURSE_ASSIGN_CLASS;
+        sql = sql.replaceAll("paramCid",idCourse);
+        sql = sql.replaceAll("paramTeacherName",teacherName);
+        return sql;
+    }
+
     /**
      *
      * @param idTest

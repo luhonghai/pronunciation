@@ -164,4 +164,31 @@ public class CDAO extends DataAccess<Course> {
         }
     }
 
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public boolean isAssignToClass(String idCourse, String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlUtil sqlUtil = new SqlUtil();
+        String sql = sqlUtil.getSqlCheckCourseAssignClass(idCourse, teacherName);
+        System.out.println("check course assign :  " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL",sql);
+        try {
+           List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!= null && tmp.size() > 0){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }finally {
+            if (q!= null)
+                q.closeAll();
+            pm.close();
+        }
+        return false;
+    }
 }

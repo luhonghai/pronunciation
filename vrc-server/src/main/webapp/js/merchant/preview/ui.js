@@ -87,9 +87,28 @@ function drawQuestionPreview(question, index){
 }
 
 function parseList(words){
-    var list = "-";
+    var list = "";
     $.each(words, function(i, item){
         list = list + item.word + "-";
     });
     return list.substring(0,list.length - 1);
+}
+
+function randomWords(words){
+    var array = words.split("-");
+    var rand = Math.floor(Math.random() * array.length);
+    console.log("random : " + rand);
+    $.each(array, function(i, item){
+        var index = i;
+        if(index == rand){
+            console.log(item);
+            return item;
+        }
+    });
+    return array[0];
+}
+
+function drawRandomWord(words){
+    var wordShow = randomWords(words);
+    getContainQuestionWord().html(wordShow);
 }

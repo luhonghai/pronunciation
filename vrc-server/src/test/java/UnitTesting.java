@@ -24,6 +24,7 @@ import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.services.CMTSERVICES;
@@ -81,8 +82,9 @@ public class UnitTesting {
                 }
             }*/
 
-            QuestionServices sr = new QuestionServices();
-            sr.addQuestionToDB("abc","type","type");
+            CDAO dao = new CDAO();
+            boolean check = dao.isAssignToClass("8b473661-6347-4864-a707-6037b7fdd59b","demoTeacher1@c-mg.com");
+            System.out.println(check);
 
         } catch (Exception e) {
             e.printStackTrace();

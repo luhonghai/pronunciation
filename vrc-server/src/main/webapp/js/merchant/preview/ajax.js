@@ -46,6 +46,9 @@ function loadContent(action,id){
                 var description =  getPopUpPreview().find("#"+id).attr('description');
                 getDescriptionQuestion().find('label').html(description);
                 $.each(data, function(i, item){
+                    if(i==0){
+                        drawRandomWord(parseList(item.words));
+                    }
                     drawQuestionPreview(item,i);
                 });
                 showScreen(getQuestionScreen().attr('id'));

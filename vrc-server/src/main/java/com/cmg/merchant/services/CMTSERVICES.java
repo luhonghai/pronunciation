@@ -169,7 +169,7 @@ public class CMTSERVICES {
      * @param tId
      * @return
      */
-    public ArrayList<CourseDTO> getCoursesForMyCourses(String cpId, String tId){
+    public ArrayList<CourseDTO> getCoursesForMyCourses(String cpId, String tId, String teacherName){
         ArrayList<CourseDTO> list = new ArrayList<>();
         try {
             CMTDAO dao = new CMTDAO();
@@ -183,11 +183,18 @@ public class CMTSERVICES {
                         dto.setCompanyName(cpCloneName);
                         dto.setBackgroundColor(Color.MY_COURSE_DUPLICATE_COLOR);
                         dto.setTextColor(Color.TEXT_COLOR);
-                        dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                        if(dto.getState().equalsIgnoreCase(Constant.STATE_DUPLICATED)){
+                            dto.setPageLink("/edit-copy-course.jsp?idCourse=" + dto.getIdCourse());
+                        }else{
+                            dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                        }
                     }else{
                         dto.setBackgroundColor(Color.MY_COURSE_CREATED_BY_TEACHER);
                         dto.setTextColor(Color.TEXT_COLOR);
                         dto.setPageLink("/course-details.jsp?idCourse=" + dto.getIdCourse());
+                    }
+                    if(isAssignToClass(dto.getIdCourse(),teacherName)){
+                        dto.setPageLink("/review-course.jsp?idCourse=" + dto.getIdCourse());
                     }
                 }
             }
@@ -195,6 +202,21 @@ public class CMTSERVICES {
 
         }
         return list;
+    }
+
+    /**
+     *
+     * @param cId
+     * @param tName
+     * @return
+     */
+    public boolean isAssignToClass(String cId, String tName){
+        CDAO dao = new CDAO();
+        try {
+            return dao.isAssignToClass(cId,tName);
+        }catch (Exception e){
+        }
+        return false;
     }
 
     /**
