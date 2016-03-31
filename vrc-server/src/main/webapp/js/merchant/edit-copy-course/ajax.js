@@ -863,7 +863,7 @@ function UpdateStateCourse(){
     }
     if(isEditedContent){
         state = "edited";
-    }else if(isEditedTitle && !isEditedContent){
+    }else{
         state = "duplicated";
     }
     $.ajax({
@@ -892,8 +892,7 @@ function publishCourse(){
         type : "POST",
         data : {
             action: "publish",
-            idCourse : idCourse,
-            state : state
+            idCourse : idCourse
         },
         dataType : "text",
         success : function(data){
