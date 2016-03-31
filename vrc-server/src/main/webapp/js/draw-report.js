@@ -12,26 +12,19 @@ var graph;
 var stepSize ;
 var mang=[];
 var items=[];
-var x;
 // values of each item on the graph
 
 function init(itemName,itemValue,itemValue1) {
     // intialize values for each variables
-
     sections = itemValue.length;
-
-
     Val_Max = 100;
     stepSize = 10;
     var columnSize = 30;
     var rowSize = 30;
-    var margin = 5;
+    var margin = 10;
     var header = "Score %" ;
     var phoneme="phoneme";
-    width_column=0.3;
-    //
-    var tipCanvas = document.getElementById("tip");
-    //var tipCtx = tipCanvas.getContext("2d");
+    width_column=0.1;
 
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
@@ -40,7 +33,6 @@ function init(itemName,itemValue,itemValue1) {
     yScale = (canvas.height - columnSize - margin*3) / (Val_Max);
     xScale = (canvas.width - rowSize) / (sections + 1);
 
-    x=(rowSize+margin)/xScale;
     context.strokeStyle="#000;"; // background black lines
     context.beginPath();
     context.moveTo(rowSize,columnSize + (yScale * 10 * stepSize));
@@ -68,64 +60,54 @@ function init(itemName,itemValue,itemValue1) {
     // print names of each data entry
     context.font = "20 pt Verdana";
     context.textBaseline="bottom";
-    for (i=0;i<sections;i++) {
+    for (i=0;i<5;i++) {
         computeHeight(itemValue[i]);
-        context.fillText(itemName[i], xScale * (i*0.5+x),canvas.height);
+        context.fillText(itemName[i], xScale * (i*0.2+0.7),canvas.height);
     }
 
-    // shadow for graph's bar lines with color and offset
-
-
-    //context.shadowColor = 'rgba(128,128,128, 0.5)';
-
-    //shadow offset along X and Y direction
-    //context.shadowOffsetX = 9;
-    //context.shadowOffsetY = 3;
-
-    // translate to bottom of graph  inorder to match the data
     context.translate(0,canvas.height - margin*3);
     context.scale(xScale,-1 * yScale);
 
     // draw each graph bars
-    for (i=0;i<sections;i++) {
+    for (i=0;i<5;i++) {
         var h=itemValue[i];
         var g=itemValue1[i];
         if(h<g){
             context.fillStyle='#000066';
-            context.fillRect(i*0.5+x, 0, width_column, h);
+            context.fillRect(i*0.2+0.7, 0, width_column, h);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*0.2+0.7)*xScale,
                 y1: canvas.height - margin*3-h*yScale,
-                x2: (i*0.2+x)*xScale+width_column*xScale,
+                x2: (i*0.2+0.7)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3
             })
             items.push(h);
 
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.5+x, 0+h, width_column, g-h);
+            context.fillRect(i*0.2+0.7, 0+h, width_column, g-h);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*0.2+0.7)*xScale,
                 y1: canvas.height - margin*3-h*yScale-g*yScale,
-                x2: (i*0.2+x)*xScale+width_column*xScale,
+                x2: (i*0.2+0.7)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3-h*yScale
             })
             items.push(g);
         }else{
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.5+x, 0, width_column, g);
+            context.fillRect(i*0.2+0.7, 0, width_column, g);
             mang.push({
-                x1:(i*0.5+x)*xScale,
+                x1:(i*0.2+0.7)*xScale,
                 y1: canvas.height - margin*3-g*yScale,
-                x2: (i*0.5+x)*xScale+width_column*xScale,
+                x2: (i*0.2+0.7)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3
             })
             items.push(g);
             context.fillStyle='#000066';
-            context.fillRect(i*0.5+x, 0+g, width_column, h-g);
+            context.fillRect(i*0.2+0.7, 0+g, width_column, h-g);
             mang.push({
-                x1:(i*0.5+x)*xScale,
+                x1:(i*0.2+0.7)*xScale,
                 y1: canvas.height - margin*3-g*yScale-h*yScale,
-                x2: (i*0.5+x)*xScale + width_column*xScale,
+                x2: (i*0.2+0.7)*xScale + width_column*xScale,
                 y2: canvas.height - margin*3-g*yScale
             })
             items.push(h);
@@ -201,8 +183,8 @@ function draw(Course,Level,Obj,name,date){
     "<label style='font-weight: 200;'>"+date+"</label> " +
     "</div> " +
     "<div id='score' class='col-sm-1'> " +
-    "<div id='scoreStudent' style='margin:40px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
-    "<div id='scoreClass' style='margin-top:25px;margin-left:8px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
+    "<div id='scoreStudent' style='margin:30px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
+    "<div id='scoreClass' style='margin-top:25px;margin-left:px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
     "</div> " +
     "<div id='drawPhonemes' class='col-sm-4'> " +
     "<canvas id='canvas' height='250' width='300'></canvas> " +
