@@ -16,13 +16,10 @@ class QuestionCVCell: UICollectionViewCell {
     
 }
 
-class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
-    let arrayRandomWord = ["hello", "goodbye", "welcome", "please", "no", "yes", "left", "right", "refrigerator", "eighth", "jewellery", "bath", "drawer", "hungry", "finance", "router", "university", "credit", "pronunciation", "business", "colonel", "penguin", "sixth", "anemone", "choir", "candidate", "cacophony", "demure", "barbiturate", "electoral", "necessarily", "rural", "squirrel", "future", "hydrogen"]
-    
-    let kCellIdentifier = "cellIdentifier"
     //var loginParameter:NSUserDefaults!
     var JSONStringUserProfile:String!
     var userProfile = UserProfile()
@@ -50,8 +47,6 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     @IBOutlet weak var analyzingView: AnalyzingView!
     
     var freestyleDBAdapter:FreeStyleDBAdapter!
-    
-    
     var lessonDBAdapter: WordCollectionDbApdater!
     
     deinit {
@@ -151,11 +146,17 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         lessonDBAdapter = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
         
+        //load question colection view
+        questionCVInit()
+        
         while selectedWord == nil {
-            let randomIndex = Int(arc4random_uniform(UInt32(arrayRandomWord.count)))
+            print("run in first word")
+            let randomIndex = Int(arc4random_uniform(UInt32(arrQuestionOfLesson[0].listWord.count)))
             do {
-                selectedWord = try lessonDBAdapter.findByWord(arrayRandomWord[randomIndex])
+                selectedWord = arrQuestionOfLesson[0].listWord[randomIndex]
+                arrQuestionOfLesson[0].selectedWord = selectedWord
                 Logger.log("select random word \(selectedWord.word) index \(randomIndex)")
+                indexCurrentQuestion = 0
             } catch {
                 
             }
@@ -168,7 +169,7 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         //
         //self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
  
-        questionCVInit()
+        //print("cellQuestionSelectedInDetail \(cellQuestionSelectedInDetail)")
     }
     
     
@@ -324,120 +325,7 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         //loginParameter.setObject(nil, forKey: "username")
     }
-    
-    //define for search bar
-    var arrSearchResultData = [WordCollection]()
-    //var filteredAppleProducts = [String]()
-    
-    var resultSearchController: AnyObject!
-    
-    let resultsController = UITableViewController(style: .Plain)
-    
-    func initSearchResultController() {
-        arrSearchResultData = [WordCollection]()
-        resultsController.tableView.dataSource = self
-        resultsController.tableView.delegate = self
-        resultsController.tableView.reloadData()
-        resultsController.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
-    }
-    
-    @IBAction func barbuttonSearchClick(sender: AnyObject) {
-        if #available(iOS 8.0, *) {
-            initSearchViewController()
-        } else {
-            initSearchViewControllerOS7()
-        }
-    }
-    
-    func searchDisplayControllerWillBeginSearch(controller: UISearchDisplayController) {
-        if #available(iOS 8.0, *) {
-        } else {
-            Logger.log("searchDisplayControllerWillBeginSearch")
-        }
-    }
-    
-    func searchDisplayControllerWillEndSearch(controller: UISearchDisplayController) {
-        if #available(iOS 8.0, *) {
-            
-        } else {
-            Logger.log("searchDisplayControllerWillEndSearch")
-            setActiveSearchViewOS7(false)
-        }
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        if #available(iOS 8.0, *) {
-            
-        } else {
-            
-        }
-    }
-    
-    func initSearchViewControllerOS7() {
-        initSearchResultController()
-        let statusBarFrame = UIApplication.sharedApplication().statusBarFrame
-        let searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.showsCancelButton = false
-        searchBar.text = ""
-        searchBar.becomeFirstResponder()
-        resultsController.tableView.tableHeaderView = searchBar
-        searchBar.sizeToFit()
-        resultSearchController = UISearchDisplayController(searchBar: searchBar, contentsController: resultsController)
-        (resultSearchController as! UISearchDisplayController).searchResultsDataSource = self
-        (resultSearchController as! UISearchDisplayController).delegate = self
-        (resultSearchController as! UISearchDisplayController).searchResultsDelegate = self
-        (resultSearchController as! UISearchDisplayController).searchResultsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
-        let height = self.view.frame.height
-        let width = self.view.frame.width
-        let minY = CGRectGetMinY(self.view.frame)
-        //  let origin = resultsController.view.frame
-        resultsController.tableView.frame = CGRectMake(0, minY + statusBarFrame.size.height, width,height - statusBarFrame.size.height)
-        resultsController.view.frame = self.view.frame
-        self.presentpopupViewController(resultsController, animationType: SLpopupViewAnimationType.TopBottom, completion: { () -> Void in
-            Logger.log("Show popup")
-            
-        })
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        updateSearchTableData(searchText)
-    }
-    
-    @available(iOS 8.0, *)
-    func initSearchViewController() {
-        //
-        initSearchResultController()
-        //
-        resultSearchController = UISearchController(searchResultsController: resultsController)
-        (resultSearchController as! UISearchController).searchResultsUpdater = self
-        (resultSearchController as! UISearchController).dimsBackgroundDuringPresentation = false
-        //self.resultSearchController.searchBar.sizeToFit()
-        
-        self.presentViewController(resultSearchController as! UISearchController, animated: true, completion: nil)
-        
-    }
-    
-    @available(iOS 8.0, *)
-    func updateSearchResultsForSearchController(searchController: UISearchController)
-    {
-        //searching word process
-        updateSearchTableData(searchController.searchBar.text!)
-    }
-    
-    func updateSearchTableData(searchText: String) {
-        //get database
-        let adapter = WordCollectionDbApdater()
-        do {
-            arrSearchResultData = try adapter.search(searchText)
-        } catch (let e as NSError) {
-            Logger.log(e)
-        }
-        //reload data for table view search
-        Logger.log("Start reload search result")
-        resultsController.tableView.reloadData();
-        Logger.log("Complete reload search result")
-    }
+
     
     func selectWord(wordCollection : WordCollection){
         currentMode = nil
@@ -446,8 +334,8 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         scoreResult = -1
         NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordCollection.word)
         //set word select for detail screen
-        let JSONWordSelected:String = Mapper().toJSONString(wordCollection, prettyPrint: true)!
-        userProfileSaveInApp.setObject(JSONWordSelected, forKey: FSScreen.KeyWordSelectedInMainScreen)
+        //let JSONWordSelected:String = Mapper().toJSONString(wordCollection, prettyPrint: true)!
+        //userProfileSaveInApp.setObject(JSONWordSelected, forKey: FSScreen.KeyWordSelectedInMainScreen)
         
         selectedWord = wordCollection
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
@@ -457,53 +345,8 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         changeColorLoadWord()
         //close searchControler
         
-        if resultSearchController != nil {
-            if #available(iOS 8.0, *) {
-                setActiveSearchView(false)
-            } else {
-                setActiveSearchViewOS7(false)
-            }
-        }
     }
-    
-    func setActiveSearchViewOS7(active: Bool) {
-        //self.dismissViewControllerAnimated(true, completion: {})
-        self.dismissPopupViewController(SLpopupViewAnimationType.BottomTop)
-        //(resultSearchController as! UISearchDisplayController).active = active
-    }
-    
-    @available(iOS 8.0, *)
-    func setActiveSearchView(active: Bool) {
-        (resultSearchController as! UISearchController).active = active
-    }
-    
-    
-    //MARK- UITableViewDataSource
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let identifier = kCellIdentifier
-        let cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: identifier)
-        let word = arrSearchResultData[indexPath.row]
-        cell.textLabel?.text = "\(word.word)"
-        //cell.textLabel!.text = arrSearchResultData[indexPath.row].word
-        cell.detailTextLabel?.text = "\(word.pronunciation)"
-        cell.detailTextLabel?.textColor = ColorHelper.APP_GRAY
-        //        cell.detailTextLabel?.needsUpdateConstraints()
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        Logger.log("Search result count \(self.arrSearchResultData.count)")
-        return self.arrSearchResultData.count
-    }
-    
-    
-    // MARK- UITableViewDelegate
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //load data for ViewControll when select word
-        Logger.log("Row \(indexPath.row) selected")
-        selectWord(arrSearchResultData[indexPath.row])
-    }
-    
+
     func showErrorAnalyzing() {
         isRecording = false
         btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
@@ -586,14 +429,16 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
                                 //let cell = self.cvQuestionList.cellForItemAtIndexPath(self.cellChoice) as! QuestionCVCell
                                 //cell.lblQuestion.text = String(Int(weakSelf!.scoreResult))
                                 //cell.lblQuestion.backgroundColor = UIColor.redColor()
+                                
+                                //updata data for questionCV
+                                self.arrQuestionOfLesson[self.indexCurrentQuestion].currentMode = weakSelf!.currentMode
                                 self.arrQuestionOfLesson[self.indexCurrentQuestion].recorded = true
                                 self.arrQuestionOfLesson[self.indexCurrentQuestion].listScore.append(weakSelf!.scoreResult)
-                                
-                                
                                 
                                 if self.indexCurrentQuestion+1 < self.arrQuestionOfLesson.count {
                                     self.arrQuestionOfLesson[self.indexCurrentQuestion+1].enabled = true
                                 }
+                                self.arrQuestionOfLesson[self.indexCurrentQuestion].selectedWord = self.selectedWord
                                 self.cvQuestionList.reloadData()
                                 
                                 //move detail screen
@@ -617,9 +462,13 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     func openDetailView(model: UserVoiceModel) {
-        let fsDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("FSDetailVC") as! FSDetailVC
-        fsDetailVC.userVoiceModelResult = model
-        self.navigationController?.pushViewController(fsDetailVC, animated: true)
+        let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
+        lessonDetailVC.userVoiceModelResult = model
+        lessonDetailVC.arrQuestionOfLesson = arrQuestionOfLesson
+        lessonDetailVC.questionCVDatasourceDelegate = self
+        lessonDetailVC.lessonTitle = selectedLessonCollection.title
+        lessonDetailVC.objectiveScore = objectiveScore
+        self.navigationController?.pushViewController(lessonDetailVC, animated: true)
     }
     
     private func saveDatabase(model: UserVoiceModel) {
@@ -846,18 +695,17 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     
     /*colection view setup
      *************************************************************/
-    
     @IBOutlet weak var cvQuestionList: UICollectionView!
     var arrQuestionOfLesson = [AEQuestion]()
-    //var arrWordOfQuestion = [WordCollection]()
-    //var arrWordSelected = [String]()
-    //var arrEnable = [Int]()
     var selectedLessonCollection = AELessonCollection()
+    var objectiveScore:ObjectiveScore!
     let reuseIdentifier = "cell"
-    
-    // also enter this string as the cell identifier in the storyboard
+    var indexCurrentQuestion:Int!
     
     func questionCVInit(){
+        
+        print(selectedLessonCollection.idString)
+        
         arrQuestionOfLesson = try! lessonDBAdapter.getQuestionByLessionCollection(selectedLessonCollection.idString)
         for index in 0...arrQuestionOfLesson.count-1 {
             arrQuestionOfLesson[index].listWord = try! lessonDBAdapter.getWordsOfQuestion(arrQuestionOfLesson[index].idString)
@@ -931,9 +779,6 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
     }
     
     // MARK: - UICollectionViewDelegate protocol
-    
-    var indexCurrentQuestion:Int!
-    
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // handle tap events
         Logger.log("You selected cell #\(indexPath.item)!")
@@ -941,47 +786,57 @@ class LessonMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate
         let question = arrQuestionOfLesson[indexPath.item]
         indexCurrentQuestion = indexPath.item
         if question.enabled {
-            var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
-            while question.listWord[randomIndex].word == selectedWord.word {
-                randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
-            }
-            selectedWord = question.listWord[randomIndex]
-            self.chooseWord(selectedWord.word)
-            Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
+            randomWord(question)
         }
-        
-        
-        
-        
-        
-        
-        /*if(arrEnable.contains(indexPath.item)){
-            //indexCellChoice = indexPath.item
-            //self.displayViewController(.Fade)
-            print (arrQuestionOfLesson[indexPath.item].idString)
-            arrWordOfQuestion = try! lessonDBAdapter.getWordsOfQuestion(arrQuestionOfLesson[indexPath.item].idString)
-            for index in 0...arrWordOfQuestion.count-1 {
-                print(arrWordOfQuestion[index].word)
-            }
-            
-            var randomIndex = Int(arc4random_uniform(UInt32(arrWordOfQuestion.count)))
-            while arrWordOfQuestion[randomIndex].word == selectedWord.word {
-                randomIndex = Int(arc4random_uniform(UInt32(arrWordOfQuestion.count)))
-            }
-            selectedWord = arrWordOfQuestion[randomIndex]
-            arrWordSelected.append(selectedWord.word)
-            self.chooseWord(selectedWord.word)
-            Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
-            
-            if (!arrEnable.contains(indexPath.item + 1)){
-                arrEnable.append(indexPath.item + 1)
-                print(arrEnable)
-            }
-        }
-        cellChoice = indexPath*/
-
     }
+    
+    func randomWord(question:AEQuestion){
+        var randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+        while question.listWord[randomIndex].word == selectedWord.word {
+            randomIndex = Int(arc4random_uniform(UInt32(question.listWord.count)))
+        }
+        selectedWord = question.listWord[randomIndex]
+        //question.selectedWord = selectedWord
+        self.chooseWord(selectedWord.word)
+        Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
+    }
+    
+    //process when click question cell on detail screen
+    func selectedCellQuestionInDetail(cellIndex: Int) {
+        Logger.log("Detail cell selected is \(cellIndex)")
+        indexCurrentQuestion = cellIndex
+        if let word = arrQuestionOfLesson[cellIndex].selectedWord {
+            currentMode = arrQuestionOfLesson[cellIndex].currentMode
+            selectedWord = word
+            //self.chooseWord(selectedWord.word)
+            //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
+            
 
+            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: currentMode.word)
+            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: currentMode.word)
+            
+            scoreResult = floor(currentMode.score)
+            showColorOfScoreResult(currentMode.score)
+            analyzingView.showScore(Int(currentMode.score))
+            ennableViewRecord()
+            btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
+            //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
+            isRecording = false
+
+            //selectedWord = wordCollection
+            btnPlayDemo.setTitle(selectedWord.word.lowercaseString, forState: UIControlState.Normal)
+            lblIPA.text = selectedWord.pronunciation
+            tvDescription.text = selectedWord.definition
+            linkFile = selectedWord.mp3Path
+            
+            
+            //Logger.log(score)
+            //analyzingView.showScore(Int(score))
+        } else{
+            randomWord(arrQuestionOfLesson[cellIndex])
+        }
+    }
     
     
     

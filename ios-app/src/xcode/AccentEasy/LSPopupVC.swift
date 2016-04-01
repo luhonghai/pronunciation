@@ -30,9 +30,8 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         LSTableView.dataSource = self
         LSTableView.delegate = self
         
+        //style popup
         self.view.layer.cornerRadius = 5
-
-        
         self.view.backgroundColor = ColorHelper.APP_LIGHT_BLUE
         //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "global_bg.png")!)
         LSTableView.backgroundColor = ColorHelper.APP_LIGHT_BLUE

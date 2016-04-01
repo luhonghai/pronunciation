@@ -11,6 +11,7 @@ import Foundation
 public class LiteDatabase {
     public static let FREESTYLE = "database/freestyle.db"
     public static let LESSON = "database/lesson.db"
+    public static let LESSONUSERSCORE = "database/lessonuserscore.db"
 }
 
 public class LiteTable {
@@ -24,6 +25,9 @@ public class LiteTable {
     public static let LEVEL = Table("Level")
     public static let QUESTION = Table("Question")
     public static let TEST  = Table("LessonTest")
+    //
+    public static let OBJECTIVE_SCORE = Table("ObjectiveScore")
+    public static let TEST_SCORE  = Table("TestScore")
     
     public static let CREATE_TABLE_QUERIES = [
         LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
@@ -47,6 +51,24 @@ public class LiteTable {
             t.column(LiteColumn.TIME)
         }
     ]
+    
+    public static let CREATE_TABLE_SCORE_QUERIES = [
+        LiteTable.OBJECTIVE_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.IDCOUNTRY)
+            t.column(LiteColumn.IDLEVEL)
+            t.column(LiteColumn.IDOBJECTIVE)
+            t.column(LiteColumn.IDLESSON)
+            t.column(LiteColumn.SCORE)
+        },
+        LiteTable.TEST_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.IDCOUNTRY)
+            t.column(LiteColumn.IDLEVEL)
+            t.column(LiteColumn.SCORE)
+        }
+    ]
+
 }
 
 public class LiteColumn {
@@ -80,6 +102,11 @@ public class LiteColumn {
     public static let IS_DEFAULT_ACTIVATED = Expression<String?>("ISDEFAULTACTIVATED")
     public static let TITLE = Expression<String?>("TITLE")
     public static let PERCENT_PASS = Expression<Double?>("PERCENTPASS")
+    //
+    public static let IDCOUNTRY = Expression<String?>("IDCOUNTRY")
+    public static let IDLEVEL = Expression<String?>("IDLEVEL")
+    public static let IDOBJECTIVE = Expression<String?>("IDOBJECTIVE")
+    public static let IDLESSON = Expression<String?>("IDLESSON")
 }
 
 public class LiteEntity {

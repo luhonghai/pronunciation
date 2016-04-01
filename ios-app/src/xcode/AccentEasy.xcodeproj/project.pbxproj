@@ -229,6 +229,9 @@
 		C10906811C757A120071206D /* Menu-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906801C757A120071206D /* Menu-25@2x.png */; };
 		C10906831C75B5DB0071206D /* Menu-20.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906821C75B5DB0071206D /* Menu-20.png */; };
 		C10906851C75B61A0071206D /* Menu-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C10906841C75B61A0071206D /* Menu-25.png */; };
+		C10ACEFB1CAE5ACE009676C1 /* ObjectiveScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */; };
+		C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF081CAE5AEB009676C1 /* TestScore.swift */; };
+		C10ACF0B1CAE5EA4009676C1 /* LessonDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */; };
 		C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */; };
 		C1304D1F1C9808C800CE72C5 /* LessonMainTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */; };
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
@@ -270,6 +273,8 @@
 		C141C8321C3E21FA001D1F9C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */; };
 		C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8331C3E27F1001D1F9C /* FSMainVC.swift */; };
 		C141C8381C3E49B6001D1F9C /* OurItem3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */; };
+		C14CD6251CACC4A6003B466F /* ToltalScorePopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CD6231CACC4A6003B466F /* ToltalScorePopupVC.swift */; };
+		C14CD6261CACC4A6003B466F /* ToltalScorePopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C14CD6241CACC4A6003B466F /* ToltalScorePopupVC.xib */; };
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
@@ -376,6 +381,8 @@
 		C172A5831C97F70200BBBEC4 /* AECountry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C172A5821C97F70200BBBEC4 /* AECountry.swift */; };
 		C17612F31C9A4CFF0088CD55 /* TimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */; };
 		C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */; };
+		C18B1D191CAA74BA0092502E /* LessonDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */; };
+		C18B1D1B1CAA8BB50092502E /* QuestionCVDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */; };
 		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
@@ -714,6 +721,9 @@
 		C10906801C757A120071206D /* Menu-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-25@2x.png"; sourceTree = "<group>"; };
 		C10906821C75B5DB0071206D /* Menu-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-20.png"; sourceTree = "<group>"; };
 		C10906841C75B61A0071206D /* Menu-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Menu-25.png"; sourceTree = "<group>"; };
+		C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveScore.swift; sourceTree = "<group>"; };
+		C10ACF081CAE5AEB009676C1 /* TestScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScore.swift; sourceTree = "<group>"; };
+		C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LessonDBAdapter.swift; path = Data/SQLite/queries/LessonDBAdapter.swift; sourceTree = "<group>"; };
 		C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
 		C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainTVC.swift; sourceTree = "<group>"; };
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
@@ -763,6 +773,8 @@
 		C141C8311C3E21FA001D1F9C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		C141C8331C3E27F1001D1F9C /* FSMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSMainVC.swift; sourceTree = "<group>"; };
 		C141C8371C3E49B6001D1F9C /* OurItem3ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurItem3ViewController.swift; sourceTree = "<group>"; };
+		C14CD6231CACC4A6003B466F /* ToltalScorePopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToltalScorePopupVC.swift; sourceTree = "<group>"; };
+		C14CD6241CACC4A6003B466F /* ToltalScorePopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToltalScorePopupVC.xib; sourceTree = "<group>"; };
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
@@ -869,6 +881,8 @@
 		C172A5821C97F70200BBBEC4 /* AECountry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AECountry.swift; path = Data/Entity/Lesson/AECountry.swift; sourceTree = "<group>"; };
 		C17612F21C9A4CFF0088CD55 /* TimeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeHelper.swift; sourceTree = "<group>"; };
 		C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDefaultFunciton.swift; sourceTree = "<group>"; };
+		C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonDetailVC.swift; sourceTree = "<group>"; };
+		C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCVDatasource.swift; sourceTree = "<group>"; };
 		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
@@ -1345,6 +1359,7 @@
 				9BA3AB2F1C4F840300C6631D /* DatabaseHelper.swift */,
 				9B961CD21C60BC29001FB87E /* WordCollectionDbApdater.swift */,
 				90F33B491C7EF0FA00E28BC4 /* FreeStyleDBAdapter.swift */,
+				C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */,
 				90F430811C86904800D6DF81 /* LiteCommon.swift */,
 			);
 			name = SQLite;
@@ -1788,6 +1803,8 @@
 				9B5526251C9A66A1000AB7E8 /* AELessonCollection.swift */,
 				9B5526271C9A673D000AB7E8 /* AEQuestion.swift */,
 				9B5526421C9A709E000AB7E8 /* AETest.swift */,
+				C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */,
+				C10ACF081CAE5AEB009676C1 /* TestScore.swift */,
 			);
 			name = Lesson;
 			sourceTree = "<group>";
@@ -1800,6 +1817,10 @@
 				9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */,
 				9B72D1201C9BABD600297470 /* LessonCollectionController.swift */,
 				C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */,
+				C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */,
+				C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */,
+				C14CD6231CACC4A6003B466F /* ToltalScorePopupVC.swift */,
+				C14CD6241CACC4A6003B466F /* ToltalScorePopupVC.xib */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2118,6 +2139,7 @@
 				C16CD2EA1C44B1EC00537461 /* ic_question.png in Resources */,
 				C16CD2C81C44B1EC00537461 /* p_tip_blue_blur.png in Resources */,
 				C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */,
+				C14CD6261CACC4A6003B466F /* ToltalScorePopupVC.xib in Resources */,
 				C16CD2FE1C44B1EC00537461 /* help_content_7.png in Resources */,
 				C16CD2C31C44B1EC00537461 /* p_menu_license.png in Resources */,
 				C16CD2FB1C44B1EC00537461 /* help_content_4.png in Resources */,
@@ -2249,9 +2271,11 @@
 				9B5F34251C771E6000E85629 /* Client.swift in Sources */,
 				9B5F34111C771D6800E85629 /* Helpers.swift in Sources */,
 				9B5F33B21C77129A00E85629 /* ChartYAxisRendererHorizontalBarChart.swift in Sources */,
+				C10ACF0B1CAE5EA4009676C1 /* LessonDBAdapter.swift in Sources */,
 				9B5F33A81C77129A00E85629 /* CandleStickChartRenderer.swift in Sources */,
 				9B5F33BE1C77129A00E85629 /* ChartSelectionDetail.swift in Sources */,
 				C13E44C01C60902F00EB6075 /* UserVoiceModel.swift in Sources */,
+				C10ACEFB1CAE5ACE009676C1 /* ObjectiveScore.swift in Sources */,
 				9B5F33B41C77129A00E85629 /* CombinedChartRenderer.swift in Sources */,
 				9B5F33AE1C77129A00E85629 /* ChartXAxisRendererBarChart.swift in Sources */,
 				9B5F33C01C77129A00E85629 /* ChartTransformerHorizontalBarChart.swift in Sources */,
@@ -2265,6 +2289,7 @@
 				9B5F340A1C771D6800E85629 /* Connection.swift in Sources */,
 				9B5F33521C77129A00E85629 /* PieChartView.swift in Sources */,
 				9B5F33701C77129A00E85629 /* BarChartData.swift in Sources */,
+				C18B1D1B1CAA8BB50092502E /* QuestionCVDatasource.swift in Sources */,
 				9B5F33A31C77129A00E85629 /* ChartDataProvider.swift in Sources */,
 				9B5F33851C77129A00E85629 /* RadarChartData.swift in Sources */,
 				9B5526281C9A673D000AB7E8 /* AEQuestion.swift in Sources */,
@@ -2286,6 +2311,7 @@
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				9B5F339B1C77129A00E85629 /* ChartHighlighter.swift in Sources */,
 				9B5F335B1C77129A00E85629 /* ChartXAxis.swift in Sources */,
+				C14CD6251CACC4A6003B466F /* ToltalScorePopupVC.swift in Sources */,
 				9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */,
 				C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */,
 				9B5F341C1C771DB300E85629 /* SQLiteOperators.swift in Sources */,
@@ -2293,6 +2319,7 @@
 				9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */,
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
+				C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */,
 				9B5F33A91C77129A00E85629 /* ChartAxisRendererBase.swift in Sources */,
 				90F4308F1C86957A00D6DF81 /* PronunciationScore.swift in Sources */,
 				9B5F33771C77129A00E85629 /* BubbleChartDataSet.swift in Sources */,
@@ -2360,6 +2387,7 @@
 				C13E44C21C6093C300EB6075 /* SphinxResult.swift in Sources */,
 				9B5F33721C77129A00E85629 /* BarChartDataSet.swift in Sources */,
 				9B5F33EB1C771B5A00E85629 /* TransformOf.swift in Sources */,
+				C18B1D191CAA74BA0092502E /* LessonDetailVC.swift in Sources */,
 				9B5F33E71C771B5A00E85629 /* DateFormatterTransform.swift in Sources */,
 				C13A5D571C58B75C0036A5E9 /* Login.swift in Sources */,
 				9B5F33ED1C771B5A00E85629 /* URLTransform.swift in Sources */,

@@ -21,6 +21,10 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     var selectedObjective: AEObjective!
     
+    var objectiveScore = ObjectiveScore()
+    
+    var lessonDBAdapter = LessonDBAdapter()
+    
     var adapter = WordCollectionDbApdater()
     
     var lessionCollections = Array<AELessonCollection>()
@@ -35,7 +39,28 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     func loadData() {
         do {
+            objectiveScore.idCountry = selectedCountry.idString
+            objectiveScore.idLevel = selectedLevel.idString
+            objectiveScore.idObjective = selectedObjective.idString
+            
             try lessionCollections = adapter.getLessonCollectionByObjective(selectedCountry.idString, levelId: selectedLevel.idString, objectiveId: selectedObjective.idString)
+            
+            
+            for lessonCollection in lessionCollections {
+                if let objScore = try lessonDBAdapter.getLessonScore(AccountManager.currentUser().username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: lessonCollection.idString) {
+                
+                    
+                    print("\(lessonCollection.title) co score la \(objScore.score)")
+                    
+                    lessonCollection.score = objScore.score
+                }
+                
+                
+                
+            }
+            
+            
+            
             tableView.reloadData()
         } catch {
             
@@ -71,7 +96,9 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         cell.bg.tag = indexPath.row
         cell.bg.addGestureRecognizer(tapGusture)
         
-        cell?.lblTitle.text = obj.name
+        cell?.lblTitle.text = obj.title
+        cell?.lblScore.text = String(obj.score)
+        print("run in cell, score is:" + String(obj.score))
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
@@ -83,7 +110,6 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
         cell.lblScore.backgroundColor = bgScoreColor
-        cell.lblScore.text = ""
         return cell
     }
     
@@ -95,6 +121,9 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonMainVC") as! LessonMainVC
         //nextController.selectedLevel = selectedLevel
         //nextController.selectedCountry = selectedCountry
+        objectiveScore.idLesson = obj.idString
+        
+        nextController.objectiveScore = objectiveScore
         nextController.selectedLessonCollection = obj
         self.navigationController?.pushViewController(nextController, animated: true)
         

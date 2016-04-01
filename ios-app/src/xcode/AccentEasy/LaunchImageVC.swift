@@ -36,6 +36,8 @@ class LaunchImageVC: UIViewController {
                 print (success)
                 let freestyleDbAdapter = FreeStyleDBAdapter()
                 freestyleDbAdapter.prepare()
+                let lessonDBAdapter = LessonDBAdapter()
+                lessonDBAdapter.prepare()
                 if !success {
                     //TODO show alert no database found
                     print ("error checkDatabaseVersion")
