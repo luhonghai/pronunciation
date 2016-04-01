@@ -13,14 +13,11 @@ var stepSize ;
 var mang=[];
 var items=[];
 var x;
-// values of each item on the graph
 
 function init(itemName,itemValue,itemValue1) {
     // intialize values for each variables
 
     sections = itemValue.length;
-
-
     Val_Max = 100;
     stepSize = 10;
     var columnSize = 30;
@@ -28,7 +25,7 @@ function init(itemName,itemValue,itemValue1) {
     var margin = 5;
     var header = "Score %" ;
     var phoneme="phoneme";
-    width_column=0.3;
+    width_column=0.2;
     //
     var tipCanvas = document.getElementById("tip");
     //var tipCtx = tipCanvas.getContext("2d");
@@ -39,7 +36,6 @@ function init(itemName,itemValue,itemValue1) {
 
     yScale = (canvas.height - columnSize - margin*3) / (Val_Max);
     xScale = (canvas.width - rowSize) / (sections + 1);
-
     x=(rowSize+margin)/xScale;
     context.strokeStyle="#000;"; // background black lines
     context.beginPath();
@@ -70,7 +66,7 @@ function init(itemName,itemValue,itemValue1) {
     context.textBaseline="bottom";
     for (i=0;i<sections;i++) {
         computeHeight(itemValue[i]);
-        context.fillText(itemName[i], xScale * (i*0.5+x),canvas.height);
+        context.fillText(itemName[i], xScale * (i*0.2+x),canvas.height);
     }
 
     // shadow for graph's bar lines with color and offset
@@ -92,7 +88,7 @@ function init(itemName,itemValue,itemValue1) {
         var g=itemValue1[i];
         if(h<g){
             context.fillStyle='#000066';
-            context.fillRect(i*0.5+x, 0, width_column, h);
+            context.fillRect(i*0.2+x, 0, width_column, h);
             mang.push({
                 x1:(i*0.2+x)*xScale,
                 y1: canvas.height - margin*3-h*yScale,
@@ -102,7 +98,7 @@ function init(itemName,itemValue,itemValue1) {
             items.push(h);
 
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.5+x, 0+h, width_column, g-h);
+            context.fillRect(i*0.2+x, 0+h, width_column, g-h);
             mang.push({
                 x1:(i*0.2+x)*xScale,
                 y1: canvas.height - margin*3-h*yScale-g*yScale,
@@ -112,20 +108,20 @@ function init(itemName,itemValue,itemValue1) {
             items.push(g);
         }else{
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.5+x, 0, width_column, g);
+            context.fillRect(i*0.2+x, 0, width_column, g);
             mang.push({
-                x1:(i*0.5+x)*xScale,
+                x1:(i*0.2+x)*xScale,
                 y1: canvas.height - margin*3-g*yScale,
-                x2: (i*0.5+x)*xScale+width_column*xScale,
+                x2: (i*0.2+x)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3
             })
             items.push(g);
             context.fillStyle='#000066';
-            context.fillRect(i*0.5+x, 0+g, width_column, h-g);
+            context.fillRect(i*0.2+x, 0+g, width_column, h-g);
             mang.push({
-                x1:(i*0.5+x)*xScale,
+                x1:(i*0.2+x)*xScale,
                 y1: canvas.height - margin*3-g*yScale-h*yScale,
-                x2: (i*0.5+x)*xScale + width_column*xScale,
+                x2: (i*0.2+x)*xScale + width_column*xScale,
                 y2: canvas.height - margin*3-g*yScale
             })
             items.push(h);
@@ -201,8 +197,8 @@ function draw(Course,Level,Obj,name,date){
     "<label style='font-weight: 200;'>"+date+"</label> " +
     "</div> " +
     "<div id='score' class='col-sm-1'> " +
-    "<div id='scoreStudent' style='margin:40px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
-    "<div id='scoreClass' style='margin-top:25px;margin-left:8px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
+    "<div id='scoreStudent' style='margin:30px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
+    "<div id='scoreClass' style='margin-top:25px;margin-left:px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
     "</div> " +
     "<div id='drawPhonemes' class='col-sm-4'> " +
     "<canvas id='canvas' height='250' width='300'></canvas> " +
