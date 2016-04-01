@@ -4,70 +4,129 @@
 <%@attribute name="pageTitle" required="true" %>
 <%String teacherName=session.getAttribute("username").toString();%>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
+<style>
+  .header-company {
+    color: #A6A6A6;
+    font-weight: 200;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+  }
+  p{
+    color: #376092;
+    font-weight: 200;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+  }
+  h2.header{
+    color: #376092;
+    font-weight: 700;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    margin-top: 0px;
+  }
+  #helpMyStudentModal{
+    color : #957F7F;
+  }
+  #helpMyStudentModal p{
+    color : #957F7F !important;
+  }
+
+  #inviteModal .modal-content{
+    width: 400px;
+    border-radius: 20px;
+  }
+  #inviteModal .modal-header {
+    border-bottom: transparent;
+    padding-bottom: 0px;
+  }
+
+  #inviteModal #titleInvite {
+    font-weight: 600;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  #inviteModal .validateMsg {
+    font-weight: 200;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: red;
+  }
+  #inviteModal label {
+    font-weight: 200;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    text-align: left;
+  }
+</style>
 <div id="page-wrapper">
   <input type="hidden" id="teacher" value="<%=teacherName%>">
-  <div class="row" style="color:lightgrey; margin-left: 0px;">
-    <h3 style="float: left;"><%=company%></h3> <p style="margin-top: 25px;">> my students</p>
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 style="border-bottom: transparent" class="header-company">
+          <%=company%> > my students
+      </h4>
+    </div>
   </div>
-  <div>
-    <p style="font-size: 20px;">My students</p>
-    <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
-    <p>Use this page o manage the student that you want to assign to classes.</p>
-    <p>Select the button above to invite students that have installed the application without a company licence.</p>
-
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="header">My students</h2>
+    </div>
+    <div style="padding-bottom: 10px" class="col-sm-12">
+      <button id="inviteStudents" class="btn btn-default" style="background-color: orange;color: white;border-radius: 3px; padding: 1px 5px;"><img src="/images/teacher/invite_students_48x48.gif" style="width: 24px;height: 24px;"> invite students <i class="fa fa-plus"></i> </button>
+    </div>
+    <div class="col-sm-12">
+      <p>Use this page o manage the student that you want to assign to classes.</p>
+      <p>Select the button above to invite students that have installed the application without a company licence.</p>
+    </div>
   </div>
-  <div id="listMyStudent">
+  <div class="row">
+    <div class="col-sm-12" id="listMyStudent">
 
+    </div>
   </div>
-
 </div>
 <!-- /#wrapper -->
 
 <div id="helpMyStudentModal" class="modal fade">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
+    <div class="modal-content"  style="border-radius:20px">
+      <div class="modal-header"  style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <div class="row" style="padding: 10px;">
-          <br class="col-xs-12 col-md-10 col-md-offset-1">
+        <h2 class="modal-title" style="font-weight: 700;">my students</h2>
 
-            <h3 align="center">my students</h3>
-            <p>This page displays a list of students that are available to add to your classes (added or invited by you) and students that have sent a request to join your classes.</p>
-            <p>The students are colour coded as follows:</p>
-            <div  style="margin-bottom: 5px;">
-              <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #003366;"> <p style="display: inline;">licensed by your institution</p>
-            </div>
-            <div style="margin-bottom: 5px;">
-              <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">external (not licensed by your institution)</p>
-            </div>
-            <div style="margin-bottom: 5px;">
-              <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #990099;"> <p style="display: inline;">pending approval to join your class/s (select to approve or reject the request)</p>
-            </div>
-            <div>
-              <p>External student have the following status indicators:</p>
-            </div>
-
-            <div style="margin-bottom: 5px;">
-              <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;background-color:#33ccff;"> <p style="display: inline;">invitation has been accepted, the student can be added to your classes.</p>
-            </div>
-            <div style="margin-bottom: 5px;">
-              <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
-            </div>
-            <div style="margin-bottom: 5px;">
-              <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">your invitation is waiting for a response from the student</p>
-            </div>
-
-
-            <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
-            <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
-
-
-            <p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>
+      </div>
+      <div class="modal-body">
+        <div>
+          <p>This page displays a list of students that are available to add to your classes (added or invited by you) and students that have sent a request to join your classes.</p>
+          <p>The students are colour coded as follows:</p>
+          <div  style="margin-bottom: 5px;">
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #003366;"> <p style="display: inline;">licensed by your institution</p>
           </div>
+          <div style="margin-bottom: 5px;">
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">external (not licensed by your institution)</p>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;background-color: #990099;"> <p style="display: inline;">pending approval to join your class/s (select to approve or reject the request)</p>
+          </div>
+          <div>
+            <p>External student have the following status indicators:</p>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <img src="/images/popup/accepted_48x48.gif" style="width: 24px;height: 24px;background-color:#33ccff;"> <p style="display: inline;">invitation has been accepted, the student can be added to your classes.</p>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <img src="/images/teacher/rejected_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">invitation has been rejected by the student and they are not available to add to your classes. Note: the invite is still available to accept on the student's phone</p>
+          </div>
+          <div style="margin-bottom: 5px;">
+            <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 24px;height: 24px;background-color: #33ccff;"> <p style="display: inline;">your invitation is waiting for a response from the student</p>
+          </div>
+          <p>If a student's licence key expires or if it is revoked, they will be removed from all lists and will no loger have access to any courses that have been shared with them.</p>
+          <p> Select a student and follow the instructions to remove them from your list. Licenced students will still be available on your company list (students page) to add again Later. If you remove external students, the invitation process will need to be used.(Teacher to student or student to teacher)</p>
+          <p>Any student that is removed from your 'my students' page will be removed from any classes they have been assigned to any they will no longer have access to any associated courses'.</p>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
@@ -75,36 +134,35 @@
 
 
 <div id="inviteModal" class="modal fade">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h3 align="center">invite students</h3>
-
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform">
-
-              <div class="form-group">
-                <p>Enter the email addresses for the students that you wish to add in a comma separated list</p>
-                <label>email:</label>
+        <h2 id="titleInvite" class="modal-title">invite students</h2>
+        <h4 id="validateLvMsg" class="modal-title validateMsg" style="text-align: center;font-weight: 200;
+        color:red;display:none;"></h4>
+      </div>
+      <div class="modal-body">
+          <form name="add" class="form-horizontal">
+            <div class="form-group">
+              <label>Enter the email addresses for the students that you wish to add in a comma separated list</label>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-md-2">email:</label>
+              <div class="col-md-10">
                 <textarea type="text" name="listmail" id="listmail" class="form-control" rows="10" required="required" placeholder="List Mail"></textarea>
               </div>
-              <div class="form-group">
-
-                <img src="/images/popup/Help_50x50.gif" id="helpInvite" style="float: left;">
-                <img src="/images/popup/Save_50x50.gif" id="invite" style="float: right;">
-
+            </div>
+            <div class="form-group contain-button">
+              <div class="col-md-6">
+                <img id="helpAddLevel" class="helpInvite" src="/images/popup/help_50_50.png" width="36px" height="36px">
               </div>
-
-            </form>
-          </div>
-        </div>
+              <div class="col-md-6">
+                <img id="invite" style="float: right" src="/images/popup/Save_50x50.gif" width="36px" height="36px">
+              </div>
+            </div>
+          </form>
       </div>
-
-
     </div>
   </div>
 </div>
@@ -389,7 +447,7 @@
 
 
 
-<script src="<%=request.getContextPath() %>/js/myStudents.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/myStudents.js"></script>
 
 
 

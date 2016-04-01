@@ -73,7 +73,7 @@ function getContainQuestionWord(){
 }
 
 function getContainQuestion(){
-    return getBodyQuestion().find('.contain-question');
+    return getQuestionScreen().find('.contain-question');
 }
 function clearBodyQuestion(){
     getContainQuestion().html("");

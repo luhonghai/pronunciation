@@ -14,20 +14,27 @@
     width : 400px;
     border-radius: 20px;
   }
-  .title{
-    font-weight : 600;
-    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size : 16px;
-    text-align: center;
-  }
+
   .textNormal{
+    color: #376092;
+    font-weight: 200;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 14px;
   }
+   .header-company {
+     color: #A6A6A6;
+     font-weight: 200;
+     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+     font-size: 14px;
+   }
 </style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
 <div id="page-wrapper">
-  <div class="row" style="color:#a6a6a6; margin-left: 0px;padding-top: 10px;font-family: Helvetica;font-weight: 200">
-    <p class="title" style="float: left;"><%=company%></p><p class="textNormal"> > classes</p>
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="page-header header-company"><%=company%> > classes</h4>
+    </div>
   </div>
   <div style="padding-bottom: 20px;">
     <p class="textNormal">Your 'my classes' page is the place where you can bring together your courses and students to create classes.</p>

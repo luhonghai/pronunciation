@@ -574,7 +574,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" id="addLevel" name="addform">
+                <form class="form-horizontal" id="confirm" name="addform">
                     <div class="form-group">
                         <div class="col-md-12">
                             <label>Please confirm that you wish to delete the file:</label>

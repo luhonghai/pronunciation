@@ -22,7 +22,7 @@ public class SQL {
     private String SQL_SEARCH_COURSE_DETAIL_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
             "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
-            "inner join CLIENTCODE as cp on m.cpID = cp.id " +
+            "inner join CLIENTCODE as cp on m.cpIdClone = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.tId='paramTeacherId' and m.cpID ='paramCompanyId' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
@@ -193,6 +193,9 @@ public class SQL {
         sql = sql.replaceAll("paramCompanyId", cpId);
         sql = sql.replaceAll("paramDateFrom", dateFrom);
         sql = sql.replaceAll("paramDateTo", dateTo);
+        if(companyName==""){
+            sql = sql.replaceAll("m.cpIdClone","m.cpId");
+        }
         return sql;
     }
 
