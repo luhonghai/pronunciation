@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cmg.vrc</groupId>
-	<version>4.0.015</version>
+	<version>4.0.017</version>
 	<artifactId>server</artifactId>
 	<packaging>war</packaging>
 	<name>VRC Server</name>
@@ -438,6 +438,40 @@
 			<id>env-prod</id>
 			<properties>
 				<sysenv>PROD</sysenv>
+				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
+				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
+				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
+				<project.dir>/var/log/tomcat8/mobile</project.dir>
+				<api.key>AIzaSyCS94zffWlToDI6bAjPg_4rZlm0xc1VE70</api.key>
+				<javax.jdo.option.ConnectionUserName>admin</javax.jdo.option.ConnectionUserName>
+				<javax.jdo.option.ConnectionPassword>W3lcom3123</javax.jdo.option.ConnectionPassword>
+				<databaseHost>com-cmg-accenteasy-pronunciation.cnn97htfydqy.ap-southeast-1.rds.amazonaws.com</databaseHost>
+				<databaseName>VRC</databaseName>
+				<databasePort>3306</databasePort>
+				<contact.us.email>support@accenteasy.com</contact.us.email>
+				<contact.us.email.sender>noreply@accenteasy.com</contact.us.email.sender>
+				<contact.us.email.password>W3lcom3123</contact.us.email.password>
+				<voice.record.dir>/var/log/tomcat8/VoiceRecords</voice.record.dir>
+				<model.fst.ser>/vol/Sphinx/en_us_nostress/model.fst.ser</model.fst.ser>
+				<acousticModelPath>file:///vol/Sphinx/wsj-en-us</acousticModelPath>
+				<dictionaryPath>file:///vol/Sphinx/dict/cmuphonemedict</dictionaryPath>
+				<languageModelPath>file:///vol/Sphinx/en-70k.lm</languageModelPath>
+				<grammarPath>/vol/Sphinx/grammar</grammarPath>
+				<analyzeServer>http://c-mg.vn:8080/vrc/VoiceAnalyzeHandler</analyzeServer>
+				<recipients>feedback@accenteasy.com</recipients>
+				<aws.s3.bucket.name>com-accenteasy-bbc-accent-prod</aws.s3.bucket.name>
+				<url.active.account>http://reg.accenteasy.com/activate</url.active.account>
+				<url.reset.password>http://reg.accenteasy.com/reset-password.jsp</url.reset.password>
+				<beanstalk.environmentName>accenteasytomcat-PRD</beanstalk.environmentName>
+				<beanstalk.environmentRef>accenteasytomcat-prd.elasticbeanstalk.com</beanstalk.environmentRef>
+				<beanstalk.cnamePrefix>accenteasytomcat-prd</beanstalk.cnamePrefix>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>mac</id>
+			<properties>
+				<sysenv>MAC</sysenv>
 				<project.root.folder.dir>/var/www/webdav/mobile/root</project.root.folder.dir>
 				<project.temp.folder.dir>/var/www/webdav/mobile/feedback</project.temp.folder.dir>
 				<logging.file>/var/log/tomcat8/vrc-loging.log</logging.file>
