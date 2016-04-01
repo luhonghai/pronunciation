@@ -33,37 +33,63 @@ function initHelpAddWord(){
 }
 
 function initHelpCourseADM(){
-    var $html = $("<div>");
-    $html.html("<p><strong>course content display</strong></p>");
-    $html.append("<p>Course content is displayed in a ‘tree’ type directory structure with the following content:</p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/course_icon.gif'>1. course - course name, description and sharing options.</p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/level_icon.gif'>2. levels – you can add one or more ordered levels to your course. Students will need to pass a test in one level before they can progress to the next one.</p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/objective_icon.gif'>3. objectives – you can add one or more objectives for each level.</p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/lesson_icon.gif'>4. lessons – you can add one or more lessons for each objective.</p>");
-    $html.append("<p><img width='20px' height='20px' src='images/treeview/question48x48.gif'>5. questions – you can add one or more questions for each lesson.</p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/test_icon.gif'>6. test – you can add one test for each level. </p>");
-    $html.append("<p><img width='20px' height='20px' src='/images/treeview/test_question48x48.gif'>7. test questions- you can add one or more questions for each test. </p>");
-    $html.append("<p>You can drag and drop content to move it within the defined structure. E.g. you can move a lesson from one objective to another, but you cannot place it directly below a level. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</p>");
-    $html.append("<p>Select the arrows to the left of the buttons to view more or less of the structure as required. </p>");
-    $html.append("<p><strong>adding and editing course content</strong></p>");
-
-    $html.append("<p>Select a ‘file’ button in the tree to: </p>");
-    $html.append("<p><label style='border-radius:5px;width: 20px;height: 20px;background-color: #558ED5'></label> view details, edit or delete</p>");
-    $html.append("<p><label style='border-radius:5px;width: 20px;height: 20px;background-color: #F7964A'></label> add new details</p>");
-    $html.append("<p><strong>Copy/paste</strong></p>");
-    $html.append("<p>You can right mouse click on an item to copy and paste to an appropriate directory file.</p>");
-    $html.append("<p>E.g. Copy a lesson and paste to the same or a different objective, but you cannot add a lesson to a level.</p>");
-    $html.append("<p>All content will be duplicated, so if a lesson has questions added, they will also be copied.</p>");
-
-    $html.append("<p>You will not be able to publish the data you have copied until you have made and saved at least one edit.</p>");
-    $html.append("<p><strong>preview</strong></p>");
-    $html.append("<p><img src='/images/treeview/preview_button.gif' style='width:30px; height: 30px;'></p>");
-    $html.append("<p>Select the 'preview' button to view the content as it would appear on the student’s phone. Select the relevant buttons on the ‘phone’ to follow through the structure.</p>");
-    $html.append("<p><strong>publish</strong></p>");
-    $html.append("<p><img style='width:30px; height: 30px;' src='/images/treeview/publish_button.gif'></p>");
-    $html.append("<p>Select the 'publish' button to make the course available to add to your classes and to share with other users (if it is not private).</p>");
-    $html.append("<p>Note: You will not be able to publish your course until you have added at least one lesson with at least one question.</p>");
-
+    var $html = $("<div class='row' style='padding:0px 10px 0px 10px'>");
+    $html.html("<div style='padding-bottom:10px' class='col-sm-12'><strong>course content display</strong></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Course content is displayed in a ‘tree’ type directory structure with the following content:</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/course_icon.gif'></div>" +
+        "<div class='col-sm-11'>1. course - course name, description and sharing options.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/level_icon.gif'></div>" +
+        "<div class='col-sm-11'>2. levels – you can add one or more ordered levels to your course. " +
+        "Students will need to pass a test in one level before they can progress to the next one.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/objective_icon.gif'></div>" +
+        "<div class='col-sm-11'>3. objectives – you can add one or more objectives for each level.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/lesson_icon.gif'></div>" +
+        "<div class='col-sm-11'>4. lessons – you can add one or more lessons for each objective.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='images/popup/question_icon.gif'></div>" +
+        "<div class='col-sm-11'>5. questions – you can add one or more questions for each lesson.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/test_icon.gif'></div>" +
+        "<div class='col-sm-11'>6. test – you can add one test for each level.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/test_question_icon.gif'></div>" +
+        "<div class='col-sm-11'>7. test questions- you can add one or more questions for each test.</div></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can drag and drop content to move it around within the defined structure current level E.g. you can move lessons around to change the order. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select the arrows to the left of the buttons to view more or less of the structure as required. </div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>adding and editing course content</strong></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select a 'file' button in the tree to: </div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<label style='border-radius:5px;width: 20px;height: 20px;background-color: #558ED5'>" +
+        "</label> view details, edit or delete</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<label style='border-radius:5px;width: 20px;height: 20px;background-color: #F7964A'>" +
+        "</label> add new details</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>Copy/paste</strong></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can right mouse click on an item to copy and paste" +
+        " to an appropriate directory file.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>E.g. Copy a lesson and paste to the same or a different objective, " +
+        "but you cannot add a lesson to a level.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>All content will be duplicated, " +
+        "so if a lesson has questions added, they will also be copied.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You will not be able to publish the data you have copied " +
+        "until you have made and saved at least one edit.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>preview</strong></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<img src='/images/treeview/preview_button.gif' style='width:30px; height: 30px;'></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select the 'preview' button to view the content as it would appear on the student’s phone. " +
+        "Select the relevant buttons on the ‘phone’ to follow through the structure.</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>publish</strong></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
+        "<img style='width:30px; height: 30px;' src='/images/treeview/publish_button.gif'></div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select the 'publish' button " +
+        "to make the course available to add " +
+        "to your classes and to share with other users (if it is not private).</div>");
+    $html.append("<div style='padding-bottom:10px'  class='col-sm-12'>Note: You will not be able to publish your course " +
+        "until you have added at least one lesson with at least one question.</div>");
     return $html;
 }
 
@@ -221,7 +247,7 @@ function initHelpTopDataMyCourse(){
         "<div style='padding-left:30px;'>duplicate of a course you already have in your list" +
         "(You will not be able to publish an exact copy of a course that you already have in ‘my courses’ ." +
         "You need to edit something and publish it to make it available to add to your classes).</div></p>");
-    $html.append("<p>< src='/images/treeview/unpublished_button.gif' style='float:left;width:24px;height: 24px'>" +
+    $html.append("<p><img src='/images/treeview/unpublished_button.gif' style='float:left;width:24px;height: 24px'>" +
         "This icon indicates that a course has not been published yet</p>");
     $html.append("<p>Information about the originating company, share options and date of the last action (created, edited or duplicated) is displayed on the course title button.</p>");
     return $html;

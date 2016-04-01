@@ -101,7 +101,7 @@ div.big-circle{
 }
 
 #screen-question .body-screen{
-    min-height : 350px;
+    min-height : 300px;
 }
 #screen-question .contain-head-circle{
     padding-top  :10px;
@@ -161,16 +161,25 @@ div.big-circle{
 }
 
 #screen-question .contain-question{
-    padding-top : 50px;
     width : 100%;
     overflow-x: auto;
 }
 
 #screen-question .circle-question{
     background-color: #A162D0 !important;
-    margin-left : 5px;
+    margin : 5px;
     width : 30px;
     height:30px;
     padding : 5px;
     float:left;
+}
+
+.body-popup-obj{
+    background-color: white;
+    z-index: 1000;
+    border: 1px solid #a2afc8;
+    margin: 50px;
+    border-radius: 2px;
+    top: 100px;
+    position: absolute;
 }

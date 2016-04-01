@@ -41,7 +41,7 @@ function drawTestPreview(test){
     var $html = $("<div>");
     $html.addClass("container-selection");
     var $a = $('<a>');
-    $a.addClass("btn selection obj");
+    $a.addClass("btn selection test");
     $a.attr("id",test.id);
     var $label = $('<label>');
     $label.html("Test");
@@ -76,11 +76,13 @@ function drawLessonPreview(lesson){
     getBodyLesson().append($html);
 }
 
-function drawQuestionPreview(question, index){
+function drawQuestionPreview(question, index, isFormTest){
     index = index + 1;
     var $html = $("<div>");
     $html.addClass("circle circle-question");
     $html.attr('id',question.id);
+    $html.attr('isFormTest',isFormTest);
+    $html.attr('description',question.description);
     $html.attr('words',parseList(question.words));
     $html.html("Q" + index);
     getContainQuestion().append($html);

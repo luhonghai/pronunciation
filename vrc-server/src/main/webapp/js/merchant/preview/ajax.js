@@ -16,7 +16,7 @@ function loadContent(action,id){
         dataType : "json",
         success : function(data){
             if(action == targetLoadCourse){
-                getHeaderLevel().find('label').html(nameOfCourse + " - levels");
+                getHeaderLevel().find('marquee').html(nameOfCourse + " - levels");
                 clearBodyLevel();
                 $.each(data, function(i, item){
                     drawLevelPreview(item);
@@ -37,6 +37,8 @@ function loadContent(action,id){
                 getHeaderLesson().find('marquee').html(getHeaderObj().find('label').html() +" - "
                     + getPopUpPreview().find("#"+id).find('label').html());
                 clearBodyLesson();
+                var descriptionObj = getPopUpPreview().find("#"+id).attr('description');
+                getLessonScreen().find('.selection-popup-obj').attr('description',descriptionObj);
                 $.each(data, function(i, item){
                     drawLessonPreview(item);
                 });
@@ -49,14 +51,25 @@ function loadContent(action,id){
                     if(i==0){
                         drawRandomWord(parseList(item.words));
                     }
-                    drawQuestionPreview(item,i);
+                    drawQuestionPreview(item,i, false);
                 });
+                getQuestionScreen().find('.slide-back').attr('back','screen-lesson');
                 showScreen(getQuestionScreen().attr('id'));
 
+            }else if(action == targetLoadTest){
+                clearBodyQuestion();
+                $.each(data, function(i, item){
+                    if(i==0){
+                        getDescriptionQuestion().find('label').html(item.description);
+                        drawRandomWord(parseList(item.words));
+                    }
+                    drawQuestionPreview(item,i, true);
+                });
+                getQuestionScreen().find('.slide-back').attr('back','screen-objective');
+                showScreen(getQuestionScreen().attr('id'));
             }
         },
         error: function () {
-
         }
     });
 }

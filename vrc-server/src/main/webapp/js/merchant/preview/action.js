@@ -23,6 +23,11 @@ function loadPreviewLesson(){
         loadContent(targetLoadLesson,$(this).attr('id'));
     });
 }
+function loadPreviewTest(){
+    $(document).on('click','.test',function(){
+        loadContent(targetLoadTest,$(this).attr('id'));
+    });
+}
 function slideBackPreview(){
     $(document).on('click','.slide-back',function(){
         showScreen($(this).attr('back'));
@@ -30,8 +35,20 @@ function slideBackPreview(){
 }
 function clickCircleQuestion(){
     $(document).on('click','.circle-question',function(){
+        var isFromTest = $(this).attr('isFromTest');
+        if(isFromTest){
+            getDescriptionQuestion().find('label').html($(this).attr('description'));
+        }
         var words = $(this).attr('words');
         drawRandomWord(words);
+    });
+}
+
+function showPoUpObjDescription(){
+    $(document).on('click','.selection-popup-obj',function(){
+        var description = $(this).attr('description');
+        getLessonScreen().find('.body-popup-obj').find('.obj-description').html(description);
+        getLessonScreen().find('.body-popup-obj').show();
     });
 }
 function previewCourse(){
@@ -40,12 +57,27 @@ function previewCourse(){
     });
 }
 
+function closePreview(){
+    $(document).on("click","#close-popup-preview",function(){
+        $('#preview-popup').modal('hide');
+    });
+}
+function closeObjPopUp(){
+    $(document).on("click","#close-popup-obj",function(){
+        $('.body-popup-obj').hide();
+    });
+}
+
 $(document).ready(function(){
+    closePreview();
+    closeObjPopUp();
     previewCourse();
     beforeShowPreview();
     loadPreviewLevel();
     loadPreviewObjective();
     loadPreviewLesson();
+    loadPreviewTest();
     slideBackPreview();
     clickCircleQuestion();
+    showPoUpObjDescription();
 });

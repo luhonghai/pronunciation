@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-lg-12">
             <h4 style="margin-top: 10px;border-bottom: transparent" class="page-header header-company"><%=company%> >
-                all courses</h4>
+                courses > my courses</h4>
         </div>
         <!-- /.col-lg-12 -->
     </div>
