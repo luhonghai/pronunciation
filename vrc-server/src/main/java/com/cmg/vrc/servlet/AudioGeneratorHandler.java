@@ -38,7 +38,14 @@ public class AudioGeneratorHandler extends BaseServlet {
             attrs.setAudioAttributes(audio);
             logger.info("Origin file path :" + tmpFile.getAbsolutePath());
             String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
-            Encoder encoder = new Encoder(new CustomFFMPEGLocator.MacFFMPEGLocator());
+            Encoder encoder;
+            if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                    || env.equalsIgnoreCase("int")
+                    || env.equalsIgnoreCase("aws")) {
+                encoder = new Encoder(new CustomFFMPEGLocator());
+            } else {
+                encoder = new Encoder(new CustomFFMPEGLocator.MacFFMPEGLocator());
+            }
             try {
                 encoder.encode(tmpFile, tmpFileWav, attrs);
             } catch (Exception e) {
