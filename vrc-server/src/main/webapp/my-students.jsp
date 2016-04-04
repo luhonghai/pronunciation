@@ -4,5 +4,5 @@
 <t:main pageTitle="Wholesale delivery system" index="0">
   <%--<x:admin pageTitle="admin"></x:admin>--%>
   <x:myStudents pageTitle="class"></x:myStudents>
-
+  <x:notification></x:notification>
 </t:main>

@@ -95,9 +95,13 @@ function listMyStudent(){
         success:function(data){
             if(data.message=="success" && data.students!=null){
                 var listMyStudent=data.students;
+                var $button;
                 for(var i=0;i<listMyStudent.length;i++){
                     if(listMyStudent[i].licence==true){
-                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#17375E;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+'</p></div>');
+                        $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
+                            '<a class="a-info-student" style="background-color:#17375E;">' +
+                            '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
+                            '<label class="studentMail">' + listMyStudent[i].studentName+'</label> '+'</a></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -106,7 +110,11 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='accept'){
-                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/popup/accepted_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
+                        $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
+                            '<a class="a-info-student" style="background-color:#558ED5;">' +
+                            '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
+                            '<label class="studentMail">' + listMyStudent[i].studentName+'</label> ' +
+                            '<img src="/images/popup/accepted_48x48.gif" style="width: 18px;height: 18px;"></a></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -115,7 +123,11 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].status=='reject'){
-                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/rejected_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
+                        $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
+                            '<a class="a-info-student" style="background-color:#558ED5;">' +
+                            '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
+                            '<label class="studentMail">' + listMyStudent[i].studentName+'</label> ' +
+                            '<img src="/images/teacher/rejected_48x48.gif" style="width: 18px;height: 18px;"></a></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -124,7 +136,11 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else if(listMyStudent[i].mappingBy=='teacher'){
-                        $button = $('<div style="margin-top: 5px;cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#558ED5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
+                        $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
+                            '<a class="a-info-student" style="background-color:#558ED5;">' +
+                            '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
+                            '<label class="studentMail">' + listMyStudent[i].studentName+'</label> ' +
+                            '<img src="/images/teacher/pending_invite_teacher2student_48x48.gif" style="width: 18px;height: 18px;"></a></div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -133,7 +149,12 @@ function listMyStudent(){
                         $("#listMyStudent").append($button).html();
 
                     }else{
-                        $button = $('<div style="margin-top: 5px; cursor: pointer;" id="info"><p type="button" style="border-radius: 3px; display: inline;padding: 5px;background-color:#7330A5;color:#ffffff;"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+listMyStudent[i].studentName+' <img src="/images/teacher/pending_invite_48x48.gif" style="width: 18px;height: 18px;"></p></div>');
+                        $button = $('<div class="col-sm-12" style="padding-bottom: 20px;">' +
+                            '<a class="a-info-student" style="background-color:#7330A5">' +
+                            '<img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> '+
+                             '<label class="studentMail">' + listMyStudent[i].studentName+'</label> ' +
+                            '<img src="/images/teacher/pending_invite_48x48.gif" style="width: 18px;height: 18px;"></a>' +
+                            '</div>');
                         $button.attr("id-column", listMyStudent[i].id);
                         $button.attr("licence", listMyStudent[i].licence);
                         $button.attr("status", listMyStudent[i].status);
@@ -152,12 +173,12 @@ function listMyStudent(){
 
 }
 function info(){
-    $(document).on("click","#info",function() {
-        var idd=$(this).attr('id-column');
-        var licence=$(this).attr('licence');
-        var status=$(this).attr('status');
-        var mappingBy=$(this).attr('mappingBy');
-        var studentName=$(this).attr('studentName');
+    $(document).on("click",".a-info-student",function() {
+        var idd=$(this).parent().attr('id-column');
+        var licence=$(this).parent().attr('licence');
+        var status=$(this).parent().attr('status');
+        var mappingBy=$(this).parent().attr('mappingBy');
+        var studentName=$(this).parent().attr('studentName');
         $("#student").text("");
         $("#studentInvitation").text("");
         if(licence=="true"){
@@ -209,12 +230,12 @@ function rejects(){
                     ("#confirmReject").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("Success!", "Reject student success!", "success");
+                    swal("", "Reject student success!", "success");
                 }
 
             },
             error:function(e){
-                swal("Error!", "Could not connect to server", "error");
+                swal("", "Could not connect to server", "error");
             }
 
         })
@@ -253,7 +274,7 @@ function accept(){
 
 function deleted(){
     $(document).on("click","#removeStudent",function() {
-        var id=$("#idStudent").val();
+        var id = $("#idStudent").val();
         var name=$("#studentName").val();
         $("#idStudentRemove").val(id);
         $("#studentconfirmRemove").text(name);
@@ -293,7 +314,9 @@ function deleteStudent(){
 }
 function invite(){
     $(document).on("click","#inviteStudents",function() {
+        $("#inviteModal").find("#validateLvMsg").hide();
         $("#inviteModal").modal('show');
+        $("#listmail").val("");
     });
 }
 
@@ -319,44 +342,23 @@ function inviteStudents(){
                     if (data.message == "success") {
                         $("#listMyStudent").empty();
                         listMyStudent();
-                        swal("Success!", "Send success!", "success");
+                        swal("", "invite student successfully!", "success");
                     }else{
                         var listMailError=data.mailError;
-                        var listMailExist=data.mailExist;
-                        if(listMailError!=null && listMailError.length>0 && listMailExist!=null && listMailExist.length>0){
+                        if(listMailError!=null && listMailError.length>0){
                             var listError=listMailError.toString();
-                            var listExist=listMailExist.toString();
-                            $("#listMailError").append(listError);
+                            $("#listMailError").html("");
+                            $("#listMailError").html(listError);
                             $("#errorInviteModal").modal('show');
-                            $("#listMailExist").append(listExist);
-                            $("#existInviteModal").modal('show');
-                            $("#inviteModal").modal('hide');
-                            $("#listMyStudent").empty();
-                            listMyStudent();
-                        }else if(listMailError!=null && listMailError.length>0){
-                            var listError=listMailError.toString();
-                            $("#listMailError").append(listError);
-                            $("#inviteModal").modal('hide');
-                            $("#errorInviteModal").modal('show');
-                            $("#listMyStudent").empty();
-                            listMyStudent();
-                        }else if(listMailExist!=null && listMailExist.length>0){
-                            var listExist=listMailExist.toString();
-                            $("#listMailExist").append(listExist);
-                            $("#inviteModal").modal('hide');
-                            $("#existInviteModal").modal('show');
                             $("#listMyStudent").empty();
                             listMyStudent();
                         }
-
-                        //swal("Warning!", "User: "+listmail+" have on list your student", "warning");
                     }
-
                 }
-
             });
         }else{
-            swal("Warning!", "List email not null!", "warning");
+            $("#inviteModal").find("#validateLvMsg").html("please enter at least one email address");
+            $("#inviteModal").find("#validateLvMsg").show();
         }
 
 
@@ -390,8 +392,16 @@ function helpMyStudent(){
         $("#helpMyStudentModal").modal('show');
     });
 }
+
+function closeConfirmPopUp(){
+    $(document).on("click",".cancelLbl",function() {
+        var popup = $(this).attr('popup-id');
+        $('#'+popup).modal('hide');
+    });
+}
 $(document).ready(function(){
     $('#help-icons').show();
+    closeConfirmPopUp();
     closeModalAccept();
     closeModalReject();
     closeModalInvitation();

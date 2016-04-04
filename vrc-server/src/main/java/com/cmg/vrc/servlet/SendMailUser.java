@@ -170,17 +170,17 @@ public class SendMailUser extends HttpServlet{
                         notExist.add(mailStudent);
                     }
                 }
-                if(users!=null) {
+                if(users!=null && users.size()>0 && notExist.size()==0) {
                     sendGcmMessage(users,teacher);
                 }
-                if(notExist.size()==0 && exist.size()==0){
+                if(notExist.size()==0){
                     mails.message = "success";
                     mails.mailError = new ArrayList<String>();
                     mails.mailExist = new ArrayList<String>();
                 }else{
                     mails.message="error";
                     mails.mailError=notExist;
-                    mails.mailExist=exist;
+                    mails.mailExist=new ArrayList<String>();;
                 }
                 String listMails = gson.toJson(mails);
                 response.getWriter().write(listMails);
