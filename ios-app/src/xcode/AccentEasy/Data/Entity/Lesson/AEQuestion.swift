@@ -13,8 +13,10 @@ public class AEQuestion : AELiteEntity {
     var description: String!
     var recorded: Bool = false
     var enabled: Bool = false
+    var selectedWord:WordCollection!
     var listWord = [WordCollection]()
     var listScore = [Float]()
+    var currentMode: UserVoiceModel!
     
     override public func parse(row: Row) {
         self.idString = row[LiteColumn.IDSTRING]

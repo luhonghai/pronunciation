@@ -161,7 +161,7 @@ public class VoiceRecordHandler extends HttpServlet {
                         );
                     } else {
                         encoder = new Encoder(
-                                new CustomFFMPEGLocator()
+                                new CustomFFMPEGLocator.MacFFMPEGLocator()
                         );
                     }
                     try {

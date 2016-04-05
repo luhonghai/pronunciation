@@ -27,3 +27,14 @@ extension Array where Element: DoubleConvertibleType {
         return  Element(total.doubleValue / Double(count))
     }
 }
+
+
+
+extension UITextView {
+    func vAlignMiddle() {
+        var topCorrection = (bounds.size.height - contentSize.height * zoomScale)/2.0
+        topCorrection = max(0, topCorrection)
+        contentInset = UIEdgeInsets(top: topCorrection, left: 0, bottom: 0, right: 0)
+
+    }
+}
