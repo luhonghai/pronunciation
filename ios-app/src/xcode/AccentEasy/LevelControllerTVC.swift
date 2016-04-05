@@ -1,5 +1,5 @@
 //
-//  LessonMainTVC.swift
+//  LevelControllerTVC.swift
 //  AccentEasy
 //
 //  Created by CMGVN on 3/15/16.
@@ -8,13 +8,17 @@
 
 import UIKit
 
-class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
+class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
     
     var levels = Array<AELevel>()
     
+    var testScore = TestScore()
+    
     var dbAdapter: WordCollectionDbApdater!
+    
+    var lessonDBAdapter = LessonDBAdapter()
     
     var userProfile:UserProfile!
     
@@ -38,13 +42,15 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLevel:",name:"loadLevel", object: nil)
         
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
         if userProfile.selectedCountry == nil {
             self.displayViewController(.Fade)
         } else {
             loadTableData()
         }
-        
     }
     
     func loadLevel(notification: NSNotification){
@@ -55,8 +61,23 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
         userProfile = AccountManager.currentUser()
         if let country = userProfile.selectedCountry {
             do {
+                testScore.username = AccountManager.currentUser().username
+                testScore.idCountry = AccountManager.currentUser().selectedCountry.idString
+                
                 levels = try dbAdapter.getLevelByCountry(country.idString)
                 Logger.log("Number of level \(levels.count)")
+                
+                print(DatabaseHelper.getLessonUserScoreDatabaseFile())
+                
+                //get test score
+                for level in levels{
+                    if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: level.idString) {
+                        if tScore.score > 0 {
+                            level.score = tScore.score
+                        }
+                    }
+                }
+                
                 self.tableView.reloadData()
                 
             } catch {
@@ -94,18 +115,23 @@ class LessonMainTVC: UITableViewController, LSPopupVCDelegate {
         cell.bg.addGestureRecognizer(tapGusture)
         
         cell?.lblTitle.text = level.name
+        if let score = level.score {
+            cell?.lblScore.text = String(score)
+            cell?.lblScore.backgroundColor = ColorHelper.returnColorOfScore(score)
+        } else {
+            cell?.lblScore.text = ""
+            cell?.lblScore.backgroundColor = ColorHelper.APP_GRAY
+        }
+
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
-        var bgScoreColor = ColorHelper.APP_GRAY
         if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) {
             bgColor = ColorHelper.APP_LIGHT_AQUA
             titleColor = ColorHelper.APP_AQUA
         }
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
-        cell.lblScore.backgroundColor = bgScoreColor
-        cell.lblScore.text = ""
         return cell
     }
     

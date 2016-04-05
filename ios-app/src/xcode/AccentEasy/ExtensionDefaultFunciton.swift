@@ -16,6 +16,7 @@ protocol DoubleConvertibleType {
 extension Double : DoubleConvertibleType { var doubleValue: Double { return self         } }
 extension Float  : DoubleConvertibleType { var doubleValue: Double { return Double(self) } }
 extension CGFloat: DoubleConvertibleType { var doubleValue: Double { return Double(self) } }
+extension Int  : DoubleConvertibleType { var doubleValue: Double { return Double(self) } }
 
 extension Array where Element: DoubleConvertibleType {
     var total: Element {

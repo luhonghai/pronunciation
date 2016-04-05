@@ -45,6 +45,11 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     let questionCVDatasource = QuestionCVDatasource()
     var questionCVDatasourceDelegate: QuestionCVDatasourceDelegate!
     var objectiveScore:ObjectiveScore!
+    //test
+    var testScore:TestScore!
+    var isLessonCollection:Bool = false
+    //save data
+    let lessonDBAdapter = LessonDBAdapter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -171,30 +176,65 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         activateAudioSession()
         
         
-        //caculate score
-        var arrQuestionScore = [Float]()
-        for question in arrQuestionOfLesson {
-            arrQuestionScore.append(question.listScore.average)
-        }
-        let score = Int(round(arrQuestionScore.average))
 
-        //show popup score
-        if arrQuestionOfLesson[arrQuestionOfLesson.count-1].listScore.count > 0 {
+        //check obj or test
+        if isLessonCollection {
+            //caculate score
+            var arrQuestionScore = [Float]()
+            for question in arrQuestionOfLesson {
+                arrQuestionScore.append(question.listScore.average)
+            }
+            let score = Int(round(arrQuestionScore.average))
             
-            let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
-            toltalScorePopupVC.toltalScore = score
-            toltalScorePopupVC.lessonTitle = lessonTitle
-            toltalScorePopupVC.delegate = self
-            self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })
+            //show popup score for Lesson
+            if arrQuestionOfLesson[arrQuestionOfLesson.count-1].listScore.count > 0 {
+                let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
+                toltalScorePopupVC.toltalScore = score
+                toltalScorePopupVC.lessonTitle = lessonTitle
+                toltalScorePopupVC.delegate = self
+                self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })
+            }
+            
+            //save obj score
+            print("save score \(score)")
+            //objectiveScore.username = AccountManager.currentUser().username
+            objectiveScore.score = score
+            try! lessonDBAdapter.saveLessonScore(objectiveScore)
+        } else {
+            //show popup score
+            if arrQuestionOfLesson[arrQuestionOfLesson.count-1].listScore.count > 0 {
+                //caculate score
+                var arrQuestionScore = [Float]()
+                for question in arrQuestionOfLesson {
+                    arrQuestionScore.append(question.listScore.average)
+                }
+                let score = Int(round(arrQuestionScore.average))
+                
+                //save test score
+                testScore.score = score
+                try! lessonDBAdapter.saveTestScore(testScore)
+                
+                print("show popup test")
+                
+                //show popup test
+                /*let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
+                toltalScorePopupVC.toltalScore = score
+                toltalScorePopupVC.lessonTitle = lessonTitle
+                toltalScorePopupVC.delegate = self
+                self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })*/
+            }
             
         }
+
+        /*if try! lessonDBAdapter.isExistsLessonScore(objectiveScore.username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: objectiveScore.idLesson) {
+            print(objectiveScore.id)
+            try! lessonDBAdapter.update(objectiveScore)
+            Logger.log("update lesson score")
+        } else {
+            try! lessonDBAdapter.insert(objectiveScore)
+            Logger.log("insert lesson score")
+        }*/
         
-        //save score
-        let lessonDBAdapter = LessonDBAdapter()
-        print("save score \(score)")
-        objectiveScore.username = AccountManager.currentUser().username
-        objectiveScore.score = score
-        try! lessonDBAdapter.insert(objectiveScore)
     }
     
     override func didReceiveMemoryWarning() {

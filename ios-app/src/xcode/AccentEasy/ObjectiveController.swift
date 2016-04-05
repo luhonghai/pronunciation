@@ -9,7 +9,8 @@ import UIKit
 
 class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var scoreTest: UIView!
+    
+    @IBOutlet weak var scoreTest: AnalyzingView!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,7 +24,17 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     var adapter = WordCollectionDbApdater()
     
+    var objectiveScore = ObjectiveScore()
+    
+    var lessonDBAdapter = LessonDBAdapter()
+    
     var objectives = Array<AEObjective>()
+    
+    var tests = [AETest]()
+    
+    var lessionCollections = Array<AELessonCollection>()
+    
+    var testScore = TestScore()
     
     override func viewDidLoad() {
         
@@ -34,14 +45,103 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         lblTestScore.layer.masksToBounds = true
         tableView.delegate = self
         tableView.dataSource = self
+        
+        navigationItem.title = selectedLevel.name
+        //self.navigationItem.title.
+        
+        //var rectForNameLabel = CGRect(x: 0, y: 63, width: 190, height: 30)
+        //var listNameLabel = UILabel(frame: rectForNameLabel)
+        //listNameLabel.text = "Name of the List...."
+        //listNameLabel.textAlignment = NSTextAlignment.Center
+        //listNameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+        
+        
+        //let firstFrame = CGRect(x: 0, y: 0, width: (self.navigationController?.navigationBar.frame.width)!/2, height: (self.navigationController?.navigationBar.frame.height)!)
+        //let secondFrame = CGRect(x: (self.navigationController?.navigationBar.frame.width)!/2, y: 0, width: (self.navigationController?.navigationBar.frame.width)!/2, height: (self.navigationController?.navigationBar.frame.height)!)
+        
+        //print ((self.navigationController?.navigationBar.frame.width)!/1)
+        //print((self.navigationController?.navigationItem.leftBarButtonItem?.width)!/1)
+        //print((self.navigationController?.navigationItem.rightBarButtonItem?.width)!/1)
+        
+        
+        //let barWidthContent = (self.navigationController?.navigationBar.frame.width)! - (self.navigationController?.navigationItem.leftBarButtonItem?.width)! - (self.navigationController?.navigationItem.rightBarButtonItem?.width)!
+        
+        //let titleFrame = CGRect(x:(self.navigationController?.navigationItem.leftBarButtonItem?.width)!, y:0, width: barWidthContent, height: (self.navigationController?.navigationBar.frame.height)!)
+        
+        //let firstLabel = UILabel(frame: firstFrame)
+        //firstLabel.text = "First"
+        
+        //let secondLabel = UILabel(frame: secondFrame)
+        //secondLabel.text = "Second"
+        
+        //var titleLable = UILabel(frame: titleFrame)
+        //titleLable.text = "Name of the List"
+        //titleLable.textAlignment = NSTextAlignment.Right
+        //self.navigationController?.navigationBar.addSubview(titleLable)
+
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        loadData()
+    }
+    
+    func loadData() {
         do {
             try objectives = adapter.getObjective(selectedCountry.idString, levelId: selectedLevel.idString)
+            
+            try tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
+            
+            //set value for testScore obj
+            testScore.username = AccountManager.currentUser().username
+            testScore.idCountry = selectedCountry.idString
+            testScore.idLevel = selectedLevel.idString
+            
+            
+            //set value for objectiveScore obj
+            objectiveScore.username = AccountManager.currentUser().username
+            objectiveScore.idCountry = selectedCountry.idString
+            objectiveScore.idLevel = selectedLevel.idString
+            //var arrObjScore = [ObjectiveScore]()
+            
+            
+            //get obj score
+            for objective in objectives {
+                if let arrObjScore:[ObjectiveScore] = try lessonDBAdapter.getObjectiveScore(objectiveScore.username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objective.idString){
+                    
+                    print(arrObjScore)
+                    var arrScore = [Int]()
+                    print("score lesson of \(objective.name)")
+                    for obj in arrObjScore {
+                        print(obj.score)
+                        arrScore.append(obj.score)
+                    }
+                    if arrScore.average > 0 {
+                        objective.score = arrScore.average
+                    }
+                }
+                
+                print("score \(objective.name) is \(objective.score)")
+            }
+            
+            //get test score
+            if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: testScore.idLevel) {
+                if tScore.score > 0 {
+                    //testScore.score = tScore.score
+                    lblTestScore.text = String(tScore.score)
+                    lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
+                    
+                    scoreTest.showScore(tScore.score, showAnimation: true)
+                }
+            }
+
+            
             tableView.reloadData()
         } catch {
             
         }
-    }
 
+    }
     
     
     @IBAction func clickBack(sender: AnyObject) {
@@ -58,7 +158,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let level = objectives[indexPath.row]
+        let obj = objectives[indexPath.row]
         let identifier = "levelRowCell"
         var cell: LessonTableViewCell! = tableView.dequeueReusableCellWithIdentifier(identifier) as! LessonTableViewCell
         cell.lblScore.layer.cornerRadius = cell.lblScore.frame.width / 2
@@ -69,19 +169,24 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         cell.bg.tag = indexPath.row
         cell.bg.addGestureRecognizer(tapGusture)
         
-        cell?.lblTitle.text = level.name
+        cell?.lblTitle.text = obj.name
+        if let score = obj.score {
+            cell?.lblScore.text = String(score)
+            cell?.lblScore.backgroundColor = ColorHelper.returnColorOfScore(score)
+        } else {
+            cell?.lblScore.text = ""
+            cell?.lblScore.backgroundColor = ColorHelper.APP_GRAY
+        }
+
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
-        var bgScoreColor = ColorHelper.APP_GRAY
 //        if indexPath.row == 0 || indexPath.row == 1 {
             bgColor = ColorHelper.APP_LIGHT_AQUA
             titleColor = ColorHelper.APP_AQUA
 //        }
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
-        cell.lblScore.backgroundColor = bgScoreColor
-        cell.lblScore.text = ""
         return cell
     }
     
@@ -99,5 +204,20 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         nextController.selectedObjective = obj
         self.navigationController?.pushViewController(nextController, animated: true)
     }
+    
+    @IBAction func testTapped(sender: AnyObject) {
+        let obj = tests[0]
+        print("test name is \(obj.name)")
+        try! lessionCollections = adapter.getLessonCollectionByTest(testScore.idCountry, levelId: testScore.idLevel, testId: obj.idString)
+        
+        
+        let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonMainVC") as! LessonMainVC
+        
+        nextController.testScore = testScore
+        nextController.selectedLessonCollection = lessionCollections[0]
+        nextController.isLessonCollection = false
+        self.navigationController?.pushViewController(nextController, animated: true)
+    }
+    
 }
 
