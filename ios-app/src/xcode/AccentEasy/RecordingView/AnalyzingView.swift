@@ -17,7 +17,7 @@ protocol AnalyzingDelegate {
 }
 
 public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
-    let kFontSize:CGFloat = 64
+    var kFontSize:CGFloat!
     let kMaxRecordingTime:Double = 4000
     let kMinRecordingTime:Double = 1000
     let kPitchTimeOut:Double = 1000
@@ -104,10 +104,8 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         
         scoreLayer = LCTextLayer()
         
-        scoreLayer.font = UIFont.boldSystemFontOfSize(kFontSize)
         scoreLayer.foregroundColor = UIColor.whiteColor().CGColor
         scoreLayer.frame = self.bounds
-        scoreLayer.fontSize = kFontSize
         scoreLayer.alignmentMode = kCAAlignmentCenter
         scoreLayer.contentsScale = UIScreen.mainScreen().scale
         
@@ -159,7 +157,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     func switchType(_type: AnalyzingType) {
         switch _type {
-        case .DEFAULT:
+        case .DEFAULT, .DISABLE:
             animationState = AnimationState.DEFAULT
             break
         case .ANALYZING, .SEARCHING:
@@ -212,6 +210,9 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         self.waveformLayer.frame = self.bounds
         self.innerCircleLayer.frame = self.bounds
         self.outerCircleLayer.frame = self.bounds
+        kFontSize = self.frame.width * 64 / 200
+        scoreLayer.fontSize = kFontSize
+        scoreLayer.font = UIFont.boldSystemFontOfSize(kFontSize)
         self.redraw()
         CATransaction.commit()
     }
@@ -319,6 +320,15 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
             self.scoreLayer.hidden = true;
             self.loadingLayer.hidden = true
             break;
+        case .DISABLE:
+            self.outerCircleLayer.fillColor = ColorState.STATE_GRAY_COLOR.outerBackground.CGColor
+            self.innerCircleLayer.fillColor = ColorState.STATE_GRAY_COLOR.innerBackground.CGColor
+            self.waveformLayer.hidden = true;
+            self.innerCircleLayer.hidden = false;
+            self.outerCircleLayer.hidden = true;
+            self.scoreLayer.hidden = true;
+            self.loadingLayer.hidden = true
+            break
         case .RECORDING:
             self.outerCircleLayer.fillColor = Multimedia.colorWithHexString("#FFDDBE").CGColor
             self.innerCircleLayer.fillColor = Multimedia.colorWithHexString("#EC2221").CGColor
@@ -623,6 +633,8 @@ public enum AnimationState : Int {
 public enum AnalyzingType : Int {
     
     case DEFAULT
+    
+    case DISABLE
     
     case RECORDING
     
