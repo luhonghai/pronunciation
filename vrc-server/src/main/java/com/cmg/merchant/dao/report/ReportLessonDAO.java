@@ -6,6 +6,9 @@ import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.common.SQL;
+import com.cmg.merchant.common.SqlReport;
+import com.cmg.vrc.data.jdo.ClassJDO;
+import com.cmg.vrc.data.jdo.StudentMappingClass;
 import com.cmg.vrc.data.jdo.StudentMappingTeacher;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 import org.joda.time.DateTime;
@@ -28,48 +31,64 @@ public class ReportLessonDAO {
     SimpleDateFormat format=new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
     DateFormat dateFormat= DateFormat.getDateTimeInstance(
             DateFormat.MEDIUM, DateFormat.SHORT);
-    public List<StudentMappingTeacher> getListStudentForClass(String teacherName){
+
+    /**
+     *
+     * @param tName
+     * @return
+     */
+    public List<ClassJDO> getClassByTeacher(String tName){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        TypeMetadata metaStudentMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(StudentMappingTeacher.class.getCanonicalName());
-        StringBuffer first=new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' and isDeleted=false";
-        first.append(firstQuery);
-        first.append(" ORDER BY studentName ASC");
-        Query q = pm.newQuery("javax.jdo.query.SQL", first.toString());
+        SqlReport sqlUtil = new SqlReport();
+        String sql = sqlUtil.getSqlListClassByTeacher(tName);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        List<ClassJDO> list = new ArrayList<>();
         try {
-            List<StudentMappingTeacher> studentMappingTeachers = new ArrayList<>();
             List<Object> objects = (List<Object>) q.execute();
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
-                StudentMappingTeacher studentMappingTeacher = new StudentMappingTeacher();
+                ClassJDO c = new ClassJDO();
                 if (data[0] != null) {
-                    studentMappingTeacher.setId(data[0].toString());
-                }else {
-                    studentMappingTeacher.setId(null);
+                    c.setId(data[0].toString());
                 }
                 if (data[1] != null) {
-                    studentMappingTeacher.setStudentName(data[1].toString());
-                }else{
-                    studentMappingTeacher.setStudentName(null);
+                    c.setClassName(data[1].toString());
                 }
-                if (data[2] != null) {
-                    studentMappingTeacher.setStatus(data[2].toString());
-                }else {
-                    studentMappingTeacher.setStatus(null);
-                }
-                if (data[3] != null) {
-                    studentMappingTeacher.setLicence(Boolean.parseBoolean(data[3].toString()));
-                }else{
-                    studentMappingTeacher.setLicence(false);
-                }
-                if (data[4] != null) {
-                    studentMappingTeacher.setMappingBy(data[4].toString());
-                }else{
-                    studentMappingTeacher.setMappingBy(null);
-                }
-                studentMappingTeachers.add(studentMappingTeacher);
+                list.add(c);
             }
-            return studentMappingTeachers;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return list;
+    }
+
+
+    /**
+     *
+     * @param teacherName
+     * @return
+     */
+    public List<StudentMappingClass> getListStudentForClass(String classId,String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport util = new SqlReport();
+        String sql = util.getStudentInClass(classId,teacherName);
+        System.out.println("get student in class : " + sql);
+        Query q = pm.newQuery("javax.jdo.query.SQL", sql);
+        try {
+            List<StudentMappingClass> list = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                StudentMappingClass smc = new StudentMappingClass();
+                if (data[1] != null) {
+                    smc.setStudentName(data[1].toString());
+                }
+                list.add(smc);
+            }
+            return list;
         } catch (Exception e) {
             throw e;
         } finally {
@@ -108,6 +127,7 @@ public class ReportLessonDAO {
             pm.close();
         }
     }
+
     public List<Level> getListLevel(String idCourse){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sql=new SQL();

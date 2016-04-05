@@ -1,9 +1,10 @@
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@ tag import="com.cmg.merchant.common.Constant" %>
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%
-    String company = (String) StringUtil.isNull(request.getSession().getAttribute("company"), "CMG");
+    String company = (String)  StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();;
 %>
 <link rel="stylesheet" type="text/css"
       href="<%=request.getContextPath() %>/bower_components/AJAX_PROCESS_BAR/dist/css/jquery.progresstimer.min.css"

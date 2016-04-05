@@ -24,6 +24,12 @@
     cursor: pointer;
     text-decoration: none !important;
   }
+
+  .a-info-student:hover{
+    color:#ffffff;
+    cursor: pointer;
+  }
+
   .a-info-student img{
     cursor: pointer;
   }

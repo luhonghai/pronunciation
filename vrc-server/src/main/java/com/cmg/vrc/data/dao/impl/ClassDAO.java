@@ -19,18 +19,39 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         super(ClassJDO.class);
     }
 
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     * @throws Exception
+     */
     public ClassJDO getUserByEmailPassword(String email, String password) throws Exception{
         List<ClassJDO> userList = list("WHERE userName == :1 && password == :2", email, password);
         if (userList != null && userList.size() > 0)
             return userList.get(0);
         return null;
     }
+
+    /**
+     *
+     * @param email
+     * @return
+     * @throws Exception
+     */
     public ClassJDO getUserByEmail(String email) throws Exception {
         List<ClassJDO> userList = list("WHERE userName == :1", email);
         if (userList != null && userList.size() > 0)
             return userList.get(0);
         return null;
     }
+
+    /**
+     *
+     * @param classname
+     * @return
+     * @throws Exception
+     */
     public ClassJDO getClassName(String classname) throws Exception {
         List<ClassJDO> userList = list("WHERE className == :1 && isDeleted== :2", classname,false);
         if (userList != null && userList.size() > 0)
@@ -40,9 +61,7 @@ public class ClassDAO extends DataAccess<ClassJDO> {
 
 
     public List<ClassJDO> listAll(String teacherName) throws Exception {
-
         PersistenceManager pm = PersistenceManagerHelper.get();
-
         StringBuffer query = new StringBuffer();
         TypeMetadata metaClassJDO = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassJDO.class.getCanonicalName());
         TypeMetadata metaClassMappingTeacher = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClassMappingTeacher.class.getCanonicalName());
@@ -50,9 +69,9 @@ public class ClassDAO extends DataAccess<ClassJDO> {
                 + " class inner join " + metaClassMappingTeacher.getTable()
                 + " mapping on mapping.idClass=class.id where mapping.teacherName='"+teacherName+"' and class.isDeleted=false and mapping.isDeleted=false ";
         query.append(firstQuery);
-        query.append(" ORDER BY class.createdDate DESC");
+        query.append(" ORDER BY class.createdDate ASC");
+        System.out.println(query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
-
         List<ClassJDO> list = new ArrayList<ClassJDO>();
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -328,10 +347,22 @@ public class ClassDAO extends DataAccess<ClassJDO> {
         }
     }
 
+    /**
+     *
+     * @param idClass
+     * @throws Exception
+     */
     public void updateClassDelete(String idClass) throws Exception{
-
         PersistenceManager pm = PersistenceManagerHelper.get();
-        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE CLASSJDO as class inner join CLASSMAPPINGTEACHER as cmt on class.id = cmt.idClass inner join COURSEMAPPINGCLASS as cmc on class.id = cmc.idClass inner join STUDENTMAPPINGCLASS as smc on class.id = smc.idClass set class.isDeleted=true,cmt.isDeleted=true,cmc.isDeleted=true,smc.isDeleted=true where class.id = '"+idClass+"'");
+        Query q = pm.newQuery("javax.jdo.query.SQL", "UPDATE CLASSJDO as class " +
+                "inner join CLASSMAPPINGTEACHER as cmt " +
+                "on class.id = cmt.idClass " +
+                "left join COURSEMAPPINGCLASS as cmc " +
+                "on class.id = cmc.idClass left join STUDENTMAPPINGCLASS as smc " +
+                "on class.id = smc.idClass " +
+                "set class.isDeleted=true,cmt.isDeleted=true," +
+                "cmc.isDeleted=true,smc.isDeleted=true " +
+                "where class.id = '"+idClass+"'");
         try {
             q.execute();
         } catch (Exception e) {

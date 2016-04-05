@@ -3,6 +3,7 @@ package com.cmg.vrc.service;
 import com.cmg.lesson.data.jdo.course.Course;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.util.SessionUtil;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -79,7 +80,7 @@ public class ClassService {
         String message=null;
         try {
             classs=classDAO.getClassName(className);
-            if(classs==null) {
+            if(!checkNameExisted(teacherName,null,className)) {
                 StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
                 uuid = UUIDGenerator.generateUUID();
                 version = classDAO.getLatestVersion() + 1;
@@ -118,9 +119,6 @@ public class ClassService {
             }else{
                 message= "exist";
             }
-
-
-
         }catch (Exception e){
             message="error";
             e.printStackTrace();
@@ -147,37 +145,71 @@ public class ClassService {
         return list;
     }
 
-    public String editClassToDb(String idClass,String definition,String jsonClient){
+    /**
+     *
+     * @param idClass
+     * @param nameClass
+     * @return
+     */
+    public boolean checkNameExisted(String teacherName,String idClass, String nameClass){
+        ReportLessonDAO dao = new ReportLessonDAO();
+        try {
+            List<ClassJDO> list = dao.getClassByTeacher(teacherName);
+            if(list!=null && list.size() > 0){
+                if(idClass!=null){
+                    for(ClassJDO c : list){
+                        if(c.getClassName().equalsIgnoreCase(nameClass) && !c.getId().equalsIgnoreCase(idClass)){
+                            return true;
+                        }
+                    }
+                }else{
+                    for(ClassJDO c : list){
+                        if(c.getClassName().equalsIgnoreCase(nameClass)){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+        }
+        return false;
+    }
+
+    public String editClassToDb(String teacherName, String idClass,String nameClass,String definition,String jsonClient){
         String message=null;
         try {
             ClassJDO classJDO=new ClassJDO();
             classJDO=classDAO.getById(idClass);
             StudentCourse studentCourse = gson.fromJson(jsonClient, StudentCourse.class);
             if(classJDO!=null) {
-                classJDO.setDefinition(definition);
-                classDAO.put(classJDO);
-                classDAO.updateCourseMappingClassEdit(idClass);
-                classDAO.updateStudentMappingClassEdit(idClass);
-                String[] listStudent = studentCourse.getStudents();
-                for (String s : listStudent) {
-                    StudentMappingClass studentMappingClass = new StudentMappingClass();
-                    studentMappingClass.setIdClass(idClass);
-                    studentMappingClass.setStudentName(s);
-                    studentMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
-                    studentMappingClass.setIsDeleted(false);
-                    studentMappingClassDAO.put(studentMappingClass);
+                if(!checkNameExisted(teacherName,idClass,nameClass)){
+                    classJDO.setClassName(nameClass);
+                    classJDO.setDefinition(definition);
+                    classDAO.put(classJDO);
+                    classDAO.updateCourseMappingClassEdit(idClass);
+                    classDAO.updateStudentMappingClassEdit(idClass);
+                    String[] listStudent = studentCourse.getStudents();
+                    for (String s : listStudent) {
+                        StudentMappingClass studentMappingClass = new StudentMappingClass();
+                        studentMappingClass.setIdClass(idClass);
+                        studentMappingClass.setStudentName(s);
+                        studentMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        studentMappingClass.setIsDeleted(false);
+                        studentMappingClassDAO.put(studentMappingClass);
+                    }
+                    String[] listCourse = studentCourse.getCourses();
+                    for (String s : listCourse) {
+                        CourseMappingClass courseMappingClass = new CourseMappingClass();
+                        courseMappingClass.setIdClass(idClass);
+                        courseMappingClass.setIdCourse(s);
+                        courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
+                        courseMappingClass.setIsDeleted(false);
+                        courseMappingClassDAO.put(courseMappingClass);
+                    }
+                    message = "success";
+                }else{
+                    message = "name existed";
                 }
-                String[] listCourse = studentCourse.getCourses();
-                for (String s : listCourse) {
-                    CourseMappingClass courseMappingClass = new CourseMappingClass();
-                    courseMappingClass.setIdClass(idClass);
-                    courseMappingClass.setIdCourse(s);
-                    courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
-                    courseMappingClass.setIsDeleted(false);
-                    courseMappingClassDAO.put(courseMappingClass);
-                }
-                message="success";
-
             }else {
                 message="not exist";
             }

@@ -3,27 +3,66 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
+<style>
+    .title{
+        font-weight : 600;
+        font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size : 16px;
+        text-align: center;
+    }
+    #page-wrapper label{
+        color: #333;
+        font-size: 14px;
+        font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-weight: 200;
+    }
+    .header-company {
+        color: #A6A6A6;
+        font-weight: 200;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        border-bottom-color: transparent;
+        margin : 10px 0px;
+    }
 
+    #selection-filter{
+        padding-left: 0px;
+    }
+    #selection-filter label{
+        font-weight: 200;
+        padding-top : 5px;
+    }
+
+</style>
 <div id="page-wrapper">
-    <div class="row" style="color:lightgrey; margin-left: 0px;">
-        <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;"> > reports > lessons</p>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-header header-company"><%=company%> >
+                reports</h4>
+        </div>
     </div>
-    <div>
-        <p style="float:left; margin-top: 10px";>student:</p>
-        <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
-        <img id="loadInfo" src="/images/popup/accepted_48x48.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;"/>
-        <%--<span type="button" id="loadInfo" title="click here to run the reports" style="color:lightgreen;cursor: pointer;margin-left: 5px;" class="fa fa-check-circle fa-2x"> </span>--%>
-
-    </div>
-    <div id="graphs">
-
+    <div class="row">
+        <div id="selection-filter" class="col-sm-12">
+            <div class="col-sm-1"><label>classes:</label></div>
+            <div class="col-sm-3">
+                <select class="form-control" id="listClass">
+                </select>
+            </div>
+            <div class="col-sm-1"><label>student:</label></div>
+            <div class="col-sm-3">
+                <select class="form-control" id="listUsers">
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <img id="loadInfo" src="/images/popup/accepted_48x48.gif"
+                     width="36px" height="36px" title="click here to run the reports"
+                     style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;"/>
+            </div>
+        </div>
+        <div id="first-process" class="col-lg-4" style="padding-top: 20px"></div>
+        <div id="process-bar" class="col-lg-4" style="padding-top: 20px"></div>
+        <div id="last-process" class="col-lg-4" style="padding-top: 20px"></div>
     </div>
 </div>
 <!-- /#wrapper -->
-<script src="<%=request.getContextPath() %>/js/reportsLesson.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/reportsLesson.js"></script>

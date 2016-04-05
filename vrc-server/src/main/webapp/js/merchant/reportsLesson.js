@@ -4,7 +4,9 @@ function getDivSelectionFilter(){
 function getProcessBar(){
     return $("#process-bar");
 }
-
+function btnLoadInfo(){
+    return $("#loadInfo");
+}
 function listClasses(){
     $.ajax({
         url: "ReportsLessons",
@@ -19,18 +21,28 @@ function listClasses(){
                 if(data.list!=null && data.list.length>0){
                     var items=data.list;
                     $(items).each(function(){
-                        $("#listClass").append('<option value="' + this.id + '">' + this.className + '</option>');
+                        $("#listClass").append('<option title="'+this.className+'" value="' + this.id + '">' + this.className + '</option>');
                     });
                 }
                 $('#listClass').multiselect('destroy');
                 $('#listClass').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                 $('#listClass').multiselect('refresh');
+                $('#listClass').multiselect({
+                    onChange: function(element, checked) {
+                        console.log("on change value");
+                        if (checked === true) {
+                            listStudents(element.val());
+                        }
+                    }
+                });
+                $('#listClass').multiselect('refresh');
+                listStudents(items[0].id);
             }else{
-                swal("Error!", data.message.split(":")[1], "error");
+                swal("", "an error has been occurred in server", "error");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "Could not connect to server", "error");
         }
 
     });
@@ -48,8 +60,8 @@ function listStudents(idClass){
         success: function (data) {
             if(data.message=="success"){
                 $("#listUsers").empty();
-                if(data.listStudent!=null && data.listStudent.length>0){
-                    var items=data.listStudent;
+                if(data.listSMC!=null && data.listSMC.length>0){
+                    var items=data.listSMC;
                     $(items).each(function(){
                         $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                     });
@@ -58,13 +70,20 @@ function listStudents(idClass){
                 $('#listUsers').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                 $('#listUsers').multiselect('refresh');
             }else{
-                swal("Error!", data.message.split(":")[1], "error");
+                swal("", "an error has been occurred in server", "error");
             }
         },
         error: function () {
-            swal("Error!", "Could not connect to server", "error");
+            swal("", "Could not connect to server", "error");
         }
 
+    });
+}
+
+function onChangeClass(){
+    $('#listClass').on('change', function(){
+        var idClass=$('#listClass option:selected').val();
+        listStudents(idClass);
     });
 }
 function loadInfo(){
@@ -76,7 +95,9 @@ function loadInfo(){
 
 $(document).ready(function(){
     $('#help-icons').show();
+    onChangeClass();
     loadInfo();
-    listStudents();
+    listClasses();
+
 });
 

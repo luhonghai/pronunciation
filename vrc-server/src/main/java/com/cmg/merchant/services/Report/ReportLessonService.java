@@ -9,7 +9,9 @@ import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
+import com.cmg.vrc.data.jdo.ClassJDO;
 import com.cmg.vrc.data.jdo.Reports;
+import com.cmg.vrc.data.jdo.StudentMappingClass;
 import com.cmg.vrc.data.jdo.StudentMappingTeacher;
 import com.google.gson.Gson;
 
@@ -25,9 +27,13 @@ public class ReportLessonService {
     LevelDAO levelDAO=new LevelDAO();
     ObjectiveDAO objectiveDAO=new ObjectiveDAO();
     Gson gson=new Gson();
+    class ListClass{
+        private String message;
+        private List<ClassJDO> list;
+    }
     class ListStudent{
         private String message;
-        private List<StudentMappingTeacher> listStudent;
+        private List<StudentMappingClass> listSMC;
     }
     class ListCourse{
         private String message;
@@ -50,27 +56,54 @@ public class ReportLessonService {
         private String message;
         private Reports reports;
     }
-    public String listStudent(String teacherName){
+    /**
+     *
+     * @param teacherName
+     * @return
+     */
+    public String listClass(String teacherName){
+        ListClass obj = new ListClass();
+        try {
+            List<ClassJDO> temp = reportLessonDAO.getClassByTeacher(teacherName);
+            obj.list = temp;
+            obj.message = "success";
+        }catch (Exception e){
+            obj.message = "error";
+            obj.list = null;
+        }
+        return gson.toJson(obj);
+    }
+
+    /**
+     *
+     * @param idClass
+     * @param teacherName
+     * @return
+     */
+    public String listStudent(String idClass,String teacherName){
         ListStudent listStudent=new ListStudent();
         String list=null;
         try {
             listStudent.message="success";
-            listStudent.listStudent=reportLessonDAO.getListStudentForClass(teacherName);
+            listStudent.listSMC=reportLessonDAO.getListStudentForClass(idClass,teacherName);
             list = gson.toJson(listStudent);
         } catch (Exception e) {
             listStudent.message="error";
-            listStudent.listStudent=new ArrayList<>();
+            listStudent.listSMC=new ArrayList<>();
             list = gson.toJson(listStudent);
         }
         return list;
     }
+
+
+
     public String listCourse(String teacherName,String student){
         ListCourse listCourse=new ListCourse();
         String list=null;
         try {
             listCourse.message="success";
-            listCourse.listStudent=reportLessonDAO.getListStudentForClass(teacherName);
-            listCourse.listCourse=reportLessonDAO.getListCourse(teacherName, student);
+            //listCourse.listStudent=reportLessonDAO.getListStudentForClass(teacherName);
+            //listCourse.listCourse=reportLessonDAO.getListCourse(teacherName, student);
             list = gson.toJson(listCourse);
         } catch (Exception e) {
             listCourse.message="error";

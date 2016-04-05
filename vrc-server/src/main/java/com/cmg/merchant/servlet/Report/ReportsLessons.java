@@ -32,15 +32,19 @@ public class ReportsLessons extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ReportLessonService service=new ReportLessonService();
         Gson gson=new Gson();
-        String action=request.getParameter("action");
-        String teacherName=request.getSession().getAttribute("username").toString();
-        String teacherID=request.getSession().getAttribute("id").toString();
-        if (action.equalsIgnoreCase("listStudent")) {
-            String result=service.listStudent(teacherName);
+        String action=(String) StringUtil.isNull(request.getParameter("action"),"");
+        String teacherName=(String) StringUtil.isNull(request.getSession().getAttribute("username").toString(),"");
+        String teacherID=  (String) StringUtil.isNull(request.getSession().getAttribute("id").toString(),"");
+        if (action.equalsIgnoreCase("listClass")){
+            String result = service.listClass(teacherName);
+            response.getWriter().write(result);
+        }else if (action.equalsIgnoreCase("listStudent")) {
+            String idClass= (String) StringUtil.isNull(request.getParameter("idClass"),"");
+            String result=service.listStudent(idClass,teacherName);
             response.getWriter().write(result);
         }else if (action.equalsIgnoreCase("listCourse")) {
             String studentName=request.getParameter("studentName");
-            String result=service.listCourse(teacherName,studentName);
+            String result=service.listCourse(teacherName, studentName);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("listLevel")){
             String idCourse=request.getParameter("idCourse");

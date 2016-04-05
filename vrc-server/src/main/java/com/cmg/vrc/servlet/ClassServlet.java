@@ -47,7 +47,7 @@ public class ClassServlet extends HttpServlet {
             String className=request.getParameter("classname");
             String definition=request.getParameter("definition");
             String list=classService.addClassToDb(teacherName, className, definition, jsonClient);
-            response.getWriter().write("success");
+            response.getWriter().write(list);
         }else if(action.equalsIgnoreCase("openEdit")){
             String idClass=request.getParameter("id");
             String list = classService.openEditClass(teacherName,idClass,util.getTid(request),util.getCpId(request));
@@ -56,8 +56,9 @@ public class ClassServlet extends HttpServlet {
         }else if(action.equalsIgnoreCase("editClass")){
             String idClass=request.getParameter("id");
             String jsonClient = (String) StringUtil.isNull(request.getParameter("objDto"), "");
-            String definition=request.getParameter("difinition");
-            String list = classService.editClassToDb(idClass, definition, jsonClient);
+            String definition= (String) StringUtil.isNull(request.getParameter("difinition"),"");
+            String name = (String) StringUtil.isNull(request.getParameter("classname"), "");
+            String list = classService.editClassToDb(teacherName,idClass, name, definition, jsonClient);
             response.getWriter().write(list);
         }else if(action.equalsIgnoreCase("deleteClass")){
             String idClass=request.getParameter("id");
