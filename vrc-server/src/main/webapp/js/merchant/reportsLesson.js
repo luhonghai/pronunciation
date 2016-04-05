@@ -1,6 +1,9 @@
 function getDivSelectionFilter(){
     return $("#selection-filter");
 }
+function getDivNotification(){
+    return $("#notification");
+}
 function getProcessBar(){
     return $("#process-bar");
 }
@@ -19,24 +22,20 @@ function listClasses(){
             if(data.message=="success"){
                 $("#listClass").empty();
                 if(data.list!=null && data.list.length>0){
+                    getDivNotification().hide();
+                    getDivSelectionFilter().show();
                     var items=data.list;
+                    listStudents(items[0].id);
                     $(items).each(function(){
                         $("#listClass").append('<option title="'+this.className+'" value="' + this.id + '">' + this.className + '</option>');
                     });
+                }else{
+                    getDivSelectionFilter().hide();
+                    getDivNotification().show();
                 }
                 $('#listClass').multiselect('destroy');
                 $('#listClass').multiselect({ enableFiltering: true, buttonWidth: '200px'});
                 $('#listClass').multiselect('refresh');
-                $('#listClass').multiselect({
-                    onChange: function(element, checked) {
-                        console.log("on change value");
-                        if (checked === true) {
-                            listStudents(element.val());
-                        }
-                    }
-                });
-                $('#listClass').multiselect('refresh');
-                listStudents(items[0].id);
             }else{
                 swal("", "an error has been occurred in server", "error");
             }
@@ -62,9 +61,14 @@ function listStudents(idClass){
                 $("#listUsers").empty();
                 if(data.listSMC!=null && data.listSMC.length>0){
                     var items=data.listSMC;
+                    btnLoadInfo().removeAttr("disabled");
+                    btnLoadInfo().css("background-color","#33CC33");
                     $(items).each(function(){
                         $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                     });
+                }else{
+                    btnLoadInfo().attr("disabled","disabled");
+                    btnLoadInfo().css("opacity","0.65");
                 }
                 $('#listUsers').multiselect('destroy');
                 $('#listUsers').multiselect({ enableFiltering: true, buttonWidth: '200px'});
@@ -88,8 +92,11 @@ function onChangeClass(){
 }
 function loadInfo(){
     $(document).on("click","#loadInfo",function(){
-        var studentName=$('#listUsers option:selected').val();
-        window.location =CONTEXT_PATH + "/reports-lessons.jsp?name="+studentName;
+        if($(this).attr("disabled")!="disabled"){
+            var studentName=$('#listUsers option:selected').val();
+            var idClass=$('#listClass option:selected').val();
+            window.location =CONTEXT_PATH + "/reports-lessons.jsp?name="+studentName +"&idClass="+idClass;
+        }
     })
 }
 

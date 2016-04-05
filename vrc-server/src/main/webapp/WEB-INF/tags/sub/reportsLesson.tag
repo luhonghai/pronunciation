@@ -42,6 +42,10 @@
         </div>
     </div>
     <div class="row">
+        <div id="notification" class="col-sm-12">
+            <label style="color : #376092">you had not created any class, to create a class :</label>
+                <a href="my-classes.jsp"> click here</a>
+        </div>
         <div id="selection-filter" class="col-sm-12">
             <div class="col-sm-1"><label>classes:</label></div>
             <div class="col-sm-3">
@@ -56,7 +60,7 @@
             <div class="col-sm-2">
                 <img id="loadInfo" src="/images/popup/accepted_48x48.gif"
                      width="36px" height="36px" title="click here to run the reports"
-                     style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;"/>
+                     style="cursor: pointer;margin-left: 5px; background-color: #33CC33;border-radius: 45px;" disabled/>
             </div>
         </div>
         <div id="first-process" class="col-lg-4" style="padding-top: 20px"></div>
