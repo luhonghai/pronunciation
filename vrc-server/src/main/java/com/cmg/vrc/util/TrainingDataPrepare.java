@@ -1,16 +1,16 @@
 package com.cmg.vrc.util;
 
-import com.cmg.vrc.common.Constant;
-import com.cmg.vrc.data.jdo.Phoneme;
+import com.cmg.vrc.processor.CommandExecutor;
 import com.cmg.vrc.sphinx.DictionaryHelper;
-import com.cmg.vrc.sphinx.PhonemesDetector;
 import com.cmg.vrc.sphinx.SphinxResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.FileUtils;
+import sun.misc.IOUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -40,12 +40,19 @@ public class TrainingDataPrepare {
         }
     }
 
+    static class TrainingSamples {
+        Map<String, Float> phonemeSamples;
+        float avgGender;
+    }
+
     static Map<String, Integer> phonemeIndex = new HashMap<>();
     static File trainingWordCSV = new File("/Users/luhonghai/Desktop/audio/training-single-word.csv");
     static File trainingPhonemeCSV = new File("/Users/luhonghai/Desktop/audio/training-single-phoneme.csv");
     static File trainingBothCSV = new File("/Users/luhonghai/Desktop/audio/training-word-phoneme.csv");
 
     static File trainingCSV = new File("/Users/luhonghai/Desktop/audio/training-data.csv");
+
+    static File phoneSamples = new File("/Users/luhonghai/Desktop/audio/phoneme-samples.json");
 
     static List<Float> totalFrequency = new ArrayList<>();
 
@@ -54,13 +61,44 @@ public class TrainingDataPrepare {
 
     static float avgGender = 0;
 
-    public static void main(String[] args) throws IOException {
-        File femaleDir = new File("/Users/luhonghai/Desktop/audio/female");
-        List<String> phonemeList = DictionaryHelper.getPhonemeList();
+    static List<String> phonemeList = new ArrayList<>();
 
-        for (int i = 0; i< phonemeList.size(); i++) {
+    public static void main(String[] args) throws IOException {
+        testTrainingData();
+    }
+
+    static Map<String, Float> sampleAvg = new HashMap<>();
+
+    static List<String> lines = new ArrayList<>();
+
+    static void testTrainingData() throws IOException {
+        preparePhoneList();
+        File femaleDir = new File("/Users/luhonghai/Desktop/audio/test/female");
+        File maleDir = new File("/Users/luhonghai/Desktop/audio/test/male");
+        TrainingSamples trainingSamples = new Gson().fromJson(FileUtils.readFileToString(phoneSamples, "UTF-8"), TrainingSamples.class);
+        testSampleData(maleDir, true, trainingSamples);
+        testSampleData(femaleDir, false, trainingSamples);
+        /*Collections.sort(lines);
+        if (trainingCSV.exists()) {
+            FileUtils.forceDelete(trainingCSV);
+        }*/
+        //FileUtils.writeLines(trainingCSV, lines);
+        System.out.println("Total voice to predict : " + totalPredict);
+        System.out.println(totalMatched + " Correct percent: "
+                + ((totalMatched / totalPredict) * 100) + "%");
+    }
+
+    static void preparePhoneList() {
+        phonemeList = DictionaryHelper.getPhonemeList();
+
+        for (int i = 0;+ i< phonemeList.size(); i++) {
             phonemeIndex.put(phonemeList.get(i), i);
         }
+    }
+
+    static void generateTrainingData() throws IOException {
+        File femaleDir = new File("/Users/luhonghai/Desktop/audio/female");
+        preparePhoneList();
 //        if (trainingWordCSV.exists()) {
 //            FileUtils.forceDelete(trainingWordCSV);
 //        }
@@ -88,15 +126,22 @@ public class TrainingDataPrepare {
         System.out.println("Avg freq gender: " + avgGender);
         System.out.println("malePhonemeFreq size: " + malePhonemeFreq.size());
         System.out.println("femalePhonemeFreq size: " + femalePhonemeFreq.size());
+        Map<String, Float> phonemeSamples = new HashMap<>();
         for (String phone : phonemeList) {
             dump(malePhonemeFreq, phone.toUpperCase(), true);
             dump(femalePhonemeFreq, phone.toUpperCase(), false);
+            float pGenderAvg = (avgTotal(malePhonemeFreq.get(phone)) + avgTotal(femalePhonemeFreq.get(phone))) / 2;
+            phonemeSamples.put(phone, pGenderAvg);
         }
         if (trainingCSV.exists()) {
             FileUtils.forceDelete(trainingCSV);
         }
         generateSampleData(maleDir, true, true);
         generateSampleData(femaleDir, false, true);
+        TrainingSamples trainingSamples = new TrainingSamples();
+        trainingSamples.phonemeSamples = phonemeSamples;
+        trainingSamples.avgGender = avgGender;
+        FileUtils.writeStringToFile(phoneSamples, new Gson().toJson(trainingSamples), "UTF-8");
     }
 
     static void dump(Map<String, List<Float>> data, String phone, boolean gender) {
@@ -136,6 +181,132 @@ public class TrainingDataPrepare {
         }
     }
 
+    static int totalPredict = 0;
+
+    static int totalMatched = 0;
+
+    static float calculateScore(float avgPhone, float avgWord, final boolean gender) {
+        String uuid = UUIDGenerator.generateUUID();
+        File tmpScript = new File(FileUtils.getTempDirectory(),uuid + ".tmp.sh");
+        File tmpPython = new File(FileUtils.getTempDirectory(),uuid + ".tmp.py");
+        try {
+            InputStream is = TrainingDataPrepare.class.getClassLoader().getResourceAsStream("predict.py");
+            try {
+                String script = org.apache.commons.io.IOUtils.toString(is, "UTF-8");
+                script = script.replace("%DATA%", avgPhone + "," + avgWord);
+                FileUtils.writeStringToFile(tmpPython, script, "UTF-8");
+                FileUtils.writeStringToFile(tmpScript, "python " + tmpPython.getAbsolutePath(), "UTF-8");
+                CommandExecutor.execute(null, new CommandExecutor.CommandListener() {
+                    @Override
+                    public void onMessage(String message) {
+                        System.out.println(message);
+                        totalPredict++;
+                        float output = Float.parseFloat(message.substring(1, message.length() - 1));
+                        System.out.println(output);
+                        if (gender) {
+                            if (output >= 0.5f) {
+                                totalMatched++;
+                            }
+                        } else {
+                            if (output < 0.5f) {
+                                totalMatched++;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String message, Throwable e) {
+                        //System.out.println(message);
+                        //e.printStackTrace();
+                    }
+                }, "sh", tmpScript.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                org.apache.commons.io.IOUtils.closeQuietly(is);
+            }
+        } finally {
+            if (tmpScript.exists()) {
+                try {
+                    FileUtils.forceDelete(tmpScript);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (tmpPython.exists()) {
+                try {
+                    FileUtils.forceDelete(tmpPython);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    static void testSampleData(File dir, boolean gender, TrainingSamples trainingSamples) throws IOException {
+        Gson gson = new Gson();
+
+        File[] wavList = dir.listFiles();
+        if (wavList != null && wavList.length > 0) {
+            for (File file : wavList) {
+                String name = file.getName();
+                if (name.endsWith(".wav")) {
+                    // System.out.println("Found wav file " + name);
+                    File jsonFile = new File(dir, name + ".json");
+                    SphinxResult result = gson.fromJson(FileUtils.readFileToString(jsonFile, "UTF-8"), SphinxResult.class);
+                    float avgFreq = 0;
+                    float totalFreq = 0;
+                    float count = 0;
+                    List<PhonemeSample> phonemeSamples = new ArrayList<>();
+                    Map<String, List<Float>> phonemeFreq = new HashMap<>();
+                    List<SphinxResult.Phoneme> phonemes = result.getBestPhonemes();
+                    if (phonemes != null && phonemes.size() > 0) {
+                        for (SphinxResult.Phoneme phoneme : phonemes) {
+                            List<SphinxResult.PhonemeExtra> extras = phoneme.getExtras();
+                            if (extras != null && extras.size() > 0) {
+                                for (SphinxResult.PhonemeExtra extra : extras) {
+                                    count++;
+                                    double freq = extra.getFrequency();
+                                    totalFreq += freq;
+                                    String pName = phoneme.getName().toUpperCase();
+                                    phonemeSamples.add(new PhonemeSample(phoneme.getName(), freq));
+                                    if (phonemeFreq.containsKey(pName)) {
+                                        phonemeFreq.get(pName).add((float)freq);
+                                    } else {
+                                        List<Float> data = new ArrayList<>();
+                                        data.add((float)freq);
+                                        phonemeFreq.put(pName, data);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    avgFreq = totalFreq / count;
+                    Iterator<String> keys = phonemeFreq.keySet().iterator();
+                    while (keys.hasNext()) {
+                        String p = keys.next();
+                        List<Float> data = phonemeFreq.get(p);
+                        float phoneAvg = avgTotal(data);
+                        float pGenderAvg = trainingSamples.avgGender;
+                        if ( trainingSamples.phonemeSamples.containsKey(p)) {
+                            pGenderAvg = trainingSamples.phonemeSamples.get(p);
+                        }
+//                        String testData = (phoneAvg - pGenderAvg) + ","
+//                                + (avgFreq - trainingSamples.avgGender) + ","
+//                                + (gender ? 1 : 0);
+//                        lines.add(testData);
+                        System.out.print((phoneAvg - pGenderAvg) + ","
+                                + (avgFreq - trainingSamples.avgGender) + "," + " | Expected: " + (gender ? 1 : 0));
+                        calculateScore(phoneAvg - pGenderAvg,
+                                avgFreq - trainingSamples.avgGender,
+                                gender);
+                    }
+                }
+            }
+        }
+    }
+
     static void generateSampleData(File dir, boolean gender, boolean write) throws IOException {
         Gson gson = new Gson();
         File[] wavList = dir.listFiles();
@@ -161,15 +332,16 @@ public class TrainingDataPrepare {
                                     count++;
                                     double freq = extra.getFrequency();
                                     totalFreq += freq;
-                                    final Map<String, List<Float>> map = gender ? malePhonemeFreq : femalePhonemeFreq;
                                     String pName = phoneme.getName().toUpperCase();
-
-                                    if (map.containsKey(pName)) {
-                                        map.get(pName).add((float)freq);
-                                    } else {
-                                        List<Float> data = new ArrayList<>();
-                                        data.add((float)freq);
-                                        map.put(pName, data);
+                                    if (!write) {
+                                        final Map<String, List<Float>> map = gender ? malePhonemeFreq : femalePhonemeFreq;
+                                        if (map.containsKey(pName)) {
+                                            map.get(pName).add((float) freq);
+                                        } else {
+                                            List<Float> data = new ArrayList<>();
+                                            data.add((float) freq);
+                                            map.put(pName, data);
+                                        }
                                     }
                                     phonemeSamples.add(new PhonemeSample(phoneme.getName(), freq));
                                     if (phonemeFreq.containsKey(pName)) {
@@ -184,7 +356,9 @@ public class TrainingDataPrepare {
                         }
                     }
                     avgFreq = totalFreq / count;
-                    totalFrequency.add(avgFreq);
+                    if (!write) {
+                        totalFrequency.add(avgFreq);
+                    }
 
                     Iterator<String> keys = phonemeFreq.keySet().iterator();
                     while (keys.hasNext()) {
@@ -192,9 +366,11 @@ public class TrainingDataPrepare {
                         List<Float> data = phonemeFreq.get(p);
                         float phoneAvg = avgTotal(data);
                         float pGenderAvg = (avgTotal(malePhonemeFreq.get(p)) + avgTotal(femalePhonemeFreq.get(p))) / 2;
-                        FileUtils.writeStringToFile(trainingCSV, (phoneAvg - pGenderAvg) + ","
-                                                + (avgFreq - avgGender) + ","
-                                                + (gender ? 1 : 0) + "\n", true);
+                        if (write) {
+                            FileUtils.writeStringToFile(trainingCSV, (phoneAvg - pGenderAvg) + ","
+                                    + (avgFreq - avgGender) + ","
+                                    + (gender ? 1 : 0) + "\n", true);
+                        }
                     }
                     if (write) {
                         //FileUtils.writeStringToFile(trainingWordCSV, avgFreq + "," + (gender ? 1 : 0) + "\n", true);
