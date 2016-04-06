@@ -30,12 +30,49 @@ class LessonDBAdapter: BaseDatabaseAdapter {
             .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel && LiteColumn.IDOBJECTIVE == idObjective && LiteColumn.IDLESSON == idLesson))
     }
     
-    func getLevelScore(username: String, idCountry: String, idLevel:String, idObjective: String) throws -> Array<ObjectiveScore> {
+    func isExistsLessonScore(username: String, idCountry: String, idLevel:String, idObjective:String, idLesson: String) throws -> Bool {
+        if let result:ObjectiveScore = try find(LiteTable.OBJECTIVE_SCORE
+            .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel && LiteColumn.IDOBJECTIVE == idObjective && LiteColumn.IDLESSON == idLesson)) {
+            return true
+        }
+        return false
+    }
+    
+    func saveLessonScore(objScore:ObjectiveScore) throws -> Bool {
+        if let result:ObjectiveScore = try find(LiteTable.OBJECTIVE_SCORE
+            .filter(LiteColumn.USERNAME == objScore.username && LiteColumn.IDCOUNTRY == objScore.idCountry && LiteColumn.IDLEVEL == objScore.idLevel && LiteColumn.IDOBJECTIVE == objScore.idObjective && LiteColumn.IDLESSON == objScore.idLesson)) {
+            //update
+            try db!.run(LiteTable.OBJECTIVE_SCORE.filter(LiteColumn.USERNAME == objScore.username && LiteColumn.IDCOUNTRY == objScore.idCountry && LiteColumn.IDLEVEL == objScore.idLevel && LiteColumn.IDOBJECTIVE == objScore.idObjective && LiteColumn.IDLESSON == objScore.idLesson).update(objScore.setters()!))
+            Logger.log("update lesson score \(objScore.score)")
+            return true
+        }
+        //insert
+        try! self.insert(objScore)
+        Logger.log("insert lesson score \(objScore.score)")
+        return true
+    }
+    
+    func saveTestScore(testScore:TestScore) throws -> Bool {
+        if let result:TestScore = try find(LiteTable.TEST_SCORE
+            .filter(LiteColumn.USERNAME == testScore.username && LiteColumn.IDCOUNTRY == testScore.idCountry && LiteColumn.IDLEVEL == testScore.idLevel)) {
+            //update
+            try db!.run(LiteTable.TEST_SCORE.filter(LiteColumn.USERNAME == testScore.username && LiteColumn.IDCOUNTRY == testScore.idCountry && LiteColumn.IDLEVEL == testScore.idLevel).update(testScore.setters()!))
+            Logger.log("update test score \(testScore.score)")
+            return true
+        }
+        //insert
+        try! self.insert(testScore)
+        Logger.log("insert test score \(testScore.score)")
+        return true
+    }
+
+    
+    func getObjectiveScore(username: String, idCountry: String, idLevel:String, idObjective: String) throws -> Array<ObjectiveScore> {
         return try query(LiteTable.OBJECTIVE_SCORE
             .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel  && LiteColumn.IDOBJECTIVE == idObjective))
     }
     
-    func getTestScore(username: String, idCountry: String, idLevel: String) throws -> TestScore {
+    func getTestScore(username: String, idCountry: String, idLevel: String) throws -> TestScore? {
         return try find(LiteTable.TEST_SCORE
             .filter(LiteColumn.USERNAME == username && LiteColumn.IDCOUNTRY == idCountry && LiteColumn.IDLEVEL == idLevel))
     }

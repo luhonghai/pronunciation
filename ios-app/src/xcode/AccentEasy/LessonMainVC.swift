@@ -16,7 +16,7 @@ class QuestionCVCell: UICollectionViewCell {
     
 }
 
-class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate {
+class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -47,7 +47,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     @IBOutlet weak var analyzingView: AnalyzingView!
     
     var freestyleDBAdapter:FreeStyleDBAdapter!
-    var lessonDBAdapter: WordCollectionDbApdater!
+    var wordCollectionDbApdater: WordCollectionDbApdater!
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -143,7 +143,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         userProfile = AccountManager.currentUser()
         
         //load word default
-        lessonDBAdapter = WordCollectionDbApdater()
+        wordCollectionDbApdater = WordCollectionDbApdater()
         freestyleDBAdapter = FreeStyleDBAdapter()
         
         //load question colection view
@@ -151,10 +151,10 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         while selectedWord == nil {
             print("run in first word")
-            let randomIndex = Int(arc4random_uniform(UInt32(arrQuestionOfLesson[0].listWord.count)))
+            let randomIndex = Int(arc4random_uniform(UInt32(arrQuestionOfLC[0].listWord.count)))
             do {
-                selectedWord = arrQuestionOfLesson[0].listWord[randomIndex]
-                arrQuestionOfLesson[0].selectedWord = selectedWord
+                selectedWord = arrQuestionOfLC[0].listWord[randomIndex]
+                arrQuestionOfLC[0].selectedWord = selectedWord
                 Logger.log("select random word \(selectedWord.word) index \(randomIndex)")
                 indexCurrentQuestion = 0
             } catch {
@@ -247,7 +247,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func chooseWord(word: String) {
         do{
-            self.selectWord(try lessonDBAdapter.findByWord(word))
+            self.selectWord(try wordCollectionDbApdater.findByWord(word))
         }catch{
             Logger.log("load word default error")
         }
@@ -431,14 +431,14 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                                 //cell.lblQuestion.backgroundColor = UIColor.redColor()
                                 
                                 //updata data for questionCV
-                                self.arrQuestionOfLesson[self.indexCurrentQuestion].currentMode = weakSelf!.currentMode
-                                self.arrQuestionOfLesson[self.indexCurrentQuestion].recorded = true
-                                self.arrQuestionOfLesson[self.indexCurrentQuestion].listScore.append(weakSelf!.scoreResult)
+                                self.arrQuestionOfLC[self.indexCurrentQuestion].currentMode = weakSelf!.currentMode
+                                self.arrQuestionOfLC[self.indexCurrentQuestion].recorded = true
+                                self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(weakSelf!.scoreResult)
                                 
-                                if self.indexCurrentQuestion+1 < self.arrQuestionOfLesson.count {
-                                    self.arrQuestionOfLesson[self.indexCurrentQuestion+1].enabled = true
+                                if self.indexCurrentQuestion+1 < self.arrQuestionOfLC.count {
+                                    self.arrQuestionOfLC[self.indexCurrentQuestion+1].enabled = true
                                 }
-                                self.arrQuestionOfLesson[self.indexCurrentQuestion].selectedWord = self.selectedWord
+                                self.arrQuestionOfLC[self.indexCurrentQuestion].selectedWord = self.selectedWord
                                 self.cvQuestionList.reloadData()
                                 
                                 //move detail screen
@@ -464,10 +464,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     func openDetailView(model: UserVoiceModel) {
         let lessonDetailVC = self.storyboard?.instantiateViewControllerWithIdentifier("LessonDetailVC") as! LessonDetailVC
         lessonDetailVC.userVoiceModelResult = model
-        lessonDetailVC.arrQuestionOfLesson = arrQuestionOfLesson
+        lessonDetailVC.arrQuestionOfLesson = arrQuestionOfLC
         lessonDetailVC.questionCVDatasourceDelegate = self
         lessonDetailVC.lessonTitle = selectedLessonCollection.title
         lessonDetailVC.objectiveScore = objectiveScore
+        lessonDetailVC.testScore = testScore
+        lessonDetailVC.isLessonCollection = isLessonCollection
         self.navigationController?.pushViewController(lessonDetailVC, animated: true)
     }
     
@@ -696,31 +698,39 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     /*colection view setup
      *************************************************************/
     @IBOutlet weak var cvQuestionList: UICollectionView!
-    var arrQuestionOfLesson = [AEQuestion]()
+    var arrQuestionOfLC = [AEQuestion]()
     var selectedLessonCollection = AELessonCollection()
     var objectiveScore:ObjectiveScore!
     let reuseIdentifier = "cell"
     var indexCurrentQuestion:Int!
+    var isLessonCollection:Bool = false
+    //var for test
+    var testScore:TestScore!
+    
     
     func questionCVInit(){
         
         print(selectedLessonCollection.idString)
         
-        arrQuestionOfLesson = try! lessonDBAdapter.getQuestionByLessionCollection(selectedLessonCollection.idString)
-        for index in 0...arrQuestionOfLesson.count-1 {
-            arrQuestionOfLesson[index].listWord = try! lessonDBAdapter.getWordsOfQuestion(arrQuestionOfLesson[index].idString)
-        }
-        arrQuestionOfLesson[0].enabled = true
-        Logger.log("arrQuestionOfLesson")
-        Logger.log(arrQuestionOfLesson)
-        
-        cvQuestionList.delegate = self
-        cvQuestionList.dataSource = self
+        //if isLessonCollection {
+            arrQuestionOfLC = try! wordCollectionDbApdater.getQuestionByLessionCollection(selectedLessonCollection.idString)
+            for index in 0...arrQuestionOfLC.count-1 {
+                arrQuestionOfLC[index].listWord = try! wordCollectionDbApdater.getWordsOfQuestion(arrQuestionOfLC[index].idString)
+            }
+            arrQuestionOfLC[0].enabled = true
+            Logger.log("arrQuestionOfLesson")
+            Logger.log(arrQuestionOfLC)
+            
+            cvQuestionList.delegate = self
+            cvQuestionList.dataSource = self
+        //} else {
+            //arrQuestionOfLesson = try! wordCollectionDbApdater.getq
+        //}
     }
     
     // tell the collection view how many cells to make
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrQuestionOfLesson.count
+        return self.arrQuestionOfLC.count
     }
     
     // make a cell for each cell index path
@@ -739,17 +749,25 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             arrEnable.append(indexPath.item)
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
         }*/
-        let question = arrQuestionOfLesson[indexPath.item]
+        let question = arrQuestionOfLC[indexPath.item]
         
         if !question.recorded && question.enabled {
-            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            if isLessonCollection {
+                cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            } else {
+                cell.lblQuestion.text = "T\(indexPath.item+1)"
+            }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
         } else if question.recorded && question.enabled {
             let averageScore:Int = Int(question.listScore.average)
             cell.lblQuestion.text = String(averageScore)
             cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
         } else {
-            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            if isLessonCollection {
+                cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            } else {
+                cell.lblQuestion.text = "T\(indexPath.item+1)"
+            }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_GRAY
         }
         
@@ -783,7 +801,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         // handle tap events
         Logger.log("You selected cell #\(indexPath.item)!")
         
-        let question = arrQuestionOfLesson[indexPath.item]
+        let question = arrQuestionOfLC[indexPath.item]
         indexCurrentQuestion = indexPath.item
         if question.enabled {
             randomWord(question)
@@ -805,8 +823,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     func selectedCellQuestionInDetail(cellIndex: Int) {
         Logger.log("Detail cell selected is \(cellIndex)")
         indexCurrentQuestion = cellIndex
-        if let word = arrQuestionOfLesson[cellIndex].selectedWord {
-            currentMode = arrQuestionOfLesson[cellIndex].currentMode
+        if let word = arrQuestionOfLC[cellIndex].selectedWord {
+            currentMode = arrQuestionOfLC[cellIndex].currentMode
             selectedWord = word
             //self.chooseWord(selectedWord.word)
             //var score =  arrQuestionOfLesson[cellIndex].listScore[arrQuestionOfLesson[cellIndex].listScore.count-1]
@@ -834,10 +852,20 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             //Logger.log(score)
             //analyzingView.showScore(Int(score))
         } else{
-            randomWord(arrQuestionOfLesson[cellIndex])
+            randomWord(arrQuestionOfLC[cellIndex])
         }
     }
     
+    
+    @IBAction func btnLessonTipTouchUp(sender: AnyObject) {
+        let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+        lessonTipPopupVC.delegate = self
+        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+    }
+    
+    func closeLessonTipPopup(sender: LessonTipPopupVC) {
+        self.dismissPopupViewController(.Fade)
+    }
     
     
     /**

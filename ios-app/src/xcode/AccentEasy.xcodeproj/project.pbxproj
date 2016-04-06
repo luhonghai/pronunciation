@@ -233,7 +233,7 @@
 		C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF081CAE5AEB009676C1 /* TestScore.swift */; };
 		C10ACF0B1CAE5EA4009676C1 /* LessonDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */; };
 		C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */; };
-		C1304D1F1C9808C800CE72C5 /* LessonMainTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */; };
+		C1304D1F1C9808C800CE72C5 /* LevelControllerTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D1E1C9808C800CE72C5 /* LevelControllerTVC.swift */; };
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
 		C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */; };
 		C1304D411C9972C600CE72C5 /* LessonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */; };
@@ -283,6 +283,8 @@
 		C15EDBFE1C97B68A006E7BA3 /* LSPopupTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15EDBFC1C97B68A006E7BA3 /* LSPopupTVC.xib */; };
 		C15EDC011C97B85F006E7BA3 /* LSPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EDBFF1C97B85F006E7BA3 /* LSPopupVC.swift */; };
 		C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15EDC001C97B85F006E7BA3 /* LSPopupVC.xib */; };
+		C15F02841CB016AF00C39808 /* LessonTipPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */; };
+		C15F02851CB016AF00C39808 /* LessonTipPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */; };
 		C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2451C44B1EC00537461 /* above_shadow.xml */; };
 		C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */; };
 		C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2471C44B1EC00537461 /* ae_icon.png */; };
@@ -725,7 +727,7 @@
 		C10ACF081CAE5AEB009676C1 /* TestScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScore.swift; sourceTree = "<group>"; };
 		C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LessonDBAdapter.swift; path = Data/SQLite/queries/LessonDBAdapter.swift; sourceTree = "<group>"; };
 		C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
-		C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainTVC.swift; sourceTree = "<group>"; };
+		C1304D1E1C9808C800CE72C5 /* LevelControllerTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelControllerTVC.swift; sourceTree = "<group>"; };
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
 		C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupCell.xib; sourceTree = "<group>"; };
 		C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTableViewCell.swift; sourceTree = "<group>"; };
@@ -783,6 +785,8 @@
 		C15EDBFC1C97B68A006E7BA3 /* LSPopupTVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupTVC.xib; sourceTree = "<group>"; };
 		C15EDBFF1C97B85F006E7BA3 /* LSPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupVC.swift; sourceTree = "<group>"; };
 		C15EDC001C97B85F006E7BA3 /* LSPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupVC.xib; sourceTree = "<group>"; };
+		C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTipPopupVC.swift; sourceTree = "<group>"; };
+		C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonTipPopupVC.xib; sourceTree = "<group>"; };
 		C16CD2451C44B1EC00537461 /* above_shadow.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = above_shadow.xml; sourceTree = "<group>"; };
 		C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accenteasy_icon_text.png; sourceTree = "<group>"; };
 		C16CD2471C44B1EC00537461 /* ae_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ae_icon.png; sourceTree = "<group>"; };
@@ -1812,7 +1816,7 @@
 		C172A5841C97FD4900BBBEC4 /* LessonController */ = {
 			isa = PBXGroup;
 			children = (
-				C1304D1E1C9808C800CE72C5 /* LessonMainTVC.swift */,
+				C1304D1E1C9808C800CE72C5 /* LevelControllerTVC.swift */,
 				C1304D3F1C9972C600CE72C5 /* LessonTableViewCell.swift */,
 				9B5526441C9AA5B4000AB7E8 /* ObjectiveController.swift */,
 				9B72D1201C9BABD600297470 /* LessonCollectionController.swift */,
@@ -1821,6 +1825,8 @@
 				C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */,
 				C14CD6231CACC4A6003B466F /* ToltalScorePopupVC.swift */,
 				C14CD6241CACC4A6003B466F /* ToltalScorePopupVC.xib */,
+				C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */,
+				C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2111,6 +2117,7 @@
 				C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */,
 				C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */,
 				C16CD2EF1C44B1EC00537461 /* ic_slider_down.png in Resources */,
+				C15F02851CB016AF00C39808 /* LessonTipPopupVC.xib in Resources */,
 				C16CD2BE1C44B1EC00537461 /* p_menu_feedback.png in Resources */,
 				C16CD2F71C44B1EC00537461 /* help_content_10.png in Resources */,
 				9B55263D1C9A6911000AB7E8 /* select_all_test_by_level.sql in Resources */,
@@ -2282,6 +2289,7 @@
 				9B5F33831C77129A00E85629 /* PieChartData.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
 				90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */,
+				C15F02841CB016AF00C39808 /* LessonTipPopupVC.swift in Sources */,
 				9B5F34131C771D6800E85629 /* Collation.swift in Sources */,
 				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
 				9B5F339C1C77129A00E85629 /* ChartRange.swift in Sources */,
@@ -2342,7 +2350,7 @@
 				9B5F33A71C77129A00E85629 /* BubbleChartRenderer.swift in Sources */,
 				C1410BA71C47821E00E781B4 /* RegisterVC.swift in Sources */,
 				9B5F33BA1C77129A00E85629 /* RadarChartRenderer.swift in Sources */,
-				C1304D1F1C9808C800CE72C5 /* LessonMainTVC.swift in Sources */,
+				C1304D1F1C9808C800CE72C5 /* LevelControllerTVC.swift in Sources */,
 				9BA896651C7417D700BEE9CE /* AnalyzingView.swift in Sources */,
 				9B5F339F1C77129A00E85629 /* BarChartDataProvider.swift in Sources */,
 				9B9BE6F11C62F70200C84823 /* GraphHistoryDemoController.swift in Sources */,

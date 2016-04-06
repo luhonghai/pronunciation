@@ -36,4 +36,18 @@ public class ColorHelper {
         let alpha = radio * ciColor1.alpha + (1.0 - radio) * ciColor2.alpha
         return UIColor(red: red, green: green, blue: blue, alpha: alpha)
     }
+    
+    public class func returnColorOfScore(score:Int) -> UIColor{
+        if score < 45 {
+            //color < 45 red
+            return ColorHelper.APP_RED
+        } else if score >= 45 && score < 80 {
+            // 45 <= color < 80 orange
+            return ColorHelper.APP_ORANGE
+        } else {
+            //color >= 80 green
+            return ColorHelper.APP_GREEN
+        }
+        
+    }
 }

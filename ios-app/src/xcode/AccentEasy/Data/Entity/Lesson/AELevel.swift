@@ -16,7 +16,7 @@ public class AELevel: AELiteEntity {
     var color: String!
     
     var active: Bool!
-    var scrore: Int!
+    var score: Int!
     
     override public func parse(row: Row) {
         self.idString = row[LiteColumn.IDSTRING]

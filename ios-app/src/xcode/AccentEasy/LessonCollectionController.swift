@@ -34,11 +34,17 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         btnObjectiveQuestion.layer.cornerRadius = btnObjectiveQuestion.frame.width / 2
         tableView.dataSource = self
         tableView.delegate = self
+        //loadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        //print("viewDidAppear")
         loadData()
     }
     
     func loadData() {
         do {
+            objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.idCountry = selectedCountry.idString
             objectiveScore.idLevel = selectedLevel.idString
             objectiveScore.idObjective = selectedObjective.idString
@@ -47,12 +53,15 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
             
             
             for lessonCollection in lessionCollections {
-                if let objScore = try lessonDBAdapter.getLessonScore(AccountManager.currentUser().username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: lessonCollection.idString) {
+                if let objScore = try lessonDBAdapter.getLessonScore(objectiveScore.username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: lessonCollection.idString) {
                 
                     
                     print("\(lessonCollection.title) co score la \(objScore.score)")
                     
-                    lessonCollection.score = objScore.score
+                    if objScore.score > 0 {
+                        lessonCollection.score = objScore.score
+                    }
+                    
                 }
                 
                 
@@ -97,19 +106,25 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         cell.bg.addGestureRecognizer(tapGusture)
         
         cell?.lblTitle.text = obj.title
-        cell?.lblScore.text = String(obj.score)
+        if let score = obj.score {
+            cell?.lblScore.text = String(score)
+            cell?.lblScore.backgroundColor = ColorHelper.returnColorOfScore(score)
+        } else {
+            cell?.lblScore.text = ""
+            cell?.lblScore.backgroundColor = ColorHelper.APP_GRAY
+        }
+        
         print("run in cell, score is:" + String(obj.score))
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
-        var bgScoreColor = ColorHelper.APP_GRAY
         //        if indexPath.row == 0 || indexPath.row == 1 {
         bgColor = ColorHelper.APP_LIGHT_AQUA
         titleColor = ColorHelper.APP_AQUA
         //        }
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
-        cell.lblScore.backgroundColor = bgScoreColor
+        
         return cell
     }
     
@@ -125,6 +140,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         
         nextController.objectiveScore = objectiveScore
         nextController.selectedLessonCollection = obj
+        nextController.isLessonCollection = true
         self.navigationController?.pushViewController(nextController, animated: true)
         
     }
