@@ -28,7 +28,8 @@ public class CommandExecutor {
             processOutputReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String readLine;
             while ((readLine = processOutputReader.readLine()) != null) {
-                listener.onMessage(readLine);
+                if (listener != null)
+                    listener.onMessage(readLine);
             }
             process.waitFor();
         } catch (IOException | InterruptedException e) {
