@@ -36,6 +36,8 @@ public class WordDetector {
 
     private List<WordFrame> wordFrames;
 
+    private boolean isCompleted = false;
+
     public WordDetector(File target) {
         this.target = target;
     }
@@ -89,6 +91,7 @@ public class WordDetector {
 
 
     public List<WordFrame> analyze() throws IOException {
+        isCompleted = false;
         wordFrames = Collections.synchronizedList(new ArrayList<WordFrame>());
         init();
         InputStream stream = null;
@@ -126,13 +129,19 @@ public class WordDetector {
                 } catch (IOException iox) {
 
                 }
+
             }
         }
+        isCompleted = true;
         return wordFrames;
     }
 
     public List<WordFrame> getWordFrames() {
         return wordFrames;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
     }
 
     public static class WordFrame {
