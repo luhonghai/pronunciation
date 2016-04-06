@@ -9,10 +9,7 @@ import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
-import com.cmg.vrc.data.jdo.ClassJDO;
-import com.cmg.vrc.data.jdo.Reports;
-import com.cmg.vrc.data.jdo.StudentMappingClass;
-import com.cmg.vrc.data.jdo.StudentMappingTeacher;
+import com.cmg.vrc.data.jdo.*;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -52,9 +49,14 @@ public class ReportLessonService {
         private String message;
         private List<LessonCollection> listLesson;
     }
-    class Report{
+    class Information{
         private String message;
         private Reports reports;
+
+        public Information(){
+            Reports report = new Reports();
+            this.reports = report;
+        }
     }
     /**
      *
@@ -85,7 +87,7 @@ public class ReportLessonService {
         String list=null;
         try {
             listStudent.message="success";
-            listStudent.listSMC=reportLessonDAO.getListStudentForClass(idClass,teacherName);
+            listStudent.listSMC=reportLessonDAO.getListStudentForClass(idClass, teacherName);
             list = gson.toJson(listStudent);
         } catch (Exception e) {
             listStudent.message="error";
@@ -96,23 +98,32 @@ public class ReportLessonService {
     }
 
 
-
-    public String listCourse(String teacherName,String student){
+    /**
+     *
+     *
+     * @param idClass
+     * @return
+     */
+    public String listCourse(String idClass){
         ListCourse listCourse=new ListCourse();
         String list=null;
         try {
             listCourse.message="success";
-            //listCourse.listStudent=reportLessonDAO.getListStudentForClass(teacherName);
-            //listCourse.listCourse=reportLessonDAO.getListCourse(teacherName, student);
+            listCourse.listCourse = reportLessonDAO.getListCourse(idClass);
             list = gson.toJson(listCourse);
         } catch (Exception e) {
             listCourse.message="error";
             listCourse.listCourse=new ArrayList<>();
-            listCourse.listStudent=new ArrayList<>();
             list = gson.toJson(listCourse);
         }
         return list;
     }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
     public String listLevel(String idCourse){
         ListLevel listLevel=new ListLevel();
         String list=null;
@@ -127,6 +138,12 @@ public class ReportLessonService {
         }
         return list;
     }
+
+    /**
+     *
+     * @param idLevel
+     * @return
+     */
     public String listOBJ(String idLevel){
         ListObjective listObjective=new ListObjective();
         String list=null;
@@ -141,6 +158,12 @@ public class ReportLessonService {
         }
         return list;
     }
+
+    /**
+     *
+     * @param idObj
+     * @return
+     */
     public String listLesson(String idObj){
         ListLesson listLesson=new ListLesson();
         String list=null;
@@ -155,12 +178,46 @@ public class ReportLessonService {
         }
         return list;
     }
+
+    /**
+     *
+     * @param idLesson
+     * @param student
+     * @param idClass
+     * @return
+     */
+    public String drawCircle(String idLesson, String student, String idClass){
+        Information information = new Information();
+        try {
+            information.message="success";
+            int studentScore = reportLessonDAO.getStudentScoreLesson(idLesson, student);
+            System.out.println(studentScore);
+            information.reports.setStudentScoreLesson(studentScore);
+            List<StudentMappingClass> listStudent = reportLessonDAO.getListStudentForClass(idClass, "");
+            if(listStudent!=null && listStudent.size() > 0){
+                int classScore = 0;
+                for(StudentMappingClass stc : listStudent){
+                    classScore = reportLessonDAO.getStudentScoreLesson(idLesson, stc.getStudentName());
+                }
+                classScore = classScore/listStudent.size();
+                information.reports.setClassAvgScoreLesson(classScore);
+            }else{
+                information.reports.setClassAvgScoreLesson(studentScore);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            information.message="error";
+        }
+        return gson.toJson(information);
+    }
+
     public String draw(String idLesson,String student){
-        Report report=new Report();
+        Information information = new Information();
         String list=null;
         try {
-            report.message="success";
-            report.reports=getReport(idLesson,student);
+            information.message="success";
+            information.reports=getReport(idLesson,student);
         } catch (Exception e) {
 
         }

@@ -19,6 +19,7 @@ function openPopup(itemData){
     }else
     if (itemData._actionClick == action_add_level){
         clearForm();
+        currentPopup.find("#arrow").html(nameOfCourse);
         currentPopup.find("#titlePopup").html("add level");
         currentPopup.find("#btnDeleteLevel").hide();
     }else if(itemData._actionClick == action_edit_level){

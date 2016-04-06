@@ -369,15 +369,14 @@
 
 
 <div id="confirmDelete" class="modal fade">
-    <div class="modal-dialog modal-sm">
+    <div style="width:400px" class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title">confirm deletion</h2>
+                <h4 class="modal-title">confirm deletion</h4>
             </div>
             <div class="modal-body">
-                <form name="add" class="form-horizontal"
-                      style="margin-bottom: 10px;">
+                <form name="add" class="form-horizontal">
                     <div class="form-group">
                         <div class="col-sm-12">
                             <label align="center" id="classNameDelete" class="textNormal"></label>

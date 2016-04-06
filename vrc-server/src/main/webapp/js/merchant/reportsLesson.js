@@ -95,7 +95,8 @@ function loadInfo(){
         if($(this).attr("disabled")!="disabled"){
             var studentName=$('#listUsers option:selected').val();
             var idClass=$('#listClass option:selected').val();
-            window.location =CONTEXT_PATH + "/reports-lessons.jsp?name="+studentName +"&idClass="+idClass;
+            var nameClass= $('#listClass option:selected').text();
+            window.location = CONTEXT_PATH + "/reports-lessons.jsp?name="+studentName +"&idClass="+idClass;
         }
     })
 }

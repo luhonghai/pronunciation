@@ -182,9 +182,9 @@ function handleMouseMove(e) {
 
 
 }
-function draw(Course,Level,Obj,name,date){
-    var $html=$("<div id='graphs' class='row' style='margin-top: 15px;border: 1px;background-color: gainsboro; border-radius: 5px;'> " +
-    "<div id='info' class='col-sm-3'> " +
+function draw(Course,Level,Obj,name,date,idLesson){
+    var $html=$("<div id='"+idLesson+"' class='col-sm-12 grap'> " +
+    "<div id='info' class='col-sm-2'> " +
     "<p><strong>course:</strong></p> " +
     "<label style='font-weight: 200;'>"+Course+"</label> " +
     "<p><strong>level:</strong></p> " +
@@ -196,16 +196,16 @@ function draw(Course,Level,Obj,name,date){
     "<p><strong>completion date:</strong></p> " +
     "<label style='font-weight: 200;'>"+date+"</label> " +
     "</div> " +
-    "<div id='score' class='col-sm-1'> " +
-    "<div id='scoreStudent' style='margin:30px 0px;background-color: #17375E;width: 70px;height: 70px; border-radius:45px; text-align:center;line-height:70px;color:white;font-size:20px;font-weight : 600;' title='student score'>100</div> " +
-    "<div id='scoreClass' style='margin-top:25px;margin-left:px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;' title='class average score'>100</div> " +
-    "</div> " +
+    "<div id='score' class='col-sm-2'> " +
+    "<div class='row'><div class='col-sm-6 scoreStudent' title='student score'><label>100</label></div></div>" +
+    "<div class='row'><div class='col-sm-8 scoreClass' title='class average score'><label>100</label></div></div>" +
+    "</div>" +
     "<div id='drawPhonemes' class='col-sm-4'> " +
-    "<canvas id='canvas' height='250' width='300'></canvas> " +
+    "<canvas id='canvas' height='300' width='300'></canvas> " +
     "<div id='tip'>Tooltips!</div> " +
     "</div> " +
     "<div id='drawWord' class='col-sm-4'> " +
-    "<canvas id='canvasWord' height='250' width='300'></canvas> " +
+    "<canvas id='canvasWord' height='300' width='300'></canvas> " +
     "<div id='tipWord'>Tooltips!</div> " +
     "<div id='tipWord'>Tooltips!</div> " +
     "</div> " +

@@ -100,22 +100,28 @@ public class SQL {
     private String SQL_LEVEL_FROM_COURSE="Select l.id,l.name FROM LEVEL as l " +
             "inner join COURSEMAPPINGLEVEL as cml on l.id=cml.idLevel " +
             "WHERE cml.idCourse='paramIdCourse' and l.isDeleted=false and cml.isDeleted=false";
+
     private String SQL_OBJ_FROM_LEVEL="Select obj.id,obj.name FROM OBJECTIVE as obj " +
             "inner join COURSEMAPPINGDETAIL as cmd on obj.id=cmd.idChild " +
             "WHERE cmd.idLevel='paramIdLevel' and obj.isDeleted=false and cmd.isDeleted=false";
+
     private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED FROM LESSONCOLLECTION as lesson " +
             "inner join OBJECTIVEMAPPING as mapping on lesson.ID=mapping.IDLESSONCOLLECTION " +
-            "WHERE mapping.IDOBJECTIVE='paramIdObj' and DATEDIFF(NOW(),lesson.DATECREATED)<90 and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
-    private String SQL_GET_SCORE_FOR_LESSON="SELECT AVG(score.SCORE) FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
+            "WHERE mapping.IDOBJECTIVE='paramIdObj' and DATEDIFF(NOW(),lesson.DATECREATED) < 90 and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
+
+    private String SQL_GET_SCORE_FOR_LESSON="SELECT AVG(score.SCORE) FROM USERLESSONHISTORY as score " +
+            "INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
+            "inner join SESSIONSCORE as session on session.IDUSERLESSONHISTORY = score.id " +
             "WHERE score.WORD IN " +
             "(SELECT word.WORD FROM WORDCOLLECTION as word " +
             "INNER JOIN WORDOFQUESTION as wordMapping on word.id=wordMapping.IDWORDCOLLECTION " +
-            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION=mappingLesson.IDQUESTION " +
+            "INNER JOIN LESSONMAPPINGQUESTION as mappingLesson on wordMapping.IDQUESTION= mappingLesson.IDQUESTION " +
             "INNER JOIN LESSONCOLLECTION as lesson on lesson.ID=mappingLesson.IDLESSON " +
-            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
+            "WHERE lesson.ID='paramIdLesson' and word.isDeleted=false and wordMapping.isDeleted=false " +
+            "and mappingLesson.isDeleted=false and lesson.isDeleted=false " +
             "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
             "ORDER BY lesson.DATECREATED ASC) " +
-            "AND u.USERNAME='paramStudentName' and score.TYPE='Q' and score.ISDELETED=FALSE";
+            "AND u.USERNAME='paramStudentName' and session.IDLESSONCOLLECTION='paramIdLesson' and score.TYPE='Q' and score.ISDELETED=FALSE";
 
     private String SQL_GET_LIST_SCORE_STUDENT_WORD="SELECT score.SCORE FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
             "WHERE score.WORD IN " +

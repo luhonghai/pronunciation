@@ -43,25 +43,31 @@ public class ReportsLessons extends HttpServlet {
             String result=service.listStudent(idClass,teacherName);
             response.getWriter().write(result);
         }else if (action.equalsIgnoreCase("listCourse")) {
-            String studentName=request.getParameter("studentName");
-            String result=service.listCourse(teacherName, studentName);
+            String idClass= (String) StringUtil.isNull(request.getParameter("idClass"),"");
+            String result= service.listCourse(idClass);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("listLevel")){
-            String idCourse=request.getParameter("idCourse");
+            String idCourse= (String) StringUtil.isNull(request.getParameter("idCourse"),"");
             String result=service.listLevel(idCourse);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("listObjective")){
-            String idLevel=request.getParameter("idLevel");
+            String idLevel= (String) StringUtil.isNull(request.getParameter("idLevel"),"");
             String result=service.listOBJ(idLevel);
             response.getWriter().write(result);
-        }else if(action.equalsIgnoreCase("loadInfo")){
-            String idOBJ=request.getParameter("idObj");
+        }else if(action.equalsIgnoreCase("loadLesson")){
+            String idOBJ= (String) StringUtil.isNull(request.getParameter("idObj"),"");
             String result=service.listLesson(idOBJ);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("drawChart")){
             String idLesson=request.getParameter("idLesson");
             String student=request.getParameter("student");
             String result=service.draw(idLesson,student);
+            response.getWriter().write(result);
+        }else if(action.equalsIgnoreCase("drawCircle")){
+            String idLesson=(String) StringUtil.isNull(request.getParameter("idLesson"),"");
+            String student= (String) StringUtil.isNull(request.getParameter("student"),"");
+            String idClass= (String) StringUtil.isNull(request.getParameter("idClass"),"");
+            String result = service.drawCircle(idLesson,student,idClass);
             response.getWriter().write(result);
         }
 

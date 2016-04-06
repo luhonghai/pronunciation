@@ -2,6 +2,7 @@
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.dao.history.PhonemeLessonScoreDAO;
+import com.cmg.lesson.dao.history.SessionScoreDAO;
 import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
 import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
@@ -11,6 +12,7 @@ import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
+import com.cmg.lesson.data.jdo.history.SessionScore;
 import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
@@ -81,11 +83,32 @@ public class UnitTesting {
                     System.out.println(dto.getNameCourse()+"-"+dto.getCompanyName() + "-" + dto.getState());
                 }
             }*/
+           /* SessionScore ss = new SessionScore();
+            ss.setId("21");
+            ss.setIdLessonCollection("idlesson");
+            ss.setItemID("12");
+            ss.setIdLevel("idLevel");
+            ss.setIdUserLessonHistory("idUserLessonHistory");
+            ss.setIdQuestion("idQuestion");
+            SessionScoreDAO dao = new SessionScoreDAO();
+            dao.put(ss);*/
 
-            CDAO dao = new CDAO();
-            boolean check = dao.isAssignToClass("8b473661-6347-4864-a707-6037b7fdd59b","demoTeacher1@c-mg.com");
-            System.out.println(check);
+        /*    UserLessonHistory uh = new UserLessonHistory();
+            uh.setId("idUserLessonHistory");
+            uh.setIdLevel("idLevel");
+            uh.setIdQuestion("idQuestion");
+            uh.setSessionID("sessionid");
+            uh.setIdWord("idword");
+            uh.setWord("word");
+            uh.setIdItem("idItem");
+            UserLessonHistoryDAO dao = new UserLessonHistoryDAO();
+            dao.put(uh);*/
 
+            PhonemeLessonScore pls = new PhonemeLessonScore();
+            pls.setId("id");
+            pls.setIdUserLessonHistory("id");
+            PhonemeLessonScoreDAO dao = new PhonemeLessonScoreDAO();
+            dao.put(pls);
         } catch (Exception e) {
             e.printStackTrace();
         }

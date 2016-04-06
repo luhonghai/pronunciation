@@ -17,6 +17,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.annotations.Convert;
 import javax.jdo.metadata.TypeMetadata;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,16 +29,17 @@ import java.util.List;
  * Created by CMGT400 on 3/28/2016.
  */
 public class ReportLessonDAO {
-    SimpleDateFormat format=new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+    SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy");
+
     DateFormat dateFormat= DateFormat.getDateTimeInstance(
             DateFormat.MEDIUM, DateFormat.SHORT);
-
     /**
      *
      * @param tName
      * @return
      */
     public List<ClassJDO> getClassByTeacher(String tName){
+
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sqlUtil = new SqlReport();
         String sql = sqlUtil.getSqlListClassByTeacher(tName);
@@ -96,13 +98,22 @@ public class ReportLessonDAO {
             pm.close();
         }
     }
-    public List<Course> getListCourse(String teacherName,String student){
+
+    /**
+     *
+     *
+     * @param idClass
+     * @return
+     */
+    public List<Course> getListCourse(String idClass){
         PersistenceManager pm = PersistenceManagerHelper.get();
-        SQL sql=new SQL();
-        String query=sql.getSqlCourseForStudent(teacherName,student);
-        Query q = pm.newQuery("javax.jdo.query.SQL",query);
+        SqlReport sql=new SqlReport();
+        String query=sql.getSqlListCourseInClass(idClass);
+        System.out.println("query get course in class : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        List<Course> list = new ArrayList<>();
         try {
-            List<Course> courses = new ArrayList<>();
+
             List<Object> objects = (List<Object>) q.execute();
             for (Object object : objects) {
                 Object[] data = (Object[]) object;
@@ -117,15 +128,16 @@ public class ReportLessonDAO {
                 }else{
                     course.setName(null);
                 }
-                courses.add(course);
+                list.add(course);
             }
-            return courses;
+
         } catch (Exception e) {
             throw e;
         } finally {
             q.closeAll();
             pm.close();
         }
+        return list;
     }
 
     public List<Level> getListLevel(String idCourse){
@@ -195,6 +207,7 @@ public class ReportLessonDAO {
         PersistenceManager pm = PersistenceManagerHelper.get();
         SQL sql=new SQL();
         String query=sql.getSqlLessonFromObj(idObj);
+        System.out.println("query get all lesson in objective : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
             List<LessonCollection> lessonCollections = new ArrayList<>();
@@ -213,7 +226,9 @@ public class ReportLessonDAO {
                     lessonCollection.setName(null);
                 }
                 if (data[2] != null) {
-                    lessonCollection.setDateCreated(format.parse(data[2].toString()));
+                    lessonCollection.setDateCreated((Date)data[2]);
+                    String s = format.format(lessonCollection.getDateCreated());
+                    Date t  =   format.parse(s);
                 }else{
                     lessonCollection.setDateCreated(null);
                 }
@@ -230,24 +245,40 @@ public class ReportLessonDAO {
     }
 
 
-
-    //-------------------------------------
-    public int getStudentScoreLesson(String idLesson,String student) throws ParseException {
+    /**
+     *
+     * @param idLesson
+     * @param student
+     * @return
+     * @throws ParseException
+     */
+    public int getStudentScoreLesson(String idLesson,String student) throws Exception{
         PersistenceManager pm = PersistenceManagerHelper.get();
-        SQL sql=new SQL();
-        int scoreStudent=0;
+        SQL sql = new SQL();
+        int scoreStudent = 0;
         String query=sql.getSqlScoreStudent(idLesson, student);
+        System.out.println("sql calculate score student in lesson : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
-            scoreStudent = (int) q.execute();
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                Object obj = tmp.get(0);
+                if(obj!=null){
+                    Object[] array = (Object[]) obj;
+                    if(array[0]!=null){
+                        scoreStudent = Integer.parseInt(array[0].toString());
+                    }
+                }
+            }
+            return scoreStudent;
         } catch (Exception e) {
-            e.getStackTrace();
+           e.printStackTrace();
             throw e;
         } finally {
             q.closeAll();
             pm.close();
         }
-        return scoreStudent;
+
     }
     public int getClassAvgScoreLesson(String idLesson,String student) throws ParseException {
         PersistenceManager pm = PersistenceManagerHelper.get();

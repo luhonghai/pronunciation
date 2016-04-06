@@ -1,5 +1,6 @@
 <%@ tag import="com.cmg.merchant.util.SessionUtil" %>
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
+<%@ tag import="com.cmg.vrc.data.dao.impl.ClassDAO" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
@@ -27,103 +28,167 @@
         border-radius: 4px;
         top:0;
         left:0;}
+    .header-company {
+        color: #A6A6A6;
+        font-weight: 200;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        border-bottom-color: transparent;
+        margin : 10px 0px;
+    }
+    .well label {
+        font-weight: 200;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        padding-top: 5px;
+    }
+    .well .row{
+        padding-bottom : 20px;
+    }
+    #grap-class-average{
+        width : 10px;
+        height : 30px;
+        border : 1px solid transparent;
+        background-color: #558ED5;
+    }
+
+    #grap-student-score{
+        width : 10px;
+        height : 30px;
+        border : 1px solid transparent;
+        background-color: #17375E;
+    }
+    #info label{
+        color :#376092
+    }
+    .grap{
+        border: 1px;
+        background-color: #F2F2F2;
+        border-radius: 5px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
+    .scoreStudent{
+        margin: 30px 0px;
+        background-color: #17375E;
+        width: 70px;
+        height: 70px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 70px;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .scoreClass{
+        margin-top: 25px;
+        margin-left: 5px;
+        background-color: #558ED5;
+        width: 60px;
+        height: 60px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 60px;
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+    }
 </style>
-<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();
-    String student=request.getParameter("name");%>
+<%
+    ClassDAO dao = new ClassDAO();
+    String company = StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();
+    String student = StringUtil.isNull(request.getParameter("name"),"").toString();
+    String idClass = StringUtil.isNull(request.getParameter("idClass"),"").toString();
+    String className = StringUtil.isNull(dao.getById(idClass).getClassName(),"").toString();
+%>
 <div id="page-wrapper">
     <input id="studentName" type="hidden" value="<%=student%>">
-     <div class="row" style="color:lightgrey;">
-         <h4 style="float: left;"><%=company%></h4><p style="margin-top: 10px;"> > reports > lessons</p>
-     </div>
+    <input id="class-id" type="hidden" value="<%=idClass%>">
+    <input id="class-name" type="hidden" value="<%=className%>">
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-header header-company"><%=company%> >
+                reports > lessons</h4>
+        </div>
+    </div>
     <div class="row well">
+        <div id="contain-disabled-value" class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label>class:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control" id="listClass" disabled="disabled">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label>student:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control" id="listUser" disabled="disabled">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label>course:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control" id="listCourse">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="contain-course-value" class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label>level:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control" id="listLevel">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <label>objective:</label>
+                </div>
+                <div class="col-sm-9">
+                    <select class="form-control" id="listObj">
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="col-sm-3">
+                    <img id="loadInfo" src="/images/popup/accepted_48x48.gif"
+                         width="36px" height="36px" title="click here to run the reports"
+                         style="cursor: pointer;margin-left: 5px; background-color: #33CC33;border-radius: 45px;display: block;"/>
+                </div>
+            </div>
+        </div>
         <div class="row">
-            <div class="col-sm-4">
-                <div class="form-group" style="text-align: right;">
-                    <p style="float:left; margin-top: 10px";>student:</p>
-                    <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+            <div class="col-sm-6">
+                <div class="col-sm-1">
+                    <div id="grap-class-average">
+                    </div>
                 </div>
-                <div id="divObjective" class="form-group" style="display:none; text-align: right;">
-                    <p style="float:left; margin-top: 10px";>objective:</p>
-                    <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listObjective">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                <div class="col-sm-4">
+                    <label>class average</label>
                 </div>
-            </div>
-
-            <div class="col-sm-4">
-                <div class="form-group" style="text-align: right;">
-                    <p style="float:left; margin-top: 10px";>course:</p>
-                    <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listCourse">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
+                <div class="col-sm-1">
+                    <div id="grap-student-score">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div id="divLevel" class="form-group" style="display:none;text-align: right;">
-                    <p style="float:left; margin-top: 10px";>level:</p>
-                    <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listLevel">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </div>
-                <div class="form-group" style="text-align: right;">
-                    <img id="loadInfo" src="/images/popup/accepted_48x48.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px; background-color: green;border-radius: 45px;display: none;"/>
+                <div class="col-sm-4">
+                    <label>student score</label>
                 </div>
             </div>
         </div>
     </div>
-    <%--<div class="row" style="text-align: right; display: none;">--%>
-            <%--<div style="background-color: #558ED5;width: 15px;height: 30px;float: left"></div>--%>
-            <%--<p style="float:left ">class average</p>--%>
-            <%--<div style="background-color: #17375E;width: 15px;height: 30px;float: left"></div>--%>
-            <%--<p>student score</p>--%>
-    <%--</div>--%>
-    <div id="draw">
-        <%--<div id="graphs" class="row" style="margin-top: 15px;">--%>
-                <%--<div id="info" class="col-sm-3">--%>
-                    <%--<p><strong>course:</strong></p>--%>
-                    <%--<label id="course"></label>--%>
-                    <%--<p><strong>level:</strong></p>--%>
-                    <%--<label id="level"></label>--%>
-                    <%--<p><strong>objective:</strong></p>--%>
-                    <%--<label id="objective"></label>--%>
-                    <%--<p><strong>lesson:</strong></p>--%>
-                    <%--<label id="lesson"></label>--%>
-                    <%--<p><strong>completion date:</strong></p>--%>
-                    <%--<label id="date"></label>--%>
-                <%--</div>--%>
-                <%--<div id="score" class="col-sm-1">--%>
-                    <%--<div id="scoreStudent" style="margin:10px 0px;background-color: #17375E;width: 60px;height: 60px; border-radius:45px; text-align:center;line-height:60px;color:white;font-size:20px;font-weight : 600;">100</div>--%>
-                    <%--<div id="scoreClass" style="margin-top:25px;margin-left:5px;background-color: #558ED5;width: 50px;height: 50px; border-radius:45px; text-align:center;line-height:50px;color:white;font-size:20px;font-weight : 500;">100</div>--%>
-                <%--</div>--%>
-                <%--<div id="drawPhonemes" class="col-sm-4">--%>
-                    <%--<canvas id="canvas" height="250" width="300"></canvas>--%>
-                    <%--<div id="tip">Tooltips!</div>--%>
-                    <%--<p><strong>course:</strong></p>--%>
-                <%--</div>--%>
-                <%--<div id="drawWord" class="col-sm-4">--%>
-                    <%--<canvas id="canvasWord" height="250" width="300"></canvas>--%>
-                    <%--<div id="tipWord">Tooltips!</div>--%>
-                    <%--<p><strong>course:</strong></p>--%>
-                <%--</div>--%>
-        <%--</div>--%>
+    <div id="draw" class="row" style="padding-bottom: 20px">
+
     </div>
 </div>
 <!-- /#wrapper -->
