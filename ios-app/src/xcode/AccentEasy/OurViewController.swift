@@ -147,6 +147,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             let randomIndex = Int(arc4random_uniform(UInt32(arrayRandomWord.count)))
             do {
                 selectedWord = try lessonDBAdapter.findByWord(arrayRandomWord[randomIndex])
+                GlobalData.getInstance().currentTipPhonemes = selectedWord.arpabet
                 Logger.log("select random word \(selectedWord.word) index \(randomIndex)")
             } catch {
                 
@@ -441,7 +442,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
         linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
-
+        NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.selectedWord.arpabet)
         if resultSearchController != nil {
             if #available(iOS 8.0, *) {
                 setActiveSearchView(false)
@@ -552,7 +553,7 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                             FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
                             NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                              NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                             NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
+                            
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
@@ -605,6 +606,8 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
             try freestyleDBAdapter.insert(pScore)
             
             let result = model.result
+            var lowScorePhoneme = ""
+            var lowScore = 101
             if (result != nil) {
                 let phoneScores = result.phonemeScores
                 if  !phoneScores.isEmpty {
@@ -614,10 +617,15 @@ class OurViewController: UIViewController, UITableViewDataSource, UITableViewDel
                         ps.time = time
                         ps.dataId = model.id
                         Logger.log("insert \(ps.name) score \(ps.score)")
+                        if ps.score < lowScore {
+                            lowScorePhoneme = ps.name
+                            lowScore = ps.score
+                        }
                         try freestyleDBAdapter.insert(ps)
                     }
                 }
             }
+            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: lowScorePhoneme)
         } catch {
             
         }

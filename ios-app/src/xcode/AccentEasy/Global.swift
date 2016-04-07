@@ -22,6 +22,8 @@ public class GlobalData {
     
     var isShowLogin = false
     
+    var currentTipPhonemes = ""
+    
     public static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()
