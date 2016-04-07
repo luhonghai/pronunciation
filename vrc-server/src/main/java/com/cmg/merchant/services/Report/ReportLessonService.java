@@ -53,9 +53,24 @@ public class ReportLessonService {
         private String message;
         private Reports reports;
 
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Reports getReports() {
+            return reports;
+        }
+
+        public void setReports(Reports reports) {
+            this.reports = reports;
+        }
+
         public Information(){
-            Reports report = new Reports();
-            this.reports = report;
+
         }
     }
     /**
@@ -189,27 +204,46 @@ public class ReportLessonService {
     public String drawCircle(String idLesson, String student, String idClass){
         Information information = new Information();
         try {
-            information.message="success";
-            int studentScore = reportLessonDAO.getStudentScoreLesson(idLesson, student);
-            System.out.println(studentScore);
-            information.reports.setStudentScoreLesson(studentScore);
-            List<StudentMappingClass> listStudent = reportLessonDAO.getListStudentForClass(idClass, "");
-            if(listStudent!=null && listStudent.size() > 0){
-                int classScore = 0;
-                for(StudentMappingClass stc : listStudent){
-                    classScore = reportLessonDAO.getStudentScoreLesson(idLesson, stc.getStudentName());
-                }
-                classScore = classScore/listStudent.size();
-                information.reports.setClassAvgScoreLesson(classScore);
-            }else{
-                information.reports.setClassAvgScoreLesson(studentScore);
+            Reports report = new Reports();
+            boolean checkUserCompleted = reportLessonDAO.checkUserCompletedLesson(student,idLesson);
+            if(checkUserCompleted){
+                Reports tmp = reportLessonDAO.getStudentAvgScoreLesson(student,idLesson);
+                report.setStudentScoreLesson(tmp.getStudentScoreLesson());
+                report.setDateCreated(tmp.getDateCreated());
+                report.setSessionId(tmp.getSessionId());
             }
-
+            int classAvgScore = getAvgScoreOfClass(idClass,idLesson);
+            report.setClassAvgScoreLesson(classAvgScore);
+            information.setReports(report);
+            information.setMessage("success");
         } catch (Exception e) {
             e.printStackTrace();
-            information.message="error";
+            information.setMessage("error");
         }
         return gson.toJson(information);
+    }
+
+    /**
+     *
+     * @param idClass
+     * @param idLesson
+     * @return
+     */
+    public int getAvgScoreOfClass(String idClass,String idLesson){
+        List<StudentMappingClass> listStudent = reportLessonDAO.getListStudentForClass(idClass, "");
+        int totalScore = 0;
+        if(listStudent!=null && listStudent.size() > 0){
+            for(StudentMappingClass stc : listStudent){
+                String student = stc.getStudentName();
+                boolean checkUserCompleted = reportLessonDAO.checkUserCompletedLesson(student,idLesson);
+                if(checkUserCompleted){
+                    Reports tmp = reportLessonDAO.getStudentAvgScoreLesson(student,idLesson);
+                    totalScore = totalScore + tmp.getStudentScoreLesson();
+                }
+            }
+        }
+        int avgScore = totalScore/listStudent.size();
+        return avgScore;
     }
 
     public String draw(String idLesson,String student){

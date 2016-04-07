@@ -14,8 +14,26 @@ public class Reports {
         private List<Float> phonemesStudentScore;
         private List<Float> phonemesClassScore;
         private List<String> phonemes;
+        private String sessionId;
+        private String dateCreated;
 
-        public int getStudentScoreLesson() {
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public int getStudentScoreLesson() {
             return studentScoreLesson;
         }
 

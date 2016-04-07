@@ -3,17 +3,6 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
-   .modal-header{
-     border-bottom: transparent;
-     padding-bottom: 0px;
-   }
-  .modal-body-help{
-    padding-bottom: 10px !important;
-  }
-  .modal-content{
-    width : 400px;
-    border-radius: 20px;
-  }
 
   .textNormal{
     color: #376092;
@@ -28,12 +17,33 @@
      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
      font-size: 14px;
    }
+
+   .modal-content{
+     -webkit-border-radius: 20px;
+     -moz-border-radius: 20px;
+     border-radius: 20px;
+   }
+   .modal-header {
+     border-bottom: transparent;
+     padding-bottom: 0px;
+     text-align: center;
+   }
+
+   .modal-title {
+     font-weight: 700;
+   }
+  #helpClass{
+    color : #957F7F;
+  }
+  #helpClass p{
+    color : #957F7F !important;
+  }
 </style>
 <%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h4 class="page-header header-company"><%=company%> > classes</h4>
+      <h4 class="header-company"><%=company%> > classes</h4>
     </div>
   </div>
   <div style="padding-bottom: 20px;">
@@ -64,17 +74,15 @@
 </div>
 
 <div id="helpClass" class="modal fade">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog">
     <div class="modal-content modal-body-help">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <div class="row">
-            <h2 class="title">classes</h2>
-            <form name="add" class="form-horizontal" style="margin-bottom: 10px;">
-              <p class="textNormal">Select ‘my classes’ to  create, edit and delete classes.</p>
-              <p class="textNormal">After naming your class and allocating courses, you can assign the relevant students and the lessons will be sent to their phones.</p>
-            </form>
-        </div>
+        <h2 class="modal-title">classes</h2>
+      </div>
+      <div class="modal-body">
+        <p class="textNormal">Select ‘my classes’ to  create, edit and delete classes.</p>
+        <p class="textNormal">After naming your class and allocating courses, you can assign the relevant students and the lessons will be sent to their phones.</p>
       </div>
 
 

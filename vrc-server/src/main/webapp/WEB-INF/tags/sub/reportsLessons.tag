@@ -195,8 +195,8 @@
 
 
 
-<script src="<%=request.getContextPath() %>/js/reportsLessons.js"></script>
-<script src="<%=request.getContextPath() %>/js/draw-report.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/reportsLessons.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/draw-report.js"></script>
 
 
 

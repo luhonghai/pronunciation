@@ -20,6 +20,95 @@ public class SqlReport {
             "where cmc.idClass='paramIdClass' and cmc.isDeleted=false and c.isDeleted=false";
 
 
+
+    private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
+            "on lmq.idQuestion = q.id " +
+            "where q.id not in (select s.idQuestion from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
+            "on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "inner join LESSONCOLLECTION as lmq " +
+            "on s.IDLESSONCOLLECTION = lmq.id " +
+            "where ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false) " +
+            "and lmq.IDLESSON='paramIdLesson' and q.isDeleted=false and lmq.isDeleted=false;";
+
+    private String SQL_CALCULATE_USER_SCORE_LESSON="select AVG(ulh.SCORE),ulh.SERVERTIME,s.sessionId from SESSIONSCORE as s inner join USERLESSONHISTORY as ulh " +
+            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as lmq " +
+            "    on s.IDLESSONCOLLECTION = lmq.id " +
+            "where ulh.USERNAME='paramstudent' and lmq.id='paramIdLesson' and lmq.isDeleted=false";
+
+
+    private String SQL_LIST_WORD_IN_LESSON = "select w.word from LESSONMAPPINGQUESTION as lmq " +
+            "  inner join QUESTION as q " +
+            "  on q.id = lmq.IDQUESTION " +
+            "inner join WORDOFQUESTION as woq " +
+            "on lmq.IDQUESTION = woq.IDQUESTION " +
+            "inner join WORDCOLLECTION as w on w.id = woq.IDWORDCOLLECTION " +
+            "where lmq.IDLESSON='paramLessonId' " +
+            "and lmq.ISDELETED=false and q.ISDELETED=false and woq.ISDELETED=false and w.ISDELETED=false";
+
+    private String SQL_GET_SCORE_IN_WORD = "select s.SESSIONID,AVG(ulh.SCORE) from SESSIONSCORE as s " +
+            "  inner join USERLESSONHISTORY as ulh " +
+            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as ls " +
+            "    on ls.id = s.IDLESSONCOLLECTION " +
+            "where ulh.USERNAME='paramStudent' " +
+            "and ls.id='paramLessonId' and ulh.WORD='paramWord'" +
+            "and ls.isDeleted=false";
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @param word
+     * @return
+     */
+    public String getSqlCalculateScoreWord(String student, String idLesson, String word){
+        String sql = SQL_GET_SCORE_IN_WORD;
+        sql = sql.replaceAll("paramStudent",student);
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        sql = sql.replaceAll("paramWord",word);
+        return sql;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return
+     */
+    public String getSqlListWordInLesson(String idLesson){
+        String sql = SQL_LIST_WORD_IN_LESSON;
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        return sql;
+    }
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return
+     */
+    public String getSqlCalculateUserScoreLesson(String student, String idLesson){
+        String sql = SQL_CALCULATE_USER_SCORE_LESSON;
+        sql = sql.replaceAll("paramstudent",student);
+        sql = sql.replaceAll("paramIdLesson",idLesson);
+        return sql;
+    }
+
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return
+     */
+    public String getSqlCheckUserCompletedLesson(String student, String idLesson){
+        String sql = SQL_CHECK_USER_COMPLETED_LESSON;
+        sql = sql.replaceAll("paramstudent",student);
+        sql = sql.replaceAll("paramIdLesson",idLesson);
+        return sql;
+    }
+
+
     /**
      *
      * @param idClass

@@ -8,9 +8,11 @@ import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.common.SQL;
 import com.cmg.merchant.common.SqlReport;
 import com.cmg.vrc.data.jdo.ClassJDO;
+import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.data.jdo.StudentMappingClass;
 import com.cmg.vrc.data.jdo.StudentMappingTeacher;
 import com.cmg.vrc.util.PersistenceManagerHelper;
+import com.cmg.vrc.util.StringUtil;
 import org.joda.time.DateTime;
 
 import javax.jdo.PersistenceManager;
@@ -76,7 +78,7 @@ public class ReportLessonDAO {
     public List<StudentMappingClass> getListStudentForClass(String classId,String teacherName){
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport util = new SqlReport();
-        String sql = util.getStudentInClass(classId,teacherName);
+        String sql = util.getStudentInClass(classId, teacherName);
         System.out.println("get student in class : " + sql);
         Query q = pm.newQuery("javax.jdo.query.SQL", sql);
         try {
@@ -407,4 +409,148 @@ public class ReportLessonDAO {
 
 
 
+    //function to get data in the report of teacher console module
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return true if student completed the lesson
+     */
+    public boolean checkUserCompletedLesson(String student, String idLesson){
+        boolean completed = true;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCheckUserCompletedLesson(student,idLesson);
+        System.out.println("sql check user completed lesson : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for(Object obj : tmp){
+                    String s = (String) StringUtil.isNull(obj,"null");
+                    if(s!="null"){
+                        completed = false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return completed;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return return avg score of student in lesson and the date time
+     */
+    public Reports getStudentAvgScoreLesson(String student,String idLesson){
+        Reports report = new Reports();;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCalculateUserScoreLesson(student, idLesson);
+        System.out.println("sql check user completed lesson" + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for (Object object : tmp) {
+                    Object[] data = (Object[]) object;
+                    if(data[0]!=null){
+                        System.out.println(data[0].getClass());
+                        Double score = (Double)data[0];
+                        report.setStudentScoreLesson(score.intValue());
+                    }
+                    if(data[1]!=null){
+                        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+                        report.setDateCreated(format.format(new Date((long) data[1])));
+                    }
+                    if(data[2]!=null){
+                        report.setSessionId(data[2].toString());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return report;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return
+     */
+    public ArrayList<String> getListWordInLesson(String idLesson){
+        ArrayList<String> listWord = new ArrayList<>();
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlListWordInLesson(idLesson);
+        System.out.println("sql check user completed lesson : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for(Object obj : tmp){
+                    String s = (String) StringUtil.isNull(obj,"null");
+                    if(s!="null"){
+                        listWord.add(s);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return listWord;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @param word
+     * @return
+     */
+    public int getAvgScoreWordInLessonOfUser(String student, String idLesson, String word){
+        int score = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCalculateScoreWord(student, idLesson,word);
+        System.out.println("sql check user completed lesson" + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for (Object object : tmp) {
+                    Object[] data = (Object[]) object;
+                    if(data[1]!=null){
+                        Double value = (Double)data[0];
+                        score = value.intValue();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return score;
+    }
 }

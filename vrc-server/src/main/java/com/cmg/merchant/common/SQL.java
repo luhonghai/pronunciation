@@ -107,7 +107,7 @@ public class SQL {
 
     private String SQL_LESSON_FROM_OBJ="Select lesson.ID,lesson.NAME,lesson.DATECREATED FROM LESSONCOLLECTION as lesson " +
             "inner join OBJECTIVEMAPPING as mapping on lesson.ID=mapping.IDLESSONCOLLECTION " +
-            "WHERE mapping.IDOBJECTIVE='paramIdObj' and DATEDIFF(NOW(),lesson.DATECREATED) < 90 and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
+            "WHERE mapping.IDOBJECTIVE='paramIdObj' and lesson.isDeleted=false and mapping.isDeleted=false ORDER BY lesson.DATECREATED ASC";
 
     private String SQL_GET_SCORE_FOR_LESSON="SELECT AVG(score.SCORE) FROM USERLESSONHISTORY as score " +
             "INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
@@ -133,6 +133,7 @@ public class SQL {
             "AND (DATEDIFF(NOW(),lesson.DATECREATED) > 1) " +
             "ORDER BY lesson.DATECREATED ASC) " +
             "AND u.USERNAME='paramStudentName' and score.TYPE='Q' and score.ISDELETED=FALSE";
+
     private String SQL_GET_LIST_WORD_LESSON="SELECT score.WORD FROM USERLESSONHISTORY as score INNER JOIN USER as u on score.USERNAME=u.USERNAME " +
             "WHERE score.WORD IN " +
             "(SELECT word.WORD FROM WORDCOLLECTION as word " +

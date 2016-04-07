@@ -28,11 +28,13 @@ import com.cmg.lesson.services.word.WordMappingPhonemesService;
 import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
+import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
@@ -43,6 +45,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -104,11 +108,25 @@ public class UnitTesting {
             UserLessonHistoryDAO dao = new UserLessonHistoryDAO();
             dao.put(uh);*/
 
-            PhonemeLessonScore pls = new PhonemeLessonScore();
+         /*   PhonemeLessonScore pls = new PhonemeLessonScore();
             pls.setId("id");
             pls.setIdUserLessonHistory("id");
             PhonemeLessonScoreDAO dao = new PhonemeLessonScoreDAO();
-            dao.put(pls);
+            dao.put(pls);*/
+
+          /*  SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            long bi = 1456767694161l;
+            Date d = new Date(bi);
+            String s = format.format(d);
+            System.out.println(s);*/
+            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            ReportLessonDAO dao = new ReportLessonDAO();
+            boolean completed = dao.checkUserCompletedLesson("nambui","1148fd96-f817-4f83-b860-6cd43e8e6a75");
+            if(completed){
+                Reports report = dao.getStudentAvgScoreLesson("nambui", "1148fd96-f817-4f83-b860-6cd43e8e6a75");
+                System.out.println(report.getStudentScoreLesson());
+                System.out.println(report.getDateCreated());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
