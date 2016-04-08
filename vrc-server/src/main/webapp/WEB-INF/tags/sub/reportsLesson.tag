@@ -58,9 +58,9 @@
                 </select>
             </div>
             <div class="col-sm-2">
-                <img id="loadInfo" src="/images/popup/accepted_48x48.gif"
+                <img id="loadInfo" src="/images/teacher/report_tick48x48.gif"
                      width="36px" height="36px" title="click here to run the reports"
-                     style="cursor: pointer;margin-left: 5px; background-color: #33CC33;border-radius: 45px;" disabled/>
+                     style="cursor: pointer;margin-left:5px" disabled/>
             </div>
         </div>
         <div id="first-process" class="col-lg-4" style="padding-top: 20px"></div>

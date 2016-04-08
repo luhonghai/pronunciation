@@ -14,18 +14,17 @@ var mang=[];
 var items=[];
 var x;
 
-function init(itemName,itemValue,itemValue1) {
+function init(itemName,itemValue,itemValue1,title) {
     // intialize values for each variables
-
     sections = itemValue.length;
     Val_Max = 100;
     stepSize = 10;
     var columnSize = 30;
     var rowSize = 30;
-    var margin = 5;
+    var margin = 10;
     var header = "Score %" ;
-    var phoneme="phoneme";
-    width_column=0.2;
+    var phoneme= title;
+    width_column=0.5;
     //
     var tipCanvas = document.getElementById("tip");
     //var tipCtx = tipCanvas.getContext("2d");
@@ -36,7 +35,7 @@ function init(itemName,itemValue,itemValue1) {
 
     yScale = (canvas.height - columnSize - margin*3) / (Val_Max);
     xScale = (canvas.width - rowSize) / (sections + 1);
-    x=(rowSize+margin)/xScale;
+    x = (rowSize+margin)/xScale;
     context.strokeStyle="#000;"; // background black lines
     context.beginPath();
     context.moveTo(rowSize,columnSize + (yScale * 10 * stepSize));
@@ -47,11 +46,11 @@ function init(itemName,itemValue,itemValue1) {
     context.lineTo(rowSize,columnSize + (yScale * 10 * stepSize));
     context.stroke();
     // column names
-    context.font = "19 pt Arial;"
+    context.font = "15 pt Arial";
     context.fillText(header, 0,columnSize - margin*2);
     context.fillText(phoneme, canvas.width-2*rowSize,canvas.height - margin);
     // draw lines in the background
-    context.font = "16 pt Helvetica"
+    context.font = "16 pt Helvetica";
     var count =  0;
     for (scale=Val_Max;scale>=0;scale = scale - stepSize) {
         y = columnSize + (yScale * count * stepSize);
@@ -62,11 +61,11 @@ function init(itemName,itemValue,itemValue1) {
 
 
     // print names of each data entry
-    context.font = "20 pt Verdana";
+    context.font = "10 pt Verdana";
     context.textBaseline="bottom";
     for (i=0;i<sections;i++) {
         computeHeight(itemValue[i]);
-        context.fillText(itemName[i], xScale * (i*0.2+x),canvas.height);
+        context.fillText(itemName[i], xScale * (i*0.5+x),canvas.height);
     }
 
     // shadow for graph's bar lines with color and offset
@@ -88,40 +87,40 @@ function init(itemName,itemValue,itemValue1) {
         var g=itemValue1[i];
         if(h<g){
             context.fillStyle='#000066';
-            context.fillRect(i*0.2+x, 0, width_column, h);
+            context.fillRect(i*0.5+x, 0, width_column, h);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*0.5+x)*xScale,
                 y1: canvas.height - margin*3-h*yScale,
-                x2: (i*0.2+x)*xScale+width_column*xScale,
+                x2: (i*1+x)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3
             })
             items.push(h);
 
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.2+x, 0+h, width_column, g-h);
+            context.fillRect(i*0.5+x, 0+h, width_column, g-h);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*1+x)*xScale,
                 y1: canvas.height - margin*3-h*yScale-g*yScale,
-                x2: (i*0.2+x)*xScale+width_column*xScale,
+                x2: (i*1+x)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3-h*yScale
             })
             items.push(g);
         }else{
             context.fillStyle='#3366ff';
-            context.fillRect(i*0.2+x, 0, width_column, g);
+            context.fillRect(i*0.5+x, 0, width_column, g);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*1+x)*xScale,
                 y1: canvas.height - margin*3-g*yScale,
-                x2: (i*0.2+x)*xScale+width_column*xScale,
+                x2: (i*1+x)*xScale+width_column*xScale,
                 y2: canvas.height - margin*3
             })
             items.push(g);
             context.fillStyle='#000066';
-            context.fillRect(i*0.2+x, 0+g, width_column, h-g);
+            context.fillRect(i*0.5+x, 0+g, width_column, h-g);
             mang.push({
-                x1:(i*0.2+x)*xScale,
+                x1:(i*1+x)*xScale,
                 y1: canvas.height - margin*3-g*yScale-h*yScale,
-                x2: (i*0.2+x)*xScale + width_column*xScale,
+                x2: (i*1+x)*xScale + width_column*xScale,
                 y2: canvas.height - margin*3-g*yScale
             })
             items.push(h);
@@ -131,10 +130,7 @@ function init(itemName,itemValue,itemValue1) {
 
     $("#tip, #canvas").mousemove(function(e){
         computeMouseOverEvent(e);
-
     });
-
-
 }
 
 function computeMouseOverEvent(e) {
@@ -155,6 +151,7 @@ function computeMouseOverEvent(e) {
         $("#tip").css('text-align','center');
         $("#tip").css('top',top);
         $("#tip").css('left', left);
+        $("#tip").css('z-index', "10000");
         $("#tip").show();
     } else {
         $("#tip").hide();
@@ -178,9 +175,6 @@ function handleMouseMove(e) {
     }
     //console.log(mouseX + " | " + mouseY);
     return false;
-
-
-
 }
 function draw(Course,Level,Obj,name,date,idLesson){
     var $html=$("<div id='"+idLesson+"' class='col-sm-12 grap'> " +
@@ -194,22 +188,32 @@ function draw(Course,Level,Obj,name,date,idLesson){
     "<p><strong>lesson:</strong></p> " +
     "<label style='font-weight: 200;'>"+name+"</label> " +
     "<p><strong>completion date:</strong></p> " +
-    "<label id='date-completed' style='font-weight: 200;'>"+date+"</label> " +
+    "<label id='date-completed' style='font-weight: 200;'><label><span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></label> " +
     "</div> " +
     "<div id='score' class='col-sm-2'> " +
-    "<div class='row'><div class='col-sm-6 scoreStudent' title='student score'><label>100</label></div></div>" +
-    "<div class='row'><div class='col-sm-8 scoreClass' title='class average score'><label>100</label></div></div>" +
+    "<div class='row'><div class='col-sm-6 scoreStudent' title='student score'><label><span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></label></div></div>" +
+    "<div class='row'><div class='col-sm-8 scoreClass' title='class average score'><label><span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></label></div></div>" +
     "</div>" +
     "<div id='drawPhonemes' class='col-sm-4'> " +
-    "<canvas id='canvas' height='300' width='300'></canvas> " +
-    "<div id='tip'>Tooltips!</div> " +
+    "<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span>" +
     "</div> " +
     "<div id='drawWord' class='col-sm-4'> " +
-    "<canvas id='canvasWord' height='300' width='300'></canvas> " +
-    "<div id='tipWord'>Tooltips!</div> " +
-    "<div id='tipWord'>Tooltips!</div> " +
+    "<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span>" +
     "</div> " +
     "</div>");
     return $html;
 }
 
+function replaceLoadingPhonemes(idLesson){
+    var img = $("<img>");
+    img.attr("src","/images/teacher/report_thumbnail_phonemes.gif");
+    img.attr("id","thumbnail-phonemes");
+    $("#"+idLesson).find("#drawPhonemes").html(img);
+}
+
+function replaceLoadingWord(idLesson){
+    var img = $("<img>");
+    img.attr("src","/images/teacher/report_thumbnail_words.gif");
+    img.attr("id","thumbnail-word");
+    $("#"+idLesson).find("#drawWord").html(img);
+}

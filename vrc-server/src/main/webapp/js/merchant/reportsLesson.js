@@ -62,7 +62,6 @@ function listStudents(idClass){
                 if(data.listSMC!=null && data.listSMC.length>0){
                     var items=data.listSMC;
                     btnLoadInfo().removeAttr("disabled");
-                    btnLoadInfo().css("background-color","#33CC33");
                     $(items).each(function(){
                         $("#listUsers").append('<option value="' + this.studentName + '">' + this.studentName + '</option>');
                     });

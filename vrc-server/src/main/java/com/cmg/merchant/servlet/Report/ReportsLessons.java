@@ -59,9 +59,10 @@ public class ReportsLessons extends HttpServlet {
             String result=service.listLesson(idOBJ);
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("drawChart")){
-            String idLesson=request.getParameter("idLesson");
-            String student=request.getParameter("student");
-            String result=service.draw(idLesson,student);
+            String idLesson=(String) StringUtil.isNull(request.getParameter("idLesson"),"");
+            String student= (String) StringUtil.isNull(request.getParameter("student"),"");
+            String idClass= (String) StringUtil.isNull(request.getParameter("idClass"),"");
+            String result=service.generateDataForReportLesson(idClass, student,idLesson );
             response.getWriter().write(result);
         }else if(action.equalsIgnoreCase("drawCircle")){
             String idLesson=(String) StringUtil.isNull(request.getParameter("idLesson"),"");

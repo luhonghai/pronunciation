@@ -52,8 +52,34 @@ public class SqlReport {
             "  inner join LESSONCOLLECTION as ls " +
             "    on ls.id = s.IDLESSONCOLLECTION " +
             "where ulh.USERNAME='paramStudent' " +
-            "and ls.id='paramLessonId' and ulh.WORD='paramWord'" +
+            "and ls.id='paramLessonId' and ulh.WORD='paramWord' " +
             "and ls.isDeleted=false";
+
+    private String SQL_CLASS_GET_SCORE_IN_WORD = "select s.SESSIONID,AVG(ulh.SCORE) from SESSIONSCORE as s " +
+            "  inner join USERLESSONHISTORY as ulh " +
+            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as ls " +
+            "    on ls.id = s.IDLESSONCOLLECTION " +
+            "where ulh.USERNAME in (select STUDENTNAME from STUDENTMAPPINGCLASS " +
+            "where IDCLASS='paramCid' and isDeleted=false) " +
+            "and ls.id='paramLessonId' and ulh.WORD='paramWord' " +
+            "and ls.isDeleted=false";
+
+    /**
+     *
+     * @param classId
+     * @param idLesson
+     * @param word
+     * @return
+     */
+    public String getSqlCalculateScoreWordOfClass(String classId, String idLesson, String word){
+        String sql = SQL_CLASS_GET_SCORE_IN_WORD;
+        sql = sql.replaceAll("paramCid",classId);
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        sql = sql.replaceAll("paramWord",word);
+        return sql;
+    }
+
 
     /**
      *
@@ -71,8 +97,6 @@ public class SqlReport {
     }
 
     /**
-     *
-     * @param student
      * @param idLesson
      * @return
      */

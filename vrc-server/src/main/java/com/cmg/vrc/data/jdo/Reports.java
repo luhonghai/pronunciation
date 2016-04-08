@@ -8,11 +8,11 @@ import java.util.List;
 public class Reports {
         private int studentScoreLesson;
         private int classAvgScoreLesson;
-        private List<Float> wordStudentScore;
-        private List<Float> wordClassScore;
+        private List<Integer> wordStudentScore;
+        private List<Integer> wordClassScore;
         private List<String> word;
-        private List<Float> phonemesStudentScore;
-        private List<Float> phonemesClassScore;
+        private List<Integer> phonemesStudentScore;
+        private List<Integer> phonemesClassScore;
         private List<String> phonemes;
         private String sessionId;
         private String dateCreated;
@@ -50,19 +50,19 @@ public class Reports {
         }
 
 
-        public List<Float> getWordStudentScore() {
+        public List<Integer> getWordStudentScore() {
             return wordStudentScore;
         }
 
-        public void setWordStudentScore(List<Float> wordStudentScore) {
+        public void setWordStudentScore(List<Integer> wordStudentScore) {
             this.wordStudentScore = wordStudentScore;
         }
 
-        public List<Float> getWordClassScore() {
+        public List<Integer> getWordClassScore() {
             return wordClassScore;
         }
 
-        public void setWordClassScore(List<Float> wordClassScore) {
+        public void setWordClassScore(List<Integer> wordClassScore) {
             this.wordClassScore = wordClassScore;
         }
         public List<String> getWord() {
@@ -74,19 +74,19 @@ public class Reports {
         }
 
 
-        public List<Float> getPhonemesStudentScore() {
+        public List<Integer> getPhonemesStudentScore() {
             return phonemesStudentScore;
         }
 
-        public void setPhonemesStudentScore(List<Float> phonemesStudentScore) {
+        public void setPhonemesStudentScore(List<Integer> phonemesStudentScore) {
             this.phonemesStudentScore = phonemesStudentScore;
         }
 
-        public List<Float> getPhonemesClassScore() {
+        public List<Integer> getPhonemesClassScore() {
             return phonemesClassScore;
         }
 
-        public void setPhonemesClassScore(List<Float> phonemesClassScore) {
+        public void setPhonemesClassScore(List<Integer> phonemesClassScore) {
             this.phonemesClassScore = phonemesClassScore;
         }
 

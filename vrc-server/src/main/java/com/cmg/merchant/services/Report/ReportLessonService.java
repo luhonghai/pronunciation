@@ -260,18 +260,50 @@ public class ReportLessonService {
     public Reports getReport(String idLesson,String student){
         Reports reports=new Reports();
         try {
-            reports.setStudentScoreLesson(reportLessonDAO.getStudentScoreLesson(idLesson,student));
+            /*reports.setStudentScoreLesson(reportLessonDAO.getStudentScoreLesson(idLesson,student));
             reports.setClassAvgScoreLesson(reportLessonDAO.getClassAvgScoreLesson(idLesson,student));
             reports.setWord(reportLessonDAO.getListWordLesson(idLesson, student));
             reports.setPhonemes(reportLessonDAO.getListPhonemeLesson(idLesson,student));
             reports.setWordStudentScore(reportLessonDAO.getWordStudentScore(idLesson,student));
             reports.setWordClassScore(reportLessonDAO.getWordClassScore(idLesson,student));
             reports.setPhonemesClassScore(reportLessonDAO.getPhonemesClassScore(idLesson,student));
-            reports.setPhonemesStudentScore(reportLessonDAO.getPhonemesStudentScore(idLesson,student));
+            reports.setPhonemesStudentScore(reportLessonDAO.getPhonemesStudentScore(idLesson,student));*/
         }catch (Exception e){
             e.getStackTrace();
         }
 
         return reports;
+    }
+
+    /**
+     *
+     * @param classId
+     * @param student
+     * @param idLesson
+     * @return object report contain all the data to draw the report
+     */
+    public String generateDataForReportLesson(String classId, String student, String idLesson){
+        Information container = new Information();
+        Reports report = new Reports();
+        try {
+            List<Integer> studentScoreList = new ArrayList<Integer>();
+            List<Integer> classScoreList = new ArrayList<Integer>();
+            List<String> listWord = reportLessonDAO.getListWordInLesson(idLesson);
+            if(listWord!=null &&  listWord.size()>0){
+                for(String word : listWord){
+                    studentScoreList.add(reportLessonDAO.getAvgScoreWordInLessonOfUser(student,idLesson,word));
+                    classScoreList.add(reportLessonDAO.getAvgScoreWordInLessonOfClass(classId, idLesson, word));
+                }
+            }
+            report.setWord(listWord);
+            report.setWordClassScore(classScoreList);
+            report.setWordStudentScore(studentScoreList);
+            container.setMessage("success");
+            container.setReports(report);
+        }catch (Exception e){
+            container.setMessage("error");
+            e.printStackTrace();
+        }
+        return gson.toJson(container);
     }
 }

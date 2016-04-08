@@ -4,30 +4,35 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
-    #canvas{
-    background: #ffffff;
-    box-shadow:5px 5px 5px #ccc;
-    border:3px solid #eee;
-    margin-bottom:10px;}
-    #tip {
-    position: absolute;
-    display: none;
-    background-color:red;
-    border-radius: 4px;
-    top:0;
-    left:0;}
-    #canvasWord{
+    #report-popup #canvas{
         background: #ffffff;
         box-shadow:5px 5px 5px #ccc;
         border:3px solid #eee;
-        margin-bottom:10px;}
-    #tipWord {
+        margin-bottom:10px;
+        width:100%;
+    }
+    #report-popup #tip {
+        position: absolute;
+        display: none;
+        background-color:red;
+        border-radius: 4px;
+        top:0;
+        left:0;
+    }
+    #report-popup #canvasWord{
+        background: #ffffff;
+        box-shadow:5px 5px 5px #ccc;
+        border:3px solid #eee;
+        margin-bottom:10px;
+    }
+    #report-popup #tipWord {
         position: absolute;
         display: none;
         background-color:red;
         border-radius: 4px;
         top:0;
         left:0;}
+
     .header-company {
         color: #A6A6A6;
         font-weight: 200;
@@ -45,19 +50,22 @@
     .well .row{
         padding-bottom : 20px;
     }
-    #grap-class-average{
+    #grap-class-average, .color-class-help{
         width : 10px;
         height : 30px;
         border : 1px solid transparent;
         background-color: #558ED5;
     }
 
-    #grap-student-score{
+    #grap-student-score, .color-student-help{
         width : 10px;
         height : 30px;
         border : 1px solid transparent;
         background-color: #17375E;
     }
+
+
+
     #info label{
         color :#376092
     }
@@ -92,6 +100,77 @@
         color: white;
         font-size: 20px;
         font-weight: 500;
+    }
+
+    .student-avg-score{
+        background-color: #17375E;
+        width: 70px;
+        height: 70px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 70px;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .class-avg-score{
+        margin-top: 5px;
+        background-color: #558ED5;
+        width: 60px;
+        height: 60px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 60px;
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+    }
+    #drawPhonemes{
+        width: 300px;
+        height: 300px;
+    }
+    #drawPhonemes img{
+        width: 300px;
+        height: 300px;
+        padding-bottom: 10px;
+    }
+    #drawWord{
+        width: 300px;
+        height: 300px;
+    }
+    #drawWord img{
+        width: 300px;
+        height: 300px;
+        padding-bottom: 10px;
+        margin-left : 10px
+    }
+
+    .glyphicon-refresh-animate {
+        -animation: spin .7s infinite linear;
+        -ms-animation: spin .7s infinite linear;
+        -webkit-animation: spinw .7s infinite linear;
+        -moz-animation: spinm .7s infinite linear;
+    }
+
+    @keyframes spin {
+        from { transform: scale(1) rotate(0deg);}
+        to { transform: scale(1) rotate(360deg);}
+    }
+
+    @-webkit-keyframes spinw {
+        from { -webkit-transform: rotate(0deg);}
+        to { -webkit-transform: rotate(360deg);}
+    }
+
+    @-moz-keyframes spinm {
+        from { -moz-transform: rotate(0deg);}
+        to { -moz-transform: rotate(360deg);}
+    }
+    .student-username{
+        padding-top : 25px;
+    }
+    .class-avg-text , .student-avg-text{
+        padding-top : 5px;
     }
 </style>
 <%
@@ -162,9 +241,9 @@
             </div>
             <div class="col-sm-4">
                 <div class="col-sm-3">
-                    <img id="loadInfo" src="/images/popup/accepted_48x48.gif"
+                    <img id="loadInfo" src="/images/teacher/report_tick48x48.gif"
                          width="36px" height="36px" title="click here to run the reports"
-                         style="cursor: pointer;margin-left: 5px; background-color: #33CC33;border-radius: 45px;display: block;"/>
+                         style="cursor: pointer;display: block;"/>
                 </div>
             </div>
         </div>
@@ -190,6 +269,65 @@
     <div id="draw" class="row" style="padding-bottom: 20px">
 
     </div>
+</div>
+
+<div id="report-popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;color:#957F7F">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content" style="border-radius:20px;background-color: #F2F2F2;">
+            <div class="modal-header" style="border-bottom: transparent;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="padding-bottom: 20px" class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-1">
+                        <div class="class-avg-score">80</div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="student-avg-score">80</div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="student-username">lan.ta@c-mg.com</div>
+                    </div>
+                    <div style="padding-top: 20px" class="col-sm-2">
+                        <div class="col-sm-2">
+                            <div class="color-class-help"></div>
+                        </div>
+                        <div class="col-sm-9 class-avg-text">class average</div>
+                    </div>
+                    <div style="padding-top: 20px" class="col-sm-2">
+                        <div class="col-sm-2">
+                            <div class="color-student-help"></div>
+                        </div>
+                        <div class="col-sm-9 student-avg-text">student score</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <p><strong>course:</strong></p>
+                        <label style='font-weight: 200;'>Course</label>
+                        <p><strong>level:</strong></p>
+                        <label style='font-weight: 200;'>Level</label>
+                        <p><strong>objective:</strong></p>
+                        <label style='font-weight: 200;'>Objective</label>
+                        <p><strong>lesson:</strong></p>
+                        <label style='font-weight: 200;'>Lesson</label>
+                        <p><strong>completion date:</strong></p>
+                        <label style='font-weight: 200;'>date completed</label>
+                    </div>
+                    <div id="container-canvas" class="col-sm-10">
+                        <canvas height="400px" width="900px" id="canvas">
+                        </canvas>
+                        <div id="tip"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
 </div>
 <!-- /#wrapper -->
 

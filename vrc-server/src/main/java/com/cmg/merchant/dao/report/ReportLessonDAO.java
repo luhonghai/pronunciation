@@ -497,7 +497,7 @@ public class ReportLessonDAO {
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
         String query=sql.getSqlListWordInLesson(idLesson);
-        System.out.println("sql check user completed lesson : " + query);
+        System.out.println("sql generate list word : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -530,8 +530,8 @@ public class ReportLessonDAO {
         int score = 0;
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
-        String query=sql.getSqlCalculateScoreWord(student, idLesson,word);
-        System.out.println("sql check user completed lesson" + query);
+        String query=sql.getSqlCalculateScoreWord(student, idLesson, word);
+        System.out.println("sql generate score word of user " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
             List<Object> tmp = (List<Object>) q.execute();
@@ -539,8 +539,47 @@ public class ReportLessonDAO {
                 for (Object object : tmp) {
                     Object[] data = (Object[]) object;
                     if(data[1]!=null){
-                        Double value = (Double)data[0];
+                        Double value = (Double)data[1];
                         score = value.intValue();
+                    }else{
+                        score = 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return score;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @param word
+     * @return
+     */
+    public int getAvgScoreWordInLessonOfClass(String classId, String idLesson, String word){
+        int score = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCalculateScoreWordOfClass(classId, idLesson,word);
+        System.out.println("sql generate score word of class : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for (Object object : tmp) {
+                    Object[] data = (Object[]) object;
+                    if(data[1]!=null){
+                        Double value = (Double)data[1];
+                        score = value.intValue();
+                    }else{
+                        score = 0;
                     }
                 }
             }

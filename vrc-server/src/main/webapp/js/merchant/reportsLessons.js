@@ -10,6 +10,11 @@ function getClassName(){
 function getClassId(){
     return $("#class-id").val();
 }
+function getReportPreview(){
+    return $("#report-popup");
+}
+
+
 function listStudent() {
     $("#listUser").append('<option value="' + getStudentName() + '">' + getStudentName() + '</option>');
     $('#listUser').multiselect({enableFiltering: true, buttonWidth: '100%'});
@@ -221,8 +226,7 @@ function loadLesson(idObj) {
                         var Level = $("#listLevel option:selected").text();
                         var Obj = $("#listObj option:selected").text();
                         $("#draw").append(draw(Course, Level, Obj, name, date,idLesson));
-                        drawCircle(idLesson,getStudentName(),getClassId);
-                        //drawChart(idLesson,student);
+                        drawCircle(idLesson,getStudentName(),getClassId(),name);
                     });
                 }
             } else {
@@ -235,7 +239,7 @@ function loadLesson(idObj) {
 
     });
 }
-function drawCircle(idLesson,student,idClass){
+function drawCircle(idLesson,student,idClass,name){
     $.ajax({
         url: "ReportsLessons",
         type: "POST",
@@ -259,6 +263,7 @@ function drawCircle(idLesson,student,idClass){
                 $("#"+idLesson).find('#date-completed').html(date_complete);
                 $("#"+idLesson).find('.scoreStudent label').html(studentScore);
                 $("#"+idLesson).find('.scoreClass label').html(classScore);
+                drawChart(idLesson,getStudentName(),getClassId(),name,date_complete);
             } else {
                 $("#"+idLesson).hide();
             }
@@ -267,7 +272,8 @@ function drawCircle(idLesson,student,idClass){
         }
     });
 }
-function drawChart(idLesson,student) {
+
+function drawChart(idLesson,student,idClass,date) {
     $.ajax({
         url: "ReportsLessons",
         type: "POST",
@@ -275,13 +281,27 @@ function drawChart(idLesson,student) {
         data: {
             action: "drawChart",
             idLesson: idLesson,
-            student : student
+            student : student,
+            idClass : idClass
         },
         success: function (data) {
             if (data.message == "success") {
-                init();
+                var report = data.reports;
+                replaceLoadingPhonemes(idLesson);
+                replaceLoadingWord(idLesson);
+                $("#"+idLesson).find('#thumbnail-word').attr("date-complete",date);
+                $("#"+idLesson).find('#thumbnail-word').attr("lesson-name",name);
+                $("#"+idLesson).find('#thumbnail-word').attr("list-word",report.word);
+                $("#"+idLesson).find('#thumbnail-word').attr("list-student-score",report.wordStudentScore);
+                $("#"+idLesson).find('#thumbnail-word').attr("list-class-score",report.wordClassScore);
             } else {
-                swal("", data.message.split(":")[1], "error");
+                replaceLoadingPhonemes(idLesson);
+                replaceLoadingWord(idLesson);
+                $("#"+idLesson).find('#thumbnail-word').attr("date-complete",date);
+                $("#"+idLesson).find('#thumbnail-word').attr("lesson-name",name);
+                $("#"+idLesson).find('#thumbnail-word').attr("list-word","error");
+                $("#"+idLesson).find('#thumbnail-word').attr("list-student-score","error");
+                $("#"+idLesson).find('#thumbnail-word').attr("list-class-score","error");
             }
         },
         error: function () {
@@ -290,7 +310,25 @@ function drawChart(idLesson,student) {
     });
 }
 
+function openPreviewReport(){
+    $(document).on("click","#drawWord img",function(){
+        getReportPreview().modal('show');
+        var listWord = $(this).attr("list-word");
+        var studentScore = $(this).attr("list-student-score");
+        var classScore = $(this).attr("list-class-score");
+        getReportPreview().find("#canvas").remove();
+        getReportPreview().find("#container-canvas").append(" <canvas height='400px' width='900px' id='canvas'></canvas>");
+        init(listWord.split(","),studentScore,classScore,"word");
+    });
+}
+
+function parseToArray(str){
+    var array = str.split(",");
+    return array;
+}
+
 $(document).ready(function () {
+    openPreviewReport();
     $('#help-icons').show();
     loadInfo();
     listStudent();

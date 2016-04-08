@@ -119,14 +119,8 @@ public class UnitTesting {
             Date d = new Date(bi);
             String s = format.format(d);
             System.out.println(s);*/
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
             ReportLessonDAO dao = new ReportLessonDAO();
-            boolean completed = dao.checkUserCompletedLesson("nambui","1148fd96-f817-4f83-b860-6cd43e8e6a75");
-            if(completed){
-                Reports report = dao.getStudentAvgScoreLesson("nambui", "1148fd96-f817-4f83-b860-6cd43e8e6a75");
-                System.out.println(report.getStudentScoreLesson());
-                System.out.println(report.getDateCreated());
-            }
+            int i = dao.getAvgScoreWordInLessonOfUser("nambui","1148fd96-f817-4f83-b860-6cd43e8e6a75","image");
         } catch (Exception e) {
             e.printStackTrace();
         }
