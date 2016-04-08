@@ -278,6 +278,8 @@
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
+		C159764C1CB6249500FA3B40 /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C159764B1CB6249500FA3B40 /* checked_checkbox.png */; };
+		C159765A1CB624A000FA3B40 /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C15976591CB624A000FA3B40 /* unchecked_checkbox.png */; };
 		C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */; };
 		C15EDBFD1C97B68A006E7BA3 /* LSPopupTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15EDBFB1C97B68A006E7BA3 /* LSPopupTVC.swift */; };
 		C15EDBFE1C97B68A006E7BA3 /* LSPopupTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15EDBFC1C97B68A006E7BA3 /* LSPopupTVC.xib */; };
@@ -285,6 +287,12 @@
 		C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15EDC001C97B85F006E7BA3 /* LSPopupVC.xib */; };
 		C15F02841CB016AF00C39808 /* LessonTipPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */; };
 		C15F02851CB016AF00C39808 /* LessonTipPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */; };
+		C1648FE41CB513EC00C8DFE0 /* Radio_Button-Checked-128.png in Resources */ = {isa = PBXBuildFile; fileRef = C1648FE21CB513EC00C8DFE0 /* Radio_Button-Checked-128.png */; };
+		C1648FE51CB513EC00C8DFE0 /* Radio_Button-128.png in Resources */ = {isa = PBXBuildFile; fileRef = C1648FE31CB513EC00C8DFE0 /* Radio_Button-128.png */; };
+		C1648FE81CB5167B00C8DFE0 /* SettingPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1648FE61CB5167B00C8DFE0 /* SettingPopupCell.swift */; };
+		C1648FE91CB5167B00C8DFE0 /* SettingPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1648FE71CB5167B00C8DFE0 /* SettingPopupCell.xib */; };
+		C1648FEC1CB6083A00C8DFE0 /* DataPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1648FEA1CB6083A00C8DFE0 /* DataPopupVC.swift */; };
+		C1648FED1CB6083A00C8DFE0 /* DataPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1648FEB1CB6083A00C8DFE0 /* DataPopupVC.xib */; };
 		C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2451C44B1EC00537461 /* above_shadow.xml */; };
 		C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */; };
 		C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C16CD2471C44B1EC00537461 /* ae_icon.png */; };
@@ -385,7 +393,10 @@
 		C18B1D0B1CAA3B320092502E /* ExtensionDefaultFunciton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */; };
 		C18B1D191CAA74BA0092502E /* LessonDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */; };
 		C18B1D1B1CAA8BB50092502E /* QuestionCVDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */; };
+		C1AC71411CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */; };
+		C1AC71421CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */; };
 		C1D52EB11CA4EA5400C2EE80 /* LessonMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */; };
+		C1D59D641CB4EB7600127FF4 /* SettingsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */; };
 		C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */; };
 		C1FA8A9F1C88195600051958 /* Back-25.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8A9E1C88195600051958 /* Back-25.png */; };
 		C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C1FA8AA91C881A2900051958 /* Back-25@2x.png */; };
@@ -780,6 +791,8 @@
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
+		C159764B1CB6249500FA3B40 /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
+		C15976591CB624A000FA3B40 /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
 		C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOverlays.swift; sourceTree = "<group>"; };
 		C15EDBFB1C97B68A006E7BA3 /* LSPopupTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupTVC.swift; sourceTree = "<group>"; };
 		C15EDBFC1C97B68A006E7BA3 /* LSPopupTVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupTVC.xib; sourceTree = "<group>"; };
@@ -787,6 +800,12 @@
 		C15EDC001C97B85F006E7BA3 /* LSPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupVC.xib; sourceTree = "<group>"; };
 		C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonTipPopupVC.swift; sourceTree = "<group>"; };
 		C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LessonTipPopupVC.xib; sourceTree = "<group>"; };
+		C1648FE21CB513EC00C8DFE0 /* Radio_Button-Checked-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Radio_Button-Checked-128.png"; sourceTree = "<group>"; };
+		C1648FE31CB513EC00C8DFE0 /* Radio_Button-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Radio_Button-128.png"; sourceTree = "<group>"; };
+		C1648FE61CB5167B00C8DFE0 /* SettingPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPopupCell.swift; sourceTree = "<group>"; };
+		C1648FE71CB5167B00C8DFE0 /* SettingPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingPopupCell.xib; sourceTree = "<group>"; };
+		C1648FEA1CB6083A00C8DFE0 /* DataPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPopupVC.swift; sourceTree = "<group>"; };
+		C1648FEB1CB6083A00C8DFE0 /* DataPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataPopupVC.xib; sourceTree = "<group>"; };
 		C16CD2451C44B1EC00537461 /* above_shadow.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = above_shadow.xml; sourceTree = "<group>"; };
 		C16CD2461C44B1EC00537461 /* accenteasy_icon_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = accenteasy_icon_text.png; sourceTree = "<group>"; };
 		C16CD2471C44B1EC00537461 /* ae_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ae_icon.png; sourceTree = "<group>"; };
@@ -887,7 +906,10 @@
 		C18B1D0A1CAA3B320092502E /* ExtensionDefaultFunciton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionDefaultFunciton.swift; sourceTree = "<group>"; };
 		C18B1D181CAA74BA0092502E /* LessonDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonDetailVC.swift; sourceTree = "<group>"; };
 		C18B1D1A1CAA8BB50092502E /* QuestionCVDatasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionCVDatasource.swift; sourceTree = "<group>"; };
+		C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnglishProficiencyPopupVC.swift; sourceTree = "<group>"; };
+		C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EnglishProficiencyPopupVC.xib; sourceTree = "<group>"; };
 		C1D52EB01CA4EA5400C2EE80 /* LessonMainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LessonMainVC.swift; sourceTree = "<group>"; };
+		C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTVC.swift; sourceTree = "<group>"; };
 		C1ECBD241C3FBE46009309CE /* TestNewScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestNewScreenViewController.swift; sourceTree = "<group>"; };
 		C1FA8A9E1C88195600051958 /* Back-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25.png"; sourceTree = "<group>"; };
 		C1FA8AA91C881A2900051958 /* Back-25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back-25@2x.png"; sourceTree = "<group>"; };
@@ -1610,6 +1632,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				C1D59D621CB4EB3E00127FF4 /* SettingsController */,
 				9B4849DC1C98FF65002F193F /* IPAInformation */,
 				C172A5841C97FD4900BBBEC4 /* LessonController */,
 				C15EDBEB1C97B271006E7BA3 /* LanguageSelectionController */,
@@ -1661,9 +1684,21 @@
 			name = LanguageSelectionController;
 			sourceTree = "<group>";
 		};
+		C1648FE11CB512AE00C8DFE0 /* control-icon */ = {
+			isa = PBXGroup;
+			children = (
+				C15976591CB624A000FA3B40 /* unchecked_checkbox.png */,
+				C159764B1CB6249500FA3B40 /* checked_checkbox.png */,
+				C1648FE21CB513EC00C8DFE0 /* Radio_Button-Checked-128.png */,
+				C1648FE31CB513EC00C8DFE0 /* Radio_Button-128.png */,
+			);
+			name = "control-icon";
+			sourceTree = "<group>";
+		};
 		C16CD2431C44B01B00537461 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C1648FE11CB512AE00C8DFE0 /* control-icon */,
 				C13E44A91C6051ED00EB6075 /* audio */,
 				C13A5D5B1C58CBBA0036A5E9 /* background */,
 				C16CD2441C44B1EC00537461 /* drawable */,
@@ -1829,6 +1864,20 @@
 				C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */,
 			);
 			name = LessonController;
+			sourceTree = "<group>";
+		};
+		C1D59D621CB4EB3E00127FF4 /* SettingsController */ = {
+			isa = PBXGroup;
+			children = (
+				C1D59D631CB4EB7600127FF4 /* SettingsTVC.swift */,
+				C1AC713F1CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift */,
+				C1AC71401CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib */,
+				C1648FE61CB5167B00C8DFE0 /* SettingPopupCell.swift */,
+				C1648FE71CB5167B00C8DFE0 /* SettingPopupCell.xib */,
+				C1648FEA1CB6083A00C8DFE0 /* DataPopupVC.swift */,
+				C1648FEB1CB6083A00C8DFE0 /* DataPopupVC.xib */,
+			);
+			name = SettingsController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2041,16 +2090,19 @@
 				9053FE151C87F7910059A423 /* tab-background-unselected.png in Resources */,
 				C16CD2F01C44B1EC00537461 /* ic_slider_up.png in Resources */,
 				C16CD2DF1C44B1EC00537461 /* gb_round.png in Resources */,
+				C1648FE91CB5167B00C8DFE0 /* SettingPopupCell.xib in Resources */,
 				C109066F1C7579FA0071206D /* Menu-100.png in Resources */,
 				C141C80B1C3E203C001D1F9C /* LaunchScreen.storyboard in Resources */,
 				C16CD2CC1C44B1EC00537461 /* rounded_corner_color_default.xml in Resources */,
 				C16CD2E11C44B1EC00537461 /* ic_close.png in Resources */,
 				C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */,
 				C16CD2E41C44B1EC00537461 /* ic_google_plus_white.png in Resources */,
+				C1648FE41CB513EC00C8DFE0 /* Radio_Button-Checked-128.png in Resources */,
 				9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */,
 				C16CD2D41C44B1EC00537461 /* sl_background.png in Resources */,
 				C16CD2BC1C44B1EC00537461 /* p_logout_red.png in Resources */,
 				C10906831C75B5DB0071206D /* Menu-20.png in Resources */,
+				C159765A1CB624A000FA3B40 /* unchecked_checkbox.png in Resources */,
 				C16CD2E71C44B1EC00537461 /* ic_menu.png in Resources */,
 				C16CD2B41C44B1EC00537461 /* p_btn_register.png in Resources */,
 				C16CD2F41C44B1EC00537461 /* vn_round.png in Resources */,
@@ -2089,15 +2141,18 @@
 				9B5526371C9A6911000AB7E8 /* search_word.sql in Resources */,
 				C16CD2F81C44B1EC00537461 /* help_content_11.png in Resources */,
 				C13A5D601C58CBD80036A5E9 /* london_3.jpg in Resources */,
+				C1AC71421CB5037D0055C1FF /* EnglishProficiencyPopupVC.xib in Resources */,
 				C16CD2DA1C44B1EC00537461 /* tab_history.xml in Resources */,
 				C16CD2B31C44B1EC00537461 /* p_btn_login_googleplus.png in Resources */,
 				C16CD2B91C44B1EC00537461 /* p_history_blue.png in Resources */,
 				C16CD2E81C44B1EC00537461 /* ic_next.png in Resources */,
 				C16CD2F11C44B1EC00537461 /* ic_up.png in Resources */,
 				C16CD2FC1C44B1EC00537461 /* help_content_5.png in Resources */,
+				C159764C1CB6249500FA3B40 /* checked_checkbox.png in Resources */,
 				C16CD2D91C44B1EC00537461 /* tab_graph.xml in Resources */,
 				C16CD2C41C44B1EC00537461 /* p_menu_setting.png in Resources */,
 				C16CD2AD1C44B1EC00537461 /* ic_menu_accenteasy.png in Resources */,
+				C1648FED1CB6083A00C8DFE0 /* DataPopupVC.xib in Resources */,
 				C16CD3031C44B1EC00537461 /* icon_popover_arrow_right.png in Resources */,
 				C16CD2CF1C44B1EC00537461 /* rounded_corner_color_orange.xml in Resources */,
 				C16CD2A71C44B1EC00537461 /* accenteasy_icon_text.png in Resources */,
@@ -2163,6 +2218,7 @@
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,
 				C13B65701C86D9C200318336 /* IPAPopupVC.xib in Resources */,
+				C1648FE51CB513EC00C8DFE0 /* Radio_Button-128.png in Resources */,
 				C10906851C75B61A0071206D /* Menu-25.png in Resources */,
 				C16CD3001C44B1EC00537461 /* help_content_9.png in Resources */,
 				C16CD2EC1C44B1EC00537461 /* ic_redo.png in Resources */,
@@ -2285,11 +2341,13 @@
 				C10ACEFB1CAE5ACE009676C1 /* ObjectiveScore.swift in Sources */,
 				9B5F33B41C77129A00E85629 /* CombinedChartRenderer.swift in Sources */,
 				9B5F33AE1C77129A00E85629 /* ChartXAxisRendererBarChart.swift in Sources */,
+				C1648FEC1CB6083A00C8DFE0 /* DataPopupVC.swift in Sources */,
 				9B5F33C01C77129A00E85629 /* ChartTransformerHorizontalBarChart.swift in Sources */,
 				9B5F33831C77129A00E85629 /* PieChartData.swift in Sources */,
 				9BA3AB301C4F840300C6631D /* DatabaseHelper.swift in Sources */,
 				90F33B481C7EE52D00E28BC4 /* ImageHelper.swift in Sources */,
 				C15F02841CB016AF00C39808 /* LessonTipPopupVC.swift in Sources */,
+				C1648FE81CB5167B00C8DFE0 /* SettingPopupCell.swift in Sources */,
 				9B5F34131C771D6800E85629 /* Collation.swift in Sources */,
 				9BEF04681C59CE1B00E474F3 /* RecordingPlayViewController.m in Sources */,
 				9B5F339C1C77129A00E85629 /* ChartRange.swift in Sources */,
@@ -2318,6 +2376,7 @@
 				9B5F33A11C77129A00E85629 /* BubbleChartDataProvider.swift in Sources */,
 				C141C8011C3E203C001D1F9C /* AppDelegate.swift in Sources */,
 				9B5F339B1C77129A00E85629 /* ChartHighlighter.swift in Sources */,
+				C1AC71411CB5037D0055C1FF /* EnglishProficiencyPopupVC.swift in Sources */,
 				9B5F335B1C77129A00E85629 /* ChartXAxis.swift in Sources */,
 				C14CD6251CACC4A6003B466F /* ToltalScorePopupVC.swift in Sources */,
 				9B72D1211C9BABD600297470 /* LessonCollectionController.swift in Sources */,
@@ -2325,6 +2384,7 @@
 				9B5F341C1C771DB300E85629 /* SQLiteOperators.swift in Sources */,
 				C13B656F1C86D9C200318336 /* IPAPopupVC.swift in Sources */,
 				9B5526451C9AA5B4000AB7E8 /* ObjectiveController.swift in Sources */,
+				C1D59D641CB4EB7600127FF4 /* SettingsTVC.swift in Sources */,
 				9B5F337B1C77129A00E85629 /* ChartData.swift in Sources */,
 				9B5F33951C77129A00E85629 /* ChartDataBaseFilter.swift in Sources */,
 				C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */,

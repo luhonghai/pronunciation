@@ -56,7 +56,7 @@ class OurItem3ViewController: UIViewController, LSPopupVCDelegate{
         })
     }
     
-    func closePopup(sender: LSPopupVC) {
+    func closePopup(sender: AnyObject) {
         self.dismissPopupViewController(.Fade)
     }
 

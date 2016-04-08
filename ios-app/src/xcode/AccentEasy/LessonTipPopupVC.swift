@@ -16,6 +16,7 @@ class LessonTipPopupVC: UIViewController {
     
     var delegate: LessonTipPopupVCDelegate?
     var contentPopup: String!
+    var isShow:Bool = false
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var tvContent: UITextView!
@@ -42,6 +43,10 @@ class LessonTipPopupVC: UIViewController {
             tvContent.text = contentPopup
         }
         tvContent.vAlignMiddle()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        isShow = false
     }
 
     override func didReceiveMemoryWarning() {

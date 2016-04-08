@@ -42,7 +42,16 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadLevel:",name:"loadLevel", object: nil)
         
+        setNavigationBarTransparent() 
     }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+    }
+
     
     override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
@@ -153,7 +162,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         })
     }
     
-    func closePopup(sender: LSPopupVC) {
+    func closePopup(sender: AnyObject) {
         self.dismissPopupViewController(.Fade)
     }
 

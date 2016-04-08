@@ -8,8 +8,12 @@
 
 import UIKit
 
-protocol LSPopupVCDelegate {
-    func closePopup(sender: LSPopupVC)
+@objc protocol LSPopupVCDelegate {
+    func closePopup(sender: AnyObject)
+    optional func updateLanguage(language:String)
+    optional func updateProficiency(proficiency:String)
+    optional func updateCountry(country:String)
+    optional func updateBirthday(birthday:NSDate)
 }
 
 class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
@@ -187,6 +191,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         userProfile.selectedCountry = arrCountryData[indexPath.row]
         AccountManager.updateProfile(userProfile)
         delegate?.closePopup(self)
+        delegate?.updateLanguage!(userProfile.selectedCountry.name)
     }
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {

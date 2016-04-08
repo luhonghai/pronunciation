@@ -7,7 +7,7 @@
 //
 
 
-class LessonCollectionController: UIViewController, UITableViewDataSource, UITableViewDelegate  {
+class LessonCollectionController: UIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate  {
 
     @IBOutlet weak var bgObjectiveHelp: UIView!
     
@@ -34,7 +34,17 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         btnObjectiveQuestion.layer.cornerRadius = btnObjectiveQuestion.frame.width / 2
         tableView.dataSource = self
         tableView.delegate = self
+        
+        navigationItem.title = selectedLevel.name + "-" + selectedObjective.name
         //loadData()
+        setNavigationBarTransparent()
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -73,6 +83,42 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
             tableView.reloadData()
         } catch {
             
+        }
+    }
+    
+    //tip popup
+    let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+    var timer:NSTimer!
+    
+    @IBAction func objTipTouchUp(sender: AnyObject) {
+        lessonTipPopupVC.delegate = self
+        lessonTipPopupVC.contentPopup = selectedObjective.description
+        lessonTipPopupVC.isShow = true
+        
+        clearTimer()
+        timer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: Selector("closeLessonTip"), userInfo: nil, repeats: true)
+        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+    }
+    
+    func closeLessonTipPopup(sender: LessonTipPopupVC) {
+        clearTimer()
+        if (lessonTipPopupVC.isShow) {
+            self.dismissPopupViewController(.Fade)
+        }
+    }
+    
+    func closeLessonTip() {
+        clearTimer()
+        if (lessonTipPopupVC.isShow) {
+            self.dismissPopupViewController(.Fade)
+        }
+        print("run in timer")
+    }
+    
+    func clearTimer() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
         }
     }
     
@@ -136,10 +182,12 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonMainVC") as! LessonMainVC
         //nextController.selectedLevel = selectedLevel
         //nextController.selectedCountry = selectedCountry
-        objectiveScore.idLesson = obj.idString
+        //objectiveScore.idLesson = obj.idString
         
         nextController.objectiveScore = objectiveScore
-        nextController.selectedLessonCollection = obj
+        //nextController.selectedLessonCollection = obj
+        nextController.lessionCollections = lessionCollections
+        nextController.indexSelectedLesson = row
         nextController.isLessonCollection = true
         self.navigationController?.pushViewController(nextController, animated: true)
         

@@ -39,6 +39,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         
         scoreTest.layer.cornerRadius = scoreTest.frame.width / 2
+        scoreTest.switchType(.DISABLE)
         testContainer.layer.cornerRadius = 5
         
         lblTestScore.layer.cornerRadius = lblTestScore.frame.width / 2
@@ -78,8 +79,16 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         //titleLable.text = "Name of the List"
         //titleLable.textAlignment = NSTextAlignment.Right
         //self.navigationController?.navigationBar.addSubview(titleLable)
-
         
+        setNavigationBarTransparent() 
+        
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,6 +143,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
                     scoreTest.showScore(tScore.score, showAnimation: true)
                 }
             }
+
 
             
             tableView.reloadData()

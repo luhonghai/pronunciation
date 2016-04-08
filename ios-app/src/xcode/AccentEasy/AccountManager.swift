@@ -177,6 +177,33 @@ class AccountManager {
         
     }
     
+    class func updateProfile(userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        
+        client.post("/userprofile").type("form").send(["profile": JSONHelper.toJson(userProfile), "action":"update"])
+            .end({(res:Response) -> Void in
+                Logger.log("fetch profile response: \(res.text)")
+                if(res.error) { // status of 2xx
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                }
+                else {
+                    let result: ProfileResponse = JSONHelper.fromJson(res.text!)
+                    if result.data != nil {
+                        userProfile.name = result.data.name
+                    }
+                    completion(userProfile: userProfile, success: result.status, message: result.message)
+                }
+            })
+        
+        
+    }
+
+    
     class func activate(code: String, userProfile: UserProfile, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
         Logger.log("run in active code")
         userProfile.deviceInfo = DeviceManager.deviceInfo()

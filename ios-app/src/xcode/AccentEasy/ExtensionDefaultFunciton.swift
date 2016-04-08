@@ -29,6 +29,29 @@ extension Array where Element: DoubleConvertibleType {
     }
 }
 
+extension Array {
+    func contains<U: Equatable>(object:U) -> Bool {
+        return (self.indexOf(object) != nil);
+    }
+    
+    func indexOf<U: Equatable>(object: U) -> Int? {
+        for (idx, objectToCompare) in self.enumerate() {
+            if let to = objectToCompare as? U {
+                if object == to {
+                    return idx
+                }
+            }
+        }
+        return nil
+    }
+    
+    mutating func removeObject<U: Equatable>(object: U) {
+        let index = self.indexOf(object)
+        if(index != nil) {
+            self.removeAtIndex(index!)
+        }
+    }
+}
 
 
 extension UITextView {
