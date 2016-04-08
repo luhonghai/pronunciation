@@ -90,24 +90,44 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
         wordAdapter = WordCollectionDbApdater()
         do {
             try tipList = wordAdapter.getIPAMapArpabets();
-            let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
-            selectedTip = tipList[index]
         }catch {
             
         }
-        self.showTip()
+        loadTip()
         self.initUI()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"loadTip", object: nil)
         // Do any additional setup after loading the view.
     }
     
     func loadList(notification: NSNotification){
-        //load data here
+        let phonemes = notification.object as? String
+        GlobalData.getInstance().currentTipPhonemes = phonemes!
+        loadTip()
+    }
+    
+    func loadTip() {
         selectedWordIndex = 0
-        let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
-        selectedTip = tipList[index]
+        let phonemes = GlobalData.getInstance().currentTipPhonemes
+        if phonemes.isEmpty {
+            //load data here
+            let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
+            selectedTip = tipList[index]
+        } else {
+            let fullPhonemes = phonemes.componentsSeparatedByString(" ")
+            var randomList = Array<IPAMapArpabet>()
+            for tip in tipList {
+                for phoneme in fullPhonemes {
+                    if tip.arpabet == phoneme {
+                        randomList.append(tip)
+                    }
+                }
+            }
+            let index:Int = Int(arc4random_uniform(UInt32(randomList.count)))
+            selectedTip = randomList[index]
+        }
         self.showTip()
     }
+
     
     func playSound(fileUrl: NSURL) {
         Logger.log("run in play")

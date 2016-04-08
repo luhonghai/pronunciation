@@ -52,7 +52,7 @@ class IPAInfoPopup: UIViewController {
         if selectedIpa!.imgTongue != nil && !selectedIpa!.imgTongue.isEmpty {
             weak var weakSelf = self
             let url = NSURL(string: selectedIpa!.imgTongue)
-            imgTip.load(url!, placeholder: UIImage(named: "p_tip_blue.png")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), completionHandler: { (status) -> Void in
+            imgTip.load(url!, placeholderImage: UIImage(named: "p_tip_blue.png")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate), completion: { (status) -> Void in
                 if let image = weakSelf!.imgTip.image {
                     weakSelf!.imgTip.image = image.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
                     weakSelf!.imgTip.tintColor = ColorHelper.APP_PURPLE

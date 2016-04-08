@@ -295,6 +295,7 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         Logger.log("press ShowChart")
         self.dismissPopupViewController(.Fade)
         NSNotificationCenter.defaultCenter().postNotificationName("showChart", object: indexCellChoice)
+        NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: arrIPAMapArpabet[indexCellChoice].arpabet)
         toggleSlider()
     }
     
