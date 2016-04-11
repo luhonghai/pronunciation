@@ -172,6 +172,35 @@
     .class-avg-text , .student-avg-text{
         padding-top : 5px;
     }
+    .legend table {
+        border-spacing: 5px;
+    }
+    #holder-chart{
+        box-sizing: border-box;
+        width: 850px;
+        height: 600px;
+        padding: 20px 15px 15px 15px;
+        margin: 15px auto 30px auto;
+        border: 1px solid #ddd;
+        background: #fff;
+        background: linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+        box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        -o-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -ms-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        -webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        overflow-x: auto;
+    }
+    #placeholder{
+        width: 1000px;
+        height: 500px;
+        font-size: 14px;
+        line-height: 1.2em;
+    }
 </style>
 <%
     ClassDAO dao = new ClassDAO();
@@ -316,10 +345,12 @@
                         <p><strong>completion date:</strong></p>
                         <label style='font-weight: 200;'>date completed</label>
                     </div>
-                    <div id="container-canvas" class="col-sm-10">
-                        <canvas height="400px" width="900px" id="canvas">
-                        </canvas>
-                        <div id="tip"></div>
+                    <div id="container" class="col-sm-10">
+                        <div id="holder-chart">
+                            <div id="placeholder">
+                            </div>
+                        </div>
+                    <%--    <div id="tip"></div>--%>
                     </div>
                 </div>
             </div>
@@ -334,6 +365,8 @@
 
 
 <script src="<%=request.getContextPath() %>/js/merchant/reportsLessons.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flot/jquery.flot.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flot/jquery.flot.stack.js"></script>
 <script src="<%=request.getContextPath() %>/js/merchant/draw-report.js"></script>
 
 

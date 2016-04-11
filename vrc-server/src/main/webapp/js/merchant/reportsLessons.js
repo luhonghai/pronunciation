@@ -310,25 +310,117 @@ function drawChart(idLesson,student,idClass,date) {
     });
 }
 
-function openPreviewReport(){
+function clickToThumbnail(){
     $(document).on("click","#drawWord img",function(){
+        getReportPreview().attr("list-word",$(this).attr("list-word"));
+        getReportPreview().attr("list-student-score",$(this).attr("list-student-score"));
+        getReportPreview().attr("list-class-score",$(this).attr("list-class-score"));
         getReportPreview().modal('show');
-        var listWord = $(this).attr("list-word");
-        var studentScore = $(this).attr("list-student-score");
-        var classScore = $(this).attr("list-class-score");
-        getReportPreview().find("#canvas").remove();
-        getReportPreview().find("#container-canvas").append(" <canvas height='400px' width='900px' id='canvas'></canvas>");
-        init(listWord.split(","),studentScore,classScore,"word");
     });
 }
+function openReportPreview(){
+    $("#report-popup").on('shown.bs.modal', function () {
+        var listWord = parseToArray($(this).attr("list-word"));
+        var studentScores = parseToArray($(this).attr("list-student-score"));
+        var classScores = parseToArray($(this).attr("list-class-score"));
+        drawStackedChart(listWord,studentScores,classScores);
+    });
+}
+var color_class_score = "#558ED5";
+var color_student_score = "#17375E";
+var color_blank = "#FFFFFF";
 
+function generateDataChart(studentScores,classScores){
+    var arrayDataBottom =[];
+    var arrayColorBottom=[];
+    var arrayDataTop=[];
+    var arrayColorTop=[];
+    for(i=0;i<studentScores.length;i++){
+        var sScore = studentScores[i];
+        var cScore = classScores[i];
+        if(sScore == 0){
+            arrayDataBottom.push([i,0]);
+            arrayColorBottom.push([i,color_blank]);
+            arrayDataTop.push([i,0]);
+            arrayColorBottom.push([i,color_blank]);
+            continue;
+        }
+        if(sScore > cScore){
+            arrayDataBottom.push([i,cScore]);
+            arrayColorBottom.push([i,color_class_score]);
+            arrayDataTop.push([i,sScore]);
+            arrayColorBottom.push([i,color_student_score]);
+            continue;
+        }
+        if(cScore > sScore){
+            arrayDataBottom.push([i,sScore]);
+            arrayColorBottom.push([i,color_student_score]);
+            arrayDataTop.push([i,cScore]);
+            arrayColorBottom.push([i,color_class_score]);
+            continue;
+        }
+        if(sScore == cScore){
+            arrayDataBottom.push([i,sScore]);
+            arrayColorBottom.push([i,color_student_score]);
+            arrayDataTop.push([i,0]);
+            arrayColorBottom.push([i,color_student_score]);
+            continue;
+        }
+    }
+    var data = [
+        {data: arrayDataBottom,color : arrayColorBottom,temp : "temp"},
+        {data: arrayDataTop,color :arrayColorTop ,temp : "temp1"}
+    ];
+    return data;
+}
+
+function generateYaxis(){
+    var yaxis = [];
+    for (i = 0; i < 20; i++) {
+        if(i == 0){
+            yaxis.push([i,5]);
+            continue;
+        }
+        yaxis.push([i,i*5]);
+    }
+    return yaxis;
+}
+
+function generateXasis(listWord){
+    var xaxis = [];
+    for(i=0;i< listWord.length;i++){
+        xaxis.push([i,listWord[i]]);
+    }
+    return xaxis;
+}
+
+function drawStackedChart(listWord,studentScores,classScores){
+    var data = [
+        {data: [[1,3], [2,4], [3,5], [4,6], [5,7]],color : [[1,"black"], [2,"red"], [3,"black"], [4,"red"], [5,"black"]],temp : "temp"},
+        {data: [[1,8], [2,6], [3,4], [4,2], [5,0]],color : [[1,"red"], [2,"black"], [3,"red"], [4,"black"], [5,"red"]],temp : "temp1"}
+    ];
+    var tick_labels = generateXasis(listWord);
+    var options = {
+        series: {stack: 0,
+            lines: {show: false, steps: false },
+            bars: {show: true, barWidth: 0.5, align: 'center',},},
+        xaxis: {ticks: tick_labels},
+        yaxis: {
+            min: 0,
+            max: 100
+        }
+    };
+    var data1 = generateDataChart(studentScores,classScores);
+    $.plot($("#placeholder"), data1, options);
+}
 function parseToArray(str){
     var array = str.split(",");
     return array;
 }
 
 $(document).ready(function () {
-    openPreviewReport();
+    clickToThumbnail();
+    openReportPreview();
     $('#help-icons').show();
     loadInfo();
     listStudent();
@@ -336,5 +428,6 @@ $(document).ready(function () {
     listCourse();
     changeCourse();
     changeLevel();
+
 });
 
