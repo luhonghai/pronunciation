@@ -156,7 +156,7 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
         showLoadding()
         let description = textView.text
         
-        if description.isEmpty || description==nil {
+        if description.isEmpty || description==nil || description == "description" {
             dispatch_async(dispatch_get_main_queue(),{
                 SweetAlert().showAlert("", subTitle: "please enter your message", style: AlertStyle.Warning)
                 self.hidenLoadding()

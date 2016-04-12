@@ -188,10 +188,13 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         let row: Int = sender.view!.tag
         Logger.log("Select row id \(row)")
         let level = levels[row]
-        let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
-        nextController.selectedLevel = level
-        nextController.selectedCountry = AccountManager.currentUser().selectedCountry
-        self.navigationController?.pushViewController(nextController, animated: true)
+        
+        if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) || level.active {
+            let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
+            nextController.selectedLevel = level
+            nextController.selectedCountry = AccountManager.currentUser().selectedCountry
+            self.navigationController?.pushViewController(nextController, animated: true)
+        }
     }
 
 }

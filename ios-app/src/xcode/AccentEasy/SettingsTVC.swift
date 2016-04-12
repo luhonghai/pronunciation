@@ -70,7 +70,7 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
             dispatch_async(dispatch_get_main_queue(),{
                 print(userProfile)
                 if success {
-                    AccountManager.updateProfile(userProfile)
+                    //AccountManager.updateProfile(userProfile)
                 } else {
                     //AccountManager.showError("could not fetch user data")
                 }
