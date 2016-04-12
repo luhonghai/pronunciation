@@ -39,6 +39,10 @@ class TestPassPopupVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().postNotificationName("testPassMove", object: nil)
+    }
+    
     func playSound()
     {
         let coinSound = NSURL(fileURLWithPath: NSBundle.mainBundle().pathForResource("ta_da_fanfare", ofType: "mp3")!)

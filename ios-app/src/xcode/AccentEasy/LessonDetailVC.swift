@@ -81,6 +81,9 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         showDetail()
         
         cvQuestionList.translatesAutoresizingMaskIntoConstraints = true
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "testFailMove:",name:"testFailMove", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "testPassMove:",name:"testPassMove", object: nil)
     }
     
     func activateAudioSession() {
@@ -564,14 +567,24 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func closeTestPassPopup(sender: AnyObject){
         self.dismissPopupViewController(.Fade)
-        self.navigationController?.popToRootViewControllerAnimated(false)
     }
     
     func closeTestFailPopup(sender: AnyObject){
         self.dismissPopupViewController(.Fade)
         //pop view
         let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: false);
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+    }
+    
+    func testFailMove(notification: NSNotification) {
+        //pop view
+        self.dismissPopupViewController(.Fade)
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+    }
+    
+    func testPassMove(notification: NSNotification) {
+        self.navigationController?.popToRootViewControllerAnimated(false)
     }
     
     func backToMain() {
