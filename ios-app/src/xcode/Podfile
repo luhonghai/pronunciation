@@ -21,6 +21,7 @@ target 'AccentEasy' do
     pod 'ImageLoader'
     pod 'SloppySwiper'
     pod 'NSLogger'
+    pod 'BEMCheckBox'
 end
 
 target 'AccentEasyTests' do

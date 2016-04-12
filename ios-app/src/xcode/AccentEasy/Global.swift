@@ -24,6 +24,9 @@ public class GlobalData {
     
     var currentTipPhonemes = ""
     
+    var isShowHelpFreestyle = false
+    var isShowHelpLesson = false
+    
     public static func getInstance() -> GlobalData {
         if (instance == nil) {
             instance = GlobalData()

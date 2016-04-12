@@ -11,7 +11,7 @@ import AVFoundation
 import EZAudio
 import Darwin
 
-class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate {
+class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchResultsUpdating, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UISearchBarDelegate, UISearchDisplayDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -159,7 +159,34 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         setNavigationBarTransparent()
     }
     
+    @IBOutlet weak var helpContext: UIView!
     
+    func initHelpContext() {
+        let helpButton = HelpButtonController()
+        helpButton.delegate = self
+        helpButton.show(self.view.frame)
+    }
+    
+    func onHelpButtonClose(neverShowAgain: Bool) {
+        self.navigationController!.view.userInteractionEnabled = true
+        helpContext.hidden = true
+        GlobalData.getInstance().isShowHelpFreestyle = true
+        if neverShowAgain {
+            let profile = AccountManager.currentUser()
+            profile.helpStatus = UserProfile.HELP_NEVER
+            AccountManager.updateProfile(profile)
+        }
+    }
+    
+    func onHelpButtonShow() {
+        self.navigationController!.view.userInteractionEnabled = false
+        helpContext.hidden = false
+    }
+    
+    @IBAction func clickContinue(sender: AnyObject) {
+        Logger.log("click continue")
+    }
+
     
     func roundButton() {
         //button style cricle
@@ -297,6 +324,11 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+        delay(0.8) { () -> () in
+            if !GlobalData.getInstance().isShowHelpFreestyle && AccountManager.currentUser().helpStatus != UserProfile.HELP_NEVER {
+                self.initHelpContext()
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
