@@ -36,7 +36,14 @@ class TestFailPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        //self.navigationController?.popToRootViewControllerAnimated(false)
+        //pop view
+        //let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        //self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        NSNotificationCenter.defaultCenter().postNotificationName("testFailMove", object: nil)
     }
 
     override func didReceiveMemoryWarning() {
