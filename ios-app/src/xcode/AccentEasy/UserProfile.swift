@@ -13,9 +13,9 @@ public class UserProfile: Mappable {
     public static let TYPE_FACEBOOK:String = "facebook"
     public static let TYPE_GOOGLE_PLUS:String = "googleplus"
     
-    public let HELP_INIT:Int = 0
-    public let HELP_SKIP:Int = 1
-    public let HELP_NEVER:Int = 2
+    public static let HELP_INIT:Int = 0
+    public static let HELP_SKIP:Int = 1
+    public static let HELP_NEVER:Int = 2
     //typealias HELP_INIT = Int
     //var so5:alias = 5
     

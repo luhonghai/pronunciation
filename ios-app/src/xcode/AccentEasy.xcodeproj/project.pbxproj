@@ -25,7 +25,19 @@
 		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
 		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B17BBBC1C9FB537000761FC /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B17BBBB1C9FB537000761FC /* StringHelper.swift */; };
+		9B287B2E1CB747E200C761A1 /* ArchitectsDaughter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */; settings = {ASSET_TAGS = (); }; };
+		9B287B301CB747EA00C761A1 /* hand-draw-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */; settings = {ASSET_TAGS = (); }; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
+		9B3408171CB76461002F80A1 /* hand-draw-arrow-1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B3408141CB76461002F80A1 /* hand-draw-arrow-1.png */; settings = {ASSET_TAGS = (); }; };
+		9B3408181CB76461002F80A1 /* hand-draw-arrow-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B3408151CB76461002F80A1 /* hand-draw-arrow-2.png */; settings = {ASSET_TAGS = (); }; };
+		9B3408191CB76461002F80A1 /* hand-draw-arrow-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B3408161CB76461002F80A1 /* hand-draw-arrow-3.png */; settings = {ASSET_TAGS = (); }; };
+		9B3408271CB764CD002F80A1 /* hand-draw-arrow-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B3408261CB764CD002F80A1 /* hand-draw-arrow-4.png */; settings = {ASSET_TAGS = (); }; };
+		9B3408291CB7663D002F80A1 /* hand-draw-arrow-5.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B3408281CB7663D002F80A1 /* hand-draw-arrow-5.png */; settings = {ASSET_TAGS = (); }; };
+		9B34082D1CB76802002F80A1 /* HelpButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B34082B1CB76802002F80A1 /* HelpButtonController.swift */; settings = {ASSET_TAGS = (); }; };
+		9B34082E1CB76802002F80A1 /* HelpButtonController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B34082C1CB76802002F80A1 /* HelpButtonController.xib */; settings = {ASSET_TAGS = (); }; };
+		9B3408301CB76A2C002F80A1 /* ic_next_2_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B34082F1CB76A2C002F80A1 /* ic_next_2_arrow.png */; settings = {ASSET_TAGS = (); }; };
+		9B3408411CB76B26002F80A1 /* BEMCheckBox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B3408401CB76B26002F80A1 /* BEMCheckBox.framework */; };
+		9B3408431CB7738A002F80A1 /* CustomUINavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3408421CB7738A002F80A1 /* CustomUINavigationBar.swift */; settings = {ASSET_TAGS = (); }; };
 		9B4009671C9965BC0011EEF8 /* IPAMainPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4009661C9965BC0011EEF8 /* IPAMainPageController.swift */; };
 		9B4009741C9965DE0011EEF8 /* IPARPController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4009731C9965DE0011EEF8 /* IPARPController.swift */; };
 		9B4009841C9974900011EEF8 /* SloppySwiper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B4009831C9974900011EEF8 /* SloppySwiper.framework */; };
@@ -433,6 +445,13 @@
 			remoteGlobalIDString = BE8E6DB873A2B30D563C0B550C00F7BA;
 			remoteInfo = RDVTabBarController;
 		};
+		9B34083F1CB76B26002F80A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC4AB9F32C2B82D2B5E656E5EB390ECD;
+			remoteInfo = BEMCheckBox;
+		};
 		9B4009821C9974900011EEF8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
@@ -536,7 +555,18 @@
 		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
 		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B17BBBB1C9FB537000761FC /* StringHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
+		9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ArchitectsDaughter.ttf; path = font/ArchitectsDaughter.ttf; sourceTree = "<group>"; };
+		9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow.png"; path = "AccentEasy/font/hand-draw-arrow.png"; sourceTree = SOURCE_ROOT; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
+		9B3408141CB76461002F80A1 /* hand-draw-arrow-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow-1.png"; path = "AccentEasy/font/hand-draw-arrow-1.png"; sourceTree = SOURCE_ROOT; };
+		9B3408151CB76461002F80A1 /* hand-draw-arrow-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow-2.png"; path = "AccentEasy/font/hand-draw-arrow-2.png"; sourceTree = SOURCE_ROOT; };
+		9B3408161CB76461002F80A1 /* hand-draw-arrow-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow-3.png"; path = "AccentEasy/font/hand-draw-arrow-3.png"; sourceTree = SOURCE_ROOT; };
+		9B3408261CB764CD002F80A1 /* hand-draw-arrow-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow-4.png"; path = "AccentEasy/font/hand-draw-arrow-4.png"; sourceTree = SOURCE_ROOT; };
+		9B3408281CB7663D002F80A1 /* hand-draw-arrow-5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow-5.png"; path = "AccentEasy/font/hand-draw-arrow-5.png"; sourceTree = SOURCE_ROOT; };
+		9B34082B1CB76802002F80A1 /* HelpButtonController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpButtonController.swift; path = HelpContent/HelpButtonController.swift; sourceTree = "<group>"; };
+		9B34082C1CB76802002F80A1 /* HelpButtonController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HelpButtonController.xib; path = HelpContent/HelpButtonController.xib; sourceTree = "<group>"; };
+		9B34082F1CB76A2C002F80A1 /* ic_next_2_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next_2_arrow.png; sourceTree = "<group>"; };
+		9B3408421CB7738A002F80A1 /* CustomUINavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUINavigationBar.swift; sourceTree = "<group>"; };
 		9B4009661C9965BC0011EEF8 /* IPAMainPageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMainPageController.swift; path = IPAInformation/IPAMainPageController.swift; sourceTree = "<group>"; };
 		9B4009731C9965DE0011EEF8 /* IPARPController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPARPController.swift; path = IPAInformation/IPARPController.swift; sourceTree = "<group>"; };
 		9B4849E81C98FFBD002F193F /* IPAChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAChartController.swift; path = IPAInformation/IPAChartController.swift; sourceTree = "<group>"; };
@@ -952,6 +982,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B3408411CB76B26002F80A1 /* BEMCheckBox.framework in Frameworks */,
 				9B72D1511C9C093200297470 /* NSLogger.framework in Frameworks */,
 				9B4009841C9974900011EEF8 /* SloppySwiper.framework in Frameworks */,
 				9053C2771C8EE2D2009BA3DF /* ImageLoader.framework in Frameworks */,
@@ -1020,6 +1051,23 @@
 				9B80976A1C86E73A00A3C87C /* PhonemeScore.swift */,
 			);
 			name = Entity;
+			sourceTree = "<group>";
+		};
+		9B287B201CB747D500C761A1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		9B34082A1CB767D4002F80A1 /* HelpContent */ = {
+			isa = PBXGroup;
+			children = (
+				9B34082B1CB76802002F80A1 /* HelpButtonController.swift */,
+				9B34082C1CB76802002F80A1 /* HelpButtonController.xib */,
+			);
+			name = HelpContent;
 			sourceTree = "<group>";
 		};
 		9B4849DC1C98FF65002F193F /* IPAInformation */ = {
@@ -1436,6 +1484,7 @@
 		9BC5E0E81C50803B003CF8E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				9B3408401CB76B26002F80A1 /* BEMCheckBox.framework */,
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
@@ -1617,6 +1666,7 @@
 		C141C7FF1C3E203C001D1F9C /* AccentEasy */ = {
 			isa = PBXGroup;
 			children = (
+				9B287B201CB747D500C761A1 /* Fonts */,
 				C13A5D4A1C58B6F40036A5E9 /* Common */,
 				9BA3AB811C4F98AB00C6631D /* Utils */,
 				C16CD2431C44B01B00537461 /* Supporting Files */,
@@ -1663,6 +1713,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				9B34082A1CB767D4002F80A1 /* HelpContent */,
 				C153223B1CBA5E0700629085 /* InfoController */,
 				C1D59D621CB4EB3E00127FF4 /* SettingsController */,
 				9B4849DC1C98FF65002F193F /* IPAInformation */,
@@ -1687,6 +1738,7 @@
 				C13D48541C89559A00D630A4 /* FSMainSwipeVC.xib */,
 				C13D48571C896BAD00D630A4 /* FSDetailSwipeVC.swift */,
 				C13D48581C896BAD00D630A4 /* FSDetailSwipeVC.xib */,
+				9B3408421CB7738A002F80A1 /* CustomUINavigationBar.swift */,
 			);
 			name = ScreenController;
 			sourceTree = "<group>";
@@ -1765,6 +1817,12 @@
 		C16CD2441C44B1EC00537461 /* drawable */ = {
 			isa = PBXGroup;
 			children = (
+				9B3408261CB764CD002F80A1 /* hand-draw-arrow-4.png */,
+				9B3408281CB7663D002F80A1 /* hand-draw-arrow-5.png */,
+				9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */,
+				9B3408141CB76461002F80A1 /* hand-draw-arrow-1.png */,
+				9B3408151CB76461002F80A1 /* hand-draw-arrow-2.png */,
+				9B3408161CB76461002F80A1 /* hand-draw-arrow-3.png */,
 				C1FA8A9E1C88195600051958 /* Back-25.png */,
 				C1FA8AA91C881A2900051958 /* Back-25@2x.png */,
 				9B5F35A11CB5FF92000A0A3F /* p_menu_ipa_gray.png */,
@@ -1840,6 +1898,7 @@
 			children = (
 				C16CD27D1C44B1EC00537461 /* berty_antialias_clear.png */,
 				C16CD27E1C44B1EC00537461 /* berty_head_antialias_alpha.png */,
+				9B34082F1CB76A2C002F80A1 /* ic_next_2_arrow.png */,
 				C16CD27F1C44B1EC00537461 /* gb_round.png */,
 				C16CD2801C44B1EC00537461 /* global_bg.png */,
 				C16CD2811C44B1EC00537461 /* ic_close.png */,
@@ -2067,6 +2126,13 @@
 			remoteRef = 9053FE0F1C87E92E0059A423 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9B3408401CB76B26002F80A1 /* BEMCheckBox.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BEMCheckBox.framework;
+			remoteRef = 9B34083F1CB76B26002F80A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9B4009831C9974900011EEF8 /* SloppySwiper.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2151,6 +2217,7 @@
 				9B5526411C9A6911000AB7E8 /* select_prev_level_of_level.sql in Resources */,
 				9053FE151C87F7910059A423 /* tab-background-unselected.png in Resources */,
 				C16CD2F01C44B1EC00537461 /* ic_slider_up.png in Resources */,
+				9B3408191CB76461002F80A1 /* hand-draw-arrow-3.png in Resources */,
 				C16CD2DF1C44B1EC00537461 /* gb_round.png in Resources */,
 				C1648FE91CB5167B00C8DFE0 /* SettingPopupCell.xib in Resources */,
 				C109066F1C7579FA0071206D /* Menu-100.png in Resources */,
@@ -2171,17 +2238,21 @@
 				C16CD2F41C44B1EC00537461 /* vn_round.png in Resources */,
 				C115C5571CB76AD600B3258B /* TestPassPopupVC.xib in Resources */,
 				C16CD2C71C44B1EC00537461 /* p_tip_blue.png in Resources */,
+				9B34082E1CB76802002F80A1 /* HelpButtonController.xib in Resources */,
 				C16CD2FF1C44B1EC00537461 /* help_content_8.png in Resources */,
 				C16CD2EE1C44B1EC00537461 /* ic_slider.png in Resources */,
 				C16CD2B71C44B1EC00537461 /* p_help_hand.png in Resources */,
 				C10906811C757A120071206D /* Menu-25@2x.png in Resources */,
+				9B3408301CB76A2C002F80A1 /* ic_next_2_arrow.png in Resources */,
 				C16CD2CB1C44B1EC00537461 /* rounded_corner.xml in Resources */,
 				C16CD2BA1C44B1EC00537461 /* p_history_blue_blur.png in Resources */,
 				C16CD2D31C44B1EC00537461 /* scrollbar.xml in Resources */,
 				C16CD2B81C44B1EC00537461 /* p_help_score_99.png in Resources */,
 				C16CD2D81C44B1EC00537461 /* sl_dog_3.png in Resources */,
+				9B3408271CB764CD002F80A1 /* hand-draw-arrow-4.png in Resources */,
 				9B5526381C9A6911000AB7E8 /* select_all_lesson_collection_by_objective.sql in Resources */,
 				9B55263B1C9A6911000AB7E8 /* select_all_objective_by_level.sql in Resources */,
+				9B3408291CB7663D002F80A1 /* hand-draw-arrow-5.png in Resources */,
 				C16CD2E61C44B1EC00537461 /* ic_lesson_tip.png in Resources */,
 				C16CD2FD1C44B1EC00537461 /* help_content_6.png in Resources */,
 				C1FA8A9F1C88195600051958 /* Back-25.png in Resources */,
@@ -2249,8 +2320,11 @@
 				C16CD2AF1C44B1EC00537461 /* my_background.xml in Resources */,
 				C16CD2B01C44B1EC00537461 /* p_btn_close.png in Resources */,
 				C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */,
+				9B3408171CB76461002F80A1 /* hand-draw-arrow-1.png in Resources */,
+				9B287B301CB747EA00C761A1 /* hand-draw-arrow.png in Resources */,
 				C13A5D611C58CBD80036A5E9 /* london-sunset-1920x1080.jpg in Resources */,
 				C16CD2D21C44B1EC00537461 /* rounded_corner_color_red_dialog.xml in Resources */,
+				9B287B2E1CB747E200C761A1 /* ArchitectsDaughter.ttf in Resources */,
 				C16CD2DB1C44B1EC00537461 /* tab_tip.xml in Resources */,
 				C16CD2BF1C44B1EC00537461 /* p_menu_freestyle.png in Resources */,
 				C16CD2A81C44B1EC00537461 /* ae_icon.png in Resources */,
@@ -2261,6 +2335,7 @@
 				C16CD2E91C44B1EC00537461 /* ic_play.png in Resources */,
 				C1FAD5101C55DCCC00385D74 /* GoogleService-Info.plist in Resources */,
 				C13D48561C89559A00D630A4 /* FSMainSwipeVC.xib in Resources */,
+				9B3408181CB76461002F80A1 /* hand-draw-arrow-2.png in Resources */,
 				C16CD2B61C44B1EC00537461 /* p_graph_blue_blur.png in Resources */,
 				C16CD2DE1C44B1EC00537461 /* berty_head_antialias_alpha.png in Resources */,
 				C16CD2EB1C44B1EC00537461 /* ic_record.png in Resources */,
@@ -2464,6 +2539,7 @@
 				9B5F33771C77129A00E85629 /* BubbleChartDataSet.swift in Sources */,
 				9B5F34261C771E6000E85629 /* Constants.swift in Sources */,
 				C1ECBD251C3FBE46009309CE /* TestNewScreenViewController.swift in Sources */,
+				9B34082D1CB76802002F80A1 /* HelpButtonController.swift in Sources */,
 				9B5F334D1C77129A00E85629 /* CandleStickChartView.swift in Sources */,
 				9B5F33731C77129A00E85629 /* BarLineScatterCandleBubbleChartData.swift in Sources */,
 				9B5F33871C77129A00E85629 /* ScatterChartData.swift in Sources */,
@@ -2590,6 +2666,7 @@
 				9B5F33B61C77129A00E85629 /* LineChartRenderer.swift in Sources */,
 				9B5F33BB1C77129A00E85629 /* ScatterChartRenderer.swift in Sources */,
 				C13E44BE1C60615B00EB6075 /* Multimedia.swift in Sources */,
+				9B3408431CB7738A002F80A1 /* CustomUINavigationBar.swift in Sources */,
 				9BEF044F1C59B6D200E474F3 /* RecordingViewController.m in Sources */,
 				9B5F33E11C771B5A00E85629 /* Mappable.swift in Sources */,
 				9B5F33991C77129A00E85629 /* BarChartHighlighter.swift in Sources */,

@@ -55,8 +55,8 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
     
     override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
-        print(userProfile)
-        print(userProfile.selectedCountry.name)
+     //   print(userProfile)
+     //   print(userProfile.selectedCountry.name)
         if userProfile.selectedCountry == nil {
             self.displayViewController(.Fade)
         } else {
@@ -96,7 +96,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
                     if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: levels[index].idString) {
                         if tScore.score > 0 {
                             levels[index].score = tScore.score
-                            if (tScore.isLevelPass != nil && tScore.isLevelPass && index<levels.count-1) {
+                            if (tScore.isLevelPass != nil && tScore.isLevelPass! && index<levels.count-1) {
                                 levels[index+1].active = true
                             }
                         }
