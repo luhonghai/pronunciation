@@ -1,28 +1,48 @@
 //
-//  OurItem3ViewController.swift
-//  SwiftSidebarMenu
+//  AboutVC.swift
+//  AccentEasy
 //
-//  Created by CMGVN on 1/7/16.
+//  Created by CMGVN on 4/10/16.
 //  Copyright © 2016 Claybourne McGregor Consulting Ltd (CMG Ltd). All rights reserved.
 //
 
 import UIKit
 
-class OurItem3ViewController: UIViewController, LSPopupVCDelegate{
+class AboutVC: UIViewController {
 
     @IBOutlet weak var menuButton: UIBarButtonItem!
+    @IBOutlet weak var webView: UIWebView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        //menu
         if self.revealViewController() != nil {
             menuButton.target = self.revealViewController()
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
         
+        //show content
+        let htmlFile = NSBundle.mainBundle().pathForResource("about", ofType: "html")
+        let htmlString = try? String(contentsOfFile: htmlFile!, encoding: NSUTF8StringEncoding)
+        webView.loadHTMLString(htmlString!, baseURL: nil)
         
+        navigationItem.title = "about"
+        setNavigationBarTransparent()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews();
+        webView.scrollView.contentInset = UIEdgeInsetsZero;
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,25 +60,5 @@ class OurItem3ViewController: UIViewController, LSPopupVCDelegate{
         // Pass the selected object to the new view controller.
     }
     */
-    
-    @IBAction func showLS(sender: AnyObject) {
-        self.displayViewController(.Fade)
-    }
-    
-    func displayViewController(animationType: SLpopupViewAnimationType) {
-
-        let lSPopupVC:LSPopupVC = LSPopupVC(nibName:"LSPopupVC", bundle: nil)
-        
-        lSPopupVC.delegate = self
-        
-        self.presentpopupViewController(lSPopupVC, animationType: animationType, completion: { () -> Void in
-            
-        })
-    }
-    
-    func closePopup(sender: AnyObject) {
-        self.dismissPopupViewController(.Fade)
-    }
-
 
 }

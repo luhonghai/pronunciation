@@ -53,6 +53,26 @@ public class LiteTable {
     ]
     
     public static let CREATE_TABLE_SCORE_QUERIES = [
+        LiteTable.PRONUNCIATION_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+            t.column(LiteColumn.WORD)
+            t.column(LiteColumn.SCORE)
+            t.column(LiteColumn.DATA_ID)
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.VERSION)
+            t.column(LiteColumn.TIME)
+        },
+        LiteTable.PHONEME_SCORE.create(ifNotExists: true) { t in
+            t.column(LiteColumn.ID, primaryKey: .Autoincrement)
+            t.column(LiteColumn.INDEX)
+            t.column(LiteColumn.NAME)
+            t.column(LiteColumn.IPA)
+            t.column(LiteColumn.SCORE)
+            t.column(LiteColumn.USERNAME)
+            t.column(LiteColumn.VERSION)
+            t.column(LiteColumn.DATA_ID)
+            t.column(LiteColumn.TIME)
+        },
         LiteTable.OBJECTIVE_SCORE.create(ifNotExists: true) { t in
             t.column(LiteColumn.USERNAME)
             t.column(LiteColumn.IDCOUNTRY)
@@ -66,6 +86,7 @@ public class LiteTable {
             t.column(LiteColumn.IDCOUNTRY)
             t.column(LiteColumn.IDLEVEL)
             t.column(LiteColumn.SCORE)
+            t.column(LiteColumn.ISLEVELPASS)
         }
     ]
 
@@ -107,6 +128,7 @@ public class LiteColumn {
     public static let IDLEVEL = Expression<String?>("IDLEVEL")
     public static let IDOBJECTIVE = Expression<String?>("IDOBJECTIVE")
     public static let IDLESSON = Expression<String?>("IDLESSON")
+    public static let ISLEVELPASS = Expression<Bool?>("ISLEVELPASS")
 }
 
 public class LiteEntity {

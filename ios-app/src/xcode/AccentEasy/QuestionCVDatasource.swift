@@ -11,6 +11,8 @@ import Foundation
 @objc protocol QuestionCVDatasourceDelegate {
     optional func selectedCellQuestionInDetail(cellIndex:Int)
     optional func backToMain()
+    optional func redoLesson()
+    optional func nextLesson()
 }
 
 extension QuestionCVDatasourceDelegate{

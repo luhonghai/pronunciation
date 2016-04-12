@@ -10,7 +10,7 @@ import UIKit
 import EZAudio
 import SloppySwiper
 
-class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate {
+class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate, TestPopupDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -19,6 +19,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     @IBOutlet weak var btnPlayDemo: UIButton!
     @IBOutlet weak var cViewIPAList: UICollectionView!
     @IBOutlet weak var viewAnalyzing: AnalyzingView!
+    @IBOutlet weak var btnGoToLesson: UIButton!
+    @IBOutlet weak var btnRedo: UIButton!
+    @IBOutlet weak var btnNextLesson: UIButton!
+    
     
     //varible for data
     var wordSelected:WordCollection!
@@ -62,7 +66,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         //cvQuestionList.delegate = QuestionCVDatasource()
         
         //process for questionCV
-        questionCVDatasource.arrQuestions = arrQuestionOfLesson
+        questionCVDatasource.arrQuestions = arrQuestionOfLC
         questionCVDatasource.delegateMain = questionCVDatasourceDelegate
         questionCVDatasource.delegateDetail = self
         cvQuestionList.dataSource = questionCVDatasource
@@ -75,6 +79,8 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeDetail:",name:"closeDetail", object: nil)
         btnPlay.hidden = true
         showDetail()
+        
+        cvQuestionList.translatesAutoresizingMaskIntoConstraints = true
     }
     
     func activateAudioSession() {
@@ -101,6 +107,13 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         btnPlay.layer.cornerRadius = btnPlay.frame.size.width/2
         btnPlay.clipsToBounds = true
         btnPlay.hidden = false
+        
+        btnGoToLesson.layer.cornerRadius = btnGoToLesson.frame.size.width/2
+        btnGoToLesson.clipsToBounds = true
+        btnRedo.layer.cornerRadius = btnRedo.frame.size.width/2
+        btnRedo.clipsToBounds = true
+        btnNextLesson.layer.cornerRadius = btnNextLesson.frame.size.width/2
+        btnNextLesson.clipsToBounds = true
     }
     
     func showDetail() {
@@ -176,18 +189,27 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         activateAudioSession()
         
         
+        //hidden
+        btnGoToLesson.hidden = true
+        btnRedo.hidden = true
+        btnNextLesson.hidden = true
 
         //check obj or test
         if isLessonCollection {
             //caculate score
             var arrQuestionScore = [Float]()
-            for question in arrQuestionOfLesson {
+            for question in arrQuestionOfLC {
                 arrQuestionScore.append(question.listScore.average)
             }
             let score = Int(round(arrQuestionScore.average))
             
             //show popup score for Lesson
-            if arrQuestionOfLesson[arrQuestionOfLesson.count-1].listScore.count > 0 {
+            //arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 && 
+            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
+                //finished recorde question of lesson
+                btnGoToLesson.hidden = false
+                btnRedo.hidden = false
+                btnNextLesson.hidden = false
                 let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
                 toltalScorePopupVC.toltalScore = score
                 toltalScorePopupVC.lessonTitle = lessonTitle
@@ -201,20 +223,43 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             objectiveScore.score = score
             try! lessonDBAdapter.saveLessonScore(objectiveScore)
         } else {
-            //show popup score
-            if arrQuestionOfLesson[arrQuestionOfLesson.count-1].listScore.count > 0 {
+            //save score and show popup score for test
+            //if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
+            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
                 //caculate score
                 var arrQuestionScore = [Float]()
-                for question in arrQuestionOfLesson {
+                for question in arrQuestionOfLC {
                     arrQuestionScore.append(question.listScore.average)
                 }
-                let score = Int(round(arrQuestionScore.average))
+                let score = 100
+                    //Int(round(arrQuestionScore.average))
                 
-                //save test score
-                testScore.score = score
-                try! lessonDBAdapter.saveTestScore(testScore)
-                
-                print("show popup test")
+                //show popup test
+                if score < testScore.passScore {
+                    //Fail
+                    //save test score
+                    testScore.score = score
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup fail
+                    let testFailPopupVC:TestFailPopupVC = TestFailPopupVC(nibName: "TestFailPopupVC", bundle: nil)
+                    testFailPopupVC.toltalScore = score
+                    testFailPopupVC.passScore = testScore.passScore
+                    testFailPopupVC.delegate = self
+                    self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }else{
+                    //Pass
+                    //save test score
+                    testScore.score = score
+                    testScore.isLevelPass = true
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup pass
+                    let testPassPopupVC:TestPassPopupVC = TestPassPopupVC(nibName: "TestPassPopupVC", bundle: nil)
+                    testPassPopupVC.toltalScore = score
+                    testPassPopupVC.delegate = self
+                    self.presentpopupViewController(testPassPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }
                 
                 //show popup test
                 /*let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
@@ -480,10 +525,28 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     /*colection view setup
      *************************************************************/
     @IBOutlet weak var cvQuestionList: UICollectionView!
-    var arrQuestionOfLesson = [AEQuestion]()
+    var arrQuestionOfLC = [AEQuestion]()
     
     func closeToltaScorelPopup(sender: ToltalScorePopupVC) {
         self.dismissPopupViewController(.Fade)
+    }
+    
+    
+    @IBAction func btnGoToLessonTouchUp(sender: AnyObject) {
+        //self.navigationController?.popViewControllerAnimated(false)
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+    }
+    
+    @IBAction func btnRedoTouchUp(sender: AnyObject) {
+        questionCVDatasourceDelegate.redoLesson!()
+        self.navigationController?.popViewControllerAnimated(false)
+    }
+    
+    
+    @IBAction func btnNextLessonTouchUp(sender: AnyObject) {
+        questionCVDatasourceDelegate.nextLesson!()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     
@@ -498,6 +561,14 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         GlobalData.getInstance().selectedWord = ""
         
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func closeTestPassPopup(sender: AnyObject){
+        self.dismissPopupViewController(.Fade)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+    }
+    
+    func closeTestFailPopup(sender: AnyObject){
     }
     
     func backToMain() {
@@ -527,7 +598,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             }
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            //weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
         
     }

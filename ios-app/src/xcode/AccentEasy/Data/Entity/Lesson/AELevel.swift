@@ -15,7 +15,7 @@ public class AELevel: AELiteEntity {
     var description: String!
     var color: String!
     
-    var active: Bool!
+    var active: Bool = false
     var score: Int!
     
     override public func parse(row: Row) {

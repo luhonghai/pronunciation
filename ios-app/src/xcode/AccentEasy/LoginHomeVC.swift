@@ -284,10 +284,27 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                 if success {
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
-                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                    weakSelf!.getUserProfile()
                 } else {
                     weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
+                }
+            })
+        }
+    }
+    
+    func getUserProfile () {
+        weak var weakSelf = self
+        AccountManager.fetchProfile(currentUser) { (userProfile, success, message) -> Void in
+            dispatch_async(dispatch_get_main_queue(),{
+                if success {
+                    userProfile.isLogin = true
+                    AccountManager.updateProfile(userProfile)
+                    weakSelf!.hidenLoadding()
+                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                } else {
+                    AccountManager.showError("could not fetch user data")
+                    weakSelf!.hidenLoadding()
                 }
             })
         }
