@@ -10,7 +10,7 @@ import UIKit
 import EZAudio
 import SloppySwiper
 
-class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate {
+class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,  IPAPopupViewControllerDelegate, EZAudioPlayerDelegate, QuestionCVDatasourceDelegate, ToltalScorePopupVCDelegate, TestPopupDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -223,20 +223,43 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             objectiveScore.score = score
             try! lessonDBAdapter.saveLessonScore(objectiveScore)
         } else {
-            //show popup score
-            if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
+            //save score and show popup score for test
+            //if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
+            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
                 //caculate score
                 var arrQuestionScore = [Float]()
                 for question in arrQuestionOfLC {
                     arrQuestionScore.append(question.listScore.average)
                 }
-                let score = Int(round(arrQuestionScore.average))
+                let score = 100
+                    //Int(round(arrQuestionScore.average))
                 
-                //save test score
-                testScore.score = score
-                try! lessonDBAdapter.saveTestScore(testScore)
-                
-                print("show popup test")
+                //show popup test
+                if score < testScore.passScore {
+                    //Fail
+                    //save test score
+                    testScore.score = score
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup fail
+                    let testFailPopupVC:TestFailPopupVC = TestFailPopupVC(nibName: "TestFailPopupVC", bundle: nil)
+                    testFailPopupVC.toltalScore = score
+                    testFailPopupVC.passScore = testScore.passScore
+                    testFailPopupVC.delegate = self
+                    self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }else{
+                    //Pass
+                    //save test score
+                    testScore.score = score
+                    testScore.isLevelPass = true
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup pass
+                    let testPassPopupVC:TestPassPopupVC = TestPassPopupVC(nibName: "TestPassPopupVC", bundle: nil)
+                    testPassPopupVC.toltalScore = score
+                    testPassPopupVC.delegate = self
+                    self.presentpopupViewController(testPassPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }
                 
                 //show popup test
                 /*let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
@@ -538,6 +561,14 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         GlobalData.getInstance().selectedWord = ""
         
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func closeTestPassPopup(sender: AnyObject){
+        self.dismissPopupViewController(.Fade)
+        self.navigationController?.popToRootViewControllerAnimated(false)
+    }
+    
+    func closeTestFailPopup(sender: AnyObject){
     }
     
     func backToMain() {

@@ -664,11 +664,15 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
         lblIPA.textColor = Multimedia.colorWithHexString("#929292")
         tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        cvQuestionList.userInteractionEnabled = false
+        btnLessonTip.enabled = false
     }
     
     func ennableViewPlay(){
         btnRecord.enabled = true
         btnPlayDemo.enabled = true
+        cvQuestionList.userInteractionEnabled = true
+        btnLessonTip.enabled = true
     }
     
     func disableViewRecord(){
@@ -678,11 +682,15 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
         lblIPA.textColor = Multimedia.colorWithHexString("#929292")
         tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        cvQuestionList.userInteractionEnabled = false
+        btnLessonTip.enabled = false
     }
     
     func ennableViewRecord(){
         btnPlay.enabled = true
         btnPlayDemo.enabled = true
+        cvQuestionList.userInteractionEnabled = true
+        btnLessonTip.enabled = true
     }
     
     /*
@@ -712,7 +720,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     @IBOutlet weak var cvQuestionList: UICollectionView!
     var arrQuestionOfLC = [AEQuestion]()
     var lessionCollections = Array<AELessonCollection>()
-    var indexSelectedLesson:Int!
+    var indexLessonSelected:Int!
     var selectedLessonCollection = AELessonCollection()
     var objectiveScore:ObjectiveScore!
     let reuseIdentifier = "cell"
@@ -721,13 +729,20 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     var isShowDetail = true
     //var for test
     var testScore:TestScore!
+    //next lesson
+    var objectives = Array<AEObjective>()
+    var indexObjectiveSelected:Int!
     
     
     func questionCVInit(){
+        disableViewRecord()
         
-        selectedLessonCollection = lessionCollections[indexSelectedLesson]
-        
-        objectiveScore.idLesson = selectedLessonCollection.idString
+        //if lesson of objective, using process next lesson of objective
+        if isLessonCollection{
+            selectedLessonCollection = lessionCollections[indexLessonSelected]
+            
+            objectiveScore.idLesson = selectedLessonCollection.idString
+        }
         
         print(selectedLessonCollection.idString)
         
@@ -829,8 +844,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         Logger.log("You selected cell #\(indexPath.item)!")
         
         let question = arrQuestionOfLC[indexPath.item]
-        indexCurrentQuestion = indexPath.item
         if question.enabled {
+            indexCurrentQuestion = indexPath.item
+            disableViewRecord()
             randomWord(question)
         }
     }
@@ -845,6 +861,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //question.selectedWord = selectedWord
         self.chooseWord(selectedWord.word)
         Logger.log("radom word of question \(selectedWord.word) index \(randomIndex)")
+        
+        //ennableViewRecord()
     }
     
     //process when click question cell on detail screen
@@ -865,7 +883,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             scoreResult = floor(currentMode.score)
             showColorOfScoreResult(currentMode.score)
             analyzingView.showScore(Int(currentMode.score))
-            ennableViewRecord()
+            //ennableViewRecord()
             btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
             isRecording = false
@@ -903,12 +921,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         cvQuestionList.reloadData()
     }
     
-    //process when click next level on detail screen
+    //process when click next lesson on detail screen
     func nextLesson() {
-        if indexSelectedLesson < lessionCollections.count - 1 {
+        if indexLessonSelected < lessionCollections.count - 1 {
             //next lesson
             Logger.log("nex lesson")
-            indexSelectedLesson = indexSelectedLesson + 1
+            indexLessonSelected = indexLessonSelected + 1
             questionCVInit()
             indexCurrentQuestion = 0
             
@@ -920,14 +938,34 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             cvQuestionList.reloadData()
         } else {
             //next objective
-            Logger.log("nex objective")
-            let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-            self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: false);
+            if indexObjectiveSelected < objectives.count - 1 {
+                //show lesson of nextObjective
+                Logger.log("show lesson of next objective")
+                //send notification
+                NSNotificationCenter.defaultCenter().postNotificationName("nextLesson", object: nil)
+                //pop view
+                let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+                self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+                
+                //show popup
+            
+            }else {
+                //obj end of arrObjective
+                Logger.log("show objective")
+                //send notification
+                NSNotificationCenter.defaultCenter().postNotificationName("showPopupObj", object: nil)
+                //pop view
+                let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+                self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: false);
+            }
         }
     }
     
     @IBAction func btnLessonTipTouchUp(sender: AnyObject) {
         let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+        if let des = selectedLessonCollection.description {
+            lessonTipPopupVC.contentPopup = des
+        }
         lessonTipPopupVC.delegate = self
         self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
     }
@@ -996,7 +1034,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func onAnimationMin() {
-        
+        ennableViewRecord()
     }
     
     func onAnimationMax() {

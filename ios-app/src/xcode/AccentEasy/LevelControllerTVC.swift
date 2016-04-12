@@ -55,6 +55,8 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
     
     override func viewWillAppear(animated: Bool) {
         userProfile = AccountManager.currentUser()
+        print(userProfile)
+        print(userProfile.selectedCountry.name)
         if userProfile.selectedCountry == nil {
             self.displayViewController(.Fade)
         } else {
@@ -79,10 +81,24 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
                 print(DatabaseHelper.getLessonUserScoreDatabaseFile())
                 
                 //get test score
-                for level in levels{
+                /*for level in levels{
                     if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: level.idString) {
                         if tScore.score > 0 {
                             level.score = tScore.score
+                            if (tScore.isLevelPass != nil && tScore.isLevelPass) {
+                                level.active = true
+                            }
+                        }
+                    }
+                }*/
+                
+                for index in 0...levels.count - 1 {
+                    if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: levels[index].idString) {
+                        if tScore.score > 0 {
+                            levels[index].score = tScore.score
+                            if (tScore.isLevelPass != nil && tScore.isLevelPass && index<levels.count-1) {
+                                levels[index+1].active = true
+                            }
                         }
                     }
                 }
@@ -135,10 +151,12 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
         //
         var bgColor = ColorHelper.APP_LIGHT_GRAY
         var titleColor = ColorHelper.APP_GRAY
-        if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) {
+        if level.getBoolValue(level.isDemo) || level.getBoolValue(level.isDefaultActivated) || level.active {
             bgColor = ColorHelper.APP_LIGHT_AQUA
             titleColor = ColorHelper.APP_AQUA
         }
+        
+        
         cell.bg.backgroundColor = bgColor
         cell.lblTitle.textColor = titleColor
         return cell

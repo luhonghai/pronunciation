@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewDelegate, LessonTipPopupVCDelegate {
     
     
     @IBOutlet weak var scoreTest: AnalyzingView!
@@ -80,8 +80,21 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         //titleLable.textAlignment = NSTextAlignment.Right
         //self.navigationController?.navigationBar.addSubview(titleLable)
         
-        setNavigationBarTransparent() 
+        setNavigationBarTransparent()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showPopupObj:",name:"showPopupObj", object: nil)
+        
+    }
+    
+    func showPopupObj(notification: NSNotification) {
+        let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
+        lessonTipPopupVC.contentPopup = "Take the test to progress to the next level or you can return to any of the lessons for more practise"
+        lessonTipPopupVC.delegate = self
+        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
+    }
+    
+    func closeLessonTipPopup(sender: LessonTipPopupVC) {
+        self.dismissPopupViewController(.Fade)
     }
     
     func setNavigationBarTransparent() {
@@ -100,11 +113,13 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
             try objectives = adapter.getObjective(selectedCountry.idString, levelId: selectedLevel.idString)
             
             try tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
+            print(tests)
             
             //set value for testScore obj
             testScore.username = AccountManager.currentUser().username
             testScore.idCountry = selectedCountry.idString
             testScore.idLevel = selectedLevel.idString
+            testScore.passScore = Int((tests[0].percentPass))
             
             
             //set value for objectiveScore obj
@@ -207,11 +222,13 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     func tapItem(sender: UITapGestureRecognizer) {
         let row: Int = sender.view!.tag
         Logger.log("Select row id \(row)")
-        let obj = objectives[row]
+        //let obj = objectives[row]
         let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("LessonCollectionController") as! LessonCollectionController
         nextController.selectedLevel = selectedLevel
         nextController.selectedCountry = selectedCountry
-        nextController.selectedObjective = obj
+        //nextController.selectedObjective = obj
+        nextController.objectives = objectives
+        nextController.indexObjectiveSelected = row
         self.navigationController?.pushViewController(nextController, animated: true)
     }
     
@@ -226,6 +243,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         nextController.testScore = testScore
         nextController.selectedLessonCollection = lessionCollections[0]
         nextController.isLessonCollection = false
+        
         self.navigationController?.pushViewController(nextController, animated: true)
     }
     

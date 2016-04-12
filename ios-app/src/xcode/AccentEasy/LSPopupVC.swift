@@ -22,6 +22,7 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var delegate:LSPopupVCDelegate?
     var arrCountryData = [AECountry]()
     var adapter : WordCollectionDbApdater!
+    var isSettingPage:Bool = false
     
     @IBOutlet weak var LSTableView: UITableView!
     @IBOutlet weak var btnClose: UIButton!
@@ -191,7 +192,9 @@ class LSPopupVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
         userProfile.selectedCountry = arrCountryData[indexPath.row]
         AccountManager.updateProfile(userProfile)
         delegate?.closePopup(self)
-        delegate?.updateLanguage!(userProfile.selectedCountry.name)
+        if isSettingPage {
+            delegate?.updateLanguage!(userProfile.selectedCountry.name)
+        }
     }
 
     @IBAction func btnCloseTouchUp(sender: AnyObject) {

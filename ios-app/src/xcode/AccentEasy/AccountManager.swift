@@ -169,6 +169,7 @@ class AccountManager {
                     let result: ProfileResponse = JSONHelper.fromJson(res.text!)
                     if result.data != nil {
                         userProfile.name = result.data.name
+                        //userProfile.
                     }
                     completion(userProfile: userProfile, success: result.status, message: result.message)
                 }
@@ -187,7 +188,7 @@ class AccountManager {
         
         client.post("/userprofile").type("form").send(["profile": JSONHelper.toJson(userProfile), "action":"update"])
             .end({(res:Response) -> Void in
-                Logger.log("fetch profile response: \(res.text)")
+                Logger.log("update profile response: \(res.text)")
                 if(res.error) { // status of 2xx
                     completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
                 }
@@ -294,4 +295,35 @@ class AccountManager {
                 }
             })
     }
+    
+    //feedback.setDescription(storePara.get(DeviceInfoCommon.FEEDBACK_DESCRIPTION));
+    
+    class func sendFeedBack(userProfile: UserProfile, description: String, completion:(userProfile: UserProfile, success: Bool, message: String) -> Void) {
+        userProfile.deviceInfo = DeviceManager.deviceInfo()
+        let client = Client()
+            .baseUrl(FileHelper.getAccentEasyBaseUrl())
+            .onError({e in
+                completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+            });
+        
+        //client.post("/VoiceRecordHandler").field("country", "countryId").field("profile",).field("word", weakSelf!.selectedWord.word).attach("imageKey", "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav"))
+        
+        client.post("/FeedbackHandler").field("profile",JSONHelper.toJson(userProfile)).field("Feedback description",description).attach("imageKey", "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/No-image-found.gif")
+            .end({(res:Response) -> Void in
+                Logger.log("send feed back: \(res.text)")
+                if(res.error) { // status of 2xx
+                    completion(userProfile: userProfile, success: false, message: DEFAULT_ERROR_MESSAGE)
+                }
+                else {
+                    var message = "thank you for your feedback we appreciate your feedback and will continue to strive to make our application better \n thank you!"
+                    var success = true
+                    if res.text != "Done" {
+                        message = res.text!
+                        success = false
+                    }
+                    completion(userProfile: userProfile, success: success, message: message)
+                }
+            })
+    }
+
 }

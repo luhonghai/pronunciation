@@ -59,12 +59,20 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //update profile
+        print("run update profile")
+        print(userProfile)
         AccountManager.updateProfile(userProfile) { (userProfile, success, message) in
             dispatch_async(dispatch_get_main_queue(),{
+                print(userProfile)
                 if success {
                     AccountManager.updateProfile(userProfile)
                 } else {
-                    AccountManager.showError("could not fetch user data")
+                    //AccountManager.showError("could not fetch user data")
                 }
             })
         }
@@ -157,6 +165,7 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
             //open popup language
             let lSPopupVC:LSPopupVC = LSPopupVC(nibName:"LSPopupVC", bundle: nil)
             lSPopupVC.delegate = self
+            lSPopupVC.isSettingPage = true
             self.presentpopupViewController(lSPopupVC, animationType: .Fade, completion: { () -> Void in
                 
             })
@@ -264,6 +273,7 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
     func updateSettings(userProfile: UserProfile) {
         AccountManager.updateProfile(userProfile)
     }
+
     
     func closePopup(sender: AnyObject) {
         self.dismissPopupViewController(.Fade)

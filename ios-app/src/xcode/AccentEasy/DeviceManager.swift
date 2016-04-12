@@ -52,11 +52,19 @@ class DeviceManager {
     }
     
     class func appVersion() -> String {
+        if let text = NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String {
+            return text
+        }
         return "500000"
     }
     
     class func appVersionCode() -> String {
-        return "500000"
+        //First get the nsObject by defining as an optional anyObject
+        let nsObject: AnyObject? = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]
+        
+        //Then just cast the object as a String, but be careful, you may want to double check for nil
+        let version = nsObject as! String
+        return version
     }
     
     class func languagePrefix() -> String {

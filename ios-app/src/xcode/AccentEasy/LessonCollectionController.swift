@@ -11,7 +11,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
 
     @IBOutlet weak var bgObjectiveHelp: UIView!
     
-    @IBOutlet weak var btnObjectiveQuestion: UIButton!
+    @IBOutlet weak var viewObjectiveQuestion: UIImageView!
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -19,7 +19,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     var selectedCountry: AECountry!
     
-    var selectedObjective: AEObjective!
+    //var selectedObjective: AEObjective!
     
     var objectiveScore = ObjectiveScore()
     
@@ -29,13 +29,17 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     var lessionCollections = Array<AELessonCollection>()
     
+    var objectives = Array<AEObjective>()
+    
+    var indexObjectiveSelected:Int!
+    
     override func viewDidLoad() {
         bgObjectiveHelp.layer.cornerRadius = 5
-        btnObjectiveQuestion.layer.cornerRadius = btnObjectiveQuestion.frame.width / 2
+        viewObjectiveQuestion.layer.cornerRadius = viewObjectiveQuestion.frame.width / 2
         tableView.dataSource = self
         tableView.delegate = self
         
-        navigationItem.title = selectedLevel.name + "-" + selectedObjective.name
+        navigationItem.title = selectedLevel.name + " - " + objectives[indexObjectiveSelected].name
         //loadData()
         setNavigationBarTransparent()
     }
@@ -49,7 +53,22 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     override func viewWillAppear(animated: Bool) {
         //print("viewDidAppear")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showLessonOfNextObj:",name:"nextLesson", object: nil)
         loadData()
+    }
+    
+    func showLessonOfNextObj(notification: NSNotification) {
+        print("run in showLessonOfNextObj")
+        print(objectives.count)
+        print(indexObjectiveSelected)
+        if indexObjectiveSelected < objectives.count - 1 {
+            indexObjectiveSelected = indexObjectiveSelected + 1
+        }
+        //show popup
+        lessonTipPopupVC.contentPopup = objectives[indexObjectiveSelected].description
+        lessonTipPopupVC.delegate = self
+        lessonTipPopupVC.isShow = true
+        self.presentpopupViewController(lessonTipPopupVC, animationType: .Fade, completion: {() -> Void in })
     }
     
     func loadData() {
@@ -57,9 +76,9 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
             objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.idCountry = selectedCountry.idString
             objectiveScore.idLevel = selectedLevel.idString
-            objectiveScore.idObjective = selectedObjective.idString
+            objectiveScore.idObjective = objectives[indexObjectiveSelected].idString
             
-            try lessionCollections = adapter.getLessonCollectionByObjective(selectedCountry.idString, levelId: selectedLevel.idString, objectiveId: selectedObjective.idString)
+            try lessionCollections = adapter.getLessonCollectionByObjective(selectedCountry.idString, levelId: selectedLevel.idString, objectiveId: objectives[indexObjectiveSelected].idString)
             
             
             for lessonCollection in lessionCollections {
@@ -92,7 +111,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     
     @IBAction func objTipTouchUp(sender: AnyObject) {
         lessonTipPopupVC.delegate = self
-        lessonTipPopupVC.contentPopup = selectedObjective.description
+        lessonTipPopupVC.contentPopup = objectives[indexObjectiveSelected].description
         lessonTipPopupVC.isShow = true
         
         clearTimer()
@@ -105,6 +124,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         if (lessonTipPopupVC.isShow) {
             self.dismissPopupViewController(.Fade)
         }
+        print("closeLessonTipPopup")
     }
     
     func closeLessonTip() {
@@ -187,7 +207,9 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         nextController.objectiveScore = objectiveScore
         //nextController.selectedLessonCollection = obj
         nextController.lessionCollections = lessionCollections
-        nextController.indexSelectedLesson = row
+        nextController.indexLessonSelected = row
+        nextController.objectives = objectives
+        nextController.indexObjectiveSelected = indexObjectiveSelected
         nextController.isLessonCollection = true
         self.navigationController?.pushViewController(nextController, animated: true)
         

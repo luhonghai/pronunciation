@@ -99,7 +99,7 @@ class ResetPassVC: UIViewController, UITextFieldDelegate {
                     }
                 } else {
                     self.hidenLoadding()
-                    AccountManager.showError("could not reset password")
+                    AccountManager.showError("could not send feedback")
                 }
             })
         }

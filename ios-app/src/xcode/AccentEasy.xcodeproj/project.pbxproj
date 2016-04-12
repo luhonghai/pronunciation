@@ -235,7 +235,13 @@
 		C10ACEFB1CAE5ACE009676C1 /* ObjectiveScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */; };
 		C10ACF091CAE5AEB009676C1 /* TestScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF081CAE5AEB009676C1 /* TestScore.swift */; };
 		C10ACF0B1CAE5EA4009676C1 /* LessonDBAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */; };
+		C115C5461CB7662000B3258B /* TestFailPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115C5441CB7662000B3258B /* TestFailPopupVC.swift */; };
+		C115C5471CB7662000B3258B /* TestFailPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115C5451CB7662000B3258B /* TestFailPopupVC.xib */; };
+		C115C5561CB76AD600B3258B /* TestPassPopupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */; };
+		C115C5571CB76AD600B3258B /* TestPassPopupVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = C115C5551CB76AD600B3258B /* TestPassPopupVC.xib */; };
+		C115C5591CB794A200B3258B /* ta_da_fanfare.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C115C5581CB794A200B3258B /* ta_da_fanfare.mp3 */; };
 		C11DD2901C71C69F000ED4AF /* SearchTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */; };
+		C1236CF81CBBA3FF003F30A0 /* No-image-found.gif in Resources */ = {isa = PBXBuildFile; fileRef = C1236CF71CBBA3FF003F30A0 /* No-image-found.gif */; };
 		C1304D1F1C9808C800CE72C5 /* LevelControllerTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D1E1C9808C800CE72C5 /* LevelControllerTVC.swift */; };
 		C1304D2D1C981E3A00CE72C5 /* LSPopupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */; };
 		C1304D2E1C981E3A00CE72C5 /* LSPopupCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */; };
@@ -281,6 +287,12 @@
 		C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27A1C4E187D001EE55A /* SweetAlert.swift */; };
 		C14CE27D1C4E2C70001EE55A /* RegisterConfirmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */; };
 		C14D980C1C4604AD001DA517 /* LoginHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */; };
+		C15322491CBA5E4600629085 /* AboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15322481CBA5E4600629085 /* AboutVC.swift */; };
+		C153224E1CBA5F9E00629085 /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = C153224B1CBA5F9E00629085 /* about.html */; };
+		C153224F1CBA5F9E00629085 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = C153224C1CBA5F9E00629085 /* help.html */; };
+		C15322501CBA5F9E00629085 /* license.html in Resources */ = {isa = PBXBuildFile; fileRef = C153224D1CBA5F9E00629085 /* license.html */; };
+		C15322521CBA679200629085 /* LicenceVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15322511CBA679200629085 /* LicenceVC.swift */; };
+		C15322541CBA68A000629085 /* FeedbackVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15322531CBA68A000629085 /* FeedbackVC.swift */; };
 		C159764C1CB6249500FA3B40 /* checked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C159764B1CB6249500FA3B40 /* checked_checkbox.png */; };
 		C159765A1CB624A000FA3B40 /* unchecked_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = C15976591CB624A000FA3B40 /* unchecked_checkbox.png */; };
 		C15977121C8D81B4002C0A2A /* SwiftOverlays.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */; };
@@ -434,13 +446,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 27A56B7437C8393411BCB3F37F2A5BC7;
 			remoteInfo = EZAudio;
-		};
-		9B5F359F1CB5F31D000A0A3F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9BC5E0E71C50803B003CF8E9 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D0A76652C7228A7C9AC90793438AB864;
-			remoteInfo = Diskcached;
 		};
 		9B72D14F1C9C093200297470 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -750,7 +755,13 @@
 		C10ACEFA1CAE5ACE009676C1 /* ObjectiveScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectiveScore.swift; sourceTree = "<group>"; };
 		C10ACF081CAE5AEB009676C1 /* TestScore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestScore.swift; sourceTree = "<group>"; };
 		C10ACF0A1CAE5EA4009676C1 /* LessonDBAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LessonDBAdapter.swift; path = Data/SQLite/queries/LessonDBAdapter.swift; sourceTree = "<group>"; };
+		C115C5441CB7662000B3258B /* TestFailPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestFailPopupVC.swift; sourceTree = "<group>"; };
+		C115C5451CB7662000B3258B /* TestFailPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestFailPopupVC.xib; sourceTree = "<group>"; };
+		C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestPassPopupVC.swift; sourceTree = "<group>"; };
+		C115C5551CB76AD600B3258B /* TestPassPopupVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestPassPopupVC.xib; sourceTree = "<group>"; };
+		C115C5581CB794A200B3258B /* ta_da_fanfare.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ta_da_fanfare.mp3; sourceTree = "<group>"; };
 		C11DD28F1C71C69F000ED4AF /* SearchTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTVC.swift; sourceTree = "<group>"; };
+		C1236CF71CBBA3FF003F30A0 /* No-image-found.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "No-image-found.gif"; sourceTree = "<group>"; };
 		C1304D1E1C9808C800CE72C5 /* LevelControllerTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelControllerTVC.swift; sourceTree = "<group>"; };
 		C1304D2B1C981E3A00CE72C5 /* LSPopupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPopupCell.swift; sourceTree = "<group>"; };
 		C1304D2C1C981E3A00CE72C5 /* LSPopupCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LSPopupCell.xib; sourceTree = "<group>"; };
@@ -804,6 +815,12 @@
 		C14CE27A1C4E187D001EE55A /* SweetAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SweetAlert.swift; sourceTree = "<group>"; };
 		C14CE27C1C4E2C70001EE55A /* RegisterConfirmVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterConfirmVC.swift; sourceTree = "<group>"; };
 		C14D980B1C4604AD001DA517 /* LoginHomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHomeVC.swift; sourceTree = "<group>"; };
+		C15322481CBA5E4600629085 /* AboutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutVC.swift; sourceTree = "<group>"; };
+		C153224B1CBA5F9E00629085 /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
+		C153224C1CBA5F9E00629085 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
+		C153224D1CBA5F9E00629085 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = license.html; sourceTree = "<group>"; };
+		C15322511CBA679200629085 /* LicenceVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenceVC.swift; sourceTree = "<group>"; };
+		C15322531CBA68A000629085 /* FeedbackVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackVC.swift; sourceTree = "<group>"; };
 		C159764B1CB6249500FA3B40 /* checked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked_checkbox.png; sourceTree = "<group>"; };
 		C15976591CB624A000FA3B40 /* unchecked_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked_checkbox.png; sourceTree = "<group>"; };
 		C15977111C8D81B4002C0A2A /* SwiftOverlays.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftOverlays.swift; sourceTree = "<group>"; };
@@ -1420,7 +1437,6 @@
 			isa = PBXGroup;
 			children = (
 				9BC5E0F31C50803C003CF8E9 /* Bolts.framework */,
-				9B5F35A01CB5F31D000A0A3F /* Diskcached.framework */,
 				9B5ACEF11C55E161007BBFD9 /* EZAudio.framework */,
 				9BC5E0F51C50803C003CF8E9 /* FBSDKCoreKit.framework */,
 				9BC5E0F71C50803C003CF8E9 /* FBSDKLoginKit.framework */,
@@ -1559,6 +1575,7 @@
 		C13E44A91C6051ED00EB6075 /* audio */ = {
 			isa = PBXGroup;
 			children = (
+				C115C5581CB794A200B3258B /* ta_da_fanfare.mp3 */,
 				C13E44BB1C60556D00EB6075 /* sautatca.mp3 */,
 				C13E44B91C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav */,
 			);
@@ -1646,6 +1663,7 @@
 		C14D98091C460051001DA517 /* ScreenController */ = {
 			isa = PBXGroup;
 			children = (
+				C153223B1CBA5E0700629085 /* InfoController */,
 				C1D59D621CB4EB3E00127FF4 /* SettingsController */,
 				9B4849DC1C98FF65002F193F /* IPAInformation */,
 				C172A5841C97FD4900BBBEC4 /* LessonController */,
@@ -1685,6 +1703,26 @@
 			name = LoginController;
 			sourceTree = "<group>";
 		};
+		C153223B1CBA5E0700629085 /* InfoController */ = {
+			isa = PBXGroup;
+			children = (
+				C15322481CBA5E4600629085 /* AboutVC.swift */,
+				C15322511CBA679200629085 /* LicenceVC.swift */,
+				C15322531CBA68A000629085 /* FeedbackVC.swift */,
+			);
+			name = InfoController;
+			sourceTree = "<group>";
+		};
+		C153224A1CBA5F9E00629085 /* info */ = {
+			isa = PBXGroup;
+			children = (
+				C153224B1CBA5F9E00629085 /* about.html */,
+				C153224C1CBA5F9E00629085 /* help.html */,
+				C153224D1CBA5F9E00629085 /* license.html */,
+			);
+			path = info;
+			sourceTree = "<group>";
+		};
 		C15EDBEB1C97B271006E7BA3 /* LanguageSelectionController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1701,6 +1739,7 @@
 		C1648FE11CB512AE00C8DFE0 /* control-icon */ = {
 			isa = PBXGroup;
 			children = (
+				C1236CF71CBBA3FF003F30A0 /* No-image-found.gif */,
 				C15976591CB624A000FA3B40 /* unchecked_checkbox.png */,
 				C159764B1CB6249500FA3B40 /* checked_checkbox.png */,
 				C1648FE21CB513EC00C8DFE0 /* Radio_Button-Checked-128.png */,
@@ -1712,6 +1751,7 @@
 		C16CD2431C44B01B00537461 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C153224A1CBA5F9E00629085 /* info */,
 				C1648FE11CB512AE00C8DFE0 /* control-icon */,
 				C13E44A91C6051ED00EB6075 /* audio */,
 				C13A5D5B1C58CBBA0036A5E9 /* background */,
@@ -1879,6 +1919,10 @@
 				C14CD6241CACC4A6003B466F /* ToltalScorePopupVC.xib */,
 				C15F02821CB016AF00C39808 /* LessonTipPopupVC.swift */,
 				C15F02831CB016AF00C39808 /* LessonTipPopupVC.xib */,
+				C115C5441CB7662000B3258B /* TestFailPopupVC.swift */,
+				C115C5451CB7662000B3258B /* TestFailPopupVC.xib */,
+				C115C5541CB76AD600B3258B /* TestPassPopupVC.swift */,
+				C115C5551CB76AD600B3258B /* TestPassPopupVC.xib */,
 			);
 			name = LessonController;
 			sourceTree = "<group>";
@@ -2037,13 +2081,6 @@
 			remoteRef = 9B5ACEF01C55E161007BBFD9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9B5F35A01CB5F31D000A0A3F /* Diskcached.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Diskcached.framework;
-			remoteRef = 9B5F359F1CB5F31D000A0A3F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9B72D1501C9C093200297470 /* NSLogger.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2108,6 +2145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C16CD2AA1C44B1EC00537461 /* app_icon.png in Resources */,
+				C153224F1CBA5F9E00629085 /* help.html in Resources */,
 				C16CD2AB1C44B1EC00537461 /* below_shadow.xml in Resources */,
 				C16CD2C11C44B1EC00537461 /* p_menu_ipa.png in Resources */,
 				9B5526411C9A6911000AB7E8 /* select_prev_level_of_level.sql in Resources */,
@@ -2120,6 +2158,7 @@
 				C16CD2CC1C44B1EC00537461 /* rounded_corner_color_default.xml in Resources */,
 				C16CD2E11C44B1EC00537461 /* ic_close.png in Resources */,
 				C16CD2A61C44B1EC00537461 /* above_shadow.xml in Resources */,
+				C115C5471CB7662000B3258B /* TestFailPopupVC.xib in Resources */,
 				C16CD2E41C44B1EC00537461 /* ic_google_plus_white.png in Resources */,
 				C1648FE41CB513EC00C8DFE0 /* Radio_Button-Checked-128.png in Resources */,
 				9053FE141C87F7910059A423 /* tab-background-selected.png in Resources */,
@@ -2130,6 +2169,7 @@
 				C16CD2E71C44B1EC00537461 /* ic_menu.png in Resources */,
 				C16CD2B41C44B1EC00537461 /* p_btn_register.png in Resources */,
 				C16CD2F41C44B1EC00537461 /* vn_round.png in Resources */,
+				C115C5571CB76AD600B3258B /* TestPassPopupVC.xib in Resources */,
 				C16CD2C71C44B1EC00537461 /* p_tip_blue.png in Resources */,
 				C16CD2FF1C44B1EC00537461 /* help_content_8.png in Resources */,
 				C16CD2EE1C44B1EC00537461 /* ic_slider.png in Resources */,
@@ -2194,7 +2234,9 @@
 				C16CD2C01C44B1EC00537461 /* p_menu_help.png in Resources */,
 				C16CD2C61C44B1EC00537461 /* p_prev.png in Resources */,
 				C16CD3011C44B1EC00537461 /* icon_popover_arrow_down.png in Resources */,
+				C15322501CBA5F9E00629085 /* license.html in Resources */,
 				C16CD2D01C44B1EC00537461 /* rounded_corner_color_orange_dialog.xml in Resources */,
+				C153224E1CBA5F9E00629085 /* about.html in Resources */,
 				C1FA8AAA1C881A2900051958 /* Back-25@2x.png in Resources */,
 				C15EDC021C97B85F006E7BA3 /* LSPopupVC.xib in Resources */,
 				C16CD2EF1C44B1EC00537461 /* ic_slider_down.png in Resources */,
@@ -2224,6 +2266,7 @@
 				C16CD2EB1C44B1EC00537461 /* ic_record.png in Resources */,
 				C13D485A1C896BAD00D630A4 /* FSDetailSwipeVC.xib in Resources */,
 				C16CD2A91C44B1EC00537461 /* ae_phone_detail.png in Resources */,
+				C1236CF81CBBA3FF003F30A0 /* No-image-found.gif in Resources */,
 				C16CD2EA1C44B1EC00537461 /* ic_question.png in Resources */,
 				C16CD2C81C44B1EC00537461 /* p_tip_blue_blur.png in Resources */,
 				C13E44BA1C6051FE00EB6075 /* fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav in Resources */,
@@ -2244,6 +2287,7 @@
 				C16CD2E31C44B1EC00537461 /* ic_facebook_white.png in Resources */,
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,
+				C115C5591CB794A200B3258B /* ta_da_fanfare.mp3 in Resources */,
 				C13B65701C86D9C200318336 /* IPAPopupVC.xib in Resources */,
 				C1648FE51CB513EC00C8DFE0 /* Radio_Button-128.png in Resources */,
 				C10906851C75B61A0071206D /* Menu-25.png in Resources */,
@@ -2471,6 +2515,7 @@
 				9B4009671C9965BC0011EEF8 /* IPAMainPageController.swift in Sources */,
 				9BA3AB831C4F98C600C6631D /* HttpDownloader.swift in Sources */,
 				9B5F338E1C77129A00E85629 /* ILineChartDataSet.swift in Sources */,
+				C115C5461CB7662000B3258B /* TestFailPopupVC.swift in Sources */,
 				9B5F33B51C77129A00E85629 /* HorizontalBarChartRenderer.swift in Sources */,
 				C141C8341C3E27F1001D1F9C /* FSMainVC.swift in Sources */,
 				9B5F33511C77129A00E85629 /* LineChartView.swift in Sources */,
@@ -2506,10 +2551,13 @@
 				9B5F33B71C77129A00E85629 /* LineRadarChartRenderer.swift in Sources */,
 				9B5F33BD1C77129A00E85629 /* ChartFill.swift in Sources */,
 				9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */,
+				C15322541CBA68A000629085 /* FeedbackVC.swift in Sources */,
 				9B5F339A1C77129A00E85629 /* ChartHighlight.swift in Sources */,
+				C15322491CBA5E4600629085 /* AboutVC.swift in Sources */,
 				9B9BE6EF1C62F3C100C84823 /* GraphPageItemController.swift in Sources */,
 				9B5F34191C771D6800E85629 /* Schema.swift in Sources */,
 				9B5F33AC1C77129A00E85629 /* ChartRendererBase.swift in Sources */,
+				C115C5561CB76AD600B3258B /* TestPassPopupVC.swift in Sources */,
 				9B5F33551C77129A00E85629 /* ScatterChartView.swift in Sources */,
 				C13B65721C86DC6700318336 /* UIVViewController-SLPopup.swift in Sources */,
 				9BA8967B1C74525200BEE9CE /* AnalyzingViewController.swift in Sources */,
@@ -2523,6 +2571,7 @@
 				9B5F338A1C77129A00E85629 /* IBarLineScatterCandleBubbleChartDataSet.swift in Sources */,
 				9B9BE71A1C632BC600C84823 /* HistoryTableController.swift in Sources */,
 				9B5F33E61C771B5A00E85629 /* CustomDateFormatTransform.swift in Sources */,
+				C15322521CBA679200629085 /* LicenceVC.swift in Sources */,
 				90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */,
 				9B9BE71C1C632D4600C84823 /* HistoryTableCell.swift in Sources */,
 				9B5F33EA1C771B5A00E85629 /* ISO8601DateTransform.swift in Sources */,

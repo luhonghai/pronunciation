@@ -132,6 +132,7 @@ public class UserProfile: Mappable {
         isSetup    <= map["isSetup"]
         gender    <= map["gender"]
         dob    <= map["dob"]
+        country    <= map["country"]
         englishProficiency    <= map["englishProficiency"]
         time    <= map["time"]
         duration    <= map["duration"]
