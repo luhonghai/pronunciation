@@ -8,8 +8,43 @@
 
 import Foundation
 import SystemConfiguration
+import FBSDKShareKit
+import SafariServices
 
 class DeviceManager {
+    
+    class func shareApp(controller: UIViewController, title: String, message: String, url: NSURL) {
+        let profile = AccountManager.currentUser()
+        let shareMessage = "\(message) \(url.absoluteString)"
+        switch(profile.loginType) {
+        case UserProfile.TYPE_EASYACCENT:
+            var data = Array<AnyObject>()
+            data.append(shareMessage)
+            data.append(url)
+            let shareController = UIActivityViewController(activityItems: data, applicationActivities: nil)
+            controller.presentViewController(shareController, animated: true, completion: nil)
+            break
+        case UserProfile.TYPE_FACEBOOK:
+            let fbShare = FBSDKShareLinkContent()
+            fbShare.contentDescription = shareMessage
+            fbShare.contentTitle = title
+            fbShare.contentURL = url
+            FBSDKShareDialog.showFromViewController(controller, withContent: fbShare, delegate: nil)
+            break
+        case UserProfile.TYPE_GOOGLE_PLUS:
+            let urlComponents = NSURLComponents(string: "https://plus.google.com/share")
+            urlComponents?.queryItems = [NSURLQueryItem(name: "url", value: url.absoluteString)]
+            if #available(iOS 9.0, *) {
+                let shareController = SFSafariViewController(URL: (urlComponents?.URL)!)
+                controller.presentViewController(shareController, animated: true, completion: nil)
+            } else {
+                UIApplication.sharedApplication().openURL((urlComponents?.URL)!)
+            }
+            break
+        default:
+            break
+        }
+    }
     
     class func doIfConnectedToNetwork(completion:() -> Void) {
         if isConnectedToNetwork() {
