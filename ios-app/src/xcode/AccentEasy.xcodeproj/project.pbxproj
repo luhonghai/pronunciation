@@ -1714,6 +1714,8 @@
 			isa = PBXGroup;
 			children = (
 				9B34082A1CB767D4002F80A1 /* HelpContent */,
+				C153223B1CBA5E0700629085 /* InfoController */,
+				C1D59D621CB4EB3E00127FF4 /* SettingsController */,
 				9B4849DC1C98FF65002F193F /* IPAInformation */,
 				C172A5841C97FD4900BBBEC4 /* LessonController */,
 				C15EDBEB1C97B271006E7BA3 /* LanguageSelectionController */,
