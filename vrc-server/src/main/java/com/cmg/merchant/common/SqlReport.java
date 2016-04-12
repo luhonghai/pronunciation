@@ -65,6 +65,76 @@ public class SqlReport {
             "and ls.id='paramLessonId' and ulh.WORD='paramWord' " +
             "and ls.isDeleted=false";
 
+    private String SQL_LIST_PHONEMES = "select ipa from IPAMAPARPABET where ISDELETED=false order by ARPABET";
+
+    private String SQL_GET_STUDENT_SCORE_PHONEME = "select s.SESSIONID,AVG(pls.TOTALSCORE) from SESSIONSCORE as s " +
+            "  inner join USERLESSONHISTORY as ulh " +
+            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as ls " +
+            "    on ls.id = s.IDLESSONCOLLECTION " +
+            "  inner join PHONEMELESSONSCORE as pls " +
+            "  on pls.IDUSERLESSONHISTORY = s.IDUSERLESSONHISTORY " +
+            "  inner join IPAMAPARPABET as map " +
+            "  on map.ARPABET = pls.PHONEME " +
+            "where ulh.USERNAME='paramStudent' " +
+            "and ls.id='paramLessonId' and map.IPA='paramIpa' " +
+            "and ls.isDeleted=false and map.isDeleted=false";
+
+    private String SQL_CLASS_GET_SCORE_IN_PHONEME = "select s.SESSIONID,AVG(pls.TOTALSCORE) from SESSIONSCORE as s " +
+            "  inner join USERLESSONHISTORY as ulh " +
+            "    on s.IDUSERLESSONHISTORY = ulh.ID " +
+            "  inner join LESSONCOLLECTION as ls " +
+            "    on ls.id = s.IDLESSONCOLLECTION " +
+            "  inner join PHONEMELESSONSCORE as pls " +
+            "  on pls.IDUSERLESSONHISTORY = s.IDUSERLESSONHISTORY " +
+            "  inner join IPAMAPARPABET as map " +
+            "  on map.ARPABET = pls.PHONEME " +
+            "where ulh.USERNAME in (select STUDENTNAME from STUDENTMAPPINGCLASS " +
+            "where IDCLASS='paramCid' and isDeleted=false) " +
+            "and ls.id='paramLessonId' and map.IPA='paramIpa'" +
+            "and ls.isDeleted=false";
+
+
+    /**
+     *
+     * @param classId
+     * @param idLesson
+     * @param ipa
+     * @return
+     */
+    public String getSqlCalculateScorePhonemeOfClass(String classId, String idLesson, String ipa){
+        String sql = SQL_CLASS_GET_SCORE_IN_PHONEME;
+        sql = sql.replaceAll("paramCid",classId);
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        sql = sql.replaceAll("paramIpa",ipa);
+        return sql;
+    }
+
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @param ipa
+     * @return
+     */
+    public String getSqlCalculateScorePhoneme(String student, String idLesson, String ipa){
+        String sql = SQL_GET_STUDENT_SCORE_PHONEME;
+        sql = sql.replaceAll("paramStudent",student);
+        sql = sql.replaceAll("paramLessonId",idLesson);
+        sql = sql.replaceAll("paramIpa",ipa);
+        return sql;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public String getSqlListPhonemes(){
+        String sql = SQL_LIST_PHONEMES;
+        return sql;
+    }
     /**
      *
      * @param classId

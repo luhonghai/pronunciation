@@ -172,9 +172,6 @@
     .class-avg-text , .student-avg-text{
         padding-top : 5px;
     }
-    .legend table {
-        border-spacing: 5px;
-    }
     #holder-chart{
         box-sizing: border-box;
         width: 850px;
@@ -200,6 +197,46 @@
         height: 500px;
         font-size: 14px;
         line-height: 1.2em;
+    }
+    .legend table, .legend > div {
+        height: 82px !important;
+        opacity: 1 !important;
+        right: -55px; top: 10px;
+        width: 116px !important;
+        display:none
+    }
+    .legend table {
+        border: 1px solid #555;
+        padding: 5px;
+        display:none
+    }
+    #flot-tooltip {
+        font-size: 12px;
+        font-family: Verdana, Arial, sans-serif; position: absolute;
+        display: none; border: 2px solid;
+        padding: 2px; background-color: #FFF;
+        opacity: 0.8; -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        z-index : 100000;
+    }
+    .flot-x-axis div.flot-tick-label {
+        /* Rotate Axis Labels */
+        transform:  translateX(60%) rotate(60deg); /* CSS3 */
+        transform-origin: 0 0;
+
+        -ms-transform:  translateX(60%) rotate(60deg); /* IE */
+        -ms-transform-origin: 0 0;
+
+        -moz-transform:  translateX(60%) rotate(60deg); /* Firefox */
+        -moz-transform-origin: 0 0;
+
+        -webkit-transform: translateX(60%) rotate(60deg); /* Safari and Chrome */
+        -webkit-transform-origin: 0 0;
+
+        -o-transform:  translateX(60%) rotate(60deg); /* Opera */
+        -o-transform-origin: 0 0;
     }
 </style>
 <%
@@ -309,11 +346,11 @@
             </div>
             <div class="modal-body">
                 <div style="padding-bottom: 20px" class="row">
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-3"></div>
                     <div class="col-sm-1">
                         <div class="class-avg-score">80</div>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                         <div class="student-avg-score">80</div>
                     </div>
                     <div class="col-sm-2">
@@ -335,15 +372,15 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <p><strong>course:</strong></p>
-                        <label style='font-weight: 200;'>Course</label>
+                        <label id="lbl_course" style='font-weight: 200;'>Course</label>
                         <p><strong>level:</strong></p>
-                        <label style='font-weight: 200;'>Level</label>
+                        <label id="lbl_lv" style='font-weight: 200;'>Level</label>
                         <p><strong>objective:</strong></p>
-                        <label style='font-weight: 200;'>Objective</label>
+                        <label id="lbl_obj" style='font-weight: 200;'>Objective</label>
                         <p><strong>lesson:</strong></p>
-                        <label style='font-weight: 200;'>Lesson</label>
+                        <label id="lbl_lesson" style='font-weight: 200;'>Lesson</label>
                         <p><strong>completion date:</strong></p>
-                        <label style='font-weight: 200;'>date completed</label>
+                        <label id="lbl_date_completed" style='font-weight: 200;'>date completed</label>
                     </div>
                     <div id="container" class="col-sm-10">
                         <div id="holder-chart">
@@ -363,11 +400,13 @@
 <!-- /#wrapper -->
 
 
+<script src="<%=request.getContextPath() %>/js/merchant/report/draw-report.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/report/reportsLessons.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.axislabels.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.categories.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.orderBars.js"></script>
 
-<script src="<%=request.getContextPath() %>/js/merchant/reportsLessons.js"></script>
-<script src="<%=request.getContextPath() %>/bower_components/flot/jquery.flot.js"></script>
-<script src="<%=request.getContextPath() %>/bower_components/flot/jquery.flot.stack.js"></script>
-<script src="<%=request.getContextPath() %>/js/merchant/draw-report.js"></script>
 
 
 

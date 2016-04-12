@@ -228,7 +228,7 @@ public class ReportLessonDAO {
                     lessonCollection.setName(null);
                 }
                 if (data[2] != null) {
-                    lessonCollection.setDateCreated((Date)data[2]);
+                    lessonCollection.setDateCreated((Date) data[2]);
                     String s = format.format(lessonCollection.getDateCreated());
                     Date t  =   format.parse(s);
                 }else{
@@ -421,7 +421,7 @@ public class ReportLessonDAO {
         boolean completed = true;
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
-        String query=sql.getSqlCheckUserCompletedLesson(student,idLesson);
+        String query=sql.getSqlCheckUserCompletedLesson(student, idLesson);
         System.out.println("sql check user completed lesson : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
@@ -487,8 +487,6 @@ public class ReportLessonDAO {
     }
 
     /**
-     *
-     * @param student
      * @param idLesson
      * @return
      */
@@ -558,7 +556,7 @@ public class ReportLessonDAO {
 
     /**
      *
-     * @param student
+     * @param classId
      * @param idLesson
      * @param word
      * @return
@@ -567,8 +565,112 @@ public class ReportLessonDAO {
         int score = 0;
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
-        String query=sql.getSqlCalculateScoreWordOfClass(classId, idLesson,word);
+        String query=sql.getSqlCalculateScoreWordOfClass(classId, idLesson, word);
         System.out.println("sql generate score word of class : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for (Object object : tmp) {
+                    Object[] data = (Object[]) object;
+                    if(data[1]!=null){
+                        Double value = (Double)data[1];
+                        score = value.intValue();
+                    }else{
+                        score = 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return score;
+    }
+
+
+
+    /*
+     * @return
+     */
+    public ArrayList<String> getListPhonemes(){
+        ArrayList<String> listPhonemes = new ArrayList<>();
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlListPhonemes();
+        System.out.println("sql generate list phoneme : " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for(Object obj : tmp){
+                    String s = (String) StringUtil.isNull(obj,"null");
+                    if(s!="null"){
+                        listPhonemes.add(s);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return listPhonemes;
+    }
+
+    /**
+     *
+     * @param student
+     * @param idLesson
+     * @return
+     */
+    public int getAvgScorePhonemesInLessonOfUser(String student, String idLesson, String ipa){
+        int score = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCalculateScorePhoneme(student, idLesson, ipa);
+        System.out.println("sql generate score phoneme of user " + query);
+        Query q = pm.newQuery("javax.jdo.query.SQL", query);
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            if(tmp!=null && tmp.size()>0){
+                for (Object object : tmp) {
+                    Object[] data = (Object[]) object;
+                    if(data[1]!=null){
+                        Double value = (Double)data[1];
+                        score = value.intValue();
+                    }else{
+                        score = 0;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+        return score;
+    }
+
+    /**
+     *
+     * @param classId
+     * @param idLesson
+     * @return
+     */
+    public int getAvgScorePhonemesInLessonOfClass(String classId, String idLesson, String ipa){
+        int score = 0;
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        SqlReport sql = new SqlReport();
+        String query=sql.getSqlCalculateScorePhonemeOfClass(classId, idLesson,ipa);
+        System.out.println("sql generate score phoneme of class : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
             List<Object> tmp = (List<Object>) q.execute();

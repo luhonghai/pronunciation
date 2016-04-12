@@ -30,6 +30,7 @@ public class ReportsLessons extends HttpServlet {
     private static final Logger logger = Logger.getLogger(FeedbackHandler.class
             .getName());
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setHeader("Content-Type", "text/plain; charset=UTF-8");
         ReportLessonService service=new ReportLessonService();
         Gson gson=new Gson();
         String action=(String) StringUtil.isNull(request.getParameter("action"),"");

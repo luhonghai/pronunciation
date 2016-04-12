@@ -286,18 +286,33 @@ public class ReportLessonService {
         Information container = new Information();
         Reports report = new Reports();
         try {
-            List<Integer> studentScoreList = new ArrayList<Integer>();
-            List<Integer> classScoreList = new ArrayList<Integer>();
+            List<Integer> studentScoreList = null;
+            List<Integer> classScoreList = null;
             List<String> listWord = reportLessonDAO.getListWordInLesson(idLesson);
             if(listWord!=null &&  listWord.size()>0){
+                studentScoreList = new ArrayList<>();
+                classScoreList = new ArrayList<>();
                 for(String word : listWord){
                     studentScoreList.add(reportLessonDAO.getAvgScoreWordInLessonOfUser(student,idLesson,word));
                     classScoreList.add(reportLessonDAO.getAvgScoreWordInLessonOfClass(classId, idLesson, word));
                 }
+                report.setWord(listWord);
+                report.setWordClassScore(classScoreList);
+                report.setWordStudentScore(studentScoreList);
             }
-            report.setWord(listWord);
-            report.setWordClassScore(classScoreList);
-            report.setWordStudentScore(studentScoreList);
+
+            List<String> listPhonemes = reportLessonDAO.getListPhonemes();
+            if(listPhonemes!=null &&  listPhonemes.size()>0){
+                studentScoreList = new ArrayList<>();
+                classScoreList = new ArrayList<>();
+                for(String ipa : listPhonemes){
+                    studentScoreList.add(reportLessonDAO.getAvgScorePhonemesInLessonOfUser(student, idLesson, ipa));
+                    classScoreList.add(reportLessonDAO.getAvgScorePhonemesInLessonOfClass(classId, idLesson, ipa));
+                }
+                report.setPhonemes(listPhonemes);
+                report.setPhonemesClassScore(classScoreList);
+                report.setPhonemesStudentScore(studentScoreList);
+            }
             container.setMessage("success");
             container.setReports(report);
         }catch (Exception e){
