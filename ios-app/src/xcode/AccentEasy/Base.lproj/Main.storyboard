@@ -4051,11 +4051,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Udu-EY-icj"/>
-        <segue reference="t7Q-vO-CVy"/>
         <segue reference="w7l-a7-zju"/>
+        <segue reference="t7Q-vO-CVy"/>
         <segue reference="y7T-RE-Gak"/>
-        <segue reference="4c6-2C-7Wp"/>
+        <segue reference="0GI-4W-Bce"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>
