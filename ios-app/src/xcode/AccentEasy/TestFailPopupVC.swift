@@ -34,6 +34,10 @@ class TestFailPopupVC: UIViewController {
         aviewPassScore.showScore(passScore, showAnimation: true)
         aviewToltalScore.showScore(toltalScore, showAnimation:  true)
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        //self.navigationController?.popToRootViewControllerAnimated(false)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

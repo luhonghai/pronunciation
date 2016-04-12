@@ -34,6 +34,9 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        //menu
+        setNavigationBarTransparent()
+        
         userProfile = AccountManager.currentUser()
         loadData()
     }
@@ -76,6 +79,13 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
                 }
             })
         }
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
 
     // MARK: - Table view data source

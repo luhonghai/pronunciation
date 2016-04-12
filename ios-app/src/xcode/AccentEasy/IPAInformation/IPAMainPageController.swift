@@ -52,6 +52,8 @@ class IPAMainPageController: UIViewController {
             menuButton.action = "revealToggle:"
             self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        
+        setNavigationBarTransparent()
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,6 +61,13 @@ class IPAMainPageController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
+    }
+
 
     /*
     // MARK: - Navigation

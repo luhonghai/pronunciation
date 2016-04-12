@@ -61,9 +61,16 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Placeholder"
+            textView.text = "description"
             textView.textColor = UIColor.lightGrayColor()
         }
+    }
+    
+    /**
+     * Called when the user click on the view (outside the UITextField).
+     */
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     /*

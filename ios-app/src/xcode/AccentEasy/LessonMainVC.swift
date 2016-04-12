@@ -846,6 +846,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         let question = arrQuestionOfLC[indexPath.item]
         if question.enabled {
             indexCurrentQuestion = indexPath.item
+            print(indexCurrentQuestion)
             disableViewRecord()
             randomWord(question)
         }

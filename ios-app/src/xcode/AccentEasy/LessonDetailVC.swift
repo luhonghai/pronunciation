@@ -231,8 +231,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                 for question in arrQuestionOfLC {
                     arrQuestionScore.append(question.listScore.average)
                 }
-                let score = 100
-                    //Int(round(arrQuestionScore.average))
+                let score = Int(round(arrQuestionScore.average))
                 
                 //show popup test
                 if score < testScore.passScore {
@@ -569,6 +568,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func closeTestFailPopup(sender: AnyObject){
+        self.dismissPopupViewController(.Fade)
+        //pop view
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 4], animated: false);
     }
     
     func backToMain() {

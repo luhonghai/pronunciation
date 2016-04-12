@@ -63,6 +63,8 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
         collectionIPA.addGestureRecognizer(lpgr)
         activateAudioSession()
         player = EZAudioPlayer(delegate: self)
+        //
+        setNavigationBarTransparent()
     }
     
     func activateAudioSession() {
@@ -170,6 +172,13 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     
     func pressShowChart(sender: IPAPopupVC?) {
         self.dismissPopupViewController(SLpopupViewAnimationType.Fade)
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
     
 }

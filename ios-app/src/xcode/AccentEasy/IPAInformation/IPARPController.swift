@@ -16,6 +16,7 @@ class IPARPController: UIViewController {
        // let swiper = SloppySwiper(navigationController: self.navigationController)
        // self.navigationController?.delegate = swiper
         // Do any additional setup after loading the view.
+        setNavigationBarTransparent()
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,6 +26,13 @@ class IPARPController: UIViewController {
     
     @IBAction func clickBack(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.translucent = true
+        self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
 
     /*
