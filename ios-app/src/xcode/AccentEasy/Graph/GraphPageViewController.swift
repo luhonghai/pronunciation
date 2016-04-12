@@ -12,8 +12,6 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
     
     var lessonDbAdapter: WordCollectionDbApdater!
     
-    var freestyleDbAdapter: FreeStyleDBAdapter!
-    
     var arpabets = Array<String>()
     
     var word: String!
@@ -23,7 +21,6 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
         self.dataSource = self;
         
         lessonDbAdapter = WordCollectionDbApdater()
-        freestyleDbAdapter = FreeStyleDBAdapter()
         
         let firstController = self.storyboard!.instantiateViewControllerWithIdentifier("GraphItemController") as! GraphPageItemController
         let startingViewControllers: NSArray = [firstController]

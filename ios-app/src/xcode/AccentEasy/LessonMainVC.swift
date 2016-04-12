@@ -16,7 +16,7 @@ class QuestionCVCell: UICollectionViewCell {
     
 }
 
-class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate {
+class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegate, EZRecorderDelegate, AnalyzingDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QuestionCVDatasourceDelegate, LessonTipPopupVCDelegate, HelpButtonDelegate {
     
     var userProfileSaveInApp:NSUserDefaults!
     
@@ -47,7 +47,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     @IBOutlet weak var analyzingView: AnalyzingView!
     
-    var freestyleDBAdapter:FreeStyleDBAdapter!
+    var freestyleDBAdapter:LessonDBAdapter!
     var wordCollectionDbApdater: WordCollectionDbApdater!
     
     deinit {
@@ -90,6 +90,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     
     override func viewDidLoad() {
+        GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
         //self.edgesForExtendedLayout = UIRectEdge.None;
         //
@@ -145,7 +146,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         //load word default
         wordCollectionDbApdater = WordCollectionDbApdater()
-        freestyleDBAdapter = FreeStyleDBAdapter()
+        freestyleDBAdapter = LessonDBAdapter()
         
         //load question colection view
         questionCVInit()
@@ -168,14 +169,38 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         setNavigationBarTransparent()
         
         botView.translatesAutoresizingMaskIntoConstraints = true
-        
+        helpContext.translatesAutoresizingMaskIntoConstraints = true
         //
         //self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
  
         //print("cellQuestionSelectedInDetail \(cellQuestionSelectedInDetail)")
+        NSNotificationCenter.defaultCenter().postNotificationName("loadTabbar", object: "")
     }
     
     
+    @IBOutlet weak var helpContext: UIView!
+    
+    func initHelpContext() {
+        let helpButton = HelpButtonController()
+        helpButton.delegate = self
+        helpButton.show(self.view.frame)
+    }
+    
+    func onHelpButtonClose(neverShowAgain: Bool) {
+        self.navigationController!.view.userInteractionEnabled = true
+        helpContext.hidden = true
+        GlobalData.getInstance().isShowHelpLesson = true
+        if neverShowAgain {
+            let profile = AccountManager.currentUser()
+            profile.helpStatusLesson = UserProfile.HELP_NEVER
+            AccountManager.updateProfile(profile)
+        }
+    }
+    
+    func onHelpButtonShow() {
+        self.navigationController!.view.userInteractionEnabled = false
+        helpContext.hidden = false
+    }
     
     func roundButton() {
         //button style cricle
@@ -320,6 +345,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+        
+        delay(0.8) { () -> () in
+            if !GlobalData.getInstance().isShowHelpLesson && AccountManager.currentUser().helpStatusLesson != UserProfile.HELP_NEVER {
+                self.initHelpContext()
+            }
+        }
     }
     
     override func viewWillAppear(animated: Bool) {

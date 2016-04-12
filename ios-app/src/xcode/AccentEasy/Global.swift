@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 let DEFAULT_ERROR_MESSAGE = "sorry our engineers are just upgrading the server, please try again"
 
 public class GlobalData {
@@ -25,7 +23,10 @@ public class GlobalData {
     var currentTipPhonemes = ""
     
     var isShowHelpFreestyle = false
+    
     var isShowHelpLesson = false
+    
+    var isOnLessonMain = false
     
     public static func getInstance() -> GlobalData {
         if (instance == nil) {

@@ -18,6 +18,13 @@
             <string>ArchitectsDaughter</string>
             <string>ArchitectsDaughter</string>
             <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
+            <string>ArchitectsDaughter</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -3681,8 +3688,8 @@ definition</string>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZyP-GV-s8C">
-                                        <rect key="frame" x="299" y="88" width="57" height="57"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZyP-GV-s8C">
+                                        <rect key="frame" x="298" y="88" width="57" height="57"/>
                                         <color key="backgroundColor" red="0.98823529409999999" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="ZyP-GV-s8C" secondAttribute="height" multiplier="1:1" id="oeY-pz-4MC"/>
@@ -3756,24 +3763,179 @@ definition</string>
                                     <constraint firstItem="kcn-0h-Aq5" firstAttribute="centerX" secondItem="EXP-6O-26W" secondAttribute="centerX" id="tyu-Tj-0bg"/>
                                 </constraints>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xfN-JI-DUr">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-5.png" translatesAutoresizingMaskIntoConstraints="NO" id="bBK-1Y-AKd">
+                                        <rect key="frame" x="66" y="97" width="84" height="83"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="height" multiplier="80:79" id="5hA-yb-Jet"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="playback" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6o-b5-GYz">
+                                        <rect key="frame" x="93" y="180" width="87" height="30"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-4.png" translatesAutoresizingMaskIntoConstraints="NO" id="Sto-wg-E97">
+                                        <rect key="frame" x="224" y="113" width="84" height="82"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Sto-wg-E97" secondAttribute="height" multiplier="80:79" id="uRh-y0-GPp"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="record your voice" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yn1-Zl-Ack">
+                                        <rect key="frame" x="183" y="195" width="168" height="75"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="yn1-Zl-Ack" secondAttribute="height" multiplier="142:63" id="Lod-BO-UWG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yLk-qQ-t2R">
+                                        <rect key="frame" x="-19" y="194" width="168" height="92"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="yLk-qQ-t2R" secondAttribute="height" multiplier="116:63" id="zZr-KI-hwP"/>
+                                        </constraints>
+                                        <string key="text">press to 
+hear</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="6Ca-AS-0Oa">
+                                        <rect key="frame" x="66" y="276" width="84" height="63"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="6Ca-AS-0Oa" secondAttribute="height" multiplier="2:1.5" id="HIm-Yl-8z5"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="taM-dP-qtg">
+                                        <rect key="frame" x="244" y="299" width="84" height="63"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="taM-dP-qtg" secondAttribute="height" multiplier="2:1.5" id="xH9-3Q-DVJ"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="IPA symbols" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pJ-a0-tRA">
+                                        <rect key="frame" x="227" y="269" width="116" height="30"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="history" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1x0-Ip-GeQ">
+                                        <rect key="frame" x="275" y="546" width="69" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="1x0-Ip-GeQ" secondAttribute="height" multiplier="136:63" id="ZVP-ZA-Jci"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="wua-F4-e1X">
+                                        <rect key="frame" x="228" y="578" width="84" height="83"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="wua-F4-e1X" secondAttribute="height" multiplier="80:79" id="6ZO-gd-QcP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CVl-cp-J0n" userLabel="press to  hear.2">
+                                        <rect key="frame" x="100" y="359" width="210" height="114"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="CVl-cp-J0n" secondAttribute="height" multiplier="116:63" id="mj0-t9-EF0"/>
+                                        </constraints>
+                                        <string key="text">find out more
+about this lesson</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="hand-draw-arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="mp0-eO-I7l" userLabel="hand-draw-arrow.png.2">
+                                        <rect key="frame" x="214" y="453" width="84" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="mp0-eO-I7l" secondAttribute="height" multiplier="2:1.5" id="qQ7-P2-PrT"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-2.png" translatesAutoresizingMaskIntoConstraints="NO" id="YSG-Rj-NGW" userLabel="hand-draw-arrow-2.png.2">
+                                        <rect key="frame" x="68" y="517" width="84" height="63"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="YSG-Rj-NGW" secondAttribute="height" multiplier="2:1.5" id="6MA-a0-B01"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question buttons" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="38B-Ad-F6P" userLabel="IPA symbols.2">
+                                        <rect key="frame" x="30" y="487" width="160" height="30"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Sto-wg-E97" firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="width" id="0LC-wf-zn9"/>
+                                    <constraint firstItem="mp0-eO-I7l" firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="width" id="0bO-Sd-FGh"/>
+                                    <constraint firstAttribute="bottom" secondItem="wua-F4-e1X" secondAttribute="bottom" constant="6" id="0jc-uk-iLV"/>
+                                    <constraint firstItem="1x0-Ip-GeQ" firstAttribute="centerX" secondItem="wua-F4-e1X" secondAttribute="centerX" constant="40" id="1T3-ve-CzX"/>
+                                    <constraint firstItem="6pJ-a0-tRA" firstAttribute="bottom" secondItem="taM-dP-qtg" secondAttribute="top" id="4ly-fw-0tu"/>
+                                    <constraint firstItem="yn1-Zl-Ack" firstAttribute="top" secondItem="Sto-wg-E97" secondAttribute="bottom" id="5DU-Wl-pym"/>
+                                    <constraint firstItem="6Ca-AS-0Oa" firstAttribute="width" secondItem="Sto-wg-E97" secondAttribute="width" id="8GS-c8-zoH"/>
+                                    <constraint firstItem="wua-F4-e1X" firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="width" id="ANm-Hc-aUV"/>
+                                    <constraint firstItem="yLk-qQ-t2R" firstAttribute="centerX" secondItem="6Ca-AS-0Oa" secondAttribute="centerX" multiplier="0.6" id="Bqz-7d-tFE"/>
+                                    <constraint firstItem="CVl-cp-J0n" firstAttribute="width" secondItem="CVl-cp-J0n" secondAttribute="height" multiplier="116:63" id="CvF-oH-Yzj"/>
+                                    <constraint firstItem="yLk-qQ-t2R" firstAttribute="width" secondItem="6Ca-AS-0Oa" secondAttribute="width" multiplier="2" id="FKQ-j2-YMc"/>
+                                    <constraint firstItem="mp0-eO-I7l" firstAttribute="width" secondItem="mp0-eO-I7l" secondAttribute="height" multiplier="2:1.5" id="H6m-ad-iX8"/>
+                                    <constraint firstItem="D6o-b5-GYz" firstAttribute="top" secondItem="bBK-1Y-AKd" secondAttribute="bottom" id="HKE-cc-7eN"/>
+                                    <constraint firstItem="taM-dP-qtg" firstAttribute="width" secondItem="Sto-wg-E97" secondAttribute="width" id="ILn-DF-bTp"/>
+                                    <constraint firstItem="38B-Ad-F6P" firstAttribute="bottom" secondItem="YSG-Rj-NGW" secondAttribute="top" id="KH4-Oi-T35"/>
+                                    <constraint firstItem="6Ca-AS-0Oa" firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="width" id="ONo-Iv-rdf"/>
+                                    <constraint firstItem="CVl-cp-J0n" firstAttribute="bottom" secondItem="mp0-eO-I7l" secondAttribute="top" constant="20" id="QmM-96-Fja"/>
+                                    <constraint firstItem="38B-Ad-F6P" firstAttribute="centerX" secondItem="YSG-Rj-NGW" secondAttribute="centerX" id="Rxj-z0-Sza"/>
+                                    <constraint firstItem="6pJ-a0-tRA" firstAttribute="centerX" secondItem="taM-dP-qtg" secondAttribute="centerX" id="SDV-wk-caB"/>
+                                    <constraint firstItem="YSG-Rj-NGW" firstAttribute="width" secondItem="6Ca-AS-0Oa" secondAttribute="width" id="Wny-ew-f0d"/>
+                                    <constraint firstItem="D6o-b5-GYz" firstAttribute="leading" secondItem="bBK-1Y-AKd" secondAttribute="centerX" constant="-15" id="blQ-Ua-30D"/>
+                                    <constraint firstItem="wua-F4-e1X" firstAttribute="leading" secondItem="xfN-JI-DUr" secondAttribute="centerX" constant="40" id="bng-ig-vxb"/>
+                                    <constraint firstItem="YSG-Rj-NGW" firstAttribute="width" secondItem="YSG-Rj-NGW" secondAttribute="height" multiplier="2:1.5" id="d0e-Lf-kcD"/>
+                                    <constraint firstItem="taM-dP-qtg" firstAttribute="width" secondItem="bBK-1Y-AKd" secondAttribute="width" id="dby-BC-xIp"/>
+                                    <constraint firstItem="yLk-qQ-t2R" firstAttribute="bottom" secondItem="6Ca-AS-0Oa" secondAttribute="top" constant="10" id="enV-PS-Mpf"/>
+                                    <constraint firstItem="CVl-cp-J0n" firstAttribute="width" secondItem="mp0-eO-I7l" secondAttribute="width" multiplier="2.5" id="gPR-VE-bjm"/>
+                                    <constraint firstItem="yn1-Zl-Ack" firstAttribute="centerX" secondItem="Sto-wg-E97" secondAttribute="centerX" id="ibn-hW-way"/>
+                                    <constraint firstItem="CVl-cp-J0n" firstAttribute="centerX" secondItem="mp0-eO-I7l" secondAttribute="centerX" multiplier="0.8" id="m9l-VQ-ggH"/>
+                                    <constraint firstItem="yn1-Zl-Ack" firstAttribute="width" secondItem="Sto-wg-E97" secondAttribute="width" multiplier="2" id="md4-YU-3sw"/>
+                                    <constraint firstItem="1x0-Ip-GeQ" firstAttribute="bottom" secondItem="wua-F4-e1X" secondAttribute="top" id="p8u-x8-B8I"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="bBK-1Y-AKd" firstAttribute="leading" secondItem="NNJ-4e-f2s" secondAttribute="trailing" constant="-10" id="3NY-ml-zdk"/>
+                            <constraint firstItem="Sto-wg-E97" firstAttribute="trailing" secondItem="udT-5R-tZz" secondAttribute="leading" constant="10" id="8Qm-xu-92m"/>
+                            <constraint firstItem="Sto-wg-E97" firstAttribute="top" secondItem="udT-5R-tZz" secondAttribute="centerY" id="8jM-Xg-dqa"/>
+                            <constraint firstItem="xfN-JI-DUr" firstAttribute="centerX" secondItem="dI3-lV-ayD" secondAttribute="centerX" id="B7G-Yn-O2v"/>
+                            <constraint firstItem="6Ca-AS-0Oa" firstAttribute="bottom" secondItem="UBf-ED-y4f" secondAttribute="centerY" id="CZ9-CS-8p9"/>
+                            <constraint firstItem="YSG-Rj-NGW" firstAttribute="bottom" secondItem="Cl2-eR-gtJ" secondAttribute="centerY" id="CxP-lg-Ur9"/>
                             <constraint firstItem="TrD-eJ-tGg" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="Dys-ua-GGp"/>
+                            <constraint firstItem="bBK-1Y-AKd" firstAttribute="top" secondItem="NNJ-4e-f2s" secondAttribute="centerY" constant="-15" id="FFG-Sg-gcw"/>
+                            <constraint firstItem="mp0-eO-I7l" firstAttribute="bottom" secondItem="ZyP-GV-s8C" secondAttribute="centerY" id="Fts-q6-46O"/>
                             <constraint firstItem="Jbj-Xf-tl6" firstAttribute="height" secondItem="dI3-lV-ayD" secondAttribute="height" multiplier="2.4/4" id="HN0-A4-pWk"/>
+                            <constraint firstItem="6Ca-AS-0Oa" firstAttribute="trailing" secondItem="UBf-ED-y4f" secondAttribute="centerX" multiplier="0.8" id="Jaa-PU-c5n"/>
+                            <constraint firstItem="taM-dP-qtg" firstAttribute="leading" secondItem="ozV-wf-jsf" secondAttribute="centerX" multiplier="1.3" id="Lfl-i1-VLy"/>
                             <constraint firstItem="rLY-MO-Zo7" firstAttribute="height" secondItem="dI3-lV-ayD" secondAttribute="height" multiplier="1.6/4" id="NZU-sc-RKB"/>
+                            <constraint firstItem="xfN-JI-DUr" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="O2c-vF-YhG"/>
                             <constraint firstItem="TrD-eJ-tGg" firstAttribute="centerY" secondItem="dI3-lV-ayD" secondAttribute="centerY" id="OS8-0L-oFX"/>
+                            <constraint firstItem="xfN-JI-DUr" firstAttribute="height" secondItem="dI3-lV-ayD" secondAttribute="height" id="PCm-Gw-72x"/>
+                            <constraint firstItem="xfN-JI-DUr" firstAttribute="centerY" secondItem="dI3-lV-ayD" secondAttribute="centerY" id="Tyv-Db-m3J"/>
                             <constraint firstItem="EXP-6O-26W" firstAttribute="centerX" secondItem="dI3-lV-ayD" secondAttribute="centerX" id="U7m-bX-PJq"/>
                             <constraint firstItem="TrD-eJ-tGg" firstAttribute="height" secondItem="dI3-lV-ayD" secondAttribute="height" id="bGJ-23-9yX"/>
+                            <constraint firstItem="ZyP-GV-s8C" firstAttribute="leading" secondItem="mp0-eO-I7l" secondAttribute="trailing" id="bpo-Rj-5HL"/>
                             <constraint firstItem="TrD-eJ-tGg" firstAttribute="centerX" secondItem="dI3-lV-ayD" secondAttribute="centerX" id="cnL-DP-4dC"/>
                             <constraint firstItem="rLY-MO-Zo7" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="ebP-AG-ZbI"/>
                             <constraint firstItem="Jbj-Xf-tl6" firstAttribute="top" secondItem="zxb-S0-kwg" secondAttribute="bottom" id="eqg-Sk-Ywc"/>
                             <constraint firstItem="rLY-MO-Zo7" firstAttribute="centerX" secondItem="dI3-lV-ayD" secondAttribute="centerX" id="fdz-7S-HYm"/>
+                            <constraint firstItem="YSG-Rj-NGW" firstAttribute="leading" secondItem="Cl2-eR-gtJ" secondAttribute="leading" constant="50" id="gwB-2J-AXO"/>
                             <constraint firstItem="Jbj-Xf-tl6" firstAttribute="centerX" secondItem="dI3-lV-ayD" secondAttribute="centerX" id="j6v-JV-9B3"/>
                             <constraint firstItem="EXP-6O-26W" firstAttribute="bottom" secondItem="BNb-Sr-dEg" secondAttribute="top" id="mQ6-qd-XIP"/>
+                            <constraint firstItem="taM-dP-qtg" firstAttribute="bottom" secondItem="ozV-wf-jsf" secondAttribute="centerY" id="nMD-Oc-cHq"/>
                             <constraint firstItem="EXP-6O-26W" firstAttribute="height" secondItem="dI3-lV-ayD" secondAttribute="height" multiplier="3.4/4" id="rLn-aK-JBY"/>
                             <constraint firstItem="EXP-6O-26W" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="u1y-za-iFJ"/>
                             <constraint firstItem="Jbj-Xf-tl6" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="vRy-52-uV7"/>
+                            <constraint firstItem="bBK-1Y-AKd" firstAttribute="width" secondItem="NNJ-4e-f2s" secondAttribute="width" multiplier="1.5" id="vZj-Nb-Gw3"/>
                             <constraint firstItem="rLY-MO-Zo7" firstAttribute="bottom" secondItem="BNb-Sr-dEg" secondAttribute="top" id="xfD-2j-hyY"/>
                         </constraints>
                     </view>
@@ -3795,6 +3957,7 @@ definition</string>
                         <outlet property="btnRecord" destination="udT-5R-tZz" id="1lC-bZ-dFI"/>
                         <outlet property="btnSlider" destination="kcn-0h-Aq5" id="U0A-u0-Akj"/>
                         <outlet property="cvQuestionList" destination="Cl2-eR-gtJ" id="Yt0-Ab-3jn"/>
+                        <outlet property="helpContext" destination="xfN-JI-DUr" id="LbZ-8X-R9v"/>
                         <outlet property="lblIPA" destination="ozV-wf-jsf" id="RbY-7G-Ly8"/>
                         <outlet property="sliderBackground" destination="TrD-eJ-tGg" id="H45-Do-yrr"/>
                         <outlet property="sliderContainer" destination="EXP-6O-26W" id="f7T-66-TTn"/>

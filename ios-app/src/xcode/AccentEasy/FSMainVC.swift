@@ -85,9 +85,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
     }
     
-    
-    
     override func viewDidLoad() {
+        GlobalData.getInstance().isOnLessonMain = false
         super.viewDidLoad()
         //self.edgesForExtendedLayout = UIRectEdge.None;
         //
@@ -154,6 +153,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             }
         }
         GlobalData.getInstance().selectedWord = ""
+
+        NSNotificationCenter.defaultCenter().postNotificationName("loadTabbar", object: "")
         btnRecord.hidden = true
         btnPlay.hidden = true
         setNavigationBarTransparent()
@@ -181,10 +182,6 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func onHelpButtonShow() {
         self.navigationController!.view.userInteractionEnabled = false
         helpContext.hidden = false
-    }
-    
-    @IBAction func clickContinue(sender: AnyObject) {
-        Logger.log("click continue")
     }
 
     
