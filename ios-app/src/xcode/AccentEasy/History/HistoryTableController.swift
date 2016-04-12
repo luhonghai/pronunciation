@@ -43,6 +43,7 @@ class HistoryTableController: UITableViewController {
     func loadTable(word: String?) {
         Logger.log("load history of word \(word)")
         do {
+            freestyleDBAdapter.changeDbFile((GlobalData.getInstance().isOnLessonMain ? DatabaseHelper.getLessonUserScoreDatabaseFile() : DatabaseHelper.getFreeStyleDatabaseFile())!)
             if !word!.isEmpty {
                 isDetail = true
                 try historyList = freestyleDBAdapter.listPronunciationScoreByWord(word!, limit: 0, username: Login.getCurrentUser().username)

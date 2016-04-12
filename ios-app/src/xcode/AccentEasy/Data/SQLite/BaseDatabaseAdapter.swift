@@ -22,6 +22,14 @@ public class BaseDatabaseAdapter {
         }
     }
     
+    public func changeDbFile(dbFile:String) {
+        do {
+            db = try Connection(dbFile)
+        }catch let error as NSError {
+            Logger.log(error.localizedDescription)
+        }
+    }
+    
     public func prepare() {
     }
 

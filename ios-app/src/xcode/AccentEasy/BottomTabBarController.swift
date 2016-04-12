@@ -13,14 +13,22 @@ class BottomTabBarController: RDVTabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadTabbar:",name:"loadTabbar", object: nil)
+        updateTabbar()
+    }
+    
+    func updateTabbar() {
         let firstController = self.storyboard!.instantiateViewControllerWithIdentifier("graphController") as! GraphPageViewController
         
         let secondController = self.storyboard!.instantiateViewControllerWithIdentifier("historyController") as! HistoryTableController
         
         let thirdController = self.storyboard!.instantiateViewControllerWithIdentifier("tipController") as! TipsViewController
         
-        
-        self.viewControllers = [
+        self.viewControllers = GlobalData.getInstance().isOnLessonMain ? [
+            firstController,
+            secondController
+            ] : [
             firstController,
             secondController,
             thirdController
@@ -54,8 +62,10 @@ class BottomTabBarController: RDVTabBarController {
                 withFinishedUnselectedImage: ImageHelper.imageWithImage(UIImage(named: unselectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2)))
             index++
         }
-        
-          NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
+    }
+    
+    func loadTabbar(notification: NSNotification){
+        updateTabbar()
     }
     
     func loadList(notification: NSNotification){

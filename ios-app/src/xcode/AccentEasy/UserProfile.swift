@@ -38,6 +38,7 @@ public class UserProfile: Mappable {
     public var deviceInfo:DeviceInfo!
     public var uuid:String!
     public var helpStatus:Int = 0
+    public var helpStatusLesson:Int = 0
     public var isLogin:Bool = false
     public var lastSelectedMenuItem:String!
     public var licenseCode:String!
@@ -140,6 +141,7 @@ public class UserProfile: Mappable {
         deviceInfo    <= map["deviceInfo"]
         uuid    <= map["uuid"]
         helpStatus    <= map["helpStatus"]
+        helpStatusLesson    <= map["helpStatusLesson"]
         isLogin    <= map["isLogin"]
         lastSelectedMenuItem    <= map["lastSelectedMenuItem"]
         licenseCode    <= map["licenseCode"]
