@@ -106,26 +106,30 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     }
     
     func loadTip() {
-        selectedWordIndex = 0
-        let phonemes = GlobalData.getInstance().currentTipPhonemes
-        if phonemes.isEmpty {
-            //load data here
-            let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
-            selectedTip = tipList[index]
+        if GlobalData.getInstance().isOnLessonMain {
+            return
         } else {
-            let fullPhonemes = phonemes.componentsSeparatedByString(" ")
-            var randomList = Array<IPAMapArpabet>()
-            for tip in tipList {
-                for phoneme in fullPhonemes {
-                    if tip.arpabet == phoneme {
-                        randomList.append(tip)
+            selectedWordIndex = 0
+            let phonemes = GlobalData.getInstance().currentTipPhonemes
+            if phonemes.isEmpty {
+                //load data here
+                let index:Int = Int(arc4random_uniform(UInt32(tipList.count)))
+                selectedTip = tipList[index]
+            } else {
+                let fullPhonemes = phonemes.componentsSeparatedByString(" ")
+                var randomList = Array<IPAMapArpabet>()
+                for tip in tipList {
+                    for phoneme in fullPhonemes {
+                        if tip.arpabet == phoneme {
+                            randomList.append(tip)
+                        }
                     }
                 }
+                let index:Int = Int(arc4random_uniform(UInt32(randomList.count)))
+                selectedTip = randomList[index]
             }
-            let index:Int = Int(arc4random_uniform(UInt32(randomList.count)))
-            selectedTip = randomList[index]
+            self.showTip()
         }
-        self.showTip()
     }
 
     
@@ -176,17 +180,19 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     }
     
     func showTip() {
-        weak var weakSelf = self;
-        words = selectedTip!.getWordList()
-        showWord()
-        lblTitle.text = selectedTip!.ipa
-        lblSubTitle.text = "<\(selectedTip!.arpabet)> \(selectedTip.words)"
-        lblDescription.text = selectedTip!.tip
-        imgTip.clipsToBounds = true
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            if weakSelf!.selectedTip!.imgTongue != nil && !weakSelf!.selectedTip!.imgTongue.isEmpty {
-                let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
-                weakSelf!.imgTip.load(url!)
+        if selectedTip != nil {
+            weak var weakSelf = self;
+            words = selectedTip!.getWordList()
+            showWord()
+            lblTitle.text = selectedTip!.ipa
+            lblSubTitle.text = "<\(selectedTip!.arpabet)> \(selectedTip.words)"
+            lblDescription.text = selectedTip!.tip
+            imgTip.clipsToBounds = true
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                if weakSelf!.selectedTip!.imgTongue != nil && !weakSelf!.selectedTip!.imgTongue.isEmpty {
+                    let url = NSURL(string: weakSelf!.selectedTip!.imgTongue)
+                    weakSelf!.imgTip.load(url!)
+                }
             }
         }
     }
