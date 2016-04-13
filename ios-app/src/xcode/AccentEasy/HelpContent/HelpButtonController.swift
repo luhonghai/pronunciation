@@ -14,7 +14,7 @@ protocol HelpButtonDelegate {
     func onHelpButtonClose(neverShowAgain: Bool)
 }
 
-class HelpButtonController : UIView {
+class HelpButtonController : UIView, BEMCheckBoxDelegate {
     @IBOutlet private var contentView:UIView?
     // other outlets
     @IBOutlet weak var checkbox: BEMCheckBox!
@@ -30,6 +30,8 @@ class HelpButtonController : UIView {
     
     var delegate: HelpButtonDelegate?
     
+    var timer: NSTimer!
+    
     func doContinue() {
         Logger.log("click continue")
         self.close()
@@ -38,6 +40,7 @@ class HelpButtonController : UIView {
     
     @IBAction func clickNSALabel(sender: AnyObject) {
         checkbox.setOn(!checkbox.on, animated: true)
+        checkNSA()
     }
     
     override init(frame: CGRect) { // for using CustomView in code
@@ -59,6 +62,19 @@ class HelpButtonController : UIView {
         checkbox.offAnimationType = BEMAnimationType.Fill
         self.addSubview(content)
         self.userInteractionEnabled = true
+        checkbox.delegate = self
+    }
+    
+    func didTapCheckBox(checkBox: BEMCheckBox) {
+        checkNSA()
+    }
+    
+    func checkNSA() {
+        if checkbox.on {
+            resetTimer()
+        } else {
+            clearTimer()
+        }
     }
     
     func close() {
@@ -74,5 +90,17 @@ class HelpButtonController : UIView {
             self.clipsToBounds = true
             delegate?.onHelpButtonShow()
         }
+    }
+    
+    func clearTimer() {
+        if timer != nil {
+            timer.invalidate()
+            timer = nil
+        }
+    }
+    
+    func resetTimer() {
+        clearTimer()
+        timer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: Selector("doContinue"), userInfo: nil, repeats: false)
     }
 }
