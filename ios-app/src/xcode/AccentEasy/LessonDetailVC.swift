@@ -69,6 +69,9 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         questionCVDatasource.arrQuestions = arrQuestionOfLC
         questionCVDatasource.delegateMain = questionCVDatasourceDelegate
         questionCVDatasource.delegateDetail = self
+        if isLessonCollection {
+            questionCVDatasource.isLessonCollection = true
+        }
         cvQuestionList.dataSource = questionCVDatasource
         cvQuestionList.delegate = questionCVDatasource
         
