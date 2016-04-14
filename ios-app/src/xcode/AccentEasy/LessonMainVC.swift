@@ -89,7 +89,6 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             }
             weakSelf!.sliderContainer.layoutIfNeeded()
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
         
     }
@@ -175,17 +174,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlay.hidden = true
         setNavigationBarTransparent()
         
-//    botView.translatesAutoresizingMaskIntoConstraints = true
-        //helpContext.translatesAutoresizingMaskIntoConstraints = true
-        
-//        arrowHistory.translatesAutoresizingMaskIntoConstraints = true
-        //
-  //  self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
  
         
         //print("cellQuestionSelectedInDetail \(cellQuestionSelectedInDetail)")
-        
-    //    cvQuestionList.translatesAutoresizingMaskIntoConstraints = false
         
         NSNotificationCenter.defaultCenter().postNotificationName("loadTabbar", object: "")
         
