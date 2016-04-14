@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -3807,7 +3807,7 @@
         <!--Lesson MainVC-->
         <scene sceneID="6ky-7o-a5j">
             <objects>
-                <viewController storyboardIdentifier="LessonMainVC" id="u8t-Ef-gxp" customClass="LessonMainVC" customModule="accenteasy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LessonMainVC" automaticallyAdjustsScrollViewInsets="NO" id="u8t-Ef-gxp" customClass="LessonMainVC" customModule="accenteasy" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zxb-S0-kwg"/>
                         <viewControllerLayoutGuide type="bottom" id="BNb-Sr-dEg"/>
@@ -4654,10 +4654,10 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="UNY-bE-rXo"/>
-        <segue reference="t7Q-vO-CVy"/>
         <segue reference="y7T-RE-Gak"/>
-        <segue reference="VlK-rN-iWT"/>
+        <segue reference="t7Q-vO-CVy"/>
         <segue reference="4c6-2C-7Wp"/>
+        <segue reference="VlK-rN-iWT"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>

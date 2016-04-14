@@ -78,7 +78,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
                 levels = try dbAdapter.getLevelByCountry(country.idString)
                 Logger.log("Number of level \(levels.count)")
                 
-                print(DatabaseHelper.getLessonUserScoreDatabaseFile())
+                //print(DatabaseHelper.getLessonUserScoreDatabaseFile())
                 
                 //get test score
                 /*for level in levels{

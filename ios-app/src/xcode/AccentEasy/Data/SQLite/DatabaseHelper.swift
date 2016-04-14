@@ -116,4 +116,8 @@ public class DatabaseHelper {
     class func getLessonUserScoreDatabaseFile() -> String? {
         return FileHelper.getFilePath(LiteDatabase.LESSONUSERSCORE)
     }
+    
+    class func getLessonUserHistoryDatabaseFile() -> String? {
+        return FileHelper.getFilePath(LiteDatabase.LESSONUSERHISTORY)
+    }
 }

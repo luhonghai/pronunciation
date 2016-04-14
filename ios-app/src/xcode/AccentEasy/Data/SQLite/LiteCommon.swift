@@ -12,6 +12,7 @@ public class LiteDatabase {
     public static let FREESTYLE = "database/freestyle.db"
     public static let LESSON = "database/lesson.db"
     public static let LESSONUSERSCORE = "database/lessonuserscore.db"
+    public static let LESSONUSERHISTORY = "database/lessonuserhistory.db"
 }
 
 public class LiteTable {
