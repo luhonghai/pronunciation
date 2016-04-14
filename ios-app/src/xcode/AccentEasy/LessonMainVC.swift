@@ -175,7 +175,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlay.hidden = true
         setNavigationBarTransparent()
         
-        botView.translatesAutoresizingMaskIntoConstraints = true
+//    botView.translatesAutoresizingMaskIntoConstraints = true
         //helpContext.translatesAutoresizingMaskIntoConstraints = true
         
 //        arrowHistory.translatesAutoresizingMaskIntoConstraints = true
