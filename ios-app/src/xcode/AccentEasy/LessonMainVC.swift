@@ -396,7 +396,19 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         selectedWord = wordCollection
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
-        tvDescription.text = wordCollection.definition
+        print("run in select word")
+        //print(arrQuestionOfLC)
+        //print(indexCurrentQuestion)
+        //print(arrQuestionOfLC[indexCurrentQuestion].description)
+        if isLessonCollection {
+            if let des = selectedLessonCollection.name {
+                tvDescription.text = des
+            }
+        
+        } else if let des = arrQuestionOfLC[indexCurrentQuestion].description {
+            tvDescription.text = des
+        }
+        
         linkFile = wordCollection.mp3Path
         changeColorLoadWord()
         //close searchControler
@@ -940,7 +952,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             //selectedWord = wordCollection
             btnPlayDemo.setTitle(selectedWord.word.lowercaseString, forState: UIControlState.Normal)
             lblIPA.text = selectedWord.pronunciation
-            tvDescription.text = selectedWord.definition
+            tvDescription.text = arrQuestionOfLC[cellIndex].description
             linkFile = selectedWord.mp3Path
             
             

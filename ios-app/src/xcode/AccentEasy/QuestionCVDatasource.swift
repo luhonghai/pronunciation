@@ -28,6 +28,8 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
     
     var selectedQuestion: AEQuestion!
     
+    var isLessonCollection:Bool = false
+    
     func setSelected(index: Int) {
         selectedQuestion = arrQuestions[index]
     }
@@ -49,14 +51,22 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
         let question = arrQuestions[indexPath.item]
         
         if !question.recorded && question.enabled {
-            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            if isLessonCollection {
+                cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            } else {
+                cell.lblQuestion.text = "T\(indexPath.item+1)"
+            }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
         } else if question.recorded && question.enabled {
             let averageScore:Int = Int(question.listScore.average)
             cell.lblQuestion.text = String(averageScore)
             cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
         } else {
-            cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            if isLessonCollection {
+                cell.lblQuestion.text = "Q\(indexPath.item+1)"
+            } else {
+                cell.lblQuestion.text = "T\(indexPath.item+1)"
+            }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_GRAY
             cell.userInteractionEnabled = false
         }
