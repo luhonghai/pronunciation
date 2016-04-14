@@ -61,6 +61,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     @IBOutlet weak var sliderContent: UIView!
     
     
+    @IBOutlet weak var arrowHistory: UIImageView!
     
     @IBOutlet weak var btnSlider: UIButton!
     @IBAction func sliderClick(sender: AnyObject) {
@@ -168,12 +169,18 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlay.hidden = true
         setNavigationBarTransparent()
         
-        //botView.translatesAutoresizingMaskIntoConstraints = true
+//    botView.translatesAutoresizingMaskIntoConstraints = true
         //helpContext.translatesAutoresizingMaskIntoConstraints = true
+        
+//        arrowHistory.translatesAutoresizingMaskIntoConstraints = true
         //
-        //self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+  //  self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
  
+        
         //print("cellQuestionSelectedInDetail \(cellQuestionSelectedInDetail)")
+        
+    //    cvQuestionList.translatesAutoresizingMaskIntoConstraints = false
+        
         NSNotificationCenter.defaultCenter().postNotificationName("loadTabbar", object: "")
     }
     
