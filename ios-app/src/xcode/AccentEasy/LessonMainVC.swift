@@ -89,7 +89,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             }
             weakSelf!.sliderContainer.layoutIfNeeded()
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-           // weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
         
     }
@@ -188,6 +188,10 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     //    cvQuestionList.translatesAutoresizingMaskIntoConstraints = false
         
         NSNotificationCenter.defaultCenter().postNotificationName("loadTabbar", object: "")
+        
+        //swap database
+        freestyleDBAdapter.changeDbFile(DatabaseHelper.getLessonUserHistoryDatabaseFile()!)
+        freestyleDBAdapter.prepare()
     }
     
     

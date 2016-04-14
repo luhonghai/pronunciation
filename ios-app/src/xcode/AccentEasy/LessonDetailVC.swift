@@ -84,6 +84,86 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testFailMove:",name:"testFailMove", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testPassMove:",name:"testPassMove", object: nil)
+        
+        saveScore()
+    }
+    
+    func saveScore(){
+        //check obj or test
+        if isLessonCollection {
+            //caculate score
+            var arrQuestionScore = [Float]()
+            for question in arrQuestionOfLC {
+                arrQuestionScore.append(question.listScore.average)
+            }
+            let score = Int(round(arrQuestionScore.average))
+            
+            //show popup score for Lesson
+            //arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 &&
+            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
+                //finished recorde question of lesson
+                btnGoToLesson.hidden = false
+                btnRedo.hidden = false
+                btnNextLesson.hidden = false
+                let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
+                toltalScorePopupVC.toltalScore = score
+                toltalScorePopupVC.lessonTitle = lessonTitle
+                toltalScorePopupVC.delegate = self
+                self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })
+            }
+            
+            //save obj score
+            print("save score \(score)")
+            //objectiveScore.username = AccountManager.currentUser().username
+            objectiveScore.score = score
+            try! lessonDBAdapter.saveLessonScore(objectiveScore)
+        } else {
+            //save score and show popup score for test
+            //if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
+            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
+                //caculate score
+                var arrQuestionScore = [Float]()
+                for question in arrQuestionOfLC {
+                    arrQuestionScore.append(question.listScore.average)
+                }
+                let score = Int(round(arrQuestionScore.average))
+                
+                //show popup test
+                if score < testScore.passScore {
+                    //Fail
+                    //save test score
+                    testScore.score = score
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup fail
+                    let testFailPopupVC:TestFailPopupVC = TestFailPopupVC(nibName: "TestFailPopupVC", bundle: nil)
+                    testFailPopupVC.toltalScore = score
+                    testFailPopupVC.passScore = testScore.passScore
+                    testFailPopupVC.delegate = self
+                    self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }else{
+                    //Pass
+                    //save test score
+                    testScore.score = score
+                    testScore.isLevelPass = true
+                    try! lessonDBAdapter.saveTestScore(testScore)
+                    
+                    //popup pass
+                    let testPassPopupVC:TestPassPopupVC = TestPassPopupVC(nibName: "TestPassPopupVC", bundle: nil)
+                    testPassPopupVC.toltalScore = score
+                    testPassPopupVC.delegate = self
+                    self.presentpopupViewController(testPassPopupVC, animationType: .Fade, completion: {() -> Void in })
+                }
+                
+                //show popup test
+                /*let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
+                 toltalScorePopupVC.toltalScore = score
+                 toltalScorePopupVC.lessonTitle = lessonTitle
+                 toltalScorePopupVC.delegate = self
+                 self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })*/
+            }
+            
+        }
     }
     
     func activateAudioSession() {
@@ -196,82 +276,6 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         btnGoToLesson.hidden = true
         btnRedo.hidden = true
         btnNextLesson.hidden = true
-
-        //check obj or test
-        if isLessonCollection {
-            //caculate score
-            var arrQuestionScore = [Float]()
-            for question in arrQuestionOfLC {
-                arrQuestionScore.append(question.listScore.average)
-            }
-            let score = Int(round(arrQuestionScore.average))
-            
-            //show popup score for Lesson
-            //arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 && 
-            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
-                //finished recorde question of lesson
-                btnGoToLesson.hidden = false
-                btnRedo.hidden = false
-                btnNextLesson.hidden = false
-                let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
-                toltalScorePopupVC.toltalScore = score
-                toltalScorePopupVC.lessonTitle = lessonTitle
-                toltalScorePopupVC.delegate = self
-                self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })
-            }
-            
-            //save obj score
-            print("save score \(score)")
-            //objectiveScore.username = AccountManager.currentUser().username
-            objectiveScore.score = score
-            try! lessonDBAdapter.saveLessonScore(objectiveScore)
-        } else {
-            //save score and show popup score for test
-            //if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
-            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
-                //caculate score
-                var arrQuestionScore = [Float]()
-                for question in arrQuestionOfLC {
-                    arrQuestionScore.append(question.listScore.average)
-                }
-                let score = Int(round(arrQuestionScore.average))
-                
-                //show popup test
-                if score < testScore.passScore {
-                    //Fail
-                    //save test score
-                    testScore.score = score
-                    try! lessonDBAdapter.saveTestScore(testScore)
-                    
-                    //popup fail
-                    let testFailPopupVC:TestFailPopupVC = TestFailPopupVC(nibName: "TestFailPopupVC", bundle: nil)
-                    testFailPopupVC.toltalScore = score
-                    testFailPopupVC.passScore = testScore.passScore
-                    testFailPopupVC.delegate = self
-                    self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
-                }else{
-                    //Pass
-                    //save test score
-                    testScore.score = score
-                    testScore.isLevelPass = true
-                    try! lessonDBAdapter.saveTestScore(testScore)
-                    
-                    //popup pass
-                    let testPassPopupVC:TestPassPopupVC = TestPassPopupVC(nibName: "TestPassPopupVC", bundle: nil)
-                    testPassPopupVC.toltalScore = score
-                    testPassPopupVC.delegate = self
-                    self.presentpopupViewController(testPassPopupVC, animationType: .Fade, completion: {() -> Void in })
-                }
-                
-                //show popup test
-                /*let toltalScorePopupVC:ToltalScorePopupVC = ToltalScorePopupVC(nibName: "ToltalScorePopupVC", bundle: nil)
-                toltalScorePopupVC.toltalScore = score
-                toltalScorePopupVC.lessonTitle = lessonTitle
-                toltalScorePopupVC.delegate = self
-                self.presentpopupViewController(toltalScorePopupVC, animationType: .Fade, completion: {() -> Void in })*/
-            }
-            
-        }
 
         /*if try! lessonDBAdapter.isExistsLessonScore(objectiveScore.username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: objectiveScore.idLesson) {
             print(objectiveScore.id)

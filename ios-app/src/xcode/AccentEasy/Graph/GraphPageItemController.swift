@@ -94,7 +94,7 @@ class GraphPageItemController: UIViewController, ChartViewDelegate {
             var data = [Int]()
             let username = Login.getCurrentUser().username
             do {
-                weakSelf!.freestyleAdapter.changeDbFile((GlobalData.getInstance().isOnLessonMain ? DatabaseHelper.getLessonUserScoreDatabaseFile() : DatabaseHelper.getFreeStyleDatabaseFile())!)
+                weakSelf!.freestyleAdapter.changeDbFile((GlobalData.getInstance().isOnLessonMain ? DatabaseHelper.getLessonUserHistoryDatabaseFile() : DatabaseHelper.getFreeStyleDatabaseFile())!)
                 if (weakSelf!.isWord) {
                     let histories = try weakSelf!.freestyleAdapter.listPronunciationScore(weakSelf!.data, limit: count, username: username)
                     if !histories.isEmpty {
