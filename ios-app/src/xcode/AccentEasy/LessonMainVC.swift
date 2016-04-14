@@ -71,6 +71,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func toggleSlider() {
         weak var weakSelf = self
+        weakSelf!.sliderContainer.layoutIfNeeded()
         UIView.animateWithDuration(0.3) { () -> Void in
             if (weakSelf!.isShowSlider) {
                 weakSelf!.lblIPA.hidden = false
@@ -78,6 +79,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
 //                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
 //                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
                 weakSelf!.sliderConstraint.constant = CGRectGetHeight(weakSelf!.sliderContent.frame)
+                
             } else {
                 weakSelf!.sliderBackground.alpha = weakSelf!.maxAlpha
                 weakSelf!.lblIPA.hidden = true
@@ -85,6 +87,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
 //                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
                 weakSelf!.sliderConstraint.constant = 0
             }
+            weakSelf!.sliderContainer.layoutIfNeeded()
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
            // weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
