@@ -63,27 +63,38 @@ class ProfileResponse: Mappable {
 
 class AccountManager {
     
+    static var currentUsername = ""
+    
     static var currentProfile = [String: UserProfile]()
     
     class func updateProfile(profile: UserProfile) {
         let userDefaults = NSUserDefaults()
         userDefaults.setObject(JSONHelper.toJson(profile), forKey: profile.username)
         userDefaults.setObject(profile.username, forKey: Login.KeyUserProfile)
+        currentUsername = profile.username
         currentProfile[profile.username] = profile
     }
     
     class func currentUser(username: String = "") -> UserProfile {
-        
         let userDefaults = NSUserDefaults()
-        var keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
-        if !username.isEmpty {
-            keyForUserProfile = username
+        var keyForUserProfile: String?
+        if username.isEmpty {
+            if currentUsername.isEmpty {
+                keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile) as? String
+            } else {
+                keyForUserProfile = currentUsername
+            }
+            
         }
         if (keyForUserProfile != nil) {
-            let rawString = userDefaults.objectForKey(keyForUserProfile! as! String)
-            if rawString != nil && !(rawString as! String).isEmpty {
-                return Mapper<UserProfile>().map(rawString as! String)!
+            if currentProfile.indexForKey(keyForUserProfile!) == nil {
+                let rawString = userDefaults.objectForKey(keyForUserProfile!)
+                if rawString != nil && !(rawString as! String).isEmpty {
+                    currentProfile[keyForUserProfile!] = Mapper<UserProfile>().map(rawString as! String)!
+                }
+
             }
+            return currentProfile[keyForUserProfile!]!
         }
         return UserProfile()
     }
