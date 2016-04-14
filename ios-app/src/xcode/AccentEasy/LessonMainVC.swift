@@ -67,6 +67,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     @IBAction func sliderClick(sender: AnyObject) {
         toggleSlider()
     }
+    @IBOutlet weak var sliderConstraint: NSLayoutConstraint!
     
     func toggleSlider() {
         weak var weakSelf = self
@@ -74,13 +75,15 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             if (weakSelf!.isShowSlider) {
                 weakSelf!.lblIPA.hidden = false
                 weakSelf!.sliderBackground.alpha = 0
-                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
-                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+//                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+//                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                weakSelf!.sliderConstraint.constant = CGRectGetHeight(weakSelf!.sliderContent.frame)
             } else {
                 weakSelf!.sliderBackground.alpha = weakSelf!.maxAlpha
                 weakSelf!.lblIPA.hidden = true
-                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
-                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+//                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+//                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                weakSelf!.sliderConstraint.constant = 0
             }
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
            // weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
