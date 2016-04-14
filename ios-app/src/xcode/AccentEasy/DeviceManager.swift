@@ -10,6 +10,7 @@ import Foundation
 import SystemConfiguration
 import FBSDKShareKit
 import SafariServices
+import AVFoundation
 
 class DeviceManager {
     
@@ -120,5 +121,22 @@ class DeviceManager {
         deviceInfo.osApiLevel = ""
         deviceInfo.osVersion = ""
         return deviceInfo
+    }
+    
+    class func requestMicrophonePermission() {
+        let session: AVAudioSession = AVAudioSession.sharedInstance()
+        if (session.respondsToSelector("requestRecordPermission:")) {
+            AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+                if granted {
+                    Logger.log("microphone granted")
+                } else {
+                    Logger.log("microphone not granted")
+                }
+                try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+                try! session.setActive(true)
+                try! session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+            })
+            
+        }
     }
 }

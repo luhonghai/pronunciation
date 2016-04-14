@@ -98,24 +98,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
+        DeviceManager.requestMicrophonePermission()
         //self.edgesForExtendedLayout = UIRectEdge.None;
         //
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
         // if you don't do this!
         //
-       
-        
-        let session: AVAudioSession = AVAudioSession.sharedInstance()
-        do {
-            try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
-        } catch {
-            
-        }
-        do {
-            try session.setActive(true)
-        } catch {
-            
-        }
         self.analyzingView.delegate = self
         // Create an instance of the microphone and tell it to use this view controller instance as the delegate
         self.microphone = EZMicrophone(delegate: self)
@@ -125,15 +113,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         // Setup notifications
         //
         self.setupNotifications()
-        //
-        // Override the output to the speaker. Do this after creating the EZAudioPlayer
-        // to make sure the EZAudioDevice does not reset this.
-        //
-        do {
-            try session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
-        } catch {
-            
-        }
+        
         
         // Do any additional setup after loading the view.
         
@@ -183,6 +163,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //swap database
         freestyleDBAdapter.changeDbFile(DatabaseHelper.getLessonUserHistoryDatabaseFile()!)
         freestyleDBAdapter.prepare()
+        
+        
     }
     
     
@@ -350,7 +332,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 self.toggleSlider()
             }
         }
-        activateAudioSession()
+       // activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
         
