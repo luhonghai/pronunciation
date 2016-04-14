@@ -63,14 +63,17 @@ class ProfileResponse: Mappable {
 
 class AccountManager {
     
+    static var currentProfile = [String: UserProfile]()
+    
     class func updateProfile(profile: UserProfile) {
         let userDefaults = NSUserDefaults()
         userDefaults.setObject(JSONHelper.toJson(profile), forKey: profile.username)
         userDefaults.setObject(profile.username, forKey: Login.KeyUserProfile)
+        currentProfile[profile.username] = profile
     }
     
     class func currentUser(username: String = "") -> UserProfile {
-        print ("run in currentUser")
+        
         let userDefaults = NSUserDefaults()
         var keyForUserProfile = userDefaults.objectForKey(Login.KeyUserProfile)
         if !username.isEmpty {

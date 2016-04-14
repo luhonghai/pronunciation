@@ -9,8 +9,23 @@
 import Foundation
 import RDVTabBarController
 
+
+
 class BottomTabBarController: RDVTabBarController {
     
+    class StateHolder {
+        
+        static let stateHolder = StateHolder()
+        
+        var tabbarImages = [String : UIImage]()
+        
+        var tabViewControllers = [String : UIViewController]()
+        
+        class func getInstance() -> StateHolder {
+            return stateHolder
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"showChart", object: nil)
@@ -18,12 +33,20 @@ class BottomTabBarController: RDVTabBarController {
         updateTabbar()
     }
     
+    func getTabViewController(key: String) -> UIViewController {
+        if StateHolder.getInstance().tabViewControllers.indexForKey(key) == nil {
+            StateHolder.getInstance().tabViewControllers[key] = self.storyboard!.instantiateViewControllerWithIdentifier(key)
+        }
+        return StateHolder.getInstance().tabViewControllers[key]!
+    }
+    
     func updateTabbar() {
-        let firstController = self.storyboard!.instantiateViewControllerWithIdentifier("graphController") as! GraphPageViewController
         
-        let secondController = self.storyboard!.instantiateViewControllerWithIdentifier("historyController") as! HistoryTableController
+        let firstController = getTabViewController("graphController")
         
-        let thirdController = self.storyboard!.instantiateViewControllerWithIdentifier("tipController") as! TipsViewController
+        let secondController = getTabViewController("historyController")
+        
+        let thirdController = getTabViewController("tipController")
         
         self.viewControllers = GlobalData.getInstance().isOnLessonMain ? [
             firstController,
@@ -58,8 +81,16 @@ class BottomTabBarController: RDVTabBarController {
             default:
                 break
             }
-            item.setFinishedSelectedImage(ImageHelper.imageWithImage(UIImage(named: selectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2)),
-                withFinishedUnselectedImage: ImageHelper.imageWithImage(UIImage(named: unselectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2)))
+            if StateHolder.getInstance().tabbarImages.indexForKey(selectedImg) == nil {
+                Logger.log("load tabbar image \(selectedImg)")
+                StateHolder.getInstance().tabbarImages[selectedImg] = ImageHelper.imageWithImage(UIImage(named: selectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2))
+            }
+            if StateHolder.getInstance().tabbarImages.indexForKey(unselectedImg) == nil {
+                Logger.log("load tabbar image \(unselectedImg)")
+                StateHolder.getInstance().tabbarImages[unselectedImg] = ImageHelper.imageWithImage(UIImage(named: unselectedImg)!, scaledToSize: CGSize(width: tabBarHeight - 2, height: tabBarHeight - 2))
+            }
+            item.setFinishedSelectedImage(StateHolder.getInstance().tabbarImages[selectedImg],
+                withFinishedUnselectedImage: StateHolder.getInstance().tabbarImages[unselectedImg])
             index++
         }
     }
