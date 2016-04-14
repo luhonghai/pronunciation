@@ -82,7 +82,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                     - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
             }
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+           // weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
         
     }
@@ -168,8 +168,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnPlay.hidden = true
         setNavigationBarTransparent()
         
-        botView.translatesAutoresizingMaskIntoConstraints = true
-        helpContext.translatesAutoresizingMaskIntoConstraints = true
+        //botView.translatesAutoresizingMaskIntoConstraints = true
+        //helpContext.translatesAutoresizingMaskIntoConstraints = true
         //
         //self.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
  
