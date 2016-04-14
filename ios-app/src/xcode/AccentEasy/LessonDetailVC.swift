@@ -49,6 +49,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     let questionCVDatasource = QuestionCVDatasource()
     var questionCVDatasourceDelegate: QuestionCVDatasourceDelegate!
     var objectiveScore:ObjectiveScore!
+    
     //test
     var testScore:TestScore!
     var isLessonCollection:Bool = false
