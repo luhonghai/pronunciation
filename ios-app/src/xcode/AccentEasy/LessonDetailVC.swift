@@ -80,7 +80,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         btnPlay.hidden = true
         showDetail()
         
-        cvQuestionList.translatesAutoresizingMaskIntoConstraints = true
+       // cvQuestionList.translatesAutoresizingMaskIntoConstraints = true
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testFailMove:",name:"testFailMove", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testPassMove:",name:"testPassMove", object: nil)
@@ -603,38 +603,48 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func toggleSlider() {
         weak var weakSelf = self
+        weakSelf!.sliderContainer.layoutIfNeeded()
         UIView.animateWithDuration(0.3) { () -> Void in
             if (weakSelf!.isShowSlider) {
                 weakSelf!.sliderBackground.alpha = 0
-                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
-                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                //                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                //                    - CGRectGetHeight(weakSelf!.btnSlider.frame) + 3, CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                weakSelf!.sliderConstraint.constant = CGRectGetHeight(weakSelf!.sliderContent.frame)
+                
             } else {
                 weakSelf!.sliderBackground.alpha = weakSelf!.maxAlpha
-                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
-                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                //                weakSelf!.sliderContainer.frame = CGRectMake(CGRectGetMinX(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.view.frame)
+                //                    - CGRectGetHeight(weakSelf!.sliderContainer.frame), CGRectGetWidth(weakSelf!.sliderContainer.frame), CGRectGetHeight(weakSelf!.sliderContainer.frame))
+                weakSelf!.sliderConstraint.constant = 0
             }
+            weakSelf!.sliderContainer.layoutIfNeeded()
             weakSelf!.isShowSlider = !weakSelf!.isShowSlider
-            weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
+            // weakSelf!.sliderContainer.translatesAutoresizingMaskIntoConstraints = true
         }
-        
     }
+    
+    @IBOutlet weak var sliderConstraint: NSLayoutConstraint!
+    
     
     @IBAction func handlePan(sender: UIPanGestureRecognizer) {
         if sender.state == UIGestureRecognizerState.Ended {
             if let view = sliderContainer {
                 let currentY = view.center.y
+                let contentHeight = CGRectGetHeight(sliderContent.frame)
                 let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
                 let maxY = CGRectGetHeight(self.view.frame)
                     - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
-                // Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
                 weak var weakSelf = self
+                weakSelf!.sliderContainer.layoutIfNeeded()
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    view.center = CGPoint(x:view.center.x,
-                        y: (weakSelf!.isShowSlider ? minY : maxY))
+                    //                    view.center = CGPoint(x:view.center.x,
+                    //                        y: (weakSelf!.isShowSlider ? minY : maxY))
+                    weakSelf!.sliderConstraint.constant = weakSelf!.isShowSlider ? 0 : contentHeight
                     weakSelf!.sliderBackground.alpha = weakSelf!.isShowSlider ? weakSelf!.maxAlpha : 0
+                    weakSelf!.sliderContainer.layoutIfNeeded()
                 })
             }
         } else {
@@ -647,10 +657,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
                 if (destY <= maxY && destY >= minY) {
-                    view.center = CGPoint(x:view.center.x,
-                                          y:destY)
+                    //view.center = CGPoint(x:view.center.x, y:destY)
                     self.sliderBackground.alpha = self.maxAlpha
                         * ((destY - maxY) / (minY - maxY))
+                    sliderConstraint.constant = sliderConstraint.constant + translation.y
                 }
             }
             sender.setTranslation(CGPointZero, inView: self.view)

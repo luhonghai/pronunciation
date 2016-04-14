@@ -1096,19 +1096,22 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         if sender.state == UIGestureRecognizerState.Ended {
             if let view = sliderContainer {
                 let currentY = view.center.y
+                let contentHeight = CGRectGetHeight(sliderContent.frame)
                 let halfHeight = CGRectGetHeight(sliderContainer.frame) / 2
                 let maxY = CGRectGetHeight(self.view.frame)
                     - CGRectGetHeight(btnSlider.frame) + 3 + halfHeight
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
-                //Logger.log("\(currentY) - \(maxY) - \(minY) - \((maxY - minY)/2)")
                 isShowSlider = !(currentY >= (maxY - minY) / 2 + minY)
                 weak var weakSelf = self
+                weakSelf!.sliderContainer.layoutIfNeeded()
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
-                    view.center = CGPoint(x:view.center.x,
-                        y: (weakSelf!.isShowSlider ? minY : maxY))
+//                    view.center = CGPoint(x:view.center.x,
+//                        y: (weakSelf!.isShowSlider ? minY : maxY))
+                    weakSelf!.sliderConstraint.constant = weakSelf!.isShowSlider ? 0 : contentHeight
                     weakSelf!.lblIPA.hidden = weakSelf!.isShowSlider
                     weakSelf!.sliderBackground.alpha = weakSelf!.isShowSlider ? weakSelf!.maxAlpha : 0
+                    weakSelf!.sliderContainer.layoutIfNeeded()
                 })
             }
         } else {
@@ -1121,10 +1124,10 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 let minY = CGRectGetHeight(self.view.frame)
                     - halfHeight
                 if (destY <= maxY && destY >= minY) {
-                    view.center = CGPoint(x:view.center.x,
-                                          y:destY)
+                    //view.center = CGPoint(x:view.center.x, y:destY)
                     self.sliderBackground.alpha = self.maxAlpha
                         * ((destY - maxY) / (minY - maxY))
+                    sliderConstraint.constant = sliderConstraint.constant + translation.y
                 }
             }
             sender.setTranslation(CGPointZero, inView: self.view)

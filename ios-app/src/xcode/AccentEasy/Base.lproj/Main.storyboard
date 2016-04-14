@@ -1762,6 +1762,7 @@
                         <outlet property="lblIPA" destination="EJd-wl-tZv" id="Bs0-do-2AZ"/>
                         <outlet property="menuButton" destination="MSm-IG-hsA" id="oe4-lT-9Nb"/>
                         <outlet property="sliderBackground" destination="1BB-Vj-47V" id="P5n-3D-1aT"/>
+                        <outlet property="sliderConstraint" destination="SN1-Y3-Yxm" id="EEM-2P-z3G"/>
                         <outlet property="sliderContainer" destination="aMh-oI-D7b" id="jGj-WZ-dYQ"/>
                         <outlet property="sliderContent" destination="Cw6-Vf-e5b" id="JrL-2k-Aoj"/>
                         <outlet property="tvDescription" destination="3qu-UU-4wJ" id="sGh-gQ-Awa"/>
@@ -3461,6 +3462,7 @@
                         <outlet property="cViewIPAList" destination="dLQ-9D-22F" id="3eI-ui-unV"/>
                         <outlet property="menuButton" destination="Wql-b8-8yq" id="C6d-5M-MAn"/>
                         <outlet property="sliderBackground" destination="AAM-PE-uta" id="5fL-MY-wFL"/>
+                        <outlet property="sliderConstraint" destination="pJI-Xs-bBk" id="taj-UZ-7QD"/>
                         <outlet property="sliderContainer" destination="Li1-Q4-1W2" id="xLJ-P0-3nH"/>
                         <outlet property="sliderContent" destination="0fc-EU-rZS" id="1mG-pp-mmD"/>
                         <outlet property="viewAnalyzing" destination="qrO-vU-Bw1" id="P3l-Bu-5en"/>
@@ -4488,6 +4490,7 @@
                         <outlet property="cvQuestionList" destination="wvg-5L-4XY" id="qsP-LV-LwE"/>
                         <outlet property="menuButton" destination="ueR-T0-myj" id="9Er-X6-75M"/>
                         <outlet property="sliderBackground" destination="bQj-zh-Tl6" id="XZw-4n-EuU"/>
+                        <outlet property="sliderConstraint" destination="4I9-Rg-tRE" id="jac-I3-fXJ"/>
                         <outlet property="sliderContainer" destination="83d-6h-jq5" id="UeM-HW-enI"/>
                         <outlet property="sliderContent" destination="dOk-Sr-0K7" id="QXM-LA-6bT"/>
                         <outlet property="viewAnalyzing" destination="JRf-Zu-smL" id="Exo-83-0cU"/>
@@ -4658,9 +4661,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="UNY-bE-rXo"/>
         <segue reference="t7Q-vO-CVy"/>
-        <segue reference="y7T-RE-Gak"/>
         <segue reference="VlK-rN-iWT"/>
-        <segue reference="4c6-2C-7Wp"/>
+        <segue reference="Ceg-og-m1t"/>
+        <segue reference="0GI-4W-Bce"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>
