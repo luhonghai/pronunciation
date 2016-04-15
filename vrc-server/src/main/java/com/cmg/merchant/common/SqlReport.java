@@ -6,6 +6,7 @@ package com.cmg.merchant.common;
 public class SqlReport {
 
 
+
     private String SQL_LIST_CLASS_BY_TEACHER = "Select c.id, c.className from CLASSJDO as c " +
             "inner join CLASSMAPPINGTEACHER as m on c.id = m.idClass " +
             "where m.teacherName='paramTName' and c.isDeleted=false and m.isDeleted=false";
@@ -65,7 +66,7 @@ public class SqlReport {
             "and ls.id='paramLessonId' and ulh.WORD='paramWord' " +
             "and ls.isDeleted=false";
 
-    private String SQL_LIST_PHONEMES = "select ipa from IPAMAPARPABET where ISDELETED=false order by ARPABET";
+    private String SQL_LIST_PHONEMES = "select IPA,ARPABET from IPAMAPARPABET where ISDELETED=false order by ARPABET";
 
     private String SQL_GET_STUDENT_SCORE_PHONEME = "select s.SESSIONID,AVG(pls.TOTALSCORE) from SESSIONSCORE as s " +
             "  inner join USERLESSONHISTORY as ulh " +
@@ -94,6 +95,47 @@ public class SqlReport {
             "and ls.id='paramLessonId' and map.IPA='paramIpa'" +
             "and ls.isDeleted=false";
 
+    private String SQL_LIST_STUDENT_BY_TEACHER = "select STUDENTNAME from STUDENTMAPPINGCLASS as smc " +
+            "  inner join CLASSMAPPINGTEACHER as cmt " +
+            "    on smc.idClass = cmt.idClass " +
+            "where cmt.teacherName='paramTName' " +
+            "and smc.ISDELETED=false and cmt.ISDELETED=false";
+
+    private String SQL_CALCULATE_PHONEME_SCORE_BY_USER = "select ulh.SERVERTIME, AVG(pls.TOTALSCORE) from USERLESSONHISTORY as ulh " +
+            "inner join PHONEMELESSONSCORE as pls " +
+            "on ulh.id=pls.IDUSERLESSONHISTORY " +
+            "inner join IPAMAPARPABET as map " +
+            "on map.ARPABET = pls.PHONEME " +
+            "where ulh.username='paramStudent' " +
+            "and map.ARPABET='paramIpa' " +
+            "and FROM_UNIXTIME(SERVERTIME/1000) BETWEEN 'paramStartDate' AND 'paramEndDate' order by FROM_UNIXTIME(SERVERTIME/1000)";
+
+    /**
+     *
+     * @param studentName
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public String getSqlCalculatePhoneScoreByUser(String studentName, String arpabet, String startDate, String endDate){
+        String sql = SQL_CALCULATE_PHONEME_SCORE_BY_USER;
+        sql = sql.replaceAll("paramStudent",studentName);
+        sql = sql.replaceAll("paramIpa",arpabet);
+        sql = sql.replaceAll("paramStartDate",startDate);
+        sql = sql.replaceAll("paramEndDate",endDate);
+        return sql;
+    }
+
+    /**
+     *
+     * @param tName
+     * @return
+     */
+    public String getSqlListStudentByTeacher(String tName){
+        String sql = SQL_LIST_STUDENT_BY_TEACHER;
+        sql = sql.replaceAll("paramTName",tName);
+        return sql;
+    }
 
     /**
      *

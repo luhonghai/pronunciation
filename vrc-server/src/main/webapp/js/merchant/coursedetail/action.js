@@ -625,6 +625,7 @@ function clickHelpAdd(){
             getPopUpHelp().find(".modal-title").html("deleting files");
             getPopUpHelp().find(".modal-body").empty();
             getPopUpHelp().find(".modal-body").html(initHelpDelete());
+            getPopUpHelp().css("z-index","10000");
         }else if(id=="helpAddWord"){
             getPopUpHelp().find(".modal-title").html("test word management");
             getPopUpHelp().find(".modal-body").empty();

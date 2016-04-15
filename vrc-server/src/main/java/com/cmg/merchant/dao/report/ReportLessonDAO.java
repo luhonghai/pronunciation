@@ -2,11 +2,13 @@ package com.cmg.merchant.dao.report;
 
 import com.cmg.lesson.data.dto.objectives.IndexLesson;
 import com.cmg.lesson.data.jdo.course.Course;
+import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.merchant.common.SQL;
 import com.cmg.merchant.common.SqlReport;
+import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.jdo.ClassJDO;
 import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.data.jdo.StudentMappingClass;
@@ -607,10 +609,17 @@ public class ReportLessonDAO {
             List<Object> tmp = (List<Object>) q.execute();
             if(tmp!=null && tmp.size()>0){
                 for(Object obj : tmp){
-                    String s = (String) StringUtil.isNull(obj,"null");
-                    if(s!="null"){
-                        listPhonemes.add(s);
+                    Object[] data = (Object[]) obj;
+                    IpaMapArpabet map = new IpaMapArpabet();
+                    if(data[0]!=null){
+                        String ipa = (String) StringUtil.isNull(data[0], "null");
+                        map.setIpa(ipa);
                     }
+                    if(data[1]!=null){
+                        String arpabet = (String) StringUtil.isNull(data[1], "null");
+                        map.setArpabet(arpabet);
+                    }
+                    listPhonemes.add(map.getIpa());
                 }
             }
         } catch (Exception e) {
@@ -669,7 +678,7 @@ public class ReportLessonDAO {
         int score = 0;
         PersistenceManager pm = PersistenceManagerHelper.get();
         SqlReport sql = new SqlReport();
-        String query=sql.getSqlCalculateScorePhonemeOfClass(classId, idLesson,ipa);
+        String query=sql.getSqlCalculateScorePhonemeOfClass(classId, idLesson, ipa);
         System.out.println("sql generate score phoneme of class : " + query);
         Query q = pm.newQuery("javax.jdo.query.SQL", query);
         try {
@@ -694,4 +703,12 @@ public class ReportLessonDAO {
         }
         return score;
     }
+
+
+
+
+
+
+
+
 }

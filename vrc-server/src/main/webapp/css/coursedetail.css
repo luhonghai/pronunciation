@@ -236,17 +236,24 @@
 
 #confirm-delete label{
     color : black;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    font-weight: 200;
 }
 
 .contain-button img{
     cursor: pointer;
 }
 #confirm-delete #lbl_deleted{
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
     font-weight : 700;
 }
 
 #help-popup .delete-header{
     font-weight : 700;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
 }
 
 #popupQuestionTest div.form-group div{

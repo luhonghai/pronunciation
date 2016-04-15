@@ -4,34 +4,7 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <style>
-    #report-popup #canvas{
-        background: #ffffff;
-        box-shadow:5px 5px 5px #ccc;
-        border:3px solid #eee;
-        margin-bottom:10px;
-        width:100%;
-    }
-    #report-popup #tip {
-        position: absolute;
-        display: none;
-        background-color:red;
-        border-radius: 4px;
-        top:0;
-        left:0;
-    }
-    #report-popup #canvasWord{
-        background: #ffffff;
-        box-shadow:5px 5px 5px #ccc;
-        border:3px solid #eee;
-        margin-bottom:10px;
-    }
-    #report-popup #tipWord {
-        position: absolute;
-        display: none;
-        background-color:red;
-        border-radius: 4px;
-        top:0;
-        left:0;}
+
 
     .header-company {
         color: #A6A6A6;
@@ -167,6 +140,7 @@
         to { -moz-transform: rotate(360deg);}
     }
     .student-username{
+        padding-bottom : 25px;
         padding-top : 25px;
     }
     .class-avg-text , .student-avg-text{
@@ -174,7 +148,7 @@
     }
     #holder-chart{
         box-sizing: border-box;
-        width: 850px;
+        width: 100%;
         height: 600px;
         padding: 20px 15px 15px 15px;
         margin: 15px auto 30px auto;
@@ -193,7 +167,7 @@
         overflow-x: auto;
     }
     #placeholder{
-        width: 1000px;
+        width: 100%;
         height: 500px;
         font-size: 14px;
         line-height: 1.2em;
@@ -345,32 +319,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                <div style="padding-bottom: 20px" class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-1">
-                        <div class="class-avg-score">80</div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="student-avg-score">80</div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="student-username">lan.ta@c-mg.com</div>
-                    </div>
-                    <div style="padding-top: 20px" class="col-sm-2">
-                        <div class="col-sm-2">
-                            <div class="color-class-help"></div>
-                        </div>
-                        <div class="col-sm-9 class-avg-text">class average</div>
-                    </div>
-                    <div style="padding-top: 20px" class="col-sm-2">
-                        <div class="col-sm-2">
-                            <div class="color-student-help"></div>
-                        </div>
-                        <div class="col-sm-9 student-avg-text">student score</div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-sm-2">
+                        <p class="student-username"></p>
                         <p><strong>course:</strong></p>
                         <label id="lbl_course" style='font-weight: 200;'>Course</label>
                         <p><strong>level:</strong></p>
@@ -382,7 +333,27 @@
                         <p><strong>completion date:</strong></p>
                         <label id="lbl_date_completed" style='font-weight: 200;'>date completed</label>
                     </div>
-                    <div id="container" class="col-sm-10">
+                    <div class="col-sm-3">
+                        <div  style="padding-bottom: 25px" class="col-sm-12">
+                            <div class="student-avg-score">80</div>
+                        </div>
+                        <div style="padding-bottom: 25px" class="col-sm-12">
+                            <div class="class-avg-score">80</div>
+                        </div>
+                        <div style="padding-bottom: 25px" class="col-sm-12">
+                            <div class="col-sm-2">
+                                <div class="color-class-help"></div>
+                            </div>
+                            <div class="col-sm-9 class-avg-text">class average</div>
+                        </div>
+                        <div style="padding-bottom: 25px" class="col-sm-12">
+                            <div class="col-sm-2">
+                                <div class="color-student-help"></div>
+                            </div>
+                            <div class="col-sm-9 student-avg-text">student score</div>
+                        </div>
+                    </div>
+                    <div id="container" class="col-sm-7">
                         <div id="holder-chart">
                             <div id="placeholder">
                             </div>

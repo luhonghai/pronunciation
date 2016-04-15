@@ -31,6 +31,7 @@ public class ReportLessonService {
     class ListStudent{
         private String message;
         private List<StudentMappingClass> listSMC;
+        private ArrayList<String> listStudent;
     }
     class ListCourse{
         private String message;

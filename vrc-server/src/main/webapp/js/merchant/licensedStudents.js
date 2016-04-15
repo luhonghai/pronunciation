@@ -26,8 +26,10 @@ function drawStudent(student){
     $img.attr("src","/images/teacher/student48x48.gif");
     $img.css("width","24px");
     $img.css("height","24px");
+    $img.css("cursor","pointer");
     var $lbl = $("<label>");
     $lbl.html(student.studentName);
+    $lbl.css("cursor","pointer");
     $a.append($img);
     $a.append($lbl);
     divA.append($a);

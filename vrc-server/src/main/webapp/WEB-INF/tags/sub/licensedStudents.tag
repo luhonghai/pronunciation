@@ -64,7 +64,7 @@
         </div>
     </div>
     <div style="padding : 20px 0px 10px 0px" class="row">
-        <a href="my-students.jsp" title="go to my students" style="float: right;"><img src="/images/teacher/my%20students48x48.gif" style="background-color: #00e6ac"></a>
+        <a href="my-students.jsp" title="go to my students" style="float: right;"><img style="width:48px;height: 48px" src="/images/teacher/my_students80x80.gif"></a>
     </div>
 
 
@@ -97,7 +97,7 @@
 <div id="checkAllModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header" style="border-bottom: transparent;>
+            <div class="modal-header" style="border-bottom: transparent;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
@@ -105,7 +105,6 @@
                     <p>Do you really want to add all licenced students to 'my students' You will need to remove them individually from your list after they have been added?</p>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

@@ -48,7 +48,7 @@ function listCourse() {
 
                 }
                 $('#listCourse').multiselect('destroy');
-                $('#listCourse').multiselect({enableFiltering: true, buttonWidth: '100%'});
+                $('#listCourse').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
                 $('#listCourse').multiselect('refresh');
             } else {
                 swal("", data.message.split(":")[1], "error");
@@ -82,7 +82,7 @@ function listLevels(idCourse) {
                 }
 
                 $('#listLevel').multiselect('destroy');
-                $('#listLevel').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                $('#listLevel').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listLevel').multiselect('refresh');
             } else {
                 swal("", data.message.split(":")[1], "error");
@@ -115,7 +115,7 @@ function listObjectives(idLevel) {
                 }
 
                 $('#listObj').multiselect('destroy');
-                $('#listObj').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                $('#listObj').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                 $('#listObj').multiselect('refresh');
             } else {
                 swal("Error!", data.message.split(":")[1], "error");
@@ -152,7 +152,7 @@ function changeCourse() {
                         });
                     }
                     $('#listLevel').multiselect('destroy');
-                    $('#listLevel').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                    $('#listLevel').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                     $('#listLevel').multiselect('refresh');
                 } else {
                     swal("", data.message.split(":")[1], "error");
@@ -186,7 +186,7 @@ function changeLevel() {
                         });
                     }
                     $('#listObj').multiselect('destroy');
-                    $('#listObj').multiselect({enableFiltering: true, buttonWidth: '200px'});
+                    $('#listObj').multiselect({enableFiltering: true,maxHeight: 200, buttonWidth: '200px'});
                     $('#listObj').multiselect('refresh');
                 } else {
                     swal("", data.message.split(":")[1], "error");

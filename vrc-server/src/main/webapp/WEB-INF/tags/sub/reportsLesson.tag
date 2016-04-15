@@ -69,4 +69,4 @@
     </div>
 </div>
 <!-- /#wrapper -->
-<script src="<%=request.getContextPath() %>/js/merchant/reportsLesson.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/report/reportsLesson.js"></script>

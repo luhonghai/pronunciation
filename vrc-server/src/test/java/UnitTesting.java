@@ -29,9 +29,11 @@ import com.cmg.merchant.common.Constant;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
+import com.cmg.merchant.dao.report.ReportPhoneDao;
 import com.cmg.merchant.data.dto.CourseDTO;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
+import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
 import com.cmg.vrc.data.jdo.Reports;
@@ -119,8 +121,13 @@ public class UnitTesting {
             Date d = new Date(bi);
             String s = format.format(d);
             System.out.println(s);*/
-            ReportLessonDAO dao = new ReportLessonDAO();
-            int i = dao.getAvgScoreWordInLessonOfUser("nambui","1148fd96-f817-4f83-b860-6cd43e8e6a75","image");
+            ReportPhoneDao dao = new ReportPhoneDao();
+            dao.getScorePhonemeByStudent("nambui","AH","2016-02-28","2016-03-01");
+
+           /* DateUtil util = new DateUtil();
+            String d = util.convertDate("28/02/2016") ;
+            System.out.println(d);*/
+            //dao.listPhonemes();
         } catch (Exception e) {
             e.printStackTrace();
         }

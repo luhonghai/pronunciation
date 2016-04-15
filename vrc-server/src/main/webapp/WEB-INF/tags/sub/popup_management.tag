@@ -570,7 +570,7 @@
      style="display: none;color:#957F7F">
     <div class="modal-dialog" style="width:500px">
         <div class="modal-content">
-            <div class="modal-header" style="border-bottom: transparent;padding-bottom: 0px;text-align: center">
+            <div class="modal-header" style="border-bottom: transparent">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">

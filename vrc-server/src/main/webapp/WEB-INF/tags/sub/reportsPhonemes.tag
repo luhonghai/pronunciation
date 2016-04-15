@@ -2,106 +2,222 @@
 <%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
+<%String company = StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME), "").toString();%>
+<style>
+
+    .header-company {
+        color: #A6A6A6;
+        font-weight: 200;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        border-bottom-color: transparent;
+        margin: 10px 0px;
+    }
+    #loadInfo{
+        cursor: pointer;
+        width: 36px;
+        height : 36px;
+        display: block;
+        background-color: transparent;
+        border-color: transparent;
+        padding : 0px;
+    }
+    .row label {
+        font-weight: 200;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        padding-top: 5px;
+    }
+
+    .row {
+        padding-bottom: 20px;
+    }
+
+    #grap-class-average, .color-class-help {
+        width: 10px;
+        height: 30px;
+        border: 1px solid transparent;
+        background-color: #558ED5;
+    }
+
+    #grap-student-score, .color-student-help {
+        width: 10px;
+        height: 30px;
+        border: 1px solid transparent;
+        background-color: #17375E;
+    }
+
+    #info label {
+        color: #376092
+    }
+
+    .grap {
+        border: 1px;
+        background-color: #F2F2F2;
+        border-radius: 5px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .scoreStudent {
+        margin: 30px 0px;
+        background-color: #17375E;
+        width: 70px;
+        height: 70px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 70px;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+
+    .student-avg-score {
+        background-color: #17375E;
+        width: 70px;
+        height: 70px;
+        border-radius: 45px;
+        text-align: center;
+        line-height: 70px;
+        color: white;
+        font-size: 20px;
+        font-weight: 600;
+        margin-top : 20px;
+    }
+
+
+
+
+    .student-username{
+        padding-top: 25px;
+    }
+
+    .phoneme{
+        padding-top: 25px;
+    }
+
+    .class-avg-text, .student-avg-text {
+        padding-top: 5px;
+    }
+
+    #holder-chart {
+        box-sizing: border-box;
+        width: 100%;
+        height: 600px;
+        padding: 20px 15px 15px 15px;
+        margin: 15px auto 30px auto;
+        border: 1px solid #ddd;
+        background: #fff;
+        background: linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -o-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -ms-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -moz-linear-gradient(#f6f6f6 0, #fff 50px);
+        background: -webkit-linear-gradient(#f6f6f6 0, #fff 50px);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        -o-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -ms-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        overflow-x: auto;
+    }
+
+    #placeholder {
+        width: 100%;
+        height: 500px;
+        font-size: 14px;
+        line-height: 1.2em;
+    }
+
+    .legend table, .legend > div {
+        height: 82px !important;
+        opacity: 1 !important;
+        right: -55px;
+        top: 10px;
+        width: 116px !important;
+        display: none
+    }
+
+    .legend table {
+        border: 1px solid #555;
+        padding: 5px;
+        display: none
+    }
+
+    #flot-tooltip {
+        font-size: 12px;
+        font-family: Verdana, Arial, sans-serif;
+        position: absolute;
+        display: none;
+        border: 2px solid;
+        padding: 2px;
+        background-color: #FFF;
+        opacity: 0.8;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        z-index: 100000;
+    }
+
+    .flot-x-axis div.flot-tick-label {
+        /* Rotate Axis Labels */
+        transform: translateX(60%) rotate(60deg); /* CSS3 */
+        transform-origin: 0 0;
+
+        -ms-transform: translateX(60%) rotate(60deg); /* IE */
+        -ms-transform-origin: 0 0;
+
+        -moz-transform: translateX(60%) rotate(60deg); /* Firefox */
+        -moz-transform-origin: 0 0;
+
+        -webkit-transform: translateX(60%) rotate(60deg); /* Safari and Chrome */
+        -webkit-transform-origin: 0 0;
+
+        -o-transform: translateX(60%) rotate(60deg); /* Opera */
+        -o-transform-origin: 0 0;
+    }
+</style>
 <div id="page-wrapper">
-    <div class="row" style="color:lightgrey; margin-left: 0px;">
-        <h3 style="float: left;"><%=company%></h3><p style="margin-top: 25px;">>reports>lessons</p>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4 class="page-header header-company"><%=company%> >
+                reports > lessons</h4>
+        </div>
     </div>
-    <div>
-        <div class="row" style="padding-left:15px;">
-            <p style="margin-top: 10px; float: left;">student:</p>
+    <div class="row">
+        <div class="col-sm-1"><label style="margin-top: 10px; float: left;">student:</label></div>
+        <div class="col-sm-11">
             <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
             </select>
         </div>
-        <div class="row" style="padding-left:15px;">
-            <p style="float:left; margin-top: 10px";>phoneme:</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-1">
+            <label>phoneme:</label>
+        </div>
+        <div class="col-sm-11">
             <select style="margin-top: 5px;padding: 5px;border-radius:3px; " id="listPhonemes">
-                <option value="B">b</option>
-                <option value="CH">tʃ</option>
-                <option value="D">d</option>
-                <option value="DH">ð</option>
-                <option value="F">f</option>
-                <option value="G">g</option>
-                <option value="JH">dʒ</option>
-                <option value="HH">h</option>
-                <option value="K">k</option>
-                <option value="L">l</option>
-                <option value="M">m</option>
-                <option value="N">n</option>
-                <option value="NG">ŋ</option>
-                <option value="P">p</option>
-                <option value="R">r</option>
-                <option value="S">s</option>
-                <option value="SH">ʃ</option>
-                <option value="T">t</option>
-                <option value="TH">θ</option>
-                <option value="V">v</option>
-                <option value="W">w</option>
-                <option value="Y">j</option>
-                <option value="Z">z</option>
-                <option value="ZH">ʒ</option>
-                <option value="AA">ɑː</option>
-                <option value="AE">a</option>
-                <option value="AH">ʌ</option>
-                <option value="AO">ɔː</option>
-                <option value="AW">aʊ</option>
-                <option value="AX">ə</option>
-                <option value="AY">ʌɪ</option>
-                <option value="EA">ɛː</option>
-                <option value="EH">ɛ</option>
-                <option value="ER">əː</option>
-                <option value="EY">eɪ</option>
-                <option value="IA">ɪə</option>
-                <option value="IH">ɪ</option>
-                <option value="IY">iː</option>
-                <option value="OH">ɒ</option>
-                <option value="OW">əʊ</option>
-                <option value="OY">ɔɪ</option>
-                <option value="UA">ʊə</option>
-                <option value="UH">ʊ</option>
-                <option value="UW">uː</option>
-
-
             </select>
         </div>
-        <div class="row">
-            <div class="col-sm-1">
-                <p style="float:left; margin-top: 10px";>from:</p>
-            </div>
-            <div class="col-sm-3">
-                <input type='text' style="float: left;" class="form-control" id="dateFrom" placeholder="From"/>
-            </div>
-            <div class="col-sm-1">
-                <p style="float:left; margin-top: 10px";>to:</p>
-            </div>
-            <div class="col-sm-3">
-                <input type='text' style="float: left;" class="form-control" id="dateTo" placeholder="To"/>
-            </div>
-            <div class="col-sm-4">
-                <label></label>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-1">
+            <label>from:</label>
         </div>
-
-        <img id="loadInfo" src="/images/popup/Save_50x50.gif" width="36px" height="36px" title="click here to run the reports" style="cursor: pointer;margin-left: 5px;"/>
-
-    </div>
-    <div class="row" id="scoreavg" style="margin-bottom: -10px; margin-top: 20px">
-        <label class="col-sm-2" style="text-align: right; margin-left: 40px">phoneme: </label>
-        <label class="col-sm-2" id="phoneme" style="padding-left: 0px;"></label>
-        <label class="col-sm-2" style="text-align: right; margin-left: 40px">top score </label>
-        <label class="col-sm-2" id="score" style="padding-left: 0px;"></label>
-        <label class="col-sm-2" id="studentName" style="padding-left: 0px;"></label>
-
-    </div>
-    <div class="row" style="margin-top: 5px;">
-        <div id="dashboard">
-            <div id="drawchart"></div>
-            <div id="control_div"></div>
+        <div class="col-sm-2">
+            <input type='text' class="form-control" id="dateFrom" placeholder="From"/>
+        </div>
+        <div class="col-sm-1">
+            <label>to:</label>
+        </div>
+        <div class="col-sm-2">
+            <input type='text' style="float: left;" class="form-control" id="dateTo" placeholder="To"/>
+        </div>
+        <div class="col-sm-6">
+            <img id="loadInfo" disabled="disabled" src="/images/teacher/report_tick48x48.gif"
+                  title="click here to run the reports" class="btn btn-info"
+                 style="cursor: pointer;display: block;"/>
         </div>
     </div>
 </div>
@@ -111,20 +227,57 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="row">
-                    <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-                    </div>
-                </div>
             </div>
-
-
         </div>
     </div>
 </div>
 
-
-<script src="<%=request.getContextPath() %>/js/reportsPhonemes.js"></script>
+<div id="report-popup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;color:#957F7F">
+    <div class="modal-dialog" style="width:90%">
+        <div class="modal-content" style="border-radius:20px;background-color: #F2F2F2;">
+            <div class="modal-header" style="border-bottom: transparent;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="col-sm-12">
+                            <div class="student-username">lan.ta@c-mg.com</div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="phoneme">phoneme : t</div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div>top score</div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="student-avg-score">80</div>
+                        </div>
+                    </div>
+                    <div id="container" class="col-sm-10">
+                        <div id="holder-chart">
+                            <div id="placeholder">
+                            </div>
+                        </div>
+                        <%--    <div id="tip"></div>--%>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Modal body -->
+        </div>
+        <!-- End of Modal content -->
+    </div>
+    <!-- End of Modal dialog -->
+</div>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.time.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jshashtable-2.1.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.numberformatter-1.2.3.min.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.symbol.js"></script>
+<script src="<%=request.getContextPath() %>/bower_components/flotbar/jquery.flot.axislabels.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/report/reportsPhonemes.js"></script>
+<script src="<%=request.getContextPath() %>/js/merchant/report/draw-report-phoneme.js"></script>
 
 
 

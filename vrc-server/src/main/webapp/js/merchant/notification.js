@@ -86,7 +86,12 @@ function closeModalInvitation(){
         });
     });
 }
-
+function closeConfirmPopUp(){
+    $(document).on("click",".cancelLbl",function() {
+        var popup = $(this).attr('popup-id');
+        $('#'+popup).modal('hide');
+    });
+}
 $(document).ready(function(){
     closeConfirmPopUp();
     closeModalAccept();

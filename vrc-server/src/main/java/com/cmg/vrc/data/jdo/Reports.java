@@ -1,5 +1,9 @@
 package com.cmg.vrc.data.jdo;
 
+import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
+import com.cmg.merchant.dao.report.ReportPhoneDao;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +18,26 @@ public class Reports {
         private List<Integer> phonemesStudentScore;
         private List<Integer> phonemesClassScore;
         private List<String> phonemes;
+        private ArrayList<IpaMapArpabet> listPhonemes;
         private String sessionId;
         private String dateCreated;
+        private ArrayList<ReportPhoneDao.ScorePhoneme> listScorePhonemes;
+
+    public ArrayList<ReportPhoneDao.ScorePhoneme> getListScorePhonemes() {
+        return listScorePhonemes;
+    }
+
+    public void setListScorePhonemes(ArrayList<ReportPhoneDao.ScorePhoneme> listScorePhonemes) {
+        this.listScorePhonemes = listScorePhonemes;
+    }
+
+    public ArrayList<IpaMapArpabet> getListPhonemes() {
+        return listPhonemes;
+    }
+
+    public void setListPhonemes(ArrayList<IpaMapArpabet> listPhonemes) {
+        this.listPhonemes = listPhonemes;
+    }
 
     public String getSessionId() {
         return sessionId;

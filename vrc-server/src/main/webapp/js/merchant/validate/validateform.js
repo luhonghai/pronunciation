@@ -15,14 +15,14 @@ function validateFormCourse(){
     var name = getCourseName().val();
     if(name == '' || typeof name === "undefined"){
         getCourseName().focus();
-        getCourseValidateMessage().html("Please enter name");
+        getCourseValidateMessage().html("please enter name");
         getCourseValidateMessage().show();
         return false;
     }
     var description = getCourseDescription().val();
     if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();
-        getCourseDescription().html("Please enter description");
+        getCourseDescription().html("please enter description");
         getCourseDescription().show();
         return false;
     }
@@ -41,13 +41,13 @@ function validateFormLevel(){
     var description = getLevelDescription().val();
     if(name == '' || typeof name === "undefined"){
         getLevelName().focus();
-        getLevelValidateMessage().html("Please enter name");
+        getLevelValidateMessage().html("please enter name");
         getLevelValidateMessage().show();
         return false;
     }
     if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();
-        getLevelValidateMessage().html("Please enter description");
+        getLevelValidateMessage().html("please enter description");
         getLevelValidateMessage().show();
         return false;
     }
@@ -65,13 +65,13 @@ function validateFormObj() {
     var description = getObjDescription().val();
     if (name == '' || typeof name === "undefined") {
         getObjName().focus();
-        getObjValidateMessage().html("Please enter name");
+        getObjValidateMessage().html("please enter name");
         getObjValidateMessage().show();
         return false;
     }
     if (description == '' || typeof description === "undefined") {
         getObjDescription().focus();
-        getObjValidateMessage().html("Please enter description");
+        getObjValidateMessage().html("please enter description");
         getObjValidateMessage().show();
         return false;
     }
@@ -87,7 +87,7 @@ function validateFormTest(){
     var percent = getPercentPass().val();
     if (percent == '' || typeof percent === "undefined") {
         getPercentPass().focus();
-        getTestValidateMessage().html("Please enter number");
+        getTestValidateMessage().html("please enter number");
         getTestValidateMessage().show();
         return false;
     }
@@ -146,7 +146,7 @@ function validateFormLesson(){
     var name = getNameLesson().val();
     if(name == '' || typeof name === 'undefined'){
         getNameLesson().focus();
-        getLessonValidateMessage().html("Please enter name");
+        getLessonValidateMessage().html("please enter name");
         getLessonValidateMessage().show();
         return false;
     }
@@ -154,7 +154,7 @@ function validateFormLesson(){
     var description = getDescriptionLesson().val();
     if(description == '' || typeof description === 'undefined'){
         getDescriptionLesson().focus();
-        getLessonValidateMessage().html("Please enter description");
+        getLessonValidateMessage().html("please enter description");
         getLessonValidateMessage().show();
         return false;
     }
@@ -162,14 +162,14 @@ function validateFormLesson(){
     var type = getTypeLesson().val();
     if(type == '' || typeof type === 'undefined'){
         getTypeLesson().focus();
-        getLessonValidateMessage().html("Please enter type");
+        getLessonValidateMessage().html("please enter type");
         getLessonValidateMessage().show();
         return false;
     }
     var detail = getDetailLesson().val();
     if(detail == '' || typeof detail === 'undefined'){
         getDetailLesson().focus();
-        getLessonValidateMessage().html("Please enter lesson details");
+        getLessonValidateMessage().html("please enter lesson details");
         getLessonValidateMessage().show();
         return false;
     }
@@ -184,19 +184,19 @@ function validateFormAddCourse(){
     var description = getCourseDescription().val();
     if(name == '' || typeof name === "undefined"){
         getCourseName().focus();
-        getMsgAddCourse().html('Please enter a name!');
+        getMsgAddCourse().html('please enter a name');
         getMsgAddCourse().show();
         return false;
     }
     if(description == '' || typeof description === "undefined"){
         getCourseDescription().focus();
-        getMsgAddCourse().html('Please enter a description!');
+        getMsgAddCourse().html('please enter a description');
         getMsgAddCourse().show();
         return false;
     }
     var share = getCourseShare().val();
     if(share == '' || typeof share ==="undefined"){
-        getMsgAddCourse().html("Please select a share option!");
+        getMsgAddCourse().html("please select a share option");
         getMsgAddCourse().show();
         return false;
     }

@@ -53,7 +53,7 @@ function openAdd(){
                         });
                     }
                     $('#addCourses').multiselect('destroy');
-                    $('#addCourses').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    $('#addCourses').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
                     $('#addCourses').multiselect('refresh');
 
                     $("#addStudents").empty();
@@ -64,7 +64,7 @@ function openAdd(){
                         });
                     }
                     $('#addStudents').multiselect('destroy');
-                    $('#addStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
+                    $('#addStudents').multiselect({ enableFiltering: true,maxHeight: 200, buttonWidth: '100%'});
                     $('#addStudents').multiselect('refresh');
                 }else{
                     swal("Error!", data.message.split(":")[1], "error");
