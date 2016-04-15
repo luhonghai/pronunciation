@@ -217,8 +217,10 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func onHelpButtonShow() {
-        self.navigationController!.view.userInteractionEnabled = false
-        helpContext.hidden = false
+        if self.navigationController != nil {
+            self.navigationController!.view.userInteractionEnabled = false
+            helpContext.hidden = false
+        }
     }
     
     func roundButton() {

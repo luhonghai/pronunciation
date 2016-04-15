@@ -38,8 +38,8 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         
-        scoreTest.layer.cornerRadius = scoreTest.frame.width / 2
-        scoreTest.switchType(.DISABLE)
+        //scoreTest.layer.cornerRadius = scoreTest.frame.width / 2
+        
         testContainer.layer.cornerRadius = 5
         
         lblTestScore.layer.cornerRadius = lblTestScore.frame.width / 2
@@ -84,7 +84,28 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showPopupObj:",name:"showPopupObj", object: nil)
         
+        
+        //set value for testScore obj
+        try! tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
+        
+        testScore.username = AccountManager.currentUser().username
+        testScore.idCountry = selectedCountry.idString
+        testScore.idLevel = selectedLevel.idString
+        testScore.passScore = Int((tests[0].percentPass))
+        
+        //get test score
+        if let tScore = try! lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: testScore.idLevel) {
+            if tScore.score > 0 {
+                //testScore.score = tScore.score
+                lblTestScore.text = String(tScore.score)
+                lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
+                scoreTest.showScore(tScore.score, showAnimation: false)
+            }
+        }else {
+            scoreTest.switchType(.DISABLE)
+        }
     }
+    
     
     override func viewDidAppear(animated: Bool) {
         scoreTest.refreshLayout()
@@ -116,16 +137,6 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         do {
             try objectives = adapter.getObjective(selectedCountry.idString, levelId: selectedLevel.idString)
             
-            try tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
-            print(tests)
-            
-            //set value for testScore obj
-            testScore.username = AccountManager.currentUser().username
-            testScore.idCountry = selectedCountry.idString
-            testScore.idLevel = selectedLevel.idString
-            testScore.passScore = Int((tests[0].percentPass))
-            
-            
             //set value for objectiveScore obj
             objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.idCountry = selectedCountry.idString
@@ -151,18 +162,6 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
                 
                 print("score \(objective.name) is \(objective.score)")
             }
-            
-            //get test score
-            if let tScore = try lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: testScore.idLevel) {
-                if tScore.score > 0 {
-                    //testScore.score = tScore.score
-                    lblTestScore.text = String(tScore.score)
-                    lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
-                    
-                    scoreTest.showScore(tScore.score, showAnimation: false)
-                }
-            }
-
 
             
             tableView.reloadData()

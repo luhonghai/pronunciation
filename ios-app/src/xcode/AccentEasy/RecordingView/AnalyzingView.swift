@@ -213,6 +213,7 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         kFontSize = self.frame.width * 64 / 200
         scoreLayer.fontSize = kFontSize
         scoreLayer.font = UIFont.boldSystemFontOfSize(kFontSize)
+        refreshLayout()
         self.redraw()
         CATransaction.commit()
     }
