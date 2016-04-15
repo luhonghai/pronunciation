@@ -42,6 +42,7 @@ class HttpDownloader {
             Logger.log("file already exists [\(destinationUrl.path!)]")
             completion(path: destinationUrl.path!, error:nil)
         } else {
+            Logger.log("download file \(destinationUrl.path!)")
             let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
             let session = NSURLSession(configuration: sessionConfig, delegate: nil, delegateQueue: nil)
             let request = NSMutableURLRequest(URL: url)

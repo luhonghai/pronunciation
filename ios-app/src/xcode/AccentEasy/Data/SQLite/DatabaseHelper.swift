@@ -96,11 +96,13 @@ public class DatabaseHelper {
                             } catch {
                                 
                             }
+                            completion(success: fileManager.fileExistsAtPath(lessonDbFilePath))
                         }
                     } else {
                         Logger.log("Use current version. Skip update database")
+                        completion(success: fileManager.fileExistsAtPath(lessonDbFilePath))
                     }
-                    completion(success: fileManager.fileExistsAtPath(lessonDbFilePath))
+                    
                 }
             })
     }
