@@ -203,9 +203,12 @@ public class Admins extends HttpServlet {
                         response.getWriter().write("error");
                     }
                 }else{
+                    adminDAO.delete(id);
                     teacherMappingCompanyDAO.updateEdit(username);
+                    response.getWriter().write("success");
                 }
             } catch (Exception e) {
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }

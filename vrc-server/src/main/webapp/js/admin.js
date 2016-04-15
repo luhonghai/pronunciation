@@ -361,27 +361,7 @@ function deleteuser(){
             });
         }
         if(id==ids){
-            //$.ajax({
-            //    url: "Admins",
-            //    type: "POST",
-            //    dataType: "text",
-            //    data: {
-            //        delete: "delete",
-            //        id: id
-            //    },
-            //    success: function (data) {
-            //        if (data == "success") {
-            //            window.location =CONTEXT_PATH + "/logout.jsp";
-            //        }
-            //
-            //    },
-            //    error: function () {
-            //        swal("Error!", "Could not connect to server", "error");
-            //    }
-            //
-            //});
             swal("Error!", "You can not delete your account", "error");
-
         }
 
 
@@ -443,49 +423,6 @@ function openEdit(){
 
 }
 
-//function edit(){
-//    $(document).on("click","#edit", function() {
-//        $("#edits").modal('show');
-//        $("#editRoles").empty();
-//        var roles;
-//        var idd = $(this).attr('id-column');
-//        var username=$(this).attr('username');
-//        var first = $(this).attr('first');
-//        var last=$(this).attr('last');
-//        var role = $(this).attr('role');
-//
-//        //var pass = $(this).attr('pass');
-//        if(role==1) {
-//            roles = "Admin";
-//        }else if(role==2){
-//            roles="User";
-//        }else if(role==3){
-//            roles="Staff";
-//        }else{
-//            roles="Teacher";
-//        }
-//        if(role==1 || role==2) {
-//            $("#editRoles").append('<select name="editrole" id="editrole" class="form-control" required="required"> ' +
-//            '<option value="Admin">Admin</option> ' +
-//            '<option value="User">User</option> ' +
-//            '<option value="Staff">Staff</option> ' +
-//            '<option value="Teacher">Teacher</option> ' +
-//            '</select>');
-//        }else{
-//            $("#editRoles").append('<select name="editrole" id="editrole" class="form-control" required="required"> ' +
-//            '<option value="Staff">Staff</option> ' +
-//            '<option value="Teacher">Teacher</option> ' +
-//            '</select>');
-//        }
-//        $("#idedit").val(idd);
-//        $("#usernames").val(username);
-//        $("#editfirstname").val(first);
-//       $("#editlastname").val(last);
-//       $("#editpassword").val("");
-//       $("#editrole").val(roles);
-//    });
-//
-//}
 
 function edituser(){
     $(document).on("click","#yesedit", function(){
