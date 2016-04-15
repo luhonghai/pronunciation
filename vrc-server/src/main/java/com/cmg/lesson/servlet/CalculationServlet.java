@@ -135,7 +135,7 @@ public class CalculationServlet extends HttpServlet {
                 logger.info("Word: " + word);
                 UserProfile user = gson.fromJson(profile, UserProfile.class);
                 LoginTokenDAO loginTokenDAO = new LoginTokenDAO();
-                LoginToken loginToken = loginTokenDAO.getByAccountAndDevice(user.getUsername(), user.getDeviceInfo().getEmei());
+                LoginToken loginToken = loginTokenDAO.getByAccountAndToken(user.getUsername(), user.getToken());
                 if (loginToken != null) {
                     File tmpFileIn = new File(tmpDir, tmpFile);
                     try {
