@@ -7,11 +7,31 @@
 //
 
 import Foundation
+import ImageLoader
 
 public class WordCollectionDbApdater: BaseDatabaseAdapter {
     
     init() {
         super.init(dbFile: DatabaseHelper.getLessonDatabaseFile()!)
+    }
+    
+    public override func prepare() {
+        let list = try! getIPAMapArpabets()
+        for ipa in list {
+            if ipa.mp3URL != nil && !ipa.mp3URL.isEmpty {
+                HttpDownloader.loadFileSync(NSURL(string: ipa.mp3URL)!, completion: { (path, error) -> Void in
+                    Logger.log("Complete download ipa audio \(ipa.mp3URL)")
+                })
+            }
+            if ipa.mp3URLShort != nil && !ipa.mp3URLShort.isEmpty {
+                HttpDownloader.loadFileSync(NSURL(string: ipa.mp3URLShort)!, completion: { (path, error) -> Void in
+                    Logger.log("Complete download ipa audio \(ipa.mp3URLShort)")
+                })
+            }
+            if ipa.imgTongue != nil && !ipa.imgTongue.isEmpty {
+                try! ImageLoader.load(NSURL(string: ipa.imgTongue)!)
+            }
+        }
     }
     
     public func search(search:String) throws -> Array<WordCollection> {

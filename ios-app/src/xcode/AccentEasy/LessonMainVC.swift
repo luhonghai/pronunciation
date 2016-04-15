@@ -449,11 +449,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                                 
                             }
                             FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
-                            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
-                            NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
+                            
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
+                                NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
+                                NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+                                NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                                 //[unowned self] in NSThread.isMainThread()
                                 //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
@@ -644,16 +645,19 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func showColorOfScoreResult(scoreResult: Float){
-        if scoreResult < 45 {
-            //color < 45 red
-            changeColorRed()
-        } else if scoreResult >= 45 && scoreResult < 80 {
-            // 45 <= color < 80 orange
-            changeColorOrange()
-        } else {
-            //color >= 80 green
-            changeColorGreen()
-        }
+        weak var weakSelf = self
+        dispatch_async(dispatch_get_main_queue(),{
+            if scoreResult < 45 {
+                //color < 45 red
+                weakSelf!.changeColorRed()
+            } else if scoreResult >= 45 && scoreResult < 80 {
+                // 45 <= color < 80 orange
+                weakSelf!.changeColorOrange()
+            } else {
+                //color >= 80 green
+                weakSelf!.changeColorGreen()
+            }
+        })
     }
     
     func changeColorLoadWord(){

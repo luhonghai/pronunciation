@@ -566,11 +566,11 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                                 
                             }
                             FileHelper.copyFile(FileHelper.getFilePath("\(weakSelf!.fileName).\(weakSelf!.fileType)"), toPath: FileHelper.getFilePath("audio/\(userVoiceModel.id).wav"))
-                            NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
-                             NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                             
                             //register suceess
                             dispatch_async(dispatch_get_main_queue(),{
+                                NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
+                                NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                                 //[unowned self] in NSThread.isMainThread()
                                 //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
@@ -640,7 +640,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                     }
                 }
             }
-            NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: lowScorePhoneme)
+            dispatch_async(dispatch_get_main_queue(),{
+                NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: lowScorePhoneme)
+            })
         } catch {
             
         }

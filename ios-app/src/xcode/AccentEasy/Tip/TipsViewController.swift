@@ -100,9 +100,11 @@ class TipsViewController: UIViewController, EZAudioPlayerDelegate {
     }
     
     func loadList(notification: NSNotification){
-        let phonemes = notification.object as? String
-        GlobalData.getInstance().currentTipPhonemes = phonemes!
-        loadTip()
+        dispatch_async(dispatch_get_main_queue(),{
+            let phonemes = notification.object as? String
+            GlobalData.getInstance().currentTipPhonemes = phonemes!
+            self.loadTip()
+        })
     }
     
     func loadTip() {

@@ -31,36 +31,40 @@ class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSou
     }
     
     func loadList(notification: NSNotification){
-        //load data here
-        let indexChart = notification.object as! Int
-        //loadTable(word)
-        let firstController = getItemController(indexChart + 1)
-        if (firstController != nil) {
-            let startingViewControllers: NSArray = [firstController!]
-            self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        }
-    }
-    
-    
-    func loadWord(notification: NSNotification){
-        //load data here
-        let word = notification.object as! String
-        self.dataSource = nil
-        do {
-            let wc = try lessonDbAdapter.findByWord(word)
-            Logger.log("Load graph for word \(wc.word). Pronunciation: \(wc.getArpabetList())")
-            self.word = word
-            arpabets = wc.getArpabetList()
-            self.dataSource = self
-            self.loadView()
-            let firstController = getItemController(0)
+        dispatch_async(dispatch_get_main_queue(),{
+            //load data here
+            let indexChart = notification.object as! Int
+            //loadTable(word)
+            let firstController = self.getItemController(indexChart + 1)
             if (firstController != nil) {
                 let startingViewControllers: NSArray = [firstController!]
                 self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
             }
-        } catch {
-            
-        }
+        })
+    }
+    
+    
+    func loadWord(notification: NSNotification){
+        dispatch_async(dispatch_get_main_queue(),{
+            //load data here
+            let word = notification.object as! String
+            self.dataSource = nil
+            do {
+                let wc = try self.lessonDbAdapter.findByWord(word)
+                Logger.log("Load graph for word \(wc.word). Pronunciation: \(wc.getArpabetList())")
+                self.word = word
+                self.arpabets = wc.getArpabetList()
+                self.dataSource = self
+                self.loadView()
+                let firstController = self.getItemController(0)
+                if (firstController != nil) {
+                    let startingViewControllers: NSArray = [firstController!]
+                    self.setViewControllers(startingViewControllers as? [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
+                }
+            } catch {
+                
+            }
+        })
         
     }
     

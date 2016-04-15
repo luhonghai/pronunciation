@@ -42,6 +42,8 @@ class LaunchImageVC: UIViewController {
                     //TODO show alert no database found
                     print ("error checkDatabaseVersion")
                 }
+                let wordCollectionDb = WordCollectionDbApdater()
+                wordCollectionDb.prepare()
                 weakSelf!.willClose = true
             }
         }

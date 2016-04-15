@@ -31,9 +31,11 @@ class HistoryTableController: UITableViewController {
     }
     
     func loadList(notification: NSNotification){
+        dispatch_async(dispatch_get_main_queue(),{
         //load data here
-        let word = notification.object as? String
-        loadTable(word)
+            let word = notification.object as? String
+            self.loadTable(word)
+        })
     }
     
     override func viewDidAppear(animated: Bool) {
