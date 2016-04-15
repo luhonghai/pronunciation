@@ -352,7 +352,7 @@ public class Admins extends HttpServlet {
             companys company=new companys();
             try {
                 Admin admin=adminDAO.getUserByEmail(username);
-                int ro=admin.getRole();
+                int ro = admin.getRole();
                 if(ro==Constant.ROLE_STAFF) {
                     List<ClientCode> clientCode = clientCodeDAO.getCompanyByStaff(username);
                     List<ClientCode> check=clientCodeDAO.CompanyStaff(username);
