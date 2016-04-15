@@ -882,6 +882,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         let question = arrQuestionOfLC[indexPath.item]
         if question.enabled {
+            if !isLessonCollection{
+                //if test lesson colection
+                if indexPath.item <= indexCurrentQuestion && question.recorded{
+                    return
+                }
+            }
             indexCurrentQuestion = indexPath.item
             print(indexCurrentQuestion)
             disableViewRecord()
