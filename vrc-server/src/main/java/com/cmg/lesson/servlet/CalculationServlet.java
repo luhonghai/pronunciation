@@ -8,6 +8,8 @@ import com.cmg.vrc.data.UserProfile;
 import com.cmg.vrc.data.dao.impl.LoginTokenDAO;
 import com.cmg.vrc.data.jdo.LoginToken;
 import com.cmg.vrc.job.SummaryReportJob;
+import com.cmg.vrc.processor.CustomFFMPEGLocator;
+import com.cmg.vrc.properties.Configuration;
 import com.cmg.vrc.servlet.BaseServlet;
 import com.cmg.vrc.servlet.ResponseData;
 import com.cmg.vrc.sphinx.PhonemesDetector;
@@ -18,6 +20,9 @@ import com.cmg.vrc.util.StringUtil;
 import com.cmg.vrc.util.UUIDGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.sauronsoftware.jave.AudioAttributes;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncodingAttributes;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
@@ -146,12 +151,31 @@ public class CalculationServlet extends HttpServlet {
                         String uuid = UUIDGenerator.generateUUID();
                         String fileTempName = word + "_" + uuid + "_raw" + ".wav";
                         File targetRaw = new File(target, fileTempName);
+                        AudioAttributes audio = new AudioAttributes();
+                        //  audio.setBitRate(128000);
+                        audio.setChannels(1);
+                        audio.setSamplingRate(16000);
+                        EncodingAttributes attrs = new EncodingAttributes();
+                        attrs.setFormat("wav");
+                        attrs.setAudioAttributes(audio);
+                        logger.info("Origin file path :" + tmpFileIn.getAbsolutePath());
+                        String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
+                        Encoder encoder;
+                        if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+                                || env.equalsIgnoreCase("int")
+                                || env.equalsIgnoreCase("aws")) {
+                            encoder = new Encoder(
+                                    new CustomFFMPEGLocator()
+                            );
+                        } else {
+                            encoder = new Encoder(
+                                    new CustomFFMPEGLocator.MacFFMPEGLocator()
+                            );
+                        }
                         try {
-                            FileUtils.moveFile(tmpFileIn, targetRaw);
-                            if (tmpFileIn.exists())
-                                FileUtils.forceDelete(tmpFileIn);
+                            encoder.encode(tmpFileIn, targetRaw, attrs);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            // ingore
                         }
                         awsHelper.uploadInThread(Constant.FOLDER_RECORDED_VOICES_LESSON + "/" + user.getUsername() + "/" + fileTempName,
                                 targetRaw);
