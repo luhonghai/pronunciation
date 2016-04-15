@@ -89,6 +89,11 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testFailMove:",name:"testFailMove", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "testPassMove:",name:"testPassMove", object: nil)
         
+        //hidden
+        btnGoToLesson.hidden = true
+        btnRedo.hidden = true
+        btnNextLesson.hidden = true
+        
         saveScore()
     }
     
@@ -274,12 +279,6 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             }
         }
         activateAudioSession()
-        
-        
-        //hidden
-        btnGoToLesson.hidden = true
-        btnRedo.hidden = true
-        btnNextLesson.hidden = true
 
         /*if try! lessonDBAdapter.isExistsLessonScore(objectiveScore.username, idCountry: objectiveScore.idCountry, idLevel: objectiveScore.idLevel, idObjective: objectiveScore.idObjective, idLesson: objectiveScore.idLesson) {
             print(objectiveScore.id)
