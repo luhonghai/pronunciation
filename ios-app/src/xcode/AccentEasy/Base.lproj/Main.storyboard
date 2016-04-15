@@ -4408,6 +4408,14 @@
                                     <action selector="btnNextLessonTouchUp:" destination="kpv-xE-MOX" eventType="touchUpInside" id="kcW-d2-L0o"/>
                                 </connections>
                             </button>
+                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQj-zh-Tl6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="4lZ-1J-TKE" appends="YES" id="ia1-G2-Y9r"/>
+                                </connections>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="83d-6h-jq5">
                                 <rect key="frame" x="0.0" y="100" width="375" height="567"/>
                                 <subviews>
@@ -4448,14 +4456,6 @@
                                     <constraint firstItem="dOk-Sr-0K7" firstAttribute="bottom" secondItem="83d-6h-jq5" secondAttribute="bottom" id="hAF-Rb-Q7J"/>
                                     <constraint firstItem="dOk-Sr-0K7" firstAttribute="height" secondItem="ek6-at-N5H" secondAttribute="height" constant="-5" id="mef-RK-d8A"/>
                                 </constraints>
-                            </view>
-                            <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bQj-zh-Tl6">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="4lZ-1J-TKE" appends="YES" id="ia1-G2-Y9r"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4687,7 +4687,7 @@
         <segue reference="Ceg-og-m1t"/>
         <segue reference="UNY-bE-rXo"/>
         <segue reference="t7Q-vO-CVy"/>
-        <segue reference="4c6-2C-7Wp"/>
+        <segue reference="6wU-8z-TLT"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>
