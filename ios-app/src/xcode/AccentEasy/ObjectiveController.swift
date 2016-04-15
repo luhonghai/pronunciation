@@ -159,7 +159,7 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
                     lblTestScore.text = String(tScore.score)
                     lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
                     
-                    scoreTest.showScore(tScore.score, showAnimation: true)
+                    scoreTest.showScore(tScore.score, showAnimation: false)
                 }
             }
 
