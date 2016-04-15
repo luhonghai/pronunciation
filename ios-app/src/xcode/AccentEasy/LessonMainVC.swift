@@ -69,6 +69,28 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     @IBOutlet weak var sliderConstraint: NSLayoutConstraint!
     
+    /*colection view setup
+     *************************************************************/
+    @IBOutlet weak var cvQuestionList: UICollectionView!
+    var arrQuestionOfLC = [AEQuestion]()
+    var lessionCollections = Array<AELessonCollection>()
+    var indexLessonSelected:Int!
+    var selectedLessonCollection = AELessonCollection()
+    var selectedTest: AETest!
+    var selectedCountry: AECountry!
+    var selectedLevel: AELevel!
+    var objectiveScore:ObjectiveScore!
+    let reuseIdentifier = "cell"
+    var indexCurrentQuestion:Int!
+    var isLessonCollection:Bool = false
+    var isShowDetail = true
+    var currentSession: String!
+    //var for test
+    var testScore:TestScore!
+    //next lesson
+    var objectives = Array<AEObjective>()
+    var indexObjectiveSelected:Int!
+    
     func toggleSlider() {
         weak var weakSelf = self
         weakSelf!.sliderContainer.layoutIfNeeded()
@@ -164,9 +186,16 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         freestyleDBAdapter.changeDbFile(DatabaseHelper.getLessonUserHistoryDatabaseFile()!)
         freestyleDBAdapter.prepare()
         
-        
+        currentSession = StringHelper.uuid()
+        resetHistory()
     }
     
+    
+    func resetHistory() {
+        try! freestyleDBAdapter.deleteAll(PronunciationScore())
+        try! freestyleDBAdapter.deleteAll(PhonemeScore())
+        NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
+    }
     
     @IBOutlet weak var helpContext: UIView!
     
@@ -416,8 +445,22 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                     weakSelf!.showErrorAnalyzing()
                 });
             NSLog(weakSelf!.getTmpFilePath().path!)
+            let question = weakSelf!.arrQuestionOfLC[weakSelf!.indexCurrentQuestion]
+            let itemId = weakSelf!.isLessonCollection ? weakSelf!.objectives[weakSelf!.indexObjectiveSelected].idString : weakSelf!.selectedTest.idString
+            
             Logger.log("request token \(weakSelf!.userProfile.token)")
-            client.post("/VoiceRecordHandler").field("country", "countryId").field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!).field("word", weakSelf!.selectedWord.word).attach("imageKey", (GlobalData.IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
+            client.post("/CalculationServlet")
+                .field("idWord", weakSelf!.selectedWord.idString)
+                .field("idQuestion", question.idString)
+                .field("idCountry", weakSelf!.selectedCountry.idString)
+                .field("session", weakSelf!.currentSession)
+                .field("idLessonCollection", weakSelf!.selectedLessonCollection.idString)
+                .field("type", weakSelf!.isLessonCollection ? "Q" : "T")
+                .field("itemId", itemId)
+                .field("levelId", weakSelf!.selectedLevel.idString)
+                .field("profile", Mapper().toJSONString(weakSelf!.userProfile, prettyPrint: true)!)
+                .field("word", weakSelf!.selectedWord.word)
+                .attach("imageKey", (GlobalData.IS_DEBUG ? "/Volumes/DATA/AccentEasy/pronunciation/ios-app/src/xcode/AccentEasy/fixed_6a11adce-13bb-479e-bcbc-13a7319677f9_raw.wav" : weakSelf!.getTmpFilePath().path!))
                 .set("header", "headerValue")
                 .timeout(5 * 60 * 1000)
                 .end({(res:Response) -> Void in
@@ -752,23 +795,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     
-    /*colection view setup
-     *************************************************************/
-    @IBOutlet weak var cvQuestionList: UICollectionView!
-    var arrQuestionOfLC = [AEQuestion]()
-    var lessionCollections = Array<AELessonCollection>()
-    var indexLessonSelected:Int!
-    var selectedLessonCollection = AELessonCollection()
-    var objectiveScore:ObjectiveScore!
-    let reuseIdentifier = "cell"
-    var indexCurrentQuestion:Int!
-    var isLessonCollection:Bool = false
-    var isShowDetail = true
-    //var for test
-    var testScore:TestScore!
-    //next lesson
-    var objectives = Array<AEObjective>()
-    var indexObjectiveSelected:Int!
+    
     
     
     func questionCVInit(){
@@ -969,7 +996,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     func nextLesson() {
         if indexLessonSelected < lessionCollections.count - 1 {
             //next lesson
-            Logger.log("nex lesson")
+            Logger.log("next lesson")
             indexLessonSelected = indexLessonSelected + 1
             questionCVInit()
             indexCurrentQuestion = 0
@@ -978,7 +1005,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             if question.enabled {
                 randomWord(question)
             }
-            
+            currentSession = StringHelper.uuid()
+            resetHistory()
             cvQuestionList.reloadData()
         } else {
             //next objective

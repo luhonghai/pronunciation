@@ -86,6 +86,10 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        scoreTest.refreshLayout()
+    }
+    
     func showPopupObj(notification: NSNotification) {
         let lessonTipPopupVC:LessonTipPopupVC = LessonTipPopupVC(nibName: "LessonTipPopupVC", bundle: nil)
         lessonTipPopupVC.contentPopup = "Take the test to progress to the next level or you can return to any of the lessons for more practise"
@@ -243,6 +247,9 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         nextController.testScore = testScore
         nextController.selectedLessonCollection = lessionCollections[0]
         nextController.isLessonCollection = false
+        nextController.selectedLevel = selectedLevel
+        nextController.selectedCountry = selectedCountry
+        nextController.selectedTest = obj
         
         self.navigationController?.pushViewController(nextController, animated: true)
     }

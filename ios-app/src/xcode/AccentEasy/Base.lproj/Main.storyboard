@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="3DQ-3B-yCW">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -1557,15 +1557,15 @@
                             <view hidden="YES" contentMode="scaleToFill" id="GJ9-Wc-ILg">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-5.png" id="B1f-zB-bdh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-5.png" id="B1f-zB-bdh">
                                         <rect key="frame" x="37" y="16" width="81" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="B1f-zB-bdh" secondAttribute="height" multiplier="80:79" id="Ee4-Qr-I6S"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="menu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BZD-hq-lZN">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="menu" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BZD-hq-lZN">
                                         <rect key="frame" x="63" y="96" width="50" height="30"/>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1581,8 +1581,8 @@
                                             <constraint firstAttribute="width" secondItem="VdA-T5-h40" secondAttribute="height" multiplier="125:63" id="cgj-vL-NbQ"/>
                                         </constraints>
                                         <string key="text">search any
-                                            word</string>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+word</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1597,7 +1597,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="pFM-Nk-rNt" secondAttribute="height" multiplier="142:63" id="GCP-Uz-ura"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1607,8 +1607,8 @@
                                             <constraint firstAttribute="width" secondItem="4Rd-6z-Xk0" secondAttribute="height" multiplier="116:63" id="dtg-y2-K1z"/>
                                         </constraints>
                                         <string key="text">press to
-                                            hear</string>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+hear</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1626,37 +1626,37 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPA symbols" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DaU-l7-eYL">
                                         <rect key="frame" x="224" y="241" width="116" height="30"/>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-4.png" id="VxH-K3-qpq">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-4.png" id="VxH-K3-qpq">
                                         <rect key="frame" x="35" y="377" width="81" height="41"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="VxH-K3-qpq" secondAttribute="height" multiplier="2:1" id="dUS-2a-UKn"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SVA-S6-TVc">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SVA-S6-TVc">
                                         <rect key="frame" x="-6" y="418" width="163" height="75"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SVA-S6-TVc" secondAttribute="height" multiplier="136:63" id="hfI-7M-EZr"/>
                                         </constraints>
                                         <string key="text">dictionary
-                                            definition</string>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+definition</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="progress" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="468-uv-KMT">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="progress" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="468-uv-KMT">
                                         <rect key="frame" x="262" y="538" width="92" height="43"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="468-uv-KMT" secondAttribute="height" multiplier="136:63" id="HRC-Nq-MOD"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand-draw-arrow-2.png" id="dal-vT-oWs">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="hand-draw-arrow-2.png" id="dal-vT-oWs">
                                         <rect key="frame" x="228" y="581" width="81" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="dal-vT-oWs" secondAttribute="height" multiplier="80:79" id="fFP-bm-kfP"/>
@@ -1694,7 +1694,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="B1f-zB-bdh" firstAttribute="width" secondItem="D8p-Qg-ant" secondAttribute="width" multiplier="1.5" id="1Qc-ci-ktA"/>
+                            <constraint firstItem="B1f-zB-bdh" firstAttribute="width" secondItem="D8p-Qg-ant" secondAttribute="width" multiplier="1.3" id="1Qc-ci-ktA"/>
                             <constraint firstItem="UoF-8d-E5V" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="9/10" id="34m-u3-BrW"/>
                             <constraint firstItem="1BB-Vj-47V" firstAttribute="centerY" secondItem="bei-6K-Z8H" secondAttribute="centerY" id="3m0-bU-01e"/>
                             <constraint firstItem="zKt-Tf-EpY" firstAttribute="top" secondItem="D8p-Qg-ant" secondAttribute="bottom" constant="-11" id="55R-aV-Rm3"/>
@@ -1703,7 +1703,7 @@
                             <constraint firstItem="1BB-Vj-47V" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="BfY-kq-ucE"/>
                             <constraint firstItem="EJd-wl-tZv" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="CAg-oY-GbK"/>
                             <constraint firstItem="D8p-Qg-ant" firstAttribute="leading" secondItem="bei-6K-Z8H" secondAttribute="leadingMargin" constant="-6" id="Cek-TW-xPv"/>
-                            <constraint firstItem="k0F-rz-1eo" firstAttribute="width" secondItem="qX9-5z-tD9" secondAttribute="width" multiplier="1.5" id="FbH-oI-ich"/>
+                            <constraint firstItem="k0F-rz-1eo" firstAttribute="width" secondItem="qX9-5z-tD9" secondAttribute="width" multiplier="1.3" id="FbH-oI-ich"/>
                             <constraint firstItem="GJ9-Wc-ILg" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" id="H1t-th-uuY"/>
                             <constraint firstItem="k0F-rz-1eo" firstAttribute="top" secondItem="qX9-5z-tD9" secondAttribute="bottom" id="HhG-sX-I8t"/>
                             <constraint firstItem="3qu-UU-4wJ" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="0.9" id="IHP-Ou-XWK"/>
@@ -1722,7 +1722,7 @@
                             <constraint firstItem="aMh-oI-D7b" firstAttribute="centerX" secondItem="bei-6K-Z8H" secondAttribute="centerX" id="Zqu-vD-DYl"/>
                             <constraint firstItem="aMh-oI-D7b" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" id="b1B-zX-2LB"/>
                             <constraint firstItem="EJd-wl-tZv" firstAttribute="width" secondItem="bei-6K-Z8H" secondAttribute="width" multiplier="0.9" id="b1a-Fa-P3z"/>
-                            <constraint firstItem="MWf-jC-NoN" firstAttribute="width" secondItem="qX9-5z-tD9" secondAttribute="width" multiplier="1.5" id="c8F-He-R6L"/>
+                            <constraint firstItem="MWf-jC-NoN" firstAttribute="width" secondItem="qX9-5z-tD9" secondAttribute="width" multiplier="1.3" id="c8F-He-R6L"/>
                             <constraint firstItem="GJ9-Wc-ILg" firstAttribute="centerY" secondItem="bei-6K-Z8H" secondAttribute="centerY" id="dxg-qv-of0"/>
                             <constraint firstItem="B1f-zB-bdh" firstAttribute="leading" secondItem="D8p-Qg-ant" secondAttribute="centerX" id="e7h-AS-qhB"/>
                             <constraint firstAttribute="trailingMargin" secondItem="qX9-5z-tD9" secondAttribute="trailing" constant="-7" id="eLG-6F-jZJ"/>
@@ -4027,7 +4027,7 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="playback" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D6o-b5-GYz">
                                         <rect key="frame" x="93" y="180" width="87" height="30"/>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4042,7 +4042,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="yn1-Zl-Ack" secondAttribute="height" multiplier="142:63" id="Lod-BO-UWG"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4052,8 +4052,8 @@
                                             <constraint firstAttribute="width" secondItem="yLk-qQ-t2R" secondAttribute="height" multiplier="116:63" id="zZr-KI-hwP"/>
                                         </constraints>
                                         <string key="text">press to
-                                            hear</string>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+hear</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4071,7 +4071,7 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IPA symbols" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6pJ-a0-tRA">
                                         <rect key="frame" x="227" y="269" width="116" height="30"/>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4080,7 +4080,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="1x0-Ip-GeQ" secondAttribute="height" multiplier="136:63" id="ZVP-ZA-Jci"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4097,8 +4097,8 @@
                                             <constraint firstAttribute="width" secondItem="CVl-cp-J0n" secondAttribute="height" multiplier="116:63" id="mj0-t9-EF0"/>
                                         </constraints>
                                         <string key="text">find out more
-                                            about this lesson</string>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+about this lesson</string>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4116,7 +4116,7 @@
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="question buttons" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="38B-Ad-F6P" userLabel="IPA symbols.2">
                                         <rect key="frame" x="30" y="487" width="160" height="30"/>
-                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="ArchitectsDaughter" family="Architects Daughter" pointSize="15"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -4189,7 +4189,7 @@
                             <constraint firstItem="taM-dP-qtg" firstAttribute="bottom" secondItem="ozV-wf-jsf" secondAttribute="centerY" id="nMD-Oc-cHq"/>
                             <constraint firstItem="EXP-6O-26W" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="smn-14-mQc"/>
                             <constraint firstItem="Jbj-Xf-tl6" firstAttribute="width" secondItem="dI3-lV-ayD" secondAttribute="width" id="vRy-52-uV7"/>
-                            <constraint firstItem="bBK-1Y-AKd" firstAttribute="width" secondItem="NNJ-4e-f2s" secondAttribute="width" multiplier="1.5" id="vZj-Nb-Gw3"/>
+                            <constraint firstItem="bBK-1Y-AKd" firstAttribute="width" secondItem="NNJ-4e-f2s" secondAttribute="width" multiplier="1.3" id="vZj-Nb-Gw3"/>
                             <constraint firstItem="rLY-MO-Zo7" firstAttribute="bottom" secondItem="BNb-Sr-dEg" secondAttribute="top" id="xfD-2j-hyY"/>
                         </constraints>
                     </view>
@@ -4683,11 +4683,11 @@
         <image name="sl_dog_1.png" width="308" height="376"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="VlK-rN-iWT"/>
-        <segue reference="Ceg-og-m1t"/>
         <segue reference="UNY-bE-rXo"/>
         <segue reference="t7Q-vO-CVy"/>
         <segue reference="4c6-2C-7Wp"/>
+        <segue reference="VlK-rN-iWT"/>
+        <segue reference="Ceg-og-m1t"/>
         <segue reference="eFf-YZ-v5D"/>
     </inferredMetricsTieBreakers>
 </document>

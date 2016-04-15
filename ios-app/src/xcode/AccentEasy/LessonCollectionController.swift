@@ -208,6 +208,8 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         //nextController.selectedLessonCollection = obj
         nextController.lessionCollections = lessionCollections
         nextController.indexLessonSelected = row
+        nextController.selectedLevel = selectedLevel
+        nextController.selectedCountry = selectedCountry
         nextController.objectives = objectives
         nextController.indexObjectiveSelected = indexObjectiveSelected
         nextController.isLessonCollection = true
