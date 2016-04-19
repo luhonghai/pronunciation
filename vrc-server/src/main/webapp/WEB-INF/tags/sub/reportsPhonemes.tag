@@ -186,7 +186,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-1"><label style="margin-top: 10px; float: left;">student:</label></div>
+        <div class="col-sm-1"><label style="float: left;">student:</label></div>
         <div class="col-sm-11">
             <select style="display:none; float: left;margin-left: 3px;" only class="form-control" id="listUsers">
             </select>
