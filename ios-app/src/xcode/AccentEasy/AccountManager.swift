@@ -85,12 +85,18 @@ class AccountManager {
                 keyForUserProfile = currentUsername
             }
             
+        } else {
+            keyForUserProfile = username
+            currentUsername = keyForUserProfile!
         }
+        
         if (keyForUserProfile != nil) {
             if currentProfile.indexForKey(keyForUserProfile!) == nil {
                 let rawString = userDefaults.objectForKey(keyForUserProfile!)
                 if rawString != nil && !(rawString as! String).isEmpty {
                     currentProfile[keyForUserProfile!] = Mapper<UserProfile>().map(rawString as! String)!
+                } else {
+                    return UserProfile()
                 }
 
             }
@@ -183,7 +189,11 @@ class AccountManager {
                     let result: ProfileResponse = JSONHelper.fromJson(res.text!)
                     if result.data != nil {
                         userProfile.name = result.data.name
-                        //userProfile.
+                        //userProfile.selectedCountry = result.data.selectedCountry
+                        userProfile.englishProficiency = result.data.englishProficiency
+                        userProfile.country = result.data.country
+                        userProfile.dob = result.data.dob
+                        userProfile.gender = result.data.gender
                     }
                     completion(userProfile: userProfile, success: result.status, message: result.message)
                 }

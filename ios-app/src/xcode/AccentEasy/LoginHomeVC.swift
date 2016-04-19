@@ -222,9 +222,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     //add data for JSONStringUserProfile
                      var username = result.valueForKey("email")
                     
-                    if username != nil {
-                        //userProfile.username = username as! String
-                    } else {
+                    if username == nil {
                         username = "\(userId)@facebook.com"
                     }
                     let userProfile:UserProfile = AccountManager.currentUser(username! as! String)
@@ -285,6 +283,7 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
                     weakSelf!.getUserProfile()
+                    //weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                 } else {
                     weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
