@@ -31,9 +31,9 @@ public class Constant {
 
     public static int ISDELETE_TRUE=1;
 
-    public static String TEACHER = "teacher";
+    public static String TEACHER = "Teacher";
 
-    public static String STAFF = "staff";
+    public static String STAFF = "Staff";
 
     public static String STUDENT = "student";
 
