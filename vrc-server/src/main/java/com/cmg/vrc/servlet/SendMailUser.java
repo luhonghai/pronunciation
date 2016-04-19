@@ -294,7 +294,7 @@ public class SendMailUser extends HttpServlet{
 
         }else if(action.equalsIgnoreCase("deletedStudentInMyStudent")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-            String id=request.getParameter("id");
+            String id= (String)StringUtil.isNull(request.getParameter("id"),"");
             Gson gson=new Gson();
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
@@ -310,6 +310,7 @@ public class SendMailUser extends HttpServlet{
                 }
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("rejectStudent")){

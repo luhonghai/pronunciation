@@ -192,13 +192,14 @@ function deleted(){
         var name=$("#studentName").val();
         $("#idStudentRemove").val(id);
         $("#studentconfirmRemove").text(name);
+        $("#studentconfirmRemove").attr("id-remove",id);
         $("#confirmRemove").modal('show');
     })
 }
 
 function deleteStudent(){
     $(document).on("click","#yesRemove",function() {
-        var id=$("#idStudentRemove").val();
+        var id = $("#studentconfirmRemove").attr("id-remove");
         $.ajax({
             url: "SendMailUser",
             type: "POST",
@@ -213,7 +214,12 @@ function deleteStudent(){
                     $("#confirmRemove").modal('hide');
                     $("#listMyStudent").empty();
                     listMyStudent();
-                    swal("Success!", "Delete student success!", "success");
+                    swal("", "delete student successfully", "success");
+                }else{
+                    $("#remove").modal('hide');
+                    $("#confirmRemove").modal('hide');
+                    $("#listMyStudent").empty();
+                    swal("", "delete student fail", "success");
                 }
 
             },
