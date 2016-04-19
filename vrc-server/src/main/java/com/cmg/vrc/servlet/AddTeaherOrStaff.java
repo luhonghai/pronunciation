@@ -168,7 +168,7 @@ public class AddTeaherOrStaff extends HttpServlet {
             try {
                 Admin admin=adminDAO.getUserByEmail(username);
                 adminDAO.delete(admin.getId());
-                  teacherMappingCompanyDAO.updateEdit(username);
+                teacherMappingCompanyDAO.updateEdit(username);
                 response.getWriter().write("success");
             } catch (Exception e) {
                 response.getWriter().write("error");
