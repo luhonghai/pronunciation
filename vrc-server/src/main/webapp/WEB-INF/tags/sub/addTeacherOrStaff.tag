@@ -1,14 +1,15 @@
 <%@ tag import="com.cmg.vrc.data.jdo.ClientCode" %>
 <%@ tag import="com.cmg.vrc.data.dao.impl.ClientCodeDAO" %>
+<%@ tag import="com.cmg.vrc.util.StringUtil" %>
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
 <div id="page-wrapper">
-  <% String idCompany = request.getParameter("idCompany");
-    String username=request.getAttribute("username").toString();
-    ClientCode clientCode=new ClientCode();
+  <% String idCompany =(String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPID),"");
+    String username= (String) StringUtil.isNull(request.getSession().getAttribute("username"),"");
     ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
-    clientCode=clientCodeDAO.getById(idCompany);
-    String company=clientCode.getCompanyName();
+    ClientCode clientCode= clientCodeDAO.getById(idCompany);
+    String company = clientCode.getCompanyName();
   %>
   <div class="row">
     <div class="col-lg-12">

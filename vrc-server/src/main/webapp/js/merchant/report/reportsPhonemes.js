@@ -156,7 +156,10 @@ function dateFrom(){
         var dateF = $(this).val();
         var dateT = $('#dateTo').val();
         if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
-            $("#loadInfo").removeAttr("disabled");
+            var sName = $('#listUsers option:selected').val();
+            if(sName!=null && typeof sName !="undefined"){
+                $("#loadInfo").removeAttr("disabled");
+            }
         }else{
             $("#loadInfo").attr("disabled","disabled");
         }
@@ -169,7 +172,10 @@ function dateTo(){
         var dateF =  $('#dateFrom').val();
         var dateT = $(this).val();
         if(dateF!= "" && dateF.length > 0 && dateT!="" && dateT.length > 0){
-            $("#loadInfo").removeAttr("disabled");
+            var sName = $('#listUsers option:selected').val();
+            if(sName!=null && typeof sName !="undefined"){
+                $("#loadInfo").removeAttr("disabled");
+            }
         }else{
             $("#loadInfo").attr("disabled","disabled");
         }
