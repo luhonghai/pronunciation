@@ -1,4 +1,5 @@
 import com.cmg.merchant.dao.word.WDAO;
+import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.service.RecorderSentenceService;
@@ -60,6 +61,8 @@ public class TestDAO {
         LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
         ClassDAO classDAO=new ClassDAO();
         WDAO wdao=new WDAO();
+        QuestionDAO questionDAO = new QuestionDAO();
+
 
 //        ClientCode clientCode=new ClientCode();
 //        clientCode.setCompanyName("CMG");

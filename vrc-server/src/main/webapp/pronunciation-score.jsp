@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
+<%@taglib prefix="c" tagdir="/WEB-INF/tags/content" %>
 <t:main pageTitle="Wholesale delivery system" index="0">
 
   <div id="page-wrapper">
@@ -140,7 +140,6 @@
     </div>
   </div>
 
-
-
+  <c:phoneme-detector-test></c:phoneme-detector-test>
 </t:main>
 <script src="<%=request.getContextPath() %>/js/pronunciation.js"></script>

@@ -69,10 +69,14 @@ function listScore(){
             "bSortable": false,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
-                $button = $('<button type="button" style="margin-right:10px" id="download" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Download Audio' + '</button>');
+                var $button = $('<button type="button" style="margin-right:10px" id="download" class="btn btn-info btn-sm" ' + full[0] + '>' + 'Download Audio' + '</button>');
                 $button.attr("id-column", data.id);
                 $button.attr("username", data.username);
-                return $("<div/>").append($button).html();
+                var $button2 = $('<button type="button" style="margin-right:10px" id="phonemeDetector" class="btn btn-primary btn-sm">' + 'Phoneme breakdown' + '</button>');
+                $button2.attr("id-column", data.id);
+                $button2.attr("username", data.username);
+                $button2.attr("word", data.word);
+                return $("<div/>").append($button).append($button2).html();
             }
         } ]
     });
@@ -345,6 +349,38 @@ function downloadAdio(){
     });
 }
 
+function phoneBreakDown(){
+    $(document).on("click", "#phonemeDetector", function () {
+        var id=$(this).attr('id-column');
+        var word = $(this).attr('word');
+        var username=$(this).attr('username');
+        $("#phonemeDetectorDialog").modal("show");
+        $("#phonemeDetectorContainer").html("Please wait a moment ...");
+        $.ajax({
+            url:"Pronunciations",
+            type:"POST",
+            dataType:"text",
+            data:{
+                id:id,
+                username:username,
+                download:"download"
+            },
+            success:function(data){
+                if (data.indexOf("http") != -1) {
+                    detectPhoneme(data, word);
+                }
+            },
+            error:function(){
+                swal("Error!", "Could not connect to server", "error");
+            }
+
+        });
+
+
+
+    });
+}
+
 $(document).ready(function(){
 
     //detailemei();
@@ -356,5 +392,6 @@ $(document).ready(function(){
     listScore();
     drawMap();
     search();
+    phoneBreakDown()
 });
 

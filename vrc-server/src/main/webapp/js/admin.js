@@ -577,7 +577,6 @@ function hideeditmessage(){
         $("#nameeditsemail").hide();
 
     });
-
 }
 
 $(document).ready(function(){

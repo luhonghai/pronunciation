@@ -1,0 +1,34 @@
+# Uncomment this line to define a global platform for your project
+platform :ios, '8.0'
+# Uncomment this line if you're using Swift
+use_frameworks!
+
+target 'AccentEasy' do
+	#pod 'GoogleAnalytics'
+    pod 'Google/Analytics'
+	pod 'Google/SignIn'
+	#pod 'ObjectMapper', '~> 1.1'
+	pod 'SSZipArchive'
+	#pod 'SQLite.swift'
+	pod 'FBSDKCoreKit'
+	pod 'FBSDKLoginKit'
+	pod 'FBSDKShareKit'
+    #pod 'DLHamburguerMenu'
+	pod 'EZAudio', '1.1.2' 
+	pod 'EZAudio/Core', '1.1.2'	
+	#pod 'Charts'
+    pod 'RDVTabBarController'
+    pod 'ImageLoader'
+    pod 'SloppySwiper'
+    pod 'NSLogger'
+    pod 'BEMCheckBox'
+end
+
+target 'AccentEasyTests' do
+
+end
+
+target 'AccentEasyUITests' do
+
+end
+
