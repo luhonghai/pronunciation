@@ -80,4 +80,14 @@ public class Course implements Mirrorable {
     public void setVersion(int version) {
         this.version = version;
     }
+
+    public Course(String id,String name, String description, boolean isDeleted, int version, Date dateCreated){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.isDeleted = isDeleted;
+        this.version = version;
+        this.dateCreated = dateCreated;
+    }
+    public Course(){}
 }

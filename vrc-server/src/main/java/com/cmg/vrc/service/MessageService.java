@@ -28,7 +28,7 @@ public class MessageService {
         this.message = message;
     }
 
-    protected void doPostMessage(List<String> devices) throws Exception {
+    public void doPostMessage(List<String> devices) throws Exception {
         if (sender == null) {
             sender = new Sender(Configuration.getValue("api.key"));
         }

@@ -2,11 +2,14 @@ package com.cmg.vrc.data.dao.impl;
 
 import com.cmg.vrc.data.dao.DataAccess;
 import com.cmg.vrc.data.jdo.ClientCode;
+import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.PersistenceManagerHelper;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
+import javax.jdo.metadata.TypeMetadata;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +143,99 @@ public class ClientCodeDAO  extends DataAccess<ClientCode> {
 
     public double getCount() throws Exception {
         return getCount("WHERE isDeleted == false");
+    }
+
+    public List<ClientCode> getCompanyByTeacherName(String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaTeacherMappingCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
+        TypeMetadata metaClientCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClientCode.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, companyName, email FROM " + metaClientCode.getTable() + " WHERE companyName not IN (select company FROM " + metaTeacherMappingCompany.getTable() + " WHERE teacherName='"+teacherName+"' and isDeleted = false) and isDeleted = false");
+        try {
+            List<ClientCode> clientCodes = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                ClientCode clientCode = new ClientCode();
+                clientCode.setId(data[0].toString());
+                clientCode.setCompanyName(data[1].toString());
+                clientCode.setEmail(data[2].toString());
+                clientCodes.add(clientCode);
+            }
+            return clientCodes;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+    public List<ClientCode> getCompanyByStaff(String staffName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStaffMappingCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
+        TypeMetadata metaClientCode = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(ClientCode.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, companyName, email FROM " + metaClientCode.getTable() + " WHERE companyName not IN (select company FROM " + metaStaffMappingCompany.getTable() + " WHERE StaffName='"+staffName+"' and isDeleted = false) and isDeleted = false");
+        try {
+            List<ClientCode> clientCodes = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                ClientCode clientCode = new ClientCode();
+                clientCode.setId(data[0].toString());
+                clientCode.setCompanyName(data[1].toString());
+                clientCode.setEmail(data[2].toString());
+                clientCodes.add(clientCode);
+            }
+            return clientCodes;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+    public List<ClientCode> CompanyStaff(String staffName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaStaffMappingCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, idCompany, company FROM " + metaStaffMappingCompany.getTable() + " WHERE StaffName='"+staffName+"' and isDeleted = false");
+        try {
+            List<ClientCode> clientCodes = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                ClientCode clientCode = new ClientCode();
+                clientCode.setId(data[1].toString());
+                clientCode.setCompanyName(data[2].toString());
+                clientCodes.add(clientCode);
+            }
+            return clientCodes;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
+    }
+    public List<ClientCode> CompanyTeacher(String teacherName){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        TypeMetadata metaTeacherMappingCompany = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(TeacherMappingCompany.class.getCanonicalName());
+        Query q = pm.newQuery("javax.jdo.query.SQL","SELECT id, idCompany, company FROM " + metaTeacherMappingCompany.getTable() + " WHERE teacherName='"+teacherName+"' and isDeleted = false");
+        try {
+            List<ClientCode> clientCodes = new ArrayList<>();
+            List<Object> objects = (List<Object>) q.execute();
+            for (Object object : objects) {
+                Object[] data = (Object[]) object;
+                ClientCode clientCode = new ClientCode();
+                clientCode.setId(data[1].toString());
+                clientCode.setCompanyName(data[2].toString());
+                clientCodes.add(clientCode);
+            }
+            return clientCodes;
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            q.closeAll();
+            pm.close();
+        }
     }
 
 }

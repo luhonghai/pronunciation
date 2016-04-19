@@ -2,6 +2,7 @@
 import com.cmg.lesson.dao.course.CourseMappingDetailDAO;
 import com.cmg.lesson.dao.course.CourseMappingLevelDAO;
 import com.cmg.lesson.dao.history.PhonemeLessonScoreDAO;
+import com.cmg.lesson.dao.history.SessionScoreDAO;
 import com.cmg.lesson.dao.history.UserLessonHistoryDAO;
 import com.cmg.lesson.dao.ipa.IpaMapArpabetDAO;
 import com.cmg.lesson.dao.lessons.LessonMappingQuestionDAO;
@@ -11,6 +12,7 @@ import com.cmg.lesson.dao.question.WordOfQuestionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.course.CourseMappingDetail;
 import com.cmg.lesson.data.jdo.history.PhonemeLessonScore;
+import com.cmg.lesson.data.jdo.history.SessionScore;
 import com.cmg.lesson.data.jdo.history.UserLessonHistory;
 import com.cmg.lesson.data.jdo.ipa.IpaMapArpabet;
 import com.cmg.lesson.data.jdo.lessons.LessonMappingQuestion;
@@ -23,11 +25,22 @@ import com.cmg.lesson.services.lessons.LessonMappingQuestionService;
 import com.cmg.lesson.services.level.LevelService;
 import com.cmg.lesson.services.word.WordCollectionService;
 import com.cmg.lesson.services.word.WordMappingPhonemesService;
+import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.course.CDAO;
+import com.cmg.merchant.dao.level.LVMODAO;
+import com.cmg.merchant.dao.report.ReportLessonDAO;
+import com.cmg.merchant.dao.report.ReportPhoneDao;
+import com.cmg.merchant.data.dto.CourseDTO;
+import com.cmg.merchant.services.CMTSERVICES;
+import com.cmg.merchant.services.QuestionServices;
+import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
 import edu.cmu.sphinx.linguist.dictionary.Word;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -35,6 +48,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -63,8 +78,64 @@ public class UnitTesting {
             }*/
           /* String s =  StringEscapeUtils.escapeJava("country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
             System.out.println(s);*/
-           QuestionDAO dao = new QuestionDAO();
-            List<Question> list = dao.searchName(null, "country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");
+           /*QuestionDAO dao = new QuestionDAO();
+            List<Question> list = dao.searchName(null, "country Vietnam - avoid confusing /a/ with /ʌ/ - words with /ʌ/ : Q1");*/
+
+            /*LVMODAO dao = new LVMODAO();
+            System.out.println(dao.getMaxIndex("66b3510d-8964-47a0-8c33-72dc14f8dded"));*/
+          /*  CMTSERVICES services = new CMTSERVICES();
+            ArrayList<CourseDTO> list = services.getCoursesForMainPage("02354aca-32e3-430f-bf88-b4dd472085be","790b2928-2617-41c3-9a10-f3f56f03c874");
+            if(list!=null){
+                for(CourseDTO dto  : list){
+                    System.out.println(dto.getNameCourse()+"-"+dto.getCompanyName() + "-" + dto.getState());
+                }
+            }*/
+           /* SessionScore ss = new SessionScore();
+            ss.setId("21");
+            ss.setIdLessonCollection("idlesson");
+            ss.setItemID("12");
+            ss.setIdLevel("idLevel");
+            ss.setIdUserLessonHistory("idUserLessonHistory");
+            ss.setIdQuestion("idQuestion");
+            SessionScoreDAO dao = new SessionScoreDAO();
+            dao.put(ss);*/
+
+        /*    UserLessonHistory uh = new UserLessonHistory();
+            uh.setId("idUserLessonHistory");
+            uh.setIdLevel("idLevel");
+            uh.setIdQuestion("idQuestion");
+            uh.setSessionID("sessionid");
+            uh.setIdWord("idword");
+            uh.setWord("word");
+            uh.setIdItem("idItem");
+            UserLessonHistoryDAO dao = new UserLessonHistoryDAO();
+            dao.put(uh);*/
+
+         /*   PhonemeLessonScore pls = new PhonemeLessonScore();
+            pls.setId("id");
+            pls.setIdUserLessonHistory("id");
+            PhonemeLessonScoreDAO dao = new PhonemeLessonScoreDAO();
+            dao.put(pls);*/
+
+          /*  SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+            long bi = 1456767694161l;
+            Date d = new Date(bi);
+            String s = format.format(d);
+            System.out.println(s);*/
+         /*   ReportPhoneDao dao = new ReportPhoneDao();
+            dao.getScorePhonemeByStudent("nambui","AH","2016-02-28","2016-03-01");*/
+
+           /* DateUtil util = new DateUtil();
+            String d = util.convertDate("28/02/2016") ;
+            System.out.println(d);*/
+            //dao.listPhonemes();
+          /*  CMTSERVICES s = new CMTSERVICES();
+            ArrayList<CourseDTO> list = s.getCoursesForMainPage("","");
+            Gson gson  = new Gson();
+            String json = gson.toJson(list);
+            System.out.println(json);*/
+            ArrayList<CourseDTO> list = new ArrayList<>();
+            list.addAll(null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -29,18 +29,21 @@ import java.util.Map;
  */
 public class DatabasePrepare {
 
-    private final Context context;
+    private Context context;
 
-    private final OnPrepraredListener prepraredListener;
+    private OnPrepraredListener prepraredListener;
 
     class VersionResponseData extends ResponseData<String> {
         int version;
+        String lessonChange;
     }
 
     public DatabasePrepare(Context context, OnPrepraredListener prepraredListener) {
         this.context = context;
         this.prepraredListener = prepraredListener;
     }
+
+    public DatabasePrepare(){}
 
     public interface OnPrepraredListener {
         void onComplete();
@@ -78,6 +81,8 @@ public class DatabasePrepare {
         String dbName = "lesson";
         File databaseDir = new File(FileHelper.getApplicationDir(context), "databases");
         File fileVersion = new File(databaseDir, "version");
+        File fileLessonChange = new File(databaseDir, "lessonChange");
+        File fileStatus = new File(databaseDir, "status");
         int currentVersion = 0;
         if (!databaseDir.exists()) {
             databaseDir.mkdirs();
@@ -102,6 +107,8 @@ public class DatabasePrepare {
         if (!lessonDb.exists()) currentVersion = 0;
         String downloadUrl = "";
         int newVersion = 0;
+        String newLessonChange="";
+        boolean newStatus=false;
         try {
             Gson gson = new Gson();
             HttpContacter httpContacter = new HttpContacter(context);
@@ -113,7 +120,11 @@ public class DatabasePrepare {
             if (responseData != null && responseData.isStatus()) {
                 downloadUrl = responseData.getData();
                 newVersion = responseData.version;
+                newLessonChange=responseData.lessonChange;
+                newStatus=responseData.isStatus();
+
             }
+            FileUtils.writeStringToFile(fileStatus,Boolean.toString(newStatus), "UTF-8");
         } catch (Exception e) {
             SimpleAppLog.error("Could not check database version",e);
         }
@@ -151,7 +162,10 @@ public class DatabasePrepare {
                     FileUtils.moveFile(new File(dbFilePath), lessonDb);
                     SimpleAppLog.debug("Update database successfully");
                     FileUtils.writeStringToFile(fileVersion, Integer.toString(newVersion), "UTF-8");
+                    FileUtils.writeStringToFile(fileLessonChange,newLessonChange, "UTF-8");
+                    FileUtils.writeStringToFile(fileStatus,Boolean.toString(newStatus), "UTF-8");
                     SimpleAppLog.info("Save new version to :" + fileVersion + " successfully");
+                    SimpleAppLog.info("Save new lessonChange to :" + fileLessonChange + " successfully");
                 } else {
                     SimpleAppLog.error("No db file path found in folder " + tmpDb);
                 }
@@ -193,4 +207,5 @@ public class DatabasePrepare {
         }
         return null;
     }
+
 }

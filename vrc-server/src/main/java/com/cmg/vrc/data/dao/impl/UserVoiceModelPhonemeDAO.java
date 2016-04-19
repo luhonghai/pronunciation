@@ -836,4 +836,88 @@ public class UserVoiceModelPhonemeDAO extends DataAccess<UserVoiceModel> {
             pm.close();
         }
     }
+
+    public List<Phoneme> getListPhonemeByPhonemeAndStudent(String student, String phoneme,Date dateFrom1, Date dateTo1){
+        PersistenceManager pm = PersistenceManagerHelper.get();
+        StringBuffer query = new StringBuffer();
+        StringBuffer first = new StringBuffer();
+        StringBuffer second = new StringBuffer();
+        TypeMetadata metaUserVoiceModel = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserVoiceModel.class.getCanonicalName());
+        TypeMetadata metaPhonemeScoreDB = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeScoreDB.class.getCanonicalName());
+        TypeMetadata metaUserLessonHistory = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(UserLessonHistory.class.getCanonicalName());
+        TypeMetadata metaPhonemeLessonScore = PersistenceManagerHelper.getDefaultPersistenceManagerFactory().getMetadata(PhonemeLessonScore.class.getCanonicalName());
+        long dateTo=0;
+        long dateFrom=0;
+        if(dateFrom1!=null) {
+            long output = dateFrom1.getTime() / 1000L;
+            String str = Long.toString(output);
+            dateFrom = Long.parseLong(str) * 1000;
+        }
+        if(dateTo1!=null) {
+            long output1 = dateTo1.getTime() / 1000L;
+            String str1 = Long.toString(output1);
+            dateTo = Long.parseLong(str1) * 1000;
+        }
+        String firstQuery = "select userVoice.id, phonemeScore.totalScore, userVoice.serverTime from  " + metaUserVoiceModel.getTable()
+                + " userVoice inner join " + metaPhonemeScoreDB.getTable()
+                + " phonemeScore on phonemeScore.userVoiceId=userVoice.id where ";
+
+        String secondQuery = "select userLesson.id, phonemeLessonScore.totalScore, userLesson.serverTime from  " + metaUserLessonHistory.getTable() +
+                " userLesson inner join " + metaPhonemeLessonScore.getTable()
+                + " phonemeLessonScore on phonemeLessonScore.idUserLessonHistory=userLesson.id where ";
+        first.append(firstQuery);
+        second.append(secondQuery);
+        first.append(" userVoice.username='"+student+"' and phonemeScore.phonemeWord='"+phoneme+"'");
+        second.append(" userLesson.username='"+student+"' and phonemeLessonScore.phoneme='"+phoneme+"'");
+        if (dateFrom!=0 && dateTo==0) {
+            first.append(" and userVoice.serverTime >= '" + dateFrom + "'");
+            second.append(" and userLesson.serverTime >= '" + dateFrom + "'");
+        }
+        if (dateFrom==0 && dateTo!=0) {
+            first.append(" and userVoice.serverTime <= '" + dateTo + "'");
+            second.append(" and userLesson.serverTime <= '" + dateTo + "'");
+        }
+
+        if (dateFrom!=0 && dateTo!=0) {
+            first.append(" and userVoice.serverTime >= '" + dateFrom + "' and userVoice.serverTime <= '" + dateTo + "'");
+            second.append(" and userLesson.serverTime >= '" + dateFrom + "' and userLesson.serverTime <= '" + dateTo + "'");
+        }
+        query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
+        Query q = pm.newQuery("javax.jdo.query.SQL", query.toString());
+        List<Phoneme> list = new ArrayList<Phoneme>();
+        try {
+            List<Object> tmp = (List<Object>) q.execute();
+            for (Object obj : tmp) {
+                Phoneme phoneme1 = new Phoneme();
+                Object[] array = (Object[]) obj;
+                if (array[0].toString().length() > 0) {
+                    phoneme1.setId(array[0].toString());
+                } else {
+                    phoneme1.setId(null);
+                }
+                if (array[1] != null) {
+                    phoneme1.setScore((float) array[1]);
+                } else {
+                    phoneme1.setScore(0);
+                }
+                if (array[2] != null) {
+                    phoneme1.setServerTime((long) array[2]);
+                } else {
+                    phoneme1.setServerTime(0);
+                }
+
+                list.add(phoneme1);
+            }
+
+            return list;
+        } catch (Exception e) {
+            return null;
+        } finally {
+
+            q.closeAll();
+            pm.close();
+        }
+    }
+
+
 }

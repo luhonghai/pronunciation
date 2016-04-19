@@ -2,10 +2,7 @@ package com.cmg.lesson.data.jdo.objectives;
 
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
 import java.util.Date;
 
 /**
@@ -20,6 +17,7 @@ public class Objective implements Mirrorable {
     private String name;
 
     @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
     private String description;
 
     @Persistent
@@ -31,6 +29,16 @@ public class Objective implements Mirrorable {
     @Persistent
     private boolean isDeleted;
 
+    @NotPersistent
+    private int index;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 
     public String getName() {
         return name;

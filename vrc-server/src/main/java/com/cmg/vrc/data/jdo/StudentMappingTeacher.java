@@ -5,6 +5,7 @@ import com.cmg.vrc.data.Mirrorable;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import java.util.Date;
 
 /**
  * Created by CMGT400 on 1/5/2016.
@@ -15,13 +16,33 @@ public class StudentMappingTeacher implements Mirrorable {
     private String id;
 
     @Persistent
-    private String idStudent;
+    private String studentName;
 
     @Persistent
-    private String idTeacher;
+    private String teacherName;
+
+    @Persistent
+    private String firstTeacherName;
+
+    @Persistent
+    private String lastTeacherName;
 
     @Persistent
     private boolean isDeleted;
+
+    @Persistent
+    private String mappingBy;
+
+    @Persistent
+    private String status;
+
+    @Persistent
+    private boolean licence;
+
+    @Persistent
+    private boolean isView;
+
+
 
     @Override
     public String getId() {
@@ -41,19 +62,67 @@ public class StudentMappingTeacher implements Mirrorable {
         this.isDeleted = isDeleted;
     }
 
-    public String getIdStudent() {
-        return idStudent;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setIdStudent(String idStudent) {
-        this.idStudent = idStudent;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public String getIdTeacher() {
-        return idTeacher;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setIdTeacher(String idTeacher) {
-        this.idTeacher = idTeacher;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getFirstTeacherName() {
+        return firstTeacherName;
+    }
+
+    public void setFirstTeacherName(String firstTeacherName) {
+        this.firstTeacherName = firstTeacherName;
+    }
+
+    public String getLastTeacherName() {
+        return lastTeacherName;
+    }
+
+    public void setLastTeacherName(String lastTeacherName) {
+        this.lastTeacherName = lastTeacherName;
+    }
+
+    public boolean isLicence() {
+        return licence;
+    }
+
+    public void setLicence(boolean licence) {
+        this.licence = licence;
+    }
+
+    public String getMappingBy() {
+        return mappingBy;
+    }
+
+    public void setMappingBy(String mappingBy) {
+        this.mappingBy = mappingBy;
+    }
+
+    public boolean isView() {
+        return isView;
+    }
+
+    public void setIsView(boolean isView) {
+        this.isView = isView;
     }
 }

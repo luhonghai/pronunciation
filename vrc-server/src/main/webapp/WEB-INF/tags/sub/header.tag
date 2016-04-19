@@ -5,15 +5,18 @@
 
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div style="height:50px;">
-	<div class="navbar-header">
+	<div class="navbar-header" style="width:100%;">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<div class="col-xs-9 col-sm-11">
-			<img class="img-responsive" style="margin: 0 auto;" alt="accenteasy logo" src="http://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-prod/images/accenteasy_icon_text.png"/>
+		<div class="col-xs-9 col-sm-10">
+			<img class="img-responsive" style="margin: 0 auto;float:left;height:50px" alt="accenteasy logo" src="http://s3-ap-southeast-1.amazonaws.com/com-accenteasy-bbc-accent-prod/images/accenteasy_icon_text.png"/>
+		</div>
+		<div class="col-xs-3 col-sm-2">
+			<img id="help-icons" class="img-responsive" style="display:none;margin: 0 auto;float:right;height:50px;cursor: pointer;padding-top:5px;padding-bottom: 5px;" alt="accenteasy logo" src="/images/popup/help_50_50.png"/>
 		</div>
 	</div>
 	<!-- /.navbar-header -->
@@ -124,13 +127,60 @@
 					<a href="pronunciation-score.jsp"><i class="glyphicon glyphicon-heart"></i> Word Score </a>
 				</li>
 				<%}else {
-					if(role.equals("3")){%>
+					if(role.equals("3") || role.equals("4")){
+						if(role.equals("3")){
+				%>
 						<li>
-						<a href="pronunciation-score.jsp"><i class="fa fa-users"></i> Teacher Management </a>
+						<a href="teacher-management.jsp"><i class="fa fa-users"></i> Teacher Management </a>
 						</li>
-					<%}else {%>
+					<%}%>
 						<li>
-							<a href="class.jsp"><i class="fa fa-slideshare"></i> Class Management </a>
+							<a href="#"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> class </a>
+							<ul>
+								<li>
+									<a href="class.jsp"><img src="/images/teacher/classes48x48.gif" style="width: 24px;height: 24px;"> classes </a>
+								</li>
+								<li>
+									<a href="my-classes.jsp"><img src="/images/teacher/my%20classes48x48.gif" style="width: 24px;height: 24px;">  my classes </a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> course </a>
+							<ul>
+								<li>
+									<a href="main-courses.jsp"><img src="/images/teacher/courses48x48.gif" style="width: 24px;height: 24px;"> courses </a>
+								</li>
+								<li>
+									<a href="my-courses.jsp"><img src="/images/teacher/my%20courses48x48.gif" style="width: 24px;height: 24px;">  my courses </a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> report </a>
+							<ul>
+								<li>
+									<a href="reports.jsp"><img src="/images/teacher/reports48x48.gif" style="width: 24px;height: 24px;"> reports </a>
+								</li>
+								<li>
+									<a href="reports-lesson.jsp"><i class="fa fa-envelope-o"></i>  lessons </a>
+								</li>
+								<li>
+									<a href="reports-phonemes.jsp"><i class="fa fa-envelope-o"></i>  phonemes </a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> student </a>
+							<ul>
+								<li>
+									<a href="licensed-students.jsp"><img src="/images/teacher/student48x48.gif" style="width: 24px;height: 24px;"> students </a>
+								</li>
+								<li>
+									<a href="my-students.jsp"><img src="/images/teacher/my%20students48x48.gif" style="width: 24px;height: 24px;">  my students</a>
+								</li>
+							</ul>
 						</li>
 					<%}
 				}%>

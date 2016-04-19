@@ -22,5 +22,12 @@ public class LicenseCodeCompanyDAO extends DataAccess<LicenseCodeCompany> {
     public List<LicenseCodeCompany> listAll() throws Exception {
         return list("WHERE isDeleted==false");
     }
+    public LicenseCodeCompany getByCode(String code) throws Exception {
+        List<LicenseCodeCompany> list = list("WHERE code == :1", code);
+        if (list != null && list.size() > 0)
+            return list.get(0);
+        return null;
+    }
+
 }
 

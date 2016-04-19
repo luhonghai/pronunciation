@@ -263,6 +263,17 @@
 
 
     <servlet>
+        <servlet-name>NotificationServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.NotificationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>NotificationServlet</servlet-name>
+        <url-pattern>/NotificationServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>TranscriptionServlet</servlet-name>
         <servlet-class>com.cmg.vrc.servlet.TranscriptionServlet</servlet-class>
     </servlet>
@@ -577,7 +588,132 @@
         <url-pattern>/ClassServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>StudentServlet</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.StudentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentServlet</servlet-name>
+        <url-pattern>/StudentServlet</url-pattern>
+    </servlet-mapping>
 
+
+    <servlet>
+        <servlet-name>ManagementTeacherOrStaff</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.ManagementTeacherOrStaff</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagementTeacherOrStaff</servlet-name>
+        <url-pattern>/ManagementTeacherOrStaff</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddTeaherOrStaff</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.AddTeaherOrStaff</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTeaherOrStaff</servlet-name>
+        <url-pattern>/AddTeaherOrStaff</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendMailUser</servlet-name>
+        <servlet-class>com.cmg.vrc.servlet.SendMailUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendMailUser</servlet-name>
+        <url-pattern>/SendMailUser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MainCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.MainCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainCourseServlet</servlet-name>
+        <url-pattern>/MainCourseServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.SuggestionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SuggestionServlet</servlet-name>
+        <url-pattern>/SuggestionServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CopyServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.CopyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CopyServlet</servlet-name>
+        <url-pattern>/CopyServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    <servlet-name>TreeLoadServlet</servlet-name>
+    <servlet-class>com.cmg.merchant.servlet.tree.TreeLoadServlet</servlet-class>
+</servlet>
+    <servlet-mapping>
+        <servlet-name>TreeLoadServlet</servlet-name>
+        <url-pattern>/TreeLoadServlet</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>TreeAddNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeAddNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeAddNodeServlet</servlet-name>
+        <url-pattern>/TreeAddNodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TreeEditNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeEditNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeEditNodeServlet</servlet-name>
+        <url-pattern>/TreeEditNodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TreeDeleteNodeServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.tree.TreeDeleteNodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TreeDeleteNodeServlet</servlet-name>
+        <url-pattern>/TreeDeleteNodeServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PublishCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.PublishCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PublishCourseServlet</servlet-name>
+        <url-pattern>/PublishCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MyCourseServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.MyCourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MyCourseServlet</servlet-name>
+        <url-pattern>/MyCourseServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PreviewServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.PreviewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PreviewServlet</servlet-name>
+        <url-pattern>/PreviewServlet</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>AcousticModelDataHandler</servlet-name>
@@ -587,6 +723,35 @@
         <servlet-name>AcousticModelDataHandler</servlet-name>
         <url-pattern>/acoustic_model</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReportsLessons</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.Report.ReportsLessons</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportsLessons</servlet-name>
+        <url-pattern>/ReportsLessons</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReportsPhonemes</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.Report.ReportsPhonemes</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReportsPhonemes</servlet-name>
+        <url-pattern>/ReportsPhonemes</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DragDropServlet</servlet-name>
+        <servlet-class>com.cmg.merchant.servlet.DragDropServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DragDropServlet</servlet-name>
+        <url-pattern>/DragDropServlet</url-pattern>
+    </servlet-mapping>
+
+
 
 
 

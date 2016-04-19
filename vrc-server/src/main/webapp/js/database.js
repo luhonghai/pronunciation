@@ -45,11 +45,20 @@ function drawTable(){
             }
         }, {
             "sWidth": "20%",
+            "bSortable": false,
+            "data": "lessonChange",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
+            "bSortable": false,
+            "data": "titleNotification",
+            "sDefaultContent": ""
+        }, {
+            "sWidth": "20%",
             "bSortable": true,
             "data": "createdDate",
             "sDefaultContent": ""
-        },
-            {
+        },{
                 "sWidth": "20%",
                 "bSortable": true,
                 "data": "selectedDate",
@@ -152,9 +161,13 @@ $(document).ready(function(){
     drawTable();
     $("#btnPopup").click(function() {
         $("#popupGenerate").modal("show");
+        $("#lessonChange").empty();
+        $("#notification").empty();
+
     });
     $("#btnPopupGenerate").click(function() {
         $("#popupGenerateAction").modal("show");
+        $("#lessonChange").val("");
     });
     $("#btnStop").click(function() {
         $("#btnStop").prop("disabled","disabled");
@@ -184,31 +197,39 @@ $(document).ready(function(){
         var $popupGenerate = $("#btnPopupGenerate");
         $popup.prop("disabled","disabled");
         $popupGenerate.prop("disabled","disabled");
+        var lessonChange=$("#lessonChange").val();
+        var notification=$("#notification").val();
         $("#popupGenerateAction").modal("hide");
         var $log = $("#generate-log");
-        $log.html("Preparing. Please wait...");
-        $.ajax({
-            "url": CONTEXT_PATH + "/database",
-            type: "GET",
-            dataType: "text",
-            data: {
-                action: "load"
-            },
-            success: function (data) {
-                if (data.indexOf("done") != -1) {
+        if(lessonChange!=null && lessonChange.length>0 && notification!=null && notification.length>0) {
+            $log.html("Preparing. Please wait...");
+            $.ajax({
+                "url": CONTEXT_PATH + "/database",
+                type: "GET",
+                dataType: "text",
+                data: {
+                    action: "load",
+                    lessonChange: lessonChange,
+                    notification:notification
+                },
+                success: function (data) {
+                    if (data.indexOf("done") != -1) {
 
-                } else {
-                    $popup.prop("disabled",false);
-                    $popupGenerate.prop("disabled",false);
+                    } else {
+                        $popup.prop("disabled", false);
+                        $popupGenerate.prop("disabled", false);
+                    }
+                },
+                error: function () {
+                    $popup.prop("disabled", false);
+                    $popupGenerate.prop("disabled", false);
+                    swal("Error!", "Could not connect to server", "error");
                 }
-            },
-            error: function () {
-                $popup.prop("disabled",false);
-                $popupGenerate.prop("disabled",false);
-                swal("Error!", "Could not connect to server", "error");
-            }
 
-        });
+            });
+        }else{
+            swal("Warning!", "You can write lesson change and title notification.", "warning");
+        }
     });
     $("#fileuploader").uploadFile({
         url:CONTEXT_PATH + "database_upload",

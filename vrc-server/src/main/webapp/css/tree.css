@@ -1,0 +1,125 @@
+.aciTree {
+    width:300px;
+    height:400px;
+    overflow:auto;
+    padding:10px;
+    float:left;
+    margin:0 20px 20px 0;
+    position:relative;
+}
+.aciTree>div {
+    font-size:14px;
+    line-height:20px;
+}
+.aciTree.selected {
+    background-color:#FFDFFF;
+}
+.aciTreeItem.selected {
+    background-color:#FFDFFF;
+}
+.aciTree .aciTreeLi.aciTreeHidden {
+    display:block;
+    background-color:#ccc;
+}
+.aciTree .aciTreeLi.aciTreeHidden .aciTreeLine {
+    background:none !important;
+}
+form {
+    padding:0 10px 0 10px;
+}
+.form {
+    width:770px;
+    float:left;
+    border:1px solid #ccc;
+    margin:0 20px 20px 0;
+}
+label {
+    vertical-align:middle;
+}
+
+.drop {
+    width:300px;
+    height:200px;
+    border:1px dashed #000;
+    float:left;
+    margin-right:20px;
+    padding:5px 10px 5px 10px;
+}
+.drop:hover {
+    border:1px dashed red;
+}
+.drop ul {
+    list-style-type:none;
+    height:150px;
+    padding:0;
+    overflow:auto;
+}
+.drop li {
+    line-height:20px;
+    height:20px;
+}
+.drop .aciSortablePlaceholder {
+    background-color:#eee;
+    border:1px dashed #ddd;
+}
+.drop.any .aciSortablePlaceholder {
+    height:0;
+    line-height:0;
+    border:none;
+}
+
+
+.aciTree .aciTreeIcon.course {
+    background-image: url("../images/treeview/course_icon.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+
+.aciTree .aciTreeIcon.level {
+    background-image: url("../images/treeview/level_icon.gif")  !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+
+.aciTree .aciTreeIcon.obj {
+    background-image: url("../images/treeview/objective_icon.gif")  !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+
+.aciTree .aciTreeIcon.test {
+    background-image: url("../images/treeview/test_icon.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+
+.aciTree .aciTreeIcon.lessons {
+    /* comment next line to keep the same icon on hover */
+    background-image: url("../images/treeview/lesson_icon.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+
+.aciTree .aciTreeIcon.question {
+    background-image: url("../images/treeview/question48x48.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}
+
+.aciTree .aciTreeIcon.questiontest {
+    background-image: url("../images/treeview/test_question48x48.gif") !important;
+    width: 24px;
+    height: 24px;
+    background-size: 24px 24px !important;
+}

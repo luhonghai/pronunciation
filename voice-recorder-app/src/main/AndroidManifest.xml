@@ -105,6 +105,15 @@
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:uiOptions="splitActionBarWhenNarrow" >
         </activity>
+        <activity
+            android:name=".TeacherActivity"
+            android:configChanges="orientation"
+            android:label="teacher"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Default"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:uiOptions="splitActionBarWhenNarrow" >
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"

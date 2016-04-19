@@ -45,6 +45,8 @@ import com.balysv.materialmenu.MaterialMenuView;
 import com.cmg.android.bbcaccent.adapter.ListMenuAdapter;
 import com.cmg.android.bbcaccent.auth.AccountManager;
 import com.cmg.android.bbcaccent.broadcast.MainBroadcaster;
+import com.cmg.android.bbcaccent.data.DatabasePrepare;
+import com.cmg.android.bbcaccent.data.dto.StudentMappingTeacher;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.data.dto.lesson.word.WordCollection;
 import com.cmg.android.bbcaccent.data.sqlite.lesson.LessonDBAdapterService;
@@ -56,6 +58,7 @@ import com.cmg.android.bbcaccent.subscription.IAPFactory;
 import com.cmg.android.bbcaccent.utils.AnalyticHelper;
 import com.cmg.android.bbcaccent.utils.AndroidHelper;
 import com.cmg.android.bbcaccent.utils.AppLog;
+import com.cmg.android.bbcaccent.utils.FileHelper;
 import com.cmg.android.bbcaccent.utils.SimpleAppLog;
 import com.cmg.android.bbcaccent.view.cardview.CircleCardView;
 import com.cmg.android.bbcaccent.view.dialog.DefaultCenterDialog;
@@ -76,8 +79,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Stack;
@@ -125,6 +131,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private CursorAdapter adapter;
 
     private AccountManager accountManager;
+
+    private DatabasePrepare databasePrepare;
     /**
      * Actionbar items
      */
@@ -431,6 +439,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+        accountManager = new AccountManager(this);
+        popupLesson();
+        sendMessageFromTeacher();
         initListMenu();
         initCustomActionBar();
         materialMenu.setVisibility(View.INVISIBLE);
@@ -461,9 +472,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 }
             }
         });
-        accountManager = new AccountManager(this);
+
         checkProfile();
         syncService();
+
         listenerId = MainBroadcaster.getInstance().register(new MainBroadcaster.ReceiverListener() {
 
             @Override
@@ -648,6 +660,10 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                     Intent i = new Intent(this, SubscriptionActivity.class);
                     startActivity(i);
                     break;
+                case TEACHER:
+                    Intent intent = new Intent(this, TeacherActivity.class);
+                    startActivity(intent);
+                    break;
                 default:
                     if (profile != null) {
                         profile.setLastSelectedMenuItem(menuItem.toString());
@@ -657,6 +673,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             }
         }
     }
+
+
 
     private void initListMenu() {
         UserProfile userProfile = Preferences.getCurrentProfile();
@@ -1331,5 +1349,68 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     public void executeAction(MainAction action) {
         action.execute(this);
+    }
+    public void sendMessageFromTeacher() {
+        final UserProfile profile = Preferences.getCurrentProfile();
+        final Intent intent=new Intent(this,TeacherActivity.class);
+        if (profile == null || !profile.isLogin()) {
+            SimpleAppLog.logJson("profile null.");
+        } else {
+            SimpleAppLog.logJson("Detect old profile: ", profile);
+            accountManager.messageTeacher(profile, new AccountManager.AuthListeners() {
+                @Override
+                public void onError(final String message, Throwable e) {
+                }
+
+                @Override
+                public void onSuccess(final List<StudentMappingTeacher> lists, final int number, Throwable e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(number>0){
+                                Gson gson=new Gson();
+                                String teacher=gson.toJson(lists);
+                                intent.putExtra("studentMappingTeachers", teacher);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+    }
+
+
+
+    private void popupLesson(){
+        File databaseDir = new File(FileHelper.getApplicationDir(this), "databases");
+        File fileLesson = new File(databaseDir, "lessonChange");
+        File fileStatus = new File(databaseDir, "status");
+        String lesson="";
+        boolean status=false;
+        if (fileLesson.exists()) {
+            try {
+                lesson = FileUtils.readFileToString(fileLesson, "UTF-8");
+                SimpleAppLog.info("Current database version: " + lesson);
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read current version",e);
+            }
+        }
+        if (fileStatus.exists()) {
+            try {
+                status = Boolean.parseBoolean(FileUtils.readFileToString(fileStatus, "UTF-8"));
+                SimpleAppLog.info("Current database version: " + status);
+            } catch (IOException e) {
+                SimpleAppLog.error("Could not read current version",e);
+            }
+        }
+        if(status) {
+            SweetAlertDialog d = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+            d.setTitleText(getString(R.string.lesson_change));
+            d.setContentText(lesson);
+            d.setConfirmText(getString(R.string.dialog_ok));
+            d.show();
+        }
     }
 }

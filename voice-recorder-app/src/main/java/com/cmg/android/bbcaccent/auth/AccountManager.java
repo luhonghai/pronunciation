@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.cmg.android.bbcaccent.MainApplication;
 import com.cmg.android.bbcaccent.R;
+import com.cmg.android.bbcaccent.data.dto.StudentMappingTeacher;
 import com.cmg.android.bbcaccent.fragment.Preferences;
 import com.cmg.android.bbcaccent.data.dto.UserProfile;
 import com.cmg.android.bbcaccent.http.HttpContacter;
@@ -22,6 +23,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +40,13 @@ public class AccountManager {
 
         public void onSuccess();
     }
+    public static interface AuthListeners {
+
+        public void onError(String message, Throwable e);
+
+        public void onSuccess(List<StudentMappingTeacher> lists,int number, Throwable e);
+    }
+
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -137,7 +146,8 @@ public class AccountManager {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.register_url));
 
-                    ResponseData<UserProfile> responseData = gson.fromJson(message, new TypeToken<ResponseData<UserProfile>>() {}.getType());
+                    ResponseData<UserProfile> responseData = gson.fromJson(message, new TypeToken<ResponseData<UserProfile>>() {
+                    }.getType());
                     if (authListener != null) {
                         if (responseData.isStatus()) {
                             authListener.onSuccess();
@@ -172,7 +182,7 @@ public class AccountManager {
                 data.put("profile", gson.toJson(profile));
                 if (willCheck)
                     data.put("check", "true");
-                data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
+                    data.put("imei", new DeviceUuidFactory(context).getDeviceUuid().toString());
                 try {
                     HttpContacter contacter = new HttpContacter(context);
                     String message = contacter.post(data, context.getResources().getString(R.string.auth_url));
@@ -205,6 +215,7 @@ public class AccountManager {
                         }
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     SimpleAppLog.error("could not connect to server", e);
                     authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
@@ -252,7 +263,7 @@ public class AccountManager {
                     }
 
                 } catch (Exception e) {
-                    SimpleAppLog.error("could not connect to server",e);
+                    SimpleAppLog.error("could not connect to server", e);
                     authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
                 }
                 return null;
@@ -533,13 +544,164 @@ public class AccountManager {
                     }
 
                 } catch (Exception e) {
-                    SimpleAppLog.error("could not connect to server",e);
+                    SimpleAppLog.error("could not connect to server", e);
                     authListener.onSuccess();
                 }
                 return null;
             }
         }.execute();
     }
+
+
+    public void messageTeacher(final UserProfile profile, final AuthListeners authListeners) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                List<StudentMappingTeacher> mappingTeachers=new ArrayList<StudentMappingTeacher>();
+                int number=0;
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                SimpleAppLog.debug("Profile user name: " + profile.getUsername());
+                data.put("username", profile.getUsername());
+                data.put("action","infoUser");
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.message_teacher_url));
+                    SimpleAppLog.debug("message: " + message);
+                    try {
+                        StudentMappingTeachers responseData = MainApplication.fromJson(message, StudentMappingTeachers.class);
+                        mappingTeachers= responseData.studentMappingTeachers;
+                        if(responseData!=null && mappingTeachers!=null && mappingTeachers.size()>0) {
+                            for (StudentMappingTeacher studentMappingTeacher : mappingTeachers) {
+                                if(studentMappingTeacher.getStatus().equalsIgnoreCase("pending")){
+                                    number++;
+                                }
+
+                            }
+                        }
+
+                        if (responseData.isStatus()) {
+                            authListeners.onSuccess(mappingTeachers,number,null);
+                        } else {
+                            authListeners.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                       authListeners.onSuccess(mappingTeachers,number,null);
+                    }
+
+                } catch (Exception e) {
+                    SimpleAppLog.error("could not connect to server", e);
+                    authListeners.onSuccess(mappingTeachers,number,null);
+                }
+                return null;
+            }
+        }.execute();
+    }
+    public void messageTeachers(final UserProfile profile, final AuthListeners authListeners) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                List<StudentMappingTeacher> mappingTeachers=new ArrayList<StudentMappingTeacher>();
+                int number=0;
+                Gson gson = new Gson();
+                Preferences.updateAdditionalProfile(context, profile);
+                SimpleAppLog.debug("Profile user name: " + profile.getUsername());
+                data.put("username", profile.getUsername());
+                data.put("action","infoUser");
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.message_teacher_url));
+                    SimpleAppLog.debug("message: " + message);
+                    try {
+                        StudentMappingTeachers responseData = MainApplication.fromJson(message, StudentMappingTeachers.class);
+                        mappingTeachers= responseData.studentMappingTeachers;
+                        if(responseData!=null && mappingTeachers!=null && mappingTeachers.size()>0) {
+                            for (StudentMappingTeacher studentMappingTeacher : mappingTeachers) {
+                                if(studentMappingTeacher.getStatus().equalsIgnoreCase("pending")){
+                                    number++;
+                                }
+                            }
+                        }
+
+                        if (responseData.isStatus()) {
+                            authListeners.onSuccess(mappingTeachers,number,null);
+                        } else {
+                            authListeners.onError(responseData.getMessage(), null);
+                        }
+                    } catch (JsonSyntaxException e) {
+                        authListeners.onSuccess(mappingTeachers,number,null);
+                    }
+
+                } catch (Exception e) {
+                    SimpleAppLog.error("could not connect to server", e);
+                    authListeners.onSuccess(mappingTeachers,number,null);
+                }
+                return null;
+            }
+        }.execute();
+    }
+    public void sendStatusToTeacher(final UserProfile profile, final AuthListener authListener, final String status, final String mailTeacher) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                data.put("username", profile.getUsername());
+                data.put("action", "sendStatus");
+                data.put("status", status);
+                data.put("mailTeacher", mailTeacher);
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.message_teacher_url));
+                    SimpleAppLog.info("Reset password response: " + message);
+                    if (message.equalsIgnoreCase("success")) {
+                        authListener.onSuccess();
+                    } else {
+                        if (message.toLowerCase().contains("<html>")) {
+                            authListener.onError(context.getString(R.string.could_not_connect_server_message), null);
+                        } else {
+                            authListener.onError(message, null);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+    public void searchTeacher(final UserProfile profile, final AuthListener authListener, final String mailTeacher) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Map<String, String> data = new HashMap<String, String>();
+                Gson gson = new Gson();
+                data.put("username", profile.getUsername());
+                data.put("action", "searchTeacher");
+                data.put("mailTeacher", mailTeacher);
+                try {
+                    HttpContacter contacter = new HttpContacter(context);
+                    String message = contacter.post(data, context.getResources().getString(R.string.message_teacher_url));
+                    SimpleAppLog.info("Reset password response: " + message);
+                    if (message.equalsIgnoreCase("success")) {
+                        authListener.onSuccess();
+                    } else if(message.equalsIgnoreCase("exits")) {
+                        authListener.onError(context.getString(R.string.teacher_exist_on_list_your_teacher), null);
+                    }else{
+                        authListener.onError(context.getString(R.string.teacher_not_exist), null);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    authListener.onError(context.getString(R.string.could_not_connect_server_message), e);
+                }
+                return null;
+            }
+        }.execute();
+    }
+
 
     public void logout() {
         LoginManager.getInstance().logOut();
@@ -657,4 +819,60 @@ class LoginToken {
         this.accessDate = accessDate;
     }
 }
+class StudentMappingTeachers extends ResponseData<StudentMappingTeacher>{
+    public List<StudentMappingTeacher> studentMappingTeachers;
+}
+//class StudentMappingTeacher{
+//    private String id;
+//
+//    private String studentName;
+//
+//    private String teacherName;
+//
+//    private boolean isDeleted;
+//
+//    private String status;
+//
+//    public String getId() {
+//        return id;
+//    }
+//
+//    public void setId(String id) {
+//        this.id=id;
+//    }
+//
+//    public boolean isDeleted() {
+//        return isDeleted;
+//    }
+//
+//    public void setIsDeleted(boolean isDeleted) {
+//        this.isDeleted = isDeleted;
+//    }
+//
+//    public String getTeacherName() {
+//        return teacherName;
+//    }
+//
+//    public void setTeacherName(String teacherName) {
+//        this.teacherName = teacherName;
+//    }
+//
+//    public String getStudentName() {
+//        return studentName;
+//    }
+//
+//    public void setStudentName(String studentName) {
+//        this.studentName = studentName;
+//    }
+//
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
+//}
+
+
 

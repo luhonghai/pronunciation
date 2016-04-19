@@ -1,6 +1,11 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
-
+<%
+  if (session.getAttribute("role")==null){
+    return;
+  }
+  if(session.getAttribute("role").equals(1) || session.getAttribute("role").equals(2) ){
+%>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
@@ -214,6 +219,23 @@
     </div>
   </div>
 </div>
+<%
+  }
+%>
+<%
+  if (session.getAttribute("role")==null){
+    return;
+  }
+  if(session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
+%>
+<div id="page-wrapper">
+  <div class="row">
+    <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
+  </div>
+</div>
+<%
+  }
+%>
 
 <script src="<%=request.getContextPath() %>/js/Lession/managementLessons.js"></script>
 

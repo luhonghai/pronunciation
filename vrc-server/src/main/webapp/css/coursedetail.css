@@ -1,0 +1,335 @@
+.saveBtnPopUp{
+    background-image: url("../images/popup/save.gif") !important;
+    background-size: 48px 48px;
+    width: 48px;
+    height: 48px;
+    border-style: none;
+    background-color: transparent;
+}
+
+.deleteBtnPopUp{
+    background-image: url("../images/popup/trash.gif") !important;
+    background-size: 48px 48px;
+    width: 48px;
+    height: 48px;
+    border-style: none;
+    background-color: transparent;
+}
+
+.helpBtnPopUp{
+    background-image: url("../images/popup/help_50_50.png") !important;
+    background-size: 48px 48px;
+    width: 48px;
+    height: 48px;
+    border-style: none;
+    background-color: transparent;
+}
+
+#titlePopup,#titlePopupObj,#titlePopupTest {
+    padding-top : 10px;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+#arrow , #arrowObj, #arrowTest, #arrowLesson, #arrowQuestion, #arrowWord, #arrowTestWord{
+    color : #A6A6A6;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+.modal-header{
+    border-bottom: transparent;
+    padding-bottom: 0px;
+}
+.modal-content{
+    width : 400px;
+    border-radius: 20px;
+}
+.modal-question-word{
+     width : 600px !important;
+}
+#listPhonmes input{
+    margin: 5px 5px 5px 0;
+}
+
+#listIpa input{
+    margin: 5px 5px 5px 0;
+}
+
+#listWeight input{
+    margin: 0px 5px 5px 0;
+}
+
+#popupCourse #arrowCourse{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupCourse #titlePopupCourse{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
+
+#popupLevel #arrow{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupLevel #titlePopup{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
+#popupLesson #titlePopupLesson{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
+#popupQuestion #titlePopupQuestion, #titlePopupTestWord{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+
+#popupLevel .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addLevel label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+#addTestWord label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+#addLesson label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+#addQuestion label{
+    color: #A6A6A6;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+#addWords label{
+    color: #A6A6A6;
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+
+#popupObjective #arrowObj{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    color : #A6A6A6;
+    text-align:left;
+}
+#popupObjective #titlePopupObj{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+#popupObjective .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addObj label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+#popupTest #arrowTest{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupTest #titlePopupTest{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+}
+#popupTest .validateMsg{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    color: red;
+}
+
+#addTest label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+}
+
+
+#popupQuestionTest #arrowTestWord{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+}
+#popupQuestionTest #titlePopupTestWord{
+    font-weight : 600;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 16px;
+    text-align: center;
+    padding-top : 20px;
+}
+
+#popupQuestionTest label{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    padding-left : 0px;
+}
+
+#popupQuestionTest .text-description{
+    font-weight : 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    text-align:left;
+    color : #A6A6A6;
+    padding-left : 0px;
+}
+
+#confirm-delete label{
+    color : black;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    font-weight: 200;
+}
+
+.contain-button img{
+    cursor: pointer;
+}
+#confirm-delete #lbl_deleted{
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    font-weight : 700;
+}
+
+#help-popup .delete-header{
+    font-weight : 700;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+#popupQuestionTest div.form-group div{
+    padding-left : 0px;
+}
+.welcome {
+    color: #376092;
+    font-weight: 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+}
+
+.aciTreeText{
+    font-weight: 200 !important;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-size : 14px !important;
+    padding-left : 5px !important;
+}
+
+.header-company {
+    font-weight: 200;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size : 14px;
+    color : #A6A6A6;
+    border-bottom: transparent;
+}
+
+.aciTree {
+    width : 100% !important;
+    height: 100% !important;
+}
+
+.group-phoneme-weight input{
+    padding-left: 0px;
+    width: 30px;
+    text-align: center;
+}
+
+#help-popup .modal-content{
+    width : inherit;
+}
+
+#addWordModal label.control-label{
+    font-weight: bold;
+    color : black;
+}
+#addWordModal .group-phoneme-weight div.row{
+    margin-left: 0px;
+}
+
+.contain-arrow{
+    width : 300px;
+}
+
+.sweet-alert {
+    font-weight : 200 !important;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-size : 16px !important;
+    width : 400px !important;
+    border-radius: 20px;
+}
+.sweet-alert h2{
+    font-weight : 600 !important;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-size : 16px !important;
+    color: #A6A6A6 !important;
+}
+.sweet-alert p{
+    font-weight : 200 !important;
+    font-family : "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+    font-size : 14px !important;
+    color : inherit !important;
+}
+
+.sweet-alert button{
+    background-color: green;
+}
+
+

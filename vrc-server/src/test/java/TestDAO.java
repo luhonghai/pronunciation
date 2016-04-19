@@ -1,3 +1,4 @@
+import com.cmg.merchant.dao.word.WDAO;
 import com.cmg.lesson.dao.question.QuestionDAO;
 import com.cmg.vrc.data.dao.impl.*;
 import com.cmg.vrc.data.jdo.*;
@@ -58,6 +59,8 @@ public class TestDAO {
         RecorderDAO recorderDAO=new RecorderDAO();
         ClientCodeDAO clientCodeDAO=new ClientCodeDAO();
         LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+        ClassDAO classDAO=new ClassDAO();
+        WDAO wdao=new WDAO();
         QuestionDAO questionDAO = new QuestionDAO();
 
 
@@ -69,6 +72,9 @@ public class TestDAO {
 
 
         try {
+            wdao.getWordByIdQuestion("d8b5995a-2c70-42b8-93ac-d73cedef6044");
+            //classDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com",new Date(10/12/2014),new Date(9/8/2015));
+           // classDAO.getLatestVersion();
             //userVoiceModelDAO.listAll(0,10,"",1,"asc","pablo.dropbox02@gmail.com","dash",62,"",new Date(10/12/2014),new Date(9/8/2015));
 
             //clientCodeDAO.put(clientCode);

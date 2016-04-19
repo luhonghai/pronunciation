@@ -19,7 +19,7 @@ public class ClassMappingTeacher implements Mirrorable {
     private String idClass;
 
     @Persistent
-    private String idTeacher;
+    private String teacherName;
 
     @Persistent
     private boolean isDeleted;
@@ -43,13 +43,6 @@ public class ClassMappingTeacher implements Mirrorable {
     }
 
 
-    public String getIdTeacher() {
-        return idTeacher;
-    }
-
-    public void setIdTeacher(String idTeacher) {
-        this.idTeacher = idTeacher;
-    }
 
     public String getIdClass() {
         return idClass;
@@ -58,5 +51,13 @@ public class ClassMappingTeacher implements Mirrorable {
     public void setIdClass(String idClass) {
         this.idClass = idClass;
     }
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
 
 }

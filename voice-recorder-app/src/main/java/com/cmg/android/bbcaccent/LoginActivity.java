@@ -63,6 +63,7 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
 
     private CallbackManager callbackManager;
 
+
     @Bind(R.id.loginButton)
     ImageButton btnLoginFB;
 
@@ -76,6 +77,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
     TextView txtAlternative;
 
     private GoogleApiClient mGoogleApiClient;
+
+    //private SplashActivity splashActivity;
 
     private boolean mIntentInProccess;
 
@@ -676,6 +679,8 @@ public class LoginActivity extends BaseActivity implements RecordingView.OnAnima
                     }
                 });
                 startMainActivity();
+
+
             }
         });
     }

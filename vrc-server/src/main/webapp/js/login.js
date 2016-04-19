@@ -36,9 +36,9 @@ function login(){
                     window.location =CONTEXT_PATH + "/dashboard.jsp";
                 }else{
                     if(result.role=="3"){
-                        window.location =CONTEXT_PATH + "/student-manage.jsp";
+                        window.location =CONTEXT_PATH + "/teacher-management.jsp";
                     }else{
-                        window.location =CONTEXT_PATH + "/class.jsp";
+                        window.location =CONTEXT_PATH + "/welcome-teacher.jsp";
                     }
                 }
 

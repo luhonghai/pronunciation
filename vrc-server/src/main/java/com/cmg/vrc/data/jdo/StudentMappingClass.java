@@ -16,7 +16,7 @@ public class StudentMappingClass implements Mirrorable {
     private String id;
 
     @Persistent
-    private String idStudent;
+    private String studentName;
 
     @Persistent
     private String idClass;
@@ -45,14 +45,6 @@ public class StudentMappingClass implements Mirrorable {
         this.isDeleted = isDeleted;
     }
 
-    public String getIdStudent() {
-        return idStudent;
-    }
-
-    public void setIdStudent(String idStudent) {
-        this.idStudent = idStudent;
-    }
-
     public String getIdClass() {
         return idClass;
     }
@@ -66,6 +58,14 @@ public class StudentMappingClass implements Mirrorable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
 }

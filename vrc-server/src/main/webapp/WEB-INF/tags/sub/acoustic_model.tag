@@ -113,7 +113,7 @@
   if (session.getAttribute("role")==null){
     return;
   }
-  if(session.getAttribute("role").equals(2)){
+  if(session.getAttribute("role").equals(2) || session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
 %>
 <div id="page-wrapper">
   <div class="row">

@@ -13,4 +13,5 @@
     <string name="license_url">http://c-mg.vn/vrc/LicenseHandler</string>
     <string name="reset_password_url">http://c-mg.vn/vrc/ResetPasswordHandler</string>
     <string name="check_activation_date_url">http://c-mg.vn/vrc/CheckNumberDate</string>
+    <string name="message_teacher_url">http://c-mg.vn/vrc/SendMailUser</string>
 </resources>

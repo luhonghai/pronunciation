@@ -181,7 +181,7 @@ function drawMap(){
         "data":{
             draw:"draw",
             username:$("#username").val(),
-            country:$("#country").val(),
+            word:$("#word").val(),
             score:$("#score").val(),
             type:$("#type").val(),
             dateFrom:$("#dateFrom").val(),
@@ -224,6 +224,8 @@ function drawChart(sc) {
             sum += sc[j][1];
         }
         avg=sum/(sc.length);
+    }else{
+        avg=0;
     }
 
 
