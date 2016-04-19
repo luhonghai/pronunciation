@@ -188,7 +188,7 @@
 		9B5F340C1C771D6800E85629 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33F71C771D6800E85629 /* Statement.swift */; };
 		9B5F340D1C771D6800E85629 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33F81C771D6800E85629 /* Value.swift */; };
 		9B5F340E1C771D6800E85629 /* FTS4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33FA1C771D6800E85629 /* FTS4.swift */; };
-		9B5F340F1C771D6800E85629 /* R*Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33FB1C771D6800E85629 /* R*Tree.swift */; };
+		9B5F340F1C771D6800E85629 /* RTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33FB1C771D6800E85629 /* RTree.swift */; };
 		9B5F34101C771D6800E85629 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33FC1C771D6800E85629 /* Foundation.swift */; };
 		9B5F34111C771D6800E85629 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F33FD1C771D6800E85629 /* Helpers.swift */; };
 		9B5F34121C771D6800E85629 /* AggregateFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5F34001C771D6800E85629 /* AggregateFunctions.swift */; };
@@ -717,7 +717,7 @@
 		9B5F33F71C771D6800E85629 /* Statement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
 		9B5F33F81C771D6800E85629 /* Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
 		9B5F33FA1C771D6800E85629 /* FTS4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FTS4.swift; sourceTree = "<group>"; };
-		9B5F33FB1C771D6800E85629 /* R*Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "R*Tree.swift"; sourceTree = "<group>"; };
+		9B5F33FB1C771D6800E85629 /* RTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RTree.swift; sourceTree = "<group>"; };
 		9B5F33FC1C771D6800E85629 /* Foundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Foundation.swift; path = SQLite.swift/SQLite/Foundation.swift; sourceTree = SOURCE_ROOT; };
 		9B5F33FD1C771D6800E85629 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = SQLite.swift/SQLite/Helpers.swift; sourceTree = SOURCE_ROOT; };
 		9B5F34001C771D6800E85629 /* AggregateFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AggregateFunctions.swift; sourceTree = "<group>"; };
@@ -1401,7 +1401,7 @@
 			isa = PBXGroup;
 			children = (
 				9B5F33FA1C771D6800E85629 /* FTS4.swift */,
-				9B5F33FB1C771D6800E85629 /* R*Tree.swift */,
+				9B5F33FB1C771D6800E85629 /* RTree.swift */,
 			);
 			name = Extensions;
 			path = SQLite.swift/SQLite/Extensions;
@@ -2625,7 +2625,7 @@
 				C14CE27B1C4E187D001EE55A /* SweetAlert.swift in Sources */,
 				C13C29011C800EC0000CC11D /* FreestyleSwipeVC.swift in Sources */,
 				9B5F339D1C77129A00E85629 /* CombinedHighlighter.swift in Sources */,
-				9B5F340F1C771D6800E85629 /* R*Tree.swift in Sources */,
+				9B5F340F1C771D6800E85629 /* RTree.swift in Sources */,
 				9B5F33B71C77129A00E85629 /* LineRadarChartRenderer.swift in Sources */,
 				9B5F33BD1C77129A00E85629 /* ChartFill.swift in Sources */,
 				9B5F33491C77129A00E85629 /* ChartAnimator.swift in Sources */,
