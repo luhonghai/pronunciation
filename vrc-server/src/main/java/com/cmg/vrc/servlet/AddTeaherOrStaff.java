@@ -79,11 +79,11 @@ public class AddTeaherOrStaff extends HttpServlet {
             Gson gson = new Gson();
             try{
                 int ro = 0;
-                if (role.length() > 0 && role.equals("Staff")) {
-                    ro =Constant.ROLE_STAFF;
+                if (role.length() > 0 && role.equals(Constant.STAFF)) {
+                    ro = Constant.ROLE_STAFF;
                 }
-                if (role.length() > 0 && role.equals("Teacher")) {
-                    ro =Constant.ROLE_TEACHER;
+                if (role.length() > 0 && role.equals(Constant.TEACHER)) {
+                    ro = Constant.ROLE_TEACHER;
                 }
                 Admin a = adminDAO.getUserByEmail(username);
                 if (a != null) {
