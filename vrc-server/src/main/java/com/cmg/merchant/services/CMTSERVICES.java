@@ -90,7 +90,7 @@ public class CMTSERVICES {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<CourseDTO>();
     }
 
     /**
@@ -109,7 +109,7 @@ public class CMTSERVICES {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<CourseDTO>();
     }
 
     /**
@@ -127,7 +127,7 @@ public class CMTSERVICES {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<CourseDTO>();
     }
 
 

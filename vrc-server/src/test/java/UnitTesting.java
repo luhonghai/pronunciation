@@ -40,6 +40,7 @@ import com.cmg.vrc.data.jdo.Reports;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
+import com.google.gson.Gson;
 import edu.cmu.sphinx.linguist.dictionary.Word;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -121,13 +122,20 @@ public class UnitTesting {
             Date d = new Date(bi);
             String s = format.format(d);
             System.out.println(s);*/
-            ReportPhoneDao dao = new ReportPhoneDao();
-            dao.getScorePhonemeByStudent("nambui","AH","2016-02-28","2016-03-01");
+         /*   ReportPhoneDao dao = new ReportPhoneDao();
+            dao.getScorePhonemeByStudent("nambui","AH","2016-02-28","2016-03-01");*/
 
            /* DateUtil util = new DateUtil();
             String d = util.convertDate("28/02/2016") ;
             System.out.println(d);*/
             //dao.listPhonemes();
+          /*  CMTSERVICES s = new CMTSERVICES();
+            ArrayList<CourseDTO> list = s.getCoursesForMainPage("","");
+            Gson gson  = new Gson();
+            String json = gson.toJson(list);
+            System.out.println(json);*/
+            ArrayList<CourseDTO> list = new ArrayList<>();
+            list.addAll(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
