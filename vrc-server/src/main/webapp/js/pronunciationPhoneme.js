@@ -1,5 +1,7 @@
 var myTable;
-var avg;
+var avg=0;
+var tong=0;
+var lenght=0;
 function listScore(){
     myTable=$('#dataTables-example').dataTable({
         "retrieve": true,
@@ -49,6 +51,13 @@ function listScore(){
             "bSortable": true,
             "sDefaultContent": "",
             "mRender": function (data, type, full) {
+                if(data!=null){
+                    tong=tong+data.score;
+                    lenght=lenght+1;
+                    avg=tong/lenght;
+                }
+                $("#avg").text(avg);
+
                 if (data.serverTime != 0) {
                     return new Date(data.serverTime);
                 }
@@ -76,6 +85,9 @@ function dateTo(){
 
 function filter(){
     $(document).on("click","#buttonFilter",function(){
+         avg=0;
+         tong=0;
+         lenght=0;
         myTable.fnSettings().ajax = {
             "url": "PronunciationPhoneme",
             "type": "POST",
@@ -97,7 +109,6 @@ function filter(){
     });
 
 }
-
 $(document).ready(function(){
     dateFrom();
     dateTo();

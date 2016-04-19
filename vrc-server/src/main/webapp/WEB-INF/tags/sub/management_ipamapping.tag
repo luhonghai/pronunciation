@@ -1,5 +1,11 @@
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<%
+    if (session.getAttribute("role")==null){
+        return;
+    }
+    if(session.getAttribute("role").equals(1) || session.getAttribute("role").equals(2) ){
+%>
 <link href="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/css/fileinput.min.css" type="text/css" rel="stylesheet"/>
 <div id="page-wrapper">
     <div class="row">
@@ -244,6 +250,23 @@
         </div>
     </div>
 </div>
+<%
+    }
+%>
+<%
+    if (session.getAttribute("role")==null){
+        return;
+    }
+    if(session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
+%>
+<div id="page-wrapper">
+    <div class="row">
+        <h2 style="text-align: center; color: red;">You do not have access to this page!</h2>
+    </div>
+</div>
+<%
+    }
+%>
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/js/fileinput.min.js"></script>
 <script src="<%=request.getContextPath() %>/bower_components/bootstrap-fileinput-master/js/fileinput_locale_uk.js"></script>
 <script src="<%=request.getContextPath() %>/js/Lession/data/manage_ipa_map_data.js"></script>

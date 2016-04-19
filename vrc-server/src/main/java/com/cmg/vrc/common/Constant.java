@@ -31,5 +31,26 @@ public class Constant {
 
     public static int ISDELETE_TRUE=1;
 
+    public static String TEACHER = "teacher";
+
+    public static String STAFF = "staff";
+
+    public static String STUDENT = "student";
+
+    public static int ROLE_ADMIN = 1;
+
+    public static int ROLE_USER = 2;
+
+    public static int ROLE_STAFF = 3;
+
+    public static int ROLE_TEACHER = 4;
+
+    public static String STATUS_ACCEPT = "accept";
+
+    public static String STATUS_REJECT = "reject";
+
+    public static String STATUS_PENDING = "pending";
+
+
 
 }

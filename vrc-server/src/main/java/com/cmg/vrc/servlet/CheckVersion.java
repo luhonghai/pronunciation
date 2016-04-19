@@ -26,6 +26,7 @@ public class CheckVersion extends HttpServlet {
 
     class VersionResponseData extends ResponseData<String> {
         int version;
+        String lessonChange;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -41,6 +42,7 @@ public class CheckVersion extends HttpServlet {
                 if (db.getVersion() != v) {
                     AWSHelper awsHelper = new AWSHelper();
                     responseData.version = db.getVersion();
+                    responseData.lessonChange=db.getLessonChange();
                     responseData.setData(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
                             + "/"
                             + db.getFileName()));

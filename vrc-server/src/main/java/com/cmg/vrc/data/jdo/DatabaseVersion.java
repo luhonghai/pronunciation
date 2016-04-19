@@ -2,6 +2,7 @@ package com.cmg.vrc.data.jdo;
 
 import com.cmg.vrc.data.Mirrorable;
 
+import javax.jdo.annotations.Column;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -27,6 +28,14 @@ public class DatabaseVersion implements Mirrorable {
 
     @Persistent
     private String admin;
+
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
+    private String lessonChange;
+
+    @Persistent
+    @Column(jdbcType="VARCHAR", length=10000)
+    private String titleNotification;
 
     @Persistent
     private Date createdDate;
@@ -88,5 +97,21 @@ public class DatabaseVersion implements Mirrorable {
 
     public void setSelectedDate(Date selectedDate) {
         this.selectedDate = selectedDate;
+    }
+
+    public String getLessonChange() {
+        return lessonChange;
+    }
+
+    public void setLessonChange(String lessonChange) {
+        this.lessonChange = lessonChange;
+    }
+
+    public String getTitleNotification() {
+        return titleNotification;
+    }
+
+    public void setTitleNotification(String titleNotification) {
+        this.titleNotification = titleNotification;
     }
 }

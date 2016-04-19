@@ -1,23 +1,79 @@
 package com.cmg.vrc.servlet;
 
 import com.cmg.lesson.dao.country.CountryDAO;
+import com.cmg.lesson.dao.lessons.LessonCollectionDAO;
 import com.cmg.lesson.dao.word.WordCollectionDAO;
 import com.cmg.lesson.data.jdo.country.Country;
+import com.cmg.lesson.data.jdo.lessons.LessonCollection;
 import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.lesson.services.question.QuestionService;
+import com.cmg.merchant.dao.mapping.CMTDAO;
+import com.cmg.merchant.data.jdo.CourseMappingTeacher;
+import com.cmg.vrc.data.dao.impl.*;
+import com.cmg.vrc.data.jdo.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
 public class TestServlet {
     public static void main(String[] args) {
-        Country country=new Country();
-        CountryDAO countryDAO=new CountryDAO();
+//        User user1;
+//        UserDAO userDAO=new UserDAO();
+//        NumberDateDAO numberDateDAO=new NumberDateDAO();
+//        Date date=new Date(System.currentTimeMillis());
+//
+//        try {
+//            Calendar cal1 = Calendar.getInstance();
+//            cal1.setTime(date);
+//            int number= 0;
+//            number = numberDateDAO.numberDate().getNumberDate();
+//            user1 = userDAO.getUserByEmail("minhquang19@gmail.com");
+//            Calendar cal2 = Calendar.getInstance();
+//            cal2.setTime(user1.getCreatedDate());
+//            cal2.add(Calendar.DATE, number);
+//            if (cal2.compareTo(cal1)>=0) {
+//                System.out.print("yes");
+//            } else {
+//               System.out.print("no");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        StudentMappingClass studentMappingClass=new StudentMappingClass();
+//        StudentMappingClassDAO studentMappingClassDAO=new StudentMappingClassDAO();
+//        try{
+//            studentMappingClass.setStudentName("Sdasda");
+//            studentMappingClassDAO.put(studentMappingClass);
+//        }catch (Exception e){
+//            e.printStackTrace();
+        //}
+        LessonCollection lessonCollection=new LessonCollection();
+        LessonCollectionDAO lessonCollectionDAO=new LessonCollectionDAO();
         try{
-
+            lessonCollection.setType("dsad");
+            lessonCollectionDAO.put(lessonCollection);
         }catch (Exception e){
-            e.getStackTrace();
+            e.printStackTrace();
         }
+
+
+//        CourseMappingClassDAO teacher=new CourseMappingClassDAO();
+//
+//        try{
+//            for(int i=0;i<5;i++) {
+//                CourseMappingClass country = new CourseMappingClass();
+//                country.setIdCourse("0c57b111-edc9-4a2f-8c22-f21432a21d18");
+//                country.setIdClass("643511ef-1b92-4fdc-9f77-cdb3a4625273");
+//                country.setIsDeleted(false);
+//                teacher.put(country);
+//            }
+//
+//
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
 //        LicenseCodeDAO lis=new LicenseCodeDAO();
 //        FeedbackDAO feedbackDAO = new FeedbackDAO();
 //        UsageDAO usageDAO=new UsageDAO();
@@ -141,25 +197,25 @@ public class TestServlet {
 //        }catch (Exception e){
 //            e.printStackTrace();;
 //        }
-            WordCollection wordCollection=new WordCollection();
-            WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
-            try{
-                List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
-                for(WordCollection wordCollection1:wordCollectionList){
-                    String definition = wordCollection1.getDefinition();
-                    if(definition.endsWith(":")) {
-                        definition = definition.substring(0, definition.length() - 1) + ".";
-                    }
-                    if(!definition.endsWith(".")){
-                        definition = definition + ".";
-                    }
-                    System.out.println("New definition: " + definition + ". Old definition: " + wordCollection1.getDefinition());
-                    wordCollection1.setDefinition(definition);
-                    wordCollectionDAO.put(wordCollection1);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+//            WordCollection wordCollection=new WordCollection();
+//            WordCollectionDAO wordCollectionDAO=new WordCollectionDAO();
+//            try{
+//                List<WordCollection> wordCollectionList=wordCollectionDAO.listAll();
+//                for(WordCollection wordCollection1:wordCollectionList){
+//                    String definition = wordCollection1.getDefinition();
+//                    if(definition.endsWith(":")) {
+//                        definition = definition.substring(0, definition.length() - 1) + ".";
+//                    }
+//                    if(!definition.endsWith(".")){
+//                        definition = definition + ".";
+//                    }
+//                    System.out.println("New definition: " + definition + ". Old definition: " + wordCollection1.getDefinition());
+//                    wordCollection1.setDefinition(definition);
+//                    wordCollectionDAO.put(wordCollection1);
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
 
 //
 //

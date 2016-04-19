@@ -38,6 +38,10 @@ public class AuthHandler extends HttpServlet {
         String access_type;
     }
 
+    class GoogleValidTokenIdResponse {
+        String email;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         try {
@@ -93,8 +97,17 @@ public class AuthHandler extends HttpServlet {
                                             && googleValidResponse.access_type.equalsIgnoreCase("online")) {
                                         logger.info("valid google+ access token: " + user.getAdditionalToken());
                                     } else {
-                                        responseData.setStatus(false);
-                                        responseData.setMessage("invalid ID token. please contact support@accenteasy.com");
+                                        logger.info("Try an other parameter id_token");
+                                        output = httpContacter.get("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + user.getAdditionalToken());
+                                        GoogleValidTokenIdResponse gb = gson.fromJson(output, GoogleValidTokenIdResponse.class);
+                                        if (gb != null
+                                                && gb.email != null
+                                                && gb.email.equalsIgnoreCase(user.getUsername())) {
+                                            logger.info("valid google+ access token: " + user.getAdditionalToken());
+                                        } else {
+                                            responseData.setStatus(false);
+                                            responseData.setMessage("invalid ID token. please contact support@accenteasy.com");
+                                        }
                                     }
                                 } catch (Exception e) {
                                     logger.error("could not check google plus access token", e);

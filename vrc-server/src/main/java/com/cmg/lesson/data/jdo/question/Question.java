@@ -1,11 +1,10 @@
 package com.cmg.lesson.data.jdo.question;
 
+import com.cmg.lesson.data.jdo.word.WordCollection;
 import com.cmg.vrc.data.Mirrorable;
 
-import javax.jdo.annotations.Column;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,10 +25,32 @@ public class Question implements Mirrorable {
     private String description;
 
     @Persistent
+    private String type;
+
+    @Persistent
     private boolean isDeleted;
 
     @Persistent
     private int version;
+
+    @NotPersistent
+    private ArrayList<WordCollection> words;
+
+    public ArrayList<WordCollection> getWords() {
+        return words;
+    }
+
+    public void setWords(ArrayList<WordCollection> words) {
+        this.words = words;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Date getTimeCreated() {
         return timeCreated;

@@ -30,6 +30,12 @@ public class AdminDAO extends DataAccess<Admin> {
             return userList.get(0);
         return null;
     }
+    public Admin getUserByTeacher(String email) throws Exception {
+        List<Admin> userList = list("WHERE userName == :1 && role == :2", email,4);
+        if (userList != null && userList.size() > 0)
+            return userList.get(0);
+        return null;
+    }
 
     public List<Admin> listAll(int start, int length,String search,int column,String order,String user,String fisrt,String last) throws Exception {
 

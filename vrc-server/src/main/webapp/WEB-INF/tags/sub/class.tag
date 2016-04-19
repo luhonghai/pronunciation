@@ -1,191 +1,96 @@
+<%@ tag import="com.cmg.merchant.util.SessionUtil" %>
+<%@ tag import="com.cmg.vrc.util.StringUtil" %>
 <%@tag description="appDetail" pageEncoding="UTF-8" %>
 <%@attribute name="pageTitle" required="true" %>
+<style>
+
+  .textNormal{
+    color: #376092;
+    font-weight: 200;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+  }
+   .header-company {
+     color: #A6A6A6;
+     font-weight: 200;
+     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+     font-size: 14px;
+   }
+
+   .modal-content{
+     -webkit-border-radius: 20px;
+     -moz-border-radius: 20px;
+     border-radius: 20px;
+   }
+   .modal-header {
+     border-bottom: transparent;
+     padding-bottom: 0px;
+     text-align: center;
+   }
+
+   .modal-title {
+     font-weight: 700;
+   }
+  #helpClass{
+    color : #957F7F;
+  }
+  #helpClass p{
+    color : #957F7F !important;
+  }
+</style>
+<%String company= StringUtil.isNull(session.getAttribute(SessionUtil.ATT_CPNAME),"").toString();%>
 <div id="page-wrapper">
   <div class="row">
     <div class="col-lg-12">
-      <h1 class="page-header">Class Manage</h1>
-    </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <div class="well">
-    <div class="row">
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">Class</label>
-          <input type="text" name="filter-class" id="class" class="form-control" placeholder="Class">
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group" style="margin-top: 32px;text-align: right;">
-          <label class="control-label" style="margin-bottom: 0px;">Created Date</label>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">From</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateFrom' placeholder="From" />
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="form-group">
-          <label class="control-label">To</label>
-          <div >
-            <input type='text' class="form-control" id='CreateDateTo' placeholder="From" />
-          </div>
-        </div>
-        <button type="button" id="button-filter" name="button-filter" class="btn btn-primary pull-right" style="margin-top:24px"><i class="fa fa-search"></i> Filter</button>
-      </div>
+      <h4 class="header-company"><%=company%> > classes</h4>
     </div>
   </div>
-  <!-- /.row -->
+  <div style="padding-bottom: 20px;">
+    <p class="textNormal">Your 'my classes' page is the place where you can bring together your courses and students to create classes.</p>
+  </div>
+
   <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <button type="button" id="addUser" name="addCode">Add Class</button>
-
-        </div>
-        <!-- /.panel-heading -->
-        <div class="panel-body">
-          <div class="dataTable_wrapper">
-            <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover table-responsive dt-responsive display nowrap" id="dataTables-example" cellspacing="0">
-              <thead>
-              <tr>
-                <th>ClassName</th>
-                <th>Definition</th>
-                <th>Created Date</th>
-                <th></th>
-              </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            </table>
-              </div>
-
-          </div>
-          <!-- /.panel-body -->
-        </div>
-        <!-- /.panel -->
+      <div align="center"><img src="/images/teacher/my_classes80x80.gif" title="my classes"></div>
+      <div  class="row">
+        <label class="col-sm-4"></label>
+        <div class="col-sm-2"  style="text-align: center"><img src="/images/teacher/arrow30x60.gif" style="-ms-transform: rotate(45deg);-webkit-transform: rotate(45deg);transform: rotate(45deg);"></div>
+        <div class="col-sm-2"  style="text-align: center"><img src="/images/teacher/arrow30x60.gif"style="-ms-transform: rotate(-45deg);-webkit-transform: rotate(-45deg);transform: rotate(-45deg);"></div>
+        <label class="col-sm-4"></label>
       </div>
-      <!-- /.col-lg-12 -->
-    </div>
-
+      <div class="row">
+        <label class="col-sm-2"></label>
+        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_students80x80.gif" title="my students" style="text-align: center"></div>
+        <div class="col-sm-4"  style="text-align: center"><img src="/images/teacher/my_courses80x80.gif" title="my courses"></div>
+        <label class="col-sm-2"></label>
+      </div>
+    
   </div>
-  <!-- /#page-wrapper -->
+  <div style="padding-top: 30px;">
+    <p class="textNormal">Make sure that you have created or added the courses you wish to use in ‘my courses’ and that the students are available on your ‘my students’ page. You can add and remove courses and students to and from classes at any time while they are available on these pages.</p>
+  </div>
+
 
 </div>
+
+<div id="helpClass" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content modal-body-help">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title">classes</h2>
+      </div>
+      <div class="modal-body">
+        <p class="textNormal">Select ‘my classes’ to  create, edit and delete classes.</p>
+        <p class="textNormal">After naming your class and allocating courses, you can assign the relevant students and the lessons will be sent to their phones.</p>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
 <!-- /#wrapper -->
-
-
-<div id="add" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h1 align="center">Add Class</h1>
-            <form name="add" class="form-horizontal"
-                  style="margin-top: 25px" id="addform">
-
-              <div class="form-group">
-                <p id="addClassNameExits" class="addClassNameExits" style="color:red;margin-left:50px;display: none;">Class name exits</p>
-                <label class="col-xs-4  col-sm-3 control-label ">Class Name:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="addClassName" name="addClassName" class=" form-control" style="padding-left: 0px;">
-                  <p id="nameadds" class="nameadd" style="color:red; display: none;">Required field to enter data</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">Definition:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input type="text" id="addDefinition" name="addDefinition" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
-                </div>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" name="yesadd" id="yesadd" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeadd" id="closeadd" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-    </div>
-  </div>
-</div>
-
-
-
-<div id="edits" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="row">
-          <div class="col-xs-12 col-md-10 col-md-offset-1">
-
-            <h1 align="center">Edit Class</h1>
-            <form name="Edit" class="form-horizontal"
-                  style="margin-top: 25px" id="editform">
-              <input type="hidden" id="idedit" name="idedit">
-
-              <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label ">Class Name:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input  type="text" id="editClassName" name="editClassName" class=" form-control" style="padding-left: 0px;" readonly>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-xs-4  col-sm-3 control-label">Definition:</label>
-                <div class="col-xs-8  col-sm-9">
-                  <input type="text" id="editDefinition" name="editDefinition" class="col-xs-8  col-sm-9 form-control" style="padding-left: 0px;">
-                </div>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" name="yesedit" id="yesedit" class="btn btn-default" value="yes" >Yes</button>
-                <button type="button" name="closeedit" id="closeedit" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-
-              </div>
-
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div id="deletes" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"
-                aria-hidden="true">&times;</button>
-        <h1 class="modal-title" align="center">Delete Class</h1>
-      </div>
-      <form name="form-delete" >
-        <div class="modal-body">
-          <input type="hidden" id="iddelete" name="iddelete">
-          <h3>Do you want to delete ?</h3>
-        </div>
-        <div class="modal-footer">
-          <button type="button" name="YesDelete" id="deleteItems" class="btn btn-default" >Yes</button>
-          <button type="button" name="closedelete" id="closedelete" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
 
 <script src="<%=request.getContextPath() %>/js/class.js"></script>
 

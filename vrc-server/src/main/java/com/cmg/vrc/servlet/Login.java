@@ -1,7 +1,11 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.merchant.util.SessionUtil;
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
+import com.cmg.vrc.data.dao.impl.TeacherMappingCompanyDAO;
 import com.cmg.vrc.data.jdo.Admin;
+import com.cmg.vrc.data.jdo.TeacherMappingCompany;
 import com.cmg.vrc.util.StringUtil;
 import com.google.gson.Gson;
 import org.apache.log4j.Logger;
@@ -36,6 +40,7 @@ import java.io.IOException;
     }
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AdminDAO adminDAO=new AdminDAO();
+        TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
         HttpSession session=request.getSession();
         String name=request.getParameter("account");
         String pass=request.getParameter("pass");
@@ -48,6 +53,18 @@ import java.io.IOException;
                     session.setAttribute("username",admin.getUserName());
                     session.setAttribute("password",admin.getPassword());
                     session.setAttribute("role",admin.getRole());
+                    if(admin.getRole()== Constant.ROLE_STAFF || admin.getRole()==Constant.ROLE_TEACHER){
+                        TeacherMappingCompany teacherMappingCompany=new TeacherMappingCompany();
+                        teacherMappingCompany=teacherMappingCompanyDAO.getCompanyByTeacherName(admin.getUserName());
+                        if(teacherMappingCompany!=null) {
+                            session.setAttribute(SessionUtil.ATT_CPNAME, teacherMappingCompany.getCompany());
+                            session.setAttribute(SessionUtil.ATT_CPID, teacherMappingCompany.getIdCompany());
+                            session.setAttribute(SessionUtil.ATT_TID, admin.getId());
+                        }else{
+                            session.setAttribute(SessionUtil.ATT_CPNAME, "");
+                            session.setAttribute(SessionUtil.ATT_CPID, "");
+                        }
+                    }
                     logins.message="success";
                     logins.role=admin.getRole();
                     Gson gson = new Gson();
@@ -56,7 +73,6 @@ import java.io.IOException;
             }
             else {
                 logins.message="error";
-                logins.role=admin.getRole();
                 Gson gson = new Gson();
                 String admins = gson.toJson(logins);
                 response.getWriter().write(admins);

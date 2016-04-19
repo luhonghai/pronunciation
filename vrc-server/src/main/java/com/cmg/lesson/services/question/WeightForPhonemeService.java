@@ -66,6 +66,30 @@ public class WeightForPhonemeService {
         return dto;
     }
 
+    public QuestionDTO listAlls(String idQuestion, String idWord){
+        WeightForPhonemeDAO dao = new WeightForPhonemeDAO();
+        QuestionDTO dto = new QuestionDTO();
+        try {
+            List<WeightForPhoneme> list = dao.listBy(idQuestion,idWord);
+            if(list!=null && list.size() > 0){
+                IpaMapArpabetService ipaService = new IpaMapArpabetService();
+                for(WeightForPhoneme wfp : list){
+                    String ipa = ipaService.getIpaByArpabet(wfp.getPhoneme());
+                    wfp.setIpa(ipa);
+                }
+                dto.setListWeightPhoneme(list);
+                dto.setIdWord(idWord);
+                dto.setMessage(SUCCESS);
+            }else{
+                dto.setMessage(ERROR + ":can not get phoneme and weight for this word");
+            }
+        }catch (Exception e){
+            dto.setMessage(ERROR + ": can not get phoneme and weight for this word");
+            logger.error("can not get list phoneme weight base on idQuestion : " + idQuestion + " and idWord : " + idWord + " because : " + e.getMessage());
+        }
+        return dto;
+    }
+
 
 
 

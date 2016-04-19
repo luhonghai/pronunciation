@@ -40,14 +40,14 @@ public class Admin implements Mirrorable {
     public void setId(String id) {
         this.id=id;
     }
-    public String getUserName(){
-        if (userName != null) userName = userName.toLowerCase();
-        return userName;
-    }
-    public  void setUserName(String userName){
-        if (userName != null) userName = userName.toLowerCase();
-        this.userName=userName;
-    }
+//    public String getUserName(){
+//        if (userName != null) userName = userName.toLowerCase();
+//        return userName;
+//    }
+//    public  void setUserName(String userName){
+//        if (userName != null) userName = userName.toLowerCase();
+//        this.userName=userName;
+//    }
     public String getPassword(){
         return password;
     }
@@ -79,4 +79,11 @@ public class Admin implements Mirrorable {
         this.role=role;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

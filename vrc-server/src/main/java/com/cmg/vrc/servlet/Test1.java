@@ -130,7 +130,7 @@ public class Test1 {
             while(!pickTranscription(transcriptionList, dictionaryHelper, phones));
 
             //transcriptionDAO.create(transcriptions);
-            // FileUtils.write(new File("D:\\Sentence\\sentence.json"), gson.toJson(transcriptionList), "UTF-8");
+            //FileUtils.write(new File("D:\\Sentence\\sentence.json"), gson.toJson(transcriptionList), "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -15,15 +15,8 @@ public class TeacherOrStaffMappingCompany {
     private String password;
 
     private String role;
-    private String[] idObjects;
+    private List<Company> companies;
 
-    public String[] getIdObjects() {
-        return idObjects;
-    }
-
-    public void setIdObjects(String[] idObjects) {
-        this.idObjects = idObjects;
-    }
 
     public String getFullName() {
         return fullName;
@@ -65,4 +58,11 @@ public class TeacherOrStaffMappingCompany {
         this.role = role;
     }
 
+    public List<Company> getCompanies() {
+        return companies;
+    }
+
+    public void setCompanies(List<Company> companies) {
+        this.companies = companies;
+    }
 }

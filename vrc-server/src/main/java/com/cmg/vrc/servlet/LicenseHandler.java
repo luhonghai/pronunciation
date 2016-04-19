@@ -1,12 +1,9 @@
 package com.cmg.vrc.servlet;
 
+import com.cmg.vrc.common.Constant;
 import com.cmg.vrc.data.UserProfile;
-import com.cmg.vrc.data.dao.impl.LicenseCodeDAO;
-import com.cmg.vrc.data.dao.impl.LoginTokenDAO;
-import com.cmg.vrc.data.dao.impl.UserDeviceDAO;
-import com.cmg.vrc.data.jdo.LicenseCode;
-import com.cmg.vrc.data.jdo.LoginToken;
-import com.cmg.vrc.data.jdo.UserDevice;
+import com.cmg.vrc.data.dao.impl.*;
+import com.cmg.vrc.data.jdo.*;
 import com.google.gson.Gson;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -38,6 +35,10 @@ public class LicenseHandler extends BaseServlet {
         try {
             String message = "";
             LicenseCodeDAO licenseCodeDAO = new LicenseCodeDAO();
+            LicenseCodeCompanyDAO licenseCodeCompanyDAO=new LicenseCodeCompanyDAO();
+            LicenseCodeCompany licenseCodeCompany=new LicenseCodeCompany();
+            TeacherMappingCompanyDAO teacherMappingCompanyDAO=new TeacherMappingCompanyDAO();
+            StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             String code = request.getParameter("code");
             String action = request.getParameter("action");
             String account = request.getParameter("account");
@@ -137,6 +138,8 @@ public class LicenseHandler extends BaseServlet {
                 } else {
                     if (!StringUtils.isEmpty(code)) {
                         LicenseCode licenseCode = licenseCodeDAO.getByCode(code);
+                        licenseCodeCompany=licenseCodeCompanyDAO.getByCode(code);
+                        AdminDAO adminDAO=new AdminDAO();
                         if (licenseCode != null) {
                             if (licenseCode.isActivated()) {
                                 if (StringUtils.isEmpty(licenseCode.getAccount())) {
@@ -145,6 +148,23 @@ public class LicenseHandler extends BaseServlet {
                                     licenseCode.setActivated(true);
                                     licenseCode.setActivatedDate(new Date(System.currentTimeMillis()));
                                     licenseCodeDAO.put(licenseCode);
+                                    if(licenseCodeCompany!=null){
+                                        String company=licenseCodeCompany.getCompany();
+                                        List<TeacherMappingCompany> teacherMappingCompanies=teacherMappingCompanyDAO.getByCompany(company);
+                                        for(TeacherMappingCompany mappingCompany:teacherMappingCompanies){
+                                            Admin admin=adminDAO.getUserByEmail(mappingCompany.getUserName());
+                                           StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+                                            studentMappingTeacher.setStudentName(account);
+                                            studentMappingTeacher.setTeacherName(mappingCompany.getUserName());
+                                            studentMappingTeacher.setFirstTeacherName(admin.getFirstName());
+                                            studentMappingTeacher.setLastTeacherName(admin.getLastName());
+                                            studentMappingTeacher.setIsDeleted(false);
+                                            studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
+                                            studentMappingTeacher.setLicence(true);
+                                            studentMappingTeacherDAO.put(studentMappingTeacher);
+                                        }
+
+                                    }
                                     message = "success";
                                 } else {
                                     if (account.equalsIgnoreCase(licenseCode.getAccount())) {

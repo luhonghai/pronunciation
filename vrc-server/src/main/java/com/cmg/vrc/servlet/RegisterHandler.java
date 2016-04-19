@@ -52,7 +52,7 @@ public class RegisterHandler extends BaseServlet {
                     UserDAO userDAO = new UserDAO();
                     User cUser = userDAO.getUserByEmail(user.getUsername());
                     if (cUser != null) {
-                        message = "Email is already exist";
+                        message = "this email already exists";
                     } else {
                         cUser = new User();
                         cUser.setPassword(StringUtil.md5(user.getPassword()));
@@ -102,7 +102,7 @@ public class RegisterHandler extends BaseServlet {
                 responseData.setMessage(message);
             } else {
 
-                responseData.setMessage("No parameter found");
+                responseData.setMessage("no parameter found");
             }
         } catch (Exception e) {
             logger.error("Error when login. Message:: " + e.getMessage(),e);

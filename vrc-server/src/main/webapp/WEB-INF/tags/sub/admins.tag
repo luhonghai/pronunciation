@@ -6,6 +6,7 @@
 %>
 <input type="hidden" name="ids" id="ids" value="<%=id%>">
 <input type="hidden" name="role" id="role" value="<%=role%>">
+
 <%
   if (session.getAttribute("role")==null){
     return;
@@ -172,6 +173,7 @@
             <form name="Edit" class="form-horizontal"
                   style="margin-top: 25px" id="editform">
               <input type="hidden" id="idedit" name="idedit">
+              <input type="hidden" id="usernames" name="usernames">
 
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">FirstName:</label>
@@ -196,13 +198,8 @@
               </div>
               <div class="form-group">
                 <label class="col-xs-4  col-sm-3 control-label">Role:</label>
-                <div class="col-xs-4  col-sm-5">
-                  <select name="editrole" id="editrole" class="form-control" required="required">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                    <option value="Staff">Staff</option>
-                    <option value="Teacher">Teacher</option>
-                  </select>
+                <div id="editRoles" class="col-xs-4  col-sm-5">
+
                 </div>
               </div>
               <div class="modal-footer">
@@ -231,6 +228,8 @@
       <form name="form-delete" >
         <div class="modal-body">
           <input type="hidden" id="iddelete" name="iddelete">
+          <input type="hidden" id="roleDelete" name="roleDelete">
+          <input type="hidden" id="usernameDelete" name="usernameDelete">
           <h3>Do you want to delete ?</h3>
         </div>
         <div class="modal-footer">
@@ -282,6 +281,46 @@
   </div>
 </div>
 
+<div id="teachers" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <label class="modal-title" align="center" style="font-size: 250%">Mapping Teacher or Staff to Company</label>
+      </div>
+      <form name="form-delete" >
+        <div class="modal-body">
+          <div id="container-add-company-edit" style="height:150px;">
+            <input type="hidden" id="fullNamesEdit" name="fullNamesEdit">
+            <input type="hidden" id="firstNamesEdit" name="firstNames">
+            <input type="hidden" id="lastNamesEdits" name="lastNames">
+            <input type="hidden" id="passwordsEdit" name="passwords">
+            <input type="hidden" id="rolesEdit" name="roles">
+            <label class="col-xs-4  col-sm-4 control-label ">Company:</label>
+            <div class="col-xs-8  col-sm-8" style="padding-left: 0px;">
+              <img class="loading-lesson loading" src="http://i.imgur.com/m1fR7ef.gif"/>
+              <select style="display:none;" multiple class="form-control" id="select-company-edit">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" name="editteacher" id="editteacher" class="btn btn-default" >Yes</button>
+          <button type="button" name="closeeditteacer" id="closeeditteacer" class="btn btn-default" data-dismiss="modal" value="Close" >Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <%
   }
 %>
@@ -289,7 +328,7 @@
   if (session.getAttribute("role")==null){
     return;
   }
-  if(session.getAttribute("role").equals(2)){
+  if(session.getAttribute("role").equals(2) || session.getAttribute("role").equals(3) || session.getAttribute("role").equals(4)){
 %>
 <div id="page-wrapper">
   <div class="row">
