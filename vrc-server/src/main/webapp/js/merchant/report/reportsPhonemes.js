@@ -12,6 +12,7 @@ function listStudents(){
             success: function (data) {
                 if(data.message=="success"){
                     $("#listUsers").empty();
+                    $('#listUsers').removeAttr("disabled");
                     if(data.listStudent!=null && data.listStudent.length>0){
                         var items=data.listStudent;
                         for(var i=0;i<items.length;i++){
@@ -23,8 +24,10 @@ function listStudents(){
                     $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                     $('#listUsers').multiselect('refresh');
                 }else{
-                    swal("", "an error has been occurred in server", "error");
-                    $('.row').hide();
+                    $('#listUsers').attr("disabled","disabled");
+                    $('#listUsers').multiselect('destroy');
+                    $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
+                    $('#listUsers').multiselect('refresh');
                 }
             },
             error: function () {
