@@ -141,7 +141,20 @@ function validateFormAdd(){
     }else{
         $("#add").find(".validateMsg").hide();
     }
-
+    var courses=[];
+    var students = [];
+    $('#addCourses option:selected').map(function(a, item){ courses.push(item.value);});
+    $('#addStudents option:selected').map(function(a, item){ students.push(item.value);});
+    if(courses.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a course");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
+    if(students.length == 0 ){
+        $("#add").find(".validateMsg").html("please choose a student");
+        $("#add").find(".validateMsg").show();
+        return false;
+    }
     return true;
 }
 
@@ -206,7 +219,6 @@ function openEdit(){
         $("#editDefinition").val(difinition);
         $("#edits").find("#delete").attr("name", classname);
         $("#edits").find("#delete").attr("idClass", idd);
-        $("#edits").modal('show');
         $.ajax({
             url: "ClassServlet",
             type: "POST",
@@ -217,6 +229,7 @@ function openEdit(){
             },
             success: function (data) {
                 if(data.message=="success"){
+
                     $("#editCourses").empty();
                     if((data.courses!=null && data.courses.length>0) || (data.coursesOnClass!=null && data.coursesOnClass.length>0) ){
                         var item=data.coursesOnClass;
@@ -246,8 +259,9 @@ function openEdit(){
                     $('#editStudents').multiselect('destroy');
                     $('#editStudents').multiselect({ enableFiltering: true, buttonWidth: '100%'});
                     $('#editStudents').multiselect('refresh');
+                    $("#edits").modal('show');
                 }else{
-                    swal("", "Could not connect to server", "error");
+                    swal("", "an error has been occured in server", "error");
                 }
             },
             error: function () {

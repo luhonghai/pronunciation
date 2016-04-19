@@ -246,20 +246,18 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("listLicensedStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
-            String teacher=request.getSession().getAttribute("username").toString();
+            String teacher= (String) StringUtil.isNull(request.getSession().getAttribute("username"), "");
+            Gson gson=new Gson();
             try{
-
                 st.message="success";
                 st.students=studentMappingTeacherDAO.getStudentHaveLicence(teacher);
-                Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
-
             }catch (Exception e){
-                e.printStackTrace();
+                st.message="error";
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
             }
-
-
         }else if(action.equalsIgnoreCase("addStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             listAdd listAdd=new listAdd();

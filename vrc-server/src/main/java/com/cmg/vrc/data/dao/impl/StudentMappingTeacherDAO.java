@@ -38,11 +38,6 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         List<StudentMappingTeacher> listStudent = list("WHERE teacherName == :1 && status == :2", teacherName, "accept");
         return listStudent;
     }
-//    public List<StudentMappingTeacher> getByPending(String studentName) throws Exception {
-//        List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1 && status == :2 && mappingBy == :3", studentName,"pending","teacher");
-//        return listStudent;
-//    }
-
 
     public StudentMappingTeacher getByStudentAndTeacher(String student,String teacherName) throws Exception {
         List<StudentMappingTeacher> listStudent = list("WHERE studentName == :1 && teacherName == :2 && isDeleted == :3",student, teacherName,false);

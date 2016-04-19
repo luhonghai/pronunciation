@@ -35,8 +35,10 @@ import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
 import com.cmg.merchant.util.DateUtil;
 import com.cmg.vrc.data.dao.impl.AdminDAO;
-import com.cmg.vrc.data.jdo.Admin;
-import com.cmg.vrc.data.jdo.Reports;
+import com.cmg.vrc.data.dao.impl.ClassMappingTeacherDAO;
+import com.cmg.vrc.data.dao.impl.CourseMappingClassDAO;
+import com.cmg.vrc.data.dao.impl.StudentMappingTeacherDAO;
+import com.cmg.vrc.data.jdo.*;
 import com.cmg.vrc.util.AWSHelper;
 import com.cmg.vrc.util.FileHelper;
 import com.cmg.vrc.util.StringUtil;
@@ -133,9 +135,27 @@ public class UnitTesting {
             ArrayList<CourseDTO> list = s.getCoursesForMainPage("","");
             Gson gson  = new Gson();
             String json = gson.toJson(list);
-            System.out.println(json);*/
-            ArrayList<CourseDTO> list = new ArrayList<>();
-            list.addAll(null);
+            System.out.println(json);*//*
+          ReportLessonDAO dao = new ReportLessonDAO();
+            dao.getClassByTeacher("");*/
+           /* StudentMappingTeacherDAO dao = new StudentMappingTeacherDAO();
+            StudentMappingTeacher smt = new StudentMappingTeacher();
+            smt.setId("temp");
+            smt.setFirstTeacherName("temp");
+            smt.setIsDeleted(true);
+            smt.setIsView(true);
+            smt.setLicence(true);
+            smt.setMappingBy("temp");
+            smt.setStudentName("temp");
+            dao.put(smt);*/
+          /*  ClassMappingTeacher cmt = new ClassMappingTeacher();
+            cmt.setId("temp");
+            ClassMappingTeacherDAO dao = new ClassMappingTeacherDAO();
+            dao.put(cmt);*/
+            CourseMappingClass cmc = new CourseMappingClass();
+            cmc.setId("temp");
+            CourseMappingClassDAO cmcdao = new CourseMappingClassDAO();
+            cmcdao.put(cmc);
         } catch (Exception e) {
             e.printStackTrace();
         }

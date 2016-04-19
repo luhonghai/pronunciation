@@ -18,21 +18,101 @@ import java.util.List;
  * Created by CMGT400 on 3/25/2016.
  */
 public class ClassService {
-    class ListClass{
+    public class ListClass{
         private String message;
-        private List<ClassJDO> listclass;
+        private List<ClassJDO> list;
+
+        public List<ClassJDO> getList() {
+            return list;
+        }
+
+        public void setList(List<ClassJDO> list) {
+            this.list = list;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
     }
-    class ListOpenAdd{
+    public class ListOpenAdd{
         private String message;
         private List<StudentMappingTeacher> studentMappingTeachers;
         private List<Course> courses;
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public List<StudentMappingTeacher> getStudentMappingTeachers() {
+            return studentMappingTeachers;
+        }
+
+        public void setStudentMappingTeachers(List<StudentMappingTeacher> studentMappingTeachers) {
+            this.studentMappingTeachers = studentMappingTeachers;
+        }
+
+        public List<Course> getCourses() {
+            return courses;
+        }
+
+        public void setCourses(List<Course> courses) {
+            this.courses = courses;
+        }
     }
-    class ListOpenEdit{
+    public class ListOpenEdit{
         private String message;
         private List<StudentMappingTeacher> smt;
         private List<StudentMappingTeacher> smtOnClass;
         private List<Course> courses;
         private List<Course> coursesOnClass;
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public List<StudentMappingTeacher> getSmt() {
+            return smt;
+        }
+
+        public void setSmt(List<StudentMappingTeacher> smt) {
+            this.smt = smt;
+        }
+
+        public List<StudentMappingTeacher> getSmtOnClass() {
+            return smtOnClass;
+        }
+
+        public void setSmtOnClass(List<StudentMappingTeacher> smtOnClass) {
+            this.smtOnClass = smtOnClass;
+        }
+
+        public List<Course> getCourses() {
+            return courses;
+        }
+
+        public void setCourses(List<Course> courses) {
+            this.courses = courses;
+        }
+
+        public List<Course> getCoursesOnClass() {
+            return coursesOnClass;
+        }
+
+        public void setCoursesOnClass(List<Course> coursesOnClass) {
+            this.coursesOnClass = coursesOnClass;
+        }
     }
     ClassDAO classDAO=new ClassDAO();
     ClassMappingTeacherDAO classMappingTeacherDAO=new ClassMappingTeacherDAO();
@@ -48,28 +128,32 @@ public class ClassService {
     public String listClass(String teacherName){
         String list=null;
         try {
-            listClass.message = "success";
-            listClass.listclass = classDAO.listAll(teacherName);
-            list= gson.toJson(listClass);
+            ListClass lc = new ListClass();
+            lc.setMessage("success");
+            lc.setList(classDAO.listAll(teacherName));
+            list= gson.toJson(lc);
         }catch (Exception e){
-            listClass.message = "error";
-            listClass.listclass = new ArrayList<>();
-            list= gson.toJson(listClass);
+            ClassService.ListClass lc = new ClassService.ListClass();
+            lc.setMessage("error");
+            lc.setList(new ArrayList<ClassJDO>());
+            list= gson.toJson(lc);
         }
         return list;
     }
     public String openAddClass(String teacherName,String idTeacher,String idCompany){
         String list=null;
         try {
-            listOpenAdd.message = "success";
-            listOpenAdd.studentMappingTeachers = studentMappingTeacherDAO.getListStudentForClass(teacherName);
-            listOpenAdd.courses = cmtdao.getMyCourses(idTeacher, idCompany, Constant.STATUS_PUBLISH);
-            list = gson.toJson(listOpenAdd);
+            ListOpenAdd loa = new ListOpenAdd();
+            loa.setMessage("success");
+            loa.setStudentMappingTeachers(studentMappingTeacherDAO.getListStudentForClass(teacherName));
+            loa.setCourses(cmtdao.getMyCourses(idTeacher, idCompany, Constant.STATUS_PUBLISH));
+            list = gson.toJson(loa);
         }catch (Exception e){
-            listOpenAdd.message = "error";
-            listOpenAdd.studentMappingTeachers = new ArrayList<>();
-            listOpenAdd.courses = new ArrayList<>();
-            list = gson.toJson(listOpenAdd);
+            ListOpenAdd loa = new ListOpenAdd();
+            loa.setMessage("error");
+            loa.setStudentMappingTeachers(new ArrayList<StudentMappingTeacher>());
+            loa.setCourses(new ArrayList<Course>());
+            list = gson.toJson(loa);
         }
         return list;
     }
@@ -128,19 +212,21 @@ public class ClassService {
     public String openEditClass(String teacherName,String idClass,String teacherID,String idCompany){
         String list=null;
         try {
-            listOpenEdit.message = "success";
-            listOpenEdit.smt = classDAO.getStudentByTeacherName(idClass, teacherName);
-            listOpenEdit.smtOnClass=classDAO.getStudentByTeacherNameOnClass(idClass, teacherName);
-            listOpenEdit.courses = classDAO.getMyCourses(idClass, teacherID,idCompany,Constant.STATUS_PUBLISH);
-            listOpenEdit.coursesOnClass=classDAO.getMyCoursesOnClass(idClass, teacherID,Constant.STATUS_PUBLISH);
-            list = gson.toJson(listOpenEdit);
+            ListOpenEdit loe = new ListOpenEdit();
+            loe.setMessage("success");
+            loe.setCoursesOnClass(classDAO.getMyCoursesOnClass(idClass, teacherID, Constant.STATUS_PUBLISH));
+            loe.setSmt(classDAO.getStudentByTeacherName(idClass, teacherName));
+            loe.setSmtOnClass(classDAO.getStudentByTeacherNameOnClass(idClass, teacherName));
+            loe.setCourses(classDAO.getMyCourses(idClass, teacherID,idCompany,Constant.STATUS_PUBLISH));
+            list = gson.toJson(loe);
         }catch (Exception e){
-            listOpenEdit.message = "error";
-            listOpenEdit.smt =new ArrayList<>();
-            listOpenEdit.smtOnClass=new ArrayList<>();
-            listOpenEdit.courses =new ArrayList<>();
-            listOpenEdit.coursesOnClass=new ArrayList<>();
-            list = gson.toJson(listOpenEdit);
+            ListOpenEdit loe = new ListOpenEdit();
+            loe.setMessage("error");
+            loe.setCoursesOnClass(null);
+            loe.setSmt(null);
+            loe.setSmtOnClass(null);
+            loe.setCourses(null);
+            list = gson.toJson(loe);
         }
         return list;
     }
@@ -223,8 +309,7 @@ public class ClassService {
     public String deleteClass(String idClass){
         String message=null;
         try {
-            ClassJDO classJDO=new ClassJDO();
-            classJDO=classDAO.getById(idClass);
+            ClassJDO classJDO = classDAO.getById(idClass);
             if(classJDO!=null) {
                 classDAO.updateClassDelete(idClass);
                 message="success";

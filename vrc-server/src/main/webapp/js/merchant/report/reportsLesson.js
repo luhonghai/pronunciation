@@ -37,7 +37,9 @@ function listClasses(){
                 $('#listClass').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                 $('#listClass').multiselect('refresh');
             }else{
-                swal("", "an error has been occurred in server", "error");
+                getDivSelectionFilter().hide();
+                getDivNotification().show();
+                //swal("", "an error has been occurred in server", "error");
             }
         },
         error: function () {

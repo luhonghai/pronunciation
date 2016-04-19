@@ -23,7 +23,8 @@ function listStudents(){
                     $('#listUsers').multiselect({ enableFiltering: true, maxHeight: 200,buttonWidth: '200px'});
                     $('#listUsers').multiselect('refresh');
                 }else{
-                    swal("", data.message.split(":")[1], "error");
+                    swal("", "an error has been occurred in server", "error");
+                    $('.row').hide();
                 }
             },
             error: function () {
@@ -55,6 +56,8 @@ function listPhonemes(){
                 $('#listPhonemes').multiselect('destroy');
                 $('#listPhonemes').multiselect({ enableFiltering: true, buttonWidth: '50px'});
                 $('#listPhonemes').multiselect('refresh');
+                swal("", "an error has been occurred in server", "error");
+                $('.row').hide();
             }
 
         },
