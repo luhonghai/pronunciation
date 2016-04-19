@@ -59,7 +59,8 @@ public class PhonemeDetectorServlet extends BaseServlet {
             logger.info("Origin file path :" + tmpFile.getAbsolutePath());
             String env = Configuration.getValue(Configuration.SYSTEM_ENVIRONMENT);
             Encoder encoder;
-            if (env.equalsIgnoreCase("prod") || env.equalsIgnoreCase("sat")
+            if (env.equalsIgnoreCase("prod")
+                    //|| env.equalsIgnoreCase("sat")
                     || env.equalsIgnoreCase("int")
                     || env.equalsIgnoreCase("aws")) {
                 encoder = new Encoder(new CustomFFMPEGLocator());
@@ -71,12 +72,16 @@ public class PhonemeDetectorServlet extends BaseServlet {
             } catch (Exception e) {
                 // ingore
             }
-            PhonemesDetector phonemesDetector = new PhonemesDetector(tmpFileWav, word);
-            phonemesDetector.setAllowAdditionalData(true);
-            responseData.setData(phonemesDetector.analyze());
-            responseData.neighbourPhones = phonemesDetector.getNeighbourPhones();
-            responseData.setStatus(true);
-            responseData.setMessage("success");
+            if (tmpFileWav.exists()) {
+                PhonemesDetector phonemesDetector = new PhonemesDetector(tmpFileWav, word);
+                phonemesDetector.setAllowAdditionalData(true);
+                responseData.setData(phonemesDetector.analyze());
+                responseData.neighbourPhones = phonemesDetector.getNeighbourPhones();
+                responseData.setStatus(true);
+                responseData.setMessage("success");
+            } else {
+                logger.severe("could not found wav file " + tmpFileWav.getAbsolutePath());
+            }
         } catch (Exception e) {
             responseData.setMessage(e.getMessage());
         } finally {
