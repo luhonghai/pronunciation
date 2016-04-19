@@ -279,11 +279,11 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("listMyStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
+            Gson gson=new Gson();
             String teacher= (String)StringUtil.isNull(request.getSession().getAttribute("username").toString(), "");
             try{
                 st.message="success";
                 st.students=studentMappingTeacherDAO.getMyStudents(teacher);
-                Gson gson=new Gson();
                 String studentHaveLicence=gson.toJson(st);
                 response.getWriter().write(studentHaveLicence);
 
