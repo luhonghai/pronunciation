@@ -23,4 +23,8 @@ public class StringHelper {
         
         return digestHex
     }
+    
+    class func uuid() -> String {
+        return NSUUID().UUIDString
+    }
 }

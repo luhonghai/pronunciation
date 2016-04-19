@@ -193,6 +193,7 @@ class LevelControllerTVC: UITableViewController, LSPopupVCDelegate {
             let nextController = self.storyboard?.instantiateViewControllerWithIdentifier("ObjectiveController") as! ObjectiveController
             nextController.selectedLevel = level
             nextController.selectedCountry = AccountManager.currentUser().selectedCountry
+            
             self.navigationController?.pushViewController(nextController, animated: true)
         }
     }

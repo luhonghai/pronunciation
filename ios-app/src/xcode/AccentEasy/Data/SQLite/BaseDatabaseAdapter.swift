@@ -76,6 +76,10 @@ public class BaseDatabaseAdapter {
         return obj
     }
     
+    public func deleteAll<T: LiteEntity>(obj: T) throws {
+        try db!.run((obj.table()?.delete())!)
+    }
+    
     public func delete<T: LiteEntity>(id: Int64) throws -> T {
         return try delete(T(id: id))
     }

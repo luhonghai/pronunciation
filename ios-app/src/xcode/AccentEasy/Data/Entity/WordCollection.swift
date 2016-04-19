@@ -9,6 +9,7 @@
 import Foundation
 
 public class WordCollection: LiteEntity, Mappable {
+    var idString: String!
     var word: String!
     var arpabet: String!
     var definition: String!
@@ -41,6 +42,7 @@ public class WordCollection: LiteEntity, Mappable {
     }
     
     public override func parse(row: Row) {
+        self.idString = row[LiteColumn.IDSTRING]
         self.word = row[LiteColumn.WORD]
         self.arpabet = row[LiteColumn.ARPABET]
         self.definition = row[LiteColumn.DEFINITION]
@@ -49,6 +51,7 @@ public class WordCollection: LiteEntity, Mappable {
     }
     
     public override func parse(row: Array<Optional<Binding>>) {
+        self.idString = row[0] as? String
         self.word = row[1] as? String
         self.arpabet = row[2] as? String
         self.definition = row[3] as? String
@@ -63,6 +66,7 @@ public class WordCollection: LiteEntity, Mappable {
     
     // Mappable
     public func mapping(map: Map) {
+        idString <= map["id"]
         word    <= map["word"]
         arpabet   <= map["arpabet"]
         definition      <= map["definition"]
@@ -72,6 +76,7 @@ public class WordCollection: LiteEntity, Mappable {
     
     public override func setters() -> [Setter]? {
         return [
+            LiteColumn.IDSTRING <- self.idString,
             LiteColumn.WORD <- self.word,
             LiteColumn.ARPABET <- self.arpabet,
             LiteColumn.DEFINITION <- self.definition,
