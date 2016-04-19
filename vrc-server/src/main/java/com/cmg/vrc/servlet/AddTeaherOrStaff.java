@@ -50,7 +50,9 @@ public class AddTeaherOrStaff extends HttpServlet {
             try {
                 if (search.length() > 0 || idCompany.length() > 0) {
                     List<TeacherOrStaffList> teacherOrStaffLists=manageTeacherOrStaffDAO.listAll(search, col, oder,idCompany);
-                    count = (double)teacherOrStaffLists.size();
+                    if(teacherOrStaffLists!=null){
+                        count = (double)teacherOrStaffLists.size();
+                    }
                 }
                 teacherorStaff.draw = draw;
                 teacherorStaff.recordsTotal = count;
@@ -109,6 +111,7 @@ public class AddTeaherOrStaff extends HttpServlet {
                     response.getWriter().write("success");
                 }
             }catch (Exception e){
+                response.getWriter().write("error");
                e.getStackTrace();
             }
         }
@@ -152,6 +155,7 @@ public class AddTeaherOrStaff extends HttpServlet {
                 response.getWriter().write("success");
 
             } catch (Exception e) {
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
 
@@ -167,6 +171,7 @@ public class AddTeaherOrStaff extends HttpServlet {
                   teacherMappingCompanyDAO.updateEdit(username);
                 response.getWriter().write("success");
             } catch (Exception e) {
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }
