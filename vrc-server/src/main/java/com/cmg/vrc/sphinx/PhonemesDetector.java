@@ -78,6 +78,7 @@ public class PhonemesDetector {
             } else {
                 conf.setAcousticModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.ACOUSTIC_MODEL_PATH));
             }
+            logger.info("complete acoustic model");
             File tmpPhonemesDictFile = new File(sphinx4DataTmpDir, "cmuphonemedict");
             if (!tmpPhonemesDictFile.exists()) {
                 awsHelper.download("sphinx-data/dict/cmuphonemedict", tmpPhonemesDictFile);
@@ -87,16 +88,19 @@ public class PhonemesDetector {
             } else {
                 conf.setDictionaryPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.DICTIONARY_PATH));
             }
+            logger.info("complete phoneme dictionary");
             //conf.setLanguageModelPath(com.cmg.vrc.properties.Configuration.getValue(com.cmg.vrc.properties.Configuration.LANGUAGE_MODEL_PATH));
             conf.setGrammarPath(getGrammarPath());
             conf.setUseGrammar(true);
             conf.setGrammarName(grammarName);
+            logger.info("complete grammar");
             try {
                 recognizer =
                         new StreamSpeechRecognizer(conf);
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Could not init recognizer", e);
             }
+            logger.info("complete init");
         }
     }
 
