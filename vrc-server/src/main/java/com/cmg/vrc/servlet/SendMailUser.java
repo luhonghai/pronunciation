@@ -279,7 +279,7 @@ public class SendMailUser extends HttpServlet{
         }else if(action.equalsIgnoreCase("listMyStudents")){
             StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
             student st=new student();
-            String teacher=request.getSession().getAttribute("username").toString();
+            String teacher= (String)StringUtil.isNull(request.getSession().getAttribute("username").toString(), "");
             try{
                 st.message="success";
                 st.students=studentMappingTeacherDAO.getMyStudents(teacher);
@@ -288,6 +288,9 @@ public class SendMailUser extends HttpServlet{
                 response.getWriter().write(studentHaveLicence);
 
             }catch (Exception e){
+                st.message="error";
+                String studentHaveLicence=gson.toJson(st);
+                response.getWriter().write(studentHaveLicence);
                 e.printStackTrace();
             }
 
@@ -303,9 +306,8 @@ public class SendMailUser extends HttpServlet{
                     smt.setStatus(Constant.STATUS_PENDING);
                     studentMappingTeacherDAO.put(smt);
                 }else{
-                    StudentMappingTeacher smt=studentMappingTeacher;
-                    smt.setIsDeleted(true);
-                    studentMappingTeacherDAO.put(smt);
+                    studentMappingTeacher.setIsDeleted(true);
+                    studentMappingTeacherDAO.put(studentMappingTeacher);
 
                 }
                 response.getWriter().write("success");

@@ -169,8 +169,8 @@ public class StudentMappingTeacherDAO extends DataAccess<StudentMappingTeacher> 
         StringBuffer first=new StringBuffer();
         StringBuffer second=new StringBuffer();
         StringBuffer query = new StringBuffer();
-        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject'";
-        String secondQuery = "select id, studentName, status, licence, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false";
+        String firstQuery = "select id, studentName, status, licence, mappingBy  from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='accept' or status='reject' and isDeleted=false";
+        String secondQuery = "select id, studentName, status, licence, mappingBy from  " + metaStudentMappingTeacher.getTable() + " where teacherName='"+teacherName+"' and status='pending' and licence=false and isDeleted=false";
         first.append(firstQuery);
         second.append(secondQuery);
         query.append("select * from ("+ first + " UNION " + second + ") as tmp ");
