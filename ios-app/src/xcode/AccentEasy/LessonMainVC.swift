@@ -913,7 +913,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         let question = arrQuestionOfLC[indexPath.item]
         if question.enabled {
             if !isLessonCollection{
-                //if test lesson colection
+                //test lesson colection, one recoder per test
                 if indexPath.item <= indexCurrentQuestion && question.recorded{
                     return
                 }
@@ -942,6 +942,14 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     //process when click question cell on detail screen
     func selectedCellQuestionInDetail(cellIndex: Int) {
         Logger.log("Detail cell selected is \(cellIndex)")
+        
+        //test lesson colection, one recoder per test
+        if !isLessonCollection {
+            if cellIndex <= indexCurrentQuestion {
+                return
+            }
+        }
+        
         indexCurrentQuestion = cellIndex
         if let word = arrQuestionOfLC[cellIndex].selectedWord {
             currentMode = arrQuestionOfLC[cellIndex].currentMode
