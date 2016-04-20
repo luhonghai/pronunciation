@@ -83,27 +83,6 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         setNavigationBarTransparent()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showPopupObj:",name:"showPopupObj", object: nil)
-        
-        
-        //set value for testScore obj
-        try! tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
-        
-        testScore.username = AccountManager.currentUser().username
-        testScore.idCountry = selectedCountry.idString
-        testScore.idLevel = selectedLevel.idString
-        testScore.passScore = Int((tests[0].percentPass))
-        
-        //get test score
-        if let tScore = try! lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: testScore.idLevel) {
-            if tScore.score > 0 {
-                //testScore.score = tScore.score
-                lblTestScore.text = String(tScore.score)
-                lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
-                scoreTest.showScore(tScore.score, showAnimation: false)
-            }
-        }else {
-            scoreTest.switchType(.DISABLE)
-        }
     }
     
     
@@ -137,6 +116,14 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
         do {
             try objectives = adapter.getObjective(selectedCountry.idString, levelId: selectedLevel.idString)
             
+            //set value for testScore obj
+            try! tests = adapter.getTest(selectedCountry.idString, levelId: selectedLevel.idString)
+            
+            testScore.username = AccountManager.currentUser().username
+            testScore.idCountry = selectedCountry.idString
+            testScore.idLevel = selectedLevel.idString
+            testScore.passScore = Int((tests[0].percentPass))
+            
             //set value for objectiveScore obj
             objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.idCountry = selectedCountry.idString
@@ -163,6 +150,17 @@ class ObjectiveController: UIViewController, UITableViewDataSource, UITableViewD
                 print("score \(objective.name) is \(objective.score)")
             }
 
+            //get test score
+            if let tScore = try! lessonDBAdapter.getTestScore(testScore.username, idCountry: testScore.idCountry, idLevel: testScore.idLevel) {
+                if tScore.score > 0 {
+                    //testScore.score = tScore.score
+                    lblTestScore.text = String(tScore.score)
+                    lblTestScore.backgroundColor = ColorHelper.returnColorOfScore(tScore.score)
+                    scoreTest.showScore(tScore.score, showAnimation: false)
+                }
+            }else {
+                scoreTest.switchType(.DISABLE)
+            }
             
             tableView.reloadData()
         } catch {

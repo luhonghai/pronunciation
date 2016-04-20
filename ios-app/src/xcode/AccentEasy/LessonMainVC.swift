@@ -609,6 +609,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             self.changeColorLoadWord()
             isRecording = false
+            ennableViewRecord()
             return
         } else{
             DeviceManager.doIfConnectedToNetwork({ () -> Void in

@@ -39,7 +39,6 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         tableView.dataSource = self
         tableView.delegate = self
         
-        navigationItem.title = selectedLevel.name + " - " + objectives[indexObjectiveSelected].name
         //loadData()
         setNavigationBarTransparent()
     }
@@ -64,6 +63,7 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
         if indexObjectiveSelected < objectives.count - 1 {
             indexObjectiveSelected = indexObjectiveSelected + 1
         }
+        
         //show popup
         lessonTipPopupVC.contentPopup = objectives[indexObjectiveSelected].description
         lessonTipPopupVC.delegate = self
@@ -72,6 +72,9 @@ class LessonCollectionController: UIViewController, UITableViewDataSource, UITab
     }
     
     func loadData() {
+        //set title navigation
+        navigationItem.title = selectedLevel.name + " - " + objectives[indexObjectiveSelected].name
+        
         do {
             objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.idCountry = selectedCountry.idString
