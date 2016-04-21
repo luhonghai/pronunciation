@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="aviewScore" destination="pFA-1P-nAL" id="XVx-5R-5x7"/>
                 <outlet property="btnClose" destination="U1c-oQ-whz" id="Vw4-ff-Uf8"/>
+                <outlet property="btnGoogleShare" destination="YXt-hy-xHZ" id="yOI-1D-i6g"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,7 +23,6 @@
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U1c-oQ-whz">
                     <rect key="frame" x="267" y="8" width="25" height="25"/>
-                    <state key="normal" image="ic_close_dialog.png"/>
                     <connections>
                         <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="fwg-27-nre"/>
                     </connections>
@@ -40,6 +40,11 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YXt-hy-xHZ">
+                    <rect key="frame" x="227" y="387" width="65" height="65"/>
+                    <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" image="ic_google_plus_white.png"/>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -47,7 +52,7 @@
     </objects>
     <resources>
         <image name="berty_head_antialias_alpha.png" width="367" height="486"/>
-        <image name="ic_close_dialog.png" width="135" height="135"/>
+        <image name="ic_google_plus_white.png" width="128" height="128"/>
         <image name="sl_background.png" width="1242" height="2208"/>
     </resources>
 </document>

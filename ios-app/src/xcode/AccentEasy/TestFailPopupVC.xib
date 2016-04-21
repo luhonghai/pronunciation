@@ -29,13 +29,6 @@
                     <rect key="frame" x="75" y="77" width="150" height="150"/>
                     <color key="backgroundColor" red="0.3411764706" green="0.61960784310000006" blue="0.066666666669999999" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P44-ga-XKy">
-                    <rect key="frame" x="267" y="8" width="25" height="25"/>
-                    <state key="normal" image="ic_close_dialog.png"/>
-                    <connections>
-                        <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="Pue-5l-li9"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Well done, your scored" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8j-xm-rzI">
                     <rect key="frame" x="52" y="37" width="201" height="21"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
@@ -51,6 +44,12 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P44-ga-XKy">
+                    <rect key="frame" x="267" y="8" width="25" height="25"/>
+                    <connections>
+                        <action selector="btnCloseTouchUp:" destination="-1" eventType="touchUpInside" id="Pue-5l-li9"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -58,7 +57,6 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_close_dialog.png" width="135" height="135"/>
         <image name="sl_background.png" width="1242" height="2208"/>
         <image name="sl_dog.png" width="308" height="376"/>
     </resources>

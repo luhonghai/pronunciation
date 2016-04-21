@@ -17,6 +17,7 @@ class TestPassPopupVC: UIViewController {
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var aviewScore: AnalyzingView!
+    @IBOutlet weak var btnGoogleShare: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,10 @@ class TestPassPopupVC: UIViewController {
         btnClose.layer.cornerRadius = btnClose.frame.size.width/2
         btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
+        
+        btnGoogleShare.backgroundColor = ColorHelper.APP_RED
+        btnGoogleShare.layer.cornerRadius = btnGoogleShare.frame.size.width/2
+        
         
         aviewScore.showScore(toltalScore, showAnimation: true)
         playSound()
@@ -73,5 +78,7 @@ class TestPassPopupVC: UIViewController {
     @IBAction func btnCloseTouchUp(sender: AnyObject) {
         delegate?.closeTestPassPopup!(self)
     }
+    
+    
 
 }
