@@ -45,8 +45,6 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     var lastMax: CGFloat!
     var lastMaxValue: CGFloat!
     
-    
-    
     var recordingTimestamp: Double!
     var checkClose = false
     
@@ -62,6 +60,8 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     var animationState = AnimationState.DEFAULT
     
     var lastUpdateAnimationTime: Double = 0.0
+    
+    var isSearching: Bool = false
     
     public init() {
         super.init(frame:CGRectZero)
@@ -160,10 +160,16 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
         case .DEFAULT, .DISABLE:
             animationState = AnimationState.DEFAULT
             break
-        case .ANALYZING, .SEARCHING:
+        case .ANALYZING:
             self.score = 0
             self.originScore = 100
             animationState = AnimationState.WAIT_FOR_MAX
+            break
+        case .SEARCHING:
+            self.score = 0
+            self.originScore = 100
+            animationState = AnimationState.WAIT_FOR_MAX
+            isSearching = true
             break
         case .RECORDING:
             animationState = AnimationState.DEFAULT
@@ -261,7 +267,11 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
                 if type == .ANALYZING {
                     animationState = .WAIT_FOR_MAX
                 } else if type == .SEARCHING {
-                    switchType(.DEFAULT)
+                    if isSearching {
+                        animationState = .WAIT_FOR_MAX
+                    } else {
+                        switchType(.DEFAULT)
+                    }
                 }
             }
             CATransaction.begin()
