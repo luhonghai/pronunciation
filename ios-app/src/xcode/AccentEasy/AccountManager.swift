@@ -342,8 +342,8 @@ class AccountManager {
                     var message = "thank you for your feedback we appreciate your feedback and will continue to strive to make our application better \n thank you!"
                     var success = true
                     if res.text != "Done" {
-                        message = res.text!
                         success = false
+                        message = DEFAULT_ERROR_MESSAGE
                     }
                     completion(userProfile: userProfile, success: success, message: message)
                 }
