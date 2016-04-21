@@ -40,7 +40,13 @@ class TestPassPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
+        print("viewDidDisappear")
         NSNotificationCenter.defaultCenter().postNotificationName("testPassMove", object: nil)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        print("viewDidAppear")
+        
     }
     
     func playSound()

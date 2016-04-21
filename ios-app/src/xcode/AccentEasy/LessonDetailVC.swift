@@ -149,7 +149,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                     testFailPopupVC.toltalScore = score
                     testFailPopupVC.passScore = testScore.passScore
                     testFailPopupVC.delegate = self
+                    testFailPopupVC.isShow = true
                     self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
+                    
+                    
                 }else{
                     //Pass
                     //save test score
@@ -579,18 +582,25 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     func closeTestFailPopup(sender: AnyObject){
         self.dismissPopupViewController(.Fade)
         //pop view
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        weak var weakSelf = self
+        if weakSelf != nil && weakSelf!.navigationController != nil {
+            let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
+            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        }
     }
     
     func testFailMove(notification: NSNotification) {
         //pop view
-        self.dismissPopupViewController(.Fade)
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        print("testFailMove")
+        weak var weakSelf = self
+        if weakSelf != nil && weakSelf!.navigationController != nil {
+            let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
+            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        }
     }
     
     func testPassMove(notification: NSNotification) {
+        print("testPassMove")
         self.navigationController?.popToRootViewControllerAnimated(false)
     }
     

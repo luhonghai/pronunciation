@@ -776,6 +776,27 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         btnLessonTip.enabled = true
     }
     
+    func disableViewSelectQuestion(){
+        btnPlay.enabled = false
+        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnPlayDemo.enabled = false
+        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
+        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
+        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        cvQuestionList.userInteractionEnabled = false
+        btnLessonTip.enabled = false
+        btnRecord.enabled = false
+        btnRecord.backgroundColor = Multimedia.colorWithHexString("#929292")
+    }
+    
+    func ennableViewSelectQuestion(){
+        btnPlay.enabled = true
+        btnPlayDemo.enabled = true
+        cvQuestionList.userInteractionEnabled = true
+        btnLessonTip.enabled = true
+        btnRecord.enabled = true
+    }
+    
     /*
      override func didReceiveMemoryWarning() {
      super.didReceiveMemoryWarning()
@@ -802,7 +823,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     
     func questionCVInit(){
-        disableViewRecord()
+        disableViewSelectQuestion()
         
         //if lesson of objective, using process next lesson of objective
         if isLessonCollection{
@@ -920,7 +941,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             }
             indexCurrentQuestion = indexPath.item
             print(indexCurrentQuestion)
-            disableViewRecord()
+            disableViewSelectQuestion()
             randomWord(question)
         }
     }
@@ -949,6 +970,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 return
             }
         }
+        
+        disableViewSelectQuestion()
         
         indexCurrentQuestion = cellIndex
         if let word = arrQuestionOfLC[cellIndex].selectedWord {
@@ -1117,7 +1140,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func onAnimationMin() {
-        ennableViewRecord()
+        ennableViewSelectQuestion()
     }
     
     func onAnimationMax() {

@@ -18,6 +18,7 @@ class TestFailPopupVC: UIViewController {
     var delegate: TestPopupDelegate?
     var toltalScore:Int!
     var passScore:Int!
+    var isShow:Bool = false
     
     @IBOutlet weak var btnClose: UIButton!
     @IBOutlet weak var aviewToltalScore: AnalyzingView!
@@ -36,14 +37,18 @@ class TestFailPopupVC: UIViewController {
     }
     
     override func viewDidDisappear(animated: Bool) {
-        //pop view
-        //let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        //self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        super.viewDidDisappear(animated)
+        
+        if isShow {
+            print("viewDidDisappear")
+            NSNotificationCenter.defaultCenter().postNotificationName("testFailMove", object: nil)
+            isShow = false
+        }
         
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        NSNotificationCenter.defaultCenter().postNotificationName("testFailMove", object: nil)
+        
     }
 
     override func didReceiveMemoryWarning() {
