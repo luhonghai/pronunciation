@@ -30,6 +30,10 @@ class TestFailPopupVC: UIViewController {
 
         // Do any additional setup after loading the view.
         //style popup
+        var pImage = UIImage(named: "ic_close_dialog.png")!
+        pImage = ImageHelper.imageWithImage(image: pImage, w: 25, h: 25)
+        btnClose.layer.cornerRadius = btnClose.frame.size.width/2
+        btnClose.setImage(pImage, forState: UIControlState.Normal)
         btnClose.tintColor = ColorHelper.APP_PURPLE
         
         aviewPassScore.showScore(passScore, showAnimation: true)

@@ -4573,7 +4573,7 @@ about this lesson</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tUA-X4-RaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="688.5" y="2374.5"/>
+            <point key="canvasLocation" x="682.5" y="2374.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="axM-Qe-zEC">

@@ -30,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         GIDSignIn.sharedInstance().delegate = self
         
+        // Set Navigation bar Title colour
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:ColorHelper.APP_PURPLE]
+        
         
         //swipe screen
         //window = UIWindow(frame: UIScreen.mainScreen().bounds)

@@ -27,6 +27,7 @@ class AboutVC: UIViewController {
         //show content
         let htmlFile = NSBundle.mainBundle().pathForResource("about", ofType: "html")
         let htmlString = try? String(contentsOfFile: htmlFile!, encoding: NSUTF8StringEncoding)
+        
         webView.loadHTMLString(htmlString!, baseURL: nil)
         
         navigationItem.title = "about"
