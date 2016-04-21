@@ -43,6 +43,7 @@ class SettingsTVC: UITableViewController, LSPopupVCDelegate {
         }
         //menu
         setNavigationBarTransparent()
+        navigationItem.title = "about you"
         
         userProfile = AccountManager.currentUser()
         loadData()
