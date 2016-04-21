@@ -103,7 +103,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             //caculate score
             var arrQuestionScore = [Float]()
             for question in arrQuestionOfLC {
-                arrQuestionScore.append(question.listScore.average)
+                arrQuestionScore.append(round(question.listScore.average))
             }
             let score = Int(round(arrQuestionScore.average))
             
@@ -122,7 +122,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             //save obj score
-            print("save score \(score)")
+            Logger.log("save score \(score)")
             //objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.score = score
             try! lessonDBAdapter.saveLessonScore(objectiveScore)
@@ -133,7 +133,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                 //caculate score
                 var arrQuestionScore = [Float]()
                 for question in arrQuestionOfLC {
-                    arrQuestionScore.append(question.listScore.average)
+                    arrQuestionScore.append(round(question.listScore.average))
                 }
                 let score = Int(round(arrQuestionScore.average))
                 
@@ -149,7 +149,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                     testFailPopupVC.toltalScore = score
                     testFailPopupVC.passScore = testScore.passScore
                     testFailPopupVC.delegate = self
+                    testFailPopupVC.isShow = true
                     self.presentpopupViewController(testFailPopupVC, animationType: .Fade, completion: {() -> Void in })
+                    
+                    
                 }else{
                     //Pass
                     //save test score
@@ -236,7 +239,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         //change view color
         showColorOfScoreResult(userVoiceModelResult.score)
         cViewIPAList.reloadData()
-        viewAnalyzing.showScore(Int(userVoiceModelResult.score), showAnimation: true)
+        viewAnalyzing.showScore(Int(round(userVoiceModelResult.score)), showAnimation: true)
     }
     
     func selectDetail(notification: NSNotification) {
@@ -370,7 +373,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         if (ipaPopupVC.isShow) {
             self.dismissPopupViewController(.Fade)
         }
-        print("run in timer")
+        Logger.log("run in timer")
     }
     
     func clearTimer() {
@@ -579,18 +582,25 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     func closeTestFailPopup(sender: AnyObject){
         self.dismissPopupViewController(.Fade)
         //pop view
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        weak var weakSelf = self
+        if weakSelf != nil && weakSelf!.navigationController != nil {
+            let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
+            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        }
     }
     
     func testFailMove(notification: NSNotification) {
         //pop view
-        self.dismissPopupViewController(.Fade)
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        Logger.log("testFailMove")
+        weak var weakSelf = self
+        if weakSelf != nil && weakSelf!.navigationController != nil {
+            let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
+            weakSelf!.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: false);
+        }
     }
     
     func testPassMove(notification: NSNotification) {
+        Logger.log("testPassMove")
         self.navigationController?.popToRootViewControllerAnimated(false)
     }
     

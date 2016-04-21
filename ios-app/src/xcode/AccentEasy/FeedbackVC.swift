@@ -149,6 +149,7 @@ class FeedbackVC: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func sendButtonTouchUp(sender: AnyObject) {
+        self.view.endEditing(true)
         DeviceManager.doIfConnectedToNetwork { () -> Void in
             self.sendFeedBack()
         }
