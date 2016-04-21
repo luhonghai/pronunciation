@@ -58,7 +58,7 @@ class QuestionCVDatasource: NSObject, UICollectionViewDataSource, UICollectionVi
             }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
         } else if question.recorded && question.enabled {
-            let averageScore:Int = Int(question.listScore.average)
+            let averageScore:Int = Int(round(question.listScore.average))
             cell.lblQuestion.text = String(averageScore)
             cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
         } else {
