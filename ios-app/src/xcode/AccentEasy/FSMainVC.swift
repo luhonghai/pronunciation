@@ -591,7 +591,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                             dispatch_async(dispatch_get_main_queue(),{
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                                weakSelf!.scoreResult = floor(userVoiceModel.score)
+                                weakSelf!.scoreResult = round(userVoiceModel.score)
                                 weakSelf!.willDisplayScore = true
                             })
                         } else {
@@ -618,7 +618,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             let time = NSDate().timeIntervalSince1970 * 1000.0
             let pScore = PronunciationScore()
             pScore.username = userProfile.username
-            pScore.score = Int(floor(model.score))
+            pScore.score = Int(round(model.score))
             pScore.word = model.word
             pScore.dataId = model.id
             pScore.time = time
@@ -674,11 +674,15 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 self.activateAudioSession()
                 self.btnRecord.setBackgroundImage(UIImage(named: "ic_close.png"), forState: UIControlState.Normal)
                 self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
+                self.btnRecord.enabled = true
                 self.isRecording = true
                 self.analyzingView.clear()
-                self.microphone.startFetchingAudio()
-                self.recorder = EZRecorder(URL: self.getTmpFilePath(), clientFormat: self.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: self)
+                weak var weakSelf = self
                 self.analyzingView.switchType(AnalyzingType.RECORDING)
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                    weakSelf!.microphone.startFetchingAudio()
+                    weakSelf!.recorder = EZRecorder(URL: weakSelf!.getTmpFilePath(), clientFormat: weakSelf!.microphone.audioStreamBasicDescription(), fileType: EZRecorderFileType.WAV, delegate: weakSelf!)
+                }
             })
         }
         
@@ -695,7 +699,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.btnRecord.enabled = true
             if (self.scoreResult >= 0.0) {
                 showColorOfScoreResult(scoreResult)
-                self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+                self.analyzingView.showScore(Int(round(self.scoreResult)), showAnimation: false)
             }
             
         } else {
@@ -731,7 +735,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
             showColorOfScoreResult(scoreResult)
-            self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+            self.analyzingView.showScore(Int(round(self.scoreResult)), showAnimation: false)
             ennableViewPlay()
         }
         
@@ -779,6 +783,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         lblIPA.textColor = ColorHelper.APP_RED
         tvDescription.textColor = ColorHelper.APP_RED
         tvDescription.becomeFirstResponder()
+        btnRecord.enabled = true
     }
     
     func changeColorOrange(){
@@ -788,6 +793,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         lblIPA.textColor = ColorHelper.APP_ORANGE
         tvDescription.textColor = ColorHelper.APP_ORANGE
         tvDescription.becomeFirstResponder()
+        btnRecord.enabled = true
     }
     
     func changeColorGreen(){
@@ -797,6 +803,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         lblIPA.textColor = ColorHelper.APP_GREEN
         tvDescription.textColor = ColorHelper.APP_GREEN
         tvDescription.becomeFirstResponder()
+        btnRecord.enabled = true
     }
     
     func disableViewPlay(){
@@ -915,7 +922,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         if willDisplayScore {
             self.willDisplayScore = false
             self.didCompleteDisplayScore = true
-            self.analyzingView.showScore(Int(floor(self.scoreResult)))
+            self.analyzingView.showScore(Int(round(self.scoreResult)))
         }
     }
     
