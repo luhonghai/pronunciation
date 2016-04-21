@@ -25,6 +25,9 @@
 		90F430911C8695B300D6DF81 /* WordCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430901C8695B300D6DF81 /* WordCollection.swift */; };
 		90F430931C86963200D6DF81 /* IPAMapArpabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90F430921C86963200D6DF81 /* IPAMapArpabet.swift */; };
 		9B17BBBC1C9FB537000761FC /* StringHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B17BBBB1C9FB537000761FC /* StringHelper.swift */; };
+		9B1F081E1CC8D94100B542BD /* help-context-freestyle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */; };
+		9B1F081F1CC8D94100B542BD /* help-context-lesson.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081C1CC8D94100B542BD /* help-context-lesson.png */; };
+		9B1F08201CC8D94100B542BD /* help-context-test.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B1F081D1CC8D94100B542BD /* help-context-test.png */; };
 		9B287B2E1CB747E200C761A1 /* ArchitectsDaughter.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */; };
 		9B287B301CB747EA00C761A1 /* hand-draw-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */; };
 		9B320E8B1C5B1971001D8A95 /* FileHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B320E8A1C5B1971001D8A95 /* FileHelper.swift */; };
@@ -555,6 +558,9 @@
 		90F430901C8695B300D6DF81 /* WordCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordCollection.swift; path = Data/Entity/WordCollection.swift; sourceTree = "<group>"; };
 		90F430921C86963200D6DF81 /* IPAMapArpabet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMapArpabet.swift; path = Data/Entity/IPAMapArpabet.swift; sourceTree = "<group>"; };
 		9B17BBBB1C9FB537000761FC /* StringHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringHelper.swift; sourceTree = "<group>"; };
+		9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-freestyle.png"; path = "drawable/help-context-freestyle.png"; sourceTree = "<group>"; };
+		9B1F081C1CC8D94100B542BD /* help-context-lesson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-lesson.png"; path = "drawable/help-context-lesson.png"; sourceTree = "<group>"; };
+		9B1F081D1CC8D94100B542BD /* help-context-test.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "help-context-test.png"; path = "drawable/help-context-test.png"; sourceTree = "<group>"; };
 		9B287B2D1CB747E200C761A1 /* ArchitectsDaughter.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ArchitectsDaughter.ttf; path = font/ArchitectsDaughter.ttf; sourceTree = "<group>"; };
 		9B287B2F1CB747EA00C761A1 /* hand-draw-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hand-draw-arrow.png"; path = "AccentEasy/font/hand-draw-arrow.png"; sourceTree = SOURCE_ROOT; };
 		9B320E8A1C5B1971001D8A95 /* FileHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileHelper.swift; path = Utils/FileHelper.swift; sourceTree = "<group>"; };
@@ -1794,6 +1800,9 @@
 			children = (
 				C1236CF71CBBA3FF003F30A0 /* No-image-found.gif */,
 				C15976591CB624A000FA3B40 /* unchecked_checkbox.png */,
+				9B1F081B1CC8D94100B542BD /* help-context-freestyle.png */,
+				9B1F081C1CC8D94100B542BD /* help-context-lesson.png */,
+				9B1F081D1CC8D94100B542BD /* help-context-test.png */,
 				C159764B1CB6249500FA3B40 /* checked_checkbox.png */,
 				C1648FE21CB513EC00C8DFE0 /* Radio_Button-Checked-128.png */,
 				C1648FE31CB513EC00C8DFE0 /* Radio_Button-128.png */,
@@ -2250,6 +2259,7 @@
 				C16CD2CB1C44B1EC00537461 /* rounded_corner.xml in Resources */,
 				C16CD2BA1C44B1EC00537461 /* p_history_blue_blur.png in Resources */,
 				C16CD2D31C44B1EC00537461 /* scrollbar.xml in Resources */,
+				9B1F081F1CC8D94100B542BD /* help-context-lesson.png in Resources */,
 				C16CD2B81C44B1EC00537461 /* p_help_score_99.png in Resources */,
 				C16CD2D81C44B1EC00537461 /* sl_dog_3.png in Resources */,
 				9B3408271CB764CD002F80A1 /* hand-draw-arrow-4.png in Resources */,
@@ -2300,6 +2310,7 @@
 				C16CD2F31C44B1EC00537461 /* th_round.png in Resources */,
 				9B5F35A61CB5FF93000A0A3F /* p_menu_lesson_gray.png in Resources */,
 				C16CD2AE1C44B1EC00537461 /* london_cover.png in Resources */,
+				9B1F08201CC8D94100B542BD /* help-context-test.png in Resources */,
 				C16CD2D71C44B1EC00537461 /* sl_dog_2.png in Resources */,
 				9B55263C1C9A6911000AB7E8 /* select_all_question_by_lesson_collection.sql in Resources */,
 				C16CD3021C44B1EC00537461 /* icon_popover_arrow_left.png in Resources */,
@@ -2361,6 +2372,7 @@
 				C16CD2B21C44B1EC00537461 /* p_btn_login_facebook.png in Resources */,
 				C16CD2F91C44B1EC00537461 /* help_content_2.png in Resources */,
 				C16CD2CE1C44B1EC00537461 /* rounded_corner_color_green_dialog.xml in Resources */,
+				9B1F081E1CC8D94100B542BD /* help-context-freestyle.png in Resources */,
 				C16CD2E31C44B1EC00537461 /* ic_facebook_white.png in Resources */,
 				C16CD2CD1C44B1EC00537461 /* rounded_corner_color_green.xml in Resources */,
 				C16CD3041C44B1EC00537461 /* icon_popover_arrow_up.png in Resources */,

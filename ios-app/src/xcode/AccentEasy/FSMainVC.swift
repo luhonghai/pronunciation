@@ -151,12 +151,13 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     func initHelpContext() {
         let helpButton = HelpButtonController()
         helpButton.delegate = self
+        helpButton.imgHelpContext.image = UIImage(named: "help-context-freestyle.png")
         helpButton.show(self.view.frame)
     }
     
     func onHelpButtonClose(neverShowAgain: Bool) {
         self.navigationController!.view.userInteractionEnabled = true
-        helpContext.hidden = true
+        //helpContext.hidden = true
         GlobalData.getInstance().isShowHelpFreestyle = true
         if neverShowAgain {
             let profile = AccountManager.currentUser()
@@ -167,7 +168,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     func onHelpButtonShow() {
         self.navigationController!.view.userInteractionEnabled = false
-        helpContext.hidden = false
+        //helpContext.hidden = false
     }
 
     
@@ -307,10 +308,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         //activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-        delay(0.8) { () -> () in
-            if !GlobalData.getInstance().isShowHelpFreestyle && AccountManager.currentUser().helpStatus != UserProfile.HELP_NEVER {
-                self.initHelpContext()
-            }
+        if !GlobalData.getInstance().isShowHelpFreestyle && AccountManager.currentUser().helpStatus != UserProfile.HELP_NEVER {
+            self.initHelpContext()
         }
     }
     
@@ -463,7 +462,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         self.analyzingView.didCompleteLoadWord = false
         weak var weakSelf = self
         DeviceManager.doIfConnectedToNetwork({ () -> Void in
-            if weakSelf != nil {
+             if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty {
                 //playSound(LinkFile)
                 HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
                     Logger.log("load complete " + weakSelf!.linkFile)

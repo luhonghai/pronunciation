@@ -21,10 +21,19 @@ class HelpButtonController : UIView, BEMCheckBoxDelegate {
     
     @IBOutlet weak var btnContinue: UIButton!
     
+    @IBOutlet weak var imgHelpContext: UIImageView!
+    
     @IBAction func clickContinue(sender: AnyObject) {
         doContinue()
     }
+    @IBAction func btnContinueGrayTouchUp(sender: AnyObject) {
+        doContinue()
+    }
+    
     @IBAction func clickContinueLabel(sender: AnyObject) {
+        doContinue()
+    }
+    @IBAction func swipeHelpContext(sender: AnyObject) {
         doContinue()
     }
     

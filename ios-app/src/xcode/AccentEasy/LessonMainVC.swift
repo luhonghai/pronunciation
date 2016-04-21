@@ -201,6 +201,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func initHelpContext() {
         let helpButton = HelpButtonController()
+        helpButton.imgHelpContext.image = UIImage(named: isLessonCollection ? "help-context-lesson.png" : "help-context-test.png")
         helpButton.delegate = self
         helpButton.show(self.view.frame)
     }
@@ -209,7 +210,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         weak var weakSelf = self
         if weakSelf != nil && weakSelf!.navigationController != nil {
             self.navigationController!.view.userInteractionEnabled = true
-            helpContext.hidden = true
+            //helpContext.hidden = true
         }
         GlobalData.getInstance().isShowHelpLesson = true
         if neverShowAgain {
@@ -222,7 +223,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     func onHelpButtonShow() {
         if self.navigationController != nil {
             self.navigationController!.view.userInteractionEnabled = false
-            helpContext.hidden = false
+            //helpContext.hidden = false
         }
     }
     
@@ -369,11 +370,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
        // activateAudioSession()
         GlobalData.getInstance().selectedWord = ""
         NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-        
-        delay(0.8) { () -> () in
-            if !GlobalData.getInstance().isShowHelpLesson && AccountManager.currentUser().helpStatusLesson != UserProfile.HELP_NEVER {
-                self.initHelpContext()
-            }
+        if !GlobalData.getInstance().isShowHelpLesson && AccountManager.currentUser().helpStatusLesson != UserProfile.HELP_NEVER {
+            self.initHelpContext()
         }
     }
     
@@ -423,13 +421,15 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         self.analyzingView.didCompleteLoadWord = false
         weak var weakSelf = self
         DeviceManager.doIfConnectedToNetwork({ () -> Void in
-            Logger.log("link mp3: " + weakSelf!.linkFile)
-            //playSound(LinkFile)
-            HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
-                Logger.log("load complete " + weakSelf!.linkFile)
-                weakSelf!.analyzingView.isSearching = false
-                weakSelf!.analyzingView.didCompleteLoadWord = true
-            })
+            if weakSelf != nil && weakSelf!.linkFile != nil && !weakSelf!.linkFile.isEmpty {
+                Logger.log("link mp3: " + weakSelf!.linkFile)
+                //playSound(LinkFile)
+                HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
+                    Logger.log("load complete " + weakSelf!.linkFile)
+                    weakSelf!.analyzingView.isSearching = false
+                    weakSelf!.analyzingView.didCompleteLoadWord = true
+                })
+            }
         })
     }
 
