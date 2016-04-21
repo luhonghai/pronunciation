@@ -376,6 +376,8 @@ public class DataAccess<T> implements InDataAccess<T> {
 		}
 	}
 
+
+
 	@Override
 	public List<T> list(String query, Object para1, Object para2, String order) throws Exception {
 		PersistenceManager pm = PersistenceManagerHelper.get();

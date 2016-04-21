@@ -7,8 +7,8 @@ function listMyClasses(){
            action:"listMyClass"
         },
         success: function (data) {
-            if(data.message=="success" && data.listclass!=null){
-                var listMyClass=data.listclass;
+            if(data.message=="success" && data.list!=null){
+                var listMyClass=data.list;
                 for(var i=0;i<listMyClass.length;i++){
                     var definition=listMyClass[i].definition;
                     var $button = $('<div class="col-sm-12" style="padding-bottom: 20px;padding-left:0px">' +

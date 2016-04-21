@@ -302,9 +302,9 @@ public class SendMailUser extends HttpServlet{
             try {
                 StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getById(id);
                 if(studentMappingTeacher.isLicence()==true){
-                    StudentMappingTeacher smt=studentMappingTeacher;
-                    smt.setStatus(Constant.STATUS_PENDING);
-                    studentMappingTeacherDAO.put(smt);
+                 /*   StudentMappingTeacher smt=studentMappingTeacher;*/
+                    studentMappingTeacher.setStatus(Constant.STATUS_PENDING);
+                    studentMappingTeacherDAO.put(studentMappingTeacher);
                 }else{
                     studentMappingTeacher.setIsDeleted(true);
                     studentMappingTeacherDAO.put(studentMappingTeacher);
@@ -326,6 +326,7 @@ public class SendMailUser extends HttpServlet{
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else if(action.equalsIgnoreCase("acceptStudent")){
@@ -339,6 +340,7 @@ public class SendMailUser extends HttpServlet{
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 response.getWriter().write("success");
             }catch (Exception e){
+                response.getWriter().write("error");
                 e.printStackTrace();
             }
         }else {
@@ -347,9 +349,9 @@ public class SendMailUser extends HttpServlet{
             String status=request.getParameter("status");
             String mailTeacher=request.getParameter("mailTeacher");
             try {
-                StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
+                //StudentMappingTeacher studentMappingTeacher=new StudentMappingTeacher();
                 StudentMappingTeacherDAO studentMappingTeacherDAO=new StudentMappingTeacherDAO();
-                studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(username,mailTeacher);
+                StudentMappingTeacher studentMappingTeacher=studentMappingTeacherDAO.getByStudentAndTeacher(username,mailTeacher);
                 studentMappingTeacher.setStatus(status);
                 studentMappingTeacherDAO.put(studentMappingTeacher);
                 out.print("success");

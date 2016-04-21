@@ -20,7 +20,14 @@ public class SqlReport {
             "on c.id = cmc.idCourse " +
             "where cmc.idClass='paramIdClass' and cmc.isDeleted=false and c.isDeleted=false";
 
-
+    private String SQL_LIST_COURSE_BY_STUDENT ="SELECT "+
+                    "  c.id,c.name "+
+                    "FROM course as c  inner join coursemappingclass AS cmc "+
+                    "  on c.id = cmc.IDCOURSE "+
+                    "  INNER JOIN studentmappingclass AS smc "+
+                    "    ON cmc.idClass = smc.idClass "+
+                    "WHERE smc.STUDENTNAME = 'paramStudent' AND c.isDeleted=False AND cmc.isDeleted = FALSE "+
+                    " AND smc.isDeleted = FALSE;";
 
     private String SQL_CHECK_USER_COMPLETED_LESSON="select q.id from QUESTION as q inner join LESSONMAPPINGQUESTION as lmq " +
             "on lmq.idQuestion = q.id " +
@@ -253,6 +260,17 @@ public class SqlReport {
     public String getSqlListCourseInClass(String idClass){
         String sql = SQL_LIST_COURSE_IN_CLASS;
         sql = sql.replaceAll("paramIdClass",idClass);
+        return sql;
+    }
+
+    /**
+     *
+     * @param student
+     * @return
+     */
+    public String getSqlListCourseByStudent(String student){
+        String sql = SQL_LIST_COURSE_BY_STUDENT;
+        sql = sql.replaceAll("paramStudent",student);
         return sql;
     }
     /**

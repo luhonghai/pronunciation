@@ -58,7 +58,7 @@ function initHelpCourseADM(){
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
         "<div class='col-sm-1'><img width='20px' height='20px' src='/images/popup/test_question_icon.gif'></div>" +
         "<div class='col-sm-11'>7. test questions- you can add one or more questions for each test.</div></div>");
-    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can drag and drop content to move it around within the defined structure current level E.g. you can move lessons around to change the order. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can drag and drop content to move it around within the current level E.g. you can move lessons around to change the order. Questions and test questions will always be numbered in sequence when you move them. (Q1 is the top question in the tree).</div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select the arrows to the left of the buttons to view more or less of the structure as required. </div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>adding and editing course content</strong></div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>Select a 'file' button in the tree to: </div>");
@@ -68,6 +68,7 @@ function initHelpCourseADM(){
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>" +
         "<label style='border-radius:5px;width: 20px;height: 20px;background-color: #F7964A'>" +
         "</label> add new details</div>");
+    $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>Note : </strong> Courses can not be edited while they are assigned to one or more classes. If you need to change course content you will need to remove it from the relevant classes to update, then re-assign. </div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'><strong>Copy/paste</strong></div>");
     $html.append("<div style='padding-bottom:10px' class='col-sm-12'>You can right mouse click on an item to copy and paste" +
         " to an appropriate directory file.</div>");
@@ -243,7 +244,7 @@ function initHelpTopDataMyCourse(){
         "<div style='padding-left:30px;'>created by you or copied and edited</div></p>");
     $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
         "<div style='padding-left:30px;'>copied without editing</div></p>");
-    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #558ED5'></div>" +
+    $html.append("<p><div style='border-radius:5px;float:left;width:20px;height: 20px;background-color: #7030A0'></div>" +
         "<div style='padding-left:30px;'>duplicate of a course you already have in your list" +
         "(You will not be able to publish an exact copy of a course that you already have in ‘my courses’ ." +
         "You need to edit something and publish it to make it available to add to your classes).</div></p>");

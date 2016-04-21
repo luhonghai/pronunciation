@@ -17,13 +17,13 @@ public class SQL {
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
             "where c.isDeleted=false and m.isDeleted=false " +
-            "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId' and LCASE(C.NAME) like '%paramCname%'";
+            "and m.tId ='paramTeacherId' and m.cpID ='paramCompanyId' and LCASE(c.name) like '%paramCname%'";
 
     private String SQL_SEARCH_COURSE_DETAIL_IN_MY_COURSE = "Select c.id,c.name, c.description, " +
             "cp.companyName, m.state, m.dateCreated,cp.id,m.cpIdClone,m.sr,m.status from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpIdClone = cp.id " +
-            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(c.name) like '%paramCourseName%' " +
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.tId='paramTeacherId' and m.cpID ='paramCompanyId' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
@@ -62,7 +62,7 @@ public class SQL {
             "m.state, m.dateCreated,cp.id,m.sr from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
-            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus'";
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(c.name) like '%paramName%' and m.status='paramStatus'";
 
     private String SQL_SUGGEST_COMPANY = "Select companyName " +
             "from CLIENTCODE " +
@@ -73,13 +73,13 @@ public class SQL {
             "m.state, m.dateCreated,m.sr,cp.id,m.tId from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
-            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramName%' and m.status='paramStatus' order by c.name";
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(c.name) like '%paramName%' and m.status='paramStatus' order by c.name";
 
     private String SQL_SEARCH_COURSE_DETAIL = "Select c.id,c.name, c.description, cp.companyName, " +
             "m.state, m.dateCreated,m.sr,cp.id,m.tId from COURSE as c " +
             "inner join COURSEMAPPINGTEACHER as m on c.id = m.cID " +
             "inner join CLIENTCODE as cp on m.cpID = cp.id " +
-            "where c.isDeleted=false and m.isDeleted=false and LCASE(C.NAME) like '%paramCourseName%' " +
+            "where c.isDeleted=false and m.isDeleted=false and LCASE(c.name) like '%paramCourseName%' " +
             "and LCASE(cp.companyName) like '%paramCompanyName%' and m.status='paramStatus' " +
             "and (m.dateCreated between 'paramDateFrom' and 'paramDateTo') order by c.name";
 
