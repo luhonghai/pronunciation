@@ -103,7 +103,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             //caculate score
             var arrQuestionScore = [Float]()
             for question in arrQuestionOfLC {
-                arrQuestionScore.append(question.listScore.average)
+                arrQuestionScore.append(round(question.listScore.average))
             }
             let score = Int(round(arrQuestionScore.average))
             
@@ -122,7 +122,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             }
             
             //save obj score
-            print("save score \(score)")
+            Logger.log("save score \(score)")
             //objectiveScore.username = AccountManager.currentUser().username
             objectiveScore.score = score
             try! lessonDBAdapter.saveLessonScore(objectiveScore)
@@ -133,7 +133,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
                 //caculate score
                 var arrQuestionScore = [Float]()
                 for question in arrQuestionOfLC {
-                    arrQuestionScore.append(question.listScore.average)
+                    arrQuestionScore.append(round(question.listScore.average))
                 }
                 let score = Int(round(arrQuestionScore.average))
                 
@@ -239,7 +239,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         //change view color
         showColorOfScoreResult(userVoiceModelResult.score)
         cViewIPAList.reloadData()
-        viewAnalyzing.showScore(Int(userVoiceModelResult.score), showAnimation: true)
+        viewAnalyzing.showScore(Int(round(userVoiceModelResult.score)), showAnimation: true)
     }
     
     func selectDetail(notification: NSNotification) {
@@ -373,7 +373,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         if (ipaPopupVC.isShow) {
             self.dismissPopupViewController(.Fade)
         }
-        print("run in timer")
+        Logger.log("run in timer")
     }
     
     func clearTimer() {
@@ -591,7 +591,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     
     func testFailMove(notification: NSNotification) {
         //pop view
-        print("testFailMove")
+        Logger.log("testFailMove")
         weak var weakSelf = self
         if weakSelf != nil && weakSelf!.navigationController != nil {
             let viewControllers: [UIViewController] = weakSelf!.navigationController!.viewControllers as [UIViewController];
@@ -600,7 +600,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func testPassMove(notification: NSNotification) {
-        print("testPassMove")
+        Logger.log("testPassMove")
         self.navigationController?.popToRootViewControllerAnimated(false)
     }
     

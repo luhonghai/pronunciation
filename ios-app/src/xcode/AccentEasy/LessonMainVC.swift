@@ -160,7 +160,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         questionCVInit()
         
         while selectedWord == nil {
-            print("run in first word")
+            Logger.log("run in first word")
             let randomIndex = Int(arc4random_uniform(UInt32(arrQuestionOfLC[0].listWord.count)))
             do {
                 selectedWord = arrQuestionOfLC[0].listWord[randomIndex]
@@ -400,7 +400,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         selectedWord = wordCollection
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
-        print("run in select word")
+        Logger.log("run in select word")
         //print(arrQuestionOfLC)
         //print(indexCurrentQuestion)
         //print(arrQuestionOfLC[indexCurrentQuestion].description)
@@ -503,9 +503,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                                 //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
                                 //[unowned self] in NSThread.isMainThread()
                                 //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                                weakSelf!.scoreResult = floor(userVoiceModel.score)
+                                weakSelf!.scoreResult = round(userVoiceModel.score)
                                 weakSelf!.showColorOfScoreResult(weakSelf!.scoreResult)
-                                weakSelf!.analyzingView.showScore(Int(weakSelf!.scoreResult))
+                                weakSelf!.analyzingView.showScore(Int(round(weakSelf!.scoreResult)))
                                 weakSelf!.ennableViewRecord()
                                 weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
                                 //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
@@ -520,7 +520,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                                 //updata data for questionCV
                                 self.arrQuestionOfLC[self.indexCurrentQuestion].currentMode = weakSelf!.currentMode
                                 self.arrQuestionOfLC[self.indexCurrentQuestion].recorded = true
-                                self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(weakSelf!.scoreResult)
+                                self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(round(weakSelf!.scoreResult))
                                 
                                 if self.indexCurrentQuestion+1 < self.arrQuestionOfLC.count {
                                     self.arrQuestionOfLC[self.indexCurrentQuestion+1].enabled = true
@@ -567,7 +567,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             let time = NSDate().timeIntervalSince1970 * 1000.0
             let pScore = PronunciationScore()
             pScore.username = userProfile.username
-            pScore.score = Int(floor(model.score))
+            pScore.score = Int(round(model.score))
             pScore.word = model.word
             pScore.dataId = model.id
             pScore.time = time
@@ -638,7 +638,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.btnRecord.enabled = true
             if (self.scoreResult >= 0.0) {
                 showColorOfScoreResult(scoreResult)
-                self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+                self.analyzingView.showScore(Int(round(self.scoreResult)), showAnimation: false)
             }
             
         } else {
@@ -674,7 +674,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             self.btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Normal)
             self.btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
             showColorOfScoreResult(scoreResult)
-            self.analyzingView.showScore(Int(self.scoreResult), showAnimation: false)
+            self.analyzingView.showScore(Int(round(self.scoreResult)), showAnimation: false)
             ennableViewPlay()
         }
         
@@ -820,8 +820,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     
     
-    
-    
+    /*colection view setup
+     *************************************************************/
     func questionCVInit(){
         disableViewSelectQuestion()
         
@@ -832,7 +832,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             objectiveScore.idLesson = selectedLessonCollection.idString
         }
         
-        print(selectedLessonCollection.idString)
+        Logger.log(selectedLessonCollection.idString)
         
         arrQuestionOfLC = try! wordCollectionDbApdater.getQuestionByLessionCollection(selectedLessonCollection.idString)
         for index in 0...arrQuestionOfLC.count-1 {
@@ -872,7 +872,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         
         if !question.recorded && question.enabled {
             if isRedoLesson {
-                let averageScore:Int = Int(question.listScore.average)
+                let averageScore:Int = Int(round(question.listScore.average))
                 cell.lblQuestion.text = String(averageScore)
                 //cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
             } else {
@@ -884,12 +884,12 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             }
             cell.lblQuestion.backgroundColor = ColorHelper.APP_PURPLE
         } else if question.recorded && question.enabled {
-            let averageScore:Int = Int(question.listScore.average)
+            let averageScore:Int = Int(round(question.listScore.average))
             cell.lblQuestion.text = String(averageScore)
             cell.lblQuestion.backgroundColor = questionCVChangeColor(averageScore)
         } else {
             if isRedoLesson {
-                let averageScore:Int = Int(question.listScore.average)
+                let averageScore:Int = Int(round(question.listScore.average))
                 cell.lblQuestion.text = String(averageScore)
             } else {
                 if isLessonCollection {
@@ -940,7 +940,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 }
             }
             indexCurrentQuestion = indexPath.item
-            print(indexCurrentQuestion)
+            Logger.log(indexCurrentQuestion)
             disableViewSelectQuestion()
             randomWord(question)
         }
@@ -971,7 +971,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             }
         }
         
-        disableViewSelectQuestion()
+        //disableViewSelectQuestion()
         
         indexCurrentQuestion = cellIndex
         if let word = arrQuestionOfLC[cellIndex].selectedWord {
@@ -985,9 +985,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
             NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
             NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: currentMode.word)
             
-            scoreResult = floor(currentMode.score)
+            scoreResult = round(currentMode.score)
             showColorOfScoreResult(currentMode.score)
-            analyzingView.showScore(Int(currentMode.score))
+            analyzingView.showScore(Int(round(currentMode.score)))
             //ennableViewRecord()
             btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
