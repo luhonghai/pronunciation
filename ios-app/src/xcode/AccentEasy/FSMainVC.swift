@@ -48,6 +48,12 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     var lessonDBAdapter: WordCollectionDbApdater!
     
+    var didCompleteLoadWord = false
+    
+    var didCompleteDisplayScore = false
+    
+    var willDisplayScore = false
+    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -440,6 +446,8 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         Logger.log("Complete reload search result")
     }
     
+
+    
     func selectWord(wordCollection : WordCollection){
         currentMode = nil
         analyzingView.clear()
@@ -454,8 +462,20 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         btnPlayDemo.setTitle(wordCollection.word.lowercaseString, forState: UIControlState.Normal)
         lblIPA.text = wordCollection.pronunciation
         tvDescription.text = wordCollection.definition
+        tvDescription.becomeFirstResponder()
         linkFile = wordCollection.mp3Path
-        changeColorLoadWord()
+        didCompleteLoadWord = false
+        weak var weakSelf = self
+        disableViewRecord()
+        DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            Logger.log("link mp3: " + weakSelf!.linkFile)
+            //playSound(LinkFile)
+            HttpDownloader.loadFileSync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
+                Logger.log("load complete " + weakSelf!.linkFile)
+                weakSelf!.analyzingView.isSearching = false
+                weakSelf!.didCompleteLoadWord = true
+            })
+        })
         //close searchControler
         NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.selectedWord.arpabet)
         if resultSearchController != nil {
@@ -571,24 +591,9 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                             dispatch_async(dispatch_get_main_queue(),{
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
-                                //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                                //[unowned self] in NSThread.isMainThread()
-                                //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
                                 weakSelf!.scoreResult = floor(userVoiceModel.score)
-                                weakSelf!.showColorOfScoreResult(weakSelf!.scoreResult)
-                                weakSelf!.analyzingView.showScore(Int(weakSelf!.scoreResult))
-                                weakSelf!.ennableViewRecord()
-                                weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
-                                //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-                                weakSelf!.isRecording = false
-                                
-                                //move detail screen
-                                delay (1) {
-                                    weakSelf!.openDetailView(userVoiceModel)
-                                }
+                                weakSelf!.willDisplayScore = true
                             })
-                            
-                            
                         } else {
                             //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
                             dispatch_async(dispatch_get_main_queue(),{
@@ -756,46 +761,52 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func changeColorLoadWord(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        btnPlay.backgroundColor = ColorHelper.APP_GRAY
         btnPlay.enabled = false
+        btnRecord.enabled = true
         btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Disabled)
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#579e11"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#579e11")
-        tvDescription.textColor = Multimedia.colorWithHexString("#579e11")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GREEN
+        tvDescription.textColor = ColorHelper.APP_GREEN
+        tvDescription.becomeFirstResponder()
     }
     
     func changeColorRed(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#ff3333"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#ff3333")
-        tvDescription.textColor = Multimedia.colorWithHexString("#ff3333")
+        btnRecord.backgroundColor = ColorHelper.APP_RED
+        btnPlay.backgroundColor = ColorHelper.APP_RED
+        btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_RED
+        tvDescription.textColor = ColorHelper.APP_RED
+        tvDescription.becomeFirstResponder()
     }
     
     func changeColorOrange(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff7548")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff7548")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#ff7548"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#ff7548")
-        tvDescription.textColor = Multimedia.colorWithHexString("#ff7548")
+        btnRecord.backgroundColor = ColorHelper.APP_ORANGE
+        btnPlay.backgroundColor = ColorHelper.APP_ORANGE
+        btnPlayDemo.setTitleColor(ColorHelper.APP_ORANGE, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_ORANGE
+        tvDescription.textColor = ColorHelper.APP_ORANGE
+        tvDescription.becomeFirstResponder()
     }
     
     func changeColorGreen(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#579e11"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#579e11")
-        tvDescription.textColor = Multimedia.colorWithHexString("#579e11")
+        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        btnPlay.backgroundColor = ColorHelper.APP_GREEN
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GREEN
+        tvDescription.textColor = ColorHelper.APP_GREEN
+        tvDescription.becomeFirstResponder()
     }
     
     func disableViewPlay(){
         btnRecord.enabled = false
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.backgroundColor = ColorHelper.APP_GRAY
         btnPlayDemo.enabled = false
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
-        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GRAY, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GRAY
+        tvDescription.textColor = ColorHelper.APP_GRAY
+        tvDescription.becomeFirstResponder()
     }
     
     func ennableViewPlay(){
@@ -805,11 +816,14 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     func disableViewRecord(){
         btnPlay.enabled = false
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnPlay.backgroundColor = ColorHelper.APP_GRAY
+        btnRecord.backgroundColor = ColorHelper.APP_GRAY
         btnPlayDemo.enabled = false
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
-        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.enabled = false
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GRAY, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GRAY
+        tvDescription.textColor = ColorHelper.APP_GRAY
+        tvDescription.becomeFirstResponder()
     }
     
     func ennableViewRecord(){
@@ -894,11 +908,30 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func onAnimationMin() {
-        
+        if didCompleteLoadWord {
+            changeColorLoadWord()
+            didCompleteLoadWord = false
+        }
+        if willDisplayScore {
+            self.willDisplayScore = false
+            self.didCompleteDisplayScore = true
+            self.analyzingView.showScore(Int(floor(self.scoreResult)))
+        }
     }
     
     func onAnimationMax() {
-        
+        if didCompleteDisplayScore {
+            self.showColorOfScoreResult(self.scoreResult)
+            self.ennableViewRecord()
+            self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
+            self.isRecording = false
+            self.didCompleteDisplayScore = false
+            //move detail screen
+            weak var weakSelf = self
+            delay (1) {
+                weakSelf!.openDetailView(weakSelf!.currentMode)
+            }
+        }
     }
     
     @IBAction func analyzingViewTapped(sender: AnyObject) {
