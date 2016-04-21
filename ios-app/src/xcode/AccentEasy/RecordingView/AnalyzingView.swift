@@ -63,6 +63,12 @@ public class AnalyzingView: EZPlot, EZAudioDisplayLinkDelegate {
     
     var isSearching: Bool = false
     
+    var didCompleteLoadWord = false
+    
+    var didCompleteDisplayScore = false
+    
+    var willDisplayScore = false
+    
     public init() {
         super.init(frame:CGRectZero)
         self.initPlot()

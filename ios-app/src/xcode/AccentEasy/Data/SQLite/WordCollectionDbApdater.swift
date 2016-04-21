@@ -59,7 +59,7 @@ public class WordCollectionDbApdater: BaseDatabaseAdapter {
     }
     
     public func getAllCountries() throws -> Array<AECountry> {
-        return try findAll()
+        return try query(LiteTable.COUNTRY.order(LiteColumn.NAME .asc))
     }
     
     public func getDefaultCountry() throws -> AECountry {

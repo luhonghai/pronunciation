@@ -506,4 +506,8 @@ class FSDetailVC: UIViewController, UICollectionViewDataSource, UICollectionView
         self.navigationController?.navigationBar.translucent = true
         self.navigationController?.view.backgroundColor = UIColor.clearColor()
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordSelected.word)
+    }
 }

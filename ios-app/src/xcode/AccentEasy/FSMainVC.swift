@@ -48,12 +48,6 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     var lessonDBAdapter: WordCollectionDbApdater!
     
-    var didCompleteLoadWord = false
-    
-    var didCompleteDisplayScore = false
-    
-    var willDisplayScore = false
-    
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -464,17 +458,19 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         tvDescription.text = wordCollection.definition
         tvDescription.becomeFirstResponder()
         linkFile = wordCollection.mp3Path
-        didCompleteLoadWord = false
-        weak var weakSelf = self
+        
         disableViewRecord()
+        self.analyzingView.didCompleteLoadWord = false
+        weak var weakSelf = self
         DeviceManager.doIfConnectedToNetwork({ () -> Void in
-            Logger.log("link mp3: " + weakSelf!.linkFile)
-            //playSound(LinkFile)
-            HttpDownloader.loadFileSync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
-                Logger.log("load complete " + weakSelf!.linkFile)
-                weakSelf!.analyzingView.isSearching = false
-                weakSelf!.didCompleteLoadWord = true
-            })
+            if weakSelf != nil {
+                //playSound(LinkFile)
+                HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
+                    Logger.log("load complete " + weakSelf!.linkFile)
+                    weakSelf!.analyzingView.isSearching = false
+                    weakSelf!.analyzingView.didCompleteLoadWord = true
+                })
+            }
         })
         //close searchControler
         NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: self.selectedWord.arpabet)
@@ -592,7 +588,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                                 weakSelf!.scoreResult = round(userVoiceModel.score)
-                                weakSelf!.willDisplayScore = true
+                                weakSelf!.analyzingView.willDisplayScore = true
                             })
                         } else {
                             //SweetAlert().showAlert("Register Failed!", subTitle: "It's pretty, isn't it?", style: AlertStyle.Error)
@@ -723,7 +719,7 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
             DeviceManager.doIfConnectedToNetwork({ () -> Void in
                 Logger.log("link mp3: " + self.linkFile)
                 //playSound(LinkFile)
-                HttpDownloader.loadFileSync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
+                HttpDownloader.loadFileAsync(NSURL(string: self.linkFile)!, completion: { (path, error) -> Void in
                     self.playSound(NSURL(fileURLWithPath: path))
                 })
             })
@@ -915,24 +911,24 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     }
     
     func onAnimationMin() {
-        if didCompleteLoadWord {
+        if self.analyzingView.didCompleteLoadWord {
             changeColorLoadWord()
-            didCompleteLoadWord = false
+            self.analyzingView.didCompleteLoadWord = false
         }
-        if willDisplayScore {
-            self.willDisplayScore = false
-            self.didCompleteDisplayScore = true
+        if self.analyzingView.willDisplayScore {
+            self.analyzingView.willDisplayScore = false
+            self.analyzingView.didCompleteDisplayScore = true
             self.analyzingView.showScore(Int(round(self.scoreResult)))
         }
     }
     
     func onAnimationMax() {
-        if didCompleteDisplayScore {
+        if self.analyzingView.didCompleteDisplayScore {
             self.showColorOfScoreResult(self.scoreResult)
             self.ennableViewRecord()
             self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
             self.isRecording = false
-            self.didCompleteDisplayScore = false
+            self.analyzingView.didCompleteDisplayScore = false
             //move detail screen
             weak var weakSelf = self
             delay (1) {

@@ -151,7 +151,7 @@ class IPAChartController: UIViewController , UICollectionViewDataSource, UIColle
     func playUrl(url : String?) {
         if url == nil || url!.isEmpty { return }
         weak var weakSelf = self
-        HttpDownloader.loadFileSync(NSURL(string: url!)!, completion: { (path, error) -> Void in
+        HttpDownloader.loadFileAsync(NSURL(string: url!)!, completion: { (path, error) -> Void in
             weakSelf!.playSound(NSURL(fileURLWithPath: path))
         })
     }

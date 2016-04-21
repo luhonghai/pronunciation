@@ -206,8 +206,11 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func onHelpButtonClose(neverShowAgain: Bool) {
-        self.navigationController!.view.userInteractionEnabled = true
-        helpContext.hidden = true
+        weak var weakSelf = self
+        if weakSelf != nil && weakSelf!.navigationController != nil {
+            self.navigationController!.view.userInteractionEnabled = true
+            helpContext.hidden = true
+        }
         GlobalData.getInstance().isShowHelpLesson = true
         if neverShowAgain {
             let profile = AccountManager.currentUser()
@@ -414,9 +417,20 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         }
         
         linkFile = wordCollection.mp3Path
-        changeColorLoadWord()
+        //changeColorLoadWord()
         //close searchControler
-        
+        disableViewRecord()
+        self.analyzingView.didCompleteLoadWord = false
+        weak var weakSelf = self
+        DeviceManager.doIfConnectedToNetwork({ () -> Void in
+            Logger.log("link mp3: " + weakSelf!.linkFile)
+            //playSound(LinkFile)
+            HttpDownloader.loadFileAsync(NSURL(string: weakSelf!.linkFile)!, completion: { (path, error) -> Void in
+                Logger.log("load complete " + weakSelf!.linkFile)
+                weakSelf!.analyzingView.isSearching = false
+                weakSelf!.analyzingView.didCompleteLoadWord = true
+            })
+        })
     }
 
     func showErrorAnalyzing() {
@@ -500,40 +514,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: userVoiceModel.word)
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadHistory", object: "")
                                 NSNotificationCenter.defaultCenter().postNotificationName("loadTip", object: userVoiceModel.word)
-                                //SweetAlert().showAlert("Register Success!", subTitle: "", style: AlertStyle.Success)
-                                //[unowned self] in NSThread.isMainThread()
-                                //self.performSegueWithIdentifier("AELoginGoToMain", sender: self)
-                                weakSelf!.scoreResult = round(userVoiceModel.score)
-                                weakSelf!.showColorOfScoreResult(weakSelf!.scoreResult)
-                                weakSelf!.analyzingView.showScore(Int(round(weakSelf!.scoreResult)))
-                                weakSelf!.ennableViewRecord()
-                                weakSelf!.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
-                                //self.btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-                                weakSelf!.isRecording = false
-                        
-                                
-                                
-                                //let cell = self.cvQuestionList.cellForItemAtIndexPath(self.cellChoice) as! QuestionCVCell
-                                //cell.lblQuestion.text = String(Int(weakSelf!.scoreResult))
-                                //cell.lblQuestion.backgroundColor = UIColor.redColor()
-                                
-                                //updata data for questionCV
-                                self.arrQuestionOfLC[self.indexCurrentQuestion].currentMode = weakSelf!.currentMode
-                                self.arrQuestionOfLC[self.indexCurrentQuestion].recorded = true
-                                self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(round(weakSelf!.scoreResult))
-                                
-                                if self.indexCurrentQuestion+1 < self.arrQuestionOfLC.count {
-                                    self.arrQuestionOfLC[self.indexCurrentQuestion+1].enabled = true
-                                }
-                                self.arrQuestionOfLC[self.indexCurrentQuestion].selectedWord = self.selectedWord
-                                self.cvQuestionList.reloadData()
-                                
-                                //move detail screen
-                                delay (1) {
-                                    if self.isShowDetail {
-                                        weakSelf!.openDetailView(userVoiceModel)
-                                    }
-                                }
+                                weakSelf!.analyzingView.willDisplayScore = true
                             })
                             
                             
@@ -707,46 +688,46 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func changeColorLoadWord(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        btnPlay.backgroundColor = ColorHelper.APP_GRAY
         btnPlay.enabled = false
         btnPlay.setBackgroundImage(UIImage(named: "ic_play.png"), forState: UIControlState.Disabled)
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#579e11"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#579e11")
-        tvDescription.textColor = Multimedia.colorWithHexString("#579e11")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GREEN
+        tvDescription.textColor = ColorHelper.APP_GREEN
     }
     
     func changeColorRed(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff3333")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#ff3333"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#ff3333")
-        tvDescription.textColor = Multimedia.colorWithHexString("#ff3333")
+        btnRecord.backgroundColor = ColorHelper.APP_RED
+        btnPlay.backgroundColor = ColorHelper.APP_RED
+        btnPlayDemo.setTitleColor(ColorHelper.APP_RED, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_RED
+        tvDescription.textColor = ColorHelper.APP_RED
     }
     
     func changeColorOrange(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#ff7548")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#ff7548")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#ff7548"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#ff7548")
-        tvDescription.textColor = Multimedia.colorWithHexString("#ff7548")
+        btnRecord.backgroundColor = ColorHelper.APP_ORANGE
+        btnPlay.backgroundColor = ColorHelper.APP_ORANGE
+        btnPlayDemo.setTitleColor(ColorHelper.APP_ORANGE, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_ORANGE
+        tvDescription.textColor = ColorHelper.APP_ORANGE
     }
     
     func changeColorGreen(){
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#579e11")
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#579e11"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#579e11")
-        tvDescription.textColor = Multimedia.colorWithHexString("#579e11")
+        btnRecord.backgroundColor = ColorHelper.APP_GREEN
+        btnPlay.backgroundColor = ColorHelper.APP_GREEN
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GREEN, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GREEN
+        tvDescription.textColor = ColorHelper.APP_GREEN
     }
     
     func disableViewPlay(){
         btnRecord.enabled = false
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.backgroundColor = ColorHelper.APP_GRAY
         btnPlayDemo.enabled = false
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
-        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GRAY, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GRAY
+        tvDescription.textColor = ColorHelper.APP_GRAY
         cvQuestionList.userInteractionEnabled = false
         btnLessonTip.enabled = false
     }
@@ -760,11 +741,11 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func disableViewRecord(){
         btnPlay.enabled = false
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnPlay.backgroundColor = ColorHelper.APP_GRAY
         btnPlayDemo.enabled = false
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
-        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GRAY, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GRAY
+        tvDescription.textColor = ColorHelper.APP_GRAY
         cvQuestionList.userInteractionEnabled = false
         btnLessonTip.enabled = false
     }
@@ -778,15 +759,15 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func disableViewSelectQuestion(){
         btnPlay.enabled = false
-        btnPlay.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnPlay.backgroundColor = ColorHelper.APP_GRAY
         btnPlayDemo.enabled = false
-        btnPlayDemo.setTitleColor(Multimedia.colorWithHexString("#929292"), forState: UIControlState.Normal)
-        lblIPA.textColor = Multimedia.colorWithHexString("#929292")
-        tvDescription.textColor = Multimedia.colorWithHexString("#929292")
+        btnPlayDemo.setTitleColor(ColorHelper.APP_GRAY, forState: UIControlState.Normal)
+        lblIPA.textColor = ColorHelper.APP_GRAY
+        tvDescription.textColor = ColorHelper.APP_GRAY
         cvQuestionList.userInteractionEnabled = false
         btnLessonTip.enabled = false
         btnRecord.enabled = false
-        btnRecord.backgroundColor = Multimedia.colorWithHexString("#929292")
+        btnRecord.backgroundColor = ColorHelper.APP_GRAY
     }
     
     func ennableViewSelectQuestion(){
@@ -1140,11 +1121,43 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     }
     
     func onAnimationMin() {
-        ennableViewSelectQuestion()
+        if self.analyzingView.didCompleteLoadWord {
+            changeColorLoadWord()
+            ennableViewSelectQuestion()
+            self.analyzingView.didCompleteLoadWord = false
+        }
+        if self.analyzingView.willDisplayScore {
+            self.analyzingView.willDisplayScore = false
+            self.analyzingView.didCompleteDisplayScore = true
+            self.scoreResult = round(currentMode.score)
+            self.analyzingView.showScore(Int(round(self.scoreResult)))
+        }
     }
     
     func onAnimationMax() {
-        
+        if self.analyzingView.didCompleteDisplayScore {
+            self.showColorOfScoreResult(self.scoreResult)
+            self.ennableViewRecord()
+            self.btnRecord.setBackgroundImage(UIImage(named: "ic_record.png"), forState: UIControlState.Normal)
+            self.isRecording = false
+            self.arrQuestionOfLC[self.indexCurrentQuestion].currentMode = self.currentMode
+            self.arrQuestionOfLC[self.indexCurrentQuestion].recorded = true
+            self.arrQuestionOfLC[self.indexCurrentQuestion].listScore.append(round(self.scoreResult))
+            
+            if self.indexCurrentQuestion+1 < self.arrQuestionOfLC.count {
+                self.arrQuestionOfLC[self.indexCurrentQuestion+1].enabled = true
+            }
+            self.arrQuestionOfLC[self.indexCurrentQuestion].selectedWord = self.selectedWord
+            self.cvQuestionList.reloadData()
+            weak var weakSelf = self
+            //move detail screen
+            delay (1) {
+                if self.isShowDetail {
+                    weakSelf!.openDetailView(weakSelf!.currentMode)
+                }
+            }
+            self.analyzingView.didCompleteDisplayScore = false
+        }
     }
     
     @IBAction func analyzingViewTapped(sender: AnyObject) {

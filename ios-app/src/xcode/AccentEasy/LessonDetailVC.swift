@@ -109,7 +109,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             
             //show popup score for Lesson
             //arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 &&
-            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
+            if arrQuestionOfLC.count > 0 && arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded {
                 //finished recorde question of lesson
                 btnGoToLesson.hidden = false
                 btnRedo.hidden = false
@@ -129,7 +129,7 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
         } else {
             //save score and show popup score for test
             //if arrQuestionOfLC[arrQuestionOfLC.count-1].listScore.count > 0 {
-            if arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
+            if arrQuestionOfLC.count > 0 && arrQuestionOfLC[arrQuestionOfLC.count-1].enabled && arrQuestionOfLC[arrQuestionOfLC.count-1].recorded{
                 //caculate score
                 var arrQuestionScore = [Float]()
                 for question in arrQuestionOfLC {
@@ -176,6 +176,10 @@ class LessonDetailVC: UIViewController, UICollectionViewDataSource, UICollection
             }
             
         }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().postNotificationName("loadGraph", object: wordSelected.word)
     }
     
     func activateAudioSession() {
