@@ -197,8 +197,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         FBSDKAccessToken.setCurrentAccessToken(nil)
     }
     
-    func fetchFacebookProfile()
-    {
+    func fetchFacebookProfile(){
+        
         if FBSDKAccessToken.currentAccessToken() != nil {
             let graphRequest : FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me?fields=id,name,email,birthday", parameters: nil)
             graphRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
@@ -283,7 +283,8 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
                     userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
                     weakSelf!.getUserProfile()
-                    //weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                    weakSelf!.hidenLoadding()
+                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                 } else {
                     weakSelf!.hidenLoadding()
                     AccountManager.showError("could not login", message: message)
@@ -297,13 +298,13 @@ class LoginHomeVC: UIViewController, GIDSignInUIDelegate, GIDSignInDelegate{
         AccountManager.fetchProfile(currentUser) { (userProfile, success, message) -> Void in
             dispatch_async(dispatch_get_main_queue(),{
                 if success {
-                    userProfile.isLogin = true
+                    //userProfile.isLogin = true
                     AccountManager.updateProfile(userProfile)
-                    weakSelf!.hidenLoadding()
-                    weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
+                    //weakSelf!.hidenLoadding()
+                    //weakSelf!.performSegueWithIdentifier("LoginScreenGoToMain", sender: self)
                 } else {
-                    AccountManager.showError("could not fetch user data")
-                    weakSelf!.hidenLoadding()
+                    //AccountManager.showError("could not fetch user data")
+                    //weakSelf!.hidenLoadding()
                 }
             })
         }
