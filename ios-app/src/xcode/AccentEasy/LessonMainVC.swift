@@ -497,8 +497,10 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                         let status:Bool = result!.status
                         let message:String = result!.message
                         let userVoiceModel = result!.data
+                        
                         //  print (userVoiceModel.word)
                         if status {
+                            userVoiceModel.score = round(userVoiceModel.score)
                             self.userProfileSaveInApp.setObject(res.text , forKey: FSScreen.KeyVoidModelResult)
                             weakSelf!.currentMode = userVoiceModel
                             weakSelf!.saveDatabase(userVoiceModel)
@@ -563,6 +565,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 if  !phoneScores.isEmpty {
                     for phoneScore in phoneScores {
                         let ps = PhonemeScore.parseData(phoneScore)
+                        ps.score = round(ps.score)
                         ps.username = userProfile.username
                         ps.time = time
                         ps.dataId = model.id
