@@ -120,7 +120,9 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     override func viewDidLoad() {
         GlobalData.getInstance().isOnLessonMain = true
         super.viewDidLoad()
-        DeviceManager.requestMicrophonePermission()
+        DeviceManager.requestMicrophonePermission { 
+            self.microphone = EZMicrophone(delegate: self)
+        }
         //self.edgesForExtendedLayout = UIRectEdge.None;
         //
         // Setup the AVAudioSession. EZMicrophone will not work properly on iOS
@@ -128,9 +130,7 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
         //
         self.analyzingView.delegate = self
         // Create an instance of the microphone and tell it to use this view controller instance as the delegate
-        self.microphone = EZMicrophone(delegate: self)
         self.player = EZAudioPlayer(delegate: self)
-        
         //
         // Setup notifications
         //

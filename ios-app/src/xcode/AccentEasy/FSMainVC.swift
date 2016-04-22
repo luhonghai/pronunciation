@@ -95,14 +95,15 @@ class FSMainVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         GlobalData.getInstance().isOnLessonMain = false
         super.viewDidLoad()
         
-        DeviceManager.requestMicrophonePermission()
+        DeviceManager.requestMicrophonePermission { 
+            self.microphone = EZMicrophone(delegate: self)
+            
+        }
         //self.edgesForExtendedLayout = UIRectEdge.None;
-  
+        self.player = EZAudioPlayer(delegate: self)
         self.analyzingView.delegate = self
         // Create an instance of the microphone and tell it to use this view controller instance as the delegate
-        self.microphone = EZMicrophone(delegate: self)
-        self.player = EZAudioPlayer(delegate: self)
-        
+    
         //
         // Setup notifications
         //

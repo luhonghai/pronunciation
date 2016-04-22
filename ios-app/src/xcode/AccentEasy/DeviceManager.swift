@@ -123,7 +123,7 @@ class DeviceManager {
         return deviceInfo
     }
     
-    class func requestMicrophonePermission() {
+    class func requestMicrophonePermission(completion:() -> Void) {
         let session: AVAudioSession = AVAudioSession.sharedInstance()
         if (session.respondsToSelector("requestRecordPermission:")) {
             AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
@@ -135,8 +135,10 @@ class DeviceManager {
                 try! session.setCategory(AVAudioSessionCategoryPlayAndRecord)
                 try! session.setActive(true)
                 try! session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+                completion()
             })
-            
+        } else {
+            completion()
         }
     }
     
