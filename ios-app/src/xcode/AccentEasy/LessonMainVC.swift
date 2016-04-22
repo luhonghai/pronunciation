@@ -565,7 +565,6 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
                 if  !phoneScores.isEmpty {
                     for phoneScore in phoneScores {
                         let ps = PhonemeScore.parseData(phoneScore)
-                        ps.score = round(ps.score)
                         ps.username = userProfile.username
                         ps.time = time
                         ps.dataId = model.id
