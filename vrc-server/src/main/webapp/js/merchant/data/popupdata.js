@@ -265,5 +265,7 @@ function initHelpTopDataReviewCourse(){
         "You can edit the content and you will need to " +
         "publish it to make it available to add to your classes." +
         "<img style='float:right' src='/images/treeview/duplicated_button.gif' width='30px' height='30px'> </p>");
+    $html.append("<p><strong>Note : </strong>  When you duplicate a course, you will ned to edit something to be able to publish it. " +
+        "The course name will initially be prefixed with the words “copy of”. If you do not want to change any content, you can simply edit the name to remove the extra text.</p>");
     return $html;
 }

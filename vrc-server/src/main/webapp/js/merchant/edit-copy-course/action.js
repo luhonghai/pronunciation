@@ -688,7 +688,7 @@ $(document).ready(function(){
     btnSaveTest();
     btnDeleteTest();
     showHelpIconTop();
-    enablePublishBtn();
+    //enablePublishBtn();
     btnPublish();
     confirmDelete();
 });

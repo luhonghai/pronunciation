@@ -9,6 +9,7 @@ import com.cmg.lesson.data.jdo.level.Level;
 import com.cmg.lesson.data.jdo.objectives.Objective;
 import com.cmg.lesson.data.jdo.test.Test;
 import com.cmg.merchant.common.Constant;
+import com.cmg.merchant.dao.company.CPDAO;
 import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.course.CMLDAO;
 import com.cmg.merchant.dao.lessons.LMODAO;
@@ -63,7 +64,7 @@ public class CourseServices {
     public String addLevelToCourse(String idCourse, String nameLv, String descriptionLv) {
         LevelServices lvServices = new LevelServices();
         if(lvServices.existedName(idCourse,null,nameLv)){
-           return ERROR + " : name already existed!";
+           return ERROR + " : You already have a level with this name in your course";
         }
         String idLevel = UUIDGenerator.generateUUID().toString();
         String message = lvServices.addLevelToDB(idLevel,nameLv, descriptionLv);
@@ -205,6 +206,22 @@ public class CourseServices {
             logger.error("can not get name of course : " + e);
         }
         return name;
+    }
+
+    /**
+     *
+     * @param idCourse
+     * @return
+     */
+    public String getCompanyCreatedCourse(String idCourse){
+        CMTDAO dao = new CMTDAO();
+        CPDAO cpDao = new CPDAO();
+        try {
+            CourseMappingTeacher cmt = dao.getByIdCourse(idCourse);
+            String idCompany = cmt.getCpID();
+            return cpDao.getById(idCompany).getCompanyName();
+        }catch (Exception e){}
+        return null;
     }
 
     /**

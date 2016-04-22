@@ -1,3 +1,10 @@
+<style>
+    .count-character{
+        float: right;
+        color : #A6A6A6;
+        font-size: 12px;
+    }
+</style>
 <div id="popupCourse" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-sm">
@@ -253,8 +260,10 @@
                         <label class="control-label col-md-4 lbl_addForm">description:</label>
 
                         <div class="col-md-8">
-                            <textarea rows="2" class="form-control" id="lessonDesc" name="description"
+                            <textarea onkeyup="countChars('lessonDesc');"  maxlength="60" rows="2"
+                                      class="form-control" id="lessonDesc" name="description"
                                       placeholder="Lesson description"></textarea>
+                            <span class="count-character" id="count-lesson-description">0 of 60 characters</span>
                         </div>
                     </div>
 
@@ -277,8 +286,10 @@
                              style="width:50px;height: 50px;padding-left: 0px;padding-right: 0px;margin-left: 12px;">
 
                         <div class="col-md-8">
-                            <textarea rows="3" class="form-control" id="lessonDetail" name="details"
+                            <textarea onkeyup="countChars('lessonDetail');" maxlength="240" rows="3"
+                                      class="form-control" id="lessonDetail" name="details"
                                       placeholder="Lesson details"></textarea>
+                            <span class="count-character" id="count-lesson-details">0 of 240 characters</span>
                         </div>
                     </div>
                     <div class="form-group contain-button">
@@ -611,3 +622,14 @@
     </div>
     <!-- End of Modal dialog -->
 </div>
+
+
+<script type="text/javascript">
+    function countChars(id) {
+        var input = $("#"+id).val();
+        var length = input.length;
+        var span = $("#"+id).parent().find('span').html();
+        var html = length + " of " + span.split("of")[1];
+        $("#"+id).parent().find('span').html(html);
+    }
+</script>

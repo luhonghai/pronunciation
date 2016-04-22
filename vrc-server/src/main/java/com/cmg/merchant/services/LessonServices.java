@@ -40,7 +40,7 @@ public class LessonServices {
     public String addLessonToObj(String idObj, String name, String description,String type,String detail){
         String idLesson = UUIDGenerator.generateUUID().toString();
         if(isExistedLessonInObj(idObj, name, null)){
-            return ERROR + ": name already existed in objective!";
+            return ERROR + ": You already have a lesson with this name in your objective";
         }
         String message = addLessonToDB(idLesson,name,description,type,detail);
         if(message.equalsIgnoreCase(ERROR)){

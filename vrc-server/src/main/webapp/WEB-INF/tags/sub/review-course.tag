@@ -8,6 +8,7 @@
     CourseServices cServices = new CourseServices();
     String company = (String) StringUtil.isNull(request.getSession().getAttribute(SessionUtil.ATT_CPNAME), "CMG");
     String idCourse = (String) StringUtil.isNull(request.getParameter("idCourse"), "66b3510d-8964-47a0-8c33-72dc14f8dded");
+    String companyCreateCourse = (String) StringUtil.isNull(cServices.getCompanyCreatedCourse(idCourse), "CMG");
     String nameOfCourse = (String) StringUtil.isNull(cServices.getCourseName(idCourse), "");
 %>
 <script>
@@ -53,7 +54,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h4 class="page-header header-company">review course > <%=company%> > <%=nameOfCourse%>
+            <h4 class="page-header header-company">review course > <%=companyCreateCourse%> > <%=nameOfCourse%>
             </h4>
         </div>
     </div>
@@ -74,10 +75,10 @@
     </div>
     <div class="row">
         <div class="col-lg-11">
-            <img id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
+            <img title="preview course" id="preview" style="float:right;cursor: pointer" src="/images/treeview/preview_button.gif" width="50px" height="50px"/>
         </div>
         <div class="col-lg-1">
-            <img id="copyCourse" style="float:right;cursor: pointer;" src="/images/treeview/duplicated_button.gif" width="50px" height="50px"/>
+            <img title="copy course" id="copyCourse" style="float:right;cursor: pointer;" src="/images/treeview/duplicated_button.gif" width="50px" height="50px"/>
         </div>
     </div>
 </div>

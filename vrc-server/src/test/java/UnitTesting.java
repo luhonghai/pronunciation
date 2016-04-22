@@ -30,7 +30,9 @@ import com.cmg.merchant.dao.course.CDAO;
 import com.cmg.merchant.dao.level.LVMODAO;
 import com.cmg.merchant.dao.report.ReportLessonDAO;
 import com.cmg.merchant.dao.report.ReportPhoneDao;
+import com.cmg.merchant.dao.teacher.TCHDAO;
 import com.cmg.merchant.data.dto.CourseDTO;
+import com.cmg.merchant.data.jdo.TeacherCourseHistory;
 import com.cmg.merchant.services.CMTSERVICES;
 import com.cmg.merchant.services.QuestionServices;
 import com.cmg.merchant.util.DateUtil;
@@ -152,10 +154,17 @@ public class UnitTesting {
             cmt.setId("temp");
             ClassMappingTeacherDAO dao = new ClassMappingTeacherDAO();
             dao.put(cmt);*/
-            CourseMappingClass cmc = new CourseMappingClass();
+            /*CourseMappingClass cmc = new CourseMappingClass();
             cmc.setId("temp");
             CourseMappingClassDAO cmcdao = new CourseMappingClassDAO();
-            cmcdao.put(cmc);
+            cmcdao.put(cmc);*/
+            TeacherCourseHistory tch = new TeacherCourseHistory();
+            tch.setId("abc");
+            tch.setIdCourse("idcourse");
+            tch.setVersion(1);
+            tch.setPathAws("idcourse-v1.zip");
+            TCHDAO dao = new TCHDAO();
+            dao.put(tch);
         } catch (Exception e) {
             e.printStackTrace();
         }

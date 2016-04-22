@@ -806,8 +806,12 @@ function enablePublishBtn(){
         success : function(data){
             if (data.indexOf("success") !=-1) {
                 getPublishBtn().removeAttr("disabled");
+                getPublishBtn().attr('src',"/images/treeview/publish_button.gif");
+                getPublishBtn().css("opacity","inherit");
             }else{
                 getPublishBtn().attr("disabled","disabled");
+                getPublishBtn().attr('src',"/images/treeview/publish_button_disable.gif");
+                getPublishBtn().css("opacity","inherit");
             }
         },
         error: function () {

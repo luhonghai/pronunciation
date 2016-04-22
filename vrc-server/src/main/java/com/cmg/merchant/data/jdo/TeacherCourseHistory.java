@@ -1,5 +1,7 @@
 package com.cmg.merchant.data.jdo;
 
+import com.cmg.vrc.data.Mirrorable;
+
 import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -9,7 +11,7 @@ import javax.jdo.annotations.PrimaryKey;
  * Created by lantb on 2016-04-20.
  */
 @PersistenceCapable(table = "TEACHERCOURSEHISTORY", detachable = "true")
-public class TeacherCourseHistory {
+public class TeacherCourseHistory implements Mirrorable {
     @PrimaryKey
     private String id;
 
@@ -44,10 +46,12 @@ public class TeacherCourseHistory {
         this.urlDownload = urlDownload;
     }
 
+    @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }

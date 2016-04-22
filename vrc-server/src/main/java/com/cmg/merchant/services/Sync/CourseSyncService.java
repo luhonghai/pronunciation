@@ -28,7 +28,8 @@ public class CourseSyncService {
                 for(int i= 0 ; i < list.size(); i++){
                     TeacherCourseHistory tmp  = dao.getLatestFile(list.get(i).getIdCourse());
                     if(tmp!=null){
-                        list.get(i).setUrlDownload(awsHelper.generatePresignedUrl(tmp.getPathAws()));
+                        list.get(i).setUrlDownload(awsHelper.generatePresignedUrl(Constant.FOLDER_DATABASE
+                                + "/" + tmp.getPathAws()));
                         list.get(i).setVersion(tmp.getVersion());
                     }
                 }

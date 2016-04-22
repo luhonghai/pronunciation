@@ -159,7 +159,7 @@ public class ClassService {
         return list;
     }
     public String addClassToDb(String teacherName,String className,String definition,String jsonClient){
-        ClassJDO classs=new ClassJDO();
+        ClassJDO classs = new ClassJDO();
         int version=0;
         String uuid="";
         String message=null;
@@ -295,6 +295,8 @@ public class ClassService {
                         courseMappingClass.setCreatedDate(new Date(System.currentTimeMillis()));
                         courseMappingClass.setIsDeleted(false);
                         courseMappingClassDAO.put(courseMappingClass);
+                        SqliteService generateSqlite = new SqliteService(s);
+                        generateSqlite.start();
                     }
                     message = "success";
                 }else{

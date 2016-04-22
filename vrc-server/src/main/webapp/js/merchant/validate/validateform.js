@@ -19,13 +19,13 @@ function validateFormCourse(){
         getCourseValidateMessage().show();
         return false;
     }
-    var description = getCourseDescription().val();
+   /* var description = getCourseDescription().val();
     if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();
         getCourseDescription().html("please enter description");
         getCourseDescription().show();
         return false;
-    }
+    }*/
     getCourseValidateMessage().hide();
     return true;
 }
@@ -45,12 +45,12 @@ function validateFormLevel(){
         getLevelValidateMessage().show();
         return false;
     }
-    if(description == '' || typeof description === "undefined"){
+    /*if(description == '' || typeof description === "undefined"){
         getLevelDescription().focus();
         getLevelValidateMessage().html("please enter description");
         getLevelValidateMessage().show();
         return false;
-    }
+    }*/
     getLevelValidateMessage().hide();
     return true;
 }
@@ -188,16 +188,25 @@ function validateFormAddCourse(){
         getMsgAddCourse().show();
         return false;
     }
-    if(description == '' || typeof description === "undefined"){
+   /* if(description == '' || typeof description === "undefined"){
         getCourseDescription().focus();
         getMsgAddCourse().html('please enter a description');
         getMsgAddCourse().show();
         return false;
-    }
+    }*/
     var share = getCourseShare().val();
     if(share == '' || typeof share ==="undefined"){
-        getMsgAddCourse().html("please select a share option");
-        getMsgAddCourse().show();
+        /*getMsgAddCourse().html("please select a share option");
+        getMsgAddCourse().show();*/
+        getPopUpHelp().find(".modal-title").html("please select a share option");
+        getPopUpHelp().find(".modal-body").empty();
+        var $html = $("<div>");
+        $html.html("<p>Sharing your course. By default, when you publish it, " +
+            "the course you create will be available for use by other companies. " +
+            "You can change the sharing settings by selecting ‘my company’ (to share with other teachers " +
+            "in your institution or company) or ‘private’ (not shared with anyone else).</p>");
+        getPopUpHelp().find(".modal-body").html($html);
+        getPopUpHelp().modal('show');
         return false;
     }
     getMsgAddCourse().hide();
