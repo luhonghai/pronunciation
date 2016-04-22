@@ -1130,8 +1130,8 @@ class LessonMainVC: UIViewController, EZAudioPlayerDelegate, EZMicrophoneDelegat
     
     func onAnimationMin() {
         if self.analyzingView.didCompleteLoadWord {
-            changeColorLoadWord()
             ennableViewSelectQuestion()
+            changeColorLoadWord()
             self.analyzingView.didCompleteLoadWord = false
         }
         if self.analyzingView.willDisplayScore {
